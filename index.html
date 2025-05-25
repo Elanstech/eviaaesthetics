@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Evi Aesthetics - Where Science Meets Aesthetic Luxury. Doctor-led medspa offering exclusive treatments in a luxurious setting.">
+    <title>Evi Aesthetics | Where Science Meets Aesthetic Luxury</title>
+    
+    <!-- External Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Lato:wght@100;300;400;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- GSAP Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/TextPlugin.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ========================================
+         PRELOADER
+         ======================================== -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="luxury-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <div class="preloader-logo">
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="V">V</span>
+                <span class="letter" data-letter="I">I</span>
+            </div>
+            <p class="preloader-tagline">AESTHETICS</p>
+        </div>
+    </div>
+
+    <!-- ========================================
+         CUSTOM CURSOR
+         ======================================== -->
+    <div class="custom-cursor" id="cursor">
+        <div class="cursor-inner"></div>
+    </div>
+    <div class="cursor-follower" id="cursor-follower">
+        <div class="cursor-text">View</div>
+    </div>
+
+    <!-- ========================================
+         NAVIGATION HEADER
+         ======================================== -->
+    <header class="luxury-header" id="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="logo-wrapper">
+                    <a href="#" class="logo">
+                        <span class="logo-text">EVI</span>
+                        <span class="logo-subtext">AESTHETICS</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu -->
+                <div class="nav-menu" id="navMenu">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-hover="Treatments">
+                                <span>Treatments</span>
+                                <div class="nav-line"></div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-hover="About Dr. Nano">
+                                <span>About Dr. Nano</span>
+                                <div class="nav-line"></div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-hover="Experience">
+                                <span>Experience</span>
+                                <div class="nav-line"></div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-hover="Gallery">
+                                <span>Gallery</span>
+                                <div class="nav-line"></div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-hover="Contact">
+                                <span>Contact</span>
+                                <div class="nav-line"></div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="nav-cta">
+                    <a href="#" class="luxury-btn primary-btn">
+                        <span class="btn-text">Book Consultation</span>
+                        <span class="btn-hover-text">Book Consultation</span>
+                        <div class="btn-background"></div>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <div class="menu-toggle" id="menuToggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ========================================
+         HERO SECTION
+         ======================================== -->
+    <section class="hero-section" id="hero">
+        <!-- Video Background -->
+        <div class="hero-video-wrapper">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="placeholder-luxury-spa-video.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <div class="float-element element-1">
+                <img src="placeholder-rose-gold-accent.png" alt="Luxury accent">
+            </div>
+            <div class="float-element element-2">
+                <img src="placeholder-golden-leaf.png" alt="Golden accent">
+            </div>
+            <div class="float-element element-3">
+                <img src="placeholder-silk-texture.png" alt="Silk texture">
+            </div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <div class="hero-inner">
+                <!-- Animated Tagline -->
+                <div class="hero-tagline">
+                    <span class="tagline-word">Doctor</span>
+                    <span class="tagline-separator">·</span>
+                    <span class="tagline-word">Led</span>
+                    <span class="tagline-separator">·</span>
+                    <span class="tagline-word">Excellence</span>
+                </div>
+
+                <!-- Main Title -->
+                <h1 class="hero-title">
+                    <span class="title-line">
+                        <span class="title-word">Where</span>
+                        <span class="title-word">Science</span>
+                    </span>
+                    <span class="title-line">
+                        <span class="title-word">Meets</span>
+                        <span class="title-word">Aesthetic</span>
+                    </span>
+                    <span class="title-line">
+                        <span class="title-word luxury-emphasis">Luxury</span>
+                    </span>
+                </h1>
+
+                <!-- Hero Description -->
+                <div class="hero-description">
+                    <p class="hero-text">
+                        Experience the pinnacle of aesthetic medicine with Dr. Evia Nano. 
+                        Two decades of expertise, one commitment to your beauty.
+                    </p>
+                </div>
+
+                <!-- Hero CTA Buttons -->
+                <div class="hero-cta-wrapper">
+                    <a href="#" class="luxury-btn primary-btn large-btn">
+                        <span class="btn-text">Begin Your Journey</span>
+                        <span class="btn-hover-text">Begin Your Journey</span>
+                        <div class="btn-background"></div>
+                        <div class="btn-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    <a href="#" class="luxury-btn secondary-btn">
+                        <span class="btn-text">View Treatments</span>
+                        <span class="btn-hover-text">View Treatments</span>
+                        <div class="btn-border"></div>
+                    </a>
+                </div>
+
+                <!-- Scroll Indicator -->
+                <div class="scroll-indicator">
+                    <div class="mouse-wrapper">
+                        <div class="mouse">
+                            <div class="wheel"></div>
+                        </div>
+                    </div>
+                    <p class="scroll-text">Scroll to Explore</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Side Elements -->
+        <div class="hero-side-elements">
+            <!-- Social Links -->
+            <div class="social-links vertical">
+                <a href="#" class="social-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-link">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <div class="social-line"></div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="hero-contact-info">
+                <a href="tel:+1234567890" class="contact-link">
+                    <i class="fas fa-phone"></i>
+                    <span>+1 234 567 890</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Luxury Pattern Overlay -->
+        <div class="luxury-pattern-overlay">
+            <svg class="pattern-svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+                <pattern id="luxuryPattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                    <circle cx="50" cy="50" r="1" fill="rgba(255,215,0,0.1)"/>
+                </pattern>
+                <rect width="100%" height="100%" fill="url(#luxuryPattern)"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ========================================
+         UPCOMING SECTIONS PLACEHOLDER
+         ======================================== -->
+    <main class="main-content">
+        <!-- Additional sections will be added here -->
+        <section class="section-placeholder">
+            <div class="container">
+                <h2>Signature Treatments Section - Coming Soon</h2>
+            </div>
+        </section>
+    </main>
+
+    <!-- Fixed Elements -->
+    <div class="fixed-elements">
+        <!-- Floating Book Now Button -->
+        <button class="floating-book-btn" id="floatingBookBtn">
+            <span class="book-btn-text">Book Now</span>
+            <div class="book-btn-bg"></div>
+        </button>
+
+        <!-- Back to Top -->
+        <button class="back-to-top" id="backToTop">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Custom Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
