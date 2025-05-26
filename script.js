@@ -1,148 +1,54 @@
 /* ========================================
-   EVI AESTHETICS - LUXURY JAVASCRIPT
-   ========================================
-   TABLE OF CONTENTS:
-   
-   1. GLOBAL VARIABLES & DOM ELEMENTS
-   2. INITIALIZATION
-   3. PRELOADER FUNCTIONALITY
-   4. CUSTOM CURSOR
-   5. NAVIGATION INTERACTIONS
-   6. HERO ANIMATIONS
-   7. SCROLL ANIMATIONS
-   8. PARALLAX EFFECTS
-   9. BUTTON INTERACTIONS
-   10. MOBILE MENU
-   11. SMOOTH SCROLLING
-   12. RESIZE HANDLERS
-   13. UTILITY FUNCTIONS
-   14. EVENT LISTENERS
+   EVI AESTHETICS - MODERN LUXURY JAVASCRIPT
    ======================================== */
 
-/* ========================================
-   1. GLOBAL VARIABLES & DOM ELEMENTS
-   ======================================== */
-const DOM = {
-    // Preloader
-    preloader: document.getElementById('preloader'),
+document.addEventListener('DOMContentLoaded', function() {
     
-    // Cursor
-    cursor: document.getElementById('cursor'),
-    cursorFollower: document.getElementById('cursor-follower'),
+    /* ========================================
+       1. PRELOADER
+       ======================================== */
+    const preloader = document.getElementById('preloader');
+    const body = document.body;
     
-    // Navigation
-    header: document.getElementById('header'),
-    navLinks: document.querySelectorAll('.nav-link'),
-    menuToggle: document.getElementById('menuToggle'),
-    navMenu: document.getElementById('navMenu'),
-    
-    // Hero
-    heroSection: document.getElementById('hero'),
-    heroTitle: document.querySelectorAll('.title-word'),
-    heroTagline: document.querySelector('.hero-tagline'),
-    floatingElements: document.querySelectorAll('.float-element'),
-    
-    // Buttons
-    luxuryButtons: document.querySelectorAll('.luxury-btn'),
-    floatingBookBtn: document.getElementById('floatingBookBtn'),
-    backToTop: document.getElementById('backToTop'),
-    
-    // General
-    body: document.body,
-    html: document.documentElement
-};
-
-// Animation Timelines
-let masterTimeline;
-let heroTimeline;
-let scrollTimeline;
-
-// State Variables
-let isLoading = true;
-let isMobile = window.innerWidth <= 768;
-let scrollPosition = 0;
-let mousePosition = { x: 0, y: 0 };
-
-/* ========================================
-   2. INITIALIZATION
-   ======================================== */
-document.addEventListener('DOMContentLoaded', () => {
-    initializePreloader();
-    initializeNavigation();
-    initializeScrollEffects();
-    initializeButtonEffects();
-    initializeMobileMenu();
-    initializeParallax();
-    
-    // Register GSAP Plugins
-    gsap.registerPlugin(ScrollTrigger, TextPlugin);
-    
-    // Set initial states
-    gsap.set([DOM.heroTitle, DOM.heroTagline], { opacity: 0 });
-});
-
-/* ========================================
-   3. PRELOADER FUNCTIONALITY
-   ======================================== */
-function initializePreloader() {
-    // Minimum loading time for effect
-    const minimumLoadTime = 2000;
-    const startTime = Date.now();
-    
-    window.addEventListener('load', () => {
-        const elapsedTime = Date.now() - startTime;
-        const remainingTime = Math.max(0, minimumLoadTime - elapsedTime);
+    // Simulate loading time
+    setTimeout(() => {
+        preloader.classList.add('hide');
+        body.style.overflow = 'visible';
         
+        // Remove preloader from DOM after animation
         setTimeout(() => {
-            // Fade out preloader
-            gsap.to(DOM.preloader, {
-                opacity: 0,
-                duration: 1,
-                ease: "power2.inOut",
-                onComplete: () => {
-                    DOM.preloader.classList.add('loaded');
-                    isLoading = false;
-                    startHeroAnimation();
-                    DOM.body.style.overflow = 'visible';
-                }
-            });
-        }, remainingTime);
-    });
-}
-
-/* ========================================
-   5. NAVIGATION INTERACTIONS
-   ======================================== */
-function initializeNavigation() {
-    // Scroll-based header styling
+            preloader.remove();
+        }, 800);
+        
+        // Start entrance animations
+        startEntranceAnimations();
+    }, 2500);
+    
+    /* ========================================
+       2. HEADER SCROLL EFFECTS
+       ======================================== */
+    const header = document.getElementById('header');
     let lastScrollY = 0;
     let ticking = false;
     
     function updateHeader() {
-        const currentScrollY = window.scrollY;
+        const scrollY = window.scrollY;
         
-        if (currentScrollY > 50) {
-            DOM.header.classList.add('scrolled');
+        // Add scrolled class
+        if (scrollY > 50) {
+            header.classList.add('scrolled');
         } else {
-            DOM.header.classList.remove('scrolled');
+            header.classList.remove('scrolled');
         }
         
-        // Hide/show on scroll
-        if (currentScrollY > lastScrollY && currentScrollY > 200) {
-            gsap.to(DOM.header, {
-                y: -100,
-                duration: 0.3,
-                ease: "power2.inOut"
-            });
+        // Hide/show header on scroll
+        if (scrollY > lastScrollY && scrollY > 200) {
+            header.style.transform = 'translateY(-100%)';
         } else {
-            gsap.to(DOM.header, {
-                y: 0,
-                duration: 0.3,
-                ease: "power2.inOut"
-            });
+            header.style.transform = 'translateY(0)';
         }
         
-        lastScrollY = currentScrollY;
+        lastScrollY = scrollY;
         ticking = false;
     }
     
@@ -155,341 +61,338 @@ function initializeNavigation() {
     
     window.addEventListener('scroll', requestTick);
     
-    // Navigation link animations
-    DOM.navLinks.forEach((link, index) => {
-        link.addEventListener('mouseenter', () => {
-            gsap.to(link.querySelector('span'), {
-                y: -2,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-        });
-        
-        link.addEventListener('mouseleave', () => {
-            gsap.to(link.querySelector('span'), {
-                y: 0,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-        });
-    });
-}
-
-/* ========================================
-   6. HERO ANIMATIONS
-   ======================================== */
-function startHeroAnimation() {
-    heroTimeline = gsap.timeline();
+    /* ========================================
+       3. MOBILE MENU
+       ======================================== */
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileClose = document.getElementById('mobileClose');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-list a');
     
-    // Animate hero elements in sequence
-    heroTimeline
-        .to('.hero-inner', {
-            opacity: 1,
-            duration: 0,
-        })
-        .from('.tagline-word', {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power3.out"
-        })
-        .from('.title-word', {
-            y: 100,
-            opacity: 0,
-            duration: 1,
-            stagger: 0.1,
-            ease: "power3.out"
-        }, "-=0.4")
-        .from('.hero-description', {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.6")
-        .from('.hero-cta-wrapper', {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.4")
-        .from('.scroll-indicator', {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.4")
-        .from('.social-links', {
-            x: -30,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.6")
-        .from('.hero-contact-info', {
-            x: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.8");
-    
-    // Continuous animations
-    animateFloatingElements();
-    animateLuxuryEmphasis();
-}
-
-function animateFloatingElements() {
-    DOM.floatingElements.forEach((element, index) => {
-        gsap.to(element, {
-            y: "random(-30, 30)",
-            x: "random(-30, 30)",
-            rotation: "random(-15, 15)",
-            duration: "random(20, 30)",
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-            delay: index * 2
-        });
+    // Toggle mobile menu
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'visible';
     });
-}
-
-function animateLuxuryEmphasis() {
-    // Shimmer effect on luxury text
-    const luxuryText = document.querySelector('.luxury-emphasis');
-    if (luxuryText) {
-        gsap.to(luxuryText, {
-            backgroundPosition: "200% center",
-            duration: 3,
-            repeat: -1,
-            ease: "linear"
-        });
+    
+    // Close mobile menu
+    mobileClose.addEventListener('click', closeMobileMenu);
+    
+    // Close on link click
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+    
+    function closeMobileMenu() {
+        menuToggle.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        body.style.overflow = 'visible';
     }
-}
-
-/* ========================================
-   7. SCROLL ANIMATIONS
-   ======================================== */
-function initializeScrollEffects() {
-    // Reveal animations for sections
-    gsap.utils.toArray('.reveal-section').forEach(section => {
-        gsap.from(section, {
-            y: 60,
-            opacity: 0,
-            duration: 1.2,
-            scrollTrigger: {
-                trigger: section,
-                start: "top 80%",
-                end: "bottom 20%",
-                toggleActions: "play none none reverse"
-            }
-        });
-    });
     
-    // Parallax scrolling for hero
-    gsap.to('.hero-video-wrapper', {
-        yPercent: 50,
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".hero-section",
-            start: "top top",
-            end: "bottom top",
-            scrub: true
-        }
-    });
-    
-    // Floating button visibility
-    ScrollTrigger.create({
-        start: "top -100",
-        onUpdate: (self) => {
-            if (self.direction === 1 && self.progress > 0.1) {
-                DOM.floatingBookBtn.classList.add('visible');
-            } else if (self.direction === -1 && self.progress < 0.1) {
-                DOM.floatingBookBtn.classList.remove('visible');
-            }
-        }
-    });
-    
-    // Back to top visibility
-    ScrollTrigger.create({
-        start: "top -300",
-        onUpdate: (self) => {
-            if (self.progress > 0.2) {
-                DOM.backToTop.classList.add('visible');
-            } else {
-                DOM.backToTop.classList.remove('visible');
-            }
-        }
-    });
-}
-
-/* ========================================
-   8. PARALLAX EFFECTS
-   ======================================== */
-function initializeParallax() {
-    if (isMobile) return;
-    
-    // Mouse parallax for floating elements
-    document.addEventListener('mousemove', (e) => {
-        const { clientX, clientY } = e;
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        
-        const moveX = (clientX - centerX) / centerX;
-        const moveY = (clientY - centerY) / centerY;
-        
-        DOM.floatingElements.forEach((element, index) => {
-            const speed = (index + 1) * 0.5;
-            gsap.to(element, {
-                x: moveX * speed * 20,
-                y: moveY * speed * 20,
-                duration: 1,
-                ease: "power2.out"
-            });
-        });
-    });
-}
-
-/* ========================================
-   9. BUTTON INTERACTIONS
-   ======================================== */
-function initializeButtonEffects() {
-    // Luxury button hover effects
-    DOM.luxuryButtons.forEach(button => {
-        button.addEventListener('mouseenter', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            // Ripple effect from mouse position
-            const ripple = document.createElement('div');
-            ripple.classList.add('button-ripple');
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            this.appendChild(ripple);
-            
-            gsap.to(ripple, {
-                width: rect.width * 2,
-                height: rect.width * 2,
-                opacity: 0,
-                duration: 0.6,
-                ease: "power2.out",
-                onComplete: () => ripple.remove()
-            });
-        });
-    });
-    
-    // Floating book button interaction
-    DOM.floatingBookBtn.addEventListener('click', () => {
-        // Create booking modal or redirect
-        gsap.to(DOM.floatingBookBtn, {
-            scale: 0.9,
-            duration: 0.1,
-            yoyo: true,
-            repeat: 1,
-            ease: "power2.inOut"
-        });
-    });
-    
-    // Back to top smooth scroll
-    DOM.backToTop.addEventListener('click', () => {
-        gsap.to(window, {
-            scrollTo: 0,
-            duration: 1.5,
-            ease: "power3.inOut"
-        });
-    });
-}
-
-/* ========================================
-   10. MOBILE MENU
-   ======================================== */
-function initializeMobileMenu() {
-    DOM.menuToggle.addEventListener('click', () => {
-        DOM.menuToggle.classList.toggle('active');
-        DOM.navMenu.classList.toggle('active');
-        DOM.body.classList.toggle('menu-open');
-        
-        // Animate menu items
-        if (DOM.navMenu.classList.contains('active')) {
-            gsap.from('.nav-list .nav-item', {
-                x: 50,
-                opacity: 0,
-                duration: 0.6,
-                stagger: 0.1,
-                ease: "power3.out"
-            });
-        }
-    });
-    
-    // Close menu on link click
-    DOM.navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            DOM.menuToggle.classList.remove('active');
-            DOM.navMenu.classList.remove('active');
-            DOM.body.classList.remove('menu-open');
-        });
-    });
-}
-
-/* ========================================
-   11. SMOOTH SCROLLING
-   ======================================== */
-function initializeSmoothScroll() {
-    // Smooth scroll for anchor links
+    /* ========================================
+       4. SMOOTH SCROLLING
+       ======================================== */
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#') return;
+            
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const target = document.querySelector(href);
             
             if (target) {
-                gsap.to(window, {
-                    scrollTo: {
-                        y: target,
-                        offsetY: 80
-                    },
-                    duration: 1.2,
-                    ease: "power3.inOut"
+                const headerHeight = header.offsetHeight;
+                const targetPosition = target.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
             }
         });
     });
-}
-
-/* ========================================
-   12. RESIZE HANDLERS
-   ======================================== */
-let resizeTimer;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-        isMobile = window.innerWidth <= 768;
+    
+    /* ========================================
+       5. GSAP ANIMATIONS
+       ======================================== */
+    gsap.registerPlugin(ScrollTrigger, TextPlugin);
+    
+    function startEntranceAnimations() {
+        // Hero elements already animated with CSS
+        // Add any additional GSAP animations here
         
-        // Refresh ScrollTrigger
-        ScrollTrigger.refresh();
+        // Parallax for video background
+        gsap.to('.hero-video', {
+            yPercent: 30,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero-section',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
         
-        // Reinitialize certain features based on screen size
-        if (isMobile) {
-            DOM.body.style.cursor = 'auto';
-            DOM.cursor.style.display = 'none';
-            DOM.cursorFollower.style.display = 'none';
+        // Floating elements animation
+        gsap.utils.toArray('.float-circle, .float-line').forEach((element, i) => {
+            gsap.to(element, {
+                y: 'random(-50, 50)',
+                x: 'random(-30, 30)',
+                duration: 'random(15, 25)',
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                delay: i * 2
+            });
+        });
+    }
+    
+    /* ========================================
+       6. INTERSECTION OBSERVER
+       ======================================== */
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    // Observe elements that need reveal animation
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+        observer.observe(el);
+    });
+    
+    /* ========================================
+       7. PHONE NUMBER FORMATTING
+       ======================================== */
+    const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+    phoneLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Track phone clicks if analytics is set up
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click', {
+                    'event_category': 'Contact',
+                    'event_label': 'Phone Call'
+                });
+            }
+        });
+    });
+    
+    /* ========================================
+       8. FLOATING CALL BUTTON
+       ======================================== */
+    const floatingCall = document.getElementById('floatingCall');
+    
+    // Show/hide based on scroll
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            floatingCall.style.transform = 'scale(1)';
         } else {
-            DOM.body.style.cursor = 'none';
-            DOM.cursor.style.display = 'block';
-            DOM.cursorFollower.style.display = 'block';
+            floatingCall.style.transform = 'scale(0)';
         }
-    }, 250);
+    });
+    
+    // Add click tracking
+    floatingCall.addEventListener('click', function() {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+                'event_category': 'Contact',
+                'event_label': 'Floating Call Button'
+            });
+        }
+    });
+    
+    /* ========================================
+       9. HOVER EFFECTS
+       ======================================== */
+    // Add magnetic effect to CTA buttons
+    const ctaButtons = document.querySelectorAll('.primary-cta, .call-btn');
+    
+    ctaButtons.forEach(button => {
+        button.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            this.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translate(0, 0)';
+        });
+    });
+    
+    /* ========================================
+       10. PERFORMANCE OPTIMIZATION
+       ======================================== */
+    // Throttle scroll events
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        if (scrollTimeout) {
+            window.cancelAnimationFrame(scrollTimeout);
+        }
+        
+        scrollTimeout = window.requestAnimationFrame(() => {
+            // Handle scroll-based animations
+        });
+    });
+    
+    // Lazy load images
+    const imageTargets = document.querySelectorAll('img[data-src]');
+    const imageOptions = {
+        threshold: 0,
+        rootMargin: '50px 0px'
+    };
+    
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                imageObserver.unobserve(img);
+            }
+        });
+    }, imageOptions);
+    
+    imageTargets.forEach(img => imageObserver.observe(img));
+    
+    /* ========================================
+       11. RESIZE HANDLER
+       ======================================== */
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            // Update any size-dependent calculations
+            ScrollTrigger.refresh();
+        }, 250);
+    });
+    
+    /* ========================================
+       12. ACCESSIBILITY
+       ======================================== */
+    // Handle keyboard navigation
+    const interactiveElements = document.querySelectorAll('a, button, [tabindex]');
+    
+    interactiveElements.forEach(element => {
+        element.addEventListener('focus', function() {
+            this.classList.add('keyboard-focus');
+        });
+        
+        element.addEventListener('blur', function() {
+            this.classList.remove('keyboard-focus');
+        });
+    });
+    
+    // Skip to content link
+    const skipLink = document.createElement('a');
+    skipLink.href = '#hero';
+    skipLink.className = 'skip-to-content';
+    skipLink.textContent = 'Skip to content';
+    document.body.insertBefore(skipLink, document.body.firstChild);
+    
+    /* ========================================
+       13. FORM HANDLING (if needed later)
+       ======================================== */
+    function initializeForms() {
+        const forms = document.querySelectorAll('.contact-form');
+        
+        forms.forEach(form => {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Add your form submission logic here
+                console.log('Form submitted');
+            });
+        });
+    }
+    
+    /* ========================================
+       14. VIDEO OPTIMIZATION
+       ======================================== */
+    const heroVideo = document.querySelector('.hero-video');
+    
+    if (heroVideo) {
+        // Pause video when not in viewport
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    heroVideo.play();
+                } else {
+                    heroVideo.pause();
+                }
+            });
+        }, { threshold: 0.25 });
+        
+        videoObserver.observe(heroVideo);
+        
+        // Reduce quality on mobile
+        if (window.innerWidth <= 768) {
+            heroVideo.setAttribute('poster', 'video-poster-mobile.jpg');
+        }
+    }
+    
+    /* ========================================
+       15. ANALYTICS EVENTS
+       ======================================== */
+    function trackEvent(category, action, label) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                'event_category': category,
+                'event_label': label
+            });
+        }
+    }
+    
+    // Track CTA clicks
+    document.querySelectorAll('.primary-cta, .call-btn').forEach(cta => {
+        cta.addEventListener('click', function() {
+            const label = this.querySelector('.cta-text, .call-label')?.textContent || 'CTA Click';
+            trackEvent('Engagement', 'click', label);
+        });
+    });
+    
+    // Track scroll depth
+    let maxScroll = 0;
+    window.addEventListener('scroll', () => {
+        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        
+        if (scrollPercent > maxScroll) {
+            maxScroll = scrollPercent;
+            
+            if (maxScroll > 25 && maxScroll <= 30) {
+                trackEvent('Engagement', 'scroll', '25%');
+            } else if (maxScroll > 50 && maxScroll <= 55) {
+                trackEvent('Engagement', 'scroll', '50%');
+            } else if (maxScroll > 75 && maxScroll <= 80) {
+                trackEvent('Engagement', 'scroll', '75%');
+            } else if (maxScroll > 90) {
+                trackEvent('Engagement', 'scroll', '90%');
+            }
+        }
+    });
+    
+    /* ========================================
+       16. INITIALIZATION COMPLETE
+       ======================================== */
+    console.log('✨ Evi Aesthetics - Modern luxury website initialized');
+    
+    // Add loaded class to body
+    body.classList.add('loaded');
 });
 
 /* ========================================
-   13. UTILITY FUNCTIONS
+   UTILITY FUNCTIONS
    ======================================== */
-function lerp(start, end, factor) {
-    return start + (end - start) * factor;
-}
-
-function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
-}
-
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -502,51 +405,49 @@ function debounce(func, wait) {
     };
 }
 
-/* ========================================
-   14. PERFORMANCE OPTIMIZATION
-   ======================================== */
-// Optimize scroll events
-let isScrolling = false;
-let scrollTimeout;
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
 
-window.addEventListener('scroll', () => {
-    if (!isScrolling) {
-        window.requestAnimationFrame(() => {
-            // Perform scroll-based calculations here
-            scrollPosition = window.scrollY;
-            isScrolling = false;
-        });
-        isScrolling = true;
-    }
-    
-    // Clear timeout
-    clearTimeout(scrollTimeout);
-    
-    // Set a timeout to run after scrolling ends
-    scrollTimeout = setTimeout(() => {
-        // Perform actions after scroll ends
-    }, 150);
-});
-
-// Initialize smooth scroll
-initializeSmoothScroll();
-
-// Add custom styles for button ripple
+// Add custom styles for accessibility
 const style = document.createElement('style');
 style.textContent = `
-    .button-ripple {
+    .skip-to-content {
         position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.5);
-        transform: translate(-50%, -50%);
-        pointer-events: none;
+        top: -40px;
+        left: 0;
+        background: var(--hermes-orange);
+        color: white;
+        padding: 8px;
+        text-decoration: none;
+        z-index: 100;
     }
     
-    body.menu-open {
-        overflow: hidden;
+    .skip-to-content:focus {
+        top: 0;
+    }
+    
+    .keyboard-focus {
+        outline: 2px solid var(--hermes-orange);
+        outline-offset: 2px;
+    }
+    
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
     }
 `;
 document.head.appendChild(style);
-
-// Log initialization complete
-console.log('Evi Aesthetics luxury website initialized successfully! ✨');
