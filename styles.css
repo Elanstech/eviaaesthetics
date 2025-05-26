@@ -179,7 +179,7 @@ body {
 
 /* Header Logo */
 .logo-img {
-    height: 50px;
+    height: 150px;
     width: auto;
     max-width: 200px;
     transition: var(--transition);
