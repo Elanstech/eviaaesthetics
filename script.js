@@ -68,7 +68,6 @@ let mousePosition = { x: 0, y: 0 };
    ======================================== */
 document.addEventListener('DOMContentLoaded', () => {
     initializePreloader();
-    initializeCursor();
     initializeNavigation();
     initializeScrollEffects();
     initializeButtonEffects();
@@ -108,72 +107,6 @@ function initializePreloader() {
                 }
             });
         }, remainingTime);
-    });
-}
-
-/* ========================================
-   4. CUSTOM CURSOR
-   ======================================== */
-function initializeCursor() {
-    if (isMobile) return;
-    
-    // Hide default cursor
-    DOM.body.style.cursor = 'none';
-    
-    // Track mouse movement
-    document.addEventListener('mousemove', (e) => {
-        mousePosition.x = e.clientX;
-        mousePosition.y = e.clientY;
-        
-        // Immediate cursor position
-        gsap.to(DOM.cursor, {
-            x: mousePosition.x - 5,
-            y: mousePosition.y - 5,
-            duration: 0
-        });
-        
-        // Delayed follower
-        gsap.to(DOM.cursorFollower, {
-            x: mousePosition.x - 20,
-            y: mousePosition.y - 20,
-            duration: 0.3,
-            ease: "power2.out"
-        });
-    });
-    
-    // Cursor interactions
-    const interactiveElements = [
-        ...document.querySelectorAll('a'),
-        ...document.querySelectorAll('button'),
-        ...document.querySelectorAll('[data-cursor="hover"]')
-    ];
-    
-    interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            DOM.body.classList.add('cursor-hover');
-            DOM.cursorFollower.classList.add('active');
-            
-            // Get hover text if available
-            const hoverText = element.getAttribute('data-cursor-text');
-            if (hoverText) {
-                DOM.cursorFollower.querySelector('.cursor-text').textContent = hoverText;
-            }
-        });
-        
-        element.addEventListener('mouseleave', () => {
-            DOM.body.classList.remove('cursor-hover');
-            DOM.cursorFollower.classList.remove('active');
-            DOM.cursorFollower.querySelector('.cursor-text').textContent = 'View';
-        });
-    });
-    
-    // Click animation
-    document.addEventListener('mousedown', () => {
-        DOM.body.classList.add('cursor-click');
-    });
-    
-    document.addEventListener('mouseup', () => {
-        DOM.body.classList.remove('cursor-click');
     });
 }
 
