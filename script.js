@@ -67,7 +67,6 @@ let mousePosition = { x: 0, y: 0 };
    2. INITIALIZATION
    ======================================== */
 document.addEventListener('DOMContentLoaded', () => {
-    initializeAnimations();
     initializePreloader();
     initializeCursor();
     initializeNavigation();
