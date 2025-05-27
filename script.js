@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 preloader.classList.add('loaded');
                 initializeAnimations();
+                initializeVideo();
             }, 500);
         }
     };
@@ -41,6 +42,55 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start loading animation
     updateProgress();
 });
+
+// ===== Video Background Initialization =====
+function initializeVideo() {
+    const video = document.querySelector('.hero-video');
+    const videoContainer = document.querySelector('.hero-video-background');
+    
+    if (video) {
+        // Ensure video starts playing
+        video.play().catch(e => {
+            console.log('Video autoplay was prevented:', e);
+            // If autoplay fails, try to play on user interaction
+            document.addEventListener('click', () => {
+                video.play();
+            }, { once: true });
+        });
+        
+        // Handle video load events
+        video.addEventListener('loadeddata', () => {
+            console.log('Video loaded successfully');
+            videoContainer.style.opacity = '1';
+        });
+        
+        video.addEventListener('error', (e) => {
+            console.error('Video failed to load:', e);
+            // Hide video container if it fails to load
+            videoContainer.style.display = 'none';
+        });
+        
+        // Optimize video performance
+        video.addEventListener('loadstart', () => {
+            video.preload = 'metadata';
+        });
+        
+        // Ensure video loops properly
+        video.addEventListener('ended', () => {
+            video.currentTime = 0;
+            video.play();
+        });
+        
+        // Pause video when page is not visible (performance optimization)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                video.pause();
+            } else {
+                video.play();
+            }
+        });
+    }
+}
 
 // ===== Initialize AOS (Animate On Scroll) =====
 function initializeAnimations() {
@@ -56,9 +106,21 @@ function initializeAnimations() {
 // ===== GSAP Animations =====
 gsap.registerPlugin(ScrollTrigger);
 
-// Smooth parallax for hero elements
-gsap.to('.particle-container', {
-    yPercent: -50,
+// Enhanced parallax for hero video
+gsap.to('.hero-video', {
+    yPercent: -30,
+    ease: 'none',
+    scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+    }
+});
+
+// Parallax for hero overlay
+gsap.to('.hero-video-overlay', {
+    yPercent: -20,
     ease: 'none',
     scrollTrigger: {
         trigger: '.hero',
@@ -75,7 +137,7 @@ const mobileMenu = document.querySelector('.mobile-menu');
 const mobileMenuClose = document.querySelector('.mobile-menu-close');
 const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
-// Scroll effect for navbar
+// Enhanced scroll effect for navbar
 let lastScroll = 0;
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
@@ -157,93 +219,7 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// ===== Particles.js Configuration =====
-particlesJS('particle-container', {
-    particles: {
-        number: {
-            value: 80,
-            density: {
-                enable: true,
-                value_area: 800
-            }
-        },
-        color: {
-            value: '#D4A574'
-        },
-        shape: {
-            type: 'circle'
-        },
-        opacity: {
-            value: 0.5,
-            random: true,
-            anim: {
-                enable: true,
-                speed: 1,
-                opacity_min: 0.1,
-                sync: false
-            }
-        },
-        size: {
-            value: 3,
-            random: true,
-            anim: {
-                enable: true,
-                speed: 2,
-                size_min: 0.1,
-                sync: false
-            }
-        },
-        line_linked: {
-            enable: true,
-            distance: 150,
-            color: '#D4A574',
-            opacity: 0.2,
-            width: 1
-        },
-        move: {
-            enable: true,
-            speed: 2,
-            direction: 'none',
-            random: true,
-            straight: false,
-            out_mode: 'out',
-            bounce: false,
-            attract: {
-                enable: false,
-                rotateX: 600,
-                rotateY: 1200
-            }
-        }
-    },
-    interactivity: {
-        detect_on: 'canvas',
-        events: {
-            onhover: {
-                enable: true,
-                mode: 'grab'
-            },
-            onclick: {
-                enable: true,
-                mode: 'push'
-            },
-            resize: true
-        },
-        modes: {
-            grab: {
-                distance: 140,
-                line_linked: {
-                    opacity: 0.5
-                }
-            },
-            push: {
-                particles_nb: 4
-            }
-        }
-    },
-    retina_detect: true
-});
-
-// ===== Number Counter Animation =====
+// ===== Enhanced Number Counter Animation =====
 const statNumbers = document.querySelectorAll('.stat-number');
 const countingSpeed = 2000; // 2 seconds
 
@@ -256,16 +232,18 @@ const animateCounter = (element) => {
         current += increment;
         
         if (current < target) {
-            element.textContent = Math.floor(current);
+            element.textContent = Math.floor(current).toLocaleString();
             requestAnimationFrame(updateCounter);
         } else {
-            element.textContent = target;
+            element.textContent = target.toLocaleString();
             
-            // Add plus sign for 5000+ and 100%
+            // Add plus sign for 5000+ and % for 100
             if (target === 5000) {
                 element.textContent = '5,000+';
             } else if (target === 100) {
                 element.textContent = '100%';
+            } else {
+                element.textContent = target.toLocaleString();
             }
         }
     };
@@ -308,7 +286,7 @@ VanillaTilt.init(document.querySelectorAll('.floating-card'), {
     'max-glare': 0.5
 });
 
-// ===== Button Ripple Effect =====
+// ===== Enhanced Button Ripple Effect =====
 const buttons = document.querySelectorAll('.hero-btn, .nav-cta-btn, .mobile-cta-btn');
 
 buttons.forEach(button => {
@@ -361,7 +339,7 @@ if (window.innerWidth > 768) {
     });
 }
 
-// ===== Text Scramble Effect for Hero Title =====
+// ===== Enhanced Text Scramble Effect for Hero Title =====
 class TextScramble {
     constructor(el) {
         this.el = el;
@@ -434,7 +412,7 @@ titleElements.forEach((element, index) => {
     }, 1000 + (index * 200));
 });
 
-// ===== Performance Optimization =====
+// ===== Enhanced Performance Optimization =====
 // Debounce function for scroll events
 function debounce(func, wait) {
     let timeout;
@@ -462,7 +440,7 @@ function throttle(func, limit) {
     };
 }
 
-// ===== Lazy Loading Images =====
+// ===== Enhanced Lazy Loading Images =====
 const images = document.querySelectorAll('img');
 const imageOptions = {
     threshold: 0,
@@ -486,27 +464,40 @@ images.forEach(img => {
     imageObserver.observe(img);
 });
 
-// ===== Page Visibility API =====
+// ===== Page Visibility API Enhancement =====
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-        // Pause animations when page is not visible
+        // Pause animations and video when page is not visible
         gsap.globalTimeline.pause();
+        const video = document.querySelector('.hero-video');
+        if (video && !video.paused) {
+            video.pause();
+        }
     } else {
-        // Resume animations when page becomes visible
+        // Resume animations and video when page becomes visible
         gsap.globalTimeline.resume();
+        const video = document.querySelector('.hero-video');
+        if (video && video.paused) {
+            video.play();
+        }
     }
 });
 
-// ===== Mobile Touch Improvements =====
+// ===== Enhanced Mobile Touch Improvements =====
 if ('ontouchstart' in window) {
     document.body.classList.add('touch-device');
     
-    // Add touch feedback
+    // Add touch feedback with haptic feedback
     const touchElements = document.querySelectorAll('.hero-btn, .nav-link, .mobile-nav-link');
     
     touchElements.forEach(element => {
         element.addEventListener('touchstart', function() {
             this.classList.add('touch-active');
+            
+            // Haptic feedback if available
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
         });
         
         element.addEventListener('touchend', function() {
@@ -517,8 +508,8 @@ if ('ontouchstart' in window) {
     });
 }
 
-// ===== Custom Cursor (Desktop Only) =====
-if (window.innerWidth > 1024) {
+// ===== Enhanced Custom Cursor (Desktop Only) =====
+if (window.innerWidth > 1024 && !('ontouchstart' in window)) {
     const cursor = document.createElement('div');
     cursor.classList.add('custom-cursor');
     document.body.appendChild(cursor);
@@ -555,8 +546,8 @@ if (window.innerWidth > 1024) {
     
     animateCursor();
     
-    // Cursor hover effects
-    const hoverElements = document.querySelectorAll('a, button, .hero-btn, .nav-link');
+    // Enhanced cursor hover effects
+    const hoverElements = document.querySelectorAll('a, button, .hero-btn, .nav-link, .floating-card');
     
     hoverElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
@@ -571,22 +562,36 @@ if (window.innerWidth > 1024) {
     });
 }
 
-// ===== Error Handling =====
+// ===== Enhanced Error Handling =====
 window.addEventListener('error', (e) => {
     console.error('An error occurred:', e.error);
+    
+    // Optional: Send error to analytics
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'exception', {
+            description: e.error.toString(),
+            fatal: false
+        });
+    }
 });
 
-// ===== Performance Monitoring =====
+// ===== Enhanced Performance Monitoring =====
 if ('PerformanceObserver' in window) {
     const perfObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
             if (entry.entryType === 'largest-contentful-paint') {
                 console.log('LCP:', entry.startTime);
             }
+            if (entry.entryType === 'first-input') {
+                console.log('FID:', entry.processingStart - entry.startTime);
+            }
+            if (entry.entryType === 'layout-shift') {
+                console.log('CLS:', entry.value);
+            }
         }
     });
     
-    perfObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+    perfObserver.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
 }
 
 // ===== Service Worker Registration (for PWA) =====
@@ -600,6 +605,45 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// ===== Intersection Observer for Enhanced Animations =====
+const animatedElements = document.querySelectorAll('.hero-content, .floating-card, .about-content');
+const animationObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+        }
+    });
+}, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+});
+
+animatedElements.forEach(element => {
+    animationObserver.observe(element);
+});
+
+// ===== Video Quality Optimization =====
+function optimizeVideoQuality() {
+    const video = document.querySelector('.hero-video');
+    if (!video) return;
+    
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    
+    if (connection) {
+        // Adjust video quality based on connection speed
+        if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+            video.style.display = 'none'; // Hide video on slow connections
+        } else if (connection.effectiveType === '3g') {
+            video.poster = 'hero-poster-low.jpg'; // Use lower quality poster
+        }
+    }
+    
+    // Preload based on viewport size
+    if (window.innerWidth <= 768) {
+        video.preload = 'none';
+    }
+}
+
 // ===== Initialize Everything =====
 window.addEventListener('load', () => {
     console.log('Evia Aesthetics - Modern Website Loaded Successfully');
@@ -609,4 +653,28 @@ window.addEventListener('load', () => {
     
     // Add loaded class for CSS animations
     document.body.classList.add('loaded');
+    
+    // Optimize video quality
+    optimizeVideoQuality();
+    
+    // Initialize additional features
+    setTimeout(() => {
+        // Preload critical assets
+        const criticalImages = ['eviaherself.jpg', 'logo.png'];
+        criticalImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+    }, 2000);
 });
+
+// ===== Resize Handler =====
+window.addEventListener('resize', throttle(() => {
+    // Reinitialize cursor on desktop after resize
+    if (window.innerWidth <= 1024) {
+        const customCursor = document.querySelector('.custom-cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        if (customCursor) customCursor.remove();
+        if (cursorDot) cursorDot.remove();
+    }
+}, 250));
