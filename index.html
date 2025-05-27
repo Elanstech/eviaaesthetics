@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evia Aesthetics - Premium Aesthetic & Longevity Medicine</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Updated with DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Modern CSS Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
@@ -149,10 +149,20 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Video Background -->
     <section id="home" class="hero">
-        <!-- Particle Background -->
-        <div class="particle-container"></div>
+        <!-- Video Background -->
+        <div class="hero-video-background">
+            <video class="hero-video" autoplay muted loop playsinline poster="hero-poster.jpg">
+                <source src="hero-video.mp4" type="video/mp4">
+                <source src="hero-video.webm" type="video/webm">
+                <!-- Fallback for unsupported browsers -->
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <!-- Video Overlay -->
+        <div class="hero-video-overlay"></div>
         
         <!-- Hero Content -->
         <div class="hero-wrapper">
@@ -304,7 +314,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     
     <!-- Custom JavaScript -->
