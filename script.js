@@ -1,9 +1,25 @@
 // ===== Preloader =====
 window.addEventListener('load', () => {
     const preloader = document.querySelector('.preloader');
-    setTimeout(() => {
-        preloader.classList.add('loaded');
-    }, 1500);
+    const heroVideo = document.querySelector('.hero-video');
+    
+    // Wait for video to be ready
+    if (heroVideo) {
+        heroVideo.addEventListener('loadeddata', () => {
+            setTimeout(() => {
+                preloader.classList.add('loaded');
+            }, 1500);
+        });
+        
+        // Fallback if video doesn't load
+        setTimeout(() => {
+            preloader.classList.add('loaded');
+        }, 3000);
+    } else {
+        setTimeout(() => {
+            preloader.classList.add('loaded');
+        }, 1500);
+    }
 });
 
 // ===== Header Scroll Effect =====
@@ -83,6 +99,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // ===== Parallax Effect for Hero Section =====
 const heroBackground = document.querySelector('.hero-background');
+const heroVideo = document.querySelector('.hero-video');
 const floatingElements = document.querySelectorAll('.float-circle');
 const heroTitle = document.querySelector('.hero-title');
 const heroVisual = document.querySelector('.hero-visual');
@@ -94,6 +111,11 @@ window.addEventListener('scroll', () => {
     // Parallax for background
     if (heroBackground) {
         heroBackground.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+    }
+    
+    // Parallax for video
+    if (heroVideo) {
+        heroVideo.style.transform = `translate(-50%, -50%) scale(${1 + scrolled * 0.0003})`;
     }
     
     // Parallax for floating elements
@@ -321,6 +343,20 @@ document.addEventListener('visibilitychange', () => {
 document.addEventListener('DOMContentLoaded', () => {
     // Add loaded class to body
     document.body.classList.add('loaded');
+    
+    // Video optimization
+    const video = document.querySelector('.hero-video');
+    if (video) {
+        // Ensure video plays on mobile
+        video.play().catch(e => {
+            console.log('Video autoplay prevented:', e);
+        });
+        
+        // Reduce video quality on mobile for performance
+        if (window.innerWidth < 768) {
+            video.playbackRate = 0.8; // Slightly slower for smoother mobile experience
+        }
+    }
     
     // Initialize any third-party libraries here
     console.log('Evia Aesthetics - Website Initialized');
