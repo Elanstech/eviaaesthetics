@@ -1,47 +1,196 @@
-// ===== Enhanced Preloader with Progress =====
+// ===== Enhanced Beauty Website Preloader =====
 document.addEventListener('DOMContentLoaded', function() {
     const preloader = document.querySelector('.preloader');
     const progressRing = document.querySelector('.progress-ring-fill');
     const loadingPercentage = document.querySelector('.loading-percentage');
+    const loadingMessage = document.querySelector('.loading-message');
     
     let progress = 0;
-    const circumference = 2 * Math.PI * 90; // 2πr
+    const circumference = 2 * Math.PI * 100; // 2πr (radius = 100)
     
     // Set initial progress
     progressRing.style.strokeDasharray = circumference;
     progressRing.style.strokeDashoffset = circumference;
     
-    // Simulate loading with more realistic progress
+    // Beautiful loading messages for beauty website
+    const beautyMessages = [
+        "Preparing your beauty experience...",
+        "Loading premium treatments...",
+        "Crafting your aesthetic journey...",
+        "Initializing luxury services...",
+        "Welcome to Evia Aesthetics..."
+    ];
+    
+    let messageIndex = 0;
+    
+    // Update loading message periodically
+    const messageInterval = setInterval(() => {
+        if (messageIndex < beautyMessages.length - 1) {
+            messageIndex++;
+            if (loadingMessage) {
+                loadingMessage.style.opacity = '0';
+                setTimeout(() => {
+                    loadingMessage.textContent = beautyMessages[messageIndex];
+                    loadingMessage.style.opacity = '0.8';
+                }, 300);
+            }
+        }
+    }, 1500);
+    
+    // Enhanced progress simulation with realistic beauty website loading
     const updateProgress = () => {
         if (progress < 100) {
-            // Accelerate progress as we get closer to completion
-            const increment = progress < 50 ? Math.random() * 3 : 
-                             progress < 80 ? Math.random() * 5 : 
-                             Math.random() * 10;
+            // More realistic loading progression
+            let increment;
+            if (progress < 20) {
+                increment = Math.random() * 2 + 1; // Initial load (fonts, styles)
+            } else if (progress < 40) {
+                increment = Math.random() * 3 + 1; // Assets loading
+            } else if (progress < 70) {
+                increment = Math.random() * 2 + 0.5; // Images loading
+            } else if (progress < 90) {
+                increment = Math.random() * 1.5 + 0.5; // Final assets
+            } else {
+                increment = Math.random() * 0.8 + 0.2; // Finishing touches
+            }
             
             progress = Math.min(progress + increment, 100);
             
-            // Update percentage text
-            loadingPercentage.textContent = Math.floor(progress);
+            // Update percentage with smooth animation
+            const displayProgress = Math.floor(progress);
+            loadingPercentage.textContent = displayProgress;
             
-            // Update progress ring
+            // Update progress ring with elegant animation
             const offset = circumference - (progress / 100) * circumference;
             progressRing.style.strokeDashoffset = offset;
             
+            // Add glow effect as progress increases
+            const glowIntensity = progress / 100;
+            progressRing.style.filter = `drop-shadow(0 0 ${8 + glowIntensity * 12}px rgba(212, 168, 87, ${0.3 + glowIntensity * 0.4}))`;
+            
             requestAnimationFrame(updateProgress);
         } else {
-            // Loading complete
+            // Loading complete - beautiful exit animation
+            clearInterval(messageInterval);
+            if (loadingMessage) {
+                loadingMessage.textContent = "Welcome to Evia Aesthetics";
+            }
+            
             setTimeout(() => {
-                preloader.classList.add('loaded');
-                initializeAnimations();
-                initializeVideo();
-            }, 500);
+                // Add completion effects
+                preloader.style.transform = 'scale(1.05)';
+                
+                setTimeout(() => {
+                    preloader.classList.add('loaded');
+                    initializeAnimations();
+                    initializeVideo();
+                    
+                    // Initialize beauty-specific features
+                    initializeBeautyFeatures();
+                }, 800);
+            }, 600);
         }
     };
     
-    // Start loading animation
-    updateProgress();
+    // Start loading animation with slight delay for better UX
+    setTimeout(() => {
+        updateProgress();
+    }, 500);
 });
+
+// ===== Beauty-Specific Initialization =====
+function initializeBeautyFeatures() {
+    // Add elegant entrance animations for content
+    const beautyElements = document.querySelectorAll('.hero-content, .about-content');
+    beautyElements.forEach((element, index) => {
+        setTimeout(() => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'all 0.8s ease-out';
+            
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100);
+        }, index * 200);
+    });
+    
+    // Initialize luxury cursor for beauty website
+    initializeLuxuryCursor();
+    
+    // Add premium hover effects
+    initializePremiumHoverEffects();
+}
+
+// ===== Luxury Cursor for Beauty Website =====
+function initializeLuxuryCursor() {
+    if (window.innerWidth > 1024 && !('ontouchstart' in window)) {
+        const cursor = document.createElement('div');
+        cursor.classList.add('luxury-cursor');
+        cursor.innerHTML = `
+            <div class="cursor-outer">
+                <div class="cursor-inner"></div>
+            </div>
+        `;
+        document.body.appendChild(cursor);
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        const animateLuxuryCursor = () => {
+            const distX = mouseX - cursorX;
+            const distY = mouseY - cursorY;
+            
+            cursorX += distX * 0.1;
+            cursorY += distY * 0.1;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animateLuxuryCursor);
+        };
+        
+        animateLuxuryCursor();
+        
+        // Luxury hover effects
+        const luxuryElements = document.querySelectorAll('a, button, .hero-btn, .nav-link');
+        
+        luxuryElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('luxury-hover');
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('luxury-hover');
+            });
+        });
+    }
+}
+
+// ===== Premium Hover Effects =====
+function initializePremiumHoverEffects() {
+    const premiumElements = document.querySelectorAll('.hero-btn, .nav-cta-btn, .floating-card');
+    
+    premiumElements.forEach(element => {
+        element.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+            this.style.boxShadow = '0 15px 35px rgba(212, 168, 87, 0.3)';
+            this.style.transition = 'all 0.3s ease-out';
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = 'var(--shadow-lg)';
+        });
+    });
+}
 
 // ===== Video Background Initialization =====
 function initializeVideo() {
@@ -49,39 +198,37 @@ function initializeVideo() {
     const videoContainer = document.querySelector('.hero-video-background');
     
     if (video) {
-        // Ensure video starts playing
+        // Ensure video starts playing with beauty-focused optimization
         video.play().catch(e => {
             console.log('Video autoplay was prevented:', e);
-            // If autoplay fails, try to play on user interaction
             document.addEventListener('click', () => {
                 video.play();
             }, { once: true });
         });
         
-        // Handle video load events
         video.addEventListener('loadeddata', () => {
-            console.log('Video loaded successfully');
+            console.log('Beauty video loaded successfully');
             videoContainer.style.opacity = '1';
+            
+            // Add subtle video effects for beauty website
+            video.style.filter = 'brightness(1.1) contrast(1.05) saturate(1.1)';
         });
         
         video.addEventListener('error', (e) => {
             console.error('Video failed to load:', e);
-            // Hide video container if it fails to load
             videoContainer.style.display = 'none';
         });
         
-        // Optimize video performance
+        // Beauty-specific video optimization
         video.addEventListener('loadstart', () => {
             video.preload = 'metadata';
         });
         
-        // Ensure video loops properly
         video.addEventListener('ended', () => {
             video.currentTime = 0;
             video.play();
         });
         
-        // Pause video when page is not visible (performance optimization)
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 video.pause();
@@ -92,42 +239,79 @@ function initializeVideo() {
     }
 }
 
-// ===== Initialize AOS (Animate On Scroll) =====
+// ===== Initialize AOS (Animate On Scroll) with Beauty Focus =====
 function initializeAnimations() {
     AOS.init({
-        duration: 1000,
-        easing: 'ease-out',
+        duration: 1200,
+        easing: 'ease-out-cubic',
         once: true,
         mirror: false,
-        offset: 100
+        offset: 120,
+        anchorPlacement: 'top-bottom'
+    });
+    
+    // Add staggered animations for beauty elements
+    const beautyCards = document.querySelectorAll('.floating-card');
+    beautyCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px) scale(0.9)';
+            card.style.transition = 'all 0.6s ease-out';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0) scale(1)';
+            }, 100);
+        }, index * 300 + 1000);
     });
 }
 
-// ===== GSAP Animations =====
+// ===== Enhanced GSAP Animations for Beauty Website =====
 gsap.registerPlugin(ScrollTrigger);
 
-// Enhanced parallax for hero video
+// Luxury parallax for hero video
 gsap.to('.hero-video', {
-    yPercent: -30,
+    yPercent: -25,
     ease: 'none',
     scrollTrigger: {
         trigger: '.hero',
         start: 'top top',
         end: 'bottom top',
-        scrub: true
+        scrub: 1.2
     }
 });
 
-// Parallax for hero overlay
+// Elegant parallax for hero overlay
 gsap.to('.hero-video-overlay', {
-    yPercent: -20,
+    yPercent: -15,
     ease: 'none',
     scrollTrigger: {
         trigger: '.hero',
         start: 'top top',
         end: 'bottom top',
-        scrub: true
+        scrub: 1
     }
+});
+
+// Beauty-focused scroll animations
+gsap.utils.toArray('.floating-card').forEach((card, i) => {
+    gsap.fromTo(card, {
+        y: 50,
+        opacity: 0,
+        scale: 0.9
+    }, {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+        },
+        delay: i * 0.2
+    });
 });
 
 // ===== Navigation Functionality =====
@@ -159,13 +343,17 @@ window.addEventListener('scroll', () => {
 });
 
 // Mobile menu toggle
-mobileMenuTrigger.addEventListener('click', () => {
-    mobileMenu.classList.add('active');
-    mobileMenuTrigger.classList.add('active');
-    document.body.style.overflow = 'hidden';
-});
+if (mobileMenuTrigger) {
+    mobileMenuTrigger.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+        mobileMenuTrigger.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+}
 
-mobileMenuClose.addEventListener('click', closeMobileMenu);
+if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', closeMobileMenu);
+}
 
 mobileNavLinks.forEach(link => {
     link.addEventListener('click', closeMobileMenu);
@@ -271,20 +459,22 @@ statNumbers.forEach(number => {
 });
 
 // ===== Vanilla Tilt for 3D Effects =====
-VanillaTilt.init(document.querySelectorAll('.hero-image-wrapper'), {
-    max: 15,
-    speed: 400,
-    glare: true,
-    'max-glare': 0.3,
-    gyroscope: true
-});
+if (typeof VanillaTilt !== 'undefined') {
+    VanillaTilt.init(document.querySelectorAll('.hero-image-wrapper'), {
+        max: 15,
+        speed: 400,
+        glare: true,
+        'max-glare': 0.3,
+        gyroscope: true
+    });
 
-VanillaTilt.init(document.querySelectorAll('.floating-card'), {
-    max: 25,
-    speed: 300,
-    glare: true,
-    'max-glare': 0.5
-});
+    VanillaTilt.init(document.querySelectorAll('.floating-card'), {
+        max: 25,
+        speed: 300,
+        glare: true,
+        'max-glare': 0.5
+    });
+}
 
 // ===== Enhanced Button Ripple Effect =====
 const buttons = document.querySelectorAll('.hero-btn, .nav-cta-btn, .mobile-cta-btn');
@@ -320,21 +510,25 @@ if (window.innerWidth > 768) {
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
             
-            gsap.to(element, {
-                x: x * 0.3,
-                y: y * 0.3,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
+            if (typeof gsap !== 'undefined') {
+                gsap.to(element, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            }
         });
         
         element.addEventListener('mouseleave', () => {
-            gsap.to(element, {
-                x: 0,
-                y: 0,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
+            if (typeof gsap !== 'undefined') {
+                gsap.to(element, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            }
         });
     });
 }
@@ -468,14 +662,18 @@ images.forEach(img => {
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         // Pause animations and video when page is not visible
-        gsap.globalTimeline.pause();
+        if (typeof gsap !== 'undefined') {
+            gsap.globalTimeline.pause();
+        }
         const video = document.querySelector('.hero-video');
         if (video && !video.paused) {
             video.pause();
         }
     } else {
         // Resume animations and video when page becomes visible
-        gsap.globalTimeline.resume();
+        if (typeof gsap !== 'undefined') {
+            gsap.globalTimeline.resume();
+        }
         const video = document.querySelector('.hero-video');
         if (video && video.paused) {
             video.play();
@@ -504,60 +702,6 @@ if ('ontouchstart' in window) {
             setTimeout(() => {
                 this.classList.remove('touch-active');
             }, 300);
-        });
-    });
-}
-
-// ===== Enhanced Custom Cursor (Desktop Only) =====
-if (window.innerWidth > 1024 && !('ontouchstart' in window)) {
-    const cursor = document.createElement('div');
-    cursor.classList.add('custom-cursor');
-    document.body.appendChild(cursor);
-    
-    const cursorDot = document.createElement('div');
-    cursorDot.classList.add('cursor-dot');
-    document.body.appendChild(cursorDot);
-    
-    let mouseX = 0;
-    let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
-    
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-    
-    const animateCursor = () => {
-        const distX = mouseX - cursorX;
-        const distY = mouseY - cursorY;
-        
-        cursorX += distX * 0.1;
-        cursorY += distY * 0.1;
-        
-        cursor.style.left = cursorX + 'px';
-        cursor.style.top = cursorY + 'px';
-        
-        cursorDot.style.left = mouseX + 'px';
-        cursorDot.style.top = mouseY + 'px';
-        
-        requestAnimationFrame(animateCursor);
-    };
-    
-    animateCursor();
-    
-    // Enhanced cursor hover effects
-    const hoverElements = document.querySelectorAll('a, button, .hero-btn, .nav-link, .floating-card');
-    
-    hoverElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            cursor.classList.add('hover');
-            cursorDot.classList.add('hover');
-        });
-        
-        element.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hover');
-            cursorDot.classList.remove('hover');
         });
     });
 }
@@ -646,7 +790,7 @@ function optimizeVideoQuality() {
 
 // ===== Initialize Everything =====
 window.addEventListener('load', () => {
-    console.log('Evia Aesthetics - Modern Website Loaded Successfully');
+    console.log('Evia Aesthetics - Beautiful Website Loaded Successfully ✨');
     
     // Remove no-js class if present
     document.documentElement.classList.remove('no-js');
@@ -666,15 +810,22 @@ window.addEventListener('load', () => {
             img.src = src;
         });
     }, 2000);
+    
+    // Add elegant page entrance
+    if (typeof gsap !== 'undefined') {
+        gsap.from('body', {
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out'
+        });
+    }
 });
 
 // ===== Resize Handler =====
 window.addEventListener('resize', throttle(() => {
     // Reinitialize cursor on desktop after resize
     if (window.innerWidth <= 1024) {
-        const customCursor = document.querySelector('.custom-cursor');
-        const cursorDot = document.querySelector('.cursor-dot');
-        if (customCursor) customCursor.remove();
-        if (cursorDot) cursorDot.remove();
+        const luxuryCursor = document.querySelector('.luxury-cursor');
+        if (luxuryCursor) luxuryCursor.remove();
     }
 }, 250));
