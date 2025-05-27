@@ -84,135 +84,477 @@ body {
     line-height: 1.6;
 }
 
-/* ===== Preloader ===== */
+/* ===== Enhanced Beauty Website Preloader ===== */
 .preloader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: linear-gradient(135deg, var(--warm-brown) 0%, var(--gray-800) 100%);
+    background: linear-gradient(135deg, 
+        var(--ivory) 0%, 
+        var(--dusty-blush) 25%, 
+        var(--soft-gold) 50%, 
+        var(--dusty-blush) 75%, 
+        var(--ivory) 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease-in-out infinite;
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 1s ease, visibility 1s ease;
+    transition: opacity 1s ease, visibility 1s ease, transform 0.8s ease;
+    overflow: hidden;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
 
 .preloader.loaded {
     opacity: 0;
     visibility: hidden;
+    transform: scale(1.1);
 }
 
 .preloader-scene {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* DNA Helix Loader */
-.dna-loader {
+/* Elegant Floating Particles */
+.preloader::before {
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-}
-
-.helix {
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    position: relative;
-    animation: rotate 2s linear infinite;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(212, 168, 87, 0.4), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(239, 217, 193, 0.3), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(192, 127, 81, 0.3), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(212, 168, 87, 0.2), transparent),
+        radial-gradient(2px 2px at 160px 30px, rgba(239, 217, 193, 0.4), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: sparkle 15s linear infinite;
 }
 
-.helix-strand {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: var(--soft-gold);
-    border-bottom-color: var(--dusty-blush);
-    animation: helix-rotate 1.5s linear infinite;
+@keyframes sparkle {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-100vh) rotate(360deg); }
 }
 
-.helix-strand:nth-child(2) {
-    transform: rotate(90deg);
-    animation-delay: 0.15s;
-    border-top-color: var(--dusty-blush);
-    border-bottom-color: var(--soft-gold);
-}
-
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes helix-rotate {
-    0% { transform: rotateX(0deg) rotateY(0deg); }
-    100% { transform: rotateX(360deg) rotateY(360deg); }
-}
-
-/* Preloader Logo */
+/* Logo Container with Elegant Animation */
 .preloader-logo-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+    position: relative;
     z-index: 10;
+    text-align: center;
+    animation: logoEntrance 2s ease-out;
 }
 
+@keyframes logoEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(50px);
+        filter: blur(10px);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1) translateY(-10px);
+        filter: blur(2px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* Enhanced Logo with Glow Effect */
 .preloader-logo {
-    width: 80px;
+    width: 120px;
     height: auto;
-    margin-bottom: 20px;
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
-    animation: pulse 1.5s ease-in-out infinite;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 20px rgba(212, 168, 87, 0.3));
+    animation: logoFloat 3s ease-in-out infinite;
+    transition: all 0.3s ease;
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.9; }
-    50% { transform: scale(1.05); opacity: 1; }
+@keyframes logoFloat {
+    0%, 100% { 
+        transform: translateY(0) scale(1);
+        filter: drop-shadow(0 0 20px rgba(212, 168, 87, 0.3));
+    }
+    50% { 
+        transform: translateY(-15px) scale(1.05);
+        filter: drop-shadow(0 5px 25px rgba(212, 168, 87, 0.5));
+    }
 }
 
+/* Elegant Loading Text */
 .loading-text {
-    color: var(--white);
-    font-size: 24px;
+    color: var(--warm-brown);
+    font-size: 18px;
     font-weight: 300;
     font-family: var(--font-secondary);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: textFadeIn 1s ease-out 0.5s forwards;
+}
+
+@keyframes textFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .loading-percentage {
-    font-weight: 700;
+    font-weight: 600;
     color: var(--soft-gold);
+    font-size: 24px;
+    display: inline-block;
+    min-width: 60px;
+    animation: numberPulse 1.5s ease-in-out infinite;
 }
 
-/* Progress Ring */
+@keyframes numberPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Sophisticated Progress Ring */
 .progress-ring {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-90deg);
+    z-index: 5;
 }
 
 .progress-ring-bg {
     fill: none;
-    stroke: rgba(255, 255, 255, 0.1);
-    stroke-width: 4;
+    stroke: rgba(239, 217, 193, 0.2);
+    stroke-width: 3;
 }
 
 .progress-ring-fill {
     fill: none;
-    stroke: var(--soft-gold);
-    stroke-width: 4;
+    stroke: url(#goldGradient);
+    stroke-width: 3;
     stroke-linecap: round;
-    stroke-dasharray: 565.48;
-    stroke-dashoffset: 565.48;
+    stroke-dasharray: 628.32;
+    stroke-dashoffset: 628.32;
     transition: stroke-dashoffset 0.5s ease;
+    filter: drop-shadow(0 0 8px rgba(212, 168, 87, 0.3));
+}
+
+/* Gradient Definition for Progress Ring */
+.preloader-scene::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Beauty Dots Animation */
+.beauty-dots {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    z-index: 1;
+}
+
+.beauty-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--soft-gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: beautyDotPulse 2s ease-in-out infinite;
+}
+
+.beauty-dot:nth-child(1) { top: 20%; left: 50%; animation-delay: 0s; }
+.beauty-dot:nth-child(2) { top: 35%; left: 75%; animation-delay: 0.2s; }
+.beauty-dot:nth-child(3) { top: 65%; left: 75%; animation-delay: 0.4s; }
+.beauty-dot:nth-child(4) { top: 80%; left: 50%; animation-delay: 0.6s; }
+.beauty-dot:nth-child(5) { top: 65%; left: 25%; animation-delay: 0.8s; }
+.beauty-dot:nth-child(6) { top: 35%; left: 25%; animation-delay: 1s; }
+
+@keyframes beautyDotPulse {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Elegant Ripple Effect */
+.elegant-ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    border: 2px solid rgba(212, 168, 87, 0.1);
+    border-radius: 50%;
+    animation: elegantRipple 3s ease-out infinite;
+}
+
+.elegant-ripple:nth-child(2) {
+    animation-delay: 1s;
+}
+
+.elegant-ripple:nth-child(3) {
+    animation-delay: 2s;
+}
+
+@keyframes elegantRipple {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Loading Message */
+.loading-message {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--warm-brown);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: messageFadeIn 1s ease-out 1.5s forwards;
+}
+
+@keyframes messageFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    100% {
+        opacity: 0.8;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Beauty Brand Elements */
+.brand-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.brand-element {
+    position: absolute;
+    font-size: 12px;
+    color: rgba(212, 168, 87, 0.2);
+    font-family: var(--font-secondary);
+    animation: brandFloat 8s ease-in-out infinite;
+}
+
+.brand-element:nth-child(1) {
+    top: 15%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.brand-element:nth-child(2) {
+    top: 25%;
+    right: 15%;
+    animation-delay: 2s;
+}
+
+.brand-element:nth-child(3) {
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+.brand-element:nth-child(4) {
+    bottom: 30%;
+    right: 10%;
+    animation-delay: 6s;
+}
+
+@keyframes brandFloat {
+    0%, 100% {
+        opacity: 0.2;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(-20px);
+    }
+}
+
+/* Responsive Design for Preloader */
+@media (max-width: 768px) {
+    .preloader-scene {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .preloader-logo {
+        width: 100px;
+        margin-bottom: 25px;
+    }
+    
+    .loading-text {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+    
+    .loading-percentage {
+        font-size: 20px;
+    }
+    
+    .progress-ring {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .beauty-dots {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .loading-message {
+        bottom: 60px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .preloader-scene {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .preloader-logo {
+        width: 80px;
+        margin-bottom: 20px;
+    }
+    
+    .loading-text {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+    
+    .loading-percentage {
+        font-size: 18px;
+    }
+    
+    .progress-ring {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .beauty-dots {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .brand-elements {
+        display: none;
+    }
+}
+
+/* High-end devices with better performance */
+@media (min-width: 1440px) and (min-height: 900px) {
+    .preloader-scene {
+        width: 500px;
+        height: 500px;
+    }
+    
+    .preloader-logo {
+        width: 140px;
+        margin-bottom: 35px;
+    }
+    
+    .loading-text {
+        font-size: 20px;
+        letter-spacing: 4px;
+    }
+    
+    .loading-percentage {
+        font-size: 28px;
+    }
+    
+    .progress-ring {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .beauty-dots {
+        width: 350px;
+        height: 350px;
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .preloader {
+        animation: none;
+        background: var(--ivory);
+    }
+    
+    .preloader-logo {
+        animation: none;
+    }
+    
+    .beauty-dot {
+        animation: none;
+        opacity: 0.3;
+    }
+    
+    .elegant-ripple {
+        animation: none;
+        opacity: 0.1;
+    }
+    
+    .brand-element {
+        animation: none;
+        opacity: 0.2;
+    }
+    
+    .preloader::before {
+        animation: none;
+    }
 }
 
 /* ===== Navigation ===== */
