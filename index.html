@@ -26,39 +26,78 @@
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <!-- Logo -->
-                <div class="logo-wrapper">
-                    <img src="logo.png" alt="Evia Aesthetics" class="header-logo">
-                </div>
+   <!-- Modern Floating Pill Header -->
+<header class="modern-header">
+    <!-- Desktop Floating Pill Navigation -->
+    <nav class="floating-pill-nav">
+        <div class="pill-container">
+            <!-- Logo Section -->
+            <div class="logo-section">
+                <img src="logo.png" alt="Evia Aesthetics" class="modern-logo">
+            </div>
 
-                <!-- Navigation Menu -->
-                <ul class="nav-menu">
-                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-                    <li class="nav-item"><a href="#treatments" class="nav-link">Treatments</a></li>
-                    <li class="nav-item"><a href="#gallery" class="nav-link">Gallery</a></li>
-                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
-                    <li class="nav-item">
-                        <a href="#book" class="nav-link nav-cta">
-                            <span class="cta-text">Book Consultation</span>
-                            <div class="cta-glow"></div>
-                        </a>
-                    </li>
-                </ul>
+            <!-- Navigation Links -->
+            <ul class="pill-menu">
+                <li><a href="#home" class="pill-link active">Home</a></li>
+                <li><a href="#about" class="pill-link">About</a></li>
+                <li><a href="#treatments" class="pill-link">Treatments</a></li>
+                <li><a href="#gallery" class="pill-link">Gallery</a></li>
+                <li><a href="#contact" class="pill-link">Contact</a></li>
+            </ul>
 
-                <!-- Mobile Menu Toggle -->
-                <div class="mobile-toggle">
+            <!-- CTA Button -->
+            <div class="pill-cta">
+                <a href="#book" class="modern-cta-btn">
+                    <span class="cta-icon">✦</span>
+                    <span class="cta-text">Book Now</span>
+                    <div class="cta-ripple"></div>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Floating Circular Menu -->
+    <nav class="floating-mobile-nav">
+        <!-- Main Floating Button -->
+        <div class="mobile-fab">
+            <div class="fab-logo">
+                <img src="logo.png" alt="Evia Aesthetics" class="fab-logo-img">
+            </div>
+            <div class="fab-toggle">
+                <div class="fab-lines">
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
+
+        <!-- Floating Menu Items -->
+        <div class="floating-menu-items">
+            <a href="#home" class="floating-item" data-label="Home">
+                <div class="item-icon">🏠</div>
+            </a>
+            <a href="#about" class="floating-item" data-label="About">
+                <div class="item-icon">👩‍⚕️</div>
+            </a>
+            <a href="#treatments" class="floating-item" data-label="Treatments">
+                <div class="item-icon">✨</div>
+            </a>
+            <a href="#gallery" class="floating-item" data-label="Gallery">
+                <div class="item-icon">📸</div>
+            </a>
+            <a href="#contact" class="floating-item" data-label="Contact">
+                <div class="item-icon">📞</div>
+            </a>
+            <a href="#book" class="floating-item book-item" data-label="Book Now">
+                <div class="item-icon">✦</div>
+            </a>
+        </div>
+
+        <!-- Background Overlay -->
+        <div class="mobile-menu-overlay"></div>
+    </nav>
+</header>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
