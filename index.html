@@ -3,276 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Evia Aesthetics - Premium Medical Aesthetics. Doctor-led medspa offering exclusive treatments in a luxurious setting.">
-    <title>Evia Aesthetics | Luxury Medical Spa</title>
+    <title>Evia Aesthetics - Aesthetic and Longevity Medicine</title>
     
-    <!-- External Fonts -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Didot&family=Futura&family=Helvetica+Neue:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@100;200;300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- GSAP Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/TextPlugin.min.js"></script>
-    
-    <!-- Custom Styles -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- ========================================
-         PRELOADER
-         ======================================== -->
-    <div class="preloader" id="preloader">
-        <div class="preloader-content">
-            <!-- Logo -->
-            <div class="preloader-logo-wrapper">
-                <img src="logo.png" alt="Evia Aesthetics" class="preloader-logo-img">
-            </div>
-            
-            <!-- Modern Loading Animation -->
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
-            
-            <p class="loading-text">ELEVATING BEAUTY THROUGH SCIENCE</p>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader-content">
+            <div class="loader-circle"></div>
+            <div class="loader-text">eviaesthetics</div>
         </div>
     </div>
 
-    <!-- ========================================
-         MODERN LUXURY HEADER
-         ======================================== -->
-    <header class="luxury-header" id="header">
-        <div class="header-inner">
-            <!-- Logo Section -->
-            <div class="logo-container">
-                <a href="#" class="logo-link">
-                    <img src="logo.png" alt="Evia Aesthetics" class="logo-img">
-                </a>
-            </div>
+    <!-- Header -->
+    <header id="header" class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="logo-wrapper">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <span class="logo-e1">e</span>
+                            <span class="logo-e2">e</span>
+                        </div>
+                        <div class="logo-text">eviaesthetics</div>
+                    </div>
+                    <div class="logo-tagline">Aesthetic and Longevity Medicine</div>
+                </div>
 
-            <!-- Modern Navigation -->
-            <nav class="modern-nav">
-                <ul class="nav-list">
+                <!-- Navigation Menu -->
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="#treatments" class="nav-link">Treatments</a></li>
+                    <li class="nav-item"><a href="#gallery" class="nav-link">Gallery</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
                     <li class="nav-item">
-                        <a href="#treatments" class="nav-link">
-                            <span class="nav-text">Treatments</span>
-                            <span class="nav-underline"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#about" class="nav-link">
-                            <span class="nav-text">About Dr. Nano</span>
-                            <span class="nav-underline"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#experience" class="nav-link">
-                            <span class="nav-text">The Experience</span>
-                            <span class="nav-underline"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#results" class="nav-link">
-                            <span class="nav-text">Results</span>
-                            <span class="nav-underline"></span>
-                        </a>
+                        <a href="#book" class="nav-link nav-cta">Book Consultation</a>
                     </li>
                 </ul>
-            </nav>
 
-            <!-- Call to Action -->
-            <div class="header-cta">
-                <a href="tel:2016394983" class="call-btn">
-                    <span class="call-icon">
-                        <i class="fas fa-phone"></i>
-                    </span>
-                    <span class="call-text">
-                        <span class="call-label">Book Consultation</span>
-                        <span class="call-number">(201) 639-4983</span>
-                    </span>
-                </a>
+                <!-- Mobile Menu Toggle -->
+                <div class="mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-
-            <!-- Mobile Menu Toggle -->
-            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
-                <span class="menu-line"></span>
-                <span class="menu-line"></span>
-            </button>
-        </div>
+        </nav>
     </header>
 
-    <!-- ========================================
-         MODERN HERO SECTION
-         ======================================== -->
-    <section class="hero-section" id="hero">
-        <!-- Video Background with Overlay -->
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
         <div class="hero-background">
-            <video class="hero-video" autoplay muted loop playsinline>
-                <source src="https://videos.pexels.com/video-files/7581434/7581434-uhd_2732_1440_25fps.mp4" type="video/mp4">
-            </video>
             <div class="hero-overlay"></div>
-            
-            <!-- Geometric Pattern Overlay -->
-            <div class="geometric-overlay">
-                <svg class="pattern-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <pattern id="hermes-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                        <rect x="0" y="0" width="10" height="10" fill="rgba(255,102,0,0.05)"/>
-                        <rect x="10" y="10" width="10" height="10" fill="rgba(255,102,0,0.05)"/>
-                    </pattern>
-                    <rect width="100" height="100" fill="url(#hermes-pattern)"/>
-                </svg>
+            <div class="floating-elements">
+                <div class="float-circle circle-1"></div>
+                <div class="float-circle circle-2"></div>
+                <div class="float-circle circle-3"></div>
             </div>
         </div>
 
-        <!-- Hero Content -->
         <div class="hero-content">
-            <div class="container">
-                <div class="hero-inner">
-                    <!-- Modern Badge -->
-                    <div class="hero-badge">
-                        <span class="badge-text">EST. 2005</span>
-                        <span class="badge-divider">•</span>
-                        <span class="badge-text">NEW YORK</span>
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="title-line-1">Aesthetic &</span>
+                    <span class="title-line-2">Longevity Medicine</span>
+                    <span class="title-line-3">by a Medical Doctor</span>
+                </h1>
+                
+                <p class="hero-description">
+                    Experience the perfect blend of medical expertise and aesthetic artistry. 
+                    Every treatment performed personally by Dr. Evia Nano, MD.
+                </p>
+
+                <div class="hero-cta">
+                    <a href="#book" class="cta-button primary">
+                        <span class="button-text">Book a Personalized Consultation</span>
+                        <span class="button-glow"></span>
+                    </a>
+                    <a href="#treatments" class="cta-button secondary">
+                        <span class="button-text">Explore Treatments</span>
+                    </a>
+                </div>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">✦</div>
+                        <span>20+ Years Experience</span>
                     </div>
-
-                    <!-- Main Heading -->
-                    <h1 class="hero-title">
-                        <span class="title-line">
-                            <span class="title-word">REDEFINING</span>
-                        </span>
-                        <span class="title-line">
-                            <span class="title-word accent">AESTHETIC</span>
-                        </span>
-                        <span class="title-line">
-                            <span class="title-word">EXCELLENCE</span>
-                        </span>
-                    </h1>
-
-                    <!-- Subheading -->
-                    <div class="hero-subtitle">
-                        <p>Where medical precision meets artistic vision. Experience the future of aesthetic medicine with Dr. Evia Nano's revolutionary approach to natural beauty enhancement.</p>
+                    <div class="feature-item">
+                        <div class="feature-icon">✦</div>
+                        <span>Board Certified MD</span>
                     </div>
-
-                    <!-- CTA Section -->
-                    <div class="hero-cta">
-                        <a href="tel:2016394983" class="primary-cta">
-                            <span class="cta-inner">
-                                <span class="cta-text">Schedule Your Consultation</span>
-                                <span class="cta-icon">
-                                    <i class="fas fa-arrow-right"></i>
-                                </span>
-                            </span>
-                            <span class="cta-bg"></span>
-                        </a>
-                        
-                        <div class="hero-phone">
-                            <span class="phone-icon">
-                                <i class="fas fa-phone"></i>
-                            </span>
-                            <div class="phone-info">
-                                <span class="phone-label">Call Now</span>
-                                <a href="tel:2016394983" class="phone-number">(201) 639-4983</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Feature Pills -->
-                    <div class="hero-features">
-                        <div class="feature-pill">
-                            <i class="fas fa-award"></i>
-                            <span>20+ Years Experience</span>
-                        </div>
-                        <div class="feature-pill">
-                            <i class="fas fa-certificate"></i>
-                            <span>Board Certified</span>
-                        </div>
-                        <div class="feature-pill">
-                            <i class="fas fa-star"></i>
-                            <span>5000+ Patients</span>
-                        </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✦</div>
+                        <span>Personalized Care</span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Floating Elements -->
-        <div class="floating-elements">
-            <div class="float-circle circle-1"></div>
-            <div class="float-circle circle-2"></div>
-            <div class="float-line line-1"></div>
-            <div class="float-line line-2"></div>
+            <div class="hero-visual">
+                <div class="visual-container">
+                    <div class="image-wrapper">
+                        <div class="image-placeholder">
+                            <span>Dr. Evia Nano, MD</span>
+                        </div>
+                        <div class="image-frame"></div>
+                    </div>
+                    <div class="floating-badge">
+                        <span class="badge-text">Doctor-Led Care</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Scroll Indicator -->
         <div class="scroll-indicator">
-            <div class="scroll-icon">
+            <div class="scroll-mouse">
                 <div class="scroll-wheel"></div>
             </div>
-            <span class="scroll-text">DISCOVER MORE</span>
-        </div>
-
-        <!-- Side Social Links -->
-        <div class="social-sidebar">
-            <a href="https://www.instagram.com/eviaesthetics/" class="social-link" aria-label="Instagram">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" class="social-link" aria-label="Facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <div class="social-line"></div>
+            <span class="scroll-text">Scroll to explore</span>
         </div>
     </section>
 
-    <!-- ========================================
-         MOBILE MENU
-         ======================================== -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-inner">
-            <div class="mobile-menu-header">
-                <div class="mobile-logo">
-                    <img src="logo.png" alt="Evi Aesthetics" class="mobile-logo-img">
-                </div>
-                <button class="mobile-close" id="mobileClose">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <nav class="mobile-nav">
-                <ul class="mobile-nav-list">
-                    <li><a href="#treatments">Treatments</a></li>
-                    <li><a href="#about">About Dr. Nano</a></li>
-                    <li><a href="#experience">The Experience</a></li>
-                    <li><a href="#results">Results</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-            
-            <div class="mobile-cta">
-                <a href="tel:2016394983" class="mobile-call-btn">
-                    <i class="fas fa-phone"></i>
-                    <span>Call (201) 639-4983</span>
-                </a>
-            </div>
-            
-            <div class="mobile-social">
-                <a href="https://www.instagram.com/eviaesthetics/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Floating Call Button -->
-    <a href="tel:2016394983" class="floating-call-btn" id="floatingCall">
-        <span class="call-pulse"></span>
-        <i class="fas fa-phone"></i>
-    </a>
-
-    <!-- Custom Scripts -->
+    <!-- Custom JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
