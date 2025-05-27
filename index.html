@@ -17,25 +17,22 @@
     <!-- Preloader -->
     <div class="preloader">
         <div class="loader-content">
-            <div class="loader-circle"></div>
-            <div class="loader-text">eviaesthetics</div>
+            <div class="logo-container">
+                <img src="logo.png" alt="Evia Aesthetics" class="preloader-logo">
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
         </div>
     </div>
 
     <!-- Header -->
-    <header id="header" class="header">
+    <header class="header">
         <nav class="navbar">
             <div class="nav-container">
                 <!-- Logo -->
                 <div class="logo-wrapper">
-                    <div class="logo">
-                        <div class="logo-icon">
-                            <span class="logo-e1">e</span>
-                            <span class="logo-e2">e</span>
-                        </div>
-                        <div class="logo-text">eviaesthetics</div>
-                    </div>
-                    <div class="logo-tagline">Aesthetic and Longevity Medicine</div>
+                    <img src="logo.png" alt="Evia Aesthetics" class="header-logo">
                 </div>
 
                 <!-- Navigation Menu -->
@@ -46,7 +43,10 @@
                     <li class="nav-item"><a href="#gallery" class="nav-link">Gallery</a></li>
                     <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
                     <li class="nav-item">
-                        <a href="#book" class="nav-link nav-cta">Book Consultation</a>
+                        <a href="#book" class="nav-link nav-cta">
+                            <span class="cta-text">Book Consultation</span>
+                            <div class="cta-glow"></div>
+                        </a>
                     </li>
                 </ul>
 
@@ -61,78 +61,118 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="hero" class="hero">
+    <section class="hero">
+        <!-- Background Elements -->
         <div class="hero-background">
-            <!-- Background Video -->
-            <div class="video-container">
-                <video autoplay muted loop playsinline class="hero-video">
-                    <!-- Using spa/beauty treatment videos with soft, natural tones -->
-                    <source src="https://videocdn.cdnpk.net/videos/c08d0781-d94c-4529-92cd-7212451f23af/horizontal/previews/clear/large.mp4?token=exp=1748362837~hmac=897dac0b7a94ecc5fd3ffe5247b5650e824b5720eb3842aa731c16ed90301156" type="video/mp4">
-                    <img src="placeholder-spa.jpg" alt="Spa treatment">
-                </video>
-                <div class="video-overlay"></div>
-            </div>
+            <video autoplay muted loop playsinline class="hero-video">
+                <source src="https://videocdn.cdnpk.net/videos/c08d0781-d94c-4529-92cd-7212451f23af/horizontal/previews/clear/large.mp4?token=exp=1748362837~hmac=897dac0b7a94ecc5fd3ffe5247b5650e824b5720eb3842aa731c16ed90301156" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
             
-            <div class="hero-overlay"></div>
+            <!-- Floating Geometric Elements -->
             <div class="floating-elements">
-                <div class="float-circle circle-1"></div>
-                <div class="float-circle circle-2"></div>
-                <div class="float-circle circle-3"></div>
+                <div class="float-element element-1"></div>
+                <div class="float-element element-2"></div>
+                <div class="float-element element-3"></div>
+                <div class="float-element element-4"></div>
             </div>
         </div>
 
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    <span class="title-line-1">Aesthetic &</span>
-                    <span class="title-line-2">Longevity Medicine</span>
-                    <span class="title-line-3">by a Medical Doctor</span>
-                </h1>
-                
-                <p class="hero-description">
-                    Experience the perfect blend of medical expertise and aesthetic artistry. 
-                    Every treatment performed personally by Dr. Evia Nano, MD.
-                </p>
-
-                <div class="hero-cta">
-                    <a href="#book" class="cta-button primary">
-                        <span class="button-text">Book a Personalized Consultation</span>
-                        <span class="button-glow"></span>
-                    </a>
-                    <a href="#treatments" class="cta-button secondary">
-                        <span class="button-text">Explore Treatments</span>
-                    </a>
-                </div>
-
-                <div class="hero-features">
-                    <div class="feature-item">
-                        <div class="feature-icon">✦</div>
-                        <span>20+ Years Experience</span>
+        <!-- Hero Content -->
+        <div class="hero-container">
+            <!-- Left Content -->
+            <div class="hero-content">
+                <div class="content-wrapper">
+                    <!-- Badge -->
+                    <div class="hero-badge">
+                        <span class="badge-icon">✦</span>
+                        <span class="badge-text">Premium Medical Aesthetics</span>
                     </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">✦</div>
-                        <span>Board Certified MD</span>
+
+                    <!-- Main Title -->
+                    <h1 class="hero-title">
+                        <span class="title-accent">Aesthetic &</span>
+                        <span class="title-main">Longevity Medicine</span>
+                        <span class="title-sub">by a Medical Doctor</span>
+                    </h1>
+
+                    <!-- Description -->
+                    <p class="hero-description">
+                        Experience the perfect blend of medical expertise and aesthetic artistry. 
+                        Every treatment performed personally by Dr. Evia Nano, MD.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="hero-actions">
+                        <a href="#book" class="btn-primary">
+                            <span class="btn-text">Book Personalized Consultation</span>
+                            <div class="btn-shine"></div>
+                        </a>
+                        <a href="#treatments" class="btn-secondary">
+                            <span class="btn-text">Explore Treatments</span>
+                            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </a>
                     </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">✦</div>
-                        <span>Personalized Care</span>
+
+                    <!-- Features -->
+                    <div class="hero-features">
+                        <div class="feature">
+                            <div class="feature-icon">20+</div>
+                            <span class="feature-text">Years Experience</span>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">MD</div>
+                            <span class="feature-text">Board Certified</span>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">1:1</div>
+                            <span class="feature-text">Personalized Care</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Right Visual -->
             <div class="hero-visual">
-                 <div class="visual-container">
-                    <div class="image-wrapper">
-                        <div class="doctor-image-container">
-                            <img src="https://eviaesthetics.com/wp-content/uploads/2023/07/Untitled-1-5.png" alt="Dr. Evia Nano, MD - Aesthetic and Longevity Medicine" class="doctor-image">
-                            <div class="image-overlay-text">
-                                <span class="doctor-name">Dr. Evia Nano, MD</span>
+                <div class="visual-container">
+                    <!-- Main Image -->
+                    <div class="doctor-frame">
+                        <div class="image-container">
+                            <img src="https://eviaesthetics.com/wp-content/uploads/2023/07/Untitled-1-5.png" 
+                                 alt="Dr. Evia Nano, MD" 
+                                 class="doctor-image">
+                            <div class="image-overlay">
+                                <div class="overlay-content">
+                                    <span class="doctor-name">Dr. Evia Nano, MD</span>
+                                    <span class="doctor-title">Aesthetic Medicine Specialist</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="image-frame"></div>
+                        
+                        <!-- Decorative Elements -->
+                        <div class="decoration decoration-1"></div>
+                        <div class="decoration decoration-2"></div>
                     </div>
+
+                    <!-- Floating Badge -->
                     <div class="floating-badge">
-                        <span class="badge-text">Doctor-Led Care</span>
+                        <div class="badge-content">
+                            <span class="badge-title">Doctor-Led Care</span>
+                            <span class="badge-subtitle">Medical Excellence</span>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="stats-card card-1">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Happy Patients</div>
+                    </div>
+                    
+                    <div class="stats-card card-2">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfaction Rate</div>
                     </div>
                 </div>
             </div>
@@ -140,10 +180,8 @@
 
         <!-- Scroll Indicator -->
         <div class="scroll-indicator">
-            <div class="scroll-mouse">
-                <div class="scroll-wheel"></div>
-            </div>
-            <span class="scroll-text">Scroll to explore</span>
+            <div class="scroll-line"></div>
+            <div class="scroll-text">Scroll to discover</div>
         </div>
     </section>
 
