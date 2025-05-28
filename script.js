@@ -1,375 +1,468 @@
-// Initialize AOS (Animate On Scroll)
+// Initialize AOS
 AOS.init({
     duration: 1000,
     once: true,
     offset: 100,
-    easing: 'ease-out-cubic'
+    easing: 'ease-out-cubic',
+    mirror: false
 });
 
-// Navbar scroll effect
-let navbar = document.getElementById('mainNav');
-let lastScroll = 0;
+// Initialize Splitting for text animations
+Splitting();
 
-window.addEventListener('scroll', () => {
-    let currentScroll = window.pageYOffset;
-    
-    // Add/remove scrolled class
-    if (currentScroll > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-    
-    // Hide/show navbar on scroll
-    if (currentScroll > lastScroll && currentScroll > 500) {
-        navbar.style.transform = 'translateY(-100%)';
-    } else {
-        navbar.style.transform = 'translateY(0)';
-    }
-    
-    lastScroll = currentScroll;
+// GSAP Registration
+gsap.registerPlugin(ScrollTrigger);
+
+// Preloader
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.querySelector('.preloader').classList.add('hidden');
+        // Start animations after preloader
+        initAnimations();
+    }, 1500);
 });
 
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        
-        if (target) {
-            const offset = 80; // Navbar height
-            const targetPosition = target.offsetTop - offset;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-            
-            // Close mobile menu if open
-            const navbarCollapse = document.querySelector('.navbar-collapse');
-            if (navbarCollapse.classList.contains('show')) {
-                navbarCollapse.classList.remove('show');
-            }
-        }
-    });
-});
-
-// Particles.js configuration
-particlesJS('particles-js', {
-    particles: {
-        number: {
-            value: 50,
-            density: {
-                enable: true,
-                value_area: 800
-            }
-        },
-        color: {
-            value: '#D4A857'
-        },
-        shape: {
-            type: 'circle',
-            stroke: {
-                width: 0,
-                color: '#000000'
-            }
-        },
-        opacity: {
-            value: 0.3,
-            random: true,
-            anim: {
-                enable: true,
-                speed: 1,
-                opacity_min: 0.1,
-                sync: false
-            }
-        },
-        size: {
-            value: 3,
-            random: true,
-            anim: {
-                enable: true,
-                speed: 2,
-                size_min: 0.1,
-                sync: false
-            }
-        },
-        line_linked: {
-            enable: false
-        },
-        move: {
-            enable: true,
-            speed: 1,
-            direction: 'top',
-            random: true,
-            straight: false,
-            out_mode: 'out',
-            bounce: false,
-            attract: {
-                enable: false,
-                rotateX: 600,
-                rotateY: 1200
-            }
-        }
-    },
-    interactivity: {
-        detect_on: 'canvas',
-        events: {
-            onhover: {
-                enable: true,
-                mode: 'bubble'
-            },
-            onclick: {
-                enable: true,
-                mode: 'push'
-            },
-            resize: true
-        },
-        modes: {
-            bubble: {
-                distance: 150,
-                size: 6,
-                duration: 2,
-                opacity: 0.8,
-                speed: 3
-            },
-            push: {
-                particles_nb: 4
-            }
-        }
-    },
-    retina_detect: true
-});
-
-// Enhanced button hover effects
-document.querySelectorAll('.btn-primary-animated').forEach(button => {
-    button.addEventListener('mouseenter', function(e) {
-        const x = e.pageX - this.offsetLeft;
-        const y = e.pageY - this.offsetTop;
-        
-        const ripple = document.createElement('span');
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.className = 'ripple';
-        
-        this.appendChild(ripple);
-        
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    });
-});
-
-// Parallax effect for hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallax = document.querySelector('.hero-content');
-    const heroLogo = document.querySelector('.floating-logo');
-    
-    if (parallax) {
-        parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
-        parallax.style.opacity = 1 - scrolled / 600;
-    }
-    
-    if (heroLogo) {
-        heroLogo.style.transform = `translateY(${scrolled * -0.3}px) scale(${1 + scrolled * 0.0003})`;
-    }
-});
-
-// Expertise items animation on hover
-document.querySelectorAll('.expertise-item').forEach(item => {
-    item.addEventListener('mouseenter', function() {
-        this.querySelector('i').style.transform = 'scale(1.2) rotate(10deg)';
-    });
-    
-    item.addEventListener('mouseleave', function() {
-        this.querySelector('i').style.transform = 'scale(1) rotate(0deg)';
-    });
-});
-
-// Advantage cards tilt effect
-document.querySelectorAll('.advantage-card').forEach(card => {
-    card.addEventListener('mousemove', function(e) {
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        
-        this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-    });
-    
-    card.addEventListener('mouseleave', function() {
-        this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-    });
-});
-
-// Counter animation for statistics (for future use)
-function animateCounter(element, start, end, duration) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        element.textContent = Math.floor(progress * (end - start) + start);
-        if (progress < 1) {
-            window.requestAnimationFrame(step);
-        }
-    };
-    window.requestAnimationFrame(step);
+// Initialize all animations
+function initAnimations() {
+    heroAnimations();
+    navbarAnimations();
+    parallaxEffects();
+    initTyped();
+    smoothScrolling();
+    buttonAnimations();
 }
 
-// Intersection Observer for fade-in animations
+// Hero Animations with GSAP
+function heroAnimations() {
+    // Hero timeline
+    const heroTl = gsap.timeline({ delay: 0.5 });
+    
+    // Logo animation
+    heroTl.from('.hero-logo-wrapper', {
+        scale: 0,
+        opacity: 0,
+        duration: 1.5,
+        ease: 'elastic.out(1, 0.5)'
+    })
+    
+    // Title animations
+    .from('.title-line-1', {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out'
+    }, '-=0.5')
+    
+    // Trust indicators stagger
+    .from('.trust-item', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power2.out'
+    }, '-=0.3')
+    
+    // Buttons animation
+    .from('.hero-buttons > *', {
+        scale: 0.8,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'back.out(1.7)'
+    }, '-=0.5')
+    
+    // Scroll indicator
+    .from('.scroll-indicator-modern', {
+        y: -20,
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.out'
+    }, '-=0.3');
+    
+    // Floating circles continuous animation
+    gsap.to('.floating-circle', {
+        x: 'random(-100, 100)',
+        y: 'random(-100, 100)',
+        duration: 'random(15, 25)',
+        repeat: -1,
+        repeatRefresh: true,
+        ease: 'none',
+        stagger: {
+            each: 5,
+            from: 'random'
+        }
+    });
+}
+
+// Navbar scroll effects
+function navbarAnimations() {
+    const navbar = document.getElementById('mainNav');
+    let lastScroll = 0;
+    let ticking = false;
+    
+    function updateNavbar() {
+        const currentScroll = window.pageYOffset;
+        
+        // Add/remove scrolled class
+        if (currentScroll > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        
+        // Hide/show on scroll
+        if (currentScroll > lastScroll && currentScroll > 300) {
+            gsap.to(navbar, {
+                y: -100,
+                duration: 0.3,
+                ease: 'power2.inOut'
+            });
+        } else {
+            gsap.to(navbar, {
+                y: 0,
+                duration: 0.3,
+                ease: 'power2.inOut'
+            });
+        }
+        
+        lastScroll = currentScroll;
+        ticking = false;
+    }
+    
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateNavbar);
+            ticking = true;
+        }
+    });
+}
+
+// Parallax Effects
+function parallaxEffects() {
+    // Hero content parallax
+    gsap.to('.hero-content', {
+        y: () => window.innerHeight * 0.5,
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '.hero-section',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+        }
+    });
+    
+    // Video parallax
+    gsap.to('.hero-video', {
+        y: () => window.innerHeight * 0.3,
+        scale: 1.2,
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '.hero-section',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+        }
+    });
+    
+    // Logo rotation on scroll
+    gsap.to('.hero-logo', {
+        rotation: 360,
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '.hero-section',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 2
+        }
+    });
+}
+
+// Typed.js initialization
+function initTyped() {
+    new Typed('#typed-text', {
+        strings: [
+            'Natural Beauty',
+            'Medical Excellence',
+            'Timeless Elegance',
+            'Your Confidence'
+        ],
+        typeSpeed: 60,
+        backSpeed: 30,
+        backDelay: 2000,
+        loop: true,
+        cursorChar: '|',
+        smartBackspace: true
+    });
+}
+
+// Smooth scrolling for anchor links
+function smoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            
+            if (target) {
+                const offset = 80;
+                const targetPosition = target.offsetTop - offset;
+                
+                gsap.to(window, {
+                    scrollTo: {
+                        y: targetPosition,
+                        autoKill: false
+                    },
+                    duration: 1,
+                    ease: 'power3.inOut'
+                });
+                
+                // Close mobile menu if open
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
+                    bootstrap.Collapse.getInstance(navbarCollapse).hide();
+                }
+            }
+        });
+    });
+}
+
+// Button hover animations
+function buttonAnimations() {
+    // Primary button magnetic effect
+    const primaryBtns = document.querySelectorAll('.btn-primary-glow');
+    
+    primaryBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            gsap.to(btn, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, {
+                x: 0,
+                y: 0,
+                duration: 0.3,
+                ease: 'elastic.out(1, 0.3)'
+            });
+        });
+    });
+    
+    // Play button pulse enhancement
+    const playBtn = document.querySelector('.btn-play-video');
+    if (playBtn) {
+        playBtn.addEventListener('mouseenter', () => {
+            gsap.to('.play-icon', {
+                scale: 1.1,
+                duration: 0.3,
+                ease: 'back.out(2)'
+            });
+        });
+        
+        playBtn.addEventListener('mouseleave', () => {
+            gsap.to('.play-icon', {
+                scale: 1,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+    }
+}
+
+// Hamburger menu animation
+const navbarToggler = document.querySelector('.navbar-toggler');
+navbarToggler.addEventListener('click', function() {
+    this.classList.toggle('active');
+});
+
+// Text reveal on scroll
+gsap.utils.toArray('.section-title .title-word').forEach((word, i) => {
+    gsap.from(word, {
+        scrollTrigger: {
+            trigger: word,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        delay: i * 0.1,
+        ease: 'power3.out'
+    });
+});
+
+// Trust items counter animation
+function animateValue(element, start, end, duration) {
+    const range = end - start;
+    const increment = range / (duration / 16);
+    let current = start;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= end) {
+            current = end;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current);
+    }, 16);
+}
+
+// Intersection Observer for fade animations
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
+const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in-visible');
-            
-            // Animate counters if they exist
-            if (entry.target.classList.contains('counter')) {
-                const endValue = parseInt(entry.target.getAttribute('data-count'));
-                animateCounter(entry.target, 0, endValue, 2000);
-            }
+            gsap.to(entry.target, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+            fadeObserver.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Observe elements with fade-in class
+// Observe elements with fade class
 document.querySelectorAll('.fade-in').forEach(el => {
-    observer.observe(el);
+    gsap.set(el, { opacity: 0, y: 50 });
+    fadeObserver.observe(el);
 });
 
-// Mobile menu enhancement
-const navbarToggler = document.querySelector('.navbar-toggler');
-const navbarCollapse = document.querySelector('.navbar-collapse');
-
-navbarToggler.addEventListener('click', function() {
-    this.classList.toggle('active');
-});
-
-// Close mobile menu when clicking outside
-document.addEventListener('click', function(e) {
+// Mobile menu close on outside click
+document.addEventListener('click', (e) => {
+    const navbar = document.getElementById('mainNav');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    
     if (!navbar.contains(e.target) && navbarCollapse.classList.contains('show')) {
-        navbarCollapse.classList.remove('show');
+        bootstrap.Collapse.getInstance(navbarCollapse).hide();
         navbarToggler.classList.remove('active');
     }
 });
 
-// Preloader (optional - add if you want a loading screen)
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-    
-    // Refresh AOS after load
-    setTimeout(() => {
-        AOS.refresh();
-    }, 100);
-});
-
-// Dynamic copyright year (for footer - future use)
-const currentYear = new Date().getFullYear();
-const copyrightElements = document.querySelectorAll('.copyright-year');
-copyrightElements.forEach(el => {
-    el.textContent = currentYear;
-});
-
-// Form validation (for future contact form)
-function validateForm(form) {
-    const inputs = form.querySelectorAll('input[required], textarea[required]');
-    let isValid = true;
-    
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
-            input.classList.add('error');
-            isValid = false;
-        } else {
-            input.classList.remove('error');
-        }
-    });
-    
-    return isValid;
+// Video optimization for mobile
+const heroVideo = document.querySelector('.hero-video');
+if (heroVideo && window.innerWidth < 768) {
+    heroVideo.setAttribute('poster', 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1920');
 }
 
-// Smooth reveal animation for sections
-const revealElements = document.querySelectorAll('.reveal');
-const revealOnScroll = () => {
-    revealElements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementBottom = element.getBoundingClientRect().bottom;
-        
-        if (elementTop < window.innerHeight - 100 && elementBottom > 0) {
-            element.classList.add('revealed');
-        }
+// Performance optimization - Debounce resize events
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        AOS.refresh();
+        ScrollTrigger.refresh();
+    }, 250);
+});
+
+// Smooth page transitions
+window.addEventListener('beforeunload', () => {
+    gsap.to('body', {
+        opacity: 0,
+        duration: 0.3
     });
-};
+});
 
-window.addEventListener('scroll', revealOnScroll);
-revealOnScroll(); // Initial check
+// Add custom cursor (optional elegant touch)
+if (window.innerWidth > 991) {
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+    document.body.appendChild(cursor);
+    
+    const cursorDot = document.createElement('div');
+    cursorDot.classList.add('cursor-dot');
+    document.body.appendChild(cursorDot);
+    
+    document.addEventListener('mousemove', (e) => {
+        gsap.to(cursor, {
+            x: e.clientX,
+            y: e.clientY,
+            duration: 0.5,
+            ease: 'power2.out'
+        });
+        
+        gsap.to(cursorDot, {
+            x: e.clientX,
+            y: e.clientY,
+            duration: 0.1
+        });
+    });
+    
+    // Cursor hover effects
+    const hoverElements = document.querySelectorAll('a, button, .btn-primary-glow, .btn-play-video');
+    hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.classList.add('cursor-hover');
+            gsap.to(cursor, { scale: 1.5, duration: 0.3 });
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursor.classList.remove('cursor-hover');
+            gsap.to(cursor, { scale: 1, duration: 0.3 });
+        });
+    });
+}
 
-// Add ripple effect styles dynamically
-const style = document.createElement('style');
-style.textContent = `
-    .ripple {
-        position: absolute;
+// Add custom cursor styles
+const cursorStyles = document.createElement('style');
+cursorStyles.textContent = `
+    .custom-cursor {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(212, 168, 87, 0.5);
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.6);
-        transform: translate(-50%, -50%);
         pointer-events: none;
-        animation: ripple-animation 0.6s ease-out;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: border-color 0.3s ease;
+        mix-blend-mode: difference;
     }
     
-    @keyframes ripple-animation {
-        from {
-            width: 0;
-            height: 0;
-            opacity: 1;
+    .cursor-dot {
+        position: fixed;
+        width: 6px;
+        height: 6px;
+        background: var(--soft-gold);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+    }
+    
+    .custom-cursor.cursor-hover {
+        border-color: var(--soft-gold);
+        background: rgba(212, 168, 87, 0.1);
+    }
+    
+    @media (max-width: 991px) {
+        .custom-cursor, .cursor-dot {
+            display: none;
         }
-        to {
-            width: 200px;
-            height: 200px;
-            opacity: 0;
-        }
-    }
-    
-    .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease-out;
-    }
-    
-    .fade-in-visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    .reveal {
-        opacity: 0;
-        transform: translateY(50px);
-        transition: all 1s ease-out;
-    }
-    
-    .revealed {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    .navbar-toggler.active .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(212, 168, 87, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E");
-    }
-    
-    input.error, textarea.error {
-        border-color: #e74c3c !important;
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(cursorStyles);
 
-// Console greeting
-console.log('%c eviaesthetics ', 'background: linear-gradient(135deg, #D4A857 0%, #E4A853 100%); color: white; font-size: 20px; font-weight: bold; padding: 10px 20px; border-radius: 5px;');
-console.log('Welcome to eviaesthetics - Aesthetic and Longevity Medicine');
+// Console styling
+console.log(
+    '%c eviaesthetics ',
+    'background: linear-gradient(135deg, #D4A857 0%, #E4A853 100%); color: white; font-size: 24px; font-weight: bold; padding: 10px 30px; border-radius: 50px; font-family: "Playfair Display", serif;'
+);
+console.log('✨ Welcome to eviaesthetics - Where Science Meets Natural Beauty');
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Any additional initialization
+    console.log('Website initialized successfully');
+});
