@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evia Aesthetics | Aesthetic and Longevity Medicine</title>
+    <title>Evia Aesthetics | Luxury Medical Spa</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- Bootstrap Grid Only (for layout) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap-grid.min.css">
     
     <!-- AOS Animation Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
@@ -28,172 +28,546 @@
 <body>
     <!-- Preloader -->
     <div class="preloader">
-        <div class="logo-container">
-            <img src="logo1.png" alt="Evia Aesthetics Logo" class="preloader-logo">
+        <div class="preloader-content">
+            <div class="preloader-logo">
+                <img src="logo1.png" alt="Evia Aesthetics Logo">
+            </div>
+            <div class="preloader-spinner">
+                <div class="spinner-circle"></div>
+            </div>
         </div>
     </div>
-    
+
     <!-- Header -->
     <header class="site-header" id="header">
-        <div class="header-top">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <div class="header-info">
-                            <span class="header-info-item">
-                                <i class="fas fa-phone-alt"></i> 
-                                <a href="tel:+1234567890">(123) 456-7890</a>
-                            </span>
-                            <span class="header-info-item">
-                                <i class="far fa-envelope"></i>
-                                <a href="mailto:info@eviaaesthetics.com">info@eviaaesthetics.com</a>
-                            </span>
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="header-logo">
+                <a href="index.html">
+                    <img src="logo1.png" alt="Evia Aesthetics Logo" class="logo">
+                </a>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="javascript:void(0)" class="nav-link">Services <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="botox.html" class="dropdown-item">Botox & Fillers</a>
+                            <a href="weight-loss.html" class="dropdown-item">Weight Loss</a>
+                            <a href="iv-therapy.html" class="dropdown-item">IV Therapy</a>
+                            <a href="microneedling.html" class="dropdown-item">Microneedling</a>
+                            <a href="prp.html" class="dropdown-item">PRP</a>
+                            <a href="chemical-peels.html" class="dropdown-item">Chemical Peels</a>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="header-social">
-                            <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
+                    </li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Call To Action Button -->
+            <div class="header-cta">
+                <a href="appointment.html" class="btn-appointment">Book Appointment</a>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
         
-        <div class="header-main">
-            <div class="container">
-                <div class="header-wrapper">
-                    <div class="site-branding">
-                        <a href="index.html" class="logo-link">
-                            <img src="logo1.png" alt="Evia Aesthetics Logo" class="site-logo">
-                        </a>
-                    </div>
-                    
-                    <nav class="main-navigation" id="main-nav">
-                        <ul class="nav-menu">
-                            <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-                            <li class="nav-item dropdown">
-                                <a href="services.html" class="nav-link">Services</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="services/botox-fillers.html" class="dropdown-item">Botox & Fillers</a></li>
-                                    <li><a href="services/weight-loss.html" class="dropdown-item">Weight Loss</a></li>
-                                    <li><a href="services/iv-therapy.html" class="dropdown-item">IV Therapy</a></li>
-                                    <li><a href="services/microneedling.html" class="dropdown-item">Microneedling</a></li>
-                                    <li><a href="services/prp.html" class="dropdown-item">PRP</a></li>
-                                    <li><a href="services/chemical-peels.html" class="dropdown-item">Chemical Peels</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-                        </ul>
-                    </nav>
-                    
-                    <div class="header-actions">
-                        <a href="appointment.html" class="btn btn-appointment">Book Appointment</a>
-                        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
-                            <span class="hamburger-line"></span>
-                            <span class="hamburger-line"></span>
-                            <span class="hamburger-line"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mobile Navigation -->
-        <div class="mobile-navigation" id="mobile-nav">
-            <div class="container">
-                <ul class="mobile-menu">
-                    <li class="mobile-item active"><a href="index.html" class="mobile-link">Home</a></li>
-                    <li class="mobile-item">
-                        <a href="javascript:void(0);" class="mobile-link">Services</a>
-                        <ul class="mobile-submenu">
-                            <li><a href="services/botox-fillers.html">Botox & Fillers</a></li>
-                            <li><a href="services/weight-loss.html">Weight Loss</a></li>
-                            <li><a href="services/iv-therapy.html">IV Therapy</a></li>
-                            <li><a href="services/microneedling.html">Microneedling</a></li>
-                            <li><a href="services/prp.html">PRP</a></li>
-                            <li><a href="services/chemical-peels.html">Chemical Peels</a></li>
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-menu">
+            <div class="mobile-menu-container">
+                <ul class="mobile-nav-list">
+                    <li class="mobile-nav-item active"><a href="index.html">Home</a></li>
+                    <li class="mobile-nav-item has-dropdown">
+                        <a href="javascript:void(0)">Services</a>
+                        <ul class="mobile-dropdown">
+                            <li><a href="botox.html">Botox & Fillers</a></li>
+                            <li><a href="weight-loss.html">Weight Loss</a></li>
+                            <li><a href="iv-therapy.html">IV Therapy</a></li>
+                            <li><a href="microneedling.html">Microneedling</a></li>
+                            <li><a href="prp.html">PRP</a></li>
+                            <li><a href="chemical-peels.html">Chemical Peels</a></li>
                         </ul>
                     </li>
-                    <li class="mobile-item"><a href="about.html" class="mobile-link">About</a></li>
-                    <li class="mobile-item"><a href="contact.html" class="mobile-link">Contact</a></li>
+                    <li class="mobile-nav-item"><a href="about.html">About</a></li>
+                    <li class="mobile-nav-item"><a href="contact.html">Contact</a></li>
                 </ul>
+                
+                <div class="mobile-cta">
+                    <a href="appointment.html" class="btn-mobile-appointment">Book Your Appointment</a>
+                </div>
+                
+                <div class="mobile-social">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+                
+                <div class="mobile-contact">
+                    <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                    <p><i class="fas fa-envelope"></i> info@eviaaesthetics.com</p>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero-section">
-        <div class="hero-content">
-            <h1 class="hero-title fade-in">Aesthetic and Longevity Medicine</h1>
-            <p class="hero-subtitle fade-in">Physician-led premium treatments for natural beauty and wellness</p>
-            <div class="hero-buttons fade-in">
-                <a href="services.html" class="btn btn-primary">Explore Services</a>
-                <a href="about.html" class="btn btn-secondary">About Our Physician</a>
+        <!-- Video Background -->
+        <div class="video-background">
+            <video autoplay muted loop playsinline id="hero-video" poster="video-poster.jpg">
+                <source src="spa-video.mp4" type="video/mp4">
+                <!-- Fallback background set in CSS -->
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+        
+        <!-- Hero Content -->
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Discover Your <span class="highlight">Natural Beauty</span></h1>
+                    <h2 class="hero-subtitle">Physician-Led Premium Aesthetic Treatments</h2>
+                    <div class="hero-description">
+                        <p>Experience transformative results with our scientifically-backed treatments personalized for your unique beauty journey.</p>
+                    </div>
+                    
+                    <!-- Hero Features -->
+                    <div class="hero-features">
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Medical Expertise</h3>
+                                <p>All treatments performed by physicians</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="feature-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Advanced Technology</h3>
+                                <p>State-of-the-art equipment and products</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+                            <div class="feature-icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div class="feature-text">
+                                <h3>Proven Results</h3>
+                                <p>Satisfaction guaranteed for all clients</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Call to Action -->
+                    <div class="hero-cta">
+                        <a href="appointment.html" class="btn btn-primary btn-large">
+                            <span>Book Your Consultation</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="services.html" class="btn btn-secondary btn-large">
+                            <span>Explore Services</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+        
+        <!-- Decorative Elements -->
+        <div class="hero-decoration">
+            <div class="floating-circle circle-1"></div>
+            <div class="floating-circle circle-2"></div>
+            <div class="floating-circle circle-3"></div>
+            <div class="blur-shape shape-1"></div>
+            <div class="blur-shape shape-2"></div>
+        </div>
     </section>
-
-    <!-- Services Preview Section (Added for context) -->
-    <section class="services-preview bg-light">
+    
+    <!-- Services Preview Section -->
+    <section class="services-preview">
         <div class="container">
-            <div class="section-header text-center">
-                <h2 class="section-title fade-in">Our Services</h2>
-                <p class="section-subtitle fade-in">Premium aesthetic treatments by experienced physicians</p>
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Our Specialties</span>
+                <h2 class="section-title">Premium Aesthetic Services</h2>
+                <p class="section-subtitle">Discover our range of physician-led treatments designed to enhance your natural beauty</p>
             </div>
             
-            <div class="row g-4 mt-4">
+            <div class="services-grid">
                 <!-- Service Item 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-card hover-effect fade-in">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-image">
+                        <img src="service-botox.jpg" alt="Botox & Fillers">
+                        <div class="service-overlay"></div>
+                    </div>
+                    <div class="service-content">
                         <div class="service-icon">
                             <i class="fas fa-syringe"></i>
                         </div>
-                        <h3>Botox & Fillers</h3>
-                        <p>Reduce fine lines and wrinkles with our premium injectables, administered by our skilled physician.</p>
-                        <a href="services/botox-fillers.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="service-title">Botox & Fillers</h3>
+                        <p class="service-description">Reduce fine lines and restore volume with our premium injectables.</p>
+                        <a href="botox.html" class="service-link">Learn More <i class="fas fa-long-arrow-alt-right"></i></a>
                     </div>
                 </div>
                 
                 <!-- Service Item 2 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-card hover-effect fade-in">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-image">
+                        <img src="service-weight-loss.jpg" alt="Weight Loss">
+                        <div class="service-overlay"></div>
+                    </div>
+                    <div class="service-content">
                         <div class="service-icon">
                             <i class="fas fa-weight"></i>
                         </div>
-                        <h3>Weight Loss</h3>
-                        <p>Scientifically-backed weight management programs tailored to your unique body and lifestyle.</p>
-                        <a href="services/weight-loss.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="service-title">Weight Loss</h3>
+                        <p class="service-description">Personalized medical weight management for sustainable results.</p>
+                        <a href="weight-loss.html" class="service-link">Learn More <i class="fas fa-long-arrow-alt-right"></i></a>
                     </div>
                 </div>
                 
                 <!-- Service Item 3 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-card hover-effect fade-in">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-image">
+                        <img src="service-iv-therapy.jpg" alt="IV Therapy">
+                        <div class="service-overlay"></div>
+                    </div>
+                    <div class="service-content">
                         <div class="service-icon">
                             <i class="fas fa-vial"></i>
                         </div>
-                        <h3>IV Therapy</h3>
-                        <p>Replenish vital nutrients and hydration directly to your bloodstream for optimal wellness.</p>
-                        <a href="services/iv-therapy.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="service-title">IV Therapy</h3>
+                        <p class="service-description">Replenish vital nutrients directly to your bloodstream for optimal wellness.</p>
+                        <a href="iv-therapy.html" class="service-link">Learn More <i class="fas fa-long-arrow-alt-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Service Item 4 -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-image">
+                        <img src="service-microneedling.jpg" alt="Microneedling">
+                        <div class="service-overlay"></div>
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3 class="service-title">Microneedling</h3>
+                        <p class="service-description">Stimulate collagen production for smoother, more radiant skin.</p>
+                        <a href="microneedling.html" class="service-link">Learn More <i class="fas fa-long-arrow-alt-right"></i></a>
                     </div>
                 </div>
             </div>
             
-            <div class="text-center mt-5">
-                <a href="services.html" class="btn btn-primary">View All Services</a>
+            <div class="services-cta" data-aos="fade-up">
+                <a href="services.html" class="btn btn-outline">View All Services</a>
             </div>
         </div>
     </section>
 
-    <!-- Scripts -->
+    <!-- About Preview Section -->
+    <section class="about-preview">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="about-image">
+                        <img src="doctor.jpg" alt="Dr. Sarah Johnson" class="main-image">
+                        <div class="experience-badge">
+                            <span class="years">15+</span>
+                            <span class="text">Years Experience</span>
+                        </div>
+                        <div class="image-decoration"></div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="about-content">
+                        <span class="section-tag">About Us</span>
+                        <h2 class="section-title">Medical Expertise With a Personal Touch</h2>
+                        <p class="about-lead">At Evia Aesthetics, we combine medical precision with personalized care to create treatments that enhance your natural beauty.</p>
+                        
+                        <p>Led by board-certified physicians with extensive training in aesthetic medicine, our team is dedicated to providing safe, effective treatments that deliver natural-looking results. We believe in a holistic approach that considers your unique features, goals, and lifestyle.</p>
+                        
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">5000+</span>
+                                <span class="stat-text">Happy Clients</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">15+</span>
+                                <span class="stat-text">Years Experience</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">20+</span>
+                                <span class="stat-text">Treatments</span>
+                            </div>
+                        </div>
+                        
+                        <a href="about.html" class="btn btn-secondary">Meet Our Team</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonial Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header text-center" data-aos="fade-up">
+                <span class="section-tag">Testimonials</span>
+                <h2 class="section-title">What Our Clients Say</h2>
+                <p class="section-subtitle">Real experiences from real clients who have transformed their beauty journey with us</p>
+            </div>
+            
+            <div class="testimonial-slider" data-aos="fade-up">
+                <!-- Testimonial Item 1 -->
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The team at Evia Aesthetics transformed my skin. After struggling with fine lines for years, their personalized Botox treatment gave me natural, refreshed results. I couldn't be happier!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="testimonial-1.jpg" alt="Jennifer L.">
+                            </div>
+                            <div class="author-info">
+                                <h4 class="author-name">Jennifer L.</h4>
+                                <p class="author-detail">Botox & Fillers Client</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial Item 2 -->
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The medical weight loss program at Evia Aesthetics changed my life. Their physician-led approach helped me lose 30 pounds and keep it off. I feel healthier and more confident than ever."</p>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="testimonial-2.jpg" alt="Michael R.">
+                            </div>
+                            <div class="author-info">
+                                <h4 class="author-name">Michael R.</h4>
+                                <p class="author-detail">Weight Loss Client</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial Item 3 -->
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The IV therapy at Evia Aesthetics has been a game-changer for my energy levels and overall wellness. I feel revitalized after every session, and the staff makes me feel so comfortable."</p>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="testimonial-3.jpg" alt="Sophia K.">
+                            </div>
+                            <div class="author-info">
+                                <h4 class="author-name">Sophia K.</h4>
+                                <p class="author-detail">IV Therapy Client</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-controls">
+                <button class="testimonial-prev"><i class="fas fa-arrow-left"></i></button>
+                <div class="testimonial-dots"></div>
+                <button class="testimonial-next"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact CTA -->
+    <section class="contact-cta">
+        <div class="container">
+            <div class="cta-content" data-aos="fade-up">
+                <h2 class="cta-title">Begin Your Beauty Journey Today</h2>
+                <p class="cta-text">Schedule a consultation with our physician to discover the perfect treatments for your unique needs.</p>
+                <div class="cta-buttons">
+                    <a href="appointment.html" class="btn btn-primary btn-large">Book Appointment</a>
+                    <a href="tel:+1234567890" class="btn btn-outline btn-large">Call Us Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-about">
+                        <div class="footer-logo">
+                            <img src="logo1.png" alt="Evia Aesthetics Logo">
+                        </div>
+                        <p>Premium physician-led aesthetic and longevity treatments for natural beauty and wellness.</p>
+                        <div class="footer-social">
+                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-links">
+                        <h3 class="footer-title">Quick Links</h3>
+                        <ul class="footer-menu">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="services.html">Services</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="appointment.html">Book Appointment</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-services">
+                        <h3 class="footer-title">Our Services</h3>
+                        <ul class="footer-menu">
+                            <li><a href="botox.html">Botox & Fillers</a></li>
+                            <li><a href="weight-loss.html">Weight Loss</a></li>
+                            <li><a href="iv-therapy.html">IV Therapy</a></li>
+                            <li><a href="microneedling.html">Microneedling</a></li>
+                            <li><a href="prp.html">PRP</a></li>
+                            <li><a href="chemical-peels.html">Chemical Peels</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-contact">
+                        <h3 class="footer-title">Contact Us</h3>
+                        <ul class="contact-info">
+                            <li><i class="fas fa-map-marker-alt"></i> 123 Beauty Lane, Suite 100<br>New York, NY 10001</li>
+                            <li><i class="fas fa-phone"></i> <a href="tel:+1234567890">(123) 456-7890</a></li>
+                            <li><i class="fas fa-envelope"></i> <a href="mailto:info@eviaaesthetics.com">info@eviaaesthetics.com</a></li>
+                        </ul>
+                        <div class="footer-hours">
+                            <h4>Hours</h4>
+                            <p>Monday - Friday: 9am - 7pm<br>Saturday: 10am - 5pm<br>Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>&copy; 2025 Evia Aesthetics. All rights reserved.</p>
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+    
+    <!-- Appointment Modal -->
+    <div class="appointment-modal" id="appointmentModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Schedule Your Consultation</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="appointmentForm" class="appointment-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service Interested In</label>
+                            <select id="service" name="service" required>
+                                <option value="" selected disabled>Select a service</option>
+                                <option value="Botox & Fillers">Botox & Fillers</option>
+                                <option value="Weight Loss">Weight Loss</option>
+                                <option value="IV Therapy">IV Therapy</option>
+                                <option value="Microneedling">Microneedling</option>
+                                <option value="PRP">PRP</option>
+                                <option value="Chemical Peels">Chemical Peels</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Preferred Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Additional Information</label>
+                        <textarea id="message" name="message" rows="4"></textarea>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary btn-full">Schedule Consultation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     
     <!-- GSAP Animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
@@ -202,10 +576,10 @@
     <!-- AOS Animation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     
-    <!-- Smooth Scroll -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/16.1.3/smooth-scroll.min.js"></script>
+    <!-- Slick Carousel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     
-    <!-- Custom Scripts -->
+    <!-- Custom JS -->
     <script src="script.js"></script>
 </body>
 </html>
