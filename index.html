@@ -3,241 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eviaesthetics - Aesthetic and Longevity Medicine</title>
+    <title>Dr. Evia Nano - Aesthetic & Longevity Medicine</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&family=Lato:wght@300;400;500;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
-    <!-- AOS Animation Library -->
+    <!-- AOS (Animate On Scroll) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <!-- Hover CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
-    <!-- Clean Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand" href="#page-top">
-                <img src="logo.png" alt="eviaesthetics" class="navbar-logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+    <!-- Navigation Header -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="logo-container">
+                    <img src="https://via.placeholder.com/1080x1080/D4A857/FFFFFF?text=LOGO" alt="Dr. Evia Nano Logo" class="logo" id="logo">
                 </div>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#treatments">Treatments</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#reviews">Reviews</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item ms-lg-4">
-                        <a class="nav-link btn-book" href="#book">Book Now</a>
+                
+                <!-- Navigation Menu -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link hvr-underline-from-center">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link hvr-underline-from-center">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#services" class="nav-link hvr-underline-from-center">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#gallery" class="nav-link hvr-underline-from-center">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link hvr-underline-from-center">Contact</a>
                     </li>
                 </ul>
+                
+                <!-- Book Consultation Button -->
+                <div class="nav-cta">
+                    <button class="btn-consultation hvr-pulse-grow">
+                        <i class="fas fa-calendar-alt"></i>
+                        Book Consultation
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <div class="hamburger" id="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <!-- Hero Section with Service Showcase -->
-    <section id="home" class="hero-section">
-        <!-- Soft Background Video -->
-        <div class="video-background">
-            <div class="video-overlay"></div>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <!-- Background Video -->
+        <div class="video-container">
             <video autoplay muted loop playsinline class="hero-video">
                 <source src="large.mp4" type="video/mp4">
+                Your browser does not support the video tag.
             </video>
+            <div class="video-overlay"></div>
         </div>
-
-        <!-- Floating Bubbles -->
-        <div class="floating-bubbles">
-            <div class="bubble bubble-1"></div>
-            <div class="bubble bubble-2"></div>
-            <div class="bubble bubble-3"></div>
-            <div class="bubble bubble-4"></div>
+        
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <div class="float-element float-1">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="float-element float-2">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="float-element float-3">
+                <i class="fas fa-gem"></i>
+            </div>
         </div>
-
+        
         <!-- Hero Content -->
-        <div class="container hero-container">
-            <div class="row align-items-center min-vh-100">
-                <div class="col-lg-6 hero-text-content">
-                    <h1 class="hero-title" data-aos="fade-up">
-                        <span class="title-line">Enhance Your</span>
-                        <span class="title-highlight">Natural Beauty</span>
-                    </h1>
-                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                        Experience personalized aesthetic medicine with Dr. Evia Nano, MD. 
-                        Where medical expertise meets artistic vision.
-                    </p>
-                    
-                    <!-- Trust Badges -->
-                    <div class="trust-badges" data-aos="fade-up" data-aos-delay="400">
-                        <div class="badge-item">
-                            <i class="fas fa-user-md"></i>
-                            <span>MD Board Certified</span>
-                        </div>
-                        <div class="badge-item">
-                            <i class="fas fa-star"></i>
-                            <span>5-Star Reviews</span>
-                        </div>
-                        <div class="badge-item">
-                            <i class="fas fa-award"></i>
-                            <span>20+ Years Experience</span>
-                        </div>
-                    </div>
-
-                    <!-- CTA Buttons -->
-                    <div class="hero-buttons" data-aos="fade-up" data-aos-delay="600">
-                        <a href="#book" class="btn-primary-hero">
-                            Book Free Consultation
-                            <i class="fas fa-arrow-right ms-2"></i>
-                        </a>
-                        <a href="#virtual-tour" class="btn-secondary-hero">
-                            <i class="fas fa-play-circle me-2"></i>
-                            Virtual Tour
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Service Cards Showcase -->
-                <div class="col-lg-6">
-                    <div class="services-showcase" data-aos="fade-left" data-aos-delay="300">
-                        <div class="services-circle">
-                            <!-- Center Logo -->
-                            <div class="center-logo">
-                                <img src="https://i.imgur.com/YourLogo.png" alt="eviaesthetics">
-                                <div class="pulse-ring"></div>
-                                <div class="pulse-ring delay-1"></div>
-                                <div class="pulse-ring delay-2"></div>
-                            </div>
-
-                            <!-- Service Cards -->
-                            <div class="service-card card-1" data-service="botox">
-                                <div class="service-icon">
-                                    <i class="fas fa-syringe"></i>
-                                </div>
-                                <h4>Botox & Fillers</h4>
-                                <p>Smooth wrinkles & restore volume</p>
-                            </div>
-
-                            <div class="service-card card-2" data-service="weight">
-                                <div class="service-icon">
-                                    <i class="fas fa-weight"></i>
-                                </div>
-                                <h4>Weight Loss</h4>
-                                <p>Medical weight management</p>
-                            </div>
-
-                            <div class="service-card card-3" data-service="iv">
-                                <div class="service-icon">
-                                    <i class="fas fa-tint"></i>
-                                </div>
-                                <h4>IV Therapy</h4>
-                                <p>Rejuvenate from within</p>
-                            </div>
-
-                            <div class="service-card card-4" data-service="microneedling">
-                                <div class="service-icon">
-                                    <i class="fas fa-magic"></i>
-                                </div>
-                                <h4>Microneedling</h4>
-                                <p>Renew skin texture</p>
-                            </div>
-
-                            <div class="service-card card-5" data-service="prp">
-                                <div class="service-icon">
-                                    <i class="fas fa-leaf"></i>
-                                </div>
-                                <h4>PRP</h4>
-                                <p>Natural regeneration</p>
-                            </div>
-
-                            <div class="service-card card-6" data-service="peels">
-                                <div class="service-icon">
-                                    <i class="fas fa-spa"></i>
-                                </div>
-                                <h4>Chemical Peels</h4>
-                                <p>Reveal radiant skin</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator">
-            <div class="scroll-mouse">
-                <div class="scroll-wheel"></div>
-            </div>
-            <span>Discover More</span>
-        </div>
-
-        <!-- Wave Transition -->
-        <div class="wave-transition">
-            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-                <path d="M0,60 C320,120 420,0 720,60 C1020,120 1120,0 1440,60 L1440,120 L0,120 Z"></path>
-            </svg>
-        </div>
-    </section>
-
-    <!-- About Preview Section -->
-    <section id="about-preview" class="about-preview">
-        <div class="container">
-            <div class="text-center">
-                <h2 class="section-title" data-aos="fade-up">
-                    Welcome to eviaesthetics
-                </h2>
-                <div class="title-decoration" data-aos="fade-up" data-aos-delay="100">
-                    <span class="line"></span>
-                    <i class="fas fa-sparkles"></i>
-                    <span class="line"></span>
-                </div>
-                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">
-                    Where medical excellence meets personalized beauty
+        <div class="hero-content">
+            <div class="hero-text" data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="hero-title">
+                    <span class="title-line animate__animated animate__fadeInUp animate__delay-1s">Aesthetic & Longevity</span>
+                    <span class="title-line animate__animated animate__fadeInUp animate__delay-2s">Medicine</span>
+                    <span class="title-subtitle animate__animated animate__fadeInUp animate__delay-3s">by a Medical Doctor</span>
+                </h1>
+                
+                <p class="hero-description animate__animated animate__fadeInUp animate__delay-4s">
+                    Over 20 years of medical experience in aesthetics and wellness.<br>
+                    <strong>Every treatment performed personally by Dr. Evia Nano, MD.</strong>
                 </p>
+                
+                <div class="hero-cta animate__animated animate__fadeInUp animate__delay-5s">
+                    <button class="btn-primary hvr-glow">
+                        <i class="fas fa-calendar-check"></i>
+                        Book a Personalized Consultation
+                    </button>
+                </div>
             </div>
+            
+            <!-- Services Showcase -->
+            <div class="services-showcase" data-aos="fade-up" data-aos-delay="1000">
+                <div class="services-intro">
+                    <h3 class="services-title">Our Signature Treatments</h3>
+                    <div class="services-subtitle">
+                        <span class="typing-text"></span>
+                        <span class="cursor">|</span>
+                    </div>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card" data-aos="flip-left" data-aos-delay="1200">
+                        <div class="service-icon">
+                            <i class="fas fa-syringe"></i>
+                        </div>
+                        <h4>Botox & Fillers</h4>
+                        <div class="service-glow"></div>
+                    </div>
+                    
+                    <div class="service-card" data-aos="flip-left" data-aos-delay="1400">
+                        <div class="service-icon">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                        <h4>Weight Loss</h4>
+                        <div class="service-glow"></div>
+                    </div>
+                    
+                    <div class="service-card" data-aos="flip-left" data-aos-delay="1600">
+                        <div class="service-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h4>IV Therapy</h4>
+                        <div class="service-glow"></div>
+                    </div>
+                    
+                    <div class="service-card" data-aos="flip-left" data-aos-delay="1800">
+                        <div class="service-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h4>Microneedling</h4>
+                        <div class="service-glow"></div>
+                    </div>
+                    
+                    <div class="service-card" data-aos="flip-left" data-aos-delay="2000">
+                        <div class="service-icon">
+                            <i class="fas fa-dna"></i>
+                        </div>
+                        <h4>PRP</h4>
+                        <div class="service-glow"></div>
+                    </div>
+                    
+                    <div class="service-card" data-aos="flip-left" data-aos-delay="2200">
+                        <div class="service-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h4>Chemical Peels</h4>
+                        <div class="service-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator animate__animated animate__bounce animate__infinite">
+            <i class="fas fa-chevron-down"></i>
         </div>
     </section>
 
     <!-- Scripts -->
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <!-- AOS Animation JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
-    <!-- GSAP for Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-    
-    <!-- Anime.js for Service Animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    
-    <!-- Custom JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
