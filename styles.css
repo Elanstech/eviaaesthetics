@@ -266,7 +266,7 @@ section {
 }
 
 .site-logo {
-    max-height: 80px;
+    max-height: 180px;
     transition: all var(--transition-medium) ease;
 }
 
