@@ -14,37 +14,63 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Splitting CSS for Text Animations -->
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css" />
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css" />
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <div class="logo-loader">
+                <div class="loader-circle"></div>
+                <img src="https://via.placeholder.com/150x150/D4A857/FFFFFF?text=Logo" alt="eviaesthetics">
+            </div>
+            <div class="loading-text">Loading Experience...</div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
-        <div class="container">
+        <div class="container-fluid px-4 px-lg-5">
             <a class="navbar-brand" href="#page-top">
-                <div class="logo-wrapper">
-                    <span class="logo-text">evia<span class="logo-accent">e</span>sthetics</span>
-                    <span class="logo-tagline">Aesthetic and Longevity Medicine</span>
+                <div class="logo-container">
+                    <img src="https://via.placeholder.com/80x80/D4A857/FFFFFF?text=Logo" alt="eviaesthetics" class="navbar-logo">
+                    <div class="brand-text">
+                        <span class="brand-name">eviaesthetics</span>
+                        <span class="brand-tagline">Aesthetic & Longevity Medicine</span>
+                    </div>
                 </div>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
-                <span class="navbar-toggler-icon"></span>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#treatments">Treatments</a></li>
                     <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link btn-consultation" href="#book">Book Consultation</a>
+                    <li class="nav-item ms-lg-3">
+                        <a class="nav-link btn-consultation" href="#book">
+                            <span class="btn-text">Book Consultation</span>
+                            <span class="btn-bg"></span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -53,165 +79,146 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="hero-particles" id="particles-js"></div>
-        <div class="container hero-content">
-            <div class="row align-items-center min-vh-100">
-                <div class="col-lg-12 text-center">
-                    <div class="hero-logo-animation" data-aos="zoom-in" data-aos-duration="1500">
-                        <div class="floating-logo">
-                            <span class="hero-logo">evia<span class="logo-accent">e</span>sthetics</span>
+        <!-- Video Background -->
+        <div class="video-background">
+            <div class="video-overlay"></div>
+            <video autoplay muted loop playsinline class="hero-video">
+                <source src="https://cdn.coverr.co/videos/coverr-spa-facial-treatment-4647/1080p.mp4" type="video/mp4">
+                <!-- Fallback for browsers that don't support video -->
+                <img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1920" alt="Spa Background">
+            </video>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <div class="floating-circle circle-1"></div>
+            <div class="floating-circle circle-2"></div>
+            <div class="floating-circle circle-3"></div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <div class="container">
+                <div class="row min-vh-100 align-items-center">
+                    <div class="col-lg-12 text-center">
+                        <!-- Animated Logo -->
+                        <div class="hero-logo-wrapper" data-aos="zoom-in" data-aos-duration="1500">
+                            <img src="https://via.placeholder.com/200x200/D4A857/FFFFFF?text=Logo" alt="eviaesthetics" class="hero-logo rotating-slow">
+                            <div class="logo-glow"></div>
                         </div>
-                    </div>
-                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="500">
-                        Aesthetic & Longevity Medicine<br>
-                        <span class="hero-subtitle">by a Medical Doctor</span>
-                    </h1>
-                    <p class="hero-description" data-aos="fade-up" data-aos-delay="700">
-                        Experience the perfect blend of medical expertise and aesthetic artistry
-                    </p>
-                    <div class="hero-cta" data-aos="fade-up" data-aos-delay="900">
-                        <a href="#book" class="btn-primary-animated">
-                            <span class="btn-text">Book a Personalized Consultation</span>
-                            <span class="btn-glow"></span>
-                        </a>
-                    </div>
-                    <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1100">
-                        <div class="mouse-wrapper">
-                            <div class="mouse">
-                                <div class="wheel"></div>
+
+                        <!-- Main Heading with Typing Effect -->
+                        <h1 class="hero-title">
+                            <span class="title-line-1" data-splitting>Where Science Meets</span>
+                            <span class="title-line-2 typed-container">
+                                <span id="typed-text"></span>
+                            </span>
+                        </h1>
+
+                        <!-- Subtitle -->
+                        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="1000">
+                            Experience personalized aesthetic medicine with Dr. Evia Nano, MD
+                        </p>
+
+                        <!-- Trust Indicators -->
+                        <div class="trust-indicators" data-aos="fade-up" data-aos-delay="1200">
+                            <div class="trust-item">
+                                <i class="fas fa-certificate"></i>
+                                <span>Board Certified</span>
+                            </div>
+                            <div class="trust-item">
+                                <i class="fas fa-award"></i>
+                                <span>20+ Years Experience</span>
+                            </div>
+                            <div class="trust-item">
+                                <i class="fas fa-star"></i>
+                                <span>5-Star Rated</span>
                             </div>
                         </div>
-                        <span class="scroll-text">Scroll to Explore</span>
+
+                        <!-- CTA Buttons -->
+                        <div class="hero-buttons" data-aos="fade-up" data-aos-delay="1400">
+                            <a href="#book" class="btn-primary-glow">
+                                <span class="btn-text">Start Your Journey</span>
+                                <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                            </a>
+                            <a href="#video" class="btn-play-video">
+                                <span class="play-icon">
+                                    <i class="fas fa-play"></i>
+                                </span>
+                                <span class="play-text">Watch Our Story</span>
+                            </a>
+                        </div>
+
+                        <!-- Scroll Indicator -->
+                        <div class="scroll-indicator-modern">
+                            <span class="scroll-text">Discover More</span>
+                            <div class="scroll-mouse">
+                                <div class="scroll-wheel"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="hero-wave">
-            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-                <path d="M0,64 C480,150 960,-20 1440,64 L1440,120 L0,120 Z" fill="#FDF8F3"></path>
+
+        <!-- Wave Transition -->
+        <div class="hero-transition">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none" class="wave-svg">
+                <path d="M0,40 C150,80 350,0 600,40 C850,80 1050,0 1300,40 L1440,40 L1440,120 L0,120 Z" 
+                      fill="url(#waveGradient)"></path>
+                <defs>
+                    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#FDF8F3;stop-opacity:0.8" />
+                        <stop offset="50%" style="stop-color:#EFD9C1;stop-opacity:0.9" />
+                        <stop offset="100%" style="stop-color:#FDF8F3;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
             </svg>
         </div>
     </section>
 
-    <!-- About the Doctor Section -->
+    <!-- About Section (Preview) -->
     <section id="about" class="about-section">
         <div class="container">
             <div class="section-header text-center" data-aos="fade-up">
-                <h2 class="section-title">Meet Dr. Evia Nano, MD</h2>
-                <div class="title-underline"></div>
-                <p class="section-subtitle">Board-Certified Physician with Over 20 Years of Excellence</p>
-            </div>
-            
-            <div class="row align-items-center mt-5">
-                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
-                    <div class="doctor-image-wrapper">
-                        <div class="image-frame">
-                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600" alt="Dr. Evia Nano" class="doctor-image">
-                            <div class="image-overlay"></div>
-                        </div>
-                        <div class="credentials-badge">
-                            <i class="fas fa-certificate"></i>
-                            <span>Board Certified MD</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
-                    <div class="doctor-content">
-                        <h3 class="doctor-heading">A Personalized Approach to Beauty & Wellness</h3>
-                        <p class="doctor-text">
-                            With over two decades of medical experience, Dr. Evia Nano brings unparalleled expertise 
-                            to the field of aesthetic and longevity medicine. Every treatment is performed personally 
-                            by Dr. Nano, ensuring the highest standards of safety, precision, and artistry.
-                        </p>
-                        
-                        <div class="expertise-list">
-                            <div class="expertise-item">
-                                <i class="fas fa-graduation-cap"></i>
-                                <span>Medical Degree from Top Institution</span>
-                            </div>
-                            <div class="expertise-item">
-                                <i class="fas fa-award"></i>
-                                <span>Board Certified in Aesthetic Medicine</span>
-                            </div>
-                            <div class="expertise-item">
-                                <i class="fas fa-heart"></i>
-                                <span>20+ Years of Patient Care</span>
-                            </div>
-                            <div class="expertise-item">
-                                <i class="fas fa-star"></i>
-                                <span>Thousands of Satisfied Patients</span>
-                            </div>
-                        </div>
-                        
-                        <blockquote class="doctor-quote">
-                            <i class="fas fa-quote-left quote-icon"></i>
-                            <p>"My philosophy is simple: combine medical science with artistic vision to enhance 
-                            your natural beauty while promoting overall wellness and longevity."</p>
-                            <cite>— Dr. Evia Nano, MD</cite>
-                        </blockquote>
-                        
-                        <div class="doctor-cta">
-                            <a href="#video" class="btn-secondary-animated">
-                                <i class="fas fa-play-circle"></i>
-                                Watch Introduction Video
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Doctor Advantages -->
-            <div class="doctor-advantages mt-5" data-aos="fade-up" data-aos-delay="200">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="advantage-card">
-                            <div class="advantage-icon">
-                                <i class="fas fa-user-md"></i>
-                            </div>
-                            <h4>Doctor-Led Care</h4>
-                            <p>Not a technician. Not a nurse. A board-certified doctor performs every treatment.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="advantage-card">
-                            <div class="advantage-icon">
-                                <i class="fas fa-microscope"></i>
-                            </div>
-                            <h4>Scientific Approach</h4>
-                            <p>Evidence-based treatments backed by the latest medical research and technology.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="advantage-card">
-                            <div class="advantage-icon">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <h4>Safety First</h4>
-                            <p>Medical expertise ensures the highest safety standards and optimal results.</p>
-                        </div>
-                    </div>
+                <span class="section-label">About Dr. Nano</span>
+                <h2 class="section-title">
+                    <span class="title-word" data-aos="fade-up" data-aos-delay="100">Medical</span>
+                    <span class="title-word" data-aos="fade-up" data-aos-delay="200">Excellence</span>
+                    <span class="title-word" data-aos="fade-up" data-aos-delay="300">Redefined</span>
+                </h2>
+                <div class="title-decoration">
+                    <span class="decoration-line"></span>
+                    <i class="fas fa-spa decoration-icon"></i>
+                    <span class="decoration-line"></span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Decorative Section Divider -->
-    <div class="section-divider">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-            <path d="M0,30 Q360,0 720,30 T1440,30 L1440,60 L0,60 Z" fill="#FDF8F3"></path>
-        </svg>
-    </div>
-
+    <!-- Scripts -->
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery (for some animations) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <!-- AOS Animation JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- Particles JS -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- GSAP for Advanced Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Typed.js for Typing Effect -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js"></script>
+    
+    <!-- Splitting.js for Text Animations -->
+    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+    
+    <!-- Parallax.js -->
+    <script src="https://cdn.jsdelivr.net/parallax.js/1.5.0/parallax.min.js"></script>
     
     <!-- Custom JavaScript -->
     <script src="script.js"></script>
