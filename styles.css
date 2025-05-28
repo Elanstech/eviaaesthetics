@@ -316,7 +316,7 @@ section {
 }
 
 .logo {
-    height: 180px;
+    height: 250px;
     transition: height var(--transition-medium) ease;
 }
 
