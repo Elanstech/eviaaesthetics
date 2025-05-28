@@ -1,7 +1,7 @@
 /*
 * Evia Aesthetics - Main JavaScript
 * Author: [Your Name]
-* Version: 1.0
+* Version: 1.0.1
 */
 
 // Wait for the DOM to be fully loaded
@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initNavigation();
     initAnimations();
     initScrollEffects();
+    enhanceDropdowns(); // Added dropdown enhancement function call
+    addHoverEffects();
+    initFloatingElements();
     
     // Additional initialization if needed
     console.log('Evia Aesthetics website initialized');
@@ -86,6 +89,30 @@ function initNavigation() {
             !menuToggle.contains(e.target)) {
             document.body.classList.remove('menu-open');
             mobileNav.classList.remove('active');
+        }
+    });
+
+    // Explicitly add dropdown functionality for desktop
+    const dropdownItems = document.querySelectorAll('.nav-item.dropdown');
+    dropdownItems.forEach(item => {
+        const menu = item.querySelector('.dropdown-menu');
+        const link = item.querySelector('.nav-link');
+        
+        // Ensure proper dropdown display
+        if (menu && link) {
+            // Mouse enter event
+            item.addEventListener('mouseenter', function() {
+                menu.style.opacity = '1';
+                menu.style.visibility = 'visible';
+                menu.style.transform = 'translateY(0)';
+            });
+            
+            // Mouse leave event
+            item.addEventListener('mouseleave', function() {
+                menu.style.opacity = '0';
+                menu.style.visibility = 'hidden';
+                menu.style.transform = 'translateY(10px)';
+            });
         }
     });
 }
