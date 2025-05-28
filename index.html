@@ -3,71 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Evia Nano - Aesthetic & Longevity Medicine</title>
+    <title>Dr. Evia Nano - Advanced Beauty Header</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&family=Lato:wght@300;400;500;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Feather Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css">
     
     <!-- Animate CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
-    <!-- AOS (Animate On Scroll) -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <!-- Hover CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- Custom Header CSS -->
+    <link rel="stylesheet" href="advanced-header.css">
 </head>
 <body>
-    <!-- Navigation Header -->
-    <header class="header" id="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <!-- Logo -->
-                <div class="logo-container">
-                    <img src="logo.png" alt="Dr. Evia Nano Logo" class="logo" id="logo">
+    <!-- Beauty Particles Background -->
+    <div class="beauty-particles" id="beauty-particles">
+        <div class="particle particle-1"></div>
+        <div class="particle particle-2"></div>
+        <div class="particle particle-3"></div>
+        <div class="particle particle-4"></div>
+        <div class="particle particle-5"></div>
+    </div>
+
+    <!-- Advanced Beauty Header -->
+    <header class="luxury-header" id="luxury-header">
+        <!-- Gradient Background Overlay -->
+        <div class="header-gradient-bg"></div>
+        
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-container">
+                <div class="top-bar-left">
+                    <div class="contact-info">
+                        <span class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <span class="contact-text">(555) 123-4567</span>
+                        </span>
+                        <span class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span class="contact-text">hello@drevia.com</span>
+                        </span>
+                    </div>
                 </div>
-                
+                <div class="top-bar-right">
+                    <div class="social-links">
+                        <a href="#" class="social-link" data-tooltip="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" data-tooltip="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" data-tooltip="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-link" data-tooltip="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                    <div class="header-divider"></div>
+                    <div class="hours-info">
+                        <i class="fas fa-clock"></i>
+                        <span>Mon-Fri: 9AM-7PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navigation -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <!-- Logo Section -->
+                <div class="logo-section">
+                    <div class="logo-wrapper">
+                        <div class="logo-glow"></div>
+                        <img src="https://via.placeholder.com/1080x1080/D4A857/FFFFFF?text=LOGO" alt="Dr. Evia Nano" class="main-logo" id="main-logo">
+                        <div class="logo-shine"></div>
+                    </div>
+                    <div class="brand-text">
+                        <h1 class="brand-name">Dr. Evia Nano</h1>
+                        <p class="brand-tagline">Aesthetic & Longevity Medicine</p>
+                    </div>
+                </div>
+
                 <!-- Navigation Menu -->
                 <ul class="nav-menu" id="nav-menu">
                     <li class="nav-item">
-                        <a href="#home" class="nav-link hvr-underline-from-center">Home</a>
+                        <a href="#home" class="nav-link">
+                            <span class="link-text">Home</span>
+                            <div class="link-underline"></div>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#services" class="nav-link">
+                            <span class="link-text">Services</span>
+                            <i class="fas fa-chevron-down dropdown-icon"></i>
+                            <div class="link-underline"></div>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-content">
+                                <div class="dropdown-section">
+                                    <h4 class="dropdown-title">Facial Treatments</h4>
+                                    <a href="#" class="dropdown-link">
+                                        <i class="fas fa-syringe"></i>
+                                        <span>Botox & Fillers</span>
+                                    </a>
+                                    <a href="#" class="dropdown-link">
+                                        <i class="fas fa-magic"></i>
+                                        <span>Microneedling</span>
+                                    </a>
+                                    <a href="#" class="dropdown-link">
+                                        <i class="fas fa-leaf"></i>
+                                        <span>Chemical Peels</span>
+                                    </a>
+                                </div>
+                                <div class="dropdown-section">
+                                    <h4 class="dropdown-title">Wellness</h4>
+                                    <a href="#" class="dropdown-link">
+                                        <i class="fas fa-weight"></i>
+                                        <span>Weight Loss</span>
+                                    </a>
+                                    <a href="#" class="dropdown-link">
+                                        <i class="fas fa-tint"></i>
+                                        <span>IV Therapy</span>
+                                    </a>
+                                    <a href="#" class="dropdown-link">
+                                        <i class="fas fa-dna"></i>
+                                        <span>PRP Treatments</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a href="#about" class="nav-link hvr-underline-from-center">About</a>
+                        <a href="#about" class="nav-link">
+                            <span class="link-text">About Dr. Nano</span>
+                            <div class="link-underline"></div>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#services" class="nav-link hvr-underline-from-center">Services</a>
+                        <a href="#gallery" class="nav-link">
+                            <span class="link-text">Gallery</span>
+                            <div class="link-underline"></div>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#gallery" class="nav-link hvr-underline-from-center">Gallery</a>
+                        <a href="#testimonials" class="nav-link">
+                            <span class="link-text">Reviews</span>
+                            <div class="link-underline"></div>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#contact" class="nav-link hvr-underline-from-center">Contact</a>
+                        <a href="#contact" class="nav-link">
+                            <span class="link-text">Contact</span>
+                            <div class="link-underline"></div>
+                        </a>
                     </li>
                 </ul>
-                
-                <!-- Book Consultation Button -->
-                <div class="nav-cta">
-                    <button class="btn-consultation hvr-pulse-grow">
-                        <i class="fas fa-calendar-alt"></i>
-                        Book Consultation
+
+                <!-- CTA Buttons -->
+                <div class="header-cta">
+                    <button class="btn-consultation premium-btn">
+                        <div class="btn-bg"></div>
+                        <div class="btn-content">
+                            <i class="fas fa-calendar-heart"></i>
+                            <span>Book Consultation</span>
+                        </div>
+                        <div class="btn-particles">
+                            <span class="btn-particle"></span>
+                            <span class="btn-particle"></span>
+                            <span class="btn-particle"></span>
+                        </div>
+                    </button>
+                    
+                    <button class="btn-call secondary-btn">
+                        <i class="fas fa-phone"></i>
+                        <span>Call Now</span>
+                        <div class="call-pulse"></div>
                     </button>
                 </div>
-                
+
                 <!-- Mobile Menu Toggle -->
-                <div class="hamburger" id="hamburger">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
+                <div class="mobile-menu-toggle" id="mobile-toggle">
+                    <div class="hamburger-container">
+                        <span class="hamburger-line line-1"></span>
+                        <span class="hamburger-line line-2"></span>
+                        <span class="hamburger-line line-3"></span>
+                    </div>
+                    <span class="menu-text">Menu</span>
                 </div>
             </div>
         </nav>
+
+        <!-- Mobile Overlay Menu -->
+        <div class="mobile-overlay" id="mobile-overlay">
+            <div class="mobile-menu-bg"></div>
+            <div class="mobile-menu-content">
+                <div class="mobile-logo">
+                    <img src="https://via.placeholder.com/1080x1080/D4A857/FFFFFF?text=LOGO" alt="Dr. Evia Nano">
+                    <h2>Dr. Evia Nano</h2>
+                </div>
+                
+                <ul class="mobile-nav-list">
+                    <li class="mobile-nav-item">
+                        <a href="#home" class="mobile-nav-link">Home</a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#services" class="mobile-nav-link">Services</a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#about" class="mobile-nav-link">About</a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#gallery" class="mobile-nav-link">Gallery</a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#testimonials" class="mobile-nav-link">Reviews</a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#contact" class="mobile-nav-link">Contact</a>
+                    </li>
+                </ul>
+                
+                <div class="mobile-cta">
+                    <button class="mobile-btn-consultation">
+                        <i class="fas fa-calendar-heart"></i>
+                        Book Consultation
+                    </button>
+                    <div class="mobile-contact">
+                        <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> hello@drevia.com</p>
+                    </div>
+                </div>
+                
+                <div class="mobile-social">
+                    <a href="#" class="mobile-social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="mobile-social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="mobile-social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="mobile-social-link"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Hero Section -->
