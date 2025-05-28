@@ -14,42 +14,24 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Splitting CSS for Text Animations -->
-    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css" />
-    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css" />
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     
-    <!-- Preloader -->
-    <div class="preloader">
-        <div class="preloader-content">
-            <div class="logo-loader">
-                <div class="loader-circle"></div>
-                <img src="logo.png" alt="eviaesthetics">
-            </div>
-            <div class="loading-text">Loading Experience...</div>
-        </div>
-    </div>
-
-    <!-- Navigation -->
+    <!-- Clean Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
         <div class="container-fluid px-4 px-lg-5">
             <a class="navbar-brand" href="#page-top">
-                <div class="logo-container">
-                    <img src="logo.png" alt="eviaesthetics" class="navbar-logo">
-                    <div class="brand-text">
-                        <span class="brand-name">eviaesthetics</span>
-                        <span class="brand-tagline">Aesthetic & Longevity Medicine</span>
-                    </div>
-                </div>
+                <img src="https://i.imgur.com/YourLogo.png" alt="eviaesthetics" class="navbar-logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
                 <div class="hamburger">
@@ -59,102 +41,140 @@
                 </div>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#treatments">Treatments</a></li>
                     <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#reviews">Reviews</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item ms-lg-3">
-                        <a class="nav-link btn-consultation" href="#book">
-                            <span class="btn-text">Book Consultation</span>
-                            <span class="btn-bg"></span>
-                        </a>
+                    <li class="nav-item ms-lg-4">
+                        <a class="nav-link btn-book" href="#book">Book Now</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Service Showcase -->
     <section id="home" class="hero-section">
-        <!-- Video Background -->
+        <!-- Soft Background Video -->
         <div class="video-background">
             <div class="video-overlay"></div>
             <video autoplay muted loop playsinline class="hero-video">
-                <source src="https://cdn.coverr.co/videos/coverr-spa-facial-treatment-4647/1080p.mp4" type="video/mp4">
-                <!-- Fallback for browsers that don't support video -->
-                <img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1920" alt="Spa Background">
+                <source src="https://cdn.coverr.co/videos/coverr-woman-getting-spa-treatment-7110/1080p.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- Floating Elements -->
-        <div class="floating-elements">
-            <div class="floating-circle circle-1"></div>
-            <div class="floating-circle circle-2"></div>
-            <div class="floating-circle circle-3"></div>
+        <!-- Floating Bubbles -->
+        <div class="floating-bubbles">
+            <div class="bubble bubble-1"></div>
+            <div class="bubble bubble-2"></div>
+            <div class="bubble bubble-3"></div>
+            <div class="bubble bubble-4"></div>
         </div>
 
         <!-- Hero Content -->
-        <div class="hero-content">
-            <div class="container">
-                <div class="row min-vh-100 align-items-center">
-                    <div class="col-lg-12 text-center">
-                        <!-- Animated Logo -->
-                        <div class="hero-logo-wrapper" data-aos="zoom-in" data-aos-duration="1500">
-                            <img src="https://videocdn.cdnpk.net/videos/eda3c52f-2c29-402f-9309-a578f7cd2f79/horizontal/previews/clear/large.mp4?token=exp=1748455396~hmac=b62051252d9016b71ef63e3691c7896361c09e25129ecf8bc0556cf073d63163Logo" alt="eviaesthetics" class="hero-logo rotating-slow">
-                            <div class="logo-glow"></div>
+        <div class="container hero-container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6 hero-text-content">
+                    <h1 class="hero-title" data-aos="fade-up">
+                        <span class="title-line">Enhance Your</span>
+                        <span class="title-highlight">Natural Beauty</span>
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                        Experience personalized aesthetic medicine with Dr. Evia Nano, MD. 
+                        Where medical expertise meets artistic vision.
+                    </p>
+                    
+                    <!-- Trust Badges -->
+                    <div class="trust-badges" data-aos="fade-up" data-aos-delay="400">
+                        <div class="badge-item">
+                            <i class="fas fa-user-md"></i>
+                            <span>MD Board Certified</span>
                         </div>
-
-                        <!-- Main Heading with Typing Effect -->
-                        <h1 class="hero-title">
-                            <span class="title-line-1" data-splitting>Where Science Meets</span>
-                            <span class="title-line-2 typed-container">
-                                <span id="typed-text"></span>
-                            </span>
-                        </h1>
-
-                        <!-- Subtitle -->
-                        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="1000">
-                            Experience personalized aesthetic medicine with Dr. Evia Nano, MD
-                        </p>
-
-                        <!-- Trust Indicators -->
-                        <div class="trust-indicators" data-aos="fade-up" data-aos-delay="1200">
-                            <div class="trust-item">
-                                <i class="fas fa-certificate"></i>
-                                <span>Board Certified</span>
-                            </div>
-                            <div class="trust-item">
-                                <i class="fas fa-award"></i>
-                                <span>20+ Years Experience</span>
-                            </div>
-                            <div class="trust-item">
-                                <i class="fas fa-star"></i>
-                                <span>5-Star Rated</span>
-                            </div>
+                        <div class="badge-item">
+                            <i class="fas fa-star"></i>
+                            <span>5-Star Reviews</span>
                         </div>
-
-                        <!-- CTA Buttons -->
-                        <div class="hero-buttons" data-aos="fade-up" data-aos-delay="1400">
-                            <a href="#book" class="btn-primary-glow">
-                                <span class="btn-text">Start Your Journey</span>
-                                <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
-                            </a>
-                            <a href="#video" class="btn-play-video">
-                                <span class="play-icon">
-                                    <i class="fas fa-play"></i>
-                                </span>
-                                <span class="play-text">Watch Our Story</span>
-                            </a>
+                        <div class="badge-item">
+                            <i class="fas fa-award"></i>
+                            <span>20+ Years Experience</span>
                         </div>
+                    </div>
 
-                        <!-- Scroll Indicator -->
-                        <div class="scroll-indicator-modern">
-                            <span class="scroll-text">Discover More</span>
-                            <div class="scroll-mouse">
-                                <div class="scroll-wheel"></div>
+                    <!-- CTA Buttons -->
+                    <div class="hero-buttons" data-aos="fade-up" data-aos-delay="600">
+                        <a href="#book" class="btn-primary-hero">
+                            Book Free Consultation
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                        <a href="#virtual-tour" class="btn-secondary-hero">
+                            <i class="fas fa-play-circle me-2"></i>
+                            Virtual Tour
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service Cards Showcase -->
+                <div class="col-lg-6">
+                    <div class="services-showcase" data-aos="fade-left" data-aos-delay="300">
+                        <div class="services-circle">
+                            <!-- Center Logo -->
+                            <div class="center-logo">
+                                <img src="https://i.imgur.com/YourLogo.png" alt="eviaesthetics">
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring delay-1"></div>
+                                <div class="pulse-ring delay-2"></div>
+                            </div>
+
+                            <!-- Service Cards -->
+                            <div class="service-card card-1" data-service="botox">
+                                <div class="service-icon">
+                                    <i class="fas fa-syringe"></i>
+                                </div>
+                                <h4>Botox & Fillers</h4>
+                                <p>Smooth wrinkles & restore volume</p>
+                            </div>
+
+                            <div class="service-card card-2" data-service="weight">
+                                <div class="service-icon">
+                                    <i class="fas fa-weight"></i>
+                                </div>
+                                <h4>Weight Loss</h4>
+                                <p>Medical weight management</p>
+                            </div>
+
+                            <div class="service-card card-3" data-service="iv">
+                                <div class="service-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <h4>IV Therapy</h4>
+                                <p>Rejuvenate from within</p>
+                            </div>
+
+                            <div class="service-card card-4" data-service="microneedling">
+                                <div class="service-icon">
+                                    <i class="fas fa-magic"></i>
+                                </div>
+                                <h4>Microneedling</h4>
+                                <p>Renew skin texture</p>
+                            </div>
+
+                            <div class="service-card card-5" data-service="prp">
+                                <div class="service-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h4>PRP</h4>
+                                <p>Natural regeneration</p>
+                            </div>
+
+                            <div class="service-card card-6" data-service="peels">
+                                <div class="service-icon">
+                                    <i class="fas fa-spa"></i>
+                                </div>
+                                <h4>Chemical Peels</h4>
+                                <p>Reveal radiant skin</p>
                             </div>
                         </div>
                     </div>
@@ -162,37 +182,37 @@
             </div>
         </div>
 
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Discover More</span>
+        </div>
+
         <!-- Wave Transition -->
-        <div class="hero-transition">
-            <svg viewBox="0 0 1440 120" preserveAspectRatio="none" class="wave-svg">
-                <path d="M0,40 C150,80 350,0 600,40 C850,80 1050,0 1300,40 L1440,40 L1440,120 L0,120 Z" 
-                      fill="url(#waveGradient)"></path>
-                <defs>
-                    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#FDF8F3;stop-opacity:0.8" />
-                        <stop offset="50%" style="stop-color:#EFD9C1;stop-opacity:0.9" />
-                        <stop offset="100%" style="stop-color:#FDF8F3;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
+        <div class="wave-transition">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path d="M0,60 C320,120 420,0 720,60 C1020,120 1120,0 1440,60 L1440,120 L0,120 Z"></path>
             </svg>
         </div>
     </section>
 
-    <!-- About Section (Preview) -->
-    <section id="about" class="about-section">
+    <!-- About Preview Section -->
+    <section id="about-preview" class="about-preview">
         <div class="container">
-            <div class="section-header text-center" data-aos="fade-up">
-                <span class="section-label">About Dr. Nano</span>
-                <h2 class="section-title">
-                    <span class="title-word" data-aos="fade-up" data-aos-delay="100">Medical</span>
-                    <span class="title-word" data-aos="fade-up" data-aos-delay="200">Excellence</span>
-                    <span class="title-word" data-aos="fade-up" data-aos-delay="300">Redefined</span>
+            <div class="text-center">
+                <h2 class="section-title" data-aos="fade-up">
+                    Welcome to eviaesthetics
                 </h2>
-                <div class="title-decoration">
-                    <span class="decoration-line"></span>
-                    <i class="fas fa-spa decoration-icon"></i>
-                    <span class="decoration-line"></span>
+                <div class="title-decoration" data-aos="fade-up" data-aos-delay="100">
+                    <span class="line"></span>
+                    <i class="fas fa-sparkles"></i>
+                    <span class="line"></span>
                 </div>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">
+                    Where medical excellence meets personalized beauty
+                </p>
             </div>
         </div>
     </section>
@@ -201,24 +221,21 @@
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- jQuery (for some animations) -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <!-- AOS Animation JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <!-- GSAP for Advanced Animations -->
+    <!-- GSAP for Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
-    <!-- Typed.js for Typing Effect -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     
-    <!-- Splitting.js for Text Animations -->
-    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
-    
-    <!-- Parallax.js -->
-    <script src="https://cdn.jsdelivr.net/parallax.js/1.5.0/parallax.min.js"></script>
+    <!-- Anime.js for Service Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     
     <!-- Custom JavaScript -->
     <script src="script.js"></script>
