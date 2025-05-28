@@ -290,11 +290,15 @@ section {
     z-index: var(--z-fixed);
     transition: all var(--transition-medium) ease;
     background-color: transparent;
+    /* Add fixed height */
+    height: 100px; /* Set your desired header height */
 }
 
 .site-header.scrolled {
     background-color: rgba(255, 255, 255, 0.98);
     box-shadow: var(--shadow-md);
+    /* Reduce height when scrolled */
+    height: 80px; /* Smaller height when scrolled */
 }
 
 .header-container {
@@ -305,6 +309,8 @@ section {
     transition: padding var(--transition-medium) ease;
     max-width: 1600px;
     margin: 0 auto;
+    /* Make container fill the header height */
+    height: 100%;
 }
 
 .site-header.scrolled .header-container {
@@ -313,15 +319,22 @@ section {
 
 .header-logo {
     flex: 0 0 auto;
+    /* Add these properties to control logo positioning */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* Hide any logo overflow */
 }
 
 .logo {
-    height: 250px;
-    transition: height var(--transition-medium) ease;
+    max-height: 80%; /* Logo takes up 80% of header height */
+    width: auto; /* Maintain aspect ratio */
+    transition: max-height var(--transition-medium) ease;
+    object-fit: contain; /* Ensure logo scales properly */
 }
 
 .site-header.scrolled .logo {
-    height: 100px;
+    max-height: 70%; /* Slightly smaller when scrolled */
 }
 
 /* Main Navigation */
@@ -581,7 +594,7 @@ section {
     min-height: 700px;
     display: flex;
     align-items: center;
-    padding-top: 200px;
+    padding-top: 100px; 
     padding-bottom: 100px;
     overflow: hidden;
     z-index: 1;
