@@ -2,361 +2,315 @@
 AOS.init({
     duration: 1000,
     once: true,
-    offset: 100,
-    easing: 'ease-out-cubic',
-    mirror: false
+    offset: 50,
+    easing: 'ease-out-cubic'
 });
 
-// Initialize Splitting for text animations
-Splitting();
-
-// GSAP Registration
+// GSAP & ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-// Preloader
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        document.querySelector('.preloader').classList.add('hidden');
-        // Start animations after preloader
-        initAnimations();
-    }, 1500);
+// Navbar scroll behavior
+const navbar = document.getElementById('mainNav');
+let lastScroll = 0;
+
+window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    
+    // Add/remove scrolled class
+    if (currentScroll > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+    
+    // Hide/show navbar on scroll
+    if (currentScroll > lastScroll && currentScroll > 400) {
+        navbar.style.transform = 'translateY(-100%)';
+    } else {
+        navbar.style.transform = 'translateY(0)';
+    }
+    
+    lastScroll = currentScroll;
 });
 
-// Initialize all animations
-function initAnimations() {
-    heroAnimations();
-    navbarAnimations();
-    parallaxEffects();
-    initTyped();
-    smoothScrolling();
-    buttonAnimations();
+// Service cards hover animations
+const serviceCards = document.querySelectorAll('.service-card');
+const servicesCircle = document.querySelector('.services-circle');
+
+serviceCards.forEach((card, index) => {
+    // Stop rotation on hover
+    card.addEventListener('mouseenter', () => {
+        servicesCircle.style.animationPlayState = 'paused';
+        
+        // Animate card
+        gsap.to(card, {
+            scale: 1.15,
+            duration: 0.3,
+            ease: 'back.out(1.7)',
+            zIndex: 50
+        });
+        
+        // Glow effect
+        gsap.to(card.querySelector('.service-icon'), {
+            boxShadow: '0 0 30px rgba(212, 168, 87, 0.5)',
+            duration: 0.3
+        });
+        
+        // Show service details (optional)
+        showServicePreview(card.dataset.service);
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        servicesCircle.style.animationPlayState = 'running';
+        
+        gsap.to(card, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out',
+            zIndex: 1
+        });
+        
+        gsap.to(card.querySelector('.service-icon'), {
+            boxShadow: 'none',
+            duration: 0.3
+        });
+    });
+    
+    // Click animation
+    card.addEventListener('click', () => {
+        // Ripple effect
+        createRipple(card);
+        
+        // Bounce animation
+        gsap.to(card, {
+            scale: 0.95,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 1,
+            ease: 'power2.inOut'
+        });
+        
+        // Navigate to service detail (optional)
+        setTimeout(() => {
+            window.location.href = `#${card.dataset.service}`;
+        }, 300);
+    });
+});
+
+// Service preview function
+function showServicePreview(service) {
+    const previews = {
+        botox: 'Smooth away wrinkles and fine lines',
+        weight: 'Medical weight loss programs',
+        iv: 'Boost energy and wellness',
+        microneedling: 'Rejuvenate your skin naturally',
+        prp: 'Harness your body\'s healing power',
+        peels: 'Reveal fresh, glowing skin'
+    };
+    
+    // You can implement a tooltip or preview popup here
 }
 
-// Hero Animations with GSAP
-function heroAnimations() {
-    // Hero timeline
-    const heroTl = gsap.timeline({ delay: 0.5 });
+// Ripple effect
+function createRipple(element) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple-effect');
+    element.appendChild(ripple);
     
-    // Logo animation
-    heroTl.from('.hero-logo-wrapper', {
-        scale: 0,
+    const rect = element.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = '50%';
+    ripple.style.top = '50%';
+    
+    setTimeout(() => ripple.remove(), 600);
+}
+
+// Hero text animations
+gsap.timeline({ delay: 0.5 })
+    .from('.hero-title .title-line', {
+        y: 50,
         opacity: 0,
-        duration: 1.5,
-        ease: 'elastic.out(1, 0.5)'
+        duration: 1,
+        ease: 'power3.out'
     })
-    
-    // Title animations
-    .from('.title-line-1', {
+    .from('.hero-title .title-highlight', {
         y: 50,
         opacity: 0,
         duration: 1,
         ease: 'power3.out'
     }, '-=0.5')
-    
-    // Trust indicators stagger
-    .from('.trust-item', {
+    .from('.hero-subtitle', {
         y: 30,
         opacity: 0,
         duration: 0.8,
-        stagger: 0.2,
         ease: 'power2.out'
+    }, '-=0.5')
+    .from('.trust-badges .badge-item', {
+        scale: 0,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'back.out(1.7)'
     }, '-=0.3')
-    
-    // Buttons animation
     .from('.hero-buttons > *', {
-        scale: 0.8,
+        x: -30,
         opacity: 0,
         duration: 0.8,
         stagger: 0.2,
-        ease: 'back.out(1.7)'
-    }, '-=0.5')
-    
-    // Scroll indicator
-    .from('.scroll-indicator-modern', {
-        y: -20,
-        opacity: 0,
-        duration: 1,
         ease: 'power2.out'
     }, '-=0.3');
-    
-    // Floating circles continuous animation
-    gsap.to('.floating-circle', {
-        x: 'random(-100, 100)',
-        y: 'random(-100, 100)',
-        duration: 'random(15, 25)',
-        repeat: -1,
-        repeatRefresh: true,
-        ease: 'none',
-        stagger: {
-            each: 5,
-            from: 'random'
-        }
-    });
-}
 
-// Navbar scroll effects
-function navbarAnimations() {
-    const navbar = document.getElementById('mainNav');
-    let lastScroll = 0;
-    let ticking = false;
-    
-    function updateNavbar() {
-        const currentScroll = window.pageYOffset;
-        
-        // Add/remove scrolled class
-        if (currentScroll > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-        
-        // Hide/show on scroll
-        if (currentScroll > lastScroll && currentScroll > 300) {
-            gsap.to(navbar, {
-                y: -100,
-                duration: 0.3,
-                ease: 'power2.inOut'
-            });
-        } else {
-            gsap.to(navbar, {
-                y: 0,
-                duration: 0.3,
-                ease: 'power2.inOut'
-            });
-        }
-        
-        lastScroll = currentScroll;
-        ticking = false;
+// Services circle entrance animation
+gsap.timeline({
+    scrollTrigger: {
+        trigger: '.services-showcase',
+        start: 'top 80%',
+        once: true
     }
-    
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(updateNavbar);
-            ticking = true;
-        }
-    });
-}
+})
+.from('.center-logo', {
+    scale: 0,
+    rotation: -180,
+    duration: 1,
+    ease: 'back.out(1.7)'
+})
+.from('.service-card', {
+    scale: 0,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.1,
+    ease: 'back.out(1.5)'
+}, '-=0.5')
+.from('.pulse-ring', {
+    scale: 0,
+    duration: 0.5,
+    stagger: 0.2
+}, '-=0.3');
 
-// Parallax Effects
-function parallaxEffects() {
-    // Hero content parallax
-    gsap.to('.hero-content', {
-        y: () => window.innerHeight * 0.5,
-        ease: 'none',
-        scrollTrigger: {
-            trigger: '.hero-section',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-        }
-    });
-    
-    // Video parallax
-    gsap.to('.hero-video', {
-        y: () => window.innerHeight * 0.3,
-        scale: 1.2,
-        ease: 'none',
-        scrollTrigger: {
-            trigger: '.hero-section',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-        }
-    });
-    
-    // Logo rotation on scroll
-    gsap.to('.hero-logo', {
-        rotation: 360,
-        ease: 'none',
-        scrollTrigger: {
-            trigger: '.hero-section',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 2
-        }
-    });
-}
+// Parallax effects
+gsap.to('.bubble', {
+    y: -100,
+    ease: 'none',
+    scrollTrigger: {
+        trigger: '.hero-section',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1
+    }
+});
 
-// Typed.js initialization
-function initTyped() {
-    new Typed('#typed-text', {
-        strings: [
-            'Natural Beauty',
-            'Medical Excellence',
-            'Timeless Elegance',
-            'Your Confidence'
-        ],
-        typeSpeed: 60,
-        backSpeed: 30,
-        backDelay: 2000,
-        loop: true,
-        cursorChar: '|',
-        smartBackspace: true
-    });
-}
-
-// Smooth scrolling for anchor links
-function smoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        
+        if (target) {
+            const offset = 80;
+            const targetPosition = target.offsetTop - offset;
             
-            if (target) {
-                const offset = 80;
-                const targetPosition = target.offsetTop - offset;
-                
-                gsap.to(window, {
-                    scrollTo: {
-                        y: targetPosition,
-                        autoKill: false
-                    },
-                    duration: 1,
-                    ease: 'power3.inOut'
-                });
-                
-                // Close mobile menu if open
-                const navbarCollapse = document.querySelector('.navbar-collapse');
-                if (navbarCollapse.classList.contains('show')) {
-                    bootstrap.Collapse.getInstance(navbarCollapse).hide();
-                }
+            gsap.to(window, {
+                scrollTo: targetPosition,
+                duration: 1,
+                ease: 'power3.inOut'
+            });
+            
+            // Close mobile menu
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                bootstrap.Collapse.getInstance(navbarCollapse).hide();
             }
-        });
-    });
-}
-
-// Button hover animations
-function buttonAnimations() {
-    // Primary button magnetic effect
-    const primaryBtns = document.querySelectorAll('.btn-primary-glow');
-    
-    primaryBtns.forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            gsap.to(btn, {
-                x: x * 0.3,
-                y: y * 0.3,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        });
-        
-        btn.addEventListener('mouseleave', () => {
-            gsap.to(btn, {
-                x: 0,
-                y: 0,
-                duration: 0.3,
-                ease: 'elastic.out(1, 0.3)'
-            });
-        });
-    });
-    
-    // Play button pulse enhancement
-    const playBtn = document.querySelector('.btn-play-video');
-    if (playBtn) {
-        playBtn.addEventListener('mouseenter', () => {
-            gsap.to('.play-icon', {
-                scale: 1.1,
-                duration: 0.3,
-                ease: 'back.out(2)'
-            });
-        });
-        
-        playBtn.addEventListener('mouseleave', () => {
-            gsap.to('.play-icon', {
-                scale: 1,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        });
-    }
-}
-
-// Hamburger menu animation
-const navbarToggler = document.querySelector('.navbar-toggler');
-navbarToggler.addEventListener('click', function() {
-    this.classList.toggle('active');
-});
-
-// Text reveal on scroll
-gsap.utils.toArray('.section-title .title-word').forEach((word, i) => {
-    gsap.from(word, {
-        scrollTrigger: {
-            trigger: word,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-        },
-        y: 100,
-        opacity: 0,
-        duration: 1,
-        delay: i * 0.1,
-        ease: 'power3.out'
-    });
-});
-
-// Trust items counter animation
-function animateValue(element, start, end, duration) {
-    const range = end - start;
-    const increment = range / (duration / 16);
-    let current = start;
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= end) {
-            current = end;
-            clearInterval(timer);
         }
-        element.textContent = Math.floor(current);
-    }, 16);
+    });
+});
+
+// Button hover effects
+const primaryBtns = document.querySelectorAll('.btn-primary-hero');
+primaryBtns.forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+        gsap.to(btn, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    });
+});
+
+// Trust badges hover
+const badges = document.querySelectorAll('.badge-item');
+badges.forEach(badge => {
+    badge.addEventListener('mouseenter', () => {
+        gsap.to(badge.querySelector('i'), {
+            rotation: 360,
+            duration: 0.5,
+            ease: 'power2.out'
+        });
+    });
+});
+
+// Mobile optimizations
+if (window.innerWidth <= 768) {
+    // Reduce animations on mobile
+    gsap.set('.services-circle', { animation: 'none' });
+    gsap.set('.service-card', { animation: 'none' });
 }
 
 // Intersection Observer for fade animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
+const fadeElements = document.querySelectorAll('.fade-in');
 const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            gsap.to(entry.target, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: 'power3.out'
-            });
+            entry.target.classList.add('visible');
             fadeObserver.unobserve(entry.target);
         }
     });
-}, observerOptions);
+}, { threshold: 0.1 });
 
-// Observe elements with fade class
-document.querySelectorAll('.fade-in').forEach(el => {
-    gsap.set(el, { opacity: 0, y: 50 });
-    fadeObserver.observe(el);
-});
+fadeElements.forEach(el => fadeObserver.observe(el));
 
-// Mobile menu close on outside click
-document.addEventListener('click', (e) => {
-    const navbar = document.getElementById('mainNav');
-    const navbarCollapse = document.querySelector('.navbar-collapse');
-    
-    if (!navbar.contains(e.target) && navbarCollapse.classList.contains('show')) {
-        bootstrap.Collapse.getInstance(navbarCollapse).hide();
-        navbarToggler.classList.remove('active');
+// Add ripple effect styles
+const style = document.createElement('style');
+style.textContent = `
+    .ripple-effect {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(212, 168, 87, 0.3);
+        transform: translate(-50%, -50%);
+        animation: ripple 0.6s ease-out;
+        pointer-events: none;
     }
-});
+    
+    @keyframes ripple {
+        to {
+            transform: translate(-50%, -50%) scale(4);
+            opacity: 0;
+        }
+    }
+    
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+    }
+    
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
+document.head.appendChild(style);
 
-// Video optimization for mobile
-const heroVideo = document.querySelector('.hero-video');
-if (heroVideo && window.innerWidth < 768) {
-    heroVideo.setAttribute('poster', 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1920');
-}
-
-// Performance optimization - Debounce resize events
+// Performance optimization
 let resizeTimer;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
@@ -366,103 +320,20 @@ window.addEventListener('resize', () => {
     }, 250);
 });
 
-// Smooth page transitions
-window.addEventListener('beforeunload', () => {
-    gsap.to('body', {
-        opacity: 0,
-        duration: 0.3
-    });
+// Initialize on load
+window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+    
+    // Refresh animations
+    setTimeout(() => {
+        AOS.refresh();
+        ScrollTrigger.refresh();
+    }, 100);
 });
 
-// Add custom cursor (optional elegant touch)
-if (window.innerWidth > 991) {
-    const cursor = document.createElement('div');
-    cursor.classList.add('custom-cursor');
-    document.body.appendChild(cursor);
-    
-    const cursorDot = document.createElement('div');
-    cursorDot.classList.add('cursor-dot');
-    document.body.appendChild(cursorDot);
-    
-    document.addEventListener('mousemove', (e) => {
-        gsap.to(cursor, {
-            x: e.clientX,
-            y: e.clientY,
-            duration: 0.5,
-            ease: 'power2.out'
-        });
-        
-        gsap.to(cursorDot, {
-            x: e.clientX,
-            y: e.clientY,
-            duration: 0.1
-        });
-    });
-    
-    // Cursor hover effects
-    const hoverElements = document.querySelectorAll('a, button, .btn-primary-glow, .btn-play-video');
-    hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.classList.add('cursor-hover');
-            gsap.to(cursor, { scale: 1.5, duration: 0.3 });
-        });
-        
-        el.addEventListener('mouseleave', () => {
-            cursor.classList.remove('cursor-hover');
-            gsap.to(cursor, { scale: 1, duration: 0.3 });
-        });
-    });
-}
-
-// Add custom cursor styles
-const cursorStyles = document.createElement('style');
-cursorStyles.textContent = `
-    .custom-cursor {
-        position: fixed;
-        width: 40px;
-        height: 40px;
-        border: 1px solid rgba(212, 168, 87, 0.5);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translate(-50%, -50%);
-        transition: border-color 0.3s ease;
-        mix-blend-mode: difference;
-    }
-    
-    .cursor-dot {
-        position: fixed;
-        width: 6px;
-        height: 6px;
-        background: var(--soft-gold);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        transform: translate(-50%, -50%);
-    }
-    
-    .custom-cursor.cursor-hover {
-        border-color: var(--soft-gold);
-        background: rgba(212, 168, 87, 0.1);
-    }
-    
-    @media (max-width: 991px) {
-        .custom-cursor, .cursor-dot {
-            display: none;
-        }
-    }
-`;
-document.head.appendChild(cursorStyles);
-
-// Console styling
+// Console branding
 console.log(
     '%c eviaesthetics ',
-    'background: linear-gradient(135deg, #D4A857 0%, #E4A853 100%); color: white; font-size: 24px; font-weight: bold; padding: 10px 30px; border-radius: 50px; font-family: "Playfair Display", serif;'
+    'background: linear-gradient(135deg, #D4A857 0%, #E8D5A6 100%); color: white; font-size: 20px; font-weight: bold; padding: 10px 25px; border-radius: 25px; font-family: "Playfair Display", serif;'
 );
-console.log('✨ Welcome to eviaesthetics - Where Science Meets Natural Beauty');
-
-// Initialize everything when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Any additional initialization
-    console.log('Website initialized successfully');
-});
+console.log('✨ Welcome to eviaesthetics - Where Natural Beauty Meets Medical Excellence');
