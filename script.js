@@ -1,18 +1,19 @@
 /*
-* Evia Aesthetics - Modern Website JavaScript
-* Created by: Elanstech
-* Version: 2.0 - Enhanced with Modern Hero Section
-* Last Updated: 2025-05-29 14:36:00
+* Evia Aesthetics - Redesigned Modern Website JavaScript
+* Created by: AI Assistant
+* Version: 3.0 - Enhanced Bright Medspa Experience
+* Last Updated: 2025-05-29
 */
 
 // ==============================
-// Core Application Class
+// Enhanced Application Class
 // ==============================
 class EviaAestheticsApp {
     constructor() {
         this.isLoaded = false;
         this.animations = {};
         this.observers = {};
+        this.countersAnimated = false;
         
         this.init();
     }
@@ -31,22 +32,22 @@ class EviaAestheticsApp {
         this.initPreloader();
         this.initNavigation();
         this.initAnimations();
-        this.initModernHero();
-        this.initTestimonialSlider();
+        this.initHeroSection();
         this.initModalHandlers();
         this.initScrollEffects();
+        this.initInteractiveElements();
         this.initPerformanceOptimizations();
         
         // Mark as loaded
         this.isLoaded = true;
         
         // Log initialization
-        console.log('🎨 Evia Aesthetics website initialized with modern features');
+        console.log('✨ Evia Aesthetics website initialized with enhanced medspa design');
         this.logBrowserCapabilities();
     }
 
     /**
-     * Handle preloader and page loading animations
+     * Enhanced preloader with smooth transitions
      */
     initPreloader() {
         const preloader = document.querySelector('.preloader');
@@ -60,27 +61,27 @@ class EviaAestheticsApp {
                     preloader.style.display = 'none';
                     document.body.classList.add('loaded');
                     
-                    // Start any animations that should run after page load
-                    this.animateHeroElements();
+                    // Start hero animations
+                    this.triggerHeroAnimations();
                 }, 600);
-            }, 1500);
+            }, 1200);
         });
         
-        // Fallback to hide preloader if load event doesn't fire
+        // Fallback to hide preloader
         setTimeout(() => {
             if (preloader.style.opacity !== '0') {
                 preloader.style.opacity = '0';
                 setTimeout(() => {
                     preloader.style.display = 'none';
                     document.body.classList.add('loaded');
-                    this.animateHeroElements();
+                    this.triggerHeroAnimations();
                 }, 600);
             }
-        }, 5000);
+        }, 4000);
     }
 
     /**
-     * Initialize header, navigation, and mobile menu
+     * Enhanced navigation with improved mobile experience
      */
     initNavigation() {
         const header = document.querySelector('.site-header');
@@ -91,23 +92,28 @@ class EviaAestheticsApp {
         
         if (!header) return;
         
-        // Handle scroll effects on header
+        // Enhanced scroll effects on header
         const handleHeaderScroll = this.throttle(() => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
+            const scrolled = window.scrollY > 50;
+            header.classList.toggle('scrolled', scrolled);
+            
+            // Add smooth background transition
+            if (scrolled) {
+                header.style.backdropFilter = 'blur(20px)';
             } else {
-                header.classList.remove('scrolled');
+                header.style.backdropFilter = 'none';
             }
         }, 10);
         
         window.addEventListener('scroll', handleHeaderScroll, { passive: true });
         
-        // Force initial check in case page is loaded scrolled down
+        // Force initial check
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
+            header.style.backdropFilter = 'blur(20px)';
         }
         
-        // Mobile menu toggle
+        // Enhanced mobile menu toggle
         if (mobileToggle && mobileMenu) {
             mobileToggle.addEventListener('click', () => {
                 const isActive = mobileToggle.classList.toggle('active');
@@ -115,10 +121,11 @@ class EviaAestheticsApp {
                 document.body.classList.toggle('menu-open');
                 
                 this.animateMobileToggle(mobileToggle, isActive);
+                this.animateMobileMenu(mobileMenu, isActive);
             });
         }
         
-        // Mobile dropdowns
+        // Mobile dropdowns with enhanced animations
         mobileDropdownItems.forEach(item => {
             const link = item.querySelector('a');
             const dropdown = item.querySelector('.mobile-dropdown');
@@ -132,7 +139,7 @@ class EviaAestheticsApp {
             }
         });
         
-        // Desktop dropdowns
+        // Desktop dropdowns with enhanced effects
         navDropdownItems.forEach(item => {
             const link = item.querySelector('.nav-link');
             const menu = item.querySelector('.dropdown-menu');
@@ -157,19 +164,40 @@ class EviaAestheticsApp {
                 this.closeMobileMenu();
             }
         });
+
+        // Enhanced active navigation highlighting
+        this.initActiveNavigation();
     }
 
     animateMobileToggle(toggle, isActive) {
         const spans = toggle.querySelectorAll('span');
         if (typeof gsap !== 'undefined') {
             if (isActive) {
-                gsap.to(spans[0], { rotation: 45, y: 9, duration: 0.3 });
-                gsap.to(spans[1], { opacity: 0, duration: 0.3 });
-                gsap.to(spans[2], { rotation: -45, y: -9, duration: 0.3 });
+                gsap.to(spans[0], { rotation: 45, y: 9, duration: 0.3, ease: "power2.inOut" });
+                gsap.to(spans[1], { opacity: 0, duration: 0.2 });
+                gsap.to(spans[2], { rotation: -45, y: -9, duration: 0.3, ease: "power2.inOut" });
             } else {
-                gsap.to(spans[0], { rotation: 0, y: 0, duration: 0.3 });
-                gsap.to(spans[1], { opacity: 1, duration: 0.3 });
-                gsap.to(spans[2], { rotation: 0, y: 0, duration: 0.3 });
+                gsap.to(spans[0], { rotation: 0, y: 0, duration: 0.3, ease: "power2.inOut" });
+                gsap.to(spans[1], { opacity: 1, duration: 0.3, delay: 0.1 });
+                gsap.to(spans[2], { rotation: 0, y: 0, duration: 0.3, ease: "power2.inOut" });
+            }
+        }
+    }
+
+    animateMobileMenu(menu, isActive) {
+        if (typeof gsap !== 'undefined') {
+            if (isActive) {
+                gsap.fromTo(menu, 
+                    { x: '100%' },
+                    { x: '0%', duration: 0.4, ease: "power3.out" }
+                );
+                
+                // Animate menu items
+                const menuItems = menu.querySelectorAll('.mobile-nav-item');
+                gsap.fromTo(menuItems,
+                    { opacity: 0, x: 50 },
+                    { opacity: 1, x: 0, duration: 0.3, stagger: 0.1, delay: 0.2 }
+                );
             }
         }
     }
@@ -178,23 +206,17 @@ class EviaAestheticsApp {
         if (typeof gsap !== 'undefined') {
             if (isOpen) {
                 dropdown.style.display = 'block';
-                dropdown.style.height = '0';
-                const height = dropdown.scrollHeight;
-                gsap.to(dropdown, {
-                    height: height,
-                    opacity: 1,
-                    duration: 0.3,
-                    onComplete: () => dropdown.style.height = 'auto'
-                });
+                gsap.fromTo(dropdown, 
+                    { height: 0, opacity: 0 },
+                    { height: 'auto', opacity: 1, duration: 0.3, ease: "power2.out" }
+                );
             } else {
                 gsap.to(dropdown, {
                     height: 0,
                     opacity: 0,
                     duration: 0.3,
-                    onComplete: () => {
-                        dropdown.style.display = 'none';
-                        dropdown.style.height = 'auto';
-                    }
+                    ease: "power2.in",
+                    onComplete: () => dropdown.style.display = 'none'
                 });
             }
         } else {
@@ -243,8 +265,30 @@ class EviaAestheticsApp {
         }
     }
 
+    initActiveNavigation() {
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerHeight = document.querySelector('.site-header')?.offsetHeight || 80;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+
     /**
-     * Initialize GSAP and AOS animations
+     * Initialize enhanced animations
      */
     initAnimations() {
         // Initialize GSAP ScrollTrigger if available
@@ -252,35 +296,33 @@ class EviaAestheticsApp {
             gsap.registerPlugin(ScrollTrigger);
         }
         
-        // Initialize AOS if available
+        // Initialize AOS with enhanced settings
         if (typeof AOS !== 'undefined') {
             AOS.init({
-                duration: 800,
-                easing: 'ease-out',
-                once: false,
+                duration: 1000,
+                easing: 'ease-out-cubic',
+                once: true,
                 mirror: false,
                 offset: 50,
-                delay: 0
+                delay: 0,
+                anchorPlacement: 'top-bottom'
             });
         }
         
-        // Animate elements that come into view
+        // Initialize scroll animations
         this.initScrollAnimations();
         
-        // Initialize back to top button
-        this.initBackToTop();
-        
-        // Add floating animations to decorative elements
-        this.initFloatingElements();
-        
-        // Initialize image reveal animations
-        this.initImageReveal();
+        // Initialize floating animations
+        this.initFloatingAnimations();
     }
 
     initScrollAnimations() {
+        const fadeElements = document.querySelectorAll('[data-aos]');
+        
+        // Fallback animation for elements without AOS
         const fadeInElements = document.querySelectorAll('.fade-in:not([data-aos])');
         
-        if (typeof gsap !== 'undefined') {
+        if (typeof gsap !== 'undefined' && fadeInElements.length > 0) {
             fadeInElements.forEach(element => {
                 gsap.from(element, {
                     opacity: 0,
@@ -294,144 +336,49 @@ class EviaAestheticsApp {
                     }
                 });
             });
-        } else {
-            // Fallback animation without GSAP
-            this.observeElements(fadeInElements, (element) => {
-                element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            });
         }
     }
 
-    initBackToTop() {
-        const backToTopButton = document.getElementById('backToTop');
-        if (!backToTopButton) return;
+    initFloatingAnimations() {
+        const floatingElements = document.querySelectorAll('.floating-card, .shape');
         
-        const toggleButton = this.throttle(() => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('active');
-            } else {
-                backToTopButton.classList.remove('active');
-            }
-        }, 100);
-        
-        window.addEventListener('scroll', toggleButton, { passive: true });
-        
-        backToTopButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-
-    /**
-     * Animate hero elements on page load
-     */
-    animateHeroElements() {
-        // Ensure video plays
-        const heroVideo = document.getElementById('hero-video') || document.querySelector('.hero-video');
-        if (heroVideo) {
-            heroVideo.play().catch(error => {
-                console.log('Auto-play was prevented:', error);
-            });
-        }
-        
-        // Trigger any additional hero animations
-        this.triggerHeroAnimations();
-    }
-
-    triggerHeroAnimations() {
-        // Animate hero content elements
-        const heroElements = document.querySelectorAll('.hero-content > *');
-        
-        if (typeof gsap !== 'undefined' && heroElements.length > 0) {
-            gsap.from(heroElements, {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                stagger: 0.2,
-                ease: 'power3.out',
-                delay: 0.5
-            });
-        }
-    }
-
-    /**
-     * Modern Hero Section JavaScript with Advanced Features
-     */
-    initModernHero() {
-        // Initialize all modern features
-        this.initVideoEnhancements();
-        this.initCounterAnimations();
-        this.initParallaxEffects();
-        this.initMouseFollowEffects();
-        this.initScrollIndicator();
-        this.initButtonInteractions();
-        this.initFloatingElements();
-        this.initParticleSystem();
-        
-        console.log('🎬 Modern hero section initialized');
-    }
-
-    // Enhanced Video Handling
-    initVideoEnhancements() {
-        const heroVideos = document.querySelectorAll('#hero-video, .hero-video');
-        
-        heroVideos.forEach(heroVideo => {
-            if (!heroVideo) return;
-            
-            // Preload and optimize video
-            heroVideo.addEventListener('loadstart', () => {
-                console.log('📹 Video loading started');
-            });
-            
-            heroVideo.addEventListener('canplay', () => {
-                heroVideo.style.opacity = '1';
-                heroVideo.style.transition = 'opacity 2s ease';
-                console.log('📹 Video ready to play');
-            });
-            
-            // Auto-play with fallback
-            this.playVideoWithFallback(heroVideo);
-            
-            // Performance optimization with Intersection Observer
-            this.observeVideoPlayback(heroVideo);
-        });
-    }
-
-    async playVideoWithFallback(video) {
-        try {
-            await video.play();
-            console.log('📹 Video auto-play successful');
-        } catch (error) {
-            console.log('📹 Auto-play prevented, adding play button');
-            this.addPlayButton(video);
-        }
-    }
-
-    observeVideoPlayback(video) {
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        video.play().catch(() => {});
-                    } else {
-                        video.pause();
-                    }
+        if (typeof gsap !== 'undefined') {
+            floatingElements.forEach((element, index) => {
+                // Continuous floating animation
+                gsap.to(element, {
+                    y: index % 2 === 0 ? -15 : 15,
+                    duration: 3 + Math.random() * 2,
+                    ease: 'sine.inOut',
+                    repeat: -1,
+                    yoyo: true,
+                    delay: index * 0.2
                 });
-            }, { threshold: 0.1 });
-            
-            const heroSection = document.querySelector('.hero-section, .modern-hero');
-            if (heroSection) {
-                observer.observe(heroSection);
-            }
+                
+                // Rotation animation for shapes
+                if (element.classList.contains('shape')) {
+                    gsap.to(element, {
+                        rotation: 360,
+                        duration: 20 + Math.random() * 10,
+                        ease: 'none',
+                        repeat: -1
+                    });
+                }
+            });
         }
     }
 
-    // Animated Counter for Stats
+    /**
+     * Enhanced hero section initialization
+     */
+    initHeroSection() {
+        this.initCounterAnimations();
+        this.initButtonEffects();
+        this.initParallaxEffects();
+        this.initScrollIndicator();
+        
+        console.log('🎨 Enhanced hero section initialized');
+    }
+
     initCounterAnimations() {
         const counterElements = document.querySelectorAll('[data-count]');
         
@@ -455,18 +402,18 @@ class EviaAestheticsApp {
             updateCounter();
         };
 
+        // Observe counters and animate when they come into view
         this.observeElements(counterElements, (element) => {
-            if (!element.classList.contains('animated')) {
-                element.classList.add('animated');
+            if (!this.countersAnimated) {
+                this.countersAnimated = true;
                 setTimeout(() => animateCounter(element), 500);
             }
         }, { threshold: 0.7 });
     }
 
     formatCounterValue(element, target) {
-        // Add formatting for different types of numbers
         if (target >= 1000) {
-            element.textContent = (target / 1000).toFixed(target >= 1000 ? 1 : 0) + 'K+';
+            element.textContent = (target / 1000).toFixed(1) + 'K+';
         } else if (target === 98) {
             element.textContent = target + '%';
         } else {
@@ -474,211 +421,17 @@ class EviaAestheticsApp {
         }
     }
 
-    // Advanced Parallax Effects
-    initParallaxEffects() {
-        let ticking = false;
+    initButtonEffects() {
+        const primaryButtons = document.querySelectorAll('.btn-primary');
+        const secondaryButtons = document.querySelectorAll('.btn-secondary');
         
-        const updateParallax = () => {
-            const scrolled = window.pageYOffset;
-            const heroSection = document.querySelector('.hero-section, .modern-hero');
-            
-            if (!heroSection) {
-                ticking = false;
-                return;
-            }
-            
-            const heroHeight = heroSection.offsetHeight;
-            const scrollPercent = Math.min(scrolled / heroHeight, 1);
-            
-            // Parallax for decorative elements
-            this.updateParallaxElements(scrollPercent);
-            
-            // Fade out hero content
-            this.updateHeroContentOpacity(scrollPercent);
-            
-            ticking = false;
-        };
-        
-        const requestParallaxUpdate = () => {
-            if (!ticking) {
-                requestAnimationFrame(updateParallax);
-                ticking = true;
-            }
-        };
-        
-        window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
-    }
-
-    updateParallaxElements(scrollPercent) {
-        // Update floating elements
-        const floatingElements = document.querySelectorAll('.float-element, .element-1, .element-2, .element-3, .element-4');
-        floatingElements.forEach((element, index) => {
-            const speed = 0.1 + (index * 0.05);
-            const translateY = scrollPercent * 100 * speed;
-            const rotate = scrollPercent * 10 * (index % 2 === 0 ? 1 : -1);
-            element.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
-        });
-
-        // Update traditional parallax elements
-        const shapes = document.querySelectorAll('.shape');
-        const orbs = document.querySelectorAll('.gradient-orb');
-        const rays = document.querySelectorAll('.light-ray');
-        
-        shapes.forEach((shape, index) => {
-            const speed = 0.1 + (index * 0.05);
-            const translateY = scrollPercent * 100 * speed;
-            shape.style.transform = `translateY(${translateY}px) rotate(${15 + translateY * 0.1}deg)`;
-        });
-        
-        orbs.forEach((orb, index) => {
-            const speed = 0.05 + (index * 0.02);
-            const translateY = scrollPercent * 50 * speed;
-            orb.style.transform = `translateY(${translateY}px)`;
-        });
-        
-        rays.forEach((ray, index) => {
-            const speed = 0.15 + (index * 0.1);
-            const translateY = scrollPercent * 80 * speed;
-            ray.style.transform = `translateY(${translateY}px) rotate(${15 + translateY * 0.2}deg)`;
-        });
-
-        // Update particles
-        const particles = document.querySelectorAll('.particle');
-        particles.forEach((particle, index) => {
-            const speed = 0.2 + (index * 0.1);
-            const translateY = scrollPercent * 50 * speed;
-            particle.style.transform = `translateY(${translateY}px)`;
-        });
-    }
-
-    updateHeroContentOpacity(scrollPercent) {
-        const heroContent = document.querySelector('.hero-content-area, .hero-content');
-        const statsPanel = document.querySelector('.stats-panel, .stats-card');
-        
-        if (heroContent) {
-            const opacity = Math.max(0, 1 - scrollPercent * 1.5);
-            heroContent.style.opacity = opacity;
-        }
-        
-        if (statsPanel) {
-            const translateY = scrollPercent * 30;
-            const opacity = Math.max(0, 1 - scrollPercent * 1.2);
-            statsPanel.style.transform = `translateY(${translateY}px)`;
-            statsPanel.style.opacity = opacity;
-        }
-    }
-
-    // Mouse Follow Effects
-    initMouseFollowEffects() {
-        let mouseX = 0;
-        let mouseY = 0;
-        let isMoving = false;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-            isMoving = true;
-        });
-        
-        const animateMouseFollow = () => {
-            if (isMoving) {
-                this.updateMouseFollowElements(mouseX, mouseY);
-                isMoving = false;
-            }
-            requestAnimationFrame(animateMouseFollow);
-        };
-        
-        animateMouseFollow();
-    }
-
-    updateMouseFollowElements(mouseX, mouseY) {
-        const orbs = document.querySelectorAll('.gradient-orb');
-        const shapes = document.querySelectorAll('.shape, .float-element');
-        const gradientMesh = document.querySelector('.gradient-mesh');
-        
-        orbs.forEach((orb, index) => {
-            const speed = 0.02 + (index * 0.01);
-            const translateX = mouseX * 20 * speed;
-            const translateY = mouseY * 20 * speed;
-            
-            const currentTransform = orb.style.transform || '';
-            if (currentTransform.includes('translateY')) {
-                orb.style.transform = currentTransform.replace(
-                    /translateY\([^)]*\)/,
-                    `translateY(${translateY}px) translateX(${translateX}px)`
-                );
-            } else {
-                orb.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
-            }
-        });
-        
-        shapes.forEach((shape, index) => {
-            const speed = 0.01 + (index * 0.005);
-            const rotateX = mouseY * 5 * speed;
-            const rotateY = mouseX * 5 * speed;
-            const currentTransform = shape.style.transform || '';
-            
-            shape.style.transform = currentTransform + ` rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-
-        // Subtle gradient mesh movement
-        if (gradientMesh) {
-            const x = mouseX * 10;
-            const y = mouseY * 10;
-            gradientMesh.style.transform = `translate(${x}px, ${y}px)`;
-        }
-    }
-
-    // Enhanced Scroll Indicator
-    initScrollIndicator() {
-        const scrollIndicators = document.querySelectorAll('.modern-scroll, .scroll-indicator');
-        
-        scrollIndicators.forEach(scrollIndicator => {
-            if (!scrollIndicator) return;
-            
-            // Hide/show based on scroll position
-            const updateIndicator = this.throttle(() => {
-                const scrolled = window.pageYOffset;
-                const heroSection = document.querySelector('.hero-section, .modern-hero');
-                
-                if (heroSection) {
-                    const heroHeight = heroSection.offsetHeight;
-                    const opacity = Math.max(0, 1 - (scrolled / (heroHeight * 0.3)));
-                    
-                    scrollIndicator.style.opacity = opacity;
-                    scrollIndicator.style.transform = `translateX(-50%) translateY(${scrolled * 0.1}px)`;
-                }
-            }, 16);
-            
-            window.addEventListener('scroll', updateIndicator, { passive: true });
-            
-            // Smooth scroll to next section
-            scrollIndicator.addEventListener('click', () => {
-                const heroSection = document.querySelector('.hero-section, .modern-hero');
-                const nextSection = heroSection?.nextElementSibling;
-                
-                if (nextSection) {
-                    nextSection.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    }
-
-    // Advanced Button Interactions
-    initButtonInteractions() {
-        const primaryButtons = document.querySelectorAll('.btn-primary-modern, .btn-primary-new');
-        const secondaryButtons = document.querySelectorAll('.btn-secondary-modern, .btn-secondary-new');
-        
-        // Ripple effect for buttons
+        // Add ripple effect to buttons
         [...primaryButtons, ...secondaryButtons].forEach(button => {
             button.addEventListener('click', (e) => this.createRippleEffect(e, button));
-            this.addMagneticEffect(button);
+            this.addButtonHoverEffects(button);
         });
         
-        // Add ripple animation CSS if not exists
+        // Add ripple CSS if not exists
         this.addRippleStyles();
     }
 
@@ -695,7 +448,7 @@ class EviaAestheticsApp {
             height: ${size}px;
             left: ${x}px;
             top: ${y}px;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
             border-radius: 50%;
             transform: scale(0);
             animation: rippleEffect 0.6s ease-out;
@@ -704,26 +457,23 @@ class EviaAestheticsApp {
         `;
         
         button.style.position = 'relative';
+        button.style.overflow = 'hidden';
         button.appendChild(ripple);
         
         setTimeout(() => ripple.remove(), 600);
     }
 
-    addMagneticEffect(button) {
+    addButtonHoverEffects(button) {
         button.addEventListener('mouseenter', function() {
-            this.style.transition = 'transform 0.3s ease';
-        });
-        
-        button.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            this.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px) translateY(-3px)`;
+            if (typeof gsap !== 'undefined') {
+                gsap.to(this, { scale: 1.05, duration: 0.3, ease: "power2.out" });
+            }
         });
         
         button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translate(0, 0) translateY(0)';
+            if (typeof gsap !== 'undefined') {
+                gsap.to(this, { scale: 1, duration: 0.3, ease: "power2.out" });
+            }
         });
     }
 
@@ -741,204 +491,136 @@ class EviaAestheticsApp {
         }
     }
 
-    // Particle System
-    initParticleSystem() {
-        const particles = document.querySelectorAll('.particle');
+    initParallaxEffects() {
+        let ticking = false;
         
-        particles.forEach((particle, index) => {
-            // Set initial random positions if not set
-            if (!particle.style.top) {
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.left = Math.random() * 100 + '%';
+        const updateParallax = () => {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-section');
+            
+            if (!heroSection) {
+                ticking = false;
+                return;
             }
             
-            // Add floating animation
-            this.animateParticle(particle, index);
-        });
-    }
-
-    animateParticle(particle, index) {
-        if (typeof gsap !== 'undefined') {
-            const duration = 15 + Math.random() * 10;
-            const delay = index * 2;
+            const heroHeight = heroSection.offsetHeight;
+            const scrollPercent = Math.min(scrolled / heroHeight, 1);
             
-            gsap.to(particle, {
-                y: -100 - Math.random() * 100,
-                x: (Math.random() - 0.5) * 200,
-                opacity: 0.8,
-                duration: duration,
-                delay: delay,
-                ease: 'sine.inOut',
-                repeat: -1,
-                yoyo: true
-            });
-        }
-    }
-
-    // Play button fallback for video
-    addPlayButton(video) {
-        const videoContainer = video.closest('.video-background, .video-container');
-        if (!videoContainer || videoContainer.querySelector('.video-play-overlay')) return;
-        
-        const playButton = document.createElement('div');
-        playButton.className = 'video-play-overlay';
-        playButton.innerHTML = `
-            <div class="play-button">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                    <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                </svg>
-            </div>
-            <div class="play-text">Click to play video</div>
-        `;
-        
-        playButton.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            cursor: pointer;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        `;
-        
-        const playButtonElement = playButton.querySelector('.play-button');
-        playButtonElement.style.cssText = `
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        `;
-        
-        const playText = playButton.querySelector('.play-text');
-        playText.style.cssText = `
-            font-size: 14px;
-            font-weight: 500;
-            opacity: 0.8;
-        `;
-        
-        playButton.addEventListener('click', () => {
-            video.play().then(() => {
-                playButton.remove();
-            }).catch(console.error);
-        });
-        
-        playButton.addEventListener('mouseenter', () => {
-            playButtonElement.style.transform = 'scale(1.1)';
-            playButtonElement.style.background = 'rgba(255, 255, 255, 0.2)';
-        });
-        
-        playButton.addEventListener('mouseleave', () => {
-            playButtonElement.style.transform = 'scale(1)';
-            playButtonElement.style.background = 'rgba(255, 255, 255, 0.1)';
-        });
-        
-        videoContainer.appendChild(playButton);
-    }
-
-    /**
-     * Initialize testimonial slider
-     */
-    initTestimonialSlider() {
-        const testimonialSlider = document.querySelector('.testimonial-slider');
-        
-        if (testimonialSlider && typeof $ !== 'undefined' && $.fn.slick) {
-            // Use Slick carousel if available
-            $(testimonialSlider).slick({
-                dots: true,
-                arrows: true,
-                infinite: true,
-                speed: 500,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                adaptiveHeight: true,
-                prevArrow: $('.testimonial-prev'),
-                nextArrow: $('.testimonial-next'),
-                appendDots: $('.testimonial-dots'),
-                responsive: [
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            arrows: false
-                        }
-                    }
-                ]
-            });
-        } else {
-            // Fallback slider implementation
-            this.initBasicSlider();
-        }
-    }
-
-    initBasicSlider() {
-        const testimonialItems = document.querySelectorAll('.testimonial-item');
-        const prevButton = document.querySelector('.testimonial-prev');
-        const nextButton = document.querySelector('.testimonial-next');
-        const dotsContainer = document.querySelector('.testimonial-dots');
-        
-        if (testimonialItems.length === 0) return;
-        
-        let currentIndex = 0;
-        
-        // Create dots
-        dotsContainer.innerHTML = '';
-        testimonialItems.forEach((_, index) => {
-            const dot = document.createElement('span');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
+            // Parallax for background elements
+            this.updateParallaxElements(scrollPercent);
             
-            dot.addEventListener('click', () => this.showSlide(index));
-            dotsContainer.appendChild(dot);
-        });
-        
-        // Show slide function
-        this.showSlide = (index) => {
-            testimonialItems.forEach((item, i) => {
-                item.style.display = i === index ? 'block' : 'none';
-            });
-            
-            const dots = dotsContainer.querySelectorAll('.dot');
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-            
-            currentIndex = index;
+            ticking = false;
         };
         
-        // Initialize
-        this.showSlide(0);
+        const requestParallaxUpdate = () => {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        };
         
-        // Button event listeners
-        prevButton?.addEventListener('click', () => {
-            const newIndex = currentIndex === 0 ? testimonialItems.length - 1 : currentIndex - 1;
-            this.showSlide(newIndex);
+        window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
+    }
+
+    updateParallaxElements(scrollPercent) {
+        const orbs = document.querySelectorAll('.gradient-orb');
+        const shapes = document.querySelectorAll('.shape');
+        const floatingCards = document.querySelectorAll('.floating-card');
+        
+        orbs.forEach((orb, index) => {
+            const speed = 0.1 + (index * 0.05);
+            const translateY = scrollPercent * 100 * speed;
+            orb.style.transform = `translateY(${translateY}px)`;
         });
         
-        nextButton?.addEventListener('click', () => {
-            const newIndex = currentIndex === testimonialItems.length - 1 ? 0 : currentIndex + 1;
-            this.showSlide(newIndex);
+        shapes.forEach((shape, index) => {
+            const speed = 0.15 + (index * 0.05);
+            const translateY = scrollPercent * 80 * speed;
+            const rotate = scrollPercent * 20 * (index % 2 === 0 ? 1 : -1);
+            shape.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
+        });
+        
+        floatingCards.forEach((card, index) => {
+            const speed = 0.05 + (index * 0.02);
+            const translateY = scrollPercent * 30 * speed;
+            card.style.transform = `translateY(${translateY}px)`;
         });
     }
 
+    initScrollIndicator() {
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        
+        if (!scrollIndicator) return;
+        
+        // Hide/show based on scroll position
+        const updateIndicator = this.throttle(() => {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-section');
+            
+            if (heroSection) {
+                const heroHeight = heroSection.offsetHeight;
+                const opacity = Math.max(0, 1 - (scrolled / (heroHeight * 0.3)));
+                
+                scrollIndicator.style.opacity = opacity;
+            }
+        }, 16);
+        
+        window.addEventListener('scroll', updateIndicator, { passive: true });
+        
+        // Smooth scroll to next section
+        scrollIndicator.addEventListener('click', () => {
+            const heroSection = document.querySelector('.hero-section');
+            const nextSection = heroSection?.nextElementSibling;
+            
+            if (nextSection) {
+                nextSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            } else {
+                // Scroll to a reasonable position if no next section
+                window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+
+    triggerHeroAnimations() {
+        // Trigger hero animations after page load
+        if (typeof gsap !== 'undefined') {
+            const heroElements = document.querySelectorAll('.hero-content > *');
+            
+            gsap.from(heroElements, {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: 'power2.out',
+                delay: 0.3
+            });
+            
+            // Animate hero visual
+            const heroVisual = document.querySelector('.hero-visual');
+            if (heroVisual) {
+                gsap.from(heroVisual, {
+                    opacity: 0,
+                    x: 50,
+                    duration: 1,
+                    ease: 'power2.out',
+                    delay: 0.6
+                });
+            }
+        }
+    }
+
     /**
-     * Initialize modal handlers
+     * Enhanced modal handlers
      */
     initModalHandlers() {
         const appointmentModal = document.getElementById('appointmentModal');
-        const appointmentButtons = document.querySelectorAll('a[href="appointment.html"], .btn-appointment, .btn-primary-modern, .btn-primary-new');
+        const appointmentButtons = document.querySelectorAll('.btn-appointment, .btn-primary, #bookConsultationBtn');
         const closeButton = appointmentModal?.querySelector('.modal-close');
         const modalOverlay = appointmentModal?.querySelector('.modal-overlay');
         
@@ -947,13 +629,8 @@ class EviaAestheticsApp {
         // Open modal when appointment buttons are clicked
         appointmentButtons.forEach(button => {
             button.addEventListener('click', (e) => {
-                if (button.getAttribute('href') === 'appointment.html' || 
-                    button.textContent.toLowerCase().includes('book') ||
-                    button.textContent.toLowerCase().includes('appointment') ||
-                    button.textContent.toLowerCase().includes('consultation')) {
-                    e.preventDefault();
-                    this.openModal(appointmentModal);
-                }
+                e.preventDefault();
+                this.openModal(appointmentModal);
             });
         });
         
@@ -979,21 +656,33 @@ class EviaAestheticsApp {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        // Animate modal opening if GSAP is available
+        // Animate modal opening
         if (typeof gsap !== 'undefined') {
             const modalContent = modal.querySelector('.modal-content');
-            gsap.from(modalContent, {
-                scale: 0.8,
-                opacity: 0,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
+            gsap.fromTo(modalContent, 
+                { scale: 0.8, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }
+            );
         }
     }
 
     closeModal(modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
+        if (typeof gsap !== 'undefined') {
+            const modalContent = modal.querySelector('.modal-content');
+            gsap.to(modalContent, {
+                scale: 0.8,
+                opacity: 0,
+                duration: 0.3,
+                ease: 'power2.in',
+                onComplete: () => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        } else {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     }
 
     handleFormSubmission(e, modal) {
@@ -1004,24 +693,62 @@ class EviaAestheticsApp {
         const formValues = Object.fromEntries(formData.entries());
         
         // Log form data (replace with actual API call)
-        console.log('Form submitted:', formValues);
+        console.log('📋 Form submitted:', formValues);
         
-        // Show success message
-        form.innerHTML = `
+        // Show success message with animation
+        const successMessage = `
             <div class="form-success">
                 <div class="success-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <h3>Appointment Requested!</h3>
-                <p>Thank you for scheduling a consultation. We'll contact you shortly to confirm your appointment.</p>
+                <h3>Consultation Requested!</h3>
+                <p>Thank you for your interest. Our team will contact you within 24 hours to schedule your free consultation.</p>
             </div>
         `;
+        
+        form.innerHTML = successMessage;
+        
+        if (typeof gsap !== 'undefined') {
+            gsap.from('.form-success', {
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.5,
+                ease: 'power2.out'
+            });
+        }
         
         // Close modal after delay
         setTimeout(() => {
             this.closeModal(modal);
-            setTimeout(() => form.reset(), 500);
+            setTimeout(() => {
+                form.innerHTML = this.getOriginalFormHTML();
+            }, 500);
         }, 3000);
+    }
+
+    getOriginalFormHTML() {
+        return `
+            <h2>Book Your Consultation</h2>
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+            <div class="form-group">
+                <input type="tel" name="phone" placeholder="Phone Number" required>
+            </div>
+            <div class="form-group">
+                <select name="service" required>
+                    <option value="">Select Service</option>
+                    <option value="consultation">Initial Consultation</option>
+                    <option value="facial">Facial Treatments</option>
+                    <option value="body">Body Contouring</option>
+                    <option value="injectable">Injectable Treatments</option>
+                </select>
+            </div>
+            <button type="submit" class="form-submit">Request Appointment</button>
+        `;
     }
 
     /**
@@ -1031,7 +758,7 @@ class EviaAestheticsApp {
         // Smooth scroll for anchor links
         this.initSmoothScroll();
         
-        // Parallax effect for sections with background images
+        // Background parallax for future sections
         this.initBackgroundParallax();
     }
 
@@ -1046,7 +773,7 @@ class EviaAestheticsApp {
                 const targetElement = document.querySelector(targetId);
                 
                 if (targetElement) {
-                    const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
+                    const headerHeight = document.querySelector('.site-header')?.offsetHeight || 80;
                     const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
                     
                     window.scrollTo({
@@ -1081,129 +808,110 @@ class EviaAestheticsApp {
     }
 
     /**
-     * Initialize floating animations for decorative elements
+     * Initialize interactive elements
      */
-    initFloatingElements() {
-        const floatingElements = document.querySelectorAll(
-            '.floating-circle, .blur-shape, .soft-bubble, .floating-orb, .float-element'
-        );
+    initInteractiveElements() {
+        // Enhanced button hover effects
+        this.initEnhancedButtons();
         
-        if (typeof gsap !== 'undefined') {
-            floatingElements.forEach((el, index) => {
-                gsap.to(el, {
-                    y: index % 2 === 0 ? 20 : -20,
-                    x: index % 3 === 0 ? 15 : -15,
-                    rotation: index % 2 === 0 ? 5 : -5,
-                    duration: 5 + Math.random() * 5,
-                    ease: 'sine.inOut',
-                    repeat: -1,
-                    yoyo: true,
-                    delay: index * 0.2
-                });
-            });
-        } else {
-            // CSS-based fallback animation
-            floatingElements.forEach((el, index) => {
-                el.style.animation = `float ${5 + index}s ease-in-out infinite`;
-                el.style.animationDelay = `${index * 0.2}s`;
-            });
-        }
+        // Pill hover effects
+        this.initPillEffects();
         
-        // Animate scroll indicators
-        const scrollIndicators = document.querySelectorAll('.scroll-indicator:not(.modern-scroll)');
-        if (typeof gsap !== 'undefined') {
-            scrollIndicators.forEach(indicator => {
-                gsap.to(indicator, {
-                    y: 10,
-                    duration: 1.5,
-                    ease: 'sine.inOut',
-                    repeat: -1,
-                    yoyo: true
-                });
-            });
-        }
+        // Card hover effects
+        this.initCardEffects();
     }
 
-    /**
-     * Handle image reveal animations
-     */
-    initImageReveal() {
-        const images = document.querySelectorAll('.reveal-image');
+    initEnhancedButtons() {
+        const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .pill');
         
-        images.forEach(img => {
-            this.setupImageReveal(img);
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(this, { 
+                        y: -2, 
+                        duration: 0.3, 
+                        ease: "power2.out" 
+                    });
+                }
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(this, { 
+                        y: 0, 
+                        duration: 0.3, 
+                        ease: "power2.out" 
+                    });
+                }
+            });
         });
     }
 
-    setupImageReveal(img) {
-        // Create wrapper if not already wrapped
-        if (!img.parentElement.classList.contains('image-reveal-wrapper')) {
-            const wrapper = document.createElement('div');
-            wrapper.classList.add('image-reveal-wrapper');
-            img.parentNode.insertBefore(wrapper, img);
-            wrapper.appendChild(img);
-            
-            // Create overlay
-            const overlay = document.createElement('div');
-            overlay.classList.add('image-reveal-overlay');
-            wrapper.appendChild(overlay);
-        }
+    initPillEffects() {
+        const pills = document.querySelectorAll('.pill');
         
-        if (typeof gsap !== 'undefined') {
-            // Set initial state
-            gsap.set(img.nextElementSibling, {
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                backgroundColor: '#3c2415',
-                transformOrigin: 'right'
-            });
-            
-            // Create reveal animation
-            ScrollTrigger.create({
-                trigger: img.parentElement,
-                start: 'top 75%',
-                onEnter: () => {
-                    gsap.to(img.nextElementSibling, {
-                        scaleX: 0,
-                        duration: 1,
-                        ease: 'power3.inOut'
+        pills.forEach(pill => {
+            pill.addEventListener('mouseenter', function() {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(this, { 
+                        scale: 1.05, 
+                        duration: 0.3, 
+                        ease: "power2.out" 
                     });
-                    
-                    gsap.from(img, {
-                        scale: 1.1,
-                        duration: 1.2,
-                        delay: 0.2,
-                        ease: 'power3.out'
-                    });
-                },
-                once: true
-            });
-        } else {
-            // Fallback without GSAP
-            this.observeElements([img.parentElement], () => {
-                const overlay = img.nextElementSibling;
-                if (overlay) {
-                    overlay.style.transition = 'transform 1s ease';
-                    overlay.style.transform = 'scaleX(0)';
                 }
             });
-        }
+            
+            pill.addEventListener('mouseleave', function() {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(this, { 
+                        scale: 1, 
+                        duration: 0.3, 
+                        ease: "power2.out" 
+                    });
+                }
+            });
+        });
+    }
+
+    initCardEffects() {
+        const cards = document.querySelectorAll('.floating-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(this, { 
+                        y: -10, 
+                        scale: 1.05,
+                        duration: 0.3, 
+                        ease: "power2.out" 
+                    });
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(this, { 
+                        y: 0, 
+                        scale: 1,
+                        duration: 0.3, 
+                        ease: "power2.out" 
+                    });
+                }
+            });
+        });
     }
 
     /**
      * Initialize performance optimizations
      */
     initPerformanceOptimizations() {
-        // Lazy load non-critical elements
+        // Lazy load elements
         this.initLazyLoading();
         
-        // Optimize animations based on device capabilities
+        // Optimize for device capabilities
         this.optimizeForDevice();
         
-        // Reduce motion for users who prefer it
+        // Respect reduced motion preferences
         this.respectReducedMotion();
         
         // Initialize resize handler
@@ -1211,7 +919,7 @@ class EviaAestheticsApp {
     }
 
     initLazyLoading() {
-        const lazyElements = document.querySelectorAll('.particle, .float-element, .shape, .gradient-orb');
+        const lazyElements = document.querySelectorAll('.shape, .gradient-orb, .floating-card');
         
         this.observeElements(lazyElements, (element) => {
             element.style.opacity = '1';
@@ -1221,37 +929,50 @@ class EviaAestheticsApp {
     optimizeForDevice() {
         // Reduce animations on low-performance devices
         if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
-            document.documentElement.style.setProperty('--animation-duration', '0.5s');
+            document.documentElement.style.setProperty('--transition-medium', '0.2s');
             console.log('🔧 Reduced animations for low-performance device');
         }
         
         // Disable parallax on mobile for better performance
         if (window.innerWidth < 768) {
-            const parallaxElements = document.querySelectorAll('.parallax-bg');
+            const parallaxElements = document.querySelectorAll('.parallax-bg, .gradient-orb');
             parallaxElements.forEach(el => {
-                el.style.backgroundAttachment = 'scroll';
+                el.style.transform = 'none';
             });
         }
     }
 
     respectReducedMotion() {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.documentElement.style.setProperty('--animation-duration', '0.01s');
+            document.documentElement.style.setProperty('--transition-medium', '0.01s');
+            
+            // Disable GSAP animations
+            if (typeof gsap !== 'undefined') {
+                gsap.globalTimeline.clear();
+            }
+            
             console.log('♿ Reduced motion enabled for accessibility');
         }
     }
 
     initResizeHandler() {
         const handleResize = this.debounce(() => {
-            // Recalculate hero height
-            const hero = document.querySelector('.modern-hero, .hero-section');
-            if (hero) {
-                hero.style.height = `${window.innerHeight}px`;
-            }
-            
             // Refresh ScrollTrigger if available
             if (typeof ScrollTrigger !== 'undefined') {
                 ScrollTrigger.refresh();
+            }
+            
+            // Refresh AOS if available
+            if (typeof AOS !== 'undefined') {
+                AOS.refresh();
+            }
+            
+            // Update hero height on mobile
+            if (window.innerWidth < 768) {
+                const heroSection = document.querySelector('.hero-section');
+                if (heroSection) {
+                    heroSection.style.minHeight = `${window.innerHeight}px`;
+                }
             }
         }, 250);
         
@@ -1342,43 +1063,6 @@ class EviaAestheticsApp {
         );
     }
 
-    // Create staggered animation for multiple elements
-    createStaggerAnimation(elements, options = {}) {
-        const defaults = {
-            staggerTime: 0.1,
-            duration: 0.8,
-            ease: 'power3.out',
-            y: 30,
-            opacity: 0
-        };
-        
-        const settings = { ...defaults, ...options };
-        
-        if (typeof gsap !== 'undefined') {
-            gsap.from(elements, {
-                opacity: settings.opacity,
-                y: settings.y,
-                stagger: settings.staggerTime,
-                duration: settings.duration,
-                ease: settings.ease,
-                scrollTrigger: {
-                    trigger: elements[0]?.parentElement,
-                    start: 'top 80%',
-                    toggleActions: 'play none none none'
-                }
-            });
-        } else {
-            // Fallback animation
-            elements.forEach((element, index) => {
-                setTimeout(() => {
-                    element.style.transition = `opacity ${settings.duration}s ease, transform ${settings.duration}s ease`;
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }, index * (settings.staggerTime * 1000));
-            });
-        }
-    }
-
     // Public API methods
     destroy() {
         // Clean up observers
@@ -1413,56 +1097,91 @@ class EviaAestheticsApp {
 }
 
 // ==============================
-// GSAP Integration Enhancement
+// Enhanced GSAP Integration
 // ==============================
 if (typeof gsap !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
     
-    // Enhanced GSAP animations for modern hero
+    // Enhanced GSAP animations for the redesigned hero
     document.addEventListener('DOMContentLoaded', function() {
-        // Stagger animation for feature cards
-        const featureCards = document.querySelectorAll('.feature-card, .pill, .tag');
-        if (featureCards.length > 0) {
-            gsap.from(featureCards, {
-                duration: 0.8,
-                y: 50,
-                opacity: 0,
-                stagger: 0.2,
-                ease: 'power3.out',
-                delay: 1
-            });
-        }
+        // Create a master timeline
+        const tl = gsap.timeline({ delay: 0.5 });
         
-        // Enhanced parallax effect for decorative elements
-        const decorativeElements = document.querySelectorAll('.gradient-orb, .shape, .float-element');
-        if (decorativeElements.length > 0) {
-            gsap.to(decorativeElements, {
-                y: -100,
-                scrollTrigger: {
-                    trigger: '.hero-section, .modern-hero',
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: true
-                }
-            });
-        }
-        
-        // Stats card animation
-        const statsCards = document.querySelectorAll('.stats-card, .stats-panel');
-        statsCards.forEach(statsCard => {
-            gsap.from(statsCard, {
-                duration: 1,
-                x: 100,
-                opacity: 0,
-                ease: 'power3.out',
-                delay: 1.2,
-                scrollTrigger: {
-                    trigger: statsCard,
-                    start: 'top 80%',
-                    toggleActions: 'play none none none'
-                }
-            });
+        // Animate trust badge
+        tl.from('.trust-badge', {
+            duration: 0.6,
+            y: 30,
+            opacity: 0,
+            ease: 'power2.out'
         });
+        
+        // Animate title lines
+        tl.from('.title-line', {
+            duration: 0.8,
+            y: 50,
+            opacity: 0,
+            stagger: 0.2,
+            ease: 'power2.out'
+        }, '-=0.3');
+        
+        // Animate subtitle
+        tl.from('.hero-subtitle', {
+            duration: 0.6,
+            y: 30,
+            opacity: 0,
+            ease: 'power2.out'
+        }, '-=0.4');
+        
+        // Animate feature pills
+        tl.from('.pill', {
+            duration: 0.5,
+            y: 20,
+            opacity: 0,
+            stagger: 0.1,
+            ease: 'power2.out'
+        }, '-=0.3');
+        
+        // Animate CTA buttons
+        tl.from('.hero-cta button', {
+            duration: 0.6,
+            y: 30,
+            opacity: 0,
+            stagger: 0.1,
+            ease: 'power2.out'
+        }, '-=0.2');
+        
+        // Animate social proof
+        tl.from('.social-proof', {
+            duration: 0.6,
+            y: 30,
+            opacity: 0,
+            ease: 'power2.out'
+        }, '-=0.3');
+        
+        // Animate hero visual
+        tl.from('.hero-visual', {
+            duration: 1,
+            x: 100,
+            opacity: 0,
+            ease: 'power2.out'
+        }, '-=0.8');
+        
+        // Animate floating cards
+        tl.from('.floating-card', {
+            duration: 0.8,
+            scale: 0,
+            opacity: 0,
+            stagger: 0.2,
+            ease: 'back.out(1.7)'
+        }, '-=0.5');
+        
+        // Animate scroll indicator
+        tl.from('.scroll-indicator', {
+            duration: 0.6,
+            y: 20,
+            opacity: 0,
+            ease: 'power2.out'
+        }, '-=0.2');
     });
 }
 
@@ -1486,30 +1205,14 @@ if (document.readyState === 'loading') {
 // Global API & Legacy Support
 // ==============================
 
-// Export for global access and legacy compatibility
+// Export for global access
 window.EviaAesthetics = {
     app: () => eviaApp,
     
-    // Legacy function exports for backward compatibility
-    initModernHero: () => eviaApp?.initModernHero(),
-    initVideoEnhancements: () => eviaApp?.initVideoEnhancements(),
-    initCounterAnimations: () => eviaApp?.initCounterAnimations(),
-    initParallaxEffects: () => eviaApp?.initParallaxEffects(),
-    initMouseFollowEffects: () => eviaApp?.initMouseFollowEffects(),
-    createStaggerAnimation: (elements, options) => eviaApp?.createStaggerAnimation(elements, options),
-    throttle: (func, limit) => eviaApp?.throttle(func, limit),
-    
-    // Utility functions
+    // Public methods
     refresh: () => eviaApp?.refresh(),
     destroy: () => eviaApp?.destroy()
 };
-
-// Legacy support for old function calls
-window.initPreloader = () => eviaApp?.initPreloader();
-window.initNavigation = () => eviaApp?.initNavigation();
-window.initAnimations = () => eviaApp?.initAnimations();
-window.initModernHero = () => eviaApp?.initModernHero();
-window.animateHeroElements = () => eviaApp?.animateHeroElements();
 
 // Performance monitoring
 if (typeof performance !== 'undefined' && performance.mark) {
@@ -1525,11 +1228,9 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 // Console styling for development
-if (process?.env?.NODE_ENV === 'development') {
-    console.log(
-        '%c🎨 Evia Aesthetics %c2.0 %cLoaded Successfully',
-        'color: #f39c12; font-weight: bold; font-size: 16px;',
-        'color: #3c2415; font-weight: bold; background: #f39c12; padding: 2px 6px; border-radius: 3px;',
-        'color: #68b984; font-weight: normal;'
-    );
-}
+console.log(
+    '%c✨ Evia Aesthetics %c3.0 %cEnhanced Medspa Experience Loaded',
+    'color: #F4A024; font-weight: bold; font-size: 16px;',
+    'color: #5A3925; font-weight: bold; background: #F4A024; padding: 2px 6px; border-radius: 3px;',
+    'color: #68b984; font-weight: normal;'
+);
