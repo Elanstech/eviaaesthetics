@@ -119,142 +119,150 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-   <!-- Hero Section -->
-<section class="hero-section">
-    <!-- Video Background -->
-    <div class="video-background">
-        <video autoplay muted loop playsinline id="hero-video" poster="video-poster.jpg">
-            <source src="large.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay"></div>
-    </div>
-    
-    <!-- Modern Grid Container -->
-    <div class="hero-grid">
-        <!-- Content Area -->
-        <div class="hero-content-area">
-            <!-- Status Indicator -->
-            <div class="status-indicator" data-aos="fade-right" data-aos-delay="200">
-                <div class="status-dot"></div>
-                <span>Available for consultations</span>
-            </div>
+   <!-- Modern Hero Section -->
+    <section class="modern-hero">
+        <!-- Video Background with Enhanced Overlay -->
+        <div class="video-container">
+            <video autoplay muted loop playsinline class="hero-video" poster="video-poster.jpg">
+                <source src="large.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay"></div>
+            <div class="gradient-mesh"></div>
+        </div>
 
-            <!-- Main Hero Content -->
-            <div class="hero-main-content">
-                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
-                    <span class="title-line">Transform</span>
-                    <span class="title-line accent-line">Your Beauty</span>
-                    <span class="title-line">Story</span>
+        <!-- Floating Geometric Elements -->
+        <div class="floating-elements">
+            <div class="float-element element-1"></div>
+            <div class="float-element element-2"></div>
+            <div class="float-element element-3"></div>
+            <div class="float-element element-4"></div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="hero-container">
+            <div class="hero-content">
+                <!-- Status Badge -->
+                <div class="status-badge">
+                    <div class="status-pulse"></div>
+                    <span>Available for New Consultations</span>
+                </div>
+
+                <!-- Main Heading with Staggered Animation -->
+                <h1 class="hero-heading">
+                    <span class="heading-line" data-line="1">Elevate</span>
+                    <span class="heading-line accent-gradient" data-line="2">Your Natural</span>
+                    <span class="heading-line" data-line="3">Beauty</span>
                 </h1>
-                
-                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="600">
-                    Advanced aesthetic medicine meets personalized care. 
-                    Discover treatments tailored just for you.
+
+                <!-- Enhanced Subtitle -->
+                <p class="hero-subtitle">
+                    Where artistry meets science. Discover personalized aesthetic treatments 
+                    designed to enhance your unique beauty with precision and care.
                 </p>
-                
-                <!-- Modern Feature Pills -->
-                <div class="feature-pills" data-aos="fade-up" data-aos-delay="800">
-                    <div class="pill">
-                        <div class="pill-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
-                                <path d="M20.2 7.8l-7.7 7.7-4-4" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <span>FDA Approved</span>
-                    </div>
-                    <div class="pill">
-                        <div class="pill-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L15.09 8.26L22 9L16 14.74L17.18 21.02L12 18.77L6.82 21.02L8 14.74L2 9L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <span>5-Star Rated</span>
-                    </div>
-                    <div class="pill">
-                        <div class="pill-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
+
+                <!-- Feature Tags -->
+                <div class="feature-tags">
+                    <div class="tag">
+                        <svg class="tag-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
                         <span>Board Certified</span>
                     </div>
+                    <div class="tag">
+                        <svg class="tag-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Award Winning</span>
+                    </div>
+                    <div class="tag">
+                        <svg class="tag-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Advanced Technology</span>
+                    </div>
                 </div>
-                
-                <!-- CTA Section -->
-                <div class="cta-section" data-aos="fade-up" data-aos-delay="1000">
-                    <a href="appointment.html" class="btn-primary-modern">
-                        <span class="btn-bg"></span>
+
+                <!-- CTA Buttons -->
+                <div class="cta-group">
+                    <button class="btn-primary-new">
+                        <span class="btn-bg-gradient"></span>
                         <span class="btn-content">
-                            <span class="btn-text">Book Consultation</span>
-                            <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <span>Book Consultation</span>
+                            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2"/>
                             </svg>
                         </span>
-                    </a>
+                        <div class="btn-glow"></div>
+                    </button>
                     
-                    <a href="services.html" class="btn-secondary-modern">
-                        <span class="btn-text">View Services</span>
-                    </a>
+                    <button class="btn-secondary-new">
+                        <span class="btn-border"></span>
+                        <span class="btn-content">
+                            <svg class="play-icon" viewBox="0 0 24 24" fill="none">
+                                <polygon points="5,3 19,12 5,21" fill="currentColor"/>
+                            </svg>
+                            <span>Watch Our Story</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Enhanced Stats Card -->
+            <div class="stats-panel">
+                <div class="panel-header">
+                    <h3>Excellence in Numbers</h3>
+                    <p>Trusted by thousands</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-number" data-count="2500">0</div>
+                        <div class="stat-label">Happy Clients</div>
+                        <div class="stat-bar">
+                            <div class="stat-fill" style="--width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" data-count="15">0</div>
+                        <div class="stat-label">Years Experience</div>
+                        <div class="stat-bar">
+                            <div class="stat-fill" style="--width: 88%"></div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" data-count="98">0</div>
+                        <div class="stat-label">Satisfaction Rate</div>
+                        <div class="stat-bar">
+                            <div class="stat-fill" style="--width: 98%"></div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" data-count="50">0</div>
+                        <div class="stat-label">Treatments</div>
+                        <div class="stat-bar">
+                            <div class="stat-fill" style="--width: 92%"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Modern Stats Card -->
-        <div class="stats-card" data-aos="fade-left" data-aos-delay="1200">
-            <div class="card-header">
-                <div class="card-title">Trusted Excellence</div>
-                <div class="card-subtitle">Real Results</div>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number" data-count="5000">0</div>
-                    <div class="stat-label">Happy Clients</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-count="15">0</div>
-                    <div class="stat-label">Years Experience</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-count="98">0</div>
-                    <div class="stat-label">Success Rate</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-count="24">0</div>
-                    <div class="stat-label">Treatments</div>
-                </div>
-            </div>
+
+        <!-- Enhanced Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <div class="scroll-dot"></div>
+            <span class="scroll-text">Discover More</span>
         </div>
-    </div>
-    
-    <!-- Modern Scroll Indicator -->
-    <div class="modern-scroll" data-aos="fade-up" data-aos-delay="1400">
-        <div class="scroll-track">
-            <div class="scroll-thumb"></div>
+
+        <!-- Particle System -->
+        <div class="particle-system">
+            <div class="particle" style="--delay: 0s; --duration: 20s;"></div>
+            <div class="particle" style="--delay: 2s; --duration: 25s;"></div>
+            <div class="particle" style="--delay: 4s; --duration: 18s;"></div>
+            <div class="particle" style="--delay: 6s; --duration: 22s;"></div>
+            <div class="particle" style="--delay: 8s; --duration: 28s;"></div>
         </div>
-        <span class="scroll-label">Explore</span>
-    </div>
-    
-    <!-- Advanced Decorative Elements -->
-    <div class="modern-decoration">
-        <!-- Animated Grid -->
-        <div class="bg-grid"></div>
-        
-        <!-- Floating Shapes -->
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        
-        <!-- Gradient Orbs -->
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
-        
-        <!-- Light Rays -->
-        <div class="light-ray ray-1"></div>
-        <div class="light-ray ray-2"></div>
-    </div>
-</section>
+    </section>
     
     <!-- Services Preview Section -->
     <section class="services-preview">
