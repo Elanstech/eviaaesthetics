@@ -1,7 +1,8 @@
 /*
 * Evia Aesthetics - Modern Website JavaScript
-* Created by: [Your Name]
-* Version: 1.0
+* Created by: Elanstech
+* Version: 2.0
+* Last Updated: 2025-05-29
 */
 
 // Wait for the DOM to be fully loaded
@@ -10,12 +11,13 @@ document.addEventListener('DOMContentLoaded', function() {
     initPreloader();
     initNavigation();
     initAnimations();
+    initModernHero(); // New modern hero functionality
     initTestimonialSlider();
     initModalHandlers();
     initScrollEffects();
     
     // Log initialization
-    console.log('Evia Aesthetics website initialized');
+    console.log('Evia Aesthetics website initialized with modern features');
 });
 
 /**
@@ -291,6 +293,368 @@ function animateHeroElements() {
 }
 
 /**
+ * Modern Hero Section JavaScript with Advanced Features
+ */
+function initModernHero() {
+    // Initialize all modern features
+    initVideoEnhancements();
+    initCounterAnimations();
+    initParallaxEffects();
+    initMouseFollowEffects();
+    initScrollIndicator();
+    initButtonInteractions();
+    
+    console.log('Modern hero section initialized');
+}
+
+// Enhanced Video Handling
+function initVideoEnhancements() {
+    const heroVideo = document.getElementById('hero-video');
+    
+    if (heroVideo) {
+        // Preload and optimize video
+        heroVideo.addEventListener('loadstart', () => {
+            console.log('Video loading started');
+        });
+        
+        heroVideo.addEventListener('canplay', () => {
+            heroVideo.style.opacity = '1';
+            heroVideo.style.transition = 'opacity 1s ease';
+        });
+        
+        // Auto-play with fallback
+        const playVideo = async () => {
+            try {
+                await heroVideo.play();
+                console.log('Video auto-play successful');
+            } catch (error) {
+                console.log('Auto-play prevented, adding play button');
+                addPlayButton();
+            }
+        };
+        
+        playVideo();
+        
+        // Performance optimization
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    heroVideo.play();
+                } else {
+                    heroVideo.pause();
+                }
+            });
+        });
+        
+        observer.observe(document.querySelector('.hero-section'));
+    }
+}
+
+// Animated Counter for Stats
+function initCounterAnimations() {
+    const counterElements = document.querySelectorAll('.stat-number[data-count]');
+    
+    const animateCounter = (element) => {
+        const target = parseInt(element.getAttribute('data-count'));
+        const duration = 2000; // 2 seconds
+        const stepTime = Math.abs(Math.floor(duration / target));
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += Math.ceil(target / 100);
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            
+            // Add formatting for large numbers
+            if (target >= 1000) {
+                element.textContent = (current / 1000).toFixed(current >= 1000 ? 1 : 0) + 'K+';
+            } else if (target === 98) {
+                element.textContent = current + '%';
+            } else {
+                element.textContent = current + '+';
+            }
+        }, stepTime);
+    };
+    
+    // Intersection Observer for counter animation
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                entry.target.classList.add('animated');
+                animateCounter(entry.target);
+            }
+        });
+    }, { threshold: 0.7 });
+    
+    counterElements.forEach(el => counterObserver.observe(el));
+}
+
+// Advanced Parallax Effects
+function initParallaxEffects() {
+    let ticking = false;
+    
+    const updateParallax = () => {
+        const scrolled = window.pageYOffset;
+        const heroHeight = document.querySelector('.hero-section').offsetHeight;
+        const scrollPercent = Math.min(scrolled / heroHeight, 1);
+        
+        // Parallax for decorative elements
+        const shapes = document.querySelectorAll('.shape');
+        const orbs = document.querySelectorAll('.gradient-orb');
+        const rays = document.querySelectorAll('.light-ray');
+        
+        shapes.forEach((shape, index) => {
+            const speed = 0.1 + (index * 0.05);
+            const translateY = scrollPercent * 100 * speed;
+            shape.style.transform = `translateY(${translateY}px) rotate(${15 + translateY * 0.1}deg)`;
+        });
+        
+        orbs.forEach((orb, index) => {
+            const speed = 0.05 + (index * 0.02);
+            const translateY = scrollPercent * 50 * speed;
+            orb.style.transform = `translateY(${translateY}px)`;
+        });
+        
+        rays.forEach((ray, index) => {
+            const speed = 0.15 + (index * 0.1);
+            const translateY = scrollPercent * 80 * speed;
+            ray.style.transform = `translateY(${translateY}px) rotate(${15 + translateY * 0.2}deg)`;
+        });
+        
+        // Fade out hero content
+        const heroContent = document.querySelector('.hero-content-area');
+        if (heroContent) {
+            const opacity = Math.max(0, 1 - scrollPercent * 1.5);
+            heroContent.style.opacity = opacity;
+        }
+        
+        ticking = false;
+    };
+    
+    const requestParallaxUpdate = () => {
+        if (!ticking) {
+            requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    };
+    
+    window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
+}
+
+// Mouse Follow Effects
+function initMouseFollowEffects() {
+    let mouseX = 0;
+    let mouseY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+    });
+    
+    const animateMouseFollow = () => {
+        const orbs = document.querySelectorAll('.gradient-orb');
+        const shapes = document.querySelectorAll('.shape');
+        
+        orbs.forEach((orb, index) => {
+            const speed = 0.02 + (index * 0.01);
+            const currentTransform = orb.style.transform || '';
+            const translateX = mouseX * 20 * speed;
+            const translateY = mouseY * 20 * speed;
+            
+            // Preserve existing transforms and add mouse follow
+            if (currentTransform.includes('translateY')) {
+                orb.style.transform = currentTransform.replace(
+                    /translateY\([^)]*\)/,
+                    `translateY(${translateY}px) translateX(${translateX}px)`
+                );
+            } else {
+                orb.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
+            }
+        });
+        
+        shapes.forEach((shape, index) => {
+            const speed = 0.01 + (index * 0.005);
+            const rotateX = mouseY * 5 * speed;
+            const rotateY = mouseX * 5 * speed;
+            const currentTransform = shape.style.transform || '';
+            
+            // Add subtle 3D rotation based on mouse position
+            shape.style.transform = currentTransform + ` rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        requestAnimationFrame(animateMouseFollow);
+    };
+    
+    animateMouseFollow();
+}
+
+// Enhanced Scroll Indicator
+function initScrollIndicator() {
+    const scrollIndicator = document.querySelector('.modern-scroll');
+    
+    if (scrollIndicator) {
+        // Hide/show based on scroll position
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroHeight = document.querySelector('.hero-section').offsetHeight;
+            const opacity = Math.max(0, 1 - (scrolled / (heroHeight * 0.3)));
+            
+            scrollIndicator.style.opacity = opacity;
+            scrollIndicator.style.transform = `translateX(-50%) translateY(${scrolled * 0.1}px)`;
+        });
+        
+        // Smooth scroll to next section
+        scrollIndicator.addEventListener('click', () => {
+            const nextSection = document.querySelector('.hero-section').nextElementSibling;
+            if (nextSection) {
+                nextSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    }
+}
+
+// Advanced Button Interactions
+function initButtonInteractions() {
+    const primaryButtons = document.querySelectorAll('.btn-primary-modern');
+    const secondaryButtons = document.querySelectorAll('.btn-secondary-modern');
+    
+    // Ripple effect for primary buttons
+    primaryButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const ripple = document.createElement('div');
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: rippleEffect 0.6s ease-out;
+                pointer-events: none;
+                z-index: 0;
+            `;
+            
+            this.style.position = 'relative';
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+    
+    // Magnetic effect for buttons
+    [...primaryButtons, ...secondaryButtons].forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        button.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            this.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) translateY(-3px)`;
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translate(0, 0) translateY(0)';
+        });
+    });
+    
+    // Add ripple animation CSS
+    if (!document.querySelector('#ripple-styles')) {
+        const style = document.createElement('style');
+        style.id = 'ripple-styles';
+        style.textContent = `
+            @keyframes rippleEffect {
+                0% { transform: scale(0); opacity: 1; }
+                100% { transform: scale(2); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Play button fallback for video
+function addPlayButton() {
+    const videoContainer = document.querySelector('.video-background');
+    const playButton = document.createElement('div');
+    
+    playButton.className = 'video-play-overlay';
+    playButton.innerHTML = `
+        <div class="play-button">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+            </svg>
+        </div>
+        <div class="play-text">Click to play video</div>
+    `;
+    
+    playButton.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.3);
+        color: white;
+        cursor: pointer;
+        z-index: 10;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+    `;
+    
+    const playButtonElement = playButton.querySelector('.play-button');
+    playButtonElement.style.cssText = `
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    `;
+    
+    const playText = playButton.querySelector('.play-text');
+    playText.style.cssText = `
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0.8;
+    `;
+    
+    playButton.addEventListener('click', () => {
+        const video = document.getElementById('hero-video');
+        video.play();
+        playButton.remove();
+    });
+    
+    playButton.addEventListener('mouseenter', () => {
+        playButtonElement.style.transform = 'scale(1.1)';
+        playButtonElement.style.background = 'rgba(255, 255, 255, 0.2)';
+    });
+    
+    videoContainer.appendChild(playButton);
+}
+
+/**
  * Initialize testimonial slider
  */
 function initTestimonialSlider() {
@@ -518,7 +882,7 @@ function initScrollEffects() {
  * Initialize floating animations for decorative elements
  */
 function initFloatingElements() {
-    const floatingElements = document.querySelectorAll('.floating-circle, .blur-shape');
+    const floatingElements = document.querySelectorAll('.floating-circle, .blur-shape, .soft-bubble, .floating-orb');
     
     floatingElements.forEach((el, index) => {
         // Create random but smooth floating animation
@@ -534,17 +898,19 @@ function initFloatingElements() {
         });
     });
     
-    // Animate scroll indicator
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (scrollIndicator) {
-        gsap.to(scrollIndicator, {
-            y: 10,
-            duration: 1.5,
-            ease: 'sine.inOut',
-            repeat: -1,
-            yoyo: true
-        });
-    }
+    // Animate scroll indicator (both old and new versions)
+    const scrollIndicators = document.querySelectorAll('.scroll-indicator, .modern-scroll');
+    scrollIndicators.forEach(scrollIndicator => {
+        if (scrollIndicator && !scrollIndicator.classList.contains('modern-scroll')) {
+            gsap.to(scrollIndicator, {
+                y: 10,
+                duration: 1.5,
+                ease: 'sine.inOut',
+                repeat: -1,
+                yoyo: true
+            });
+        }
+    });
 }
 
 /**
@@ -618,3 +984,105 @@ function createStaggerAnimation(elements, staggerTime = 0.1) {
         }
     });
 }
+
+// GSAP Integration for Modern Hero (Enhanced)
+if (typeof gsap !== 'undefined') {
+    // Enhanced animations with GSAP for modern hero
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Wait for DOM and then initialize GSAP animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Stagger animation for feature cards (both old and new)
+        const featureCards = document.querySelectorAll('.feature-card, .pill');
+        if (featureCards.length > 0) {
+            gsap.from(featureCards, {
+                duration: 0.8,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                delay: 1
+            });
+        }
+        
+        // Enhanced parallax effect with GSAP for modern decorative elements
+        const modernOrbs = document.querySelectorAll('.gradient-orb, .shape');
+        if (modernOrbs.length > 0) {
+            gsap.to(modernOrbs, {
+                y: -100,
+                scrollTrigger: {
+                    trigger: '.hero-section',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+        }
+        
+        // Stats card animation
+        const statsCard = document.querySelector('.stats-card');
+        if (statsCard) {
+            gsap.from(statsCard, {
+                duration: 1,
+                x: 100,
+                opacity: 0,
+                ease: 'power3.out',
+                delay: 1.2
+            });
+        }
+    });
+}
+
+// Utility function for throttling scroll events
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
+// Performance optimization for scroll events
+const optimizedScrollHandler = throttle(function() {
+    // Any additional scroll handling can go here
+}, 16); // ~60fps
+
+window.addEventListener('scroll', optimizedScrollHandler, { passive: true });
+
+// Modern browser feature detection
+const supportsWebGL = () => {
+    try {
+        const canvas = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && canvas.getContext('webgl'));
+    } catch (e) {
+        return false;
+    }
+};
+
+const supportsIntersectionObserver = 'IntersectionObserver' in window;
+const supportsRequestAnimationFrame = 'requestAnimationFrame' in window;
+
+// Log browser capabilities
+console.log('Browser capabilities:', {
+    webGL: supportsWebGL(),
+    intersectionObserver: supportsIntersectionObserver,
+    requestAnimationFrame: supportsRequestAnimationFrame,
+    gsap: typeof gsap !== 'undefined',
+    aos: typeof AOS !== 'undefined'
+});
+
+// Export functions for external use if needed
+window.EviaAesthetics = {
+    initModernHero,
+    initVideoEnhancements,
+    initCounterAnimations,
+    initParallaxEffects,
+    initMouseFollowEffects,
+    createStaggerAnimation,
+    throttle
+};
