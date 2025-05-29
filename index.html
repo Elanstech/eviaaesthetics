@@ -120,90 +120,121 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero-section">
-        <!-- Video Background -->
-        <div class="video-background">
-            <video autoplay muted loop playsinline id="hero-video" poster="video-poster.jpg">
-                <source src="large.mp4" type="video/mp4">
-                <!-- Fallback background set in CSS -->
-            </video>
-            <div class="video-overlay"></div>
-        </div>
-        
-        <!-- Hero Content -->
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-title">Discover Your <span class="highlight">Natural Beauty</span></h1>
-                    <h2 class="hero-subtitle">Physician-Led Premium Aesthetic Treatments</h2>
-                    <div class="hero-description">
-                        <p>Experience transformative results with our scientifically-backed treatments personalized for your unique beauty journey.</p>
-                    </div>
-                    
-                    <!-- Hero Features -->
-                    <div class="hero-features">
-                        <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
-                            <div class="feature-icon">
-                                <i class="fas fa-user-md"></i>
-                            </div>
-                            <div class="feature-text">
-                                <h3>Medical Expertise</h3>
-                                <p>All treatments performed by physicians</p>
-                            </div>
+    <!-- Hero Section -->
+<section class="hero-section">
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline id="hero-video" poster="video-poster.jpg">
+            <source src="large.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+    
+    <!-- Hero Content -->
+    <div class="container">
+        <div class="hero-content">
+            <!-- Hero Badge -->
+            <div class="hero-badge" data-aos="fade-up" data-aos-delay="200">
+                <div class="badge-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <span>Premium Medical Aesthetics</span>
+            </div>
+
+            <!-- Main Content -->
+            <div class="hero-main">
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
+                    Redefine Your
+                    <span class="gradient-text">Natural Beauty</span>
+                </h1>
+                
+                <p class="hero-description" data-aos="fade-up" data-aos-delay="600">
+                    Experience cutting-edge aesthetic treatments crafted by medical professionals. 
+                    Where science meets artistry for transformative results.
+                </p>
+                
+                <!-- Modern Features Grid -->
+                <div class="hero-features" data-aos="fade-up" data-aos-delay="800">
+                    <div class="feature-card">
+                        <div class="feature-icon-modern">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7.5V9M15 11.5C15.8 11.8 16.5 12.4 17 13.1L19 12L20.2 14L18.2 15C18.4 15.7 18.4 16.4 18.2 17L20.2 18L19 20L17 18.9C16.5 19.6 15.8 20.2 15 20.5V22H13V20.5C12.2 20.2 11.5 19.6 11 18.9L9 20L7.8 18L9.8 17C9.6 16.3 9.6 15.6 9.8 15L7.8 14L9 12L11 13.1C11.5 12.4 12.2 11.8 13 11.5V10H15V11.5Z" fill="currentColor"/>
+                            </svg>
                         </div>
-                        
-                        <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
-                            <div class="feature-icon">
-                                <i class="fas fa-flask"></i>
-                            </div>
-                            <div class="feature-text">
-                                <h3>Advanced Technology</h3>
-                                <p>State-of-the-art equipment and products</p>
-                            </div>
-                        </div>
-                        
-                        <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
-                            <div class="feature-icon">
-                                <i class="fas fa-award"></i>
-                            </div>
-                            <div class="feature-text">
-                                <h3>Proven Results</h3>
-                                <p>Satisfaction guaranteed for all clients</p>
-                            </div>
+                        <div class="feature-content">
+                            <h3>Advanced Technology</h3>
+                            <p>State-of-the-art equipment</p>
                         </div>
                     </div>
                     
-                    <!-- Call to Action -->
-                    <div class="hero-cta">
-                        <a href="appointment.html" class="btn btn-primary btn-large">
-                            <span>Book Your Consultation</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="services.html" class="btn btn-secondary btn-large">
-                            <span>Explore Services</span>
-                        </a>
+                    <div class="feature-card">
+                        <div class="feature-icon-modern">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Expert Care</h3>
+                            <p>Board-certified physicians</p>
+                        </div>
                     </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon-modern">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Proven Results</h3>
+                            <p>5000+ satisfied clients</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modern CTA Buttons -->
+                <div class="hero-cta" data-aos="fade-up" data-aos-delay="1000">
+                    <a href="appointment.html" class="btn-modern btn-primary">
+                        <span class="btn-text">Book Consultation</span>
+                        <div class="btn-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </a>
+                    
+                    <a href="services.html" class="btn-modern btn-secondary">
+                        <span class="btn-text">Explore Services</span>
+                        <div class="btn-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M15 3H21V9M21 3L12 12M9 3H3V9M3 3L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
-        
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator">
-            <div class="scroll-mouse">
-                <div class="scroll-wheel"></div>
-            </div>
-            <span>Scroll to explore</span>
-        </div>
-        
-        <!-- Decorative Elements -->
-        <div class="hero-decoration">
-            <div class="floating-circle circle-1"></div>
-            <div class="floating-circle circle-2"></div>
-            <div class="floating-circle circle-3"></div>
-            <div class="blur-shape shape-1"></div>
-            <div class="blur-shape shape-2"></div>
-        </div>
-    </section>
+    </div>
+    
+    <!-- Modern Scroll Indicator -->
+    <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1200">
+        <div class="scroll-line"></div>
+        <div class="scroll-text">Discover More</div>
+    </div>
+    
+    <!-- Enhanced Decorative Elements -->
+    <div class="hero-decoration">
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+        <div class="gradient-mesh mesh-1"></div>
+        <div class="gradient-mesh mesh-2"></div>
+        <div class="glass-panel panel-1"></div>
+        <div class="glass-panel panel-2"></div>
+    </div>
+</section>
     
     <!-- Services Preview Section -->
     <section class="services-preview">
