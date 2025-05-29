@@ -326,7 +326,7 @@ section {
 }
 
 .logo {
-    max-height: 70px; 
+    max-height: 200px; 
     width: auto; 
     transition: max-height var(--transition-medium) ease;
     object-fit: contain; 
