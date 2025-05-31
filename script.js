@@ -1,7 +1,7 @@
 /*
 * Evia Aesthetics - Redesigned Modern Website JavaScript
 * Created by: AI Assistant
-* Version: 3.0 - Enhanced Bright Medspa Experience
+* Version: 3.0 - Enhanced Bright Medspa Experience with Advanced Minimalistic Hero
 * Last Updated: 2025-05-29
 */
 
@@ -340,7 +340,7 @@ class EviaAestheticsApp {
     }
 
     initFloatingAnimations() {
-        const floatingElements = document.querySelectorAll('.floating-card, .shape');
+        const floatingElements = document.querySelectorAll('.glass-card, .floating-card, .shape');
         
         if (typeof gsap !== 'undefined') {
             floatingElements.forEach((element, index) => {
@@ -422,8 +422,8 @@ class EviaAestheticsApp {
     }
 
     initButtonEffects() {
-        const primaryButtons = document.querySelectorAll('.btn-primary');
-        const secondaryButtons = document.querySelectorAll('.btn-secondary');
+        const primaryButtons = document.querySelectorAll('.btn-primary-new, .btn-primary');
+        const secondaryButtons = document.querySelectorAll('.btn-secondary-new, .btn-secondary');
         
         // Add ripple effect to buttons
         [...primaryButtons, ...secondaryButtons].forEach(button => {
@@ -523,24 +523,16 @@ class EviaAestheticsApp {
     }
 
     updateParallaxElements(scrollPercent) {
-        const orbs = document.querySelectorAll('.gradient-orb');
-        const shapes = document.querySelectorAll('.shape');
-        const floatingCards = document.querySelectorAll('.floating-card');
+        const particles = document.querySelectorAll('.particle');
+        const glassCards = document.querySelectorAll('.glass-card');
         
-        orbs.forEach((orb, index) => {
+        particles.forEach((particle, index) => {
             const speed = 0.1 + (index * 0.05);
             const translateY = scrollPercent * 100 * speed;
-            orb.style.transform = `translateY(${translateY}px)`;
+            particle.style.transform = `translateY(${translateY}px)`;
         });
         
-        shapes.forEach((shape, index) => {
-            const speed = 0.15 + (index * 0.05);
-            const translateY = scrollPercent * 80 * speed;
-            const rotate = scrollPercent * 20 * (index % 2 === 0 ? 1 : -1);
-            shape.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
-        });
-        
-        floatingCards.forEach((card, index) => {
+        glassCards.forEach((card, index) => {
             const speed = 0.05 + (index * 0.02);
             const translateY = scrollPercent * 30 * speed;
             card.style.transform = `translateY(${translateY}px)`;
@@ -548,7 +540,7 @@ class EviaAestheticsApp {
     }
 
     initScrollIndicator() {
-        const scrollIndicator = document.querySelector('.scroll-indicator');
+        const scrollIndicator = document.querySelector('.scroll-indicator-new');
         
         if (!scrollIndicator) return;
         
@@ -602,7 +594,7 @@ class EviaAestheticsApp {
             });
             
             // Animate hero visual
-            const heroVisual = document.querySelector('.hero-visual');
+            const heroVisual = document.querySelector('.hero-visual-new');
             if (heroVisual) {
                 gsap.from(heroVisual, {
                     opacity: 0,
@@ -620,7 +612,7 @@ class EviaAestheticsApp {
      */
     initModalHandlers() {
         const appointmentModal = document.getElementById('appointmentModal');
-        const appointmentButtons = document.querySelectorAll('.btn-appointment, .btn-primary, #bookConsultationBtn');
+        const appointmentButtons = document.querySelectorAll('.btn-appointment, .btn-primary-new, #bookConsultationBtn');
         const closeButton = appointmentModal?.querySelector('.modal-close');
         const modalOverlay = appointmentModal?.querySelector('.modal-overlay');
         
@@ -822,7 +814,7 @@ class EviaAestheticsApp {
     }
 
     initEnhancedButtons() {
-        const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .pill');
+        const buttons = document.querySelectorAll('.btn-primary-new, .btn-secondary-new, .btn-primary, .btn-secondary, .pill');
         
         buttons.forEach(button => {
             button.addEventListener('mouseenter', function() {
@@ -874,7 +866,7 @@ class EviaAestheticsApp {
     }
 
     initCardEffects() {
-        const cards = document.querySelectorAll('.floating-card');
+        const cards = document.querySelectorAll('.glass-card, .floating-card');
         
         cards.forEach(card => {
             card.addEventListener('mouseenter', function() {
@@ -919,7 +911,7 @@ class EviaAestheticsApp {
     }
 
     initLazyLoading() {
-        const lazyElements = document.querySelectorAll('.shape, .gradient-orb, .floating-card');
+        const lazyElements = document.querySelectorAll('.shape, .particle, .glass-card');
         
         this.observeElements(lazyElements, (element) => {
             element.style.opacity = '1';
@@ -935,7 +927,7 @@ class EviaAestheticsApp {
         
         // Disable parallax on mobile for better performance
         if (window.innerWidth < 768) {
-            const parallaxElements = document.querySelectorAll('.parallax-bg, .gradient-orb');
+            const parallaxElements = document.querySelectorAll('.parallax-bg, .particle');
             parallaxElements.forEach(el => {
                 el.style.transform = 'none';
             });
@@ -1107,8 +1099,8 @@ if (typeof gsap !== 'undefined') {
         // Create a master timeline
         const tl = gsap.timeline({ delay: 0.5 });
         
-        // Animate trust badge
-        tl.from('.trust-badge', {
+        // Animate minimal badge
+        tl.from('.minimal-badge', {
             duration: 0.6,
             y: 30,
             opacity: 0,
@@ -1116,7 +1108,7 @@ if (typeof gsap !== 'undefined') {
         });
         
         // Animate title lines
-        tl.from('.title-line', {
+        tl.from('.title-primary, .title-accent, .title-subtle', {
             duration: 0.8,
             y: 50,
             opacity: 0,
@@ -1132,17 +1124,8 @@ if (typeof gsap !== 'undefined') {
             ease: 'power2.out'
         }, '-=0.4');
         
-        // Animate feature pills
-        tl.from('.pill', {
-            duration: 0.5,
-            y: 20,
-            opacity: 0,
-            stagger: 0.1,
-            ease: 'power2.out'
-        }, '-=0.3');
-        
-        // Animate CTA buttons
-        tl.from('.hero-cta button', {
+        // Animate action buttons
+        tl.from('.hero-actions button', {
             duration: 0.6,
             y: 30,
             opacity: 0,
@@ -1150,8 +1133,8 @@ if (typeof gsap !== 'undefined') {
             ease: 'power2.out'
         }, '-=0.2');
         
-        // Animate social proof
-        tl.from('.social-proof', {
+        // Animate minimal stats
+        tl.from('.minimal-stats', {
             duration: 0.6,
             y: 30,
             opacity: 0,
@@ -1159,15 +1142,15 @@ if (typeof gsap !== 'undefined') {
         }, '-=0.3');
         
         // Animate hero visual
-        tl.from('.hero-visual', {
+        tl.from('.hero-visual-new', {
             duration: 1,
             x: 100,
             opacity: 0,
             ease: 'power2.out'
         }, '-=0.8');
         
-        // Animate floating cards
-        tl.from('.floating-card', {
+        // Animate glass cards
+        tl.from('.glass-card', {
             duration: 0.8,
             scale: 0,
             opacity: 0,
@@ -1175,8 +1158,16 @@ if (typeof gsap !== 'undefined') {
             ease: 'back.out(1.7)'
         }, '-=0.5');
         
+        // Animate central feature
+        tl.from('.central-feature', {
+            duration: 0.8,
+            scale: 0,
+            opacity: 0,
+            ease: 'back.out(1.7)'
+        }, '-=0.3');
+        
         // Animate scroll indicator
-        tl.from('.scroll-indicator', {
+        tl.from('.scroll-indicator-new', {
             duration: 0.6,
             y: 20,
             opacity: 0,
