@@ -340,28 +340,31 @@ class EviaAestheticsApp {
     }
 
     initFloatingAnimations() {
-        const floatingElements = document.querySelectorAll('.glass-card, .floating-card, .shape');
+        const floatingElements = document.querySelectorAll('.glass-card, .particle, .shape');
         
         if (typeof gsap !== 'undefined') {
             floatingElements.forEach((element, index) => {
-                // Continuous floating animation
-                gsap.to(element, {
-                    y: index % 2 === 0 ? -15 : 15,
-                    duration: 3 + Math.random() * 2,
-                    ease: 'sine.inOut',
-                    repeat: -1,
-                    yoyo: true,
-                    delay: index * 0.2
-                });
-                
-                // Rotation animation for shapes
-                if (element.classList.contains('shape')) {
+                // Only animate if element exists
+                if (element) {
+                    // Continuous floating animation
                     gsap.to(element, {
-                        rotation: 360,
-                        duration: 20 + Math.random() * 10,
-                        ease: 'none',
-                        repeat: -1
+                        y: index % 2 === 0 ? -15 : 15,
+                        duration: 3 + Math.random() * 2,
+                        ease: 'sine.inOut',
+                        repeat: -1,
+                        yoyo: true,
+                        delay: index * 0.2
                     });
+                    
+                    // Rotation animation for particles and shapes
+                    if (element.classList.contains('shape') || element.classList.contains('particle')) {
+                        gsap.to(element, {
+                            rotation: 360,
+                            duration: 20 + Math.random() * 10,
+                            ease: 'none',
+                            repeat: -1
+                        });
+                    }
                 }
             });
         }
@@ -527,15 +530,19 @@ class EviaAestheticsApp {
         const glassCards = document.querySelectorAll('.glass-card');
         
         particles.forEach((particle, index) => {
-            const speed = 0.1 + (index * 0.05);
-            const translateY = scrollPercent * 100 * speed;
-            particle.style.transform = `translateY(${translateY}px)`;
+            if (particle) {
+                const speed = 0.1 + (index * 0.05);
+                const translateY = scrollPercent * 100 * speed;
+                particle.style.transform = `translateY(${translateY}px)`;
+            }
         });
         
         glassCards.forEach((card, index) => {
-            const speed = 0.05 + (index * 0.02);
-            const translateY = scrollPercent * 30 * speed;
-            card.style.transform = `translateY(${translateY}px)`;
+            if (card) {
+                const speed = 0.05 + (index * 0.02);
+                const translateY = scrollPercent * 30 * speed;
+                card.style.transform = `translateY(${translateY}px)`;
+            }
         });
     }
 
@@ -582,16 +589,19 @@ class EviaAestheticsApp {
     triggerHeroAnimations() {
         // Trigger hero animations after page load
         if (typeof gsap !== 'undefined') {
-            const heroElements = document.querySelectorAll('.hero-content > *');
+            // Use the new class names for hero elements
+            const heroElements = document.querySelectorAll('.minimal-badge, .hero-title, .hero-subtitle, .hero-actions, .minimal-stats');
             
-            gsap.from(heroElements, {
-                opacity: 0,
-                y: 30,
-                duration: 0.8,
-                stagger: 0.1,
-                ease: 'power2.out',
-                delay: 0.3
-            });
+            if (heroElements.length > 0) {
+                gsap.from(heroElements, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: 'power2.out',
+                    delay: 0.3
+                });
+            }
             
             // Animate hero visual
             const heroVisual = document.querySelector('.hero-visual-new');
@@ -911,10 +921,12 @@ class EviaAestheticsApp {
     }
 
     initLazyLoading() {
-        const lazyElements = document.querySelectorAll('.shape, .particle, .glass-card');
+        const lazyElements = document.querySelectorAll('.particle, .glass-card, .shape');
         
         this.observeElements(lazyElements, (element) => {
-            element.style.opacity = '1';
+            if (element) {
+                element.style.opacity = '1';
+            }
         });
     }
 
@@ -1096,83 +1108,115 @@ if (typeof gsap !== 'undefined') {
     
     // Enhanced GSAP animations for the redesigned hero
     document.addEventListener('DOMContentLoaded', function() {
-        // Create a master timeline
-        const tl = gsap.timeline({ delay: 0.5 });
-        
-        // Animate minimal badge
-        tl.from('.minimal-badge', {
-            duration: 0.6,
-            y: 30,
-            opacity: 0,
-            ease: 'power2.out'
-        });
-        
-        // Animate title lines
-        tl.from('.title-primary, .title-accent, .title-subtle', {
-            duration: 0.8,
-            y: 50,
-            opacity: 0,
-            stagger: 0.2,
-            ease: 'power2.out'
-        }, '-=0.3');
-        
-        // Animate subtitle
-        tl.from('.hero-subtitle', {
-            duration: 0.6,
-            y: 30,
-            opacity: 0,
-            ease: 'power2.out'
-        }, '-=0.4');
-        
-        // Animate action buttons
-        tl.from('.hero-actions button', {
-            duration: 0.6,
-            y: 30,
-            opacity: 0,
-            stagger: 0.1,
-            ease: 'power2.out'
-        }, '-=0.2');
-        
-        // Animate minimal stats
-        tl.from('.minimal-stats', {
-            duration: 0.6,
-            y: 30,
-            opacity: 0,
-            ease: 'power2.out'
-        }, '-=0.3');
-        
-        // Animate hero visual
-        tl.from('.hero-visual-new', {
-            duration: 1,
-            x: 100,
-            opacity: 0,
-            ease: 'power2.out'
-        }, '-=0.8');
-        
-        // Animate glass cards
-        tl.from('.glass-card', {
-            duration: 0.8,
-            scale: 0,
-            opacity: 0,
-            stagger: 0.2,
-            ease: 'back.out(1.7)'
-        }, '-=0.5');
-        
-        // Animate central feature
-        tl.from('.central-feature', {
-            duration: 0.8,
-            scale: 0,
-            opacity: 0,
-            ease: 'back.out(1.7)'
-        }, '-=0.3');
-        
-        // Animate scroll indicator
-        tl.from('.scroll-indicator-new', {
-            duration: 0.6,
-            y: 20,
-            opacity: 0,
-            ease: 'power2.out'
-        }, '-=0.2');
+        // Wait for elements to exist before animating
+        setTimeout(() => {
+            // Create a master timeline
+            const tl = gsap.timeline({ delay: 0.5 });
+            
+            // Check if elements exist before animating
+            const minimalBadge = document.querySelector('.minimal-badge');
+            const titleElements = document.querySelectorAll('.title-primary, .title-accent, .title-subtle');
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            const heroButtons = document.querySelectorAll('.hero-actions button');
+            const minimalStats = document.querySelector('.minimal-stats');
+            const heroVisual = document.querySelector('.hero-visual-new');
+            const glassCards = document.querySelectorAll('.glass-card');
+            const centralFeature = document.querySelector('.central-feature');
+            const scrollIndicator = document.querySelector('.scroll-indicator-new');
+            
+            // Animate minimal badge
+            if (minimalBadge) {
+                tl.from(minimalBadge, {
+                    duration: 0.6,
+                    y: 30,
+                    opacity: 0,
+                    ease: 'power2.out'
+                });
+            }
+            
+            // Animate title lines
+            if (titleElements.length > 0) {
+                tl.from(titleElements, {
+                    duration: 0.8,
+                    y: 50,
+                    opacity: 0,
+                    stagger: 0.2,
+                    ease: 'power2.out'
+                }, '-=0.3');
+            }
+            
+            // Animate subtitle
+            if (heroSubtitle) {
+                tl.from(heroSubtitle, {
+                    duration: 0.6,
+                    y: 30,
+                    opacity: 0,
+                    ease: 'power2.out'
+                }, '-=0.4');
+            }
+            
+            // Animate action buttons
+            if (heroButtons.length > 0) {
+                tl.from(heroButtons, {
+                    duration: 0.6,
+                    y: 30,
+                    opacity: 0,
+                    stagger: 0.1,
+                    ease: 'power2.out'
+                }, '-=0.2');
+            }
+            
+            // Animate minimal stats
+            if (minimalStats) {
+                tl.from(minimalStats, {
+                    duration: 0.6,
+                    y: 30,
+                    opacity: 0,
+                    ease: 'power2.out'
+                }, '-=0.3');
+            }
+            
+            // Animate hero visual
+            if (heroVisual) {
+                tl.from(heroVisual, {
+                    duration: 1,
+                    x: 100,
+                    opacity: 0,
+                    ease: 'power2.out'
+                }, '-=0.8');
+            }
+            
+            // Animate glass cards
+            if (glassCards.length > 0) {
+                tl.from(glassCards, {
+                    duration: 0.8,
+                    scale: 0,
+                    opacity: 0,
+                    stagger: 0.2,
+                    ease: 'back.out(1.7)'
+                }, '-=0.5');
+            }
+            
+            // Animate central feature
+            if (centralFeature) {
+                tl.from(centralFeature, {
+                    duration: 0.8,
+                    scale: 0,
+                    opacity: 0,
+                    ease: 'back.out(1.7)'
+                }, '-=0.3');
+            }
+            
+            // Animate scroll indicator
+            if (scrollIndicator) {
+                tl.from(scrollIndicator, {
+                    duration: 0.6,
+                    y: 20,
+                    opacity: 0,
+                    ease: 'power2.out'
+                }, '-=0.2');
+            }
+        }, 100);
     });
 }
 
