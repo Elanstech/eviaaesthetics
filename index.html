@@ -128,6 +128,16 @@
 
     <!-- STUNNING HERO SECTION -->
     <section class="hero-section" id="home">
+        <!-- Video Background -->
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="hero-video.mp4" type="video/mp4">
+                <!-- Fallback for browsers that don't support video -->
+                <source src="hero-video.webm" type="video/webm">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+
         <!-- Animated Background -->
         <div class="hero-background">
             <div class="bg-gradient"></div>
@@ -146,7 +156,7 @@
             <!-- Left Content -->
             <div class="hero-content">
                 <!-- Premium Badge -->
-                <div class="premium-badge" data-aos="fade-up" data-aos-delay="200">
+                <div class="premium-badge hero-animate" data-delay="200">
                     <div class="badge-icon">
                         <i class="fas fa-crown"></i>
                     </div>
@@ -154,20 +164,20 @@
                 </div>
 
                 <!-- Main Title -->
-                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
-                    <span class="title-line-1">Transform Your</span>
-                    <span class="title-line-2">Natural Beauty</span>
-                    <span class="title-line-3">Elegantly</span>
+                <h1 class="hero-title">
+                    <span class="title-line-1 hero-animate" data-delay="400">Transform Your</span>
+                    <span class="title-line-2 hero-animate" data-delay="600">Natural Beauty</span>
+                    <span class="title-line-3 hero-animate" data-delay="800">Elegantly</span>
                 </h1>
 
                 <!-- Subtitle -->
-                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="600">
+                <p class="hero-subtitle hero-animate" data-delay="1000">
                     Experience the perfect harmony of advanced medical aesthetics and personalized care. 
                     Where science meets artistry to reveal your most confident self.
                 </p>
 
                 <!-- Action Buttons -->
-                <div class="hero-actions" data-aos="fade-up" data-aos-delay="800">
+                <div class="hero-actions hero-animate" data-delay="1200">
                     <button class="btn-hero-primary" id="heroBookBtn">
                         <span class="btn-text">Begin Your Journey</span>
                         <div class="btn-icon">
@@ -185,7 +195,7 @@
                 </div>
 
                 <!-- Stats -->
-                <div class="hero-stats" data-aos="fade-up" data-aos-delay="1000">
+                <div class="hero-stats hero-animate" data-delay="1400">
                     <div class="stat-item">
                         <div class="stat-number" data-target="2500">0</div>
                         <div class="stat-label">Happy Clients</div>
@@ -204,9 +214,9 @@
             </div>
 
             <!-- Right Visual -->
-            <div class="hero-visual" data-aos="fade-left" data-aos-delay="600">
+            <div class="hero-visual hero-animate" data-delay="600">
                 <!-- Service Cards -->
-                <div class="service-card card-1">
+                <div class="service-card card-1 hero-animate" data-delay="1600">
                     <div class="card-icon">
                         <i class="fas fa-leaf"></i>
                     </div>
@@ -217,7 +227,7 @@
                     <div class="card-glow"></div>
                 </div>
 
-                <div class="service-card card-2">
+                <div class="service-card card-2 hero-animate" data-delay="1800">
                     <div class="card-icon">
                         <i class="fas fa-atom"></i>
                     </div>
@@ -228,7 +238,7 @@
                     <div class="card-glow"></div>
                 </div>
 
-                <div class="service-card card-3">
+                <div class="service-card card-3 hero-animate" data-delay="2000">
                     <div class="card-icon">
                         <i class="fas fa-user-md"></i>
                     </div>
@@ -240,7 +250,7 @@
                 </div>
 
                 <!-- Central Feature -->
-                <div class="central-feature">
+                <div class="central-feature hero-animate" data-delay="2200">
                     <div class="feature-circle">
                         <div class="circle-inner">
                             <i class="fas fa-spa"></i>
@@ -251,7 +261,7 @@
                 </div>
 
                 <!-- Trust Badges -->
-                <div class="trust-badges">
+                <div class="trust-badges hero-animate" data-delay="2400">
                     <div class="trust-badge">
                         <i class="fas fa-certificate"></i>
                         <span>Board Certified</span>
@@ -269,7 +279,7 @@
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1200">
+        <div class="scroll-indicator hero-animate" data-delay="2600">
             <div class="scroll-mouse">
                 <div class="scroll-wheel"></div>
             </div>
