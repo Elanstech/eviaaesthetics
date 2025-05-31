@@ -270,14 +270,14 @@ ul, ol {
 }
 
 .logo {
-    max-height: 300px; 
+    max-height: 350px; 
     width: auto; 
     transition: max-height var(--transition-medium) ease;
     object-fit: contain; 
 }
 
 .site-header.scrolled .logo {
-    max-height: 150px; 
+    max-height: 200px; 
 }
 
 /* Main Navigation */
