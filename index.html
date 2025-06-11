@@ -37,6 +37,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body class="loading">
+    
     <!-- Preloader -->
     <div class="preloader" id="preloader">
         <div class="preloader-content">
@@ -65,185 +66,104 @@
     </div>
 
     <!-- Modern Floating Header -->
-    <header class="header" id="header">
-        <div class="header-container">
-            <div class="header-pill">
-                <!-- Glass Layer -->
-                <div class="header-glass"></div>
-                
-                <!-- Background Elements -->
-                <div class="header-bg">
-                    <div class="header-blob blob-1"></div>
-                    <div class="header-blob blob-2"></div>
-                </div>
-                
-                <div class="header-wrapper">
-                    <!-- Logo -->
-                    <div class="logo">
-                        <div class="logo-bg"></div>
-                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
-                        <div class="logo-text">
-                            <span class="logo-title">Evia</span>
-                            <span class="logo-subtitle">Aesthetics</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Navigation -->
-                    <nav class="nav" id="nav">
-                        <ul class="nav-list">
-                            <li class="nav-item active">
-                                <a href="#home" class="nav-link">
-                                    <span>Home</span>
-                                    <div class="nav-pill"></div>
-                                </a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a href="#services" class="nav-link">
-                                    <span>Services</span>
-                                    <i class="fa-solid fa-chevron-down nav-icon"></i>
-                                    <div class="nav-pill"></div>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <div class="dropdown-glass"></div>
-                                    <a href="#facial" class="dropdown-item">
-                                        <div class="dropdown-icon-wrap">
-                                            <i class="fa-solid fa-spa dropdown-icon"></i>
-                                        </div>
-                                        <div>
-                                            <span class="dropdown-title">Facial Treatments</span>
-                                            <span class="dropdown-desc">Rejuvenate your skin</span>
-                                        </div>
-                                    </a>
-                                    <a href="#body" class="dropdown-item">
-                                        <div class="dropdown-icon-wrap">
-                                            <i class="fa-solid fa-user dropdown-icon"></i>
-                                        </div>
-                                        <div>
-                                            <span class="dropdown-title">Body Contouring</span>
-                                            <span class="dropdown-desc">Sculpt your silhouette</span>
-                                        </div>
-                                    </a>
-                                    <a href="#injectable" class="dropdown-item">
-                                        <div class="dropdown-icon-wrap">
-                                            <i class="fa-solid fa-syringe dropdown-icon"></i>
-                                        </div>
-                                        <div>
-                                            <span class="dropdown-title">Injectable Treatments</span>
-                                            <span class="dropdown-desc">Botox & fillers</span>
-                                        </div>
-                                    </a>
-                                    <a href="#longevity" class="dropdown-item">
-                                        <div class="dropdown-icon-wrap">
-                                            <i class="fa-solid fa-heartbeat dropdown-icon"></i>
-                                        </div>
-                                        <div>
-                                            <span class="dropdown-title">Longevity Medicine</span>
-                                            <span class="dropdown-desc">Age gracefully</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#about" class="nav-link">
-                                    <span>About</span>
-                                    <div class="nav-pill"></div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#results" class="nav-link">
-                                    <span>Results</span>
-                                    <div class="nav-pill"></div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#contact" class="nav-link">
-                                    <span>Contact</span>
-                                    <div class="nav-pill"></div>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    
-                    <!-- CTA Button -->
-                    <div class="header-actions">
-                        <button class="btn btn-primary header-cta" id="headerCta">
-                            <div class="btn-glow"></div>
-                            <span>Book Consultation</span>
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </button>
-                        
-                        <!-- Mobile Menu Toggle -->
-                        <button class="menu-toggle" id="menuToggle">
-                            <div class="hamburger">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <header class="sleek-header" id="sleekHeader">
+  <div class="header-container">
+    <div class="logo-wrapper">
+      <a href="/" class="logo">
+        <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
+        <div class="logo-text">
+          <span class="logo-title">Evia</span>
+          <span class="logo-subtitle">Aesthetics</span>
         </div>
-        
-        <!-- Mobile Menu -->
-        <div class="mobile-menu" id="mobileMenu">
-            <div class="mobile-menu-container">
-                <div class="mobile-menu-header">
-                    <div class="logo">
-                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
-                    </div>
-                    <button class="menu-close" id="menuClose">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                
-                <nav class="mobile-nav">
-                    <ul class="mobile-nav-list">
-                        <li class="mobile-nav-item active"><a href="#home" class="mobile-nav-link">Home</a></li>
-                        <li class="mobile-nav-item dropdown">
-                            <a href="#services" class="mobile-nav-link dropdown-toggle">
-                                Services
-                                <i class="fa-solid fa-chevron-down mobile-nav-icon"></i>
-                            </a>
-                            <ul class="mobile-dropdown">
-                                <li><a href="#facial" class="mobile-dropdown-item">Facial Treatments</a></li>
-                                <li><a href="#body" class="mobile-dropdown-item">Body Contouring</a></li>
-                                <li><a href="#injectable" class="mobile-dropdown-item">Injectable Treatments</a></li>
-                                <li><a href="#longevity" class="mobile-dropdown-item">Longevity Medicine</a></li>
-                            </ul>
-                        </li>
-                        <li class="mobile-nav-item"><a href="#about" class="mobile-nav-link">About</a></li>
-                        <li class="mobile-nav-item"><a href="#results" class="mobile-nav-link">Results</a></li>
-                        <li class="mobile-nav-item"><a href="#contact" class="mobile-nav-link">Contact</a></li>
-                    </ul>
-                </nav>
-                
-                <div class="mobile-cta">
-                    <button class="btn btn-primary mobile-btn" id="mobileCta">
-                        <span>Book Consultation</span>
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </button>
-                </div>
-                
-                <div class="mobile-contact">
-                    <div class="contact-item">
-                        <i class="fa-solid fa-phone"></i>
-                        <span>(555) 123-4567</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fa-solid fa-envelope"></i>
-                        <span>contact@eviaaesthetics.com</span>
-                    </div>
-                </div>
-                
-                <div class="mobile-social">
-                    <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-tiktok"></i></a>
-                </div>
+      </a>
+    </div>
+    
+    <nav class="main-nav">
+      <ul class="nav-list">
+        <li class="nav-item active"><a href="#home" class="nav-link">Home</a></li>
+        <li class="nav-item dropdown">
+          <a href="#services" class="nav-link">
+            Services
+            <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#facial" class="dropdown-item">
+              <div class="dropdown-icon-wrap">
+                <i class="fa-solid fa-spa"></i>
+              </div>
+              <div>Facial Treatments</div>
+            </a>
+            <a href="#body" class="dropdown-item">
+              <div class="dropdown-icon-wrap">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <div>Body Contouring</div>
+            </a>
+            <a href="#injectable" class="dropdown-item">
+              <div class="dropdown-icon-wrap">
+                <i class="fa-solid fa-syringe"></i>
+              </div>
+              <div>Injectable Treatments</div>
+            </a>
+            <a href="#longevity" class="dropdown-item">
+              <div class="dropdown-icon-wrap">
+                <i class="fa-solid fa-heartbeat"></i>
+              </div>
+              <div>Longevity Medicine</div>
+            </a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="#results" class="nav-link">Results</a></li>
+        <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+    
+    <div class="header-actions">
+      <a href="#" class="cta-button" id="headerCta">
+        Book Consultation
+        <i class="fa-solid fa-calendar-check"></i>
+      </a>
+      <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-container">
+      <div class="mobile-nav">
+        <ul class="mobile-nav-list">
+          <li class="mobile-nav-item active"><a href="#home" class="mobile-nav-link">Home</a></li>
+          <li class="mobile-nav-item dropdown">
+            <a href="#services" class="mobile-nav-link dropdown-toggle">
+              Services
+              <i class="fa-solid fa-chevron-down"></i>
+            </a>
+            <div class="mobile-dropdown">
+              <a href="#facial" class="mobile-dropdown-item">Facial Treatments</a>
+              <a href="#body" class="mobile-dropdown-item">Body Contouring</a>
+              <a href="#injectable" class="mobile-dropdown-item">Injectable Treatments</a>
+              <a href="#longevity" class="mobile-dropdown-item">Longevity Medicine</a>
             </div>
-        </div>
-    </header>
+          </li>
+          <li class="mobile-nav-item"><a href="#about" class="mobile-nav-link">About</a></li>
+          <li class="mobile-nav-item"><a href="#results" class="mobile-nav-link">Results</a></li>
+          <li class="mobile-nav-item"><a href="#contact" class="mobile-nav-link">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="mobile-cta">
+        <a href="#" class="cta-button mobile-cta-button" id="mobileCta">
+          Book Consultation
+          <i class="fa-solid fa-calendar-check"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
 
     <!-- Cinematic Parallax Hero Section -->
     <section class="hero" id="hero">
