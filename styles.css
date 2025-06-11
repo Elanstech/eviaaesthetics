@@ -325,7 +325,7 @@ ul, ol {
     overflow: hidden;
     transition: all var(--transition-medium);
     padding: var(--space-sm) var(--space-lg);
-    height: 85px; /* Increased from 75px to accommodate larger logo */
+    height: 75px;
 }
 
 /* Glass effect */
@@ -399,13 +399,14 @@ ul, ol {
 }
 
 .header.scrolled .header-pill {
-    height: 75px; /* Increased from 65px */
+    height: 65px;
 }
 
 /* Logo section */
 .logo {
     display: flex;
     align-items: center;
+    gap: var(--space-sm);
     position: relative;
     padding: var(--space-xs) var(--space-md);
     border-radius: var(--radius-full);
@@ -432,13 +433,33 @@ ul, ol {
 }
 
 .logo-img {
-    height: 60px; /* Increased from 38px */
+    height: 38px;
     width: auto;
     transition: height var(--transition-medium);
 }
 
 .header.scrolled .logo-img {
-    height: 50px; /* Increased from 32px */
+    height: 32px;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--bronze);
+    line-height: 1.1;
+}
+
+.logo-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-medium);
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 /* Modern Navigation */
@@ -761,7 +782,7 @@ ul, ol {
 }
 
 .mobile-menu-header .logo-img {
-    height: 50px; /* Increased from 32px */
+    height: 32px;
 }
 
 .menu-close {
@@ -896,79 +917,12 @@ ul, ol {
 }
 
 /* Mobile responsiveness for header */
-@media (max-width: 991px) {
-    .nav-list {
-        gap: var(--space-lg);
-    }
-    
-    .logo-img {
-        height: 55px;
-    }
-    
-    .header.scrolled .logo-img {
-        height: 45px;
-    }
-}
-
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: flex;
-    }
-    
-    .nav {
-        display: none;
-    }
-    
-    .logo-img {
-        height: 50px;
-    }
-    
-    .header.scrolled .logo-img {
-        height: 42px;
-    }
-    
-    .header-pill {
-        height: 75px;
-    }
-    
-    .header.scrolled .header-pill {
-        height: 65px;
-    }
-}
-
-@media (max-width: 480px) {
-    .header-cta {
-        display: none;
-    }
-    
-    .logo-img {
-        height: 45px;
-    }
-    
-    .header.scrolled .logo-img {
-        height: 38px;
-    }
-}
-
-/* Animation for floating blobs */
 @keyframes blob-float {
     0%, 100% {
         transform: translate(0, 0) scale(1);
     }
     50% {
         transform: translate(10px, 10px) scale(1.1);
-    }
-}
-
-/* Animation for glowing/pulsing elements */
-@keyframes pulse {
-    0%, 100% {
-        opacity: 0.5;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.8;
-        transform: scale(1.05);
     }
 }
 
@@ -1589,8 +1543,7 @@ ul, ol {
     }
     
     .nav-list {
-        gap: var(--space-lg);
-    
+        gap: var(--space-md);
     }
     
     .hero-title {
@@ -1600,10 +1553,6 @@ ul, ol {
     .hero-buttons {
         flex-wrap: wrap;
         justify-content: center;
-    }
-    .logo-img {
-        height: 35px;
-   
     }
 }
 
@@ -1616,10 +1565,9 @@ ul, ol {
     .menu-toggle {
         display: flex;
     }
-   
-   .logo-img {
-    height: 50px; /* Slightly smaller on mobile but still prominent */
-   
+    
+    .logo-img {
+        height: 36px;
     }
     
     .logo-title {
@@ -1633,11 +1581,6 @@ ul, ol {
     .header.scrolled .header-pill {
         height: 60px;
     }
-   
-   .sleek-header.scrolled .logo-img {
-    height: 40px;
-  
-   }
     
     .hero-title {
         font-size: clamp(2rem, 6vw, 3.5rem);
