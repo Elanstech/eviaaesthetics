@@ -954,28 +954,6 @@ ul, ol {
     }
 }
 
-/* Animation for floating blobs */
-@keyframes blob-float {
-    0%, 100% {
-        transform: translate(0, 0) scale(1);
-    }
-    50% {
-        transform: translate(10px, 10px) scale(1.1);
-    }
-}
-
-/* Animation for glowing/pulsing elements */
-@keyframes pulse {
-    0%, 100% {
-        opacity: 0.5;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.8;
-        transform: scale(1.05);
-    }
-}
-
 /* ==============================
    CINEMATIC PARALLAX HERO
 ============================== */
