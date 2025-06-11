@@ -195,13 +195,6 @@ class EviaApp {
             // Apply transformation
             video.style.transform = `translate(-50%, -50%) scale(${scale}) translateY(${translateY}px)`;
             
-            // Adjust overlay opacity for enhanced depth
-            const overlay = document.querySelector('.video-overlay');
-            if (overlay) {
-                const baseOpacity = 0.5;
-                const opacityChange = 0.3;
-                overlay.style.opacity = baseOpacity + (scrollPercentage * opacityChange);
-            }
         };
 
         // Apply throttled scroll handler
