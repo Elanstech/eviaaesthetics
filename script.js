@@ -195,13 +195,6 @@ class EviaApp {
             // Apply transformation
             video.style.transform = `translate(-50%, -50%) scale(${scale}) translateY(${translateY}px)`;
             
-            // Adjust overlay opacity for enhanced depth
-            const overlay = document.querySelector('.video-overlay');
-            if (overlay) {
-                const baseOpacity = 0.5;
-                const opacityChange = 0.3;
-                overlay.style.opacity = baseOpacity + (scrollPercentage * opacityChange);
-            }
         };
 
         // Apply throttled scroll handler
@@ -748,92 +741,4 @@ class EviaApp {
 // Initialize application
 document.addEventListener('DOMContentLoaded', () => {
     const eviaApp = new EviaApp();
-});
-
-// Sleek Header Functionality
-document.addEventListener('DOMContentLoaded', function() {
-  // Elements
-  const sleekHeader = document.getElementById('sleekHeader');
-  const menuToggle = document.getElementById('sleekMenuToggle');
-  const mobileMenu = document.getElementById('sleekMobileMenu');
-  const mobileDropdownToggles = document.querySelectorAll('.sleek-header .mobile-nav-item.dropdown .mobile-nav-link');
-  const logoImg = document.querySelector('.sleek-header .logo-img');
-  
-  if (!sleekHeader) return;
-  
-  // Handle scroll effects
-  function handleSleekHeaderScroll() {
-    if (window.scrollY > 50) {
-      sleekHeader.classList.add('scrolled');
-    } else {
-      sleekHeader.classList.remove('scrolled');
-    }
-  }
-  
-  // Toggle mobile menu
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', function() {
-      const isActive = this.classList.contains('active');
-      
-      this.classList.toggle('active');
-      
-      if (isActive) {
-        mobileMenu.classList.remove('active');
-      } else {
-        mobileMenu.classList.add('active');
-      }
-    });
-  }
-  
-  // Toggle mobile dropdowns
-  if (mobileDropdownToggles) {
-    mobileDropdownToggles.forEach(toggle => {
-      toggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        const parent = this.parentElement;
-        parent.classList.toggle('active');
-      });
-    });
-  }
-  
-  // Fix logo rendering - eliminates invisible space issue
-  if (logoImg) {
-    // Force proper rendering by temporarily changing display
-    logoImg.style.display = 'inline-block';
-    setTimeout(() => {
-      logoImg.style.display = 'block';
-    }, 10);
-  }
-
-  // Initialize scroll listener
-  window.addEventListener('scroll', handleSleekHeaderScroll);
-  
-  // Initial scroll check
-  handleSleekHeaderScroll();
-  
-  // Connect sleek header CTAs to modal if it exists
-  const sleekHeaderCta = document.getElementById('sleekHeaderCta');
-  const sleekMobileCta = document.getElementById('sleekMobileCta');
-  const appointmentModal = document.getElementById('appointmentModal');
-  
-  if (appointmentModal && sleekHeaderCta) {
-    sleekHeaderCta.addEventListener('click', function(e) {
-      e.preventDefault();
-      appointmentModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
-  }
-  
-  if (appointmentModal && sleekMobileCta) {
-    sleekMobileCta.addEventListener('click', function(e) {
-      e.preventDefault();
-      appointmentModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      
-      if (mobileMenu && menuToggle) {
-        mobileMenu.classList.remove('active');
-        menuToggle.classList.remove('active');
-      }
-    });
-  }
 });
