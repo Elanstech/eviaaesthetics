@@ -1641,8 +1641,6 @@ class EviaAestheticsApp {
     async handleFormSubmission(e) {
         e.preventDefault();
         
-        const form = e.preventDefault();
-        
         const form = e.target;
         const submitBtn = form.querySelector('.form-submit');
         const formData = new FormData(form);
