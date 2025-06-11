@@ -1,24 +1,39 @@
 /*
-* Evia Aesthetics - Modern Website JavaScript
-* Created by: Elanstech
-* Version: 2.0 - Enhanced with Modern Hero Section
-* Last Updated: 2025-05-29 14:36:00
+* Evia Aesthetics - Professional Website JavaScript
+* Created for: Evia Aesthetics Medspa
+* Version: 3.0 - Ultra-Modern Interactive Features
+* Last Updated: 2025-06-11
 */
 
+'use strict';
+
 // ==============================
-// Core Application Class
+// EVIA AESTHETICS APP CLASS
 // ==============================
 class EviaAestheticsApp {
     constructor() {
         this.isLoaded = false;
-        this.animations = {};
-        this.observers = {};
+        this.animations = new Map();
+        this.observers = new Map();
+        this.timers = new Map();
+        this.state = {
+            mobileMenuOpen: false,
+            modalOpen: false,
+            scrolled: false,
+            preloaderComplete: false
+        };
+        
+        // Bind methods
+        this.handleScroll = this.throttle(this.handleScroll.bind(this), 16);
+        this.handleResize = this.debounce(this.handleResize.bind(this), 250);
         
         this.init();
     }
 
+    /**
+     * Initialize the application
+     */
     init() {
-        // Wait for the DOM to be fully loaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.initializeApp());
         } else {
@@ -26,461 +41,837 @@ class EviaAestheticsApp {
         }
     }
 
-    initializeApp() {
-        // Initialize all components in order
-        this.initPreloader();
-        this.initNavigation();
-        this.initAnimations();
-        this.initModernHero();
-        this.initTestimonialSlider();
-        this.initModalHandlers();
-        this.initScrollEffects();
-        this.initPerformanceOptimizations();
-        
-        // Mark as loaded
-        this.isLoaded = true;
-        
-        // Log initialization
-        console.log('🎨 Evia Aesthetics website initialized with modern features');
-        this.logBrowserCapabilities();
-    }
-
     /**
-     * Handle preloader and page loading animations
+     * Main initialization sequence
      */
-    initPreloader() {
-        const preloader = document.querySelector('.preloader');
+    async initializeApp() {
+        try {
+            console.log('🎨 Initializing Evia Aesthetics App...');
+            
+            // Initialize components in sequence
+            await this.initPreloader();
+            this.initNavigation();
+            this.initMobileMenu();
+            this.initHeroSection();
+            this.initModals();
+            this.initScrollEffects();
+            this.initAnimationLibraries();
+            this.initPerformanceOptimizations();
+            this.initAccessibility();
+            this.bindEventListeners();
+            
+            // Mark as loaded
+            this.isLoaded = true;
+            
+            console.log('✅ Evia Aesthetics App initialized successfully');
+            this.logPerformanceMetrics();
+            
+        } catch (error) {
+            console.error('❌ Error initializing app:', error);
+        }
+    }
+
+    // ==============================
+    // PRELOADER SYSTEM
+    // ==============================
+    
+    /**
+     * Advanced preloader with progress tracking
+     */
+    async initPreloader() {
+        const preloader = document.getElementById('preloader');
+        const progressFill = document.getElementById('progressFill');
+        const loadingText = document.getElementById('loadingText');
+        
         if (!preloader) return;
-        
-        // Fade out preloader when page is loaded
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                    document.body.classList.add('loaded');
-                    
-                    // Start any animations that should run after page load
-                    this.animateHeroElements();
-                }, 600);
-            }, 1500);
-        });
-        
-        // Fallback to hide preloader if load event doesn't fire
-        setTimeout(() => {
-            if (preloader.style.opacity !== '0') {
-                preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                    document.body.classList.add('loaded');
-                    this.animateHeroElements();
-                }, 600);
+
+        const loadingSteps = [
+            { progress: 0, text: 'Initializing...' },
+            { progress: 20, text: 'Loading assets...' },
+            { progress: 40, text: 'Preparing interface...' },
+            { progress: 60, text: 'Optimizing experience...' },
+            { progress: 80, text: 'Finalizing details...' },
+            { progress: 100, text: 'Welcome to Evia!' }
+        ];
+
+        // Simulate loading with realistic timing
+        for (let i = 0; i < loadingSteps.length; i++) {
+            const step = loadingSteps[i];
+            
+            // Update progress bar
+            if (progressFill) {
+                progressFill.style.width = `${step.progress}%`;
             }
-        }, 5000);
+            
+            // Update loading text
+            if (loadingText) {
+                loadingText.textContent = step.text;
+            }
+            
+            // Wait before next step
+            await this.delay(300 + Math.random() * 200);
+        }
+
+        // Additional delay for smooth transition
+        await this.delay(800);
+
+        // Hide preloader
+        this.hidePreloader(preloader);
     }
 
     /**
-     * Initialize header, navigation, and mobile menu
+     * Hide preloader with smooth animation
+     */
+    hidePreloader(preloader) {
+        preloader.classList.add('fade-out');
+        document.body.classList.remove('loading');
+        
+        setTimeout(() => {
+            preloader.style.display = 'none';
+            this.state.preloaderComplete = true;
+            this.startHeroAnimations();
+        }, 800);
+    }
+
+    // ==============================
+    // NAVIGATION SYSTEM
+    // ==============================
+    
+    /**
+     * Initialize header and navigation
      */
     initNavigation() {
-        const header = document.querySelector('.site-header');
-        const mobileToggle = document.querySelector('.mobile-toggle');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const mobileDropdownItems = document.querySelectorAll('.mobile-nav-item.has-dropdown');
-        const navDropdownItems = document.querySelectorAll('.nav-item.dropdown');
-        
+        const header = document.getElementById('siteHeader');
         if (!header) return;
+
+        // Scroll detection
+        this.initScrollDetection(header);
         
-        // Handle scroll effects on header
-        const handleHeaderScroll = this.throttle(() => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        }, 10);
+        // Navigation interactions
+        this.initNavigationInteractions();
         
-        window.addEventListener('scroll', handleHeaderScroll, { passive: true });
-        
-        // Force initial check in case page is loaded scrolled down
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        }
-        
-        // Mobile menu toggle
-        if (mobileToggle && mobileMenu) {
-            mobileToggle.addEventListener('click', () => {
-                const isActive = mobileToggle.classList.toggle('active');
-                mobileMenu.classList.toggle('active');
-                document.body.classList.toggle('menu-open');
-                
-                this.animateMobileToggle(mobileToggle, isActive);
-            });
-        }
-        
-        // Mobile dropdowns
-        mobileDropdownItems.forEach(item => {
-            const link = item.querySelector('a');
-            const dropdown = item.querySelector('.mobile-dropdown');
+        // Smooth scrolling for anchor links
+        this.initSmoothScrolling();
+    }
+
+    /**
+     * Header scroll effects
+     */
+    initScrollDetection(header) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset > 50;
             
-            if (link && dropdown) {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    item.classList.toggle('active');
-                    this.animateMobileDropdown(dropdown, item.classList.contains('active'));
-                });
+            if (scrolled !== this.state.scrolled) {
+                this.state.scrolled = scrolled;
+                header.classList.toggle('scrolled', scrolled);
+                
+                // Animate logo size change
+                this.animateLogoTransition(scrolled);
             }
+        }, { passive: true });
+    }
+
+    /**
+     * Animate logo transition on scroll
+     */
+    animateLogoTransition(scrolled) {
+        const logo = document.querySelector('.header-logo .logo');
+        if (!logo || typeof gsap === 'undefined') return;
+
+        gsap.to(logo, {
+            scale: scrolled ? 0.85 : 1,
+            duration: 0.3,
+            ease: 'power2.out'
         });
+    }
+
+    /**
+     * Navigation hover and click interactions
+     */
+    initNavigationInteractions() {
+        // Dropdown hovers
+        const dropdownItems = document.querySelectorAll('.nav-item.dropdown');
         
-        // Desktop dropdowns
-        navDropdownItems.forEach(item => {
-            const link = item.querySelector('.nav-link');
+        dropdownItems.forEach(item => {
             const menu = item.querySelector('.dropdown-menu');
-            const icon = link?.querySelector('i');
+            const arrow = item.querySelector('.nav-arrow');
             
             if (!menu) return;
-            
+
+            let hoverTimer;
+
             item.addEventListener('mouseenter', () => {
-                this.animateDesktopDropdown(menu, icon, true);
+                clearTimeout(hoverTimer);
+                this.showDropdown(menu, arrow);
             });
-            
+
             item.addEventListener('mouseleave', () => {
-                this.animateDesktopDropdown(menu, icon, false);
+                hoverTimer = setTimeout(() => {
+                    this.hideDropdown(menu, arrow);
+                }, 150);
             });
         });
+
+        // Active navigation highlighting
+        this.initNavigationHighlighting();
+    }
+
+    /**
+     * Show dropdown menu with animation
+     */
+    showDropdown(menu, arrow) {
+        if (typeof gsap !== 'undefined') {
+            gsap.set(menu, { visibility: 'visible' });
+            gsap.to(menu, {
+                opacity: 1,
+                y: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+            
+            if (arrow) {
+                gsap.to(arrow, {
+                    rotation: 180,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            }
+        } else {
+            menu.style.visibility = 'visible';
+            menu.style.opacity = '1';
+            menu.style.transform = 'translateX(-50%) translateY(0)';
+        }
+    }
+
+    /**
+     * Hide dropdown menu with animation
+     */
+    hideDropdown(menu, arrow) {
+        if (typeof gsap !== 'undefined') {
+            gsap.to(menu, {
+                opacity: 0,
+                y: 10,
+                duration: 0.3,
+                ease: 'power2.in',
+                onComplete: () => {
+                    menu.style.visibility = 'hidden';
+                }
+            });
+            
+            if (arrow) {
+                gsap.to(arrow, {
+                    rotation: 0,
+                    duration: 0.3,
+                    ease: 'power2.in'
+                });
+            }
+        } else {
+            menu.style.opacity = '0';
+            menu.style.transform = 'translateX(-50%) translateY(10px)';
+            setTimeout(() => {
+                menu.style.visibility = 'hidden';
+            }, 300);
+        }
+    }
+
+    /**
+     * Active navigation highlighting based on scroll position
+     */
+    initNavigationHighlighting() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
         
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (mobileMenu?.classList.contains('active') && 
-                !mobileMenu.contains(e.target) && 
-                !mobileToggle?.contains(e.target)) {
+        if (sections.length === 0 || navLinks.length === 0) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    this.updateActiveNavigation(id, navLinks);
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '-100px 0px -50% 0px'
+        });
+
+        sections.forEach(section => observer.observe(section));
+        this.observers.set('navigation', observer);
+    }
+
+    /**
+     * Update active navigation item
+     */
+    updateActiveNavigation(activeId, navLinks) {
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            const isActive = href === `#${activeId}`;
+            const navItem = link.closest('.nav-item');
+            
+            if (navItem) {
+                navItem.classList.toggle('active', isActive);
+            }
+        });
+    }
+
+    /**
+     * Smooth scrolling for navigation links
+     */
+    initSmoothScrolling() {
+        const anchorLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
+        
+        anchorLinks.forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const targetId = anchor.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    this.smoothScrollTo(targetElement);
+                }
+            });
+        });
+    }
+
+    /**
+     * Smooth scroll to target element
+     */
+    smoothScrollTo(target) {
+        const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+        
+        if (typeof gsap !== 'undefined') {
+            gsap.to(window, {
+                duration: 1.2,
+                scrollTo: targetPosition,
+                ease: 'power2.inOut'
+            });
+        } else {
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    // ==============================
+    // MOBILE MENU SYSTEM
+    // ==============================
+    
+    /**
+     * Initialize mobile menu functionality
+     */
+    initMobileMenu() {
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+        
+        if (!mobileToggle || !mobileMenu) return;
+
+        // Toggle mobile menu
+        mobileToggle.addEventListener('click', () => {
+            this.toggleMobileMenu();
+        });
+
+        // Close mobile menu
+        mobileClose?.addEventListener('click', () => {
+            this.closeMobileMenu();
+        });
+
+        // Close on overlay click
+        mobileOverlay?.addEventListener('click', () => {
+            this.closeMobileMenu();
+        });
+
+        // Mobile dropdown functionality
+        this.initMobileDropdowns();
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.state.mobileMenuOpen) {
                 this.closeMobileMenu();
             }
         });
     }
 
-    animateMobileToggle(toggle, isActive) {
-        const spans = toggle.querySelectorAll('span');
-        if (typeof gsap !== 'undefined') {
-            if (isActive) {
-                gsap.to(spans[0], { rotation: 45, y: 9, duration: 0.3 });
-                gsap.to(spans[1], { opacity: 0, duration: 0.3 });
-                gsap.to(spans[2], { rotation: -45, y: -9, duration: 0.3 });
-            } else {
-                gsap.to(spans[0], { rotation: 0, y: 0, duration: 0.3 });
-                gsap.to(spans[1], { opacity: 1, duration: 0.3 });
-                gsap.to(spans[2], { rotation: 0, y: 0, duration: 0.3 });
-            }
-        }
-    }
-
-    animateMobileDropdown(dropdown, isOpen) {
-        if (typeof gsap !== 'undefined') {
-            if (isOpen) {
-                dropdown.style.display = 'block';
-                dropdown.style.height = '0';
-                const height = dropdown.scrollHeight;
-                gsap.to(dropdown, {
-                    height: height,
-                    opacity: 1,
-                    duration: 0.3,
-                    onComplete: () => dropdown.style.height = 'auto'
-                });
-            } else {
-                gsap.to(dropdown, {
-                    height: 0,
-                    opacity: 0,
-                    duration: 0.3,
-                    onComplete: () => {
-                        dropdown.style.display = 'none';
-                        dropdown.style.height = 'auto';
-                    }
-                });
-            }
+    /**
+     * Toggle mobile menu state
+     */
+    toggleMobileMenu() {
+        if (this.state.mobileMenuOpen) {
+            this.closeMobileMenu();
         } else {
-            dropdown.style.display = isOpen ? 'block' : 'none';
-        }
-    }
-
-    animateDesktopDropdown(menu, icon, isEntering) {
-        if (typeof gsap !== 'undefined') {
-            if (isEntering) {
-                gsap.to(menu, {
-                    opacity: 1,
-                    y: 0,
-                    visibility: 'visible',
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-                if (icon) {
-                    gsap.to(icon, { rotation: 180, duration: 0.3, ease: 'power2.out' });
-                }
-            } else {
-                gsap.to(menu, {
-                    opacity: 0,
-                    y: 10,
-                    visibility: 'hidden',
-                    duration: 0.3,
-                    ease: 'power2.in'
-                });
-                if (icon) {
-                    gsap.to(icon, { rotation: 0, duration: 0.3, ease: 'power2.in' });
-                }
-            }
-        }
-    }
-
-    closeMobileMenu() {
-        const mobileToggle = document.querySelector('.mobile-toggle');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        
-        if (mobileToggle && mobileMenu) {
-            mobileToggle.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            
-            this.animateMobileToggle(mobileToggle, false);
+            this.openMobileMenu();
         }
     }
 
     /**
-     * Initialize GSAP and AOS animations
+     * Open mobile menu with animation
      */
-    initAnimations() {
-        // Initialize GSAP ScrollTrigger if available
-        if (typeof gsap !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
-        }
+    openMobileMenu() {
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
         
-        // Initialize AOS if available
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 800,
-                easing: 'ease-out',
-                once: false,
-                mirror: false,
-                offset: 50,
-                delay: 0
-            });
-        }
-        
-        // Animate elements that come into view
-        this.initScrollAnimations();
-        
-        // Initialize back to top button
-        this.initBackToTop();
-        
-        // Add floating animations to decorative elements
-        this.initFloatingElements();
-        
-        // Initialize image reveal animations
-        this.initImageReveal();
+        this.state.mobileMenuOpen = true;
+        mobileToggle?.classList.add('active');
+        mobileMenu?.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Animate menu items
+        this.animateMobileMenuItems(true);
     }
 
-    initScrollAnimations() {
-        const fadeInElements = document.querySelectorAll('.fade-in:not([data-aos])');
+    /**
+     * Close mobile menu with animation
+     */
+    closeMobileMenu() {
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
         
-        if (typeof gsap !== 'undefined') {
-            fadeInElements.forEach(element => {
-                gsap.from(element, {
+        this.state.mobileMenuOpen = false;
+        mobileToggle?.classList.remove('active');
+        mobileMenu?.classList.remove('active');
+        document.body.style.overflow = '';
+
+        // Animate menu items
+        this.animateMobileMenuItems(false);
+    }
+
+    /**
+     * Animate mobile menu items
+     */
+    animateMobileMenuItems(opening) {
+        const menuItems = document.querySelectorAll('.mobile-nav-item');
+        
+        if (typeof gsap !== 'undefined' && menuItems.length > 0) {
+            if (opening) {
+                gsap.from(menuItems, {
+                    x: 50,
                     opacity: 0,
-                    y: 30,
-                    duration: 0.8,
+                    duration: 0.4,
+                    stagger: 0.1,
                     ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: element,
-                        start: 'top 85%',
-                        toggleActions: 'play none none none'
+                    delay: 0.2
+                });
+            }
+        }
+    }
+
+    /**
+     * Initialize mobile dropdown functionality
+     */
+    initMobileDropdowns() {
+        const dropdownItems = document.querySelectorAll('.mobile-nav-item.has-dropdown');
+        
+        dropdownItems.forEach(item => {
+            const link = item.querySelector('.mobile-nav-link');
+            const dropdown = item.querySelector('.mobile-dropdown');
+            const arrow = item.querySelector('.mobile-nav-arrow');
+            
+            if (!link || !dropdown) return;
+
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const isActive = item.classList.contains('active');
+                
+                // Close other dropdowns
+                dropdownItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
                     }
                 });
-            });
-        } else {
-            // Fallback animation without GSAP
-            this.observeElements(fadeInElements, (element) => {
-                element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            });
-        }
-    }
-
-    initBackToTop() {
-        const backToTopButton = document.getElementById('backToTop');
-        if (!backToTopButton) return;
-        
-        const toggleButton = this.throttle(() => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('active');
-            } else {
-                backToTopButton.classList.remove('active');
-            }
-        }, 100);
-        
-        window.addEventListener('scroll', toggleButton, { passive: true });
-        
-        backToTopButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+                
+                // Toggle current dropdown
+                item.classList.toggle('active');
+                
+                // Animate arrow
+                if (arrow && typeof gsap !== 'undefined') {
+                    gsap.to(arrow, {
+                        rotation: item.classList.contains('active') ? 90 : 0,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                }
             });
         });
     }
 
+    // ==============================
+    // HERO SECTION SYSTEM
+    // ==============================
+    
     /**
-     * Animate hero elements on page load
+     * Initialize hero section functionality
      */
-    animateHeroElements() {
-        // Ensure video plays
-        const heroVideo = document.getElementById('hero-video') || document.querySelector('.hero-video');
-        if (heroVideo) {
-            heroVideo.play().catch(error => {
-                console.log('Auto-play was prevented:', error);
-            });
-        }
-        
-        // Trigger any additional hero animations
-        this.triggerHeroAnimations();
-    }
-
-    triggerHeroAnimations() {
-        // Animate hero content elements
-        const heroElements = document.querySelectorAll('.hero-content > *');
-        
-        if (typeof gsap !== 'undefined' && heroElements.length > 0) {
-            gsap.from(heroElements, {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                stagger: 0.2,
-                ease: 'power3.out',
-                delay: 0.5
-            });
-        }
-    }
-
-    /**
-     * Modern Hero Section JavaScript with Advanced Features
-     */
-    initModernHero() {
-        // Initialize all modern features
-        this.initVideoEnhancements();
+    initHeroSection() {
+        this.initVideoBackground();
+        this.initHeroInteractions();
         this.initCounterAnimations();
         this.initParallaxEffects();
-        this.initMouseFollowEffects();
-        this.initScrollIndicator();
-        this.initButtonInteractions();
         this.initFloatingElements();
-        this.initParticleSystem();
-        
-        console.log('🎬 Modern hero section initialized');
+        this.initScrollIndicator();
     }
 
-    // Enhanced Video Handling
-    initVideoEnhancements() {
-        const heroVideos = document.querySelectorAll('#hero-video, .hero-video');
-        
-        heroVideos.forEach(heroVideo => {
-            if (!heroVideo) return;
-            
-            // Preload and optimize video
-            heroVideo.addEventListener('loadstart', () => {
-                console.log('📹 Video loading started');
-            });
-            
-            heroVideo.addEventListener('canplay', () => {
-                heroVideo.style.opacity = '1';
-                heroVideo.style.transition = 'opacity 2s ease';
-                console.log('📹 Video ready to play');
-            });
-            
-            // Auto-play with fallback
-            this.playVideoWithFallback(heroVideo);
-            
-            // Performance optimization with Intersection Observer
-            this.observeVideoPlayback(heroVideo);
+    /**
+     * Start hero animations after preloader
+     */
+    startHeroAnimations() {
+        if (typeof gsap !== 'undefined') {
+            this.animateHeroContent();
+            this.animateHeroVisual();
+        }
+    }
+
+    /**
+     * Initialize video background with fallbacks
+     */
+    initVideoBackground() {
+        const video = document.getElementById('heroVideo');
+        if (!video) return;
+
+        // Video event listeners
+        video.addEventListener('loadstart', () => {
+            console.log('📹 Video loading started');
         });
+
+        video.addEventListener('canplay', () => {
+            video.style.opacity = '1';
+            console.log('📹 Video ready to play');
+        });
+
+        video.addEventListener('error', (e) => {
+            console.warn('📹 Video error:', e);
+            this.handleVideoError(video);
+        });
+
+        // Intersection observer for video playback
+        this.observeVideoPlayback(video);
+
+        // Auto-play with fallback
+        this.playVideoWithFallback(video);
     }
 
+    /**
+     * Handle video playback with intersection observer
+     */
+    observeVideoPlayback(video) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.play().catch(() => {
+                        console.log('📹 Auto-play prevented');
+                    });
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const heroSection = document.querySelector('.hero-section');
+        if (heroSection) {
+            observer.observe(heroSection);
+            this.observers.set('video', observer);
+        }
+    }
+
+    /**
+     * Play video with auto-play fallback
+     */
     async playVideoWithFallback(video) {
         try {
             await video.play();
             console.log('📹 Video auto-play successful');
         } catch (error) {
-            console.log('📹 Auto-play prevented, adding play button');
-            this.addPlayButton(video);
+            console.log('📹 Auto-play prevented, adding user interaction handler');
+            this.addVideoPlayButton(video);
         }
     }
 
-    observeVideoPlayback(video) {
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        video.play().catch(() => {});
-                    } else {
-                        video.pause();
-                    }
+    /**
+     * Handle video errors with graceful fallback
+     */
+    handleVideoError(video) {
+        const videoContainer = video.closest('.video-container');
+        if (videoContainer) {
+            videoContainer.style.background = 'linear-gradient(135deg, var(--warm-bronze) 0%, var(--deep-bronze) 100%)';
+        }
+    }
+
+    /**
+     * Add play button for video if auto-play fails
+     */
+    addVideoPlayButton(video) {
+        const videoContainer = video.closest('.video-container');
+        if (!videoContainer || videoContainer.querySelector('.video-play-button')) return;
+
+        const playButton = document.createElement('div');
+        playButton.className = 'video-play-button';
+        playButton.innerHTML = `
+            <div class="play-button">
+                <i class="fas fa-play"></i>
+            </div>
+            <span>Click to play video</span>
+        `;
+
+        // Style the play button
+        Object.assign(playButton.style, {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: '10',
+            textAlign: 'center',
+            color: 'white',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease'
+        });
+
+        playButton.addEventListener('click', () => {
+            video.play().then(() => {
+                playButton.remove();
+            }).catch(console.error);
+        });
+
+        videoContainer.appendChild(playButton);
+    }
+
+    /**
+     * Animate hero content elements
+     */
+    animateHeroContent() {
+        const trustBadge = document.querySelector('.trust-badge');
+        const titleLines = document.querySelectorAll('.title-line');
+        const subtitle = document.querySelector('.hero-subtitle');
+        const pills = document.querySelectorAll('.pill');
+        const ctaButtons = document.querySelectorAll('.hero-cta button');
+        const socialProof = document.querySelector('.social-proof');
+
+        const tl = gsap.timeline({ delay: 0.5 });
+
+        if (trustBadge) {
+            tl.from(trustBadge, {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+        }
+
+        if (titleLines.length > 0) {
+            tl.from(titleLines, {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power3.out'
+            }, '-=0.4');
+        }
+
+        if (subtitle) {
+            tl.from(subtitle, {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            }, '-=0.6');
+        }
+
+        if (pills.length > 0) {
+            tl.from(pills, {
+                y: 20,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: 'power3.out'
+            }, '-=0.4');
+        }
+
+        if (ctaButtons.length > 0) {
+            tl.from(ctaButtons, {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'back.out(1.7)'
+            }, '-=0.4');
+        }
+
+        if (socialProof) {
+            tl.from(socialProof, {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            }, '-=0.6');
+        }
+    }
+
+    /**
+     * Animate hero visual elements
+     */
+    animateHeroVisual() {
+        const statsCard = document.querySelector('.stats-card');
+        const floatingCards = document.querySelectorAll('.floating-card');
+
+        if (statsCard) {
+            gsap.from(statsCard, {
+                x: 60,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 1
+            });
+        }
+
+        if (floatingCards.length > 0) {
+            gsap.from(floatingCards, {
+                scale: 0.8,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'back.out(1.7)',
+                delay: 1.2
+            });
+        }
+    }
+
+    /**
+     * Initialize hero interactions
+     */
+    initHeroInteractions() {
+        // Primary CTA button
+        const heroBookingBtn = document.getElementById('heroBookingBtn');
+        const headerBookingBtn = document.getElementById('headerBookingBtn');
+        const playVideoBtn = document.getElementById('playVideoBtn');
+
+        // Booking button interactions
+        [heroBookingBtn, headerBookingBtn].forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    this.openAppointmentModal();
                 });
-            }, { threshold: 0.1 });
-            
-            const heroSection = document.querySelector('.hero-section, .modern-hero');
-            if (heroSection) {
-                observer.observe(heroSection);
+
+                // Add ripple effect
+                btn.addEventListener('click', this.createRippleEffect.bind(this));
+            }
+        });
+
+        // Play video button
+        if (playVideoBtn) {
+            playVideoBtn.addEventListener('click', () => {
+                this.handleVideoPlayback();
+            });
+        }
+
+        // Scroll indicator
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (scrollIndicator) {
+            scrollIndicator.addEventListener('click', () => {
+                this.scrollToNextSection();
+            });
+        }
+    }
+
+    /**
+     * Handle video playback button
+     */
+    handleVideoPlayback() {
+        const video = document.getElementById('heroVideo');
+        if (video) {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
             }
         }
     }
 
-    // Animated Counter for Stats
-    initCounterAnimations() {
-        const counterElements = document.querySelectorAll('[data-count]');
+    /**
+     * Scroll to next section after hero
+     */
+    scrollToNextSection() {
+        const heroSection = document.querySelector('.hero-section');
+        const nextSection = heroSection?.nextElementSibling;
         
-        const animateCounter = (element) => {
-            const target = parseInt(element.dataset.count);
-            const duration = 2000;
-            const increment = target / (duration / 16);
-            let current = 0;
+        if (nextSection) {
+            this.smoothScrollTo(nextSection);
+        }
+    }
 
-            const updateCounter = () => {
-                current += increment;
-                if (current < target) {
-                    element.textContent = Math.floor(current);
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    element.textContent = target;
-                    this.formatCounterValue(element, target);
+    /**
+     * Initialize counter animations
+     */
+    initCounterAnimations() {
+        const counters = document.querySelectorAll('[data-count]');
+        
+        if (counters.length === 0) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    entry.target.classList.add('animated');
+                    this.animateCounter(entry.target);
                 }
-            };
+            });
+        }, { threshold: 0.7 });
 
-            updateCounter();
+        counters.forEach(counter => observer.observe(counter));
+        this.observers.set('counters', observer);
+    }
+
+    /**
+     * Animate counter with easing
+     */
+    animateCounter(element) {
+        const target = parseInt(element.dataset.count);
+        const duration = 2000;
+        const startTime = performance.now();
+
+        const updateCounter = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function (ease out cubic)
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(eased * target);
+            
+            element.textContent = current;
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = this.formatCounterValue(target);
+            }
         };
 
-        this.observeElements(counterElements, (element) => {
-            if (!element.classList.contains('animated')) {
-                element.classList.add('animated');
-                setTimeout(() => animateCounter(element), 500);
-            }
-        }, { threshold: 0.7 });
+        requestAnimationFrame(updateCounter);
     }
 
-    formatCounterValue(element, target) {
-        // Add formatting for different types of numbers
-        if (target >= 1000) {
-            element.textContent = (target / 1000).toFixed(target >= 1000 ? 1 : 0) + 'K+';
-        } else if (target === 98) {
-            element.textContent = target + '%';
+    /**
+     * Format counter value with appropriate suffix
+     */
+    formatCounterValue(value) {
+        if (value >= 1000) {
+            return (value / 1000).toFixed(1) + 'K+';
+        } else if (value === 98) {
+            return value + '%';
         } else {
-            element.textContent = target + '+';
+            return value + '+';
         }
     }
 
-    // Advanced Parallax Effects
+    /**
+     * Initialize parallax effects
+     */
     initParallaxEffects() {
         let ticking = false;
         
         const updateParallax = () => {
             const scrolled = window.pageYOffset;
-            const heroSection = document.querySelector('.hero-section, .modern-hero');
+            const heroSection = document.querySelector('.hero-section');
             
             if (!heroSection) {
                 ticking = false;
@@ -490,11 +881,8 @@ class EviaAestheticsApp {
             const heroHeight = heroSection.offsetHeight;
             const scrollPercent = Math.min(scrolled / heroHeight, 1);
             
-            // Parallax for decorative elements
+            // Update parallax elements
             this.updateParallaxElements(scrollPercent);
-            
-            // Fade out hero content
-            this.updateHeroContentOpacity(scrollPercent);
             
             ticking = false;
         };
@@ -509,186 +897,702 @@ class EviaAestheticsApp {
         window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
     }
 
+    /**
+     * Update parallax elements based on scroll
+     */
     updateParallaxElements(scrollPercent) {
-        // Update floating elements
-        const floatingElements = document.querySelectorAll('.float-element, .element-1, .element-2, .element-3, .element-4');
-        floatingElements.forEach((element, index) => {
-            const speed = 0.1 + (index * 0.05);
-            const translateY = scrollPercent * 100 * speed;
-            const rotate = scrollPercent * 10 * (index % 2 === 0 ? 1 : -1);
-            element.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
-        });
-
-        // Update traditional parallax elements
+        // Floating shapes
         const shapes = document.querySelectorAll('.shape');
         const orbs = document.querySelectorAll('.gradient-orb');
-        const rays = document.querySelectorAll('.light-ray');
-        
+        const particles = document.querySelectorAll('.particle-system .particle');
+
         shapes.forEach((shape, index) => {
             const speed = 0.1 + (index * 0.05);
             const translateY = scrollPercent * 100 * speed;
-            shape.style.transform = `translateY(${translateY}px) rotate(${15 + translateY * 0.1}deg)`;
+            const rotate = scrollPercent * 10 * (index % 2 === 0 ? 1 : -1);
+            shape.style.transform = `translateY(${translateY}px) rotate(${rotate}deg)`;
         });
-        
+
         orbs.forEach((orb, index) => {
             const speed = 0.05 + (index * 0.02);
             const translateY = scrollPercent * 50 * speed;
             orb.style.transform = `translateY(${translateY}px)`;
         });
-        
-        rays.forEach((ray, index) => {
-            const speed = 0.15 + (index * 0.1);
-            const translateY = scrollPercent * 80 * speed;
-            ray.style.transform = `translateY(${translateY}px) rotate(${15 + translateY * 0.2}deg)`;
-        });
 
-        // Update particles
-        const particles = document.querySelectorAll('.particle');
         particles.forEach((particle, index) => {
             const speed = 0.2 + (index * 0.1);
             const translateY = scrollPercent * 50 * speed;
             particle.style.transform = `translateY(${translateY}px)`;
         });
-    }
 
-    updateHeroContentOpacity(scrollPercent) {
-        const heroContent = document.querySelector('.hero-content-area, .hero-content');
-        const statsPanel = document.querySelector('.stats-panel, .stats-card');
+        // Hero content fade
+        const heroContent = document.querySelector('.hero-content');
+        const heroVisual = document.querySelector('.hero-visual');
         
         if (heroContent) {
             const opacity = Math.max(0, 1 - scrollPercent * 1.5);
             heroContent.style.opacity = opacity;
         }
         
-        if (statsPanel) {
+        if (heroVisual) {
             const translateY = scrollPercent * 30;
             const opacity = Math.max(0, 1 - scrollPercent * 1.2);
-            statsPanel.style.transform = `translateY(${translateY}px)`;
-            statsPanel.style.opacity = opacity;
+            heroVisual.style.transform = `translateY(${translateY}px)`;
+            heroVisual.style.opacity = opacity;
         }
     }
 
-    // Mouse Follow Effects
-    initMouseFollowEffects() {
-        let mouseX = 0;
-        let mouseY = 0;
-        let isMoving = false;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-            isMoving = true;
+    /**
+     * Initialize floating elements animation
+     */
+    initFloatingElements() {
+        if (typeof gsap === 'undefined') return;
+
+        const floatingElements = document.querySelectorAll(
+            '.shape, .gradient-orb, .floating-card, .particle'
+        );
+
+        floatingElements.forEach((element, index) => {
+            // Random floating animation
+            gsap.to(element, {
+                y: (index % 2 === 0 ? 20 : -20) + Math.random() * 10,
+                x: (index % 3 === 0 ? 15 : -15) + Math.random() * 8,
+                rotation: (index % 2 === 0 ? 5 : -5) + Math.random() * 3,
+                duration: 4 + Math.random() * 4,
+                ease: 'sine.inOut',
+                repeat: -1,
+                yoyo: true,
+                delay: index * 0.2
+            });
         });
-        
-        const animateMouseFollow = () => {
-            if (isMoving) {
-                this.updateMouseFollowElements(mouseX, mouseY);
-                isMoving = false;
-            }
-            requestAnimationFrame(animateMouseFollow);
-        };
-        
-        animateMouseFollow();
     }
 
-    updateMouseFollowElements(mouseX, mouseY) {
-        const orbs = document.querySelectorAll('.gradient-orb');
-        const shapes = document.querySelectorAll('.shape, .float-element');
-        const gradientMesh = document.querySelector('.gradient-mesh');
-        
-        orbs.forEach((orb, index) => {
-            const speed = 0.02 + (index * 0.01);
-            const translateX = mouseX * 20 * speed;
-            const translateY = mouseY * 20 * speed;
-            
-            const currentTransform = orb.style.transform || '';
-            if (currentTransform.includes('translateY')) {
-                orb.style.transform = currentTransform.replace(
-                    /translateY\([^)]*\)/,
-                    `translateY(${translateY}px) translateX(${translateX}px)`
-                );
-            } else {
-                orb.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
-            }
-        });
-        
-        shapes.forEach((shape, index) => {
-            const speed = 0.01 + (index * 0.005);
-            const rotateX = mouseY * 5 * speed;
-            const rotateY = mouseX * 5 * speed;
-            const currentTransform = shape.style.transform || '';
-            
-            shape.style.transform = currentTransform + ` rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-
-        // Subtle gradient mesh movement
-        if (gradientMesh) {
-            const x = mouseX * 10;
-            const y = mouseY * 10;
-            gradientMesh.style.transform = `translate(${x}px, ${y}px)`;
-        }
-    }
-
-    // Enhanced Scroll Indicator
+    /**
+     * Initialize scroll indicator animation
+     */
     initScrollIndicator() {
-        const scrollIndicators = document.querySelectorAll('.modern-scroll, .scroll-indicator');
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        if (!scrollIndicator) return;
+
+        // Animate scroll indicator
+        if (typeof gsap !== 'undefined') {
+            gsap.to(scrollIndicator, {
+                y: 10,
+                duration: 1.5,
+                ease: 'sine.inOut',
+                repeat: -1,
+                yoyo: true
+            });
+        }
+
+        // Hide scroll indicator when scrolled
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroHeight = document.querySelector('.hero-section')?.offsetHeight || 0;
+            const opacity = Math.max(0, 1 - (scrolled / (heroHeight * 0.3)));
+            
+            scrollIndicator.style.opacity = opacity;
+        }, { passive: true });
+    }
+
+    // ==============================
+    // MODAL SYSTEM
+    // ==============================
+    
+    /**
+     * Initialize modal functionality
+     */
+    initModals() {
+        this.initAppointmentModal();
+    }
+
+    /**
+     * Initialize appointment modal
+     */
+    initAppointmentModal() {
+        const modal = document.getElementById('appointmentModal');
+        const closeBtn = document.getElementById('modalClose');
+        const overlay = document.querySelector('.modal-overlay');
+        const form = document.getElementById('appointmentForm');
+
+        if (!modal) return;
+
+        // Close modal events
+        closeBtn?.addEventListener('click', () => this.closeAppointmentModal());
+        overlay?.addEventListener('click', () => this.closeAppointmentModal());
+
+        // Form submission
+        form?.addEventListener('submit', (e) => this.handleFormSubmission(e));
+
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.state.modalOpen) {
+                this.closeAppointmentModal();
+            }
+        });
+
+        // Form field interactions
+        this.initFormInteractions(form);
+    }
+
+    /**
+     * Open appointment modal
+     */
+    openAppointmentModal() {
+        const modal = document.getElementById('appointmentModal');
+        if (!modal) return;
+
+        this.state.modalOpen = true;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Animate modal opening
+        if (typeof gsap !== 'undefined') {
+            const modalContent = modal.querySelector('.modal-content');
+            gsap.from(modalContent, {
+                scale: 0.9,
+                opacity: 0,
+                duration: 0.4,
+                ease: 'back.out(1.7)'
+            });
+        }
+    }
+
+    /**
+     * Close appointment modal
+     */
+    closeAppointmentModal() {
+        const modal = document.getElementById('appointmentModal');
+        if (!modal) return;
+
+        this.state.modalOpen = false;
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+
+        // Reset form if needed
+        const form = document.getElementById('appointmentForm');
+        if (form && !form.classList.contains('success')) {
+            form.reset();
+        }
+    }
+
+    /**
+     * Initialize form interactions
+     */
+    initFormInteractions(form) {
+        if (!form) return;
+
+        const inputs = form.querySelectorAll('input, select, textarea');
         
-        scrollIndicators.forEach(scrollIndicator => {
-            if (!scrollIndicator) return;
+        inputs.forEach(input => {
+            // Focus effects
+            input.addEventListener('focus', () => {
+                const formGroup = input.closest('.form-group');
+                formGroup?.classList.add('focused');
+            });
+
+            input.addEventListener('blur', () => {
+                const formGroup = input.closest('.form-group');
+                formGroup?.classList.remove('focused');
+            });
+
+            // Validation on input
+            input.addEventListener('input', () => {
+                this.validateFormField(input);
+            });
+        });
+    }
+
+    /**
+     * Validate individual form field
+     */
+    validateFormField(field) {
+        const formGroup = field.closest('.form-group');
+        const isValid = field.checkValidity();
+        
+        formGroup?.classList.toggle('valid', isValid);
+        formGroup?.classList.toggle('invalid', !isValid);
+    }
+
+    /**
+     * Handle form submission
+     */
+    async handleFormSubmission(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const submitBtn = form.querySelector('.form-submit');
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Show loading state
+        this.setFormSubmitState(submitBtn, 'loading');
+
+        try {
+            // Simulate API call
+            await this.delay(2000);
             
-            // Hide/show based on scroll position
-            const updateIndicator = this.throttle(() => {
-                const scrolled = window.pageYOffset;
-                const heroSection = document.querySelector('.hero-section, .modern-hero');
-                
-                if (heroSection) {
-                    const heroHeight = heroSection.offsetHeight;
-                    const opacity = Math.max(0, 1 - (scrolled / (heroHeight * 0.3)));
-                    
-                    scrollIndicator.style.opacity = opacity;
-                    scrollIndicator.style.transform = `translateX(-50%) translateY(${scrolled * 0.1}px)`;
+            // Process form data (replace with actual API call)
+            console.log('Form submitted:', data);
+            
+            // Show success state
+            this.setFormSubmitState(submitBtn, 'success');
+            this.showFormSuccessMessage(form);
+            
+            // Close modal after delay
+            setTimeout(() => {
+                this.closeAppointmentModal();
+                this.resetForm(form);
+            }, 3000);
+            
+        } catch (error) {
+            console.error('Form submission error:', error);
+            this.setFormSubmitState(submitBtn, 'error');
+        }
+    }
+
+    /**
+     * Set form submit button state
+     */
+    setFormSubmitState(button, state) {
+        if (!button) return;
+
+        // Remove all state classes
+        button.classList.remove('loading', 'success', 'error');
+        
+        // Add new state class
+        if (state !== 'normal') {
+            button.classList.add(state);
+        }
+    }
+
+    /**
+     * Show form success message
+     */
+    showFormSuccessMessage(form) {
+        const successMessage = document.createElement('div');
+        successMessage.className = 'form-success-message';
+        successMessage.innerHTML = `
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Appointment Requested!</h3>
+            <p>Thank you for your interest. We'll contact you within 24 hours to confirm your consultation.</p>
+        `;
+
+        // Replace form content
+        form.innerHTML = '';
+        form.appendChild(successMessage);
+        form.classList.add('success');
+    }
+
+    /**
+     * Reset form to initial state
+     */
+    resetForm(form) {
+        // This would restore the original form HTML
+        // For demo purposes, just reload the page or restore form fields
+        setTimeout(() => {
+            form.classList.remove('success');
+            // In a real implementation, you'd restore the original form HTML
+        }, 500);
+    }
+
+    // ==============================
+    // SCROLL EFFECTS SYSTEM
+    // ==============================
+    
+    /**
+     * Initialize scroll-based effects
+     */
+    initScrollEffects() {
+        this.initRevealAnimations();
+        this.initParallaxSections();
+    }
+
+    /**
+     * Initialize reveal animations on scroll
+     */
+    initRevealAnimations() {
+        const revealElements = document.querySelectorAll('[data-aos]');
+        
+        if (revealElements.length === 0) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('aos-animate');
                 }
-            }, 16);
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(element => observer.observe(element));
+        this.observers.set('reveal', observer);
+    }
+
+    /**
+     * Initialize parallax sections
+     */
+    initParallaxSections() {
+        const parallaxElements = document.querySelectorAll('[data-parallax]');
+        
+        if (parallaxElements.length === 0) return;
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
             
-            window.addEventListener('scroll', updateIndicator, { passive: true });
+            parallaxElements.forEach(element => {
+                const speed = parseFloat(element.dataset.parallax) || 0.5;
+                const yPos = -(scrolled * speed);
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+        }, { passive: true });
+    }
+
+    // ==============================
+    // ANIMATION LIBRARIES
+    // ==============================
+    
+    /**
+     * Initialize external animation libraries
+     */
+    initAnimationLibraries() {
+        this.initGSAP();
+        this.initAOS();
+    }
+
+    /**
+     * Initialize GSAP if available
+     */
+    initGSAP() {
+        if (typeof gsap !== 'undefined') {
+            // Register plugins
+            if (typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+            }
             
-            // Smooth scroll to next section
-            scrollIndicator.addEventListener('click', () => {
-                const heroSection = document.querySelector('.hero-section, .modern-hero');
-                const nextSection = heroSection?.nextElementSibling;
-                
-                if (nextSection) {
-                    nextSection.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+            if (typeof TextPlugin !== 'undefined') {
+                gsap.registerPlugin(TextPlugin);
+            }
+
+            console.log('✅ GSAP initialized');
+        }
+    }
+
+    /**
+     * Initialize AOS if available
+     */
+    initAOS() {
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                mirror: false,
+                offset: 120,
+                delay: 0,
+                anchorPlacement: 'top-bottom'
+            });
+
+            console.log('✅ AOS initialized');
+        }
+    }
+
+    // ==============================
+    // PERFORMANCE OPTIMIZATIONS
+    // ==============================
+    
+    /**
+     * Initialize performance optimizations
+     */
+    initPerformanceOptimizations() {
+        this.initLazyLoading();
+        this.initImageOptimization();
+        this.optimizeForDevice();
+        this.initCriticalResourceHints();
+    }
+
+    /**
+     * Initialize lazy loading for images
+     */
+    initLazyLoading() {
+        const lazyImages = document.querySelectorAll('img[data-src]');
+        
+        if (lazyImages.length === 0) return;
+
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        lazyImages.forEach(img => imageObserver.observe(img));
+        this.observers.set('lazyImages', imageObserver);
+    }
+
+    /**
+     * Initialize image optimization
+     */
+    initImageOptimization() {
+        const images = document.querySelectorAll('img');
+        
+        images.forEach(img => {
+            img.addEventListener('load', () => {
+                img.classList.add('loaded');
+            });
+            
+            img.addEventListener('error', () => {
+                img.classList.add('error');
+                console.warn('Image failed to load:', img.src);
+            });
+        });
+    }
+
+    /**
+     * Optimize for device capabilities
+     */
+    optimizeForDevice() {
+        const isLowEndDevice = this.detectLowEndDevice();
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        if (isLowEndDevice || prefersReducedMotion) {
+            document.documentElement.classList.add('reduced-motion');
+            console.log('🔧 Reduced motion enabled for better performance');
+        }
+
+        // Disable heavy animations on mobile
+        if (window.innerWidth < 768) {
+            document.documentElement.classList.add('mobile-optimized');
+        }
+    }
+
+    /**
+     * Detect low-end device
+     */
+    detectLowEndDevice() {
+        // Check for low-end device indicators
+        const cores = navigator.hardwareConcurrency || 4;
+        const memory = navigator.deviceMemory || 4;
+        const connection = navigator.connection;
+        
+        const isLowEnd = cores < 4 || memory < 4 || 
+                        (connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g'));
+        
+        return isLowEnd;
+    }
+
+    /**
+     * Initialize critical resource hints
+     */
+    initCriticalResourceHints() {
+        // Preload critical resources
+        const criticalResources = [
+            { href: 'logo1.png', as: 'image' },
+            { href: 'spa-video.mp4', as: 'video' }
+        ];
+
+        criticalResources.forEach(resource => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.href = resource.href;
+            link.as = resource.as;
+            document.head.appendChild(link);
+        });
+    }
+
+    // ==============================
+    // ACCESSIBILITY FEATURES
+    // ==============================
+    
+    /**
+     * Initialize accessibility features
+     */
+    initAccessibility() {
+        this.initKeyboardNavigation();
+        this.initFocusManagement();
+        this.initARIAEnhancements();
+        this.initReducedMotionSupport();
+    }
+
+    /**
+     * Initialize keyboard navigation
+     */
+    initKeyboardNavigation() {
+        // Tab navigation for dropdowns
+        const dropdownTriggers = document.querySelectorAll('.nav-item.dropdown .nav-link');
+        
+        dropdownTriggers.forEach(trigger => {
+            trigger.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const dropdown = trigger.nextElementSibling;
+                    if (dropdown) {
+                        dropdown.classList.toggle('show');
+                    }
                 }
             });
         });
     }
 
-    // Advanced Button Interactions
-    initButtonInteractions() {
-        const primaryButtons = document.querySelectorAll('.btn-primary-modern, .btn-primary-new');
-        const secondaryButtons = document.querySelectorAll('.btn-secondary-modern, .btn-secondary-new');
+    /**
+     * Initialize focus management
+     */
+    initFocusManagement() {
+        // Focus trap for modals
+        const modals = document.querySelectorAll('.modal');
         
-        // Ripple effect for buttons
-        [...primaryButtons, ...secondaryButtons].forEach(button => {
-            button.addEventListener('click', (e) => this.createRippleEffect(e, button));
-            this.addMagneticEffect(button);
+        modals.forEach(modal => {
+            modal.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    this.trapFocus(e, modal);
+                }
+            });
         });
-        
-        // Add ripple animation CSS if not exists
-        this.addRippleStyles();
     }
 
-    createRippleEffect(e, button) {
+    /**
+     * Trap focus within element
+     */
+    trapFocus(e, container) {
+        const focusableElements = container.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+        
+        if (e.shiftKey) {
+            if (document.activeElement === firstFocusable) {
+                lastFocusable.focus();
+                e.preventDefault();
+            }
+        } else {
+            if (document.activeElement === lastFocusable) {
+                firstFocusable.focus();
+                e.preventDefault();
+            }
+        }
+    }
+
+    /**
+     * Initialize ARIA enhancements
+     */
+    initARIAEnhancements() {
+        // Add ARIA labels to interactive elements
+        const interactiveElements = document.querySelectorAll('button:not([aria-label])');
+        
+        interactiveElements.forEach(element => {
+            const text = element.textContent.trim();
+            if (text) {
+                element.setAttribute('aria-label', text);
+            }
+        });
+    }
+
+    /**
+     * Initialize reduced motion support
+     */
+    initReducedMotionSupport() {
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        
+        const handleReducedMotion = (e) => {
+            if (e.matches) {
+                document.documentElement.classList.add('reduced-motion');
+            } else {
+                document.documentElement.classList.remove('reduced-motion');
+            }
+        };
+        
+        mediaQuery.addListener(handleReducedMotion);
+        handleReducedMotion(mediaQuery);
+    }
+
+    // ==============================
+    // EVENT LISTENERS
+    // ==============================
+    
+    /**
+     * Bind global event listeners
+     */
+    bindEventListeners() {
+        // Scroll events
+        window.addEventListener('scroll', this.handleScroll, { passive: true });
+        
+        // Resize events
+        window.addEventListener('resize', this.handleResize);
+        
+        // Visibility change
+        document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+        
+        // Before unload
+        window.addEventListener('beforeunload', this.cleanup.bind(this));
+    }
+
+    /**
+     * Handle scroll events
+     */
+    handleScroll() {
+        // Throttled scroll handling is already implemented in individual functions
+    }
+
+    /**
+     * Handle resize events
+     */
+    handleResize() {
+        // Refresh ScrollTrigger if available
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh();
+        }
+        
+        // Refresh AOS if available
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
+        
+        // Update mobile optimization
+        this.optimizeForDevice();
+    }
+
+    /**
+     * Handle visibility change
+     */
+    handleVisibilityChange() {
+        const video = document.getElementById('heroVideo');
+        
+        if (document.hidden) {
+            // Page is hidden, pause video
+            video?.pause();
+        } else {
+            // Page is visible, resume video if in viewport
+            if (video && this.isElementInViewport(video)) {
+                video.play().catch(() => {});
+            }
+        }
+    }
+
+    // ==============================
+    // UTILITY FUNCTIONS
+    // ==============================
+    
+    /**
+     * Create ripple effect on click
+     */
+    createRippleEffect(e) {
+        const button = e.currentTarget;
         const rect = button.getBoundingClientRect();
-        const ripple = document.createElement('div');
         const size = Math.max(rect.width, rect.height);
         const x = e.clientX - rect.left - size / 2;
         const y = e.clientY - rect.top - size / 2;
         
+        const ripple = document.createElement('div');
         ripple.style.cssText = `
             position: absolute;
             width: ${size}px;
@@ -698,9 +1602,9 @@ class EviaAestheticsApp {
             background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
             border-radius: 50%;
             transform: scale(0);
-            animation: rippleEffect 0.6s ease-out;
+            animation: ripple 0.6s ease-out;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         `;
         
         button.style.position = 'relative';
@@ -709,580 +1613,22 @@ class EviaAestheticsApp {
         setTimeout(() => ripple.remove(), 600);
     }
 
-    addMagneticEffect(button) {
-        button.addEventListener('mouseenter', function() {
-            this.style.transition = 'transform 0.3s ease';
-        });
-        
-        button.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            this.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px) translateY(-3px)`;
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translate(0, 0) translateY(0)';
-        });
-    }
-
-    addRippleStyles() {
-        if (!document.querySelector('#ripple-styles')) {
-            const style = document.createElement('style');
-            style.id = 'ripple-styles';
-            style.textContent = `
-                @keyframes rippleEffect {
-                    0% { transform: scale(0); opacity: 1; }
-                    100% { transform: scale(2); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-    }
-
-    // Particle System
-    initParticleSystem() {
-        const particles = document.querySelectorAll('.particle');
-        
-        particles.forEach((particle, index) => {
-            // Set initial random positions if not set
-            if (!particle.style.top) {
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.left = Math.random() * 100 + '%';
-            }
-            
-            // Add floating animation
-            this.animateParticle(particle, index);
-        });
-    }
-
-    animateParticle(particle, index) {
-        if (typeof gsap !== 'undefined') {
-            const duration = 15 + Math.random() * 10;
-            const delay = index * 2;
-            
-            gsap.to(particle, {
-                y: -100 - Math.random() * 100,
-                x: (Math.random() - 0.5) * 200,
-                opacity: 0.8,
-                duration: duration,
-                delay: delay,
-                ease: 'sine.inOut',
-                repeat: -1,
-                yoyo: true
-            });
-        }
-    }
-
-    // Play button fallback for video
-    addPlayButton(video) {
-        const videoContainer = video.closest('.video-background, .video-container');
-        if (!videoContainer || videoContainer.querySelector('.video-play-overlay')) return;
-        
-        const playButton = document.createElement('div');
-        playButton.className = 'video-play-overlay';
-        playButton.innerHTML = `
-            <div class="play-button">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                    <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
-                </svg>
-            </div>
-            <div class="play-text">Click to play video</div>
-        `;
-        
-        playButton.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            cursor: pointer;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        `;
-        
-        const playButtonElement = playButton.querySelector('.play-button');
-        playButtonElement.style.cssText = `
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        `;
-        
-        const playText = playButton.querySelector('.play-text');
-        playText.style.cssText = `
-            font-size: 14px;
-            font-weight: 500;
-            opacity: 0.8;
-        `;
-        
-        playButton.addEventListener('click', () => {
-            video.play().then(() => {
-                playButton.remove();
-            }).catch(console.error);
-        });
-        
-        playButton.addEventListener('mouseenter', () => {
-            playButtonElement.style.transform = 'scale(1.1)';
-            playButtonElement.style.background = 'rgba(255, 255, 255, 0.2)';
-        });
-        
-        playButton.addEventListener('mouseleave', () => {
-            playButtonElement.style.transform = 'scale(1)';
-            playButtonElement.style.background = 'rgba(255, 255, 255, 0.1)';
-        });
-        
-        videoContainer.appendChild(playButton);
-    }
-
     /**
-     * Initialize testimonial slider
+     * Check if element is in viewport
      */
-    initTestimonialSlider() {
-        const testimonialSlider = document.querySelector('.testimonial-slider');
-        
-        if (testimonialSlider && typeof $ !== 'undefined' && $.fn.slick) {
-            // Use Slick carousel if available
-            $(testimonialSlider).slick({
-                dots: true,
-                arrows: true,
-                infinite: true,
-                speed: 500,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                adaptiveHeight: true,
-                prevArrow: $('.testimonial-prev'),
-                nextArrow: $('.testimonial-next'),
-                appendDots: $('.testimonial-dots'),
-                responsive: [
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            arrows: false
-                        }
-                    }
-                ]
-            });
-        } else {
-            // Fallback slider implementation
-            this.initBasicSlider();
-        }
-    }
-
-    initBasicSlider() {
-        const testimonialItems = document.querySelectorAll('.testimonial-item');
-        const prevButton = document.querySelector('.testimonial-prev');
-        const nextButton = document.querySelector('.testimonial-next');
-        const dotsContainer = document.querySelector('.testimonial-dots');
-        
-        if (testimonialItems.length === 0) return;
-        
-        let currentIndex = 0;
-        
-        // Create dots
-        dotsContainer.innerHTML = '';
-        testimonialItems.forEach((_, index) => {
-            const dot = document.createElement('span');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
-            
-            dot.addEventListener('click', () => this.showSlide(index));
-            dotsContainer.appendChild(dot);
-        });
-        
-        // Show slide function
-        this.showSlide = (index) => {
-            testimonialItems.forEach((item, i) => {
-                item.style.display = i === index ? 'block' : 'none';
-            });
-            
-            const dots = dotsContainer.querySelectorAll('.dot');
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-            
-            currentIndex = index;
-        };
-        
-        // Initialize
-        this.showSlide(0);
-        
-        // Button event listeners
-        prevButton?.addEventListener('click', () => {
-            const newIndex = currentIndex === 0 ? testimonialItems.length - 1 : currentIndex - 1;
-            this.showSlide(newIndex);
-        });
-        
-        nextButton?.addEventListener('click', () => {
-            const newIndex = currentIndex === testimonialItems.length - 1 ? 0 : currentIndex + 1;
-            this.showSlide(newIndex);
-        });
-    }
-
-    /**
-     * Initialize modal handlers
-     */
-    initModalHandlers() {
-        const appointmentModal = document.getElementById('appointmentModal');
-        const appointmentButtons = document.querySelectorAll('a[href="appointment.html"], .btn-appointment, .btn-primary-modern, .btn-primary-new');
-        const closeButton = appointmentModal?.querySelector('.modal-close');
-        const modalOverlay = appointmentModal?.querySelector('.modal-overlay');
-        
-        if (!appointmentModal) return;
-        
-        // Open modal when appointment buttons are clicked
-        appointmentButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                if (button.getAttribute('href') === 'appointment.html' || 
-                    button.textContent.toLowerCase().includes('book') ||
-                    button.textContent.toLowerCase().includes('appointment') ||
-                    button.textContent.toLowerCase().includes('consultation')) {
-                    e.preventDefault();
-                    this.openModal(appointmentModal);
-                }
-            });
-        });
-        
-        // Close modal handlers
-        closeButton?.addEventListener('click', () => this.closeModal(appointmentModal));
-        modalOverlay?.addEventListener('click', () => this.closeModal(appointmentModal));
-        
-        // Handle form submission
-        const appointmentForm = document.getElementById('appointmentForm');
-        if (appointmentForm) {
-            appointmentForm.addEventListener('submit', (e) => this.handleFormSubmission(e, appointmentModal));
-        }
-        
-        // Close modal on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && appointmentModal.classList.contains('active')) {
-                this.closeModal(appointmentModal);
-            }
-        });
-    }
-
-    openModal(modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        
-        // Animate modal opening if GSAP is available
-        if (typeof gsap !== 'undefined') {
-            const modalContent = modal.querySelector('.modal-content');
-            gsap.from(modalContent, {
-                scale: 0.8,
-                opacity: 0,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        }
-    }
-
-    closeModal(modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    handleFormSubmission(e, modal) {
-        e.preventDefault();
-        
-        const form = e.target;
-        const formData = new FormData(form);
-        const formValues = Object.fromEntries(formData.entries());
-        
-        // Log form data (replace with actual API call)
-        console.log('Form submitted:', formValues);
-        
-        // Show success message
-        form.innerHTML = `
-            <div class="form-success">
-                <div class="success-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h3>Appointment Requested!</h3>
-                <p>Thank you for scheduling a consultation. We'll contact you shortly to confirm your appointment.</p>
-            </div>
-        `;
-        
-        // Close modal after delay
-        setTimeout(() => {
-            this.closeModal(modal);
-            setTimeout(() => form.reset(), 500);
-        }, 3000);
-    }
-
-    /**
-     * Initialize scroll effects
-     */
-    initScrollEffects() {
-        // Smooth scroll for anchor links
-        this.initSmoothScroll();
-        
-        // Parallax effect for sections with background images
-        this.initBackgroundParallax();
-    }
-
-    initSmoothScroll() {
-        const anchorLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
-        
-        anchorLinks.forEach(anchor => {
-            anchor.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                const targetId = anchor.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
-                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    }
-
-    initBackgroundParallax() {
-        const parallaxElements = document.querySelectorAll('.parallax-bg');
-        
-        if (parallaxElements.length === 0) return;
-        
-        const updateParallax = this.throttle(() => {
-            parallaxElements.forEach(element => {
-                const scrollPosition = window.pageYOffset;
-                const elementTop = element.getBoundingClientRect().top + scrollPosition;
-                const elementVisible = window.innerHeight;
-                
-                if (elementTop < scrollPosition + elementVisible && elementTop + element.offsetHeight > scrollPosition) {
-                    const speed = parseFloat(element.getAttribute('data-speed')) || 0.5;
-                    const yPos = (scrollPosition - elementTop) * speed;
-                    element.style.backgroundPosition = `center ${yPos}px`;
-                }
-            });
-        }, 16);
-        
-        window.addEventListener('scroll', updateParallax, { passive: true });
-    }
-
-    /**
-     * Initialize floating animations for decorative elements
-     */
-    initFloatingElements() {
-        const floatingElements = document.querySelectorAll(
-            '.floating-circle, .blur-shape, .soft-bubble, .floating-orb, .float-element'
+    isElementInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
         );
-        
-        if (typeof gsap !== 'undefined') {
-            floatingElements.forEach((el, index) => {
-                gsap.to(el, {
-                    y: index % 2 === 0 ? 20 : -20,
-                    x: index % 3 === 0 ? 15 : -15,
-                    rotation: index % 2 === 0 ? 5 : -5,
-                    duration: 5 + Math.random() * 5,
-                    ease: 'sine.inOut',
-                    repeat: -1,
-                    yoyo: true,
-                    delay: index * 0.2
-                });
-            });
-        } else {
-            // CSS-based fallback animation
-            floatingElements.forEach((el, index) => {
-                el.style.animation = `float ${5 + index}s ease-in-out infinite`;
-                el.style.animationDelay = `${index * 0.2}s`;
-            });
-        }
-        
-        // Animate scroll indicators
-        const scrollIndicators = document.querySelectorAll('.scroll-indicator:not(.modern-scroll)');
-        if (typeof gsap !== 'undefined') {
-            scrollIndicators.forEach(indicator => {
-                gsap.to(indicator, {
-                    y: 10,
-                    duration: 1.5,
-                    ease: 'sine.inOut',
-                    repeat: -1,
-                    yoyo: true
-                });
-            });
-        }
     }
 
     /**
-     * Handle image reveal animations
+     * Throttle function
      */
-    initImageReveal() {
-        const images = document.querySelectorAll('.reveal-image');
-        
-        images.forEach(img => {
-            this.setupImageReveal(img);
-        });
-    }
-
-    setupImageReveal(img) {
-        // Create wrapper if not already wrapped
-        if (!img.parentElement.classList.contains('image-reveal-wrapper')) {
-            const wrapper = document.createElement('div');
-            wrapper.classList.add('image-reveal-wrapper');
-            img.parentNode.insertBefore(wrapper, img);
-            wrapper.appendChild(img);
-            
-            // Create overlay
-            const overlay = document.createElement('div');
-            overlay.classList.add('image-reveal-overlay');
-            wrapper.appendChild(overlay);
-        }
-        
-        if (typeof gsap !== 'undefined') {
-            // Set initial state
-            gsap.set(img.nextElementSibling, {
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                backgroundColor: '#3c2415',
-                transformOrigin: 'right'
-            });
-            
-            // Create reveal animation
-            ScrollTrigger.create({
-                trigger: img.parentElement,
-                start: 'top 75%',
-                onEnter: () => {
-                    gsap.to(img.nextElementSibling, {
-                        scaleX: 0,
-                        duration: 1,
-                        ease: 'power3.inOut'
-                    });
-                    
-                    gsap.from(img, {
-                        scale: 1.1,
-                        duration: 1.2,
-                        delay: 0.2,
-                        ease: 'power3.out'
-                    });
-                },
-                once: true
-            });
-        } else {
-            // Fallback without GSAP
-            this.observeElements([img.parentElement], () => {
-                const overlay = img.nextElementSibling;
-                if (overlay) {
-                    overlay.style.transition = 'transform 1s ease';
-                    overlay.style.transform = 'scaleX(0)';
-                }
-            });
-        }
-    }
-
-    /**
-     * Initialize performance optimizations
-     */
-    initPerformanceOptimizations() {
-        // Lazy load non-critical elements
-        this.initLazyLoading();
-        
-        // Optimize animations based on device capabilities
-        this.optimizeForDevice();
-        
-        // Reduce motion for users who prefer it
-        this.respectReducedMotion();
-        
-        // Initialize resize handler
-        this.initResizeHandler();
-    }
-
-    initLazyLoading() {
-        const lazyElements = document.querySelectorAll('.particle, .float-element, .shape, .gradient-orb');
-        
-        this.observeElements(lazyElements, (element) => {
-            element.style.opacity = '1';
-        });
-    }
-
-    optimizeForDevice() {
-        // Reduce animations on low-performance devices
-        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
-            document.documentElement.style.setProperty('--animation-duration', '0.5s');
-            console.log('🔧 Reduced animations for low-performance device');
-        }
-        
-        // Disable parallax on mobile for better performance
-        if (window.innerWidth < 768) {
-            const parallaxElements = document.querySelectorAll('.parallax-bg');
-            parallaxElements.forEach(el => {
-                el.style.backgroundAttachment = 'scroll';
-            });
-        }
-    }
-
-    respectReducedMotion() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.documentElement.style.setProperty('--animation-duration', '0.01s');
-            console.log('♿ Reduced motion enabled for accessibility');
-        }
-    }
-
-    initResizeHandler() {
-        const handleResize = this.debounce(() => {
-            // Recalculate hero height
-            const hero = document.querySelector('.modern-hero, .hero-section');
-            if (hero) {
-                hero.style.height = `${window.innerHeight}px`;
-            }
-            
-            // Refresh ScrollTrigger if available
-            if (typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.refresh();
-            }
-        }, 250);
-        
-        window.addEventListener('resize', handleResize);
-    }
-
-    /**
-     * Utility Functions
-     */
-    
-    // Generic element observer
-    observeElements(elements, callback, options = {}) {
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        callback(entry.target);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1, ...options });
-            
-            elements.forEach(element => observer.observe(element));
-            this.observers.elements = observer;
-        } else {
-            // Fallback for browsers without Intersection Observer
-            elements.forEach(callback);
-        }
-    }
-
-    // Throttle function for performance
     throttle(func, limit) {
         let inThrottle;
         return function() {
@@ -1296,7 +1642,9 @@ class EviaAestheticsApp {
         };
     }
 
-    // Debounce function for resize events
+    /**
+     * Debounce function
+     */
     debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -1309,165 +1657,83 @@ class EviaAestheticsApp {
         };
     }
 
-    // Browser capability logging
-    logBrowserCapabilities() {
-        const capabilities = {
-            webGL: this.supportsWebGL(),
-            intersectionObserver: 'IntersectionObserver' in window,
-            requestAnimationFrame: 'requestAnimationFrame' in window,
-            gsap: typeof gsap !== 'undefined',
-            aos: typeof AOS !== 'undefined',
-            modernBrowser: this.isModernBrowser()
-        };
-        
-        console.log('🌐 Browser capabilities:', capabilities);
-        return capabilities;
+    /**
+     * Delay utility
+     */
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    supportsWebGL() {
-        try {
-            const canvas = document.createElement('canvas');
-            return !!(window.WebGLRenderingContext && canvas.getContext('webgl'));
-        } catch (e) {
-            return false;
+    /**
+     * Log performance metrics
+     */
+    logPerformanceMetrics() {
+        if (typeof performance !== 'undefined') {
+            const timing = performance.timing;
+            const loadTime = timing.loadEventEnd - timing.navigationStart;
+            const domReadyTime = timing.domContentLoadedEventEnd - timing.navigationStart;
+            
+            console.log(`📊 Performance Metrics:
+                DOM Ready: ${domReadyTime}ms
+                Load Time: ${loadTime}ms
+                Browser: ${navigator.userAgent}`);
         }
     }
 
-    isModernBrowser() {
-        return !!(
-            window.Promise &&
-            window.fetch &&
-            window.Object.assign &&
-            window.Array.from
-        );
-    }
-
-    // Create staggered animation for multiple elements
-    createStaggerAnimation(elements, options = {}) {
-        const defaults = {
-            staggerTime: 0.1,
-            duration: 0.8,
-            ease: 'power3.out',
-            y: 30,
-            opacity: 0
-        };
-        
-        const settings = { ...defaults, ...options };
-        
-        if (typeof gsap !== 'undefined') {
-            gsap.from(elements, {
-                opacity: settings.opacity,
-                y: settings.y,
-                stagger: settings.staggerTime,
-                duration: settings.duration,
-                ease: settings.ease,
-                scrollTrigger: {
-                    trigger: elements[0]?.parentElement,
-                    start: 'top 80%',
-                    toggleActions: 'play none none none'
-                }
-            });
-        } else {
-            // Fallback animation
-            elements.forEach((element, index) => {
-                setTimeout(() => {
-                    element.style.transition = `opacity ${settings.duration}s ease, transform ${settings.duration}s ease`;
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }, index * (settings.staggerTime * 1000));
-            });
-        }
-    }
-
-    // Public API methods
-    destroy() {
-        // Clean up observers
-        Object.values(this.observers).forEach(observer => {
+    /**
+     * Cleanup function
+     */
+    cleanup() {
+        // Clear all observers
+        this.observers.forEach(observer => {
             if (observer && observer.disconnect) {
                 observer.disconnect();
             }
         });
         
-        // Clean up animations
+        // Clear all timers
+        this.timers.forEach(timer => {
+            clearTimeout(timer);
+            clearInterval(timer);
+        });
+        
+        // Kill GSAP animations
         if (typeof gsap !== 'undefined') {
             gsap.killTweensOf('*');
-            ScrollTrigger?.killAll();
+            if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.killAll();
+            }
         }
         
-        console.log('🧹 Evia Aesthetics app destroyed');
+        console.log('🧹 Cleanup completed');
+    }
+
+    // ==============================
+    // PUBLIC API
+    // ==============================
+    
+    /**
+     * Public methods for external access
+     */
+    openModal() {
+        this.openAppointmentModal();
+    }
+
+    closeModal() {
+        this.closeAppointmentModal();
     }
 
     refresh() {
-        // Refresh ScrollTrigger if available
-        if (typeof ScrollTrigger !== 'undefined') {
-            ScrollTrigger.refresh();
-        }
-        
-        // Refresh AOS if available
-        if (typeof AOS !== 'undefined') {
-            AOS.refresh();
-        }
-        
-        console.log('🔄 Evia Aesthetics app refreshed');
+        this.handleResize();
+    }
+
+    destroy() {
+        this.cleanup();
     }
 }
 
 // ==============================
-// GSAP Integration Enhancement
-// ==============================
-if (typeof gsap !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-    
-    // Enhanced GSAP animations for modern hero
-    document.addEventListener('DOMContentLoaded', function() {
-        // Stagger animation for feature cards
-        const featureCards = document.querySelectorAll('.feature-card, .pill, .tag');
-        if (featureCards.length > 0) {
-            gsap.from(featureCards, {
-                duration: 0.8,
-                y: 50,
-                opacity: 0,
-                stagger: 0.2,
-                ease: 'power3.out',
-                delay: 1
-            });
-        }
-        
-        // Enhanced parallax effect for decorative elements
-        const decorativeElements = document.querySelectorAll('.gradient-orb, .shape, .float-element');
-        if (decorativeElements.length > 0) {
-            gsap.to(decorativeElements, {
-                y: -100,
-                scrollTrigger: {
-                    trigger: '.hero-section, .modern-hero',
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: true
-                }
-            });
-        }
-        
-        // Stats card animation
-        const statsCards = document.querySelectorAll('.stats-card, .stats-panel');
-        statsCards.forEach(statsCard => {
-            gsap.from(statsCard, {
-                duration: 1,
-                x: 100,
-                opacity: 0,
-                ease: 'power3.out',
-                delay: 1.2,
-                scrollTrigger: {
-                    trigger: statsCard,
-                    start: 'top 80%',
-                    toggleActions: 'play none none none'
-                }
-            });
-        });
-    });
-}
-
-// ==============================
-// Initialize Application
+// INITIALIZE APPLICATION
 // ==============================
 
 // Create global instance
@@ -1483,53 +1749,33 @@ if (document.readyState === 'loading') {
 }
 
 // ==============================
-// Global API & Legacy Support
+// GLOBAL API
 // ==============================
 
-// Export for global access and legacy compatibility
+// Export for global access
 window.EviaAesthetics = {
     app: () => eviaApp,
-    
-    // Legacy function exports for backward compatibility
-    initModernHero: () => eviaApp?.initModernHero(),
-    initVideoEnhancements: () => eviaApp?.initVideoEnhancements(),
-    initCounterAnimations: () => eviaApp?.initCounterAnimations(),
-    initParallaxEffects: () => eviaApp?.initParallaxEffects(),
-    initMouseFollowEffects: () => eviaApp?.initMouseFollowEffects(),
-    createStaggerAnimation: (elements, options) => eviaApp?.createStaggerAnimation(elements, options),
-    throttle: (func, limit) => eviaApp?.throttle(func, limit),
-    
-    // Utility functions
+    openModal: () => eviaApp?.openModal(),
+    closeModal: () => eviaApp?.closeModal(),
     refresh: () => eviaApp?.refresh(),
     destroy: () => eviaApp?.destroy()
 };
 
-// Legacy support for old function calls
-window.initPreloader = () => eviaApp?.initPreloader();
-window.initNavigation = () => eviaApp?.initNavigation();
-window.initAnimations = () => eviaApp?.initAnimations();
-window.initModernHero = () => eviaApp?.initModernHero();
-window.animateHeroElements = () => eviaApp?.animateHeroElements();
+// ==============================
+// DEVELOPER TOOLS
+// ==============================
 
-// Performance monitoring
-if (typeof performance !== 'undefined' && performance.mark) {
-    performance.mark('evia-app-end');
-    if (performance.getEntriesByName('evia-app-start').length > 0) {
-        performance.measure('evia-app-init', 'evia-app-start', 'evia-app-end');
-    }
+// Development helpers
+if (typeof console !== 'undefined') {
+    console.log(
+        '%c🎨 Evia Aesthetics %c3.0 %cLoaded Successfully',
+        'color: #F4A024; font-weight: bold; font-size: 16px;',
+        'color: #FCF8F5; font-weight: bold; background: #5A3925; padding: 2px 6px; border-radius: 3px;',
+        'color: #68b984; font-weight: normal;'
+    );
 }
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = EviaAestheticsApp;
-}
-
-// Console styling for development
-if (process?.env?.NODE_ENV === 'development') {
-    console.log(
-        '%c🎨 Evia Aesthetics %c2.0 %cLoaded Successfully',
-        'color: #f39c12; font-weight: bold; font-size: 16px;',
-        'color: #3c2415; font-weight: bold; background: #f39c12; padding: 2px 6px; border-radius: 3px;',
-        'color: #68b984; font-weight: normal;'
-    );
 }
