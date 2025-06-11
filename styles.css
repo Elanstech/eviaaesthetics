@@ -946,27 +946,21 @@ ul, ol {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0 !important;
+    z-index: 0; /* Changed from negative to 0 */
     overflow: hidden;
-    perspective: 1000px;
 }
 
 .parallax-video {
-    opacity: 1;
-    visibility: visible;
     position: absolute;
-    z-index: 0;
     top: 50%;
     left: 50%;
-    min-width: 110%; /* Extra width for parallax movement */
-    min-height: 110%; /* Extra height for parallax movement */
+    min-width: 110%;
+    min-height: 110%;
     width: auto;
     height: auto;
     transform: translate(-50%, -50%) scale(1.05);
     object-fit: cover;
     filter: brightness(0.7) contrast(1.1) saturate(1.2);
-    will-change: transform; /* Performance optimization */
-    transform-style: preserve-3d;
 }
 
 .video-overlay {
@@ -980,11 +974,13 @@ ul, ol {
         rgba(101, 67, 33, 0.6) 50%, 
         rgba(139, 69, 19, 0.8) 100%);
     z-index: 1;
+    pointer-events: none; /* Allows clicks to pass through */
+    will-change: opacity; /* Optimization for animations */
 }
 
 .hero-content, .hero-accents, .scroll-indicator {
-  position: relative;
-  z-index: 2;
+    position: relative;
+    z-index: 2;
 }
 
 /* Minimal Accent Elements */
