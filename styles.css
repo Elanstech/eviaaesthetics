@@ -300,6 +300,9 @@ ul, ol {
 /* ==============================
    HEADER - MODERN DESIGN
 ============================== */
+/* ==============================
+   HEADER - MODERN DESIGN
+============================== */
 .header {
     position: fixed;
     top: 0;
@@ -406,7 +409,6 @@ ul, ol {
 .logo {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
     position: relative;
     padding: var(--space-xs) var(--space-md);
     border-radius: var(--radius-full);
@@ -432,34 +434,15 @@ ul, ol {
     opacity: 1;
 }
 
+/* Updated logo size */
 .logo-img {
-    height: 38px;
+    height: 65px; /* Increased from 38px */
     width: auto;
     transition: height var(--transition-medium);
 }
 
 .header.scrolled .logo-img {
-    height: 32px;
-}
-
-.logo-text {
-    display: flex;
-    flex-direction: column;
-}
-
-.logo-title {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.25rem;
-    color: var(--bronze);
-    line-height: 1.1;
-}
-
-.logo-subtitle {
-    font-size: 0.75rem;
-    color: var(--text-medium);
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    height: 55px; /* Increased from 32px */
 }
 
 /* Modern Navigation */
@@ -782,7 +765,7 @@ ul, ol {
 }
 
 .mobile-menu-header .logo-img {
-    height: 32px;
+    height: 55px; /* Increased from 32px */
 }
 
 .menu-close {
@@ -916,13 +899,80 @@ ul, ol {
     transform: translateY(-3px);
 }
 
-/* Mobile responsiveness for header */
+/* Media queries for responsive header */
+@media (max-width: 991px) {
+    .nav-list {
+        gap: var(--space-lg);
+    }
+    
+    .logo-img {
+        height: 60px;
+    }
+    
+    .header.scrolled .logo-img {
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+    
+    .nav {
+        display: none;
+    }
+    
+    .logo-img {
+        height: 55px;
+    }
+    
+    .header.scrolled .logo-img {
+        height: 45px;
+    }
+    
+    .mobile-menu-header .logo-img {
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-cta {
+        display: none;
+    }
+    
+    .logo-img {
+        height: 50px;
+    }
+    
+    .header.scrolled .logo-img {
+        height: 40px;
+    }
+    
+    .mobile-menu-header .logo-img {
+        height: 45px;
+    }
+}
+
+/* Animation for floating blobs */
 @keyframes blob-float {
     0%, 100% {
         transform: translate(0, 0) scale(1);
     }
     50% {
         transform: translate(10px, 10px) scale(1.1);
+    }
+}
+
+/* Animation for glowing/pulsing elements */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
     }
 }
 
