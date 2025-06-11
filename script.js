@@ -21,7 +21,12 @@ class EviaAestheticsApp {
             modalOpen: false,
             scrolled: false,
             preloaderComplete: false,
-            videoLoaded: false
+            videoLoaded: false,
+            librariesLoaded: {
+                gsap: false,
+                aos: false,
+                three: false
+            }
         };
         
         // Bind methods to maintain context
@@ -50,6 +55,9 @@ class EviaAestheticsApp {
         try {
             console.log('🎨 Initializing Evia Aesthetics App...');
             
+            // Check for external libraries first
+            this.checkExternalLibraries();
+
             // Initialize components in sequence
             await this.initPreloader();
             this.initNavigation();
@@ -75,6 +83,35 @@ class EviaAestheticsApp {
     }
 
     /**
+     * Check if external libraries are loaded
+     */
+    checkExternalLibraries() {
+        // Check for GSAP
+        if (typeof gsap !== 'undefined') {
+            this.state.librariesLoaded.gsap = true;
+            console.log('✅ GSAP library detected');
+        } else {
+            console.warn('⚠️ GSAP library not detected - using fallbacks');
+        }
+
+        // Check for AOS
+        if (typeof AOS !== 'undefined') {
+            this.state.librariesLoaded.aos = true;
+            console.log('✅ AOS library detected');
+        } else {
+            console.warn('⚠️ AOS library not detected - using fallbacks');
+        }
+
+        // Check for Three.js
+        if (typeof THREE !== 'undefined') {
+            this.state.librariesLoaded.three = true;
+            console.log('✅ Three.js library detected');
+        } else {
+            console.warn('⚠️ Three.js library not detected - using fallbacks');
+        }
+    }
+
+    /**
      * Handle initialization errors gracefully
      */
     handleInitializationError(error) {
@@ -85,8 +122,58 @@ class EviaAestheticsApp {
             document.body.classList.remove('loading');
         }
         
-        // Show user-friendly error message
-        console.warn('🔄 App initialized with limited functionality');
+        // Show a user-friendly message in console
+        console.warn('🔄 App initialized with limited functionality due to error:', error.message);
+
+        // Enable basic functionality despite the error
+        this.enableBasicFunctionality();
+    }
+
+    /**
+     * Enable basic functionality if full initialization fails
+     */
+    enableBasicFunctionality() {
+        // Basic navigation
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileClose = document.getElementById('mobileClose');
+
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+        }
+
+        if (mobileClose && mobileMenu) {
+            mobileClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+
+        // Basic modal functionality
+        const modalOpeners = document.querySelectorAll('[id$="BookingBtn"]');
+        const appointmentModal = document.getElementById('appointmentModal');
+        const modalClose = document.getElementById('modalClose');
+
+        if (appointmentModal) {
+            modalOpeners.forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        appointmentModal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    });
+                }
+            });
+
+            if (modalClose) {
+                modalClose.addEventListener('click', () => {
+                    appointmentModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+        }
     }
 
     // ==============================
@@ -100,10 +187,16 @@ class EviaAestheticsApp {
         const preloader = document.getElementById('preloader');
         const progressFill = document.getElementById('progressFill');
         const loadingText = document.getElementById('loadingText');
+        const preloaderLogo = document.getElementById('preloaderLogo');
         
         if (!preloader) {
             console.warn('⚠️ Preloader element not found');
-            return;
+            return Promise.resolve();
+        }
+
+        // Fix logo source if using a placeholder
+        if (preloaderLogo && preloaderLogo.src.includes('placeholder-logo.png')) {
+            preloaderLogo.src = 'https://placehold.co/200x100/DAA520/FFF?text=Evia+Aesthetics';
         }
 
         const loadingSteps = [
@@ -115,35 +208,47 @@ class EviaAestheticsApp {
             { progress: 100, text: 'Welcome to Evia!' }
         ];
 
-        try {
-            // Simulate realistic loading with proper timing
-            for (let i = 0; i < loadingSteps.length; i++) {
-                const step = loadingSteps[i];
+        return new Promise(async (resolve) => {
+            try {
+                // Ensure minimum preloader display time for better UX
+                const startTime = performance.now();
+                const minPreloaderTime = 2000; // 2 seconds minimum
                 
-                // Update progress bar
-                if (progressFill) {
-                    progressFill.style.width = `${step.progress}%`;
+                // Simulate realistic loading with proper timing
+                for (let i = 0; i < loadingSteps.length; i++) {
+                    const step = loadingSteps[i];
+                    
+                    // Update progress bar
+                    if (progressFill) {
+                        progressFill.style.width = `${step.progress}%`;
+                    }
+                    
+                    // Update loading text
+                    if (loadingText) {
+                        loadingText.textContent = step.text;
+                    }
+                    
+                    // Wait before next step with realistic timing
+                    await this.delay(300 + Math.random() * 200);
                 }
+
+                // Calculate remaining time to meet minimum display time
+                const elapsedTime = performance.now() - startTime;
+                const remainingTime = Math.max(0, minPreloaderTime - elapsedTime);
                 
-                // Update loading text
-                if (loadingText) {
-                    loadingText.textContent = step.text;
-                }
+                // Additional delay for smooth transition
+                await this.delay(remainingTime);
+
+                // Hide preloader
+                this.hidePreloader(preloader);
+                resolve();
                 
-                // Wait before next step with realistic timing
-                await this.delay(300 + Math.random() * 200);
+            } catch (error) {
+                console.error('Error in preloader:', error);
+                this.hidePreloader(preloader);
+                resolve();
             }
-
-            // Additional delay for smooth transition
-            await this.delay(600);
-
-            // Hide preloader
-            this.hidePreloader(preloader);
-            
-        } catch (error) {
-            console.error('Error in preloader:', error);
-            this.hidePreloader(preloader);
-        }
+        });
     }
 
     /**
@@ -153,16 +258,29 @@ class EviaAestheticsApp {
         if (!preloader) return;
         
         preloader.classList.add('fade-out');
-        document.body.classList.remove('loading');
         
-        // Use setTimeout as fallback if transitions don't work
-        const hideTimer = setTimeout(() => {
-            if (preloader) {
-                preloader.style.display = 'none';
-            }
+        // Use transition event when possible, with setTimeout as backup
+        const transitionEndHandler = () => {
+            preloader.style.display = 'none';
+            document.body.classList.remove('loading');
             this.state.preloaderComplete = true;
-            this.startHeroAnimations();
-        }, 800);
+            
+            // Start hero animations after a short delay to ensure DOM is ready
+            setTimeout(() => {
+                this.startHeroAnimations();
+            }, 200);
+            
+            preloader.removeEventListener('transitionend', transitionEndHandler);
+        };
+        
+        preloader.addEventListener('transitionend', transitionEndHandler);
+        
+        // Backup timeout in case transition event doesn't fire
+        const hideTimer = setTimeout(() => {
+            if (preloader.style.display !== 'none') {
+                transitionEndHandler();
+            }
+        }, 1000);
         
         this.timers.set('preloader', hideTimer);
     }
@@ -220,7 +338,7 @@ class EviaAestheticsApp {
         const logo = document.querySelector('.header-logo .logo');
         if (!logo) return;
 
-        if (typeof gsap !== 'undefined') {
+        if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
             gsap.to(logo, {
                 scale: scrolled ? 0.9 : 1,
                 duration: 0.3,
@@ -288,7 +406,7 @@ class EviaAestheticsApp {
     showDropdown(menu, arrow) {
         if (!menu) return;
 
-        if (typeof gsap !== 'undefined') {
+        if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
             gsap.set(menu, { visibility: 'visible' });
             gsap.to(menu, {
                 opacity: 1,
@@ -322,7 +440,7 @@ class EviaAestheticsApp {
     hideDropdown(menu, arrow) {
         if (!menu) return;
 
-        if (typeof gsap !== 'undefined') {
+        if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
             gsap.to(menu, {
                 opacity: 0,
                 y: 10,
@@ -365,20 +483,37 @@ class EviaAestheticsApp {
         
         if (sections.length === 0 || navLinks.length === 0) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    this.updateActiveNavigation(id, navLinks);
-                }
+        // Use Intersection Observer when supported
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        this.updateActiveNavigation(id, navLinks);
+                    }
+                });
+            }, {
+                threshold: 0.3,
+                rootMargin: '-100px 0px -50% 0px'
             });
-        }, {
-            threshold: 0.3,
-            rootMargin: '-100px 0px -50% 0px'
-        });
 
-        sections.forEach(section => observer.observe(section));
-        this.observers.set('navigation', observer);
+            sections.forEach(section => observer.observe(section));
+            this.observers.set('navigation', observer);
+        } else {
+            // Fallback for browsers that don't support IntersectionObserver
+            window.addEventListener('scroll', this.throttle(() => {
+                let currentSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    if (window.pageYOffset >= sectionTop - 200 && 
+                        window.pageYOffset < sectionTop + sectionHeight - 200) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                this.updateActiveNavigation(currentSection, navLinks);
+            }, 100));
+        }
     }
 
     /**
@@ -425,7 +560,7 @@ class EviaAestheticsApp {
         const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
         const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
         
-        if (typeof gsap !== 'undefined' && gsap.plugins?.ScrollToPlugin) {
+        if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined' && gsap.plugins?.ScrollToPlugin) {
             gsap.to(window, {
                 duration: 1.2,
                 scrollTo: targetPosition,
@@ -550,7 +685,7 @@ class EviaAestheticsApp {
     animateMobileMenuItems(opening) {
         const menuItems = document.querySelectorAll('.mobile-nav-item');
         
-        if (typeof gsap !== 'undefined' && menuItems.length > 0 && opening) {
+        if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined' && menuItems.length > 0 && opening) {
             gsap.from(menuItems, {
                 x: 50,
                 opacity: 0,
@@ -585,7 +720,7 @@ class EviaAestheticsApp {
                     if (otherItem !== item) {
                         otherItem.classList.remove('active');
                         const otherArrow = otherItem.querySelector('.mobile-nav-arrow i');
-                        if (otherArrow && typeof gsap !== 'undefined') {
+                        if (otherArrow && this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
                             gsap.to(otherArrow, {
                                 rotation: 0,
                                 duration: 0.3,
@@ -599,7 +734,7 @@ class EviaAestheticsApp {
                 item.classList.toggle('active');
                 
                 // Animate arrow
-                if (arrow && typeof gsap !== 'undefined') {
+                if (arrow && this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
                     gsap.to(arrow, {
                         rotation: item.classList.contains('active') ? 90 : 0,
                         duration: 0.3,
@@ -624,19 +759,73 @@ class EviaAestheticsApp {
         this.initParallaxEffects();
         this.initFloatingElements();
         this.initScrollIndicator();
+        
+        // Check and fix any missing images
+        this.checkAndFixHeroImages();
+    }
+
+    /**
+     * Check and fix hero section images
+     */
+    checkAndFixHeroImages() {
+        // Fix header logo
+        const headerLogo = document.getElementById('headerLogo');
+        if (headerLogo && headerLogo.src.includes('placeholder-logo.png')) {
+            headerLogo.src = 'https://placehold.co/200x100/DAA520/FFF?text=Evia+Aesthetics';
+            headerLogo.setAttribute('data-fixed', 'true');
+        }
+        
+        // Fix mobile logo
+        const mobileLogo = document.querySelector('.mobile-logo img');
+        if (mobileLogo && mobileLogo.src.includes('placeholder-logo.png')) {
+            mobileLogo.src = 'https://placehold.co/200x100/DAA520/FFF?text=Evia';
+            mobileLogo.setAttribute('data-fixed', 'true');
+        }
     }
 
     /**
      * Start hero animations after preloader
      */
     startHeroAnimations() {
-        if (typeof gsap !== 'undefined') {
-            // Small delay to ensure preloader is fully hidden
-            setTimeout(() => {
-                this.animateHeroContent();
-                this.animateHeroVisual();
-            }, 200);
+        // Check if the preloader is complete and libraries are loaded
+        if (this.state.preloaderComplete) {
+            if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
+                // Small delay to ensure preloader is fully hidden
+                setTimeout(() => {
+                    this.animateHeroContent();
+                    this.animateHeroVisual();
+                }, 400);
+            } else {
+                // Apply simple CSS animations as fallback
+                this.applyFallbackHeroAnimations();
+            }
         }
+    }
+
+    /**
+     * Apply fallback CSS animations for hero section
+     */
+    applyFallbackHeroAnimations() {
+        const heroElements = [
+            '.trust-badge', '.hero-title', '.hero-subtitle',
+            '.feature-pills', '.hero-cta', '.social-proof',
+            '.stats-card', '.floating-card'
+        ];
+        
+        heroElements.forEach((selector, index) => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                // Staggered animation
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 200 + (index * 150));
+            });
+        });
     }
 
     /**
@@ -649,6 +838,14 @@ class EviaAestheticsApp {
             return;
         }
 
+        // Set a fallback image in case video fails
+        const heroSection = document.querySelector('.hero-section');
+        if (heroSection) {
+            heroSection.style.backgroundImage = "url('https://placehold.co/1920x1080/654321/FFF?text=Evia+Aesthetics+Background')";
+            heroSection.style.backgroundSize = "cover";
+            heroSection.style.backgroundPosition = "center";
+        }
+
         // Video event listeners
         video.addEventListener('loadstart', () => {
             console.log('📹 Video loading started');
@@ -658,6 +855,12 @@ class EviaAestheticsApp {
             video.style.opacity = '1';
             video.classList.add('loaded');
             this.state.videoLoaded = true;
+            
+            // Hide background image once video is loaded
+            if (heroSection) {
+                heroSection.style.backgroundImage = "none";
+            }
+            
             console.log('📹 Video ready to play');
         });
 
@@ -677,7 +880,7 @@ class EviaAestheticsApp {
      * Handle video playback with intersection observer
      */
     observeVideoPlayback(video) {
-        if (!video) return;
+        if (!video || !('IntersectionObserver' in window)) return;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -718,9 +921,18 @@ class EviaAestheticsApp {
      */
     handleVideoError(video) {
         const videoContainer = video?.closest('.video-container');
+        const heroSection = document.querySelector('.hero-section');
+        
         if (videoContainer) {
             videoContainer.style.background = 'linear-gradient(135deg, var(--warm-bronze) 0%, var(--deep-bronze) 100%)';
             console.log('📹 Video fallback: Using gradient background');
+        }
+        
+        // Ensure hero still looks good
+        if (heroSection) {
+            heroSection.style.backgroundImage = "url('https://placehold.co/1920x1080/654321/FFF?text=Evia+Aesthetics+Background')";
+            heroSection.style.backgroundSize = "cover";
+            heroSection.style.backgroundPosition = "center";
         }
     }
 
@@ -786,6 +998,11 @@ class EviaAestheticsApp {
      * Animate hero content elements
      */
     animateHeroContent() {
+        if (!this.state.librariesLoaded.gsap || typeof gsap === 'undefined') {
+            this.applyFallbackHeroAnimations();
+            return;
+        }
+
         const trustBadge = document.querySelector('.trust-badge');
         const titleLines = document.querySelectorAll('.title-line');
         const subtitle = document.querySelector('.hero-subtitle');
@@ -860,6 +1077,10 @@ class EviaAestheticsApp {
      * Animate hero visual elements
      */
     animateHeroVisual() {
+        if (!this.state.librariesLoaded.gsap || typeof gsap === 'undefined') {
+            return; // Fallback is handled in applyFallbackHeroAnimations
+        }
+
         const statsCard = document.querySelector('.stats-card');
         const floatingCards = document.querySelectorAll('.floating-card');
 
@@ -966,17 +1187,34 @@ class EviaAestheticsApp {
         
         if (counters.length === 0) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                    entry.target.classList.add('animated');
-                    this.animateCounter(entry.target);
-                }
-            });
-        }, { threshold: 0.7 });
+        // Use IntersectionObserver for better performance when supported
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                        entry.target.classList.add('animated');
+                        this.animateCounter(entry.target);
+                    }
+                });
+            }, { threshold: 0.7 });
 
-        counters.forEach(counter => observer.observe(counter));
-        this.observers.set('counters', observer);
+            counters.forEach(counter => observer.observe(counter));
+            this.observers.set('counters', observer);
+        } else {
+            // Fallback for browsers without IntersectionObserver
+            const checkVisibility = this.throttle(() => {
+                counters.forEach(counter => {
+                    if (this.isElementInViewport(counter) && !counter.classList.contains('animated')) {
+                        counter.classList.add('animated');
+                        this.animateCounter(counter);
+                    }
+                });
+            }, 100);
+            
+            window.addEventListener('scroll', checkVisibility, { passive: true });
+            // Initial check
+            checkVisibility();
+        }
     }
 
     /**
@@ -984,8 +1222,11 @@ class EviaAestheticsApp {
      */
     animateCounter(element) {
         const target = parseInt(element.dataset.count);
+        if (isNaN(target)) return;
+        
         const duration = 2000;
         const startTime = performance.now();
+        let currentFrame;
 
         const updateCounter = (currentTime) => {
             const elapsed = currentTime - startTime;
@@ -998,13 +1239,14 @@ class EviaAestheticsApp {
             element.textContent = current;
             
             if (progress < 1) {
-                requestAnimationFrame(updateCounter);
+                currentFrame = requestAnimationFrame(updateCounter);
             } else {
                 element.textContent = this.formatCounterValue(target);
+                cancelAnimationFrame(currentFrame);
             }
         };
 
-        requestAnimationFrame(updateCounter);
+        currentFrame = requestAnimationFrame(updateCounter);
     }
 
     /**
@@ -1024,6 +1266,11 @@ class EviaAestheticsApp {
      * Initialize parallax effects
      */
     initParallaxEffects() {
+        // Skip parallax effects on mobile devices for performance
+        if (window.innerWidth < 768 || !('requestAnimationFrame' in window)) {
+            return;
+        }
+
         let ticking = false;
         
         const updateParallax = () => {
@@ -1106,27 +1353,68 @@ class EviaAestheticsApp {
      * Initialize floating elements animation
      */
     initFloatingElements() {
-        if (typeof gsap === 'undefined') return;
+        // Skip on mobile for performance
+        if (window.innerWidth < 768) {
+            return;
+        }
+        
+        if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
+            const floatingElements = document.querySelectorAll(
+                '.shape, .gradient-orb, .floating-card, .particle'
+            );
 
+            floatingElements.forEach((element, index) => {
+                // Random floating animation
+                const floatAnimation = gsap.to(element, {
+                    y: (index % 2 === 0 ? 20 : -20) + Math.random() * 10,
+                    x: (index % 3 === 0 ? 15 : -15) + Math.random() * 8,
+                    rotation: (index % 2 === 0 ? 5 : -5) + Math.random() * 3,
+                    duration: 4 + Math.random() * 4,
+                    ease: 'sine.inOut',
+                    repeat: -1,
+                    yoyo: true,
+                    delay: index * 0.2
+                });
+                
+                this.animations.set(`float-${index}`, floatAnimation);
+            });
+        } else {
+            // Fallback CSS animations
+            this.applyFallbackFloatingAnimations();
+        }
+    }
+    
+    /**
+     * Apply fallback floating animations using CSS
+     */
+    applyFallbackFloatingAnimations() {
         const floatingElements = document.querySelectorAll(
             '.shape, .gradient-orb, .floating-card, .particle'
         );
-
+        
         floatingElements.forEach((element, index) => {
-            // Random floating animation
-            const floatAnimation = gsap.to(element, {
-                y: (index % 2 === 0 ? 20 : -20) + Math.random() * 10,
-                x: (index % 3 === 0 ? 15 : -15) + Math.random() * 8,
-                rotation: (index % 2 === 0 ? 5 : -5) + Math.random() * 3,
-                duration: 4 + Math.random() * 4,
-                ease: 'sine.inOut',
-                repeat: -1,
-                yoyo: true,
-                delay: index * 0.2
-            });
+            // Apply random animation duration and delay with CSS
+            const duration = 4 + Math.random() * 4;
+            const delay = index * 0.2;
+            const direction = index % 2 === 0 ? 'alternate' : 'alternate-reverse';
             
-            this.animations.set(`float-${index}`, floatAnimation);
+            element.style.animation = `float ${duration}s ${direction} infinite ease-in-out`;
+            element.style.animationDelay = `${delay}s`;
         });
+        
+        // Inject required keyframes if they don't exist
+        if (!document.getElementById('floating-keyframes')) {
+            const style = document.createElement('style');
+            style.id = 'floating-keyframes';
+            style.textContent = `
+                @keyframes float {
+                    0% { transform: translate(0, 0) rotate(0); }
+                    50% { transform: translate(10px, -15px) rotate(3deg); }
+                    100% { transform: translate(0, 0) rotate(0); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
     }
 
     /**
@@ -1137,7 +1425,7 @@ class EviaAestheticsApp {
         if (!scrollIndicator) return;
 
         // Animate scroll indicator
-        if (typeof gsap !== 'undefined') {
+        if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
             const scrollAnimation = gsap.to(scrollIndicator, {
                 y: 10,
                 duration: 1.5,
@@ -1146,6 +1434,22 @@ class EviaAestheticsApp {
                 yoyo: true
             });
             this.animations.set('scrollIndicator', scrollAnimation);
+        } else {
+            // Fallback CSS animation
+            scrollIndicator.style.animation = 'scrollBounce 1.5s infinite ease-in-out alternate';
+            
+            // Add keyframes if needed
+            if (!document.getElementById('scroll-indicator-keyframes')) {
+                const style = document.createElement('style');
+                style.id = 'scroll-indicator-keyframes';
+                style.textContent = `
+                    @keyframes scrollBounce {
+                        from { transform: translateY(0); }
+                        to { transform: translateY(10px); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
         }
 
         // Hide scroll indicator when scrolled
@@ -1231,7 +1535,7 @@ class EviaAestheticsApp {
         }
 
         // Animate modal opening
-        if (typeof gsap !== 'undefined') {
+        if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
             const modalContent = modal.querySelector('.modal-content');
             if (modalContent) {
                 gsap.from(modalContent, {
@@ -1277,6 +1581,12 @@ class EviaAestheticsApp {
         const submitBtn = form.querySelector('.form-submit');
         if (submitBtn) {
             submitBtn.classList.remove('loading', 'success', 'error');
+        }
+        
+        // Remove any error messages
+        const errorMessage = form.querySelector('.form-error-message');
+        if (errorMessage) {
+            errorMessage.remove();
         }
     }
 
@@ -1331,6 +1641,8 @@ class EviaAestheticsApp {
     async handleFormSubmission(e) {
         e.preventDefault();
         
+        const form = e.preventDefault();
+        
         const form = e.target;
         const submitBtn = form.querySelector('.form-submit');
         const formData = new FormData(form);
@@ -1357,7 +1669,7 @@ class EviaAestheticsApp {
 
         try {
             // Simulate API call
-            await this.delay(2000);
+            await this.delay(1500);
             
             // Process form data (replace with actual API call)
             console.log('Form submitted:', data);
@@ -1384,30 +1696,33 @@ class EviaAestheticsApp {
      * Show form error message
      */
     showFormError(message) {
-        // Create or update error message
-        let errorDiv = document.querySelector('.form-error-message');
-        if (!errorDiv) {
-            errorDiv = document.createElement('div');
-            errorDiv.className = 'form-error-message';
-            errorDiv.style.cssText = `
-                color: #dc3545;
-                background: #f8d7da;
-                border: 1px solid #f5c6cb;
-                padding: 12px;
-                border-radius: 8px;
-                margin: 16px 0;
-                font-size: 14px;
-            `;
-            const form = document.getElementById('appointmentForm');
-            if (form) {
-                form.insertBefore(errorDiv, form.firstChild);
-            }
-        }
+        // Remove any existing error messages first
+        const existingError = document.querySelector('.form-error-message');
+        if (existingError) existingError.remove();
+        
+        // Create new error message
+        let errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error-message';
+        errorDiv.style.cssText = `
+            color: #dc3545;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 16px 0;
+            font-size: 14px;
+            text-align: center;
+        `;
         errorDiv.textContent = message;
+        
+        const form = document.getElementById('appointmentForm');
+        if (form) {
+            form.insertBefore(errorDiv, form.firstChild);
+        }
 
         // Remove error after delay
         const errorTimer = setTimeout(() => {
-            if (errorDiv) errorDiv.remove();
+            if (errorDiv && errorDiv.parentNode) errorDiv.remove();
         }, 5000);
         this.timers.set('form-error', errorTimer);
     }
@@ -1476,11 +1791,18 @@ class EviaAestheticsApp {
     resetForm(form) {
         if (!form) return;
 
+        form.classList.remove('success');
+        form.reset();
+        
+        // In a real implementation, you'd restore the original form HTML
+        // For demonstration purposes, we'll just reload the page after a short delay
         const resetTimer = setTimeout(() => {
-            form.classList.remove('success');
-            // In a real implementation, you'd restore the original form HTML
-            // For now, we'll just reload the page or restore form fields
-            location.reload();
+            // location.reload();
+            // Instead of reloading, we'll just clear the form fields
+            const formGroups = form.querySelectorAll('.form-group');
+            formGroups.forEach(group => {
+                group.classList.remove('focused', 'valid', 'invalid');
+            });
         }, 500);
         this.timers.set('form-reset', resetTimer);
     }
@@ -1505,19 +1827,53 @@ class EviaAestheticsApp {
         
         if (revealElements.length === 0) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('aos-animate');
-                }
+        if (this.state.librariesLoaded.aos && typeof AOS !== 'undefined') {
+            // AOS library is available
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                mirror: false,
+                offset: 120,
+                delay: 0,
+                anchorPlacement: 'top-bottom'
             });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
+            
+            // Refresh AOS on window resize
+            window.addEventListener('resize', this.debounce(() => {
+                AOS.refresh();
+            }, 250));
+            
+        } else {
+            // Fallback using Intersection Observer
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('aos-animate');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
 
-        revealElements.forEach(element => observer.observe(element));
-        this.observers.set('reveal', observer);
+                revealElements.forEach(element => {
+                    // Set initial opacity to 0
+                    element.style.opacity = '0';
+                    element.style.transform = 'translateY(20px)';
+                    element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    observer.observe(element);
+                });
+                
+                this.observers.set('reveal', observer);
+            } else {
+                // If Intersection Observer is not supported, make elements visible
+                revealElements.forEach(element => {
+                    element.classList.add('aos-animate');
+                });
+            }
+        }
     }
 
     /**
@@ -1526,11 +1882,9 @@ class EviaAestheticsApp {
     initParallaxSections() {
         const parallaxElements = document.querySelectorAll('[data-parallax]');
         
-        if (parallaxElements.length === 0) return;
+        if (parallaxElements.length === 0 || window.innerWidth < 768) return;
 
-        window.addEventListener('scroll', () => {
-            if (window.innerWidth < 768) return; // Skip on mobile
-
+        window.addEventListener('scroll', this.throttle(() => {
             const scrolled = window.pageYOffset;
             
             parallaxElements.forEach(element => {
@@ -1538,7 +1892,7 @@ class EviaAestheticsApp {
                 const yPos = -(scrolled * speed);
                 element.style.transform = `translateY(${yPos}px)`;
             });
-        }, { passive: true });
+        }, 16), { passive: true });
     }
 
     // ==============================
@@ -1558,18 +1912,21 @@ class EviaAestheticsApp {
      */
     initGSAP() {
         if (typeof gsap !== 'undefined') {
-            // Register plugins
+            // Register plugins if available
             if (typeof ScrollTrigger !== 'undefined') {
                 gsap.registerPlugin(ScrollTrigger);
+                console.log('✅ GSAP ScrollTrigger initialized');
             }
             
             if (typeof TextPlugin !== 'undefined') {
                 gsap.registerPlugin(TextPlugin);
+                console.log('✅ GSAP TextPlugin initialized');
             }
 
-            console.log('✅ GSAP initialized');
+            this.state.librariesLoaded.gsap = true;
         } else {
             console.warn('⚠️ GSAP not loaded - using CSS fallbacks');
+            this.state.librariesLoaded.gsap = false;
         }
     }
 
@@ -1578,19 +1935,12 @@ class EviaAestheticsApp {
      */
     initAOS() {
         if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 800,
-                easing: 'ease-out-cubic',
-                once: true,
-                mirror: false,
-                offset: 120,
-                delay: 0,
-                anchorPlacement: 'top-bottom'
-            });
-
-            console.log('✅ AOS initialized');
+            // AOS is initialized in the initRevealAnimations method
+            this.state.librariesLoaded.aos = true;
+            console.log('✅ AOS ready to initialize');
         } else {
             console.warn('⚠️ AOS not loaded - using CSS fallbacks');
+            this.state.librariesLoaded.aos = false;
         }
     }
 
@@ -1616,20 +1966,30 @@ class EviaAestheticsApp {
         
         if (lazyImages.length === 0) return;
 
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
-                    img.classList.add('loaded');
-                    imageObserver.unobserve(img);
-                }
+        // Use Intersection Observer for better performance when supported
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        img.classList.add('loaded');
+                        imageObserver.unobserve(img);
+                    }
+                });
             });
-        });
 
-        lazyImages.forEach(img => imageObserver.observe(img));
-        this.observers.set('lazyImages', imageObserver);
+            lazyImages.forEach(img => imageObserver.observe(img));
+            this.observers.set('lazyImages', imageObserver);
+        } else {
+            // Fallback for older browsers
+            lazyImages.forEach(img => {
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                img.classList.add('loaded');
+            });
+        }
     }
 
     /**
@@ -1639,14 +1999,32 @@ class EviaAestheticsApp {
         const images = document.querySelectorAll('img');
         
         images.forEach(img => {
-            img.addEventListener('load', () => {
-                img.classList.add('loaded');
-            });
+            // Handle placeholder images
+            if (img.src.includes('placeholder-logo.png') && !img.getAttribute('data-fixed')) {
+                img.src = 'https://placehold.co/200x100/DAA520/FFF?text=Evia+Aesthetics';
+                img.setAttribute('data-fixed', 'true');
+            }
             
-            img.addEventListener('error', () => {
-                img.classList.add('error');
-                console.warn('Image failed to load:', img.src);
-            });
+            // Add loading class and event handlers
+            if (!img.classList.contains('loaded')) {
+                img.classList.add('loading');
+                
+                img.addEventListener('load', () => {
+                    img.classList.remove('loading');
+                    img.classList.add('loaded');
+                });
+                
+                img.addEventListener('error', () => {
+                    img.classList.remove('loading');
+                    img.classList.add('error');
+                    console.warn('Image failed to load:', img.src);
+                    
+                    // Set fallback image for broken links
+                    if (!img.src.includes('placehold.co')) {
+                        img.src = 'https://placehold.co/200x100/DAA520/FFF?text=Image+Not+Found';
+                    }
+                });
+            }
         });
     }
 
@@ -1657,19 +2035,13 @@ class EviaAestheticsApp {
         const isLowEndDevice = this.detectLowEndDevice();
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         
-        if (isLowEndDevice || prefersReducedMotion) {
+        if (isLowEndDevice || prefersReducedMotion || window.innerWidth < 768) {
             document.documentElement.classList.add('reduced-motion');
             
             // Disable heavy animations
             this.disableHeavyAnimations();
             
             console.log('🔧 Reduced motion enabled for better performance');
-        }
-
-        // Disable heavy animations on mobile
-        if (window.innerWidth < 768) {
-            document.documentElement.classList.add('mobile-optimized');
-            this.disableHeavyAnimations();
         }
     }
 
@@ -1702,17 +2074,21 @@ class EviaAestheticsApp {
      * Initialize critical resource hints
      */
     initCriticalResourceHints() {
-        // Preload critical resources
-        const criticalResources = [
-            // Add your actual resource URLs here
+        // Critical CSS should be inlined in the head
+        // Add preconnect for performance
+        const criticalDomains = [
+            'https://fonts.googleapis.com',
+            'https://fonts.gstatic.com',
+            'https://cdnjs.cloudflare.com'
         ];
-
-        criticalResources.forEach(resource => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.href = resource.href;
-            link.as = resource.as;
-            document.head.appendChild(link);
+        
+        criticalDomains.forEach(domain => {
+            if (!document.querySelector(`link[rel="preconnect"][href="${domain}"]`)) {
+                const link = document.createElement('link');
+                link.rel = 'preconnect';
+                link.href = domain;
+                document.head.appendChild(link);
+            }
         });
     }
 
@@ -1779,6 +2155,8 @@ class EviaAestheticsApp {
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
         
+        if (focusableElements.length === 0) return;
+        
         const firstFocusable = focusableElements[0];
         const lastFocusable = focusableElements[focusableElements.length - 1];
         
@@ -1832,7 +2210,13 @@ class EviaAestheticsApp {
             }
         };
         
-        mediaQuery.addListener(handleReducedMotion);
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener('change', handleReducedMotion);
+        } else if (mediaQuery.addListener) {
+            // For older browsers
+            mediaQuery.addListener(handleReducedMotion);
+        }
+        
         handleReducedMotion(mediaQuery);
     }
 
@@ -1854,7 +2238,7 @@ class EviaAestheticsApp {
         document.addEventListener('visibilitychange', this.handleVisibilityChange);
         
         // Before unload
-        window.addEventListener('beforeunload', this.cleanup.bind(this));
+        window.addEventListener('beforeunload', () => this.cleanup());
 
         // Error handling
         window.addEventListener('error', this.handleGlobalError.bind(this));
@@ -1866,6 +2250,7 @@ class EviaAestheticsApp {
     handleGlobalError(event) {
         console.error('Global error:', event.error);
         // Don't break the app on errors
+        return false; // Allow default error handling to continue
     }
 
     /**
@@ -1881,12 +2266,12 @@ class EviaAestheticsApp {
      */
     handleResize() {
         // Refresh ScrollTrigger if available
-        if (typeof ScrollTrigger !== 'undefined') {
+        if (this.state.librariesLoaded.gsap && typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
         }
         
         // Refresh AOS if available
-        if (typeof AOS !== 'undefined') {
+        if (this.state.librariesLoaded.aos && typeof AOS !== 'undefined') {
             AOS.refresh();
         }
         
@@ -1910,10 +2295,20 @@ class EviaAestheticsApp {
             if (video && !video.paused) {
                 video.pause();
             }
+            
+            // Pause any GSAP animations for performance
+            if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
+                gsap.globalTimeline.pause();
+            }
         } else {
             // Page is visible, resume video if in viewport
             if (video && this.isElementInViewport(video) && this.state.videoLoaded) {
                 video.play().catch(() => {});
+            }
+            
+            // Resume GSAP animations
+            if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
+                gsap.globalTimeline.play();
             }
         }
     }
@@ -2055,7 +2450,7 @@ class EviaAestheticsApp {
         this.timers.clear();
         
         // Kill GSAP animations
-        if (typeof gsap !== 'undefined') {
+        if (this.state.librariesLoaded.gsap && typeof gsap !== 'undefined') {
             this.animations.forEach(animation => {
                 if (animation && typeof animation.kill === 'function') {
                     animation.kill();
@@ -2093,10 +2488,12 @@ class EviaAestheticsApp {
 
     refresh() {
         this.handleResize();
+        return this;
     }
 
     destroy() {
         this.cleanup();
+        return null;
     }
 
     getState() {
@@ -2113,6 +2510,56 @@ let eviaApp;
 
 // Initialize when DOM is ready
 try {
+    // Add critical CSS keyframes for animations that might be used before full CSS is loaded
+    const addCriticalKeyframes = () => {
+        if (!document.getElementById('critical-keyframes')) {
+            const style = document.createElement('style');
+            style.id = 'critical-keyframes';
+            style.textContent = `
+                @keyframes ripple {
+                    0% { transform: scale(0); opacity: 1; }
+                    100% { transform: scale(4); opacity: 0; }
+                }
+                @keyframes float {
+                    0% { transform: translate(0, 0) rotate(0); }
+                    50% { transform: translate(10px, -15px) rotate(3deg); }
+                    100% { transform: translate(0, 0) rotate(0); }
+                }
+                @keyframes scrollBounce {
+                    from { transform: translateY(0); }
+                    to { transform: translateY(10px); }
+                }
+                @keyframes progressFill {
+                    from { width: 0%; }
+                    to { width: 100%; }
+                }
+                @keyframes progressShine {
+                    0% { transform: translateX(-100%); }
+                    100% { transform: translateX(200%); }
+                }
+                @keyframes logoGlow {
+                    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+                    50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
+                }
+                @keyframes logoReveal {
+                    to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                @keyframes textFade {
+                    to { opacity: 1; }
+                }
+                @keyframes particleFloat {
+                    0%, 100% { transform: translate(0, 0); }
+                    50% { transform: translate(10px, -10px); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    };
+
+    // Add critical keyframes immediately
+    addCriticalKeyframes();
+
+    // Initialize the app
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
             eviaApp = new EviaAestheticsApp();
@@ -2122,6 +2569,12 @@ try {
     }
 } catch (error) {
     console.error('Failed to initialize Evia Aesthetics App:', error);
+    // Set a basic error handler at the global level
+    window.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.remove('loading');
+        const preloader = document.getElementById('preloader');
+        if (preloader) preloader.style.display = 'none';
+    });
 }
 
 // ==============================
@@ -2138,53 +2591,4 @@ window.EviaAesthetics = {
     getState: () => eviaApp?.getState()
 };
 
-// ==============================
-// GLOBAL STYLES INJECTION
-// ==============================
-
-// Inject critical CSS animations that might be missing
-const criticalCSS = `
-    <style>
-        @keyframes ripple {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(4); opacity: 0; }
-        }
         
-        .reduced-motion *,
-        .reduced-motion *::before,
-        .reduced-motion *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-        }
-        
-        .mobile-optimized .floating-shapes,
-        .mobile-optimized .particle-system,
-        .mobile-optimized .gradient-orb {
-            display: none !important;
-        }
-    </style>
-`;
-
-if (!document.head.querySelector('style[data-evia-critical]')) {
-    document.head.insertAdjacentHTML('beforeend', criticalCSS.replace('<style>', '<style data-evia-critical>'));
-}
-
-// ==============================
-// DEVELOPER TOOLS
-// ==============================
-
-// Development helpers
-if (typeof console !== 'undefined') {
-    console.log(
-        '%c🎨 Evia Aesthetics %c4.0 %cLoaded Successfully',
-        'color: #DAA520; font-weight: bold; font-size: 16px;',
-        'color: #FFF8F0; font-weight: bold; background: #8B4513; padding: 2px 6px; border-radius: 3px;',
-        'color: #28a745; font-weight: normal;'
-    );
-}
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EviaAestheticsApp;
-}
