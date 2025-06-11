@@ -8,322 +8,210 @@
     <!-- Meta Tags for SEO -->
     <meta name="description" content="Experience personalized aesthetic treatments at Evia Aesthetics. Award-winning medspa offering facial treatments, body contouring, and injectable treatments.">
     <meta name="keywords" content="medspa, aesthetic treatments, facial treatments, body contouring, botox, fillers, longevity medicine">
-    <meta name="author" content="Evia Aesthetics">
     
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Evia Aesthetics - Transform Your Natural Beauty">
-    <meta property="og:description" content="Award-winning aesthetic and longevity medicine treatments designed to enhance your unique beauty.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://eviaaesthetics.com">
-    
-    <!-- Preconnect for Performance -->
+    <!-- Font Imports -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Imports - Soft & Elegant Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- External Libraries -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <!-- AOS Library for Scroll Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     
-    <!-- Custom Stylesheet -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-
 <body class="loading">
-    <!-- ==============================
-         SOPHISTICATED PRELOADER
-    ============================== -->
+    <!-- Preloader -->
     <div class="preloader" id="preloader">
         <div class="preloader-content">
-            <!-- Logo Container with Soft Glow Effect -->
             <div class="logo-container">
                 <div class="logo-glow"></div>
-                <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo" id="preloaderLogo">
+                <img src="https://placehold.co/200x100/DAA520/FFF?text=Evia+Aesthetics" alt="Evia Aesthetics" class="preloader-logo">
             </div>
             
-            <!-- Loading Elements -->
             <div class="loading-elements">
-                <!-- Progress Bar -->
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill">
-                        <div class="progress-glow"></div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
                     </div>
                 </div>
-                
-                <!-- Loading Text -->
                 <div class="loading-text" id="loadingText">Preparing your experience...</div>
-                
-                <!-- Floating Particles -->
-                <div class="loading-particles">
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                </div>
+            </div>
+            
+            <div class="loading-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
             </div>
         </div>
     </div>
 
-    <!-- ==============================
-         SOFT MODERN HEADER
-    ============================== -->
-    <header class="site-header" id="siteHeader">
-        <div class="header-container">
-            <!-- Logo Section -->
-            <div class="header-logo">
-                <img src="logo1.png" alt="Evia Aesthetics" class="logo" id="headerLogo">
-                <div class="logo-text">
-                    <span class="logo-title">Evia</span>
-                    <span class="logo-subtitle">Aesthetics</span>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-wrapper">
+                <!-- Logo -->
+                <div class="logo">
+                    <img src="https://placehold.co/200x100/DAA520/FFF?text=Evia" alt="Evia Aesthetics" class="logo-img">
+                    <div class="logo-text">
+                        <span class="logo-title">Evia</span>
+                        <span class="logo-subtitle">Aesthetics</span>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Main Navigation -->
-            <nav class="main-nav" id="mainNav">
-                <ul class="nav-list">
-                    <li class="nav-item active">
-                        <a href="#home" class="nav-link">
-                            <span class="nav-text">Home</span>
-                            <div class="nav-indicator"></div>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="#services" class="nav-link">
-                            <span class="nav-text">Services</span>
-                            <i class="fas fa-chevron-down nav-arrow"></i>
-                            <div class="nav-indicator"></div>
-                        </a>
-                        <div class="dropdown-menu">
-                            <div class="dropdown-header">Our Services</div>
-                            <div class="dropdown-grid">
-                                <a href="#facial-treatments" class="dropdown-item">
-                                    <div class="dropdown-icon">
-                                        <i class="fas fa-spa"></i>
-                                    </div>
-                                    <div class="dropdown-content">
+                
+                <!-- Navigation -->
+                <nav class="nav" id="nav">
+                    <ul class="nav-list">
+                        <li class="nav-item active"><a href="#home" class="nav-link">Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a href="#services" class="nav-link">
+                                Services
+                                <i class="fa-solid fa-chevron-down nav-icon"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="#facial" class="dropdown-item">
+                                    <i class="fa-solid fa-spa dropdown-icon"></i>
+                                    <div>
                                         <span class="dropdown-title">Facial Treatments</span>
-                                        <span class="dropdown-desc">Rejuvenating skincare</span>
+                                        <span class="dropdown-desc">Rejuvenate your skin</span>
                                     </div>
                                 </a>
-                                <a href="#body-contouring" class="dropdown-item">
-                                    <div class="dropdown-icon">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="dropdown-content">
+                                <a href="#body" class="dropdown-item">
+                                    <i class="fa-solid fa-user dropdown-icon"></i>
+                                    <div>
                                         <span class="dropdown-title">Body Contouring</span>
-                                        <span class="dropdown-desc">Sculpting solutions</span>
+                                        <span class="dropdown-desc">Sculpt your silhouette</span>
                                     </div>
                                 </a>
-                                <a href="#injectable-treatments" class="dropdown-item">
-                                    <div class="dropdown-icon">
-                                        <i class="fas fa-syringe"></i>
-                                    </div>
-                                    <div class="dropdown-content">
+                                <a href="#injectable" class="dropdown-item">
+                                    <i class="fa-solid fa-syringe dropdown-icon"></i>
+                                    <div>
                                         <span class="dropdown-title">Injectable Treatments</span>
                                         <span class="dropdown-desc">Botox & fillers</span>
                                     </div>
                                 </a>
-                                <a href="#longevity-medicine" class="dropdown-item">
-                                    <div class="dropdown-icon">
-                                        <i class="fas fa-heartbeat"></i>
-                                    </div>
-                                    <div class="dropdown-content">
+                                <a href="#longevity" class="dropdown-item">
+                                    <i class="fa-solid fa-heartbeat dropdown-icon"></i>
+                                    <div>
                                         <span class="dropdown-title">Longevity Medicine</span>
-                                        <span class="dropdown-desc">Advanced wellness</span>
+                                        <span class="dropdown-desc">Age gracefully</span>
                                     </div>
                                 </a>
                             </div>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#about" class="nav-link">
-                            <span class="nav-text">About</span>
-                            <div class="nav-indicator"></div>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#results" class="nav-link">
-                            <span class="nav-text">Results</span>
-                            <div class="nav-indicator"></div>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#contact" class="nav-link">
-                            <span class="nav-text">Contact</span>
-                            <div class="nav-indicator"></div>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- Header Actions -->
-            <div class="header-actions">
+                        </li>
+                        <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                        <li class="nav-item"><a href="#results" class="nav-link">Results</a></li>
+                        <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+                
                 <!-- CTA Button -->
-                <button class="btn-appointment" id="headerBookingBtn">
-                    <span class="btn-text">Book Consultation</span>
-                    <div class="btn-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <div class="btn-glow"></div>
+                <button class="btn btn-primary header-cta" id="headerCta">
+                    <span>Book Consultation</span>
+                    <i class="fa-solid fa-calendar-check"></i>
                 </button>
-
-                <!-- Mobile Toggle -->
-                <div class="mobile-toggle" id="mobileToggle">
-                    <div class="toggle-line line-1"></div>
-                    <div class="toggle-line line-2"></div>
-                    <div class="toggle-line line-3"></div>
-                    <span class="toggle-label">Menu</span>
-                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="menu-toggle" id="menuToggle">
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
             </div>
         </div>
-
-        <!-- Header Background Blur -->
-        <div class="header-blur"></div>
-    </header>
-
-    <!-- ==============================
-         MOBILE MENU OVERLAY
-    ============================== -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-overlay"></div>
-        <div class="mobile-menu-content">
-            <div class="mobile-menu-header">
-                <div class="mobile-logo">
-                    <img src="logo1.png" alt="Evia Aesthetics">
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-container">
+                <div class="mobile-menu-header">
+                    <div class="logo">
+                        <img src="https://placehold.co/200x100/DAA520/FFF?text=Evia" alt="Evia Aesthetics" class="logo-img">
+                    </div>
+                    <button class="menu-close" id="menuClose">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
-                <button class="mobile-close" id="mobileClose">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <nav class="mobile-nav">
-                <ul class="mobile-nav-list">
-                    <li class="mobile-nav-item active">
-                        <a href="#home" class="mobile-nav-link">
-                            <span class="mobile-nav-text">Home</span>
-                            <div class="mobile-nav-arrow">
-                                <i class="fas fa-arrow-right"></i>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mobile-nav-item has-dropdown">
-                        <a href="#services" class="mobile-nav-link">
-                            <span class="mobile-nav-text">Services</span>
-                            <div class="mobile-nav-arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                        </a>
-                        <ul class="mobile-dropdown">
-                            <li><a href="#facial-treatments">Facial Treatments</a></li>
-                            <li><a href="#body-contouring">Body Contouring</a></li>
-                            <li><a href="#injectable-treatments">Injectable Treatments</a></li>
-                            <li><a href="#longevity-medicine">Longevity Medicine</a></li>
-                        </ul>
-                    </li>
-                    <li class="mobile-nav-item">
-                        <a href="#about" class="mobile-nav-link">
-                            <span class="mobile-nav-text">About</span>
-                            <div class="mobile-nav-arrow">
-                                <i class="fas fa-arrow-right"></i>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mobile-nav-item">
-                        <a href="#results" class="mobile-nav-link">
-                            <span class="mobile-nav-text">Results</span>
-                            <div class="mobile-nav-arrow">
-                                <i class="fas fa-arrow-right"></i>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="mobile-nav-item">
-                        <a href="#contact" class="mobile-nav-link">
-                            <span class="mobile-nav-text">Contact</span>
-                            <div class="mobile-nav-arrow">
-                                <i class="fas fa-arrow-right"></i>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <div class="mobile-menu-footer">
-                <button class="btn-mobile-appointment">
-                    <span>Book Consultation</span>
-                    <i class="fas fa-calendar-check"></i>
-                </button>
-
+                
+                <nav class="mobile-nav">
+                    <ul class="mobile-nav-list">
+                        <li class="mobile-nav-item active"><a href="#home" class="mobile-nav-link">Home</a></li>
+                        <li class="mobile-nav-item dropdown">
+                            <a href="#services" class="mobile-nav-link dropdown-toggle">
+                                Services
+                                <i class="fa-solid fa-chevron-down mobile-nav-icon"></i>
+                            </a>
+                            <ul class="mobile-dropdown">
+                                <li><a href="#facial" class="mobile-dropdown-item">Facial Treatments</a></li>
+                                <li><a href="#body" class="mobile-dropdown-item">Body Contouring</a></li>
+                                <li><a href="#injectable" class="mobile-dropdown-item">Injectable Treatments</a></li>
+                                <li><a href="#longevity" class="mobile-dropdown-item">Longevity Medicine</a></li>
+                            </ul>
+                        </li>
+                        <li class="mobile-nav-item"><a href="#about" class="mobile-nav-link">About</a></li>
+                        <li class="mobile-nav-item"><a href="#results" class="mobile-nav-link">Results</a></li>
+                        <li class="mobile-nav-item"><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="mobile-cta">
+                    <button class="btn btn-primary mobile-btn">
+                        <span>Book Consultation</span>
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </button>
+                </div>
+                
                 <div class="mobile-contact">
                     <div class="contact-item">
-                        <i class="fas fa-phone"></i>
+                        <i class="fa-solid fa-phone"></i>
                         <span>(555) 123-4567</span>
                     </div>
                     <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>info@eviaaesthetics.com</span>
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>contact@eviaaesthetics.com</span>
                     </div>
                 </div>
-
+                
                 <div class="mobile-social">
-                    <a href="#" class="social-link">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-youtube"></i>
-                    </a>
+                    <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- ==============================
-         CINEMATIC HERO SECTION
-    ============================== -->
-    <section class="hero-section" id="heroSection">
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
         <!-- Video Background -->
-        <div class="video-container">
+        <div class="hero-video-container">
             <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
-                <source src="large.mp4" type="video/mp4">
-                <!-- Fallback for browsers that don't support video -->
+                <!-- Replace with your actual video -->
+                <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
             </video>
             <div class="video-overlay"></div>
         </div>
-
-        <!-- Soft Background Elements -->
+        
+        <!-- Decorative Elements -->
         <div class="hero-background">
-            <!-- Gradient Mesh -->
             <div class="gradient-mesh"></div>
-            
-            <!-- Floating Orbs -->
             <div class="gradient-orb orb-1"></div>
             <div class="gradient-orb orb-2"></div>
             <div class="gradient-orb orb-3"></div>
             
-            <!-- Soft Floating Shapes -->
             <div class="floating-shapes">
                 <div class="shape shape-1"></div>
                 <div class="shape shape-2"></div>
                 <div class="shape shape-3"></div>
                 <div class="shape shape-4"></div>
-                <div class="shape shape-5"></div>
-                <div class="shape shape-6"></div>
             </div>
-
-            <!-- Particle System -->
+            
             <div class="particle-system">
                 <div class="particle"></div>
                 <div class="particle"></div>
@@ -333,292 +221,202 @@
                 <div class="particle"></div>
                 <div class="particle"></div>
                 <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
             </div>
         </div>
-
-        <!-- Main Hero Content -->
-        <div class="hero-container">
+        
+        <!-- Hero Content -->
+        <div class="container">
             <div class="hero-content">
-                <!-- Trust Badge -->
-                <div class="trust-badge" data-aos="fade-up" data-aos-delay="200">
-                    <div class="badge-icon">
-                        <i class="fas fa-award"></i>
-                    </div>
+                <div class="hero-badge" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa-solid fa-award badge-icon"></i>
                     <span class="badge-text">Award-Winning Aesthetic & Longevity Care</span>
-                    <div class="badge-pulse"></div>
                 </div>
-
-                <!-- Main Heading -->
+                
                 <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
                     <span class="title-line">Reveal Your</span>
-                    <span class="title-line accent-text">Natural Radiance</span>
+                    <span class="title-line accent">Natural Radiance</span>
                     <span class="title-line">With Confidence</span>
                 </h1>
-
-                <!-- Subtitle -->
+                
                 <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="600">
                     Experience personalized aesthetic and longevity treatments designed to enhance your unique beauty. 
-                    Our expert team combines artistry with advanced medical technology to help you look and feel your absolute best.
+                    Our expert team combines artistry with advanced medical technology for exceptional results.
                 </p>
-
-                <!-- Feature Pills -->
+                
                 <div class="feature-pills" data-aos="fade-up" data-aos-delay="800">
                     <div class="pill">
-                        <div class="pill-icon">
-                            <i class="fas fa-user-md"></i>
-                        </div>
-                        <span class="pill-text">Board Certified</span>
+                        <i class="fa-solid fa-user-md pill-icon"></i>
+                        <span>Board Certified</span>
                     </div>
                     <div class="pill">
-                        <div class="pill-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="pill-text">5-Star Rated</span>
+                        <i class="fa-solid fa-star pill-icon"></i>
+                        <span>5-Star Rated</span>
                     </div>
                     <div class="pill">
-                        <div class="pill-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <span class="pill-text">FDA Approved</span>
-                    </div>
-                    <div class="pill">
-                        <div class="pill-icon">
-                            <i class="fas fa-heartbeat"></i>
-                        </div>
-                        <span class="pill-text">Longevity Medicine</span>
+                        <i class="fa-solid fa-shield-alt pill-icon"></i>
+                        <span>FDA Approved</span>
                     </div>
                 </div>
-
-                <!-- CTA Buttons -->
-                <div class="hero-cta" data-aos="fade-up" data-aos-delay="1000">
-                    <button class="btn-primary" id="heroBookingBtn">
-                        <div class="btn-bg"></div>
-                        <div class="btn-content">
-                            <span class="btn-text">Book Free Consultation</span>
-                            <div class="btn-icon">
-                                <i class="fas fa-arrow-right"></i>
-                            </div>
-                        </div>
-                        <div class="btn-shine"></div>
-                        <div class="btn-ripple"></div>
+                
+                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="1000">
+                    <button class="btn btn-primary btn-lg" id="heroCta">
+                        <span>Book Free Consultation</span>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </button>
                     
-                    <button class="btn-secondary" id="playVideoBtn">
-                        <div class="btn-border"></div>
-                        <div class="btn-content">
-                            <div class="play-icon">
-                                <i class="fas fa-play"></i>
-                            </div>
-                            <span class="btn-text">Virtual Tour</span>
-                        </div>
+                    <button class="btn btn-outline btn-lg" id="videoTourBtn">
+                        <i class="fa-solid fa-play play-icon"></i>
+                        <span>Virtual Tour</span>
                     </button>
                 </div>
-
-                <!-- Social Proof -->
-                <div class="social-proof" data-aos="fade-up" data-aos-delay="1200">
-                    <div class="proof-item">
-                        <div class="proof-number" data-count="3500">0</div>
-                        <div class="proof-label">Happy Clients</div>
-                        <div class="proof-bar">
-                            <div class="proof-fill" style="--width: 95%"></div>
-                        </div>
+                
+                <div class="stats-row" data-aos="fade-up" data-aos-delay="1200">
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="3500">0</div>
+                        <div class="stat-label">Happy Clients</div>
                     </div>
-                    <div class="proof-divider"></div>
-                    <div class="proof-item">
-                        <div class="proof-number" data-count="18">0</div>
-                        <div class="proof-label">Years Experience</div>
-                        <div class="proof-bar">
-                            <div class="proof-fill" style="--width: 100%"></div>
-                        </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="15">0</div>
+                        <div class="stat-label">Years Experience</div>
                     </div>
-                    <div class="proof-divider"></div>
-                    <div class="proof-item">
-                        <div class="proof-number" data-count="99">0</div>
-                        <div class="proof-label">Satisfaction Rate</div>
-                        <div class="proof-bar">
-                            <div class="proof-fill" style="--width: 99%"></div>
-                        </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="99">0</div>
+                        <div class="stat-label">Satisfaction Rate</div>
                     </div>
                 </div>
             </div>
-
-            <!-- Hero Visual Panel -->
-            <div class="hero-visual" data-aos="fade-left" data-aos-delay="600">
-                <div class="visual-container">
-                    <!-- Treatment Results Card -->
-                    <div class="stats-card">
-                        <div class="card-header">
-                            <h3>Treatment Results</h3>
-                            <div class="card-icon">
-                                <i class="fas fa-chart-line"></i>
+            
+            <div class="hero-cards" data-aos="fade-left" data-aos-delay="800">
+                <div class="info-card main-card">
+                    <div class="card-header">
+                        <h3>Treatment Results</h3>
+                        <i class="fa-solid fa-chart-line card-icon"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="result-item">
+                            <div class="result-info">
+                                <div class="result-value">98%</div>
+                                <div class="result-label">Client Satisfaction</div>
+                            </div>
+                            <div class="result-bar">
+                                <div class="result-progress" style="width: 98%"></div>
                             </div>
                         </div>
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <div class="stat-value">99%</div>
-                                <div class="stat-label">Satisfaction</div>
-                                <div class="stat-progress">
-                                    <div class="progress-track"></div>
-                                    <div class="progress-fill" style="--progress: 99%"></div>
-                                </div>
+                        <div class="result-item">
+                            <div class="result-info">
+                                <div class="result-value">94%</div>
+                                <div class="result-label">Would Recommend</div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-value">3.5K+</div>
-                                <div class="stat-label">Treatments</div>
-                                <div class="stat-progress">
-                                    <div class="progress-track"></div>
-                                    <div class="progress-fill" style="--progress: 88%"></div>
-                                </div>
+                            <div class="result-bar">
+                                <div class="result-progress" style="width: 94%"></div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Floating Feature Cards -->
-                    <div class="floating-card card-1">
-                        <div class="card-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-title">Personalized Care</div>
-                            <div class="card-subtitle">Tailored to You</div>
-                        </div>
-                        <div class="card-glow"></div>
+                </div>
+                
+                <div class="floating-card card-1">
+                    <i class="fa-solid fa-heart card-icon"></i>
+                    <div class="card-content">
+                        <h4>Personalized Care</h4>
+                        <p>Tailored to You</p>
                     </div>
-                    
-                    <div class="floating-card card-2">
-                        <div class="card-icon">
-                            <i class="fas fa-magic"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-title">Advanced Technology</div>
-                            <div class="card-subtitle">Latest Innovations</div>
-                        </div>
-                        <div class="card-glow"></div>
+                </div>
+                
+                <div class="floating-card card-2">
+                    <i class="fa-solid fa-wand-magic-sparkles card-icon"></i>
+                    <div class="card-content">
+                        <h4>Advanced Technology</h4>
+                        <p>Latest Innovations</p>
                     </div>
-                    
-                    <div class="floating-card card-3">
-                        <div class="card-icon">
-                            <i class="fas fa-dna"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-title">Longevity Medicine</div>
-                            <div class="card-subtitle">Age Gracefully</div>
-                        </div>
-                        <div class="card-glow"></div>
-                    </div>
-
-                    <div class="floating-card card-4">
-                        <div class="card-icon">
-                            <i class="fas fa-certificate"></i>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-title">Expert Results</div>
-                            <div class="card-subtitle">Proven Excellence</div>
-                        </div>
-                        <div class="card-glow"></div>
+                </div>
+                
+                <div class="floating-card card-3">
+                    <i class="fa-solid fa-certificate card-icon"></i>
+                    <div class="card-content">
+                        <h4>Expert Results</h4>
+                        <p>Proven Excellence</p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Soft Scroll Indicator -->
+        
+        <!-- Scroll Indicator -->
         <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1400">
-            <div class="scroll-mouse">
-                <div class="scroll-wheel"></div>
+            <div class="mouse">
+                <div class="wheel"></div>
             </div>
-            <span class="scroll-text">Discover More</span>
-            <div class="scroll-line"></div>
+            <div class="scroll-text">Scroll to explore</div>
+            <div class="scroll-arrow">
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
         </div>
     </section>
 
-    <!-- ==============================
-         APPOINTMENT MODAL
-    ============================== -->
-    <div id="appointmentModal" class="modal">
+    <!-- Appointment Modal -->
+    <div class="modal" id="appointmentModal">
         <div class="modal-overlay"></div>
-        <div class="modal-content">
+        <div class="modal-container">
             <div class="modal-header">
-                <h2>Book Your Consultation</h2>
+                <h2>Book Your Free Consultation</h2>
                 <button class="modal-close" id="modalClose">
-                    <i class="fas fa-times"></i>
+                    <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             
-            <form id="appointmentForm" class="appointment-form">
-                <div class="form-row">
+            <div class="modal-body">
+                <form id="appointmentForm" class="appointment-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" required>
-                        <div class="form-focus"></div>
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" required>
-                        <div class="form-focus"></div>
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                    <div class="form-focus"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required>
-                    <div class="form-focus"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="service">Service Interest</label>
-                    <select id="service" name="service" required>
-                        <option value="">Select a service</option>
-                        <option value="consultation">Initial Consultation</option>
-                        <option value="facial">Facial Treatments</option>
-                        <option value="body">Body Contouring</option>
-                        <option value="injectable">Injectable Treatments</option>
-                        <option value="longevity">Longevity Medicine</option>
-                    </select>
-                    <div class="form-focus"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="message">Additional Information</label>
-                    <textarea id="message" name="message" rows="4" placeholder="Tell us about your goals and any questions you have..."></textarea>
-                    <div class="form-focus"></div>
-                </div>
-                
-                <button type="submit" class="form-submit">
-                    <span class="submit-text">Request Appointment</span>
-                    <div class="submit-loader">
-                        <div class="loader-spinner"></div>
+                    
+                    <div class="form-group">
+                        <label for="service">Service of Interest</label>
+                        <select id="service" name="service" required>
+                            <option value="" disabled selected>Select a service</option>
+                            <option value="facial">Facial Treatments</option>
+                            <option value="body">Body Contouring</option>
+                            <option value="injectable">Injectable Treatments</option>
+                            <option value="longevity">Longevity Medicine</option>
+                            <option value="consultation">General Consultation</option>
+                        </select>
                     </div>
-                    <div class="submit-success">
-                        <i class="fas fa-check"></i>
+                    
+                    <div class="form-group">
+                        <label for="message">Your Goals & Questions</label>
+                        <textarea id="message" name="message" rows="3" placeholder="Tell us about your aesthetic goals and any questions you have..."></textarea>
                     </div>
-                </button>
-            </form>
+                    
+                    <button type="submit" class="btn btn-primary btn-full" id="submitAppointment">
+                        <span>Request Appointment</span>
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- ==============================
-         EXTERNAL SCRIPTS
-    ============================== -->
-    <!-- GSAP for Advanced Animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/TextPlugin.min.js"></script>
-    
-    <!-- AOS for Scroll Animations -->
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    
-    <!-- Three.js for 3D Effects -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
-    <!-- Custom JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
