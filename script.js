@@ -50,11 +50,10 @@ class EviaApp {
             // Initialize components
             this.initPreloader();
             this.initHeaderScroll();
-            this.initVideoBackground();
+            this.initParallaxVideo();
             this.initMobileMenu();
             this.initDropdowns();
             this.initModal();
-            this.initCounters();
             this.initScrollAnimations();
             this.initFormValidation();
             this.initScrollToElements();
@@ -125,18 +124,6 @@ class EviaApp {
                 delay: 100
             });
         }
-        
-        // Start animating result progress bars
-        setTimeout(() => {
-            const progressBars = document.querySelectorAll('.result-progress');
-            progressBars.forEach(bar => {
-                if (bar.style.width === '0px' || bar.style.width === '0%' || !bar.style.width) {
-                    // Set width based on inline style attribute
-                    const targetWidth = bar.getAttribute('style')?.match(/width:\s*(\d+)%/) || ['', '0'];
-                    bar.style.width = targetWidth[1] + '%';
-                }
-            });
-        }, 500);
     }
     
     /**
@@ -146,7 +133,7 @@ class EviaApp {
         if (!this.header) return;
         
         window.addEventListener('scroll', () => {
-            const scrollPosition = window.scrollY;
+            const scrollPosition = window.pageYOffset;
             const shouldBeScrolled = scrollPosition > 50;
             
             if (this.scrolled !== shouldBeScrolled) {
@@ -160,34 +147,117 @@ class EviaApp {
     }
     
     /**
-     * Initialize video background
+     * Initialize parallax video effect
      */
-    initVideoBackground() {
-        if (!this.heroVideo) return;
+    initParallaxVideo() {
+        const video = document.getElementById('heroVideo');
+        const heroSection = document.querySelector('.hero');
+        if (!video || !heroSection) return;
+
+        // Initial scale for the parallax effect
+        const initialScale = 1.05;
         
         // Handle video loading events
-        this.heroVideo.addEventListener('loadeddata', () => {
+        video.addEventListener('loadeddata', () => {
             this.videoLoaded = true;
             console.log('📹 Hero video loaded successfully');
+            
+            // Apply initial parallax effect
+            this.applyParallaxEffects({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 });
         });
         
-        this.heroVideo.addEventListener('error', (e) => {
+        video.addEventListener('error', (e) => {
             console.error('❌ Error loading hero video:', e);
-            // Add fallback background if video fails
-            const heroSection = document.getElementById('hero');
-            if (heroSection) {
-                heroSection.style.backgroundImage = 'var(--primary-gradient)';
-            }
+            heroSection.style.backgroundImage = 'var(--primary-gradient)';
         });
         
         // Pause video when not visible for performance
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
-                this.heroVideo.pause();
+                video.pause();
             } else if (this.videoLoaded) {
-                this.heroVideo.play().catch(() => {});
+                video.play().catch(() => {});
             }
         });
+        
+        // Parallax effect on scroll
+        const handleScroll = () => {
+            if (!this.videoLoaded) return;
+            
+            const scrollTop = window.pageYOffset;
+            const heroHeight = heroSection.offsetHeight;
+            const scrollPercentage = Math.min(scrollTop / heroHeight, 1);
+            
+            // Parallax effect - move the video as user scrolls
+            const translateY = scrollPercentage * 50; // 50px total movement
+            const scale = initialScale - (scrollPercentage * 0.05); // Subtle scale change
+            
+            // Apply transformation
+            video.style.transform = `translate(-50%, -50%) scale(${scale}) translateY(${translateY}px)`;
+            
+            // Adjust overlay opacity for enhanced depth
+            const overlay = document.querySelector('.video-overlay');
+            if (overlay) {
+                const baseOpacity = 0.5;
+                const opacityChange = 0.3;
+                overlay.style.opacity = baseOpacity + (scrollPercentage * opacityChange);
+            }
+        };
+
+        // Apply throttled scroll handler
+        window.addEventListener('scroll', this.throttle(handleScroll, 10), { passive: true });
+
+        // Mouse movement parallax effect
+        this.applyParallaxEffects = (e) => {
+            if (!this.videoLoaded) return;
+            
+            const { clientX, clientY } = e;
+            const { innerWidth, innerHeight } = window;
+            
+            // Calculate mouse position as percentage (-0.05 to 0.05)
+            const xPercentage = (clientX / innerWidth - 0.5) * 0.1;
+            const yPercentage = (clientY / innerHeight - 0.5) * 0.1;
+            
+            // Apply subtle movement based on mouse position
+            video.style.transform = `translate(calc(-50% + ${xPercentage * 30}px), calc(-50% + ${yPercentage * 30}px)) scale(${initialScale})`;
+            
+            // Move accents in opposite direction for enhanced depth
+            const accentLines = document.querySelectorAll('.accent-line');
+            const glowOrbs = document.querySelectorAll('.glow-orb');
+            
+            accentLines.forEach((line, index) => {
+                const depth = 1 + (index * 0.5);
+                line.style.transform = `translateX(${-xPercentage * 50 * depth}px) translateY(${-yPercentage * 50 * depth}px) rotate(${index === 0 ? -5 : 3}deg)`;
+            });
+            
+            glowOrbs.forEach((orb, index) => {
+                const depth = 1 + (index * 0.3);
+                orb.style.transform = `translateX(${-xPercentage * 70 * depth}px) translateY(${-yPercentage * 70 * depth}px)`;
+            });
+        };
+
+        heroSection.addEventListener('mousemove', this.throttle(this.applyParallaxEffects, 10));
+
+        // Reset on mouse leave
+        heroSection.addEventListener('mouseleave', () => {
+            if (!this.videoLoaded) return;
+            
+            video.style.transform = `translate(-50%, -50%) scale(${initialScale})`;
+            
+            const accentLines = document.querySelectorAll('.accent-line');
+            const glowOrbs = document.querySelectorAll('.glow-orb');
+            
+            accentLines.forEach((line, index) => {
+                line.style.transform = `rotate(${index === 0 ? -5 : 3}deg)`;
+            });
+            
+            glowOrbs.forEach(orb => {
+                orb.style.transform = '';
+            });
+        });
+        
+        // Initial call to set the correct state
+        handleScroll();
     }
     
     /**
@@ -341,17 +411,19 @@ class EviaApp {
      * Initialize modal functionality
      */
     initModal() {
-        const modalTriggers = document.querySelectorAll('#headerCta, #heroCta, .mobile-btn');
+        const modalTriggers = document.querySelectorAll('#headerCta, #heroCta, #mobileCta');
         const modalClose = document.getElementById('modalClose');
         const modalOverlay = document.querySelector('.modal-overlay');
         
         if (!this.appointmentModal) return;
         
         modalTriggers.forEach(trigger => {
-            trigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.openModal();
-            });
+            if (trigger) {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.openModal();
+                });
+            }
         });
         
         if (modalClose) {
@@ -403,61 +475,6 @@ class EviaApp {
         this.modalOpen = false;
         this.appointmentModal.classList.remove('active');
         document.body.style.overflow = '';
-    }
-    
-    /**
-     * Initialize counter animations
-     */
-    initCounters() {
-        const counters = document.querySelectorAll('.stat-number[data-count]');
-        
-        if (!counters.length) return;
-        
-        // Only start animation when elements are in viewport
-        const startCounters = () => {
-            counters.forEach(counter => {
-                const target = parseInt(counter.dataset.count, 10);
-                
-                if (isNaN(target) || counter.classList.contains('counted')) return;
-                
-                // Check if element is in viewport
-                const rect = counter.getBoundingClientRect();
-                const isInViewport = (
-                    rect.top >= 0 &&
-                    rect.left >= 0 &&
-                    rect.bottom <= window.innerHeight &&
-                    rect.right <= window.innerWidth
-                );
-                
-                if (!isInViewport) return;
-                
-                counter.classList.add('counted');
-                
-                let current = 0;
-                const duration = 2000; // ms
-                const step = target / (duration / 16); // 60fps
-                
-                const updateCounter = () => {
-                    current += step;
-                    
-                    if (current >= target) {
-                        counter.textContent = target;
-                        return;
-                    }
-                    
-                    counter.textContent = Math.floor(current);
-                    requestAnimationFrame(updateCounter);
-                };
-                
-                updateCounter();
-            });
-        };
-        
-        // Run on scroll
-        window.addEventListener('scroll', startCounters, { passive: true });
-        
-        // Initial check
-        startCounters();
     }
     
     /**
@@ -592,27 +609,6 @@ class EviaApp {
                 </div>
             `;
             
-            // Add success styles
-            const successMessage = form.querySelector('.success-message');
-            if (successMessage) {
-                successMessage.style.textAlign = 'center';
-                successMessage.style.padding = '2rem 0';
-            }
-            
-            const successIcon = form.querySelector('.success-icon');
-            if (successIcon) {
-                successIcon.style.width = '64px';
-                successIcon.style.height = '64px';
-                successIcon.style.borderRadius = '50%';
-                successIcon.style.background = 'var(--primary-gradient)';
-                successIcon.style.color = 'white';
-                successIcon.style.fontSize = '1.5rem';
-                successIcon.style.display = 'flex';
-                successIcon.style.alignItems = 'center';
-                successIcon.style.justifyContent = 'center';
-                successIcon.style.margin = '0 auto 1rem';
-            }
-            
             // Close modal after delay
             setTimeout(() => {
                 this.closeModal();
@@ -707,14 +703,32 @@ class EviaApp {
                 if (this.heroVideo.paused) {
                     this.heroVideo.play().catch(err => console.error('Could not play video', err));
                     videoTourBtn.querySelector('span').textContent = 'Pause Tour';
-                    videoTourBtn.querySelector('.play-icon').innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    videoTourBtn.querySelector('.btn-circle i').classList.remove('fa-play');
+                    videoTourBtn.querySelector('.btn-circle i').classList.add('fa-pause');
                 } else {
                     this.heroVideo.pause();
-                    videoTourBtn.querySelector('span').textContent = 'Virtual Tour';
-                    videoTourBtn.querySelector('.play-icon').innerHTML = '<i class="fa-solid fa-play"></i>';
+                    videoTourBtn.querySelector('span').textContent = 'Take a Virtual Tour';
+                    videoTourBtn.querySelector('.btn-circle i').classList.remove('fa-pause');
+                    videoTourBtn.querySelector('.btn-circle i').classList.add('fa-play');
                 }
             });
         }
+    }
+    
+    /**
+     * Throttle function to limit frequent executions
+     */
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
     }
     
     /**
@@ -732,4 +746,6 @@ class EviaApp {
 }
 
 // Initialize application
-const eviaApp = new EviaApp();
+document.addEventListener('DOMContentLoaded', () => {
+    const eviaApp = new EviaApp();
+});
