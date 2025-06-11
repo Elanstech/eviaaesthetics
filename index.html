@@ -8,10 +8,20 @@
     <!-- Meta Tags for SEO -->
     <meta name="description" content="Experience personalized aesthetic treatments at Evia Aesthetics. Award-winning medspa offering facial treatments, body contouring, and injectable treatments.">
     <meta name="keywords" content="medspa, aesthetic treatments, facial treatments, body contouring, botox, fillers, longevity medicine">
+    <meta name="author" content="Evia Aesthetics">
     
-    <!-- Font Imports -->
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Evia Aesthetics - Transform Your Natural Beauty">
+    <meta property="og:description" content="Award-winning aesthetic and longevity medicine treatments designed to enhance your unique beauty.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eviaaesthetics.com">
+    
+    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Font Imports -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Icon Library -->
@@ -22,6 +32,9 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body class="loading">
     <!-- Preloader -->
@@ -29,7 +42,7 @@
         <div class="preloader-content">
             <div class="logo-container">
                 <div class="logo-glow"></div>
-                <img src="https://placehold.co/200x100/DAA520/FFF?text=Evia+Aesthetics" alt="Evia Aesthetics" class="preloader-logo">
+                <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo">
             </div>
             
             <div class="loading-elements">
@@ -68,7 +81,7 @@
                     <!-- Logo -->
                     <div class="logo">
                         <div class="logo-bg"></div>
-                        <img src="https://placehold.co/200x100/DAA520/FFF?text=Evia" alt="Evia Aesthetics" class="logo-img">
+                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
                         <div class="logo-text">
                             <span class="logo-title">Evia</span>
                             <span class="logo-subtitle">Aesthetics</span>
@@ -177,7 +190,7 @@
             <div class="mobile-menu-container">
                 <div class="mobile-menu-header">
                     <div class="logo">
-                        <img src="https://placehold.co/200x100/DAA520/FFF?text=Evia" alt="Evia Aesthetics" class="logo-img">
+                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
                     </div>
                     <button class="menu-close" id="menuClose">
                         <i class="fa-solid fa-xmark"></i>
@@ -206,7 +219,7 @@
                 </nav>
                 
                 <div class="mobile-cta">
-                    <button class="btn btn-primary mobile-btn">
+                    <button class="btn btn-primary mobile-btn" id="mobileCta">
                         <span>Book Consultation</span>
                         <i class="fa-solid fa-calendar-check"></i>
                     </button>
@@ -225,51 +238,32 @@
                 
                 <div class="mobile-social">
                     <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" class="social-link"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Cinematic Parallax Hero Section -->
     <section class="hero" id="hero">
-        <!-- Video Background -->
-        <div class="hero-video-container">
-            <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
-                <!-- Replace with your actual video -->
-                <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+        <!-- Parallax Video Background -->
+        <div class="parallax-video-container">
+            <video class="parallax-video" id="heroVideo" autoplay muted loop playsinline>
+                <source src="large.mp4" type="video/mp4">
             </video>
             <div class="video-overlay"></div>
         </div>
         
-        <!-- Decorative Elements -->
-        <div class="hero-background">
-            <div class="gradient-mesh"></div>
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
-            
-            <div class="floating-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="shape shape-3"></div>
-                <div class="shape shape-4"></div>
-            </div>
-            
-            <div class="particle-system">
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-            </div>
+        <!-- Minimal Decorative Elements -->
+        <div class="hero-accents">
+            <div class="accent-line line-1"></div>
+            <div class="accent-line line-2"></div>
+            <div class="glow-orb orb-1"></div>
+            <div class="glow-orb orb-2"></div>
         </div>
         
-        <!-- Hero Content -->
+        <!-- Focused Hero Content -->
         <div class="container">
             <div class="hero-content">
                 <div class="hero-badge" data-aos="fade-up" data-aos-delay="200">
@@ -280,119 +274,29 @@
                 <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
                     <span class="title-line">Reveal Your</span>
                     <span class="title-line accent">Natural Radiance</span>
-                    <span class="title-line">With Confidence</span>
                 </h1>
                 
-                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="600">
-                    Experience personalized aesthetic and longevity treatments designed to enhance your unique beauty. 
-                    Our expert team combines artistry with advanced medical technology for exceptional results.
-                </p>
-                
-                <div class="feature-pills" data-aos="fade-up" data-aos-delay="800">
-                    <div class="pill">
-                        <i class="fa-solid fa-user-md pill-icon"></i>
-                        <span>Board Certified</span>
-                    </div>
-                    <div class="pill">
-                        <i class="fa-solid fa-star pill-icon"></i>
-                        <span>5-Star Rated</span>
-                    </div>
-                    <div class="pill">
-                        <i class="fa-solid fa-shield-alt pill-icon"></i>
-                        <span>FDA Approved</span>
-                    </div>
-                </div>
-                
-                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="1000">
+                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="600">
                     <button class="btn btn-primary btn-lg" id="heroCta">
+                        <div class="btn-shine"></div>
                         <span>Book Free Consultation</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
                     
-                    <button class="btn btn-outline btn-lg" id="videoTourBtn">
-                        <i class="fa-solid fa-play play-icon"></i>
-                        <span>Virtual Tour</span>
+                    <button class="btn btn-glass btn-lg" id="videoTourBtn">
+                        <div class="btn-circle">
+                            <i class="fa-solid fa-play play-icon"></i>
+                        </div>
+                        <span>Take a Virtual Tour</span>
                     </button>
-                </div>
-                
-                <div class="stats-row" data-aos="fade-up" data-aos-delay="1200">
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="3500">0</div>
-                        <div class="stat-label">Happy Clients</div>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="15">0</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="99">0</div>
-                        <div class="stat-label">Satisfaction Rate</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="hero-cards" data-aos="fade-left" data-aos-delay="800">
-                <div class="info-card main-card">
-                    <div class="card-header">
-                        <h3>Treatment Results</h3>
-                        <i class="fa-solid fa-chart-line card-icon"></i>
-                    </div>
-                    <div class="card-body">
-                        <div class="result-item">
-                            <div class="result-info">
-                                <div class="result-value">98%</div>
-                                <div class="result-label">Client Satisfaction</div>
-                            </div>
-                            <div class="result-bar">
-                                <div class="result-progress" style="width: 98%"></div>
-                            </div>
-                        </div>
-                        <div class="result-item">
-                            <div class="result-info">
-                                <div class="result-value">94%</div>
-                                <div class="result-label">Would Recommend</div>
-                            </div>
-                            <div class="result-bar">
-                                <div class="result-progress" style="width: 94%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="floating-card card-1">
-                    <i class="fa-solid fa-heart card-icon"></i>
-                    <div class="card-content">
-                        <h4>Personalized Care</h4>
-                        <p>Tailored to You</p>
-                    </div>
-                </div>
-                
-                <div class="floating-card card-2">
-                    <i class="fa-solid fa-wand-magic-sparkles card-icon"></i>
-                    <div class="card-content">
-                        <h4>Advanced Technology</h4>
-                        <p>Latest Innovations</p>
-                    </div>
-                </div>
-                
-                <div class="floating-card card-3">
-                    <i class="fa-solid fa-certificate card-icon"></i>
-                    <div class="card-content">
-                        <h4>Expert Results</h4>
-                        <p>Proven Excellence</p>
-                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1400">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <div class="scroll-text">Scroll to explore</div>
+        <!-- Elegant Scroll Indicator -->
+        <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="800">
+            <div class="scroll-line"></div>
+            <div class="scroll-text">Scroll to Explore</div>
             <div class="scroll-arrow">
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
