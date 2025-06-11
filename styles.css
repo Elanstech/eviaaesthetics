@@ -317,7 +317,7 @@ ul, ol {
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 var(--space-lg);
-  height: 75px;
+  height: 85px; /* Increased from 75px */
   background: rgba(255, 248, 240, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -365,12 +365,12 @@ ul, ol {
 }
 
 .logo-img {
-  height: 50px;
+  height: 60px; 
   width: auto;
   display: block;
   object-fit: contain;
-  max-width: none; /* Fix for invisible space issue */
-  flex-shrink: 0; /* Prevents the logo from being squished */
+  max-width: none;
+  flex-shrink: 0;
 }
 
 .logo-text {
@@ -711,14 +711,12 @@ ul, ol {
   justify-content: center;
 }
 
-/* Header scroll state */
 .sleek-header.scrolled .header-container {
-  height: 65px;
-  box-shadow: 0 5px 20px rgba(139, 69, 19, 0.1);
+  height: 75px; /* Increased from 65px */
 }
 
 .sleek-header.scrolled .logo-img {
-  height: 32px;
+  height: 45px;
 }
 
 /* ==============================
@@ -1365,9 +1363,10 @@ ul, ol {
     .menu-toggle {
         display: flex;
     }
-    
-    .logo-img {
-        height: 36px;
+   
+   .logo-img {
+    height: 50px; /* Slightly smaller on mobile but still prominent */
+   
     }
     
     .logo-title {
@@ -1381,6 +1380,11 @@ ul, ol {
     .header.scrolled .header-pill {
         height: 60px;
     }
+   
+   .sleek-header.scrolled .logo-img {
+    height: 40px;
+  
+   }
     
     .hero-title {
         font-size: clamp(2rem, 6vw, 3.5rem);
