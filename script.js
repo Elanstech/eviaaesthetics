@@ -1,14 +1,14 @@
 /*
-* Evia Aesthetics - Professional Website JavaScript
-* Created for: Evia Aesthetics Medspa
-* Version: 3.0 - Ultra-Modern Interactive Features
+* Evia Aesthetics - Complete Interactive System
+* Modern Soft Design with Advanced Functionality
+* Version: 4.0 - Cinematic Luxury Experience
 * Last Updated: 2025-06-11
 */
 
 'use strict';
 
 // ==============================
-// EVIA AESTHETICS APP CLASS
+// EVIA AESTHETICS APPLICATION CLASS
 // ==============================
 class EviaAestheticsApp {
     constructor() {
@@ -20,12 +20,14 @@ class EviaAestheticsApp {
             mobileMenuOpen: false,
             modalOpen: false,
             scrolled: false,
-            preloaderComplete: false
+            preloaderComplete: false,
+            videoLoaded: false
         };
         
-        // Bind methods
+        // Bind methods to maintain context
         this.handleScroll = this.throttle(this.handleScroll.bind(this), 16);
         this.handleResize = this.debounce(this.handleResize.bind(this), 250);
+        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
         
         this.init();
     }
@@ -68,7 +70,23 @@ class EviaAestheticsApp {
             
         } catch (error) {
             console.error('❌ Error initializing app:', error);
+            this.handleInitializationError(error);
         }
+    }
+
+    /**
+     * Handle initialization errors gracefully
+     */
+    handleInitializationError(error) {
+        // Hide preloader even if there's an error
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.style.display = 'none';
+            document.body.classList.remove('loading');
+        }
+        
+        // Show user-friendly error message
+        console.warn('🔄 App initialized with limited functionality');
     }
 
     // ==============================
@@ -83,54 +101,70 @@ class EviaAestheticsApp {
         const progressFill = document.getElementById('progressFill');
         const loadingText = document.getElementById('loadingText');
         
-        if (!preloader) return;
+        if (!preloader) {
+            console.warn('⚠️ Preloader element not found');
+            return;
+        }
 
         const loadingSteps = [
-            { progress: 0, text: 'Initializing...' },
+            { progress: 0, text: 'Initializing experience...' },
             { progress: 20, text: 'Loading assets...' },
             { progress: 40, text: 'Preparing interface...' },
-            { progress: 60, text: 'Optimizing experience...' },
+            { progress: 60, text: 'Optimizing performance...' },
             { progress: 80, text: 'Finalizing details...' },
             { progress: 100, text: 'Welcome to Evia!' }
         ];
 
-        // Simulate loading with realistic timing
-        for (let i = 0; i < loadingSteps.length; i++) {
-            const step = loadingSteps[i];
-            
-            // Update progress bar
-            if (progressFill) {
-                progressFill.style.width = `${step.progress}%`;
+        try {
+            // Simulate realistic loading with proper timing
+            for (let i = 0; i < loadingSteps.length; i++) {
+                const step = loadingSteps[i];
+                
+                // Update progress bar
+                if (progressFill) {
+                    progressFill.style.width = `${step.progress}%`;
+                }
+                
+                // Update loading text
+                if (loadingText) {
+                    loadingText.textContent = step.text;
+                }
+                
+                // Wait before next step with realistic timing
+                await this.delay(300 + Math.random() * 200);
             }
+
+            // Additional delay for smooth transition
+            await this.delay(600);
+
+            // Hide preloader
+            this.hidePreloader(preloader);
             
-            // Update loading text
-            if (loadingText) {
-                loadingText.textContent = step.text;
-            }
-            
-            // Wait before next step
-            await this.delay(300 + Math.random() * 200);
+        } catch (error) {
+            console.error('Error in preloader:', error);
+            this.hidePreloader(preloader);
         }
-
-        // Additional delay for smooth transition
-        await this.delay(800);
-
-        // Hide preloader
-        this.hidePreloader(preloader);
     }
 
     /**
      * Hide preloader with smooth animation
      */
     hidePreloader(preloader) {
+        if (!preloader) return;
+        
         preloader.classList.add('fade-out');
         document.body.classList.remove('loading');
         
-        setTimeout(() => {
-            preloader.style.display = 'none';
+        // Use setTimeout as fallback if transitions don't work
+        const hideTimer = setTimeout(() => {
+            if (preloader) {
+                preloader.style.display = 'none';
+            }
             this.state.preloaderComplete = true;
             this.startHeroAnimations();
         }, 800);
+        
+        this.timers.set('preloader', hideTimer);
     }
 
     // ==============================
@@ -142,7 +176,10 @@ class EviaAestheticsApp {
      */
     initNavigation() {
         const header = document.getElementById('siteHeader');
-        if (!header) return;
+        if (!header) {
+            console.warn('⚠️ Header element not found');
+            return;
+        }
 
         // Scroll detection
         this.initScrollDetection(header);
@@ -158,7 +195,7 @@ class EviaAestheticsApp {
      * Header scroll effects
      */
     initScrollDetection(header) {
-        window.addEventListener('scroll', () => {
+        const scrollHandler = () => {
             const scrolled = window.pageYOffset > 50;
             
             if (scrolled !== this.state.scrolled) {
@@ -168,7 +205,12 @@ class EviaAestheticsApp {
                 // Animate logo size change
                 this.animateLogoTransition(scrolled);
             }
-        }, { passive: true });
+        };
+
+        window.addEventListener('scroll', scrollHandler, { passive: true });
+        
+        // Initial check
+        scrollHandler();
     }
 
     /**
@@ -176,13 +218,18 @@ class EviaAestheticsApp {
      */
     animateLogoTransition(scrolled) {
         const logo = document.querySelector('.header-logo .logo');
-        if (!logo || typeof gsap === 'undefined') return;
+        if (!logo) return;
 
-        gsap.to(logo, {
-            scale: scrolled ? 0.85 : 1,
-            duration: 0.3,
-            ease: 'power2.out'
-        });
+        if (typeof gsap !== 'undefined') {
+            gsap.to(logo, {
+                scale: scrolled ? 0.9 : 1,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        } else {
+            // Fallback CSS transition
+            logo.style.transform = `scale(${scrolled ? 0.9 : 1})`;
+        }
     }
 
     /**
@@ -200,16 +247,35 @@ class EviaAestheticsApp {
 
             let hoverTimer;
 
+            // Mouse enter
             item.addEventListener('mouseenter', () => {
                 clearTimeout(hoverTimer);
                 this.showDropdown(menu, arrow);
             });
 
+            // Mouse leave
             item.addEventListener('mouseleave', () => {
                 hoverTimer = setTimeout(() => {
                     this.hideDropdown(menu, arrow);
                 }, 150);
+                this.timers.set(`dropdown-${item.dataset?.id || Math.random()}`, hoverTimer);
             });
+
+            // Keyboard support
+            const navLink = item.querySelector('.nav-link');
+            if (navLink) {
+                navLink.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const isVisible = menu.style.visibility === 'visible';
+                        if (isVisible) {
+                            this.hideDropdown(menu, arrow);
+                        } else {
+                            this.showDropdown(menu, arrow);
+                        }
+                    }
+                });
+            }
         });
 
         // Active navigation highlighting
@@ -220,6 +286,8 @@ class EviaAestheticsApp {
      * Show dropdown menu with animation
      */
     showDropdown(menu, arrow) {
+        if (!menu) return;
+
         if (typeof gsap !== 'undefined') {
             gsap.set(menu, { visibility: 'visible' });
             gsap.to(menu, {
@@ -237,9 +305,14 @@ class EviaAestheticsApp {
                 });
             }
         } else {
+            // Fallback CSS animations
             menu.style.visibility = 'visible';
             menu.style.opacity = '1';
             menu.style.transform = 'translateX(-50%) translateY(0)';
+            
+            if (arrow) {
+                arrow.style.transform = 'rotate(180deg)';
+            }
         }
     }
 
@@ -247,6 +320,8 @@ class EviaAestheticsApp {
      * Hide dropdown menu with animation
      */
     hideDropdown(menu, arrow) {
+        if (!menu) return;
+
         if (typeof gsap !== 'undefined') {
             gsap.to(menu, {
                 opacity: 0,
@@ -254,7 +329,7 @@ class EviaAestheticsApp {
                 duration: 0.3,
                 ease: 'power2.in',
                 onComplete: () => {
-                    menu.style.visibility = 'hidden';
+                    if (menu) menu.style.visibility = 'hidden';
                 }
             });
             
@@ -266,11 +341,18 @@ class EviaAestheticsApp {
                 });
             }
         } else {
+            // Fallback CSS animations
             menu.style.opacity = '0';
             menu.style.transform = 'translateX(-50%) translateY(10px)';
-            setTimeout(() => {
-                menu.style.visibility = 'hidden';
+            
+            const hideTimer = setTimeout(() => {
+                if (menu) menu.style.visibility = 'hidden';
             }, 300);
+            this.timers.set('dropdown-hide', hideTimer);
+            
+            if (arrow) {
+                arrow.style.transform = 'rotate(0deg)';
+            }
         }
     }
 
@@ -338,16 +420,19 @@ class EviaAestheticsApp {
      * Smooth scroll to target element
      */
     smoothScrollTo(target) {
+        if (!target) return;
+
         const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
         const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
         
-        if (typeof gsap !== 'undefined') {
+        if (typeof gsap !== 'undefined' && gsap.plugins?.ScrollToPlugin) {
             gsap.to(window, {
                 duration: 1.2,
                 scrollTo: targetPosition,
                 ease: 'power2.inOut'
             });
         } else {
+            // Fallback smooth scroll
             window.scrollTo({
                 top: targetPosition,
                 behavior: 'smooth'
@@ -368,22 +453,31 @@ class EviaAestheticsApp {
         const mobileClose = document.getElementById('mobileClose');
         const mobileOverlay = document.querySelector('.mobile-menu-overlay');
         
-        if (!mobileToggle || !mobileMenu) return;
+        if (!mobileToggle || !mobileMenu) {
+            console.warn('⚠️ Mobile menu elements not found');
+            return;
+        }
 
         // Toggle mobile menu
-        mobileToggle.addEventListener('click', () => {
+        mobileToggle.addEventListener('click', (e) => {
+            e.preventDefault();
             this.toggleMobileMenu();
         });
 
         // Close mobile menu
-        mobileClose?.addEventListener('click', () => {
-            this.closeMobileMenu();
-        });
+        if (mobileClose) {
+            mobileClose.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeMobileMenu();
+            });
+        }
 
         // Close on overlay click
-        mobileOverlay?.addEventListener('click', () => {
-            this.closeMobileMenu();
-        });
+        if (mobileOverlay) {
+            mobileOverlay.addEventListener('click', () => {
+                this.closeMobileMenu();
+            });
+        }
 
         // Mobile dropdown functionality
         this.initMobileDropdowns();
@@ -391,6 +485,13 @@ class EviaAestheticsApp {
         // Close on escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.state.mobileMenuOpen) {
+                this.closeMobileMenu();
+            }
+        });
+
+        // Close mobile menu on window resize if open
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && this.state.mobileMenuOpen) {
                 this.closeMobileMenu();
             }
         });
@@ -414,9 +515,11 @@ class EviaAestheticsApp {
         const mobileToggle = document.getElementById('mobileToggle');
         const mobileMenu = document.getElementById('mobileMenu');
         
+        if (!mobileMenu) return;
+
         this.state.mobileMenuOpen = true;
-        mobileToggle?.classList.add('active');
-        mobileMenu?.classList.add('active');
+        if (mobileToggle) mobileToggle.classList.add('active');
+        mobileMenu.classList.add('active');
         document.body.style.overflow = 'hidden';
 
         // Animate menu items
@@ -430,9 +533,11 @@ class EviaAestheticsApp {
         const mobileToggle = document.getElementById('mobileToggle');
         const mobileMenu = document.getElementById('mobileMenu');
         
+        if (!mobileMenu) return;
+
         this.state.mobileMenuOpen = false;
-        mobileToggle?.classList.remove('active');
-        mobileMenu?.classList.remove('active');
+        if (mobileToggle) mobileToggle.classList.remove('active');
+        mobileMenu.classList.remove('active');
         document.body.style.overflow = '';
 
         // Animate menu items
@@ -445,17 +550,15 @@ class EviaAestheticsApp {
     animateMobileMenuItems(opening) {
         const menuItems = document.querySelectorAll('.mobile-nav-item');
         
-        if (typeof gsap !== 'undefined' && menuItems.length > 0) {
-            if (opening) {
-                gsap.from(menuItems, {
-                    x: 50,
-                    opacity: 0,
-                    duration: 0.4,
-                    stagger: 0.1,
-                    ease: 'power2.out',
-                    delay: 0.2
-                });
-            }
+        if (typeof gsap !== 'undefined' && menuItems.length > 0 && opening) {
+            gsap.from(menuItems, {
+                x: 50,
+                opacity: 0,
+                duration: 0.4,
+                stagger: 0.1,
+                ease: 'power2.out',
+                delay: 0.2
+            });
         }
     }
 
@@ -468,7 +571,7 @@ class EviaAestheticsApp {
         dropdownItems.forEach(item => {
             const link = item.querySelector('.mobile-nav-link');
             const dropdown = item.querySelector('.mobile-dropdown');
-            const arrow = item.querySelector('.mobile-nav-arrow');
+            const arrow = item.querySelector('.mobile-nav-arrow i');
             
             if (!link || !dropdown) return;
 
@@ -481,6 +584,14 @@ class EviaAestheticsApp {
                 dropdownItems.forEach(otherItem => {
                     if (otherItem !== item) {
                         otherItem.classList.remove('active');
+                        const otherArrow = otherItem.querySelector('.mobile-nav-arrow i');
+                        if (otherArrow && typeof gsap !== 'undefined') {
+                            gsap.to(otherArrow, {
+                                rotation: 0,
+                                duration: 0.3,
+                                ease: 'power2.out'
+                            });
+                        }
                     }
                 });
                 
@@ -520,8 +631,11 @@ class EviaAestheticsApp {
      */
     startHeroAnimations() {
         if (typeof gsap !== 'undefined') {
-            this.animateHeroContent();
-            this.animateHeroVisual();
+            // Small delay to ensure preloader is fully hidden
+            setTimeout(() => {
+                this.animateHeroContent();
+                this.animateHeroVisual();
+            }, 200);
         }
     }
 
@@ -530,7 +644,10 @@ class EviaAestheticsApp {
      */
     initVideoBackground() {
         const video = document.getElementById('heroVideo');
-        if (!video) return;
+        if (!video) {
+            console.warn('⚠️ Hero video element not found');
+            return;
+        }
 
         // Video event listeners
         video.addEventListener('loadstart', () => {
@@ -539,6 +656,8 @@ class EviaAestheticsApp {
 
         video.addEventListener('canplay', () => {
             video.style.opacity = '1';
+            video.classList.add('loaded');
+            this.state.videoLoaded = true;
             console.log('📹 Video ready to play');
         });
 
@@ -558,11 +677,13 @@ class EviaAestheticsApp {
      * Handle video playback with intersection observer
      */
     observeVideoPlayback(video) {
+        if (!video) return;
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    video.play().catch(() => {
-                        console.log('📹 Auto-play prevented');
+                if (entry.isIntersecting && this.state.videoLoaded) {
+                    video.play().catch((error) => {
+                        console.log('📹 Auto-play prevented:', error);
                     });
                 } else {
                     video.pause();
@@ -581,11 +702,13 @@ class EviaAestheticsApp {
      * Play video with auto-play fallback
      */
     async playVideoWithFallback(video) {
+        if (!video) return;
+
         try {
             await video.play();
             console.log('📹 Video auto-play successful');
         } catch (error) {
-            console.log('📹 Auto-play prevented, adding user interaction handler');
+            console.log('📹 Auto-play prevented, user interaction required');
             this.addVideoPlayButton(video);
         }
     }
@@ -594,9 +717,10 @@ class EviaAestheticsApp {
      * Handle video errors with graceful fallback
      */
     handleVideoError(video) {
-        const videoContainer = video.closest('.video-container');
+        const videoContainer = video?.closest('.video-container');
         if (videoContainer) {
             videoContainer.style.background = 'linear-gradient(135deg, var(--warm-bronze) 0%, var(--deep-bronze) 100%)';
+            console.log('📹 Video fallback: Using gradient background');
         }
     }
 
@@ -604,19 +728,31 @@ class EviaAestheticsApp {
      * Add play button for video if auto-play fails
      */
     addVideoPlayButton(video) {
-        const videoContainer = video.closest('.video-container');
+        const videoContainer = video?.closest('.video-container');
         if (!videoContainer || videoContainer.querySelector('.video-play-button')) return;
 
         const playButton = document.createElement('div');
         playButton.className = 'video-play-button';
         playButton.innerHTML = `
-            <div class="play-button">
-                <i class="fas fa-play"></i>
+            <div class="play-button" style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 80px;
+                height: 80px;
+                background: var(--primary-gradient);
+                border-radius: 50%;
+                margin-bottom: 1rem;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: var(--shadow-lg);
+            ">
+                <i class="fas fa-play" style="font-size: 24px; color: white; margin-left: 4px;"></i>
             </div>
-            <span>Click to play video</span>
+            <span style="color: white; font-weight: 500;">Click to play video</span>
         `;
 
-        // Style the play button
+        // Style the play button container
         Object.assign(playButton.style, {
             position: 'absolute',
             top: '50%',
@@ -624,7 +760,6 @@ class EviaAestheticsApp {
             transform: 'translate(-50%, -50%)',
             zIndex: '10',
             textAlign: 'center',
-            color: 'white',
             cursor: 'pointer',
             transition: 'all 0.3s ease'
         });
@@ -633,6 +768,15 @@ class EviaAestheticsApp {
             video.play().then(() => {
                 playButton.remove();
             }).catch(console.error);
+        });
+
+        // Hover effect
+        const playBtn = playButton.querySelector('.play-button');
+        playButton.addEventListener('mouseenter', () => {
+            if (playBtn) playBtn.style.transform = 'scale(1.1)';
+        });
+        playButton.addEventListener('mouseleave', () => {
+            if (playBtn) playBtn.style.transform = 'scale(1)';
         });
 
         videoContainer.appendChild(playButton);
@@ -649,7 +793,7 @@ class EviaAestheticsApp {
         const ctaButtons = document.querySelectorAll('.hero-cta button');
         const socialProof = document.querySelector('.social-proof');
 
-        const tl = gsap.timeline({ delay: 0.5 });
+        const tl = gsap.timeline({ delay: 0.3 });
 
         if (trustBadge) {
             tl.from(trustBadge, {
@@ -707,6 +851,9 @@ class EviaAestheticsApp {
                 ease: 'power3.out'
             }, '-=0.6');
         }
+
+        // Store timeline for cleanup
+        this.animations.set('heroContent', tl);
     }
 
     /**
@@ -717,24 +864,26 @@ class EviaAestheticsApp {
         const floatingCards = document.querySelectorAll('.floating-card');
 
         if (statsCard) {
-            gsap.from(statsCard, {
+            const statsAnimation = gsap.from(statsCard, {
                 x: 60,
                 opacity: 0,
                 duration: 1,
                 ease: 'power3.out',
-                delay: 1
+                delay: 0.8
             });
+            this.animations.set('statsCard', statsAnimation);
         }
 
         if (floatingCards.length > 0) {
-            gsap.from(floatingCards, {
+            const cardsAnimation = gsap.from(floatingCards, {
                 scale: 0.8,
                 opacity: 0,
                 duration: 0.8,
                 stagger: 0.2,
                 ease: 'back.out(1.7)',
-                delay: 1.2
+                delay: 1
             });
+            this.animations.set('floatingCards', cardsAnimation);
         }
     }
 
@@ -742,26 +891,28 @@ class EviaAestheticsApp {
      * Initialize hero interactions
      */
     initHeroInteractions() {
-        // Primary CTA button
+        // Primary CTA buttons
         const heroBookingBtn = document.getElementById('heroBookingBtn');
         const headerBookingBtn = document.getElementById('headerBookingBtn');
         const playVideoBtn = document.getElementById('playVideoBtn');
+        const mobileBookingBtn = document.querySelector('.btn-mobile-appointment');
 
         // Booking button interactions
-        [heroBookingBtn, headerBookingBtn].forEach(btn => {
+        [heroBookingBtn, headerBookingBtn, mobileBookingBtn].forEach(btn => {
             if (btn) {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
                     this.openAppointmentModal();
+                    // Add ripple effect
+                    this.createRippleEffect(e);
                 });
-
-                // Add ripple effect
-                btn.addEventListener('click', this.createRippleEffect.bind(this));
             }
         });
 
         // Play video button
         if (playVideoBtn) {
-            playVideoBtn.addEventListener('click', () => {
+            playVideoBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.handleVideoPlayback();
             });
         }
@@ -782,7 +933,7 @@ class EviaAestheticsApp {
         const video = document.getElementById('heroVideo');
         if (video) {
             if (video.paused) {
-                video.play();
+                video.play().catch(console.error);
             } else {
                 video.pause();
             }
@@ -798,6 +949,12 @@ class EviaAestheticsApp {
         
         if (nextSection) {
             this.smoothScrollTo(nextSection);
+        } else {
+            // If no next section, scroll down by one viewport
+            window.scrollBy({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
         }
     }
 
@@ -856,7 +1013,7 @@ class EviaAestheticsApp {
     formatCounterValue(value) {
         if (value >= 1000) {
             return (value / 1000).toFixed(1) + 'K+';
-        } else if (value === 98) {
+        } else if (value >= 95) {
             return value + '%';
         } else {
             return value + '+';
@@ -901,6 +1058,9 @@ class EviaAestheticsApp {
      * Update parallax elements based on scroll
      */
     updateParallaxElements(scrollPercent) {
+        // Only run parallax on larger screens for performance
+        if (window.innerWidth < 768) return;
+
         // Floating shapes
         const shapes = document.querySelectorAll('.shape');
         const orbs = document.querySelectorAll('.gradient-orb');
@@ -954,7 +1114,7 @@ class EviaAestheticsApp {
 
         floatingElements.forEach((element, index) => {
             // Random floating animation
-            gsap.to(element, {
+            const floatAnimation = gsap.to(element, {
                 y: (index % 2 === 0 ? 20 : -20) + Math.random() * 10,
                 x: (index % 3 === 0 ? 15 : -15) + Math.random() * 8,
                 rotation: (index % 2 === 0 ? 5 : -5) + Math.random() * 3,
@@ -964,6 +1124,8 @@ class EviaAestheticsApp {
                 yoyo: true,
                 delay: index * 0.2
             });
+            
+            this.animations.set(`float-${index}`, floatAnimation);
         });
     }
 
@@ -976,13 +1138,14 @@ class EviaAestheticsApp {
 
         // Animate scroll indicator
         if (typeof gsap !== 'undefined') {
-            gsap.to(scrollIndicator, {
+            const scrollAnimation = gsap.to(scrollIndicator, {
                 y: 10,
                 duration: 1.5,
                 ease: 'sine.inOut',
                 repeat: -1,
                 yoyo: true
             });
+            this.animations.set('scrollIndicator', scrollAnimation);
         }
 
         // Hide scroll indicator when scrolled
@@ -1015,14 +1178,29 @@ class EviaAestheticsApp {
         const overlay = document.querySelector('.modal-overlay');
         const form = document.getElementById('appointmentForm');
 
-        if (!modal) return;
+        if (!modal) {
+            console.warn('⚠️ Appointment modal not found');
+            return;
+        }
 
         // Close modal events
-        closeBtn?.addEventListener('click', () => this.closeAppointmentModal());
-        overlay?.addEventListener('click', () => this.closeAppointmentModal());
+        if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeAppointmentModal();
+            });
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                this.closeAppointmentModal();
+            });
+        }
 
         // Form submission
-        form?.addEventListener('submit', (e) => this.handleFormSubmission(e));
+        if (form) {
+            form.addEventListener('submit', (e) => this.handleFormSubmission(e));
+        }
 
         // Escape key to close
         document.addEventListener('keydown', (e) => {
@@ -1046,15 +1224,23 @@ class EviaAestheticsApp {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
 
+        // Focus first input
+        const firstInput = modal.querySelector('input');
+        if (firstInput) {
+            setTimeout(() => firstInput.focus(), 300);
+        }
+
         // Animate modal opening
         if (typeof gsap !== 'undefined') {
             const modalContent = modal.querySelector('.modal-content');
-            gsap.from(modalContent, {
-                scale: 0.9,
-                opacity: 0,
-                duration: 0.4,
-                ease: 'back.out(1.7)'
-            });
+            if (modalContent) {
+                gsap.from(modalContent, {
+                    scale: 0.9,
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: 'back.out(1.7)'
+                });
+            }
         }
     }
 
@@ -1073,6 +1259,24 @@ class EviaAestheticsApp {
         const form = document.getElementById('appointmentForm');
         if (form && !form.classList.contains('success')) {
             form.reset();
+            this.resetFormStates(form);
+        }
+    }
+
+    /**
+     * Reset form states
+     */
+    resetFormStates(form) {
+        if (!form) return;
+
+        const formGroups = form.querySelectorAll('.form-group');
+        formGroups.forEach(group => {
+            group.classList.remove('focused', 'valid', 'invalid');
+        });
+
+        const submitBtn = form.querySelector('.form-submit');
+        if (submitBtn) {
+            submitBtn.classList.remove('loading', 'success', 'error');
         }
     }
 
@@ -1088,12 +1292,15 @@ class EviaAestheticsApp {
             // Focus effects
             input.addEventListener('focus', () => {
                 const formGroup = input.closest('.form-group');
-                formGroup?.classList.add('focused');
+                if (formGroup) formGroup.classList.add('focused');
             });
 
             input.addEventListener('blur', () => {
                 const formGroup = input.closest('.form-group');
-                formGroup?.classList.remove('focused');
+                if (formGroup) formGroup.classList.remove('focused');
+                
+                // Validate on blur
+                this.validateFormField(input);
             });
 
             // Validation on input
@@ -1107,11 +1314,15 @@ class EviaAestheticsApp {
      * Validate individual form field
      */
     validateFormField(field) {
+        if (!field) return;
+
         const formGroup = field.closest('.form-group');
-        const isValid = field.checkValidity();
+        if (!formGroup) return;
+
+        const isValid = field.checkValidity() && field.value.trim() !== '';
         
-        formGroup?.classList.toggle('valid', isValid);
-        formGroup?.classList.toggle('invalid', !isValid);
+        formGroup.classList.toggle('valid', isValid);
+        formGroup.classList.toggle('invalid', !isValid && field.value.trim() !== '');
     }
 
     /**
@@ -1124,6 +1335,22 @@ class EviaAestheticsApp {
         const submitBtn = form.querySelector('.form-submit');
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
+
+        // Validate all fields
+        const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+        let isFormValid = true;
+
+        inputs.forEach(input => {
+            this.validateFormField(input);
+            if (!input.checkValidity() || input.value.trim() === '') {
+                isFormValid = false;
+            }
+        });
+
+        if (!isFormValid) {
+            this.showFormError('Please fill in all required fields correctly.');
+            return;
+        }
 
         // Show loading state
         this.setFormSubmitState(submitBtn, 'loading');
@@ -1140,15 +1367,49 @@ class EviaAestheticsApp {
             this.showFormSuccessMessage(form);
             
             // Close modal after delay
-            setTimeout(() => {
+            const closeTimer = setTimeout(() => {
                 this.closeAppointmentModal();
                 this.resetForm(form);
             }, 3000);
+            this.timers.set('form-close', closeTimer);
             
         } catch (error) {
             console.error('Form submission error:', error);
             this.setFormSubmitState(submitBtn, 'error');
+            this.showFormError('An error occurred. Please try again.');
         }
+    }
+
+    /**
+     * Show form error message
+     */
+    showFormError(message) {
+        // Create or update error message
+        let errorDiv = document.querySelector('.form-error-message');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'form-error-message';
+            errorDiv.style.cssText = `
+                color: #dc3545;
+                background: #f8d7da;
+                border: 1px solid #f5c6cb;
+                padding: 12px;
+                border-radius: 8px;
+                margin: 16px 0;
+                font-size: 14px;
+            `;
+            const form = document.getElementById('appointmentForm');
+            if (form) {
+                form.insertBefore(errorDiv, form.firstChild);
+            }
+        }
+        errorDiv.textContent = message;
+
+        // Remove error after delay
+        const errorTimer = setTimeout(() => {
+            if (errorDiv) errorDiv.remove();
+        }, 5000);
+        this.timers.set('form-error', errorTimer);
     }
 
     /**
@@ -1170,14 +1431,37 @@ class EviaAestheticsApp {
      * Show form success message
      */
     showFormSuccessMessage(form) {
+        if (!form) return;
+
         const successMessage = document.createElement('div');
         successMessage.className = 'form-success-message';
         successMessage.innerHTML = `
-            <div class="success-icon">
-                <i class="fas fa-check-circle"></i>
+            <div class="success-icon" style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 60px;
+                height: 60px;
+                background: var(--primary-gradient);
+                border-radius: 50%;
+                margin: 0 auto 24px;
+                color: white;
+                font-size: 24px;
+            ">
+                <i class="fas fa-check"></i>
             </div>
-            <h3>Appointment Requested!</h3>
-            <p>Thank you for your interest. We'll contact you within 24 hours to confirm your consultation.</p>
+            <h3 style="
+                font-family: var(--font-display);
+                font-size: 24px;
+                color: var(--warm-bronze);
+                margin-bottom: 16px;
+                text-align: center;
+            ">Appointment Requested!</h3>
+            <p style="
+                text-align: center;
+                color: var(--muted-brown);
+                line-height: 1.6;
+            ">Thank you for your interest. We'll contact you within 24 hours to confirm your consultation.</p>
         `;
 
         // Replace form content
@@ -1190,12 +1474,15 @@ class EviaAestheticsApp {
      * Reset form to initial state
      */
     resetForm(form) {
-        // This would restore the original form HTML
-        // For demo purposes, just reload the page or restore form fields
-        setTimeout(() => {
+        if (!form) return;
+
+        const resetTimer = setTimeout(() => {
             form.classList.remove('success');
             // In a real implementation, you'd restore the original form HTML
+            // For now, we'll just reload the page or restore form fields
+            location.reload();
         }, 500);
+        this.timers.set('form-reset', resetTimer);
     }
 
     // ==============================
@@ -1242,6 +1529,8 @@ class EviaAestheticsApp {
         if (parallaxElements.length === 0) return;
 
         window.addEventListener('scroll', () => {
+            if (window.innerWidth < 768) return; // Skip on mobile
+
             const scrolled = window.pageYOffset;
             
             parallaxElements.forEach(element => {
@@ -1279,6 +1568,8 @@ class EviaAestheticsApp {
             }
 
             console.log('✅ GSAP initialized');
+        } else {
+            console.warn('⚠️ GSAP not loaded - using CSS fallbacks');
         }
     }
 
@@ -1298,6 +1589,8 @@ class EviaAestheticsApp {
             });
 
             console.log('✅ AOS initialized');
+        } else {
+            console.warn('⚠️ AOS not loaded - using CSS fallbacks');
         }
     }
 
@@ -1329,6 +1622,7 @@ class EviaAestheticsApp {
                     const img = entry.target;
                     img.src = img.dataset.src;
                     img.classList.remove('lazy');
+                    img.classList.add('loaded');
                     imageObserver.unobserve(img);
                 }
             });
@@ -1365,13 +1659,28 @@ class EviaAestheticsApp {
         
         if (isLowEndDevice || prefersReducedMotion) {
             document.documentElement.classList.add('reduced-motion');
+            
+            // Disable heavy animations
+            this.disableHeavyAnimations();
+            
             console.log('🔧 Reduced motion enabled for better performance');
         }
 
         // Disable heavy animations on mobile
         if (window.innerWidth < 768) {
             document.documentElement.classList.add('mobile-optimized');
+            this.disableHeavyAnimations();
         }
+    }
+
+    /**
+     * Disable heavy animations for performance
+     */
+    disableHeavyAnimations() {
+        const heavyElements = document.querySelectorAll('.floating-shapes, .particle-system, .gradient-orb');
+        heavyElements.forEach(element => {
+            element.style.display = 'none';
+        });
     }
 
     /**
@@ -1395,8 +1704,7 @@ class EviaAestheticsApp {
     initCriticalResourceHints() {
         // Preload critical resources
         const criticalResources = [
-            { href: 'logo1.png', as: 'image' },
-            { href: 'spa-video.mp4', as: 'video' }
+            // Add your actual resource URLs here
         ];
 
         criticalResources.forEach(resource => {
@@ -1435,7 +1743,12 @@ class EviaAestheticsApp {
                     e.preventDefault();
                     const dropdown = trigger.nextElementSibling;
                     if (dropdown) {
-                        dropdown.classList.toggle('show');
+                        const isVisible = dropdown.style.visibility === 'visible';
+                        if (isVisible) {
+                            this.hideDropdown(dropdown, trigger.querySelector('.nav-arrow'));
+                        } else {
+                            this.showDropdown(dropdown, trigger.querySelector('.nav-arrow'));
+                        }
                     }
                 }
             });
@@ -1471,12 +1784,12 @@ class EviaAestheticsApp {
         
         if (e.shiftKey) {
             if (document.activeElement === firstFocusable) {
-                lastFocusable.focus();
+                lastFocusable?.focus();
                 e.preventDefault();
             }
         } else {
             if (document.activeElement === lastFocusable) {
-                firstFocusable.focus();
+                firstFocusable?.focus();
                 e.preventDefault();
             }
         }
@@ -1490,10 +1803,17 @@ class EviaAestheticsApp {
         const interactiveElements = document.querySelectorAll('button:not([aria-label])');
         
         interactiveElements.forEach(element => {
-            const text = element.textContent.trim();
+            const text = element.textContent?.trim();
             if (text) {
                 element.setAttribute('aria-label', text);
             }
+        });
+
+        // Add ARIA expanded to dropdown triggers
+        const dropdownTriggers = document.querySelectorAll('.nav-item.dropdown .nav-link');
+        dropdownTriggers.forEach(trigger => {
+            trigger.setAttribute('aria-expanded', 'false');
+            trigger.setAttribute('aria-haspopup', 'true');
         });
     }
 
@@ -1506,6 +1826,7 @@ class EviaAestheticsApp {
         const handleReducedMotion = (e) => {
             if (e.matches) {
                 document.documentElement.classList.add('reduced-motion');
+                this.disableHeavyAnimations();
             } else {
                 document.documentElement.classList.remove('reduced-motion');
             }
@@ -1530,10 +1851,21 @@ class EviaAestheticsApp {
         window.addEventListener('resize', this.handleResize);
         
         // Visibility change
-        document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+        document.addEventListener('visibilitychange', this.handleVisibilityChange);
         
         // Before unload
         window.addEventListener('beforeunload', this.cleanup.bind(this));
+
+        // Error handling
+        window.addEventListener('error', this.handleGlobalError.bind(this));
+    }
+
+    /**
+     * Handle global errors
+     */
+    handleGlobalError(event) {
+        console.error('Global error:', event.error);
+        // Don't break the app on errors
     }
 
     /**
@@ -1541,6 +1873,7 @@ class EviaAestheticsApp {
      */
     handleScroll() {
         // Throttled scroll handling is already implemented in individual functions
+        // This method exists for potential future scroll-based features
     }
 
     /**
@@ -1557,6 +1890,11 @@ class EviaAestheticsApp {
             AOS.refresh();
         }
         
+        // Close mobile menu on desktop
+        if (window.innerWidth >= 768 && this.state.mobileMenuOpen) {
+            this.closeMobileMenu();
+        }
+        
         // Update mobile optimization
         this.optimizeForDevice();
     }
@@ -1569,10 +1907,12 @@ class EviaAestheticsApp {
         
         if (document.hidden) {
             // Page is hidden, pause video
-            video?.pause();
+            if (video && !video.paused) {
+                video.pause();
+            }
         } else {
             // Page is visible, resume video if in viewport
-            if (video && this.isElementInViewport(video)) {
+            if (video && this.isElementInViewport(video) && this.state.videoLoaded) {
                 video.play().catch(() => {});
             }
         }
@@ -1587,6 +1927,8 @@ class EviaAestheticsApp {
      */
     createRippleEffect(e) {
         const button = e.currentTarget;
+        if (!button) return;
+
         const rect = button.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
         const x = e.clientX - rect.left - size / 2;
@@ -1607,16 +1949,27 @@ class EviaAestheticsApp {
             z-index: 1;
         `;
         
-        button.style.position = 'relative';
+        // Ensure button has relative positioning
+        if (getComputedStyle(button).position === 'static') {
+            button.style.position = 'relative';
+        }
+        
         button.appendChild(ripple);
         
-        setTimeout(() => ripple.remove(), 600);
+        const removeTimer = setTimeout(() => {
+            if (ripple && ripple.parentNode) {
+                ripple.remove();
+            }
+        }, 600);
+        this.timers.set(`ripple-${Date.now()}`, removeTimer);
     }
 
     /**
      * Check if element is in viewport
      */
     isElementInViewport(element) {
+        if (!element) return false;
+
         const rect = element.getBoundingClientRect();
         return (
             rect.top >= 0 &&
@@ -1668,7 +2021,7 @@ class EviaAestheticsApp {
      * Log performance metrics
      */
     logPerformanceMetrics() {
-        if (typeof performance !== 'undefined') {
+        if (typeof performance !== 'undefined' && performance.timing) {
             const timing = performance.timing;
             const loadTime = timing.loadEventEnd - timing.navigationStart;
             const domReadyTime = timing.domContentLoadedEventEnd - timing.navigationStart;
@@ -1676,7 +2029,7 @@ class EviaAestheticsApp {
             console.log(`📊 Performance Metrics:
                 DOM Ready: ${domReadyTime}ms
                 Load Time: ${loadTime}ms
-                Browser: ${navigator.userAgent}`);
+                User Agent: ${navigator.userAgent.slice(0, 50)}...`);
         }
     }
 
@@ -1684,28 +2037,43 @@ class EviaAestheticsApp {
      * Cleanup function
      */
     cleanup() {
+        console.log('🧹 Cleaning up Evia Aesthetics App...');
+
         // Clear all observers
         this.observers.forEach(observer => {
-            if (observer && observer.disconnect) {
+            if (observer && typeof observer.disconnect === 'function') {
                 observer.disconnect();
             }
         });
+        this.observers.clear();
         
         // Clear all timers
         this.timers.forEach(timer => {
             clearTimeout(timer);
             clearInterval(timer);
         });
+        this.timers.clear();
         
         // Kill GSAP animations
         if (typeof gsap !== 'undefined') {
+            this.animations.forEach(animation => {
+                if (animation && typeof animation.kill === 'function') {
+                    animation.kill();
+                }
+            });
+            
             gsap.killTweensOf('*');
+            
             if (typeof ScrollTrigger !== 'undefined') {
                 ScrollTrigger.killAll();
             }
         }
+        this.animations.clear();
         
-        console.log('🧹 Cleanup completed');
+        // Reset body styles
+        document.body.style.overflow = '';
+        
+        console.log('✅ Cleanup completed');
     }
 
     // ==============================
@@ -1730,6 +2098,10 @@ class EviaAestheticsApp {
     destroy() {
         this.cleanup();
     }
+
+    getState() {
+        return { ...this.state };
+    }
 }
 
 // ==============================
@@ -1740,12 +2112,16 @@ class EviaAestheticsApp {
 let eviaApp;
 
 // Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+try {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            eviaApp = new EviaAestheticsApp();
+        });
+    } else {
         eviaApp = new EviaAestheticsApp();
-    });
-} else {
-    eviaApp = new EviaAestheticsApp();
+    }
+} catch (error) {
+    console.error('Failed to initialize Evia Aesthetics App:', error);
 }
 
 // ==============================
@@ -1758,8 +2134,41 @@ window.EviaAesthetics = {
     openModal: () => eviaApp?.openModal(),
     closeModal: () => eviaApp?.closeModal(),
     refresh: () => eviaApp?.refresh(),
-    destroy: () => eviaApp?.destroy()
+    destroy: () => eviaApp?.destroy(),
+    getState: () => eviaApp?.getState()
 };
+
+// ==============================
+// GLOBAL STYLES INJECTION
+// ==============================
+
+// Inject critical CSS animations that might be missing
+const criticalCSS = `
+    <style>
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+        
+        .reduced-motion *,
+        .reduced-motion *::before,
+        .reduced-motion *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+        
+        .mobile-optimized .floating-shapes,
+        .mobile-optimized .particle-system,
+        .mobile-optimized .gradient-orb {
+            display: none !important;
+        }
+    </style>
+`;
+
+if (!document.head.querySelector('style[data-evia-critical]')) {
+    document.head.insertAdjacentHTML('beforeend', criticalCSS.replace('<style>', '<style data-evia-critical>'));
+}
 
 // ==============================
 // DEVELOPER TOOLS
@@ -1768,10 +2177,10 @@ window.EviaAesthetics = {
 // Development helpers
 if (typeof console !== 'undefined') {
     console.log(
-        '%c🎨 Evia Aesthetics %c3.0 %cLoaded Successfully',
-        'color: #F4A024; font-weight: bold; font-size: 16px;',
-        'color: #FCF8F5; font-weight: bold; background: #5A3925; padding: 2px 6px; border-radius: 3px;',
-        'color: #68b984; font-weight: normal;'
+        '%c🎨 Evia Aesthetics %c4.0 %cLoaded Successfully',
+        'color: #DAA520; font-weight: bold; font-size: 16px;',
+        'color: #FFF8F0; font-weight: bold; background: #8B4513; padding: 2px 6px; border-radius: 3px;',
+        'color: #28a745; font-weight: normal;'
     );
 }
 
