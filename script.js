@@ -920,24 +920,6 @@ class EviaApp {
             }, 250);
         });
         
-        // Handle video tour button
-        const videoTourBtn = document.getElementById('videoTourBtn');
-        if (videoTourBtn && this.heroVideo) {
-            videoTourBtn.addEventListener('click', () => {
-                if (this.heroVideo.paused) {
-                    this.heroVideo.play().catch(err => console.error('Could not play video', err));
-                    videoTourBtn.querySelector('span').textContent = 'Pause Tour';
-                    videoTourBtn.querySelector('.btn-circle i').classList.remove('fa-play');
-                    videoTourBtn.querySelector('.btn-circle i').classList.add('fa-pause');
-                } else {
-                    this.heroVideo.pause();
-                    videoTourBtn.querySelector('span').textContent = 'Take a Virtual Tour';
-                    videoTourBtn.querySelector('.btn-circle i').classList.remove('fa-pause');
-                    videoTourBtn.querySelector('.btn-circle i').classList.add('fa-play');
-                }
-            });
-        }
-        
         // Optimize page visibility handling
         document.addEventListener('visibilitychange', () => {
             // Pause animations when page is not visible
