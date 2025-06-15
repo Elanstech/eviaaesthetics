@@ -1,9 +1,210 @@
 /**
  * Evia Aesthetics - Main JavaScript
  * Optimized for performance, smooth animations, and responsive behavior
+ * Includes modern frosted glass preloader
  */
 
 'use strict';
+
+/**
+ * Evia Modern Preloader - Sleek Frosted Glass Design
+ * Handles loading animation and elegant transition to main content
+ */
+class EviaModernPreloader {
+    constructor(options = {}) {
+        // Default options
+        this.options = {
+            minDuration: 1800,       // Minimum display time in ms
+            maxDuration: 4000,       // Maximum time before force-hiding
+            exitDuration: 1200,      // Exit animation duration
+            loadingMessages: [
+                'Crafting your experience',
+                'Curating treatments',
+                'Preparing your journey',
+                'Refining details'
+            ],
+            ...options
+        };
+        
+        // Elements
+        this.preloader = document.getElementById('eviaPreloader');
+        this.progressLine = document.getElementById('progressLine');
+        this.progressPercentage = document.getElementById('progressPercentage');
+        this.loadingMessage = document.getElementById('loadingMessage');
+        
+        // State
+        this.isLoading = true;
+        this.startTime = performance.now();
+        this.progress = 0;
+        this.raf = null;
+        this.messageInterval = null;
+        this.currentMessage = 0;
+        
+        // Initialize
+        if (this.preloader) {
+            this.init();
+        } else {
+            console.error('Preloader elements not found');
+        }
+    }
+    
+    /**
+     * Initialize preloader functionality
+     */
+    init() {
+        console.log('✨ Initializing modern preloader');
+        
+        // Add loading class to body
+        document.body.classList.add('loading');
+        
+        // Start progress animation
+        this.animateProgress();
+        
+        // Rotate loading messages
+        this.rotateMessages();
+        
+        // Check page load status
+        this.checkPageLoaded();
+        
+        // Fallback timer for maximum duration
+        setTimeout(() => {
+            if (this.isLoading) {
+                console.log('Preloader fallback triggered (max duration)');
+                this.completePreloader();
+            }
+        }, this.options.maxDuration);
+    }
+    
+    /**
+     * Animate progress bar with smooth acceleration
+     */
+    animateProgress() {
+        const duration = this.options.minDuration;
+        const startTime = performance.now();
+        
+        // Smooth easing function for natural progress
+        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+        
+        const updateProgress = (timestamp) => {
+            if (!this.isLoading) return;
+            
+            const elapsed = timestamp - startTime;
+            // Cap at 90% until actually loaded
+            const targetProgress = Math.min(elapsed / duration, 0.9);
+            
+            // Apply easing for natural progression
+            this.progress = easeOutCubic(targetProgress) * 90;
+            
+            // Update DOM
+            if (this.progressLine) {
+                this.progressLine.style.width = `${this.progress}%`;
+            }
+            
+            if (this.progressPercentage) {
+                this.progressPercentage.textContent = `${Math.round(this.progress)}%`;
+            }
+            
+            if (targetProgress < 0.9) {
+                this.raf = requestAnimationFrame(updateProgress);
+            }
+        };
+        
+        this.raf = requestAnimationFrame(updateProgress);
+    }
+    
+    /**
+     * Rotate through loading messages
+     */
+    rotateMessages() {
+        const { loadingMessages } = this.options;
+        if (!loadingMessages.length || !this.loadingMessage) return;
+        
+        this.loadingMessage.textContent = loadingMessages[0];
+        
+        this.messageInterval = setInterval(() => {
+            if (!this.isLoading) {
+                clearInterval(this.messageInterval);
+                return;
+            }
+            
+            this.currentMessage = (this.currentMessage + 1) % loadingMessages.length;
+            
+            // Apply fade transition
+            this.loadingMessage.style.opacity = '0';
+            
+            setTimeout(() => {
+                this.loadingMessage.textContent = loadingMessages[this.currentMessage];
+                this.loadingMessage.style.opacity = '0.7';
+            }, 300);
+            
+        }, 3000);
+    }
+    
+    /**
+     * Check if page is fully loaded
+     */
+    checkPageLoaded() {
+        if (document.readyState === 'complete') {
+            const elapsedTime = performance.now() - this.startTime;
+            
+            // Ensure minimum display time
+            if (elapsedTime < this.options.minDuration) {
+                setTimeout(() => {
+                    this.completePreloader();
+                }, this.options.minDuration - elapsedTime);
+            } else {
+                this.completePreloader();
+            }
+        } else {
+            // Check again after a delay
+            setTimeout(() => this.checkPageLoaded(), 100);
+        }
+    }
+    
+    /**
+     * Complete preloader with elegant exit animation
+     */
+    completePreloader() {
+        if (!this.isLoading || !this.preloader) return;
+        
+        this.isLoading = false;
+        
+        // Clear any ongoing animations
+        if (this.raf) {
+            cancelAnimationFrame(this.raf);
+        }
+        
+        if (this.messageInterval) {
+            clearInterval(this.messageInterval);
+        }
+        
+        // Finish progress to 100%
+        if (this.progressLine) {
+            this.progressLine.style.width = '100%';
+        }
+        
+        if (this.progressPercentage) {
+            this.progressPercentage.textContent = '100%';
+        }
+        
+        // Trigger the sliding panel animation
+        setTimeout(() => {
+            this.preloader.classList.add('complete');
+            
+            // Remove preloader after animation completes
+            setTimeout(() => {
+                this.preloader.classList.add('hidden');
+                document.body.classList.remove('loading');
+                
+                // Dispatch event when fully complete
+                window.dispatchEvent(new CustomEvent('preloaderComplete'));
+                
+                console.log('✨ Modern preloader transition complete');
+            }, this.options.exitDuration);
+            
+        }, 400); // Short delay before starting exit animation
+    }
+}
 
 // Main application class
 class EviaApp {
@@ -19,9 +220,6 @@ class EviaApp {
         this.resizeTimer = null;
         
         // DOM elements cached for performance
-        this.preloader = document.getElementById('preloader');
-        this.progressFill = document.getElementById('progressFill');
-        this.loadingText = document.getElementById('loadingText');
         this.header = document.getElementById('header');
         this.heroVideo = document.getElementById('heroVideo');
         this.mobileMenu = document.getElementById('mobileMenu');
@@ -46,6 +244,11 @@ class EviaApp {
         } else {
             this.initApp();
         }
+        
+        // Listen for preloader completion
+        window.addEventListener('preloaderComplete', () => {
+            this.onPreloaderComplete();
+        });
     }
     
     /**
@@ -59,7 +262,6 @@ class EviaApp {
             this.detectCapabilities();
             
             // Initialize components
-            this.initPreloader();
             this.initHeaderScroll();
             this.initParallaxVideo();
             this.initMobileMenu();
@@ -77,6 +279,33 @@ class EviaApp {
             console.error('❌ Error initializing application:', error);
             this.handleInitError();
         }
+    }
+    
+    /**
+     * Handle preloader completion
+     */
+    onPreloaderComplete() {
+        this.isLoading = false;
+        
+        // Initialize AOS animations after preloader
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: this.prefersReducedMotion ? 0 : 800,
+                easing: 'ease-out',
+                once: true,
+                offset: 50,
+                delay: this.prefersReducedMotion ? 0 : 100,
+                disable: this.isLowEndDevice
+            });
+        }
+        
+        // Trigger initial scroll check
+        this.handleScroll();
+        
+        // Fade in content
+        document.querySelectorAll('.hero-content, .hero-badge, .hero-title, .hero-buttons').forEach(el => {
+            el.style.opacity = '1';
+        });
     }
     
     /**
@@ -100,122 +329,6 @@ class EviaApp {
             document.body.classList.add('low-end-device');
             console.log('Low-end device detected, optimizing animations');
         }
-    }
-    
-    /**
-     * Initialize preloader with optimized loading simulation
-     */
-    initPreloader() {
-        if (!this.preloader || !this.progressFill) return;
-        
-        const loadingSteps = [
-            { progress: 15, text: 'Initializing experience...' },
-            { progress: 35, text: 'Loading assets...' },
-            { progress: 55, text: 'Preparing interface...' },
-            { progress: 75, text: 'Optimizing content...' },
-            { progress: 90, text: 'Finalizing details...' },
-            { progress: 100, text: 'Welcome to Evia Aesthetics!' }
-        ];
-        
-        let currentStep = 0;
-        let startTime = performance.now();
-        const totalDuration = 2000; // 2 seconds total loading time
-        
-        // Check if page is actually loaded
-        const checkPageLoad = () => {
-            if (document.readyState === 'complete') {
-                if (currentStep < loadingSteps.length - 1) {
-                    // Skip to last step if page is already loaded
-                    currentStep = loadingSteps.length - 1;
-                    updateProgress(loadingSteps[currentStep]);
-                    setTimeout(() => this.hidePreloader(), 500);
-                }
-            }
-        };
-        
-        // Update progress based on step
-        const updateProgress = (step) => {
-            this.progressFill.style.width = step.progress + '%';
-            
-            if (this.loadingText) {
-                this.loadingText.textContent = step.text;
-            }
-        };
-        
-        // Use requestAnimationFrame for smoother progress animation
-        const animateProgress = (timestamp) => {
-            const elapsed = timestamp - startTime;
-            const progress = Math.min(elapsed / totalDuration, 1);
-            
-            // Calculate current step based on progress
-            const stepIndex = Math.min(
-                Math.floor(progress * loadingSteps.length),
-                loadingSteps.length - 1
-            );
-            
-            if (stepIndex > currentStep) {
-                currentStep = stepIndex;
-                updateProgress(loadingSteps[currentStep]);
-            }
-            
-            if (progress < 1) {
-                this.raf = requestAnimationFrame(animateProgress);
-            } else {
-                setTimeout(() => this.hidePreloader(), 500);
-            }
-            
-            // Check if page is actually loaded
-            checkPageLoad();
-        };
-        
-        // Start animation
-        this.raf = requestAnimationFrame(animateProgress);
-        
-        // Fallback timer in case animation fails
-        setTimeout(() => {
-            if (this.isLoading) {
-                console.log('Preloader fallback triggered');
-                if (this.raf) cancelAnimationFrame(this.raf);
-                this.hidePreloader();
-            }
-        }, 4000);
-    }
-    
-    /**
-     * Hide preloader with smooth transition
-     */
-    hidePreloader() {
-        if (!this.preloader || !this.isLoading) return;
-        
-        this.preloader.classList.add('hidden');
-        document.body.classList.remove('loading');
-        this.isLoading = false;
-        
-        // Clean up
-        if (this.raf) {
-            cancelAnimationFrame(this.raf);
-            this.raf = null;
-        }
-        
-        // Initialize AOS animations after preloader
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: this.prefersReducedMotion ? 0 : 800,
-                easing: 'ease-out',
-                once: true,
-                offset: 50,
-                delay: this.prefersReducedMotion ? 0 : 100,
-                disable: this.isLowEndDevice
-            });
-        }
-        
-        // Trigger initial scroll check
-        this.handleScroll();
-        
-        // Fade in content
-        document.querySelectorAll('.hero-content, .hero-badge, .hero-title, .hero-buttons').forEach(el => {
-            el.style.opacity = '1';
-        });
     }
     
     /**
@@ -892,9 +1005,10 @@ class EviaApp {
      */
     handleInitError() {
         // Hide preloader even if there's an error
-        if (this.preloader) {
-            this.preloader.classList.add('hidden');
-            document.body.classList.remove('loading');
+        document.body.classList.remove('loading');
+        const preloader = document.getElementById('eviaPreloader');
+        if (preloader) {
+            preloader.classList.add('hidden');
         }
         
         console.warn('⚠️ Application initialized with limited functionality due to errors');
@@ -962,7 +1076,20 @@ class EviaApp {
     }
 }
 
-// Initialize application
+// Initialize application and preloader when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the modern frosted glass preloader
+    const eviaPreloader = new EviaModernPreloader({
+        minDuration: 1800,
+        exitDuration: 1200,
+        loadingMessages: [
+            'Crafting your experience',
+            'Curating treatments',
+            'Preparing your journey',
+            'Refining details'
+        ]
+    });
+    
+    // Initialize the main application
     const eviaApp = new EviaApp();
 });
