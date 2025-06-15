@@ -42,344 +42,351 @@
     
 </head>
 <body class="loading">
+    <!-- Modern Frosted Glass Preloader -->
     <div class="evia-preloader" id="eviaPreloader">
-    <!-- Glass panels that slide away on completion -->
-    <div class="glass-panel panel-left"></div>
-    <div class="glass-panel panel-right"></div>
-    
-    <!-- Central content container -->
-    <div class="preloader-content">
-        <!-- Logo with subtle glow -->
-        <div class="logo-container">
-            <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo">
+        <!-- Background elements -->
+        <div class="preloader-bg-elements">
+            <div class="bg-circle circle-1"></div>
+            <div class="bg-circle circle-2"></div>
         </div>
         
-        <!-- Modern line progress indicator -->
-        <div class="progress-container">
-            <div class="progress-track">
-                <div class="progress-line" id="progressLine"></div>
-                <div class="progress-glow"></div>
+        <!-- Glass panels that slide away on completion -->
+        <div class="glass-panel panel-left"></div>
+        <div class="glass-panel panel-right"></div>
+        
+        <!-- Central content container -->
+        <div class="preloader-content">
+            <!-- Logo with subtle glow -->
+            <div class="logo-container">
+                <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo">
             </div>
-            <div class="progress-percentage" id="progressPercentage">0%</div>
+            
+            <!-- Modern line progress indicator -->
+            <div class="progress-container">
+                <div class="progress-track">
+                    <div class="progress-line" id="progressLine"></div>
+                    <div class="progress-glow"></div>
+                </div>
+                <div class="progress-percentage" id="progressPercentage">0%</div>
+            </div>
+            
+            <!-- Minimal loading text -->
+            <div class="loading-message" id="loadingMessage">Welcome to Evia Aesthetics</div>
         </div>
-        
-        <!-- Minimal loading text -->
-        <div class="loading-message" id="loadingMessage">Crafting your experience</div>
     </div>
-</div>
 
     <!-- Luxury Floating Header -->
-<header class="header" id="header">
-    <div class="header-container">
-        <div class="header-pill">
-            <!-- Premium Glass Layer -->
-            <div class="header-glass"></div>
-            
-            <!-- Background Elements -->
-            <div class="header-bg">
-                <div class="header-blob blob-1"></div>
-                <div class="header-blob blob-2"></div>
-                <div class="header-blob blob-3"></div>
-            </div>
-            
-            <!-- Decorative Elements -->
-            <div class="header-decor">
-                <div class="header-decor-line decor-line-1"></div>
-                <div class="header-decor-line decor-line-2"></div>
-                <div class="header-decor-dot decor-dot-1"></div>
-                <div class="header-decor-dot decor-dot-2"></div>
-                <div class="header-decor-dot decor-dot-3"></div>
-            </div>
-            
-            <div class="header-wrapper">
-                <!-- Logo -->
-                <a href="#home" class="logo" aria-label="Evia Aesthetics Home">
-                    <div class="logo-bg"></div>
-                    <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
-                </a>
+    <header class="header" id="header">
+        <div class="header-container">
+            <div class="header-pill">
+                <!-- Premium Glass Layer -->
+                <div class="header-glass"></div>
                 
-                <!-- Navigation -->
-                <nav class="nav" id="nav" aria-label="Main Navigation">
-                    <ul class="nav-list">
-                        <li class="nav-item active">
-                            <a href="#home" class="nav-link">
-                                <span>Home</span>
-                                <div class="nav-pill"></div>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="#services" class="nav-link" aria-haspopup="true" aria-expanded="false">
-                                <span>Services</span>
-                                <i class="fa-solid fa-chevron-down nav-icon"></i>
-                                <div class="nav-pill"></div>
-                            </a>
-                            <div class="dropdown-menu">
-                                <div class="dropdown-glass"></div>
-                                <a href="#facial" class="dropdown-item">
-                                    <div class="dropdown-icon-wrap">
-                                        <i class="fa-solid fa-spa dropdown-icon"></i>
-                                    </div>
-                                    <div>
-                                        <span class="dropdown-title">Facial Treatments</span>
-                                        <span class="dropdown-desc">Rejuvenate your skin</span>
-                                    </div>
+                <!-- Background Elements -->
+                <div class="header-bg">
+                    <div class="header-blob blob-1"></div>
+                    <div class="header-blob blob-2"></div>
+                    <div class="header-blob blob-3"></div>
+                </div>
+                
+                <!-- Decorative Elements -->
+                <div class="header-decor">
+                    <div class="header-decor-line decor-line-1"></div>
+                    <div class="header-decor-line decor-line-2"></div>
+                    <div class="header-decor-dot decor-dot-1"></div>
+                    <div class="header-decor-dot decor-dot-2"></div>
+                    <div class="header-decor-dot decor-dot-3"></div>
+                </div>
+                
+                <div class="header-wrapper">
+                    <!-- Logo -->
+                    <a href="#home" class="logo" aria-label="Evia Aesthetics Home">
+                        <div class="logo-bg"></div>
+                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
+                    </a>
+                    
+                    <!-- Navigation -->
+                    <nav class="nav" id="nav" aria-label="Main Navigation">
+                        <ul class="nav-list">
+                            <li class="nav-item active">
+                                <a href="#home" class="nav-link">
+                                    <span>Home</span>
+                                    <div class="nav-pill"></div>
                                 </a>
-                                <a href="#body" class="dropdown-item">
-                                    <div class="dropdown-icon-wrap">
-                                        <i class="fa-solid fa-user dropdown-icon"></i>
-                                    </div>
-                                    <div>
-                                        <span class="dropdown-title">Body Contouring</span>
-                                        <span class="dropdown-desc">Sculpt your silhouette</span>
-                                    </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#services" class="nav-link" aria-haspopup="true" aria-expanded="false">
+                                    <span>Services</span>
+                                    <i class="fa-solid fa-chevron-down nav-icon"></i>
+                                    <div class="nav-pill"></div>
                                 </a>
-                                <a href="#injectable" class="dropdown-item">
-                                    <div class="dropdown-icon-wrap">
-                                        <i class="fa-solid fa-syringe dropdown-icon"></i>
-                                    </div>
-                                    <div>
-                                        <span class="dropdown-title">Injectable Treatments</span>
-                                        <span class="dropdown-desc">Botox & fillers</span>
-                                    </div>
+                                <div class="dropdown-menu">
+                                    <div class="dropdown-glass"></div>
+                                    <a href="#facial" class="dropdown-item">
+                                        <div class="dropdown-icon-wrap">
+                                            <i class="fa-solid fa-spa dropdown-icon"></i>
+                                        </div>
+                                        <div>
+                                            <span class="dropdown-title">Facial Treatments</span>
+                                            <span class="dropdown-desc">Rejuvenate your skin</span>
+                                        </div>
+                                    </a>
+                                    <a href="#body" class="dropdown-item">
+                                        <div class="dropdown-icon-wrap">
+                                            <i class="fa-solid fa-user dropdown-icon"></i>
+                                        </div>
+                                        <div>
+                                            <span class="dropdown-title">Body Contouring</span>
+                                            <span class="dropdown-desc">Sculpt your silhouette</span>
+                                        </div>
+                                    </a>
+                                    <a href="#injectable" class="dropdown-item">
+                                        <div class="dropdown-icon-wrap">
+                                            <i class="fa-solid fa-syringe dropdown-icon"></i>
+                                        </div>
+                                        <div>
+                                            <span class="dropdown-title">Injectable Treatments</span>
+                                            <span class="dropdown-desc">Botox & fillers</span>
+                                        </div>
+                                    </a>
+                                    <a href="#longevity" class="dropdown-item">
+                                        <div class="dropdown-icon-wrap">
+                                            <i class="fa-solid fa-heartbeat dropdown-icon"></i>
+                                        </div>
+                                        <div>
+                                            <span class="dropdown-title">Longevity Medicine</span>
+                                            <span class="dropdown-desc">Age gracefully</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#about" class="nav-link">
+                                    <span>About</span>
+                                    <div class="nav-pill"></div>
                                 </a>
-                                <a href="#longevity" class="dropdown-item">
-                                    <div class="dropdown-icon-wrap">
-                                        <i class="fa-solid fa-heartbeat dropdown-icon"></i>
-                                    </div>
-                                    <div>
-                                        <span class="dropdown-title">Longevity Medicine</span>
-                                        <span class="dropdown-desc">Age gracefully</span>
-                                    </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#results" class="nav-link">
+                                    <span>Results</span>
+                                    <div class="nav-pill"></div>
                                 </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#contact" class="nav-link">
+                                    <span>Contact</span>
+                                    <div class="nav-pill"></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    
+                    <!-- CTA Button -->
+                    <div class="header-actions">
+                        <button class="btn btn-primary header-cta" id="headerCta" aria-label="Book Consultation">
+                            <div class="btn-glow"></div>
+                            <span>Book Consultation</span>
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </button>
+                        
+                        <!-- Mobile Menu Toggle -->
+                        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+                            <div class="hamburger">
+                                <span></span>
+                                <span></span>
+                                <span></span>
                             </div>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#about" class="nav-link">
-                                <span>About</span>
-                                <div class="nav-pill"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-container">
+                <div class="mobile-menu-header">
+                    <a href="#home" class="logo">
+                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
+                    </a>
+                    <button class="menu-close" id="menuClose" aria-label="Close Menu">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                
+                <nav class="mobile-nav" aria-label="Mobile Navigation">
+                    <ul class="mobile-nav-list">
+                        <li class="mobile-nav-item active"><a href="#home" class="mobile-nav-link">Home</a></li>
+                        <li class="mobile-nav-item dropdown">
+                            <a href="#services" class="mobile-nav-link dropdown-toggle" aria-expanded="false">
+                                Services
+                                <i class="fa-solid fa-chevron-down mobile-nav-icon"></i>
                             </a>
+                            <ul class="mobile-dropdown">
+                                <li><a href="#facial" class="mobile-dropdown-item">Facial Treatments</a></li>
+                                <li><a href="#body" class="mobile-dropdown-item">Body Contouring</a></li>
+                                <li><a href="#injectable" class="mobile-dropdown-item">Injectable Treatments</a></li>
+                                <li><a href="#longevity" class="mobile-dropdown-item">Longevity Medicine</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#results" class="nav-link">
-                                <span>Results</span>
-                                <div class="nav-pill"></div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#contact" class="nav-link">
-                                <span>Contact</span>
-                                <div class="nav-pill"></div>
-                            </a>
-                        </li>
+                        <li class="mobile-nav-item"><a href="#about" class="mobile-nav-link">About</a></li>
+                        <li class="mobile-nav-item"><a href="#results" class="mobile-nav-link">Results</a></li>
+                        <li class="mobile-nav-item"><a href="#contact" class="mobile-nav-link">Contact</a></li>
                     </ul>
                 </nav>
                 
-                <!-- CTA Button -->
-                <div class="header-actions">
-                    <button class="btn btn-primary header-cta" id="headerCta" aria-label="Book Consultation">
-                        <div class="btn-glow"></div>
+                <div class="mobile-cta">
+                    <button class="btn btn-primary mobile-btn" id="mobileCta">
                         <span>Book Consultation</span>
                         <i class="fa-solid fa-calendar-check"></i>
                     </button>
-                    
-                    <!-- Mobile Menu Toggle -->
-                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
-                        <div class="hamburger">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </button>
+                </div>
+                
+                <div class="mobile-contact">
+                    <div class="contact-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>(555) 123-4567</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>contact@eviaaesthetics.com</span>
+                    </div>
+                </div>
+                
+                <div class="mobile-social">
+                    <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-container">
-            <div class="mobile-menu-header">
-                <a href="#home" class="logo">
-                    <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
-                </a>
-                <button class="menu-close" id="menuClose" aria-label="Close Menu">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            
-            <nav class="mobile-nav" aria-label="Mobile Navigation">
-                <ul class="mobile-nav-list">
-                    <li class="mobile-nav-item active"><a href="#home" class="mobile-nav-link">Home</a></li>
-                    <li class="mobile-nav-item dropdown">
-                        <a href="#services" class="mobile-nav-link dropdown-toggle" aria-expanded="false">
-                            Services
-                            <i class="fa-solid fa-chevron-down mobile-nav-icon"></i>
-                        </a>
-                        <ul class="mobile-dropdown">
-                            <li><a href="#facial" class="mobile-dropdown-item">Facial Treatments</a></li>
-                            <li><a href="#body" class="mobile-dropdown-item">Body Contouring</a></li>
-                            <li><a href="#injectable" class="mobile-dropdown-item">Injectable Treatments</a></li>
-                            <li><a href="#longevity" class="mobile-dropdown-item">Longevity Medicine</a></li>
-                        </ul>
-                    </li>
-                    <li class="mobile-nav-item"><a href="#about" class="mobile-nav-link">About</a></li>
-                    <li class="mobile-nav-item"><a href="#results" class="mobile-nav-link">Results</a></li>
-                    <li class="mobile-nav-item"><a href="#contact" class="mobile-nav-link">Contact</a></li>
-                </ul>
-            </nav>
-            
-            <div class="mobile-cta">
-                <button class="btn btn-primary mobile-btn" id="mobileCta">
-                    <span>Book Consultation</span>
-                    <i class="fa-solid fa-calendar-check"></i>
-                </button>
-            </div>
-            
-            <div class="mobile-contact">
-                <div class="contact-item">
-                    <i class="fa-solid fa-phone"></i>
-                    <span>(555) 123-4567</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span>contact@eviaaesthetics.com</span>
-                </div>
-            </div>
-            
-            <div class="mobile-social">
-                <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" class="social-link" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            </div>
-        </div>
-    </div>
-</header>
+    </header>
 
     <!-- Premium Med Spa Hero Section -->
-<section class="hero-section" id="hero">
-    <!-- Cinematic Video Background -->
-    <div class="video-container">
-        <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
-            <source src="large.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay"></div>
-    </div>
-    
-    <!-- Elegant Animated Background Elements -->
-    <div class="background-elements">
-        <div class="elegant-shape shape-1"></div>
-        <div class="elegant-shape shape-2"></div>
-        <div class="light-glow glow-1"></div>
-        <div class="light-glow glow-2"></div>
-        <div class="elegant-line line-1"></div>
-        <div class="elegant-line line-2"></div>
-    </div>
-    
-    <!-- Main Content Area -->
-    <div class="container hero-container">
-        <div class="hero-content">
-            <!-- Premium Logo Display -->
-            <div class="hero-logo-wrapper">
-                <img src="logo1.png" alt="Evia Aesthetics" class="hero-logo">
-            </div>
-            
-            <!-- Elegant Tagline -->
-            <div class="hero-tagline">
-                <span>Aesthetic and Longevity Medicine</span>
-            </div>
-            
-            <!-- Main Headline -->
-            <h1 class="hero-headline">
-                <span class="headline-reveal">Transform</span>
-                <span class="headline-reveal highlight">Your Beauty</span>
-                <span class="headline-reveal">Journey</span>
-            </h1>
-            
-            <!-- Dynamic Services Showcase -->
-            <div class="services-showcase">
-                <span class="service-prefix">Specializing in</span>
-                <div class="service-carousel" id="serviceCarousel">
-                    <div class="service-item">Advanced Facial Treatments</div>
-                    <div class="service-item">Premium Body Contouring</div>
-                    <div class="service-item">Expert Injectable Treatments</div>
-                    <div class="service-item">Personalized Longevity Care</div>
+    <section class="hero-section" id="hero">
+        <!-- Cinematic Video Background -->
+        <div class="video-container">
+            <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+                <source src="spa-video.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+        
+        <!-- Elegant Animated Background Elements -->
+        <div class="background-elements">
+            <div class="elegant-shape shape-1"></div>
+            <div class="elegant-shape shape-2"></div>
+            <div class="light-glow glow-1"></div>
+            <div class="light-glow glow-2"></div>
+            <div class="elegant-line line-1"></div>
+            <div class="elegant-line line-2"></div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="container hero-container">
+            <div class="hero-content">
+                <!-- Premium Logo Display -->
+                <div class="hero-logo-wrapper">
+                    <img src="logo1.png" alt="Evia Aesthetics" class="hero-logo">
                 </div>
-            </div>
-            
-            <!-- Call to Action Area -->
-            <div class="cta-area">
-                <button class="primary-button" id="consultationBtn">
-                    <span>Book Your Consultation</span>
-                    <div class="button-icon">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
-                    <div class="button-background"></div>
-                </button>
                 
-                <button class="video-button" id="watchVideoBtn">
-                    <div class="video-button-icon">
-                        <i class="fa-solid fa-play"></i>
-                    </div>
-                    <span>Watch Our Story</span>
-                </button>
-            </div>
-            
-            <!-- Trust Indicators -->
-            <div class="trust-indicators">
-                <div class="trust-item">
-                    <div class="trust-icon">
-                        <i class="fa-solid fa-award"></i>
-                    </div>
-                    <span>Award-Winning Care</span>
+                <!-- Elegant Tagline -->
+                <div class="hero-tagline">
+                    <span>Aesthetic and Longevity Medicine</span>
                 </div>
-                <div class="trust-item">
-                    <div class="trust-icon">
-                        <i class="fa-solid fa-user-md"></i>
+                
+                <!-- Main Headline -->
+                <h1 class="hero-headline">
+                    <span class="headline-reveal">Transform</span>
+                    <span class="headline-reveal highlight">Your Beauty</span>
+                    <span class="headline-reveal">Journey</span>
+                </h1>
+                
+                <!-- Dynamic Services Showcase -->
+                <div class="services-showcase">
+                    <span class="service-prefix">Specializing in</span>
+                    <div class="service-carousel" id="serviceCarousel">
+                        <div class="service-item">Advanced Facial Treatments</div>
+                        <div class="service-item">Premium Body Contouring</div>
+                        <div class="service-item">Expert Injectable Treatments</div>
+                        <div class="service-item">Personalized Longevity Care</div>
                     </div>
-                    <span>Expert Practitioners</span>
                 </div>
-                <div class="trust-item">
-                    <div class="trust-icon">
-                        <i class="fa-solid fa-star"></i>
+                
+                <!-- Call to Action Area -->
+                <div class="cta-area">
+                    <button class="primary-button" id="consultationBtn">
+                        <span>Book Your Consultation</span>
+                        <div class="button-icon">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <div class="button-background"></div>
+                    </button>
+                    
+                    <button class="video-button" id="watchVideoBtn">
+                        <div class="video-button-icon">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                        <span>Watch Our Story</span>
+                    </button>
+                </div>
+                
+                <!-- Trust Indicators -->
+                <div class="trust-indicators">
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <span>Award-Winning Care</span>
                     </div>
-                    <span>5-Star Experience</span>
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i class="fa-solid fa-user-md"></i>
+                        </div>
+                        <span>Expert Practitioners</span>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <span>5-Star Experience</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Scroll Indicator -->
-    <div class="scroll-indicator" id="scrollIndicator">
-        <div class="scroll-text">Discover More</div>
-        <div class="scroll-icon">
-            <div class="chevron"></div>
-            <div class="chevron"></div>
-            <div class="chevron"></div>
-        </div>
-    </div>
-    
-    <!-- Animated Feature Cards -->
-    <div class="feature-cards">
-        <div class="feature-card">
-            <div class="card-icon">
-                <i class="fa-solid fa-face-smile"></i>
-            </div>
-            <div class="card-content">
-                <h3>Natural Results</h3>
-                <p>Enhancing your unique beauty</p>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" id="scrollIndicator">
+            <div class="scroll-text">Discover More</div>
+            <div class="scroll-icon">
+                <div class="chevron"></div>
+                <div class="chevron"></div>
+                <div class="chevron"></div>
             </div>
         </div>
-        <div class="feature-card">
-            <div class="card-icon">
-                <i class="fa-solid fa-flask"></i>
+        
+        <!-- Animated Feature Cards -->
+        <div class="feature-cards">
+            <div class="feature-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-face-smile"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Natural Results</h3>
+                    <p>Enhancing your unique beauty</p>
+                </div>
             </div>
-            <div class="card-content">
-                <h3>Advanced Technology</h3>
-                <p>Cutting-edge treatments</p>
+            <div class="feature-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-flask"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Advanced Technology</h3>
+                    <p>Cutting-edge treatments</p>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Appointment Modal -->
     <div class="modal" id="appointmentModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
