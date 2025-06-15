@@ -255,65 +255,131 @@
     </div>
 </header>
 
-    <!-- Enhanced Cinematic Parallax Hero Section -->
-    <section class="hero" id="hero">
-        <!-- Parallax Video Background -->
-        <div class="parallax-video-container">
-            <video class="parallax-video" id="heroVideo" autoplay muted loop playsinline>
-                <source src="large.mp4" type="video/mp4">
-            </video>
-            <div class="video-overlay"></div>
-        </div>
-        
-        <!-- Enhanced Decorative Elements -->
-        <div class="hero-accents">
-            <div class="accent-line line-1"></div>
-            <div class="accent-line line-2"></div>
-            <div class="glow-orb orb-1"></div>
-            <div class="glow-orb orb-2"></div>
-            <div class="accent-shape shape-1"></div>
-            <div class="accent-shape shape-2"></div>
-        </div>
-        
-        <!-- Focused Hero Content -->
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fa-solid fa-award badge-icon"></i>
-                    <span class="badge-text">Award-Winning Aesthetic & Longevity Care</span>
+    <!-- Premium Med Spa Hero Section -->
+<section class="hero-section" id="hero">
+    <!-- Cinematic Video Background -->
+    <div class="video-container">
+        <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+            <source src="spa-video.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+    
+    <!-- Elegant Animated Background Elements -->
+    <div class="background-elements">
+        <div class="elegant-shape shape-1"></div>
+        <div class="elegant-shape shape-2"></div>
+        <div class="light-glow glow-1"></div>
+        <div class="light-glow glow-2"></div>
+        <div class="elegant-line line-1"></div>
+        <div class="elegant-line line-2"></div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="container hero-container">
+        <div class="hero-content">
+            <!-- Premium Logo Display -->
+            <div class="hero-logo-wrapper">
+                <img src="logo1.png" alt="Evia Aesthetics" class="hero-logo">
+            </div>
+            
+            <!-- Elegant Tagline -->
+            <div class="hero-tagline">
+                <span>Aesthetic and Longevity Medicine</span>
+            </div>
+            
+            <!-- Main Headline -->
+            <h1 class="hero-headline">
+                <span class="headline-reveal">Transform</span>
+                <span class="headline-reveal highlight">Your Beauty</span>
+                <span class="headline-reveal">Journey</span>
+            </h1>
+            
+            <!-- Dynamic Services Showcase -->
+            <div class="services-showcase">
+                <span class="service-prefix">Specializing in</span>
+                <div class="service-carousel" id="serviceCarousel">
+                    <div class="service-item">Advanced Facial Treatments</div>
+                    <div class="service-item">Premium Body Contouring</div>
+                    <div class="service-item">Expert Injectable Treatments</div>
+                    <div class="service-item">Personalized Longevity Care</div>
                 </div>
-                
-                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="400">
-                    <span class="title-line">Reveal Your</span>
-                    <span class="title-line accent">Natural Radiance</span>
-                </h1>
-                
-                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="600">
-                    <button class="btn btn-primary btn-lg" id="heroCta">
-                        <div class="btn-shine"></div>
-                        <span>Book Free Consultation</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                    
-                    <button class="btn btn-glass btn-lg" id="specialOffersBtn">
-                        <div class="btn-circle">
-                        <i class="fa-solid fa-gift"></i>
+            </div>
+            
+            <!-- Call to Action Area -->
+            <div class="cta-area">
+                <button class="primary-button" id="consultationBtn">
+                    <span>Book Your Consultation</span>
+                    <div class="button-icon">
+                        <i class="fa-solid fa-calendar-check"></i>
                     </div>
-                         <span>Special Offers</span>
-                    </button>
+                    <div class="button-background"></div>
+                </button>
+                
+                <button class="video-button" id="watchVideoBtn">
+                    <div class="video-button-icon">
+                        <i class="fa-solid fa-play"></i>
+                    </div>
+                    <span>Watch Our Story</span>
+                </button>
+            </div>
+            
+            <!-- Trust Indicators -->
+            <div class="trust-indicators">
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <span>Award-Winning Care</span>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <i class="fa-solid fa-user-md"></i>
+                    </div>
+                    <span>Expert Practitioners</span>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <span>5-Star Experience</span>
                 </div>
             </div>
         </div>
-        
-        <!-- Elegant Scroll Indicator -->
-        <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="800">
-            <div class="scroll-line"></div>
-            <div class="scroll-text">Scroll to Explore</div>
-            <div class="scroll-arrow">
-                <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <div class="scroll-text">Discover More</div>
+        <div class="scroll-icon">
+            <div class="chevron"></div>
+            <div class="chevron"></div>
+            <div class="chevron"></div>
+        </div>
+    </div>
+    
+    <!-- Animated Feature Cards -->
+    <div class="feature-cards">
+        <div class="feature-card">
+            <div class="card-icon">
+                <i class="fa-solid fa-face-smile"></i>
+            </div>
+            <div class="card-content">
+                <h3>Natural Results</h3>
+                <p>Enhancing your unique beauty</p>
             </div>
         </div>
-    </section>
+        <div class="feature-card">
+            <div class="card-icon">
+                <i class="fa-solid fa-flask"></i>
+            </div>
+            <div class="card-content">
+                <h3>Advanced Technology</h3>
+                <p>Cutting-edge treatments</p>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- Appointment Modal -->
     <div class="modal" id="appointmentModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
