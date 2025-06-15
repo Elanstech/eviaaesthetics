@@ -262,309 +262,208 @@ ul, ol {
 /* ==============================
    4. PRELOADER
 ============================== */
-/* Preloader Base Styles */
+/* Base Preloader Styles */
 .evia-preloader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #FFF8F0; /* Cream white background */
+    background: var(--bg-color);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     z-index: 9999;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-    will-change: opacity, visibility;
+    overflow: hidden;
 }
 
-.evia-preloader.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+/* Sliding Glass Panels */
+.glass-panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    backdrop-filter: blur(var(--blur-amount));
+    -webkit-backdrop-filter: blur(var(--blur-amount));
+    background: var(--glass-bg);
+    transition: transform var(--transition-speed) cubic-bezier(0.7, 0, 0.3, 1);
+    z-index: 1;
 }
 
-.preloader-container {
+.panel-left {
+    left: 0;
+    border-right: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, var(--glass-bg), rgba(218, 165, 32, 0.05));
+}
+
+.panel-right {
+    right: 0;
+    border-left: 1px solid var(--glass-border);
+    background: linear-gradient(225deg, var(--glass-bg), rgba(139, 69, 19, 0.05));
+}
+
+/* Panel Exit Animation States */
+.evia-preloader.complete .panel-left {
+    transform: translateX(-100%);
+}
+
+.evia-preloader.complete .panel-right {
+    transform: translateX(100%);
+}
+
+/* Central Content */
+.preloader-content {
     position: relative;
-    width: 320px;
-    height: 320px;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    max-width: 300px;
+    padding: 20px;
+    transition: opacity var(--transition-speed) cubic-bezier(0.7, 0, 0.3, 1);
 }
 
-/* Decorative Circular Elements */
-.preloader-circle {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.6;
+.evia-preloader.complete .preloader-content {
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
-.circle-outer {
-    width: 280px;
-    height: 280px;
-    border: 1px solid rgba(218, 165, 32, 0.2); /* Gold border */
-    animation: rotate 20s linear infinite;
-}
-
-.circle-middle {
-    width: 220px;
-    height: 220px;
-    border: 1px solid rgba(218, 165, 32, 0.3);
-    animation: rotate 15s linear infinite reverse;
-}
-
-.circle-inner {
-    width: 160px;
-    height: 160px;
-    border: 1px solid rgba(218, 165, 32, 0.4);
-    animation: rotate 10s linear infinite;
-}
-
-/* Logo Styles */
+/* Logo Styling */
 .logo-container {
+    margin-bottom: 40px;
     position: relative;
-    margin-bottom: 25px;
-    z-index: 2;
-}
-
-.logo-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 180px;
-    height: 180px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(218, 165, 32, 0.4) 0%, transparent 70%);
-    border-radius: 50%;
-    animation: pulse 2s infinite ease-in-out;
-    z-index: 0;
 }
 
 .preloader-logo {
-    position: relative;
     width: 140px;
-    z-index: 1;
-    animation: floatLogo 3s ease-in-out infinite;
-    filter: drop-shadow(0 10px 20px rgba(139, 69, 19, 0.15));
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.3));
+    transition: transform 2s ease-in-out;
+    animation: subtle-float 3s infinite alternate ease-in-out;
 }
 
-/* Accent Lines */
-.accent-lines {
-    position: absolute;
-    width: 200px;
-    z-index: 1;
-}
-
-.accent-line {
-    position: absolute;
-    height: 1px;
-    width: 60px;
-    background: linear-gradient(90deg, transparent, #DAA520, transparent);
-}
-
-.line-left {
-    transform: rotate(-45deg) translateX(-70px);
-    animation: pulseLine 2s infinite alternate;
-}
-
-.line-right {
-    transform: rotate(45deg) translateX(70px);
-    animation: pulseLine 2s infinite alternate-reverse;
-}
-
-/* Loading Indicator */
-.loading-indicator {
-    position: relative;
-    width: 180px;
-    text-align: center;
-    margin-top: 10px;
-    z-index: 2;
-}
-
-.loading-bar {
+/* Modern Progress Line */
+.progress-container {
     width: 100%;
-    height: 4px;
-    background: rgba(139, 69, 19, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.loading-progress {
+.progress-track {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-line {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #DAA520, #8B4513);
-    border-radius: 10px;
-    position: relative;
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, var(--gold-light), var(--gold-dark));
+    border-radius: 2px;
+    transition: width 0.3s ease-out;
 }
 
-.loading-progress::after {
-    content: '';
+.progress-glow {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transform: translateX(-100%);
-    animation: shimmer 2s infinite;
-    will-change: transform;
-}
-
-.loading-text {
-    font-size: 13px;
-    color: #654321; /* Deep bronze */
-    font-weight: 400;
-    opacity: 0.7;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.5px;
-}
-
-/* Floating Particles */
-.floating-particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+    top: -4px;
+    left: -10px;
+    height: 10px;
+    width: 20px;
+    filter: blur(8px);
+    background: var(--gold-light);
+    opacity: 0.6;
+    border-radius: 50%;
+    animation: glow-move 2s infinite;
     pointer-events: none;
 }
 
-.particle {
+.progress-percentage {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-color);
+    letter-spacing: 2px;
+}
+
+/* Loading Message */
+.loading-message {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-color);
+    letter-spacing: 1px;
+    opacity: 0.7;
+    position: relative;
+}
+
+.loading-message::after {
+    content: '...';
     position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #DAA520; /* Amber gold */
-    border-radius: 50%;
-    opacity: 0.4;
-    filter: blur(1px);
+    animation: loading-dots 2s infinite;
 }
 
-.p1 {
-    top: 20%;
-    left: 80%;
-    animation: float 6s infinite ease-in-out;
-}
-
-.p2 {
-    top: 75%;
-    left: 25%;
-    animation: float 7s infinite ease-in-out 1s;
-}
-
-.p3 {
-    top: 40%;
-    left: 30%;
-    animation: float 5s infinite ease-in-out 0.5s;
-}
-
-.p4 {
-    top: 66%;
-    left: 70%;
-    animation: float 8s infinite ease-in-out 2s;
-}
-
-.p5 {
-    top: 30%;
-    left: 15%;
-    animation: float 6s infinite ease-in-out 1.5s;
+/* Hidden State */
+.evia-preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 /* Animations */
-@keyframes rotate {
+@keyframes subtle-float {
     0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: translate(-50%, -50%) scale(0.9);
-        opacity: 0.3;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.1);
-        opacity: 0.6;
-    }
-}
-
-@keyframes floatLogo {
-    0%, 100% {
         transform: translateY(0);
     }
-    50% {
-        transform: translateY(-10px);
+    100% {
+        transform: translateY(-8px);
     }
 }
 
-@keyframes pulseLine {
+@keyframes glow-move {
     0% {
+        left: -20px;
         opacity: 0.2;
-        width: 50px;
-    }
-    100% {
-        opacity: 0.6;
-        width: 70px;
-    }
-}
-
-@keyframes shimmer {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(100%);
-    }
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translate(0, 0);
     }
     50% {
-        transform: translate(10px, -15px);
+        opacity: 0.6;
+    }
+    100% {
+        left: 110%;
+        opacity: 0.2;
+    }
+}
+
+@keyframes loading-dots {
+    0%, 20% {
+        content: '.';
+    }
+    40% {
+        content: '..';
+    }
+    60%, 100% {
+        content: '...';
     }
 }
 
 /* Responsive Adjustments */
 @media (max-width: 480px) {
-    .preloader-container {
-        width: 280px;
-        height: 280px;
-    }
-    
-    .circle-outer {
-        width: 240px;
-        height: 240px;
-    }
-    
-    .circle-middle {
-        width: 190px;
-        height: 190px;
-    }
-    
-    .circle-inner {
-        width: 140px;
-        height: 140px;
-    }
-    
-    .logo-glow {
-        width: 150px;
-        height: 150px;
+    .preloader-content {
+        max-width: 260px;
     }
     
     .preloader-logo {
         width: 120px;
-    }
-    
-    .loading-indicator {
-        width: 150px;
     }
 }
 
