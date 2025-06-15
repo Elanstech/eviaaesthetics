@@ -11,7 +11,7 @@
    2. RESET & BASE STYLES
    3. GLOBAL ANIMATIONS
    4. PRELOADER
-      4.1 Preloader Styles
+      4.1 Modern Frosted Glass Preloader
       4.2 Preloader Animations
       4.3 Preloader Responsive
    5. HEADER
@@ -262,6 +262,20 @@ ul, ol {
 /* ==============================
    4. PRELOADER
 ============================== */
+/* 4.1 Modern Frosted Glass Preloader Styles */
+/* Variables for preloader customization */
+:root {
+    --glass-bg: rgba(255, 248, 240, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: rgba(0, 0, 0, 0.1);
+    --gold-light: rgba(218, 165, 32, 0.7);
+    --gold-dark: rgba(139, 69, 19, 0.8);
+    --text-color: rgba(255, 255, 255, 0.9);
+    --bg-color: #111111;
+    --blur-amount: 12px;
+    --transition-speed: 0.8s;
+}
+
 /* Base Preloader Styles */
 .evia-preloader {
     position: fixed;
@@ -420,7 +434,7 @@ ul, ol {
     transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-/* Animations */
+/* 4.2 Preloader Animations */
 @keyframes subtle-float {
     0% {
         transform: translateY(0);
@@ -456,7 +470,7 @@ ul, ol {
     }
 }
 
-/* Responsive Adjustments */
+/* 4.3 Preloader Responsive */
 @media (max-width: 480px) {
     .preloader-content {
         max-width: 260px;
