@@ -696,6 +696,28 @@ ul, ol {
   animation: pulse 2s infinite;
 }
 
+/* New custom animations */
+@keyframes header-shine {
+  0% {
+    transform: rotate(30deg) translateY(0%);
+  }
+  100% {
+    transform: rotate(30deg) translateY(60%);
+  }
+}
+
+@keyframes header-blob-float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(3%, 3%);
+  }
+  66% {
+    transform: translate(-3%, -3%);
+  }
+}
+
 /* ==============================
    ENHANCED CINEMATIC PARALLAX HERO
 ============================== */
