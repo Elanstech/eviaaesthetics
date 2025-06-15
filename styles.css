@@ -694,7 +694,7 @@ ul, ol {
 }
 
 .logo-img {
-    height: 300px; /* Increased from 58px */
+    height: 250px; /* Increased from 58px */
     width: auto;
     transition: all var(--transition-medium);
     filter: drop-shadow(0 2px 8px rgba(139, 69, 19, 0.25));
