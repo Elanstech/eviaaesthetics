@@ -42,42 +42,29 @@
     
 </head>
 <body class="loading">
-    <!-- Luxury Med Spa Preloader -->
-<div class="evia-preloader" id="eviaPreloader">
-    <div class="preloader-container">
-        <!-- Decorative circles -->
-        <div class="preloader-circle circle-outer"></div>
-        <div class="preloader-circle circle-middle"></div>
-        <div class="preloader-circle circle-inner"></div>
-        
-        <!-- Logo container with glow effect -->
+    <div class="evia-preloader" id="eviaPreloader">
+    <!-- Glass panels that slide away on completion -->
+    <div class="glass-panel panel-left"></div>
+    <div class="glass-panel panel-right"></div>
+    
+    <!-- Central content container -->
+    <div class="preloader-content">
+        <!-- Logo with subtle glow -->
         <div class="logo-container">
-            <div class="logo-glow"></div>
             <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo">
         </div>
         
-        <!-- Gold accent lines -->
-        <div class="accent-lines">
-            <div class="accent-line line-left"></div>
-            <div class="accent-line line-right"></div>
-        </div>
-        
-        <!-- Loading indicator -->
-        <div class="loading-indicator">
-            <div class="loading-bar">
-                <div class="loading-progress" id="loadingProgress"></div>
+        <!-- Modern line progress indicator -->
+        <div class="progress-container">
+            <div class="progress-track">
+                <div class="progress-line" id="progressLine"></div>
+                <div class="progress-glow"></div>
             </div>
-            <div class="loading-text" id="loadingText">Preparing your experience...</div>
+            <div class="progress-percentage" id="progressPercentage">0%</div>
         </div>
         
-        <!-- Floating particles -->
-        <div class="floating-particles">
-            <div class="particle p1"></div>
-            <div class="particle p2"></div>
-            <div class="particle p3"></div>
-            <div class="particle p4"></div>
-            <div class="particle p5"></div>
-        </div>
+        <!-- Minimal loading text -->
+        <div class="loading-message" id="loadingMessage">Crafting your experience</div>
     </div>
 </div>
 
