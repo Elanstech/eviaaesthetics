@@ -1,13 +1,12 @@
 /**
  * Evia Aesthetics - Main JavaScript
- * Optimized for performance, smooth animations, and responsive behavior
- * Includes modern frosted glass preloader
+ * Includes premium hero section functionality and preloader
  */
 
 'use strict';
 
 /**
- * Evia Modern Preloader - Sleek Frosted Glass Design
+ * Evia Modern Preloader
  * Handles loading animation and elegant transition to main content
  */
 class EviaModernPreloader {
@@ -18,10 +17,10 @@ class EviaModernPreloader {
             maxDuration: 4000,       // Maximum time before force-hiding
             exitDuration: 1200,      // Exit animation duration
             loadingMessages: [
-                'Crafting your experience',
-                'Curating treatments',
-                'Preparing your journey',
-                'Refining details'
+                'Welcome to Evia Aesthetics',
+                'Preparing your experience',
+                'Loading treatments',
+                'Almost ready'
             ],
             ...options
         };
@@ -206,29 +205,426 @@ class EviaModernPreloader {
     }
 }
 
-// Main application class
+/**
+ * Premium Hero Section
+ * Advanced animations and interactive elements
+ */
+class PremiumHeroSection {
+    constructor() {
+        // Elements
+        this.heroSection = document.querySelector('.hero-section');
+        this.videoElement = document.getElementById('heroVideo');
+        this.serviceCarousel = document.getElementById('serviceCarousel');
+        this.scrollIndicator = document.getElementById('scrollIndicator');
+        this.featureCards = document.querySelectorAll('.feature-card');
+        this.consultationBtn = document.getElementById('consultationBtn');
+        this.watchVideoBtn = document.getElementById('watchVideoBtn');
+        
+        // State
+        this.videoLoaded = false;
+        this.currentServiceIndex = 0;
+        this.serviceItems = this.serviceCarousel ? this.serviceCarousel.querySelectorAll('.service-item') : [];
+        
+        // Initialize
+        if (this.heroSection) {
+            this.init();
+        }
+    }
+    
+    /**
+     * Initialize hero section
+     */
+    init() {
+        console.log('✨ Initializing premium hero section');
+        
+        this.initVideoBackground();
+        this.initServiceCarousel();
+        this.initScrollIndicator();
+        this.initFeatureCards();
+        this.initButtonInteractions();
+        
+        // Initialize parallax if device supports it
+        if (!this.isMobileDevice() && !this.prefersReducedMotion()) {
+            this.initParallaxEffects();
+        }
+    }
+    
+    /**
+     * Initialize video background
+     */
+    initVideoBackground() {
+        if (!this.videoElement) return;
+        
+        // Set initial state
+        this.videoElement.style.opacity = '0';
+        
+        // Fade in video when loaded
+        this.videoElement.addEventListener('loadeddata', () => {
+            this.videoLoaded = true;
+            console.log('📹 Hero video loaded successfully');
+            
+            // Fade in video
+            this.videoElement.style.opacity = '1';
+            
+            // Apply subtle zoom effect after loading
+            setTimeout(() => {
+                this.videoElement.style.transform = 'translate(-50%, -50%) scale(1.05)';
+            }, 1000);
+        });
+        
+        // Error handling
+        this.videoElement.addEventListener('error', (e) => {
+            console.error('❌ Error loading hero video:', e);
+            
+            // Apply fallback background
+            if (this.heroSection) {
+                this.heroSection.style.backgroundImage = 'linear-gradient(135deg, #442C15 0%, #6D4824 100%)';
+            }
+        });
+        
+        // Pause video when not visible (performance optimization)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.videoElement.pause();
+            } else if (this.videoLoaded) {
+                this.videoElement.play().catch(() => {});
+            }
+        });
+    }
+    
+    /**
+     * Initialize service carousel
+     */
+    initServiceCarousel() {
+        if (!this.serviceCarousel || this.serviceItems.length === 0) return;
+        
+        // Set initial active item
+        this.serviceItems[0].classList.add('active');
+        
+        // Update carousel width based on the longest item
+        this.updateCarouselWidth();
+        
+        // Rotate services at regular intervals
+        setInterval(() => {
+            // Set current item to inactive
+            this.serviceItems[this.currentServiceIndex].classList.remove('active');
+            this.serviceItems[this.currentServiceIndex].classList.add('inactive');
+            
+            // Update index
+            this.currentServiceIndex = (this.currentServiceIndex + 1) % this.serviceItems.length;
+            
+            // Remove inactive class from new current after animation
+            setTimeout(() => {
+                this.serviceItems.forEach((item, index) => {
+                    if (index !== this.currentServiceIndex) {
+                        item.classList.remove('inactive');
+                    }
+                });
+            }, 600);
+            
+            // Set new current item to active
+            this.serviceItems[this.currentServiceIndex].classList.add('active');
+            
+        }, 3000);
+    }
+    
+    /**
+     * Update carousel width based on the longest item
+     */
+    updateCarouselWidth() {
+        let maxWidth = 0;
+        
+        // Create a temporary element to measure text width
+        const tempElement = document.createElement('span');
+        tempElement.style.visibility = 'hidden';
+        tempElement.style.position = 'absolute';
+        tempElement.style.fontSize = '1.1rem';
+        tempElement.style.fontWeight = '600';
+        tempElement.style.fontFamily = 'Inter, sans-serif';
+        document.body.appendChild(tempElement);
+        
+        // Find the longest text
+        this.serviceItems.forEach(item => {
+            tempElement.textContent = item.textContent;
+            const width = tempElement.offsetWidth;
+            maxWidth = Math.max(maxWidth, width);
+        });
+        
+        // Clean up
+        document.body.removeChild(tempElement);
+        
+        // Set carousel width with some padding
+        this.serviceCarousel.style.width = `${maxWidth + 20}px`;
+    }
+    
+    /**
+     * Initialize scroll indicator
+     */
+    initScrollIndicator() {
+        if (!this.scrollIndicator) return;
+        
+        this.scrollIndicator.addEventListener('click', () => {
+            const heroHeight = this.heroSection.offsetHeight;
+            
+            // Smooth scroll to the section below the hero
+            window.scrollTo({
+                top: heroHeight - 50,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Hide scroll indicator when scrolled down
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            
+            if (scrollPosition > 100) {
+                this.scrollIndicator.style.opacity = '0';
+                this.scrollIndicator.style.pointerEvents = 'none';
+            } else {
+                this.scrollIndicator.style.opacity = '1';
+                this.scrollIndicator.style.pointerEvents = 'auto';
+            }
+        }, { passive: true });
+    }
+    
+    /**
+     * Initialize feature cards
+     */
+    initFeatureCards() {
+        if (!this.featureCards.length) return;
+        
+        this.featureCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateX(-10px)';
+                card.style.background = 'rgba(255, 255, 255, 0.15)';
+                card.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateX(0)';
+                card.style.background = 'rgba(255, 255, 255, 0.1)';
+                card.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            });
+        });
+    }
+    
+    /**
+     * Initialize button interactions
+     */
+    initButtonInteractions() {
+        if (this.consultationBtn) {
+            this.consultationBtn.addEventListener('click', () => {
+                // Open appointment modal if exists
+                const appointmentModal = document.getElementById('appointmentModal');
+                if (appointmentModal) {
+                    appointmentModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        }
+        
+        if (this.watchVideoBtn) {
+            this.watchVideoBtn.addEventListener('click', () => {
+                this.createVideoModal('https://www.youtube.com/embed/YOUR_VIDEO_ID');
+            });
+        }
+    }
+    
+    /**
+     * Create and open a video modal
+     */
+    createVideoModal(videoUrl) {
+        // Check if modal already exists
+        let modalContainer = document.querySelector('.video-modal');
+        
+        if (!modalContainer) {
+            // Create modal container
+            modalContainer = document.createElement('div');
+            modalContainer.className = 'video-modal';
+            
+            // Create modal content
+            modalContainer.innerHTML = `
+                <div class="video-modal-overlay"></div>
+                <div class="video-modal-content">
+                    <button class="video-modal-close">&times;</button>
+                    <div class="video-wrapper">
+                        <iframe src="${videoUrl}?autoplay=1" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            `;
+            
+            // Add modal to body
+            document.body.appendChild(modalContainer);
+            
+            // Set up close button
+            const closeButton = modalContainer.querySelector('.video-modal-close');
+            const overlay = modalContainer.querySelector('.video-modal-overlay');
+            
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    this.closeVideoModal(modalContainer);
+                });
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', () => {
+                    this.closeVideoModal(modalContainer);
+                });
+            }
+            
+            // Close on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalContainer.classList.contains('active')) {
+                    this.closeVideoModal(modalContainer);
+                }
+            });
+        }
+        
+        // Prevent body scrolling
+        document.body.style.overflow = 'hidden';
+        
+        // Show modal with animation
+        setTimeout(() => {
+            modalContainer.classList.add('active');
+        }, 10);
+    }
+    
+    /**
+     * Close video modal
+     */
+    closeVideoModal(modal) {
+        if (!modal) return;
+        
+        modal.classList.remove('active');
+        
+        // Re-enable scrolling
+        document.body.style.overflow = '';
+        
+        // Remove modal after animation
+        setTimeout(() => {
+            if (modal.parentNode) {
+                // Get iframe source to stop video
+                const iframe = modal.querySelector('iframe');
+                if (iframe) {
+                    const iframeSrc = iframe.src;
+                    iframe.src = iframeSrc; // Reset iframe to stop video
+                }
+                
+                // Remove modal from DOM
+                modal.parentNode.removeChild(modal);
+            }
+        }, 400);
+    }
+    
+    /**
+     * Initialize parallax effects
+     */
+    initParallaxEffects() {
+        if (!this.heroSection || !this.videoLoaded) return;
+        
+        const handleParallax = (e) => {
+            const { clientX, clientY } = e;
+            const { innerWidth, innerHeight } = window;
+            
+            // Calculate mouse position percentage from center
+            const xPercent = (clientX / innerWidth - 0.5) * 2; // -1 to 1
+            const yPercent = (clientY / innerHeight - 0.5) * 2; // -1 to 1
+            
+            // Apply subtle parallax to video
+            if (this.videoElement) {
+                const moveX = xPercent * 10; // max 10px movement
+                const moveY = yPercent * 10; // max 10px movement
+                this.videoElement.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px)) scale(1.05)`;
+            }
+            
+            // Apply parallax to shapes
+            const shapes = document.querySelectorAll('.elegant-shape');
+            shapes.forEach((shape, i) => {
+                const factor = i === 0 ? 1.5 : 2.5;
+                shape.style.transform = `translate(${xPercent * 20 * factor}px, ${yPercent * 20 * factor}px)`;
+            });
+            
+            // Apply parallax to glows
+            const glows = document.querySelectorAll('.light-glow');
+            glows.forEach((glow, i) => {
+                const factor = i === 0 ? 3 : 2;
+                glow.style.transform = `translate(${-xPercent * 30 * factor}px, ${-yPercent * 30 * factor}px)`;
+            });
+        };
+        
+        // Throttled event listener for better performance
+        let lastCallTime = 0;
+        const throttleTime = 16; // approximately 60fps
+        
+        this.heroSection.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastCallTime >= throttleTime) {
+                lastCallTime = now;
+                handleParallax(e);
+            }
+        }, { passive: true });
+        
+        // Reset on mouse leave
+        this.heroSection.addEventListener('mouseleave', () => {
+            if (this.videoElement) {
+                this.videoElement.style.transform = 'translate(-50%, -50%) scale(1.05)';
+            }
+            
+            const shapes = document.querySelectorAll('.elegant-shape');
+            shapes.forEach(shape => {
+                shape.style.transform = '';
+            });
+            
+            const glows = document.querySelectorAll('.light-glow');
+            glows.forEach(glow => {
+                glow.style.transform = '';
+            });
+        });
+    }
+    
+    /**
+     * Check if current device is mobile
+     */
+    isMobileDevice() {
+        return (window.innerWidth < 768) || 
+               ('ontouchstart' in window) || 
+               (navigator.maxTouchPoints > 0);
+    }
+    
+    /**
+     * Check if user prefers reduced motion
+     */
+    prefersReducedMotion() {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+}
+
+/**
+ * Main Application Class
+ */
 class EviaApp {
     constructor() {
         // State properties
         this.isLoading = true;
-        this.videoLoaded = false;
+        this.scrolled = false;
         this.mobileMenuOpen = false;
         this.modalOpen = false;
-        this.scrolled = false;
         this.raf = null; // Store requestAnimationFrame for cancellation
         this.scrollY = window.scrollY;
         this.resizeTimer = null;
         
         // DOM elements cached for performance
         this.header = document.getElementById('header');
-        this.heroVideo = document.getElementById('heroVideo');
         this.mobileMenu = document.getElementById('mobileMenu');
         this.appointmentModal = document.getElementById('appointmentModal');
         this.menuToggle = document.getElementById('menuToggle');
         this.menuClose = document.getElementById('menuClose');
         this.modalClose = document.getElementById('modalClose');
         this.modalOverlay = document.querySelector('.modal-overlay');
-        this.heroSection = document.querySelector('.hero');
+        
+        // Components
+        this.preloader = null;
+        this.heroSection = null;
         
         // Initialize application
         this.init();
@@ -244,11 +640,6 @@ class EviaApp {
         } else {
             this.initApp();
         }
-        
-        // Listen for preloader completion
-        window.addEventListener('preloaderComplete', () => {
-            this.onPreloaderComplete();
-        });
     }
     
     /**
@@ -261,9 +652,11 @@ class EviaApp {
             // Detect browser and device capabilities
             this.detectCapabilities();
             
+            // Initialize preloader first
+            this.initPreloader();
+            
             // Initialize components
             this.initHeaderScroll();
-            this.initParallaxVideo();
             this.initMobileMenu();
             this.initDropdowns();
             this.initModal();
@@ -274,11 +667,44 @@ class EviaApp {
             // Bind event listeners
             this.bindEvents();
             
+            // Initialize hero section
+            this.initHeroSection();
+            
             console.log('✅ Application initialized successfully');
         } catch (error) {
             console.error('❌ Error initializing application:', error);
             this.handleInitError();
         }
+    }
+    
+    /**
+     * Initialize preloader
+     */
+    initPreloader() {
+        // Create and initialize preloader
+        this.preloader = new EviaModernPreloader({
+            minDuration: 2000,
+            exitDuration: 1200,
+            loadingMessages: [
+                'Welcome to Evia Aesthetics',
+                'Preparing your experience',
+                'Loading treatments',
+                'Almost ready'
+            ]
+        });
+        
+        // Listen for preloader completion
+        window.addEventListener('preloaderComplete', () => {
+            this.onPreloaderComplete();
+        });
+    }
+    
+    /**
+     * Initialize hero section
+     */
+    initHeroSection() {
+        // Create and initialize premium hero section
+        this.heroSection = new PremiumHeroSection();
     }
     
     /**
@@ -301,11 +727,6 @@ class EviaApp {
         
         // Trigger initial scroll check
         this.handleScroll();
-        
-        // Fade in content
-        document.querySelectorAll('.hero-content, .hero-badge, .hero-title, .hero-buttons').forEach(el => {
-            el.style.opacity = '1';
-        });
     }
     
     /**
@@ -363,130 +784,12 @@ class EviaApp {
         
         if (this.scrolled !== shouldBeScrolled) {
             this.scrolled = shouldBeScrolled;
-            this.header.classList.toggle('scrolled', shouldBeScrolled);
-        }
-        
-        // Update parallax effect on scroll if video is loaded
-        if (this.videoLoaded && this.heroSection && this.heroVideo) {
-            const heroHeight = this.heroSection.offsetHeight;
-            const scrollPercentage = Math.min(this.scrollY / heroHeight, 1);
-            
-            // Parallax effect - move the video as user scrolls
-            const translateY = scrollPercentage * 50; // 50px total movement
-            const scale = 1.05 - (scrollPercentage * 0.05); // Subtle scale change
-            
-            // Apply transformation with will-change optimization
-            this.heroVideo.style.transform = `translate(-50%, -50%) scale(${scale}) translateY(${translateY}px)`;
+            this.header?.classList.toggle('scrolled', shouldBeScrolled);
         }
     }
     
     /**
-     * Initialize parallax video effect with performance optimizations
-     */
-    initParallaxVideo() {
-        if (!this.heroVideo || !this.heroSection) return;
-        
-        // Skip heavy effects on low-end devices
-        const useHeavyEffects = !this.isLowEndDevice && !this.prefersReducedMotion;
-
-        // Initial scale for the parallax effect
-        const initialScale = 1.05;
-        
-        // Handle video loading events
-        this.heroVideo.addEventListener('loadeddata', () => {
-            this.videoLoaded = true;
-            console.log('📹 Hero video loaded successfully');
-            
-            // Apply initial parallax effect
-            if (useHeavyEffects) {
-                this.applyParallaxEffects({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 });
-            }
-        });
-        
-        this.heroVideo.addEventListener('error', (e) => {
-            console.error('❌ Error loading hero video:', e);
-            this.heroSection.style.backgroundImage = 'var(--primary-gradient)';
-        });
-        
-        // Pause video when not visible for performance
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                this.heroVideo.pause();
-            } else if (this.videoLoaded) {
-                this.heroVideo.play().catch(() => {});
-            }
-        });
-        
-        // Skip mouse parallax on touch devices or reduced motion preference
-        if (!useHeavyEffects) return;
-        
-        // Mouse movement parallax effect - optimized
-        this.applyParallaxEffects = (e) => {
-            if (!this.videoLoaded) return;
-            
-            const { clientX, clientY } = e;
-            const { innerWidth, innerHeight } = window;
-            
-            // Calculate mouse position as percentage (-0.05 to 0.05)
-            const xPercentage = (clientX / innerWidth - 0.5) * 0.1;
-            const yPercentage = (clientY / innerHeight - 0.5) * 0.1;
-            
-            // Apply subtle movement based on mouse position
-            this.heroVideo.style.transform = `translate(calc(-50% + ${xPercentage * 30}px), calc(-50% + ${yPercentage * 30}px)) scale(${initialScale})`;
-            
-            // Move accents in opposite direction for enhanced depth
-            const accentLines = document.querySelectorAll('.accent-line');
-            const glowOrbs = document.querySelectorAll('.glow-orb');
-            const accentShapes = document.querySelectorAll('.accent-shape');
-            
-            accentLines.forEach((line, index) => {
-                const depth = 1 + (index * 0.5);
-                line.style.transform = `translateX(${-xPercentage * 50 * depth}px) translateY(${-yPercentage * 50 * depth}px) rotate(${index === 0 ? -5 : 3}deg)`;
-            });
-            
-            glowOrbs.forEach((orb, index) => {
-                const depth = 1 + (index * 0.3);
-                orb.style.transform = `translateX(${-xPercentage * 70 * depth}px) translateY(${-yPercentage * 70 * depth}px)`;
-            });
-            
-            accentShapes.forEach((shape, index) => {
-                const depth = 1.2 + (index * 0.4);
-                shape.style.transform = `translateX(${-xPercentage * 60 * depth}px) translateY(${-yPercentage * 60 * depth}px) rotate(${index === 0 ? 45 : -45}deg)`;
-            });
-        };
-
-        // Use throttled event listener for better performance
-        this.heroSection.addEventListener('mousemove', this.throttle(this.applyParallaxEffects, 16), { passive: true });
-
-        // Reset on mouse leave
-        this.heroSection.addEventListener('mouseleave', () => {
-            if (!this.videoLoaded) return;
-            
-            this.heroVideo.style.transform = `translate(-50%, -50%) scale(${initialScale})`;
-            
-            const accentLines = document.querySelectorAll('.accent-line');
-            const glowOrbs = document.querySelectorAll('.glow-orb');
-            const accentShapes = document.querySelectorAll('.accent-shape');
-            
-            accentLines.forEach((line, index) => {
-                line.style.transform = `rotate(${index === 0 ? -5 : 3}deg)`;
-            });
-            
-            glowOrbs.forEach(orb => {
-                orb.style.transform = '';
-            });
-            
-            accentShapes.forEach((shape, index) => {
-                shape.style.transform = `rotate(${index === 0 ? 45 : -45}deg)`;
-            });
-        });
-        
-        // Initial call to set the correct state
-        this.handleScroll();
-    }
-    
-    /**
-     * Initialize mobile menu functionality with improved performance
+     * Initialize mobile menu functionality
      */
     initMobileMenu() {
         if (!this.menuToggle || !this.menuClose || !this.mobileMenu) return;
@@ -501,7 +804,7 @@ class EviaApp {
             this.closeMobileMenu();
         });
         
-        // Close mobile menu when clicking outside - optimized event handling
+        // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
             if (this.mobileMenuOpen && 
                 !e.target.closest('.mobile-menu') && 
@@ -510,7 +813,7 @@ class EviaApp {
             }
         });
         
-        // Mobile dropdown toggles - delegate events for better performance
+        // Mobile dropdown toggles
         const mobileNav = document.querySelector('.mobile-nav');
         if (mobileNav) {
             mobileNav.addEventListener('click', (e) => {
@@ -646,7 +949,7 @@ class EviaApp {
      * Initialize modal functionality with accessibility improvements
      */
     initModal() {
-        const modalTriggers = document.querySelectorAll('#headerCta, #heroCta, #mobileCta');
+        const modalTriggers = document.querySelectorAll('#headerCta, #heroCta, #mobileCta, #consultationBtn');
         
         if (!this.appointmentModal) return;
         
@@ -921,20 +1224,6 @@ class EviaApp {
      */
     initScrollToElements() {
         const scrollLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
-        const scrollIndicator = document.querySelector('.scroll-indicator');
-        
-        // Scroll down button
-        if (scrollIndicator) {
-            scrollIndicator.addEventListener('click', () => {
-                const heroHeight = this.heroSection?.offsetHeight || window.innerHeight;
-                
-                if (this.prefersReducedMotion) {
-                    window.scrollTo(0, heroHeight);
-                } else {
-                    this.smoothScrollTo(heroHeight, 600);
-                }
-            });
-        }
         
         // Anchor links - delegate events for better performance
         document.addEventListener('click', (e) => {
@@ -1061,35 +1350,9 @@ class EviaApp {
             }
         };
     }
-    
-    /**
-     * Debounce function to limit frequent executions
-     * @param {Function} func - Function to debounce
-     * @param {number} wait - Wait time in milliseconds
-     */
-    debounce(func, wait) {
-        let timeout;
-        return function(...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-    }
 }
 
-// Initialize application and preloader when DOM is ready
+// Initialize application
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize the modern frosted glass preloader
-    const eviaPreloader = new EviaModernPreloader({
-        minDuration: 1800,
-        exitDuration: 1200,
-        loadingMessages: [
-            'Crafting your experience',
-            'Curating treatments',
-            'Preparing your journey',
-            'Refining details'
-        ]
-    });
-    
-    // Initialize the main application
     const eviaApp = new EviaApp();
 });
