@@ -206,24 +206,28 @@ class EviaModernPreloader {
 }
 
 /**
- * Premium Hero Section
- * Advanced animations and interactive elements
+ * Luxury Med Spa Hero Section
+ * Enhanced with modern animations and interactive elements
  */
-class PremiumHeroSection {
+class LuxuryHeroSection {
     constructor() {
         // Elements
         this.heroSection = document.querySelector('.hero-section');
         this.videoElement = document.getElementById('heroVideo');
-        this.serviceCarousel = document.getElementById('serviceCarousel');
+        this.revealElements = document.querySelectorAll('.reveal-animation');
+        this.headlineWords = document.querySelectorAll('.split-text');
         this.scrollIndicator = document.getElementById('scrollIndicator');
-        this.featureCards = document.querySelectorAll('.feature-card');
+        this.treatmentCards = document.querySelectorAll('.treatment-card');
         this.consultationBtn = document.getElementById('consultationBtn');
         this.watchVideoBtn = document.getElementById('watchVideoBtn');
         
         // State
         this.videoLoaded = false;
-        this.currentServiceIndex = 0;
-        this.serviceItems = this.serviceCarousel ? this.serviceCarousel.querySelectorAll('.service-item') : [];
+        this.hasAnimated = false;
+        this.observerThreshold = 0.2;
+        
+        // Animation delays
+        this.initialDelay = 300; // ms
         
         // Initialize
         if (this.heroSection) {
@@ -235,22 +239,35 @@ class PremiumHeroSection {
      * Initialize hero section
      */
     init() {
-        console.log('✨ Initializing premium hero section');
+        console.log('✨ Initializing luxury hero section');
         
+        // Initialize components
         this.initVideoBackground();
-        this.initServiceCarousel();
+        this.initTypedAnimation();
         this.initScrollIndicator();
-        this.initFeatureCards();
+        this.initRevealAnimations();
         this.initButtonInteractions();
+        this.initTreatmentCards();
         
-        // Initialize parallax if device supports it
+        // Add parallax effects for non-mobile devices
         if (!this.isMobileDevice() && !this.prefersReducedMotion()) {
             this.initParallaxEffects();
+        }
+        
+        // Handle scroll behavior
+        this.initScrollBehavior();
+        
+        // Start initial animation sequence
+        this.startInitialAnimation();
+        
+        // Initialize Splitting.js if available
+        if (typeof Splitting !== 'undefined') {
+            Splitting();
         }
     }
     
     /**
-     * Initialize video background
+     * Initialize video background with enhanced effects
      */
     initVideoBackground() {
         if (!this.videoElement) return;
@@ -258,18 +275,19 @@ class PremiumHeroSection {
         // Set initial state
         this.videoElement.style.opacity = '0';
         
-        // Fade in video when loaded
+        // Load handler
         this.videoElement.addEventListener('loadeddata', () => {
             this.videoLoaded = true;
             console.log('📹 Hero video loaded successfully');
             
-            // Fade in video
+            // Fade in video with enhanced scale effect
             this.videoElement.style.opacity = '1';
             
             // Apply subtle zoom effect after loading
             setTimeout(() => {
                 this.videoElement.style.transform = 'translate(-50%, -50%) scale(1.05)';
-            }, 1000);
+                this.videoElement.style.filter = 'brightness(0.85) contrast(1.05) saturate(1.1)';
+            }, 800);
         });
         
         // Error handling
@@ -282,7 +300,7 @@ class PremiumHeroSection {
             }
         });
         
-        // Pause video when not visible (performance optimization)
+        // Pause video when not visible
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 this.videoElement.pause();
@@ -293,68 +311,141 @@ class PremiumHeroSection {
     }
     
     /**
-     * Initialize service carousel
+     * Initialize typed animation with Typed.js
      */
-    initServiceCarousel() {
-        if (!this.serviceCarousel || this.serviceItems.length === 0) return;
+    initTypedAnimation() {
+        // Check if Typed.js is available
+        if (typeof Typed === 'undefined' || !document.getElementById('serviceTyped')) {
+            console.warn('⚠️ Typed.js not available or target element missing');
+            return;
+        }
         
-        // Set initial active item
-        this.serviceItems[0].classList.add('active');
-        
-        // Update carousel width based on the longest item
-        this.updateCarouselWidth();
-        
-        // Rotate services at regular intervals
-        setInterval(() => {
-            // Set current item to inactive
-            this.serviceItems[this.currentServiceIndex].classList.remove('active');
-            this.serviceItems[this.currentServiceIndex].classList.add('inactive');
-            
-            // Update index
-            this.currentServiceIndex = (this.currentServiceIndex + 1) % this.serviceItems.length;
-            
-            // Remove inactive class from new current after animation
-            setTimeout(() => {
-                this.serviceItems.forEach((item, index) => {
-                    if (index !== this.currentServiceIndex) {
-                        item.classList.remove('inactive');
-                    }
-                });
-            }, 600);
-            
-            // Set new current item to active
-            this.serviceItems[this.currentServiceIndex].classList.add('active');
-            
-        }, 3000);
+        // Create typed animation with professional services
+        this.typedInstance = new Typed('#serviceTyped', {
+            strings: [
+                'Advanced Facial Treatments',
+                'Premium Body Contouring',
+                'Expert Injectable Treatments',
+                'Personalized Longevity Care',
+                'Non-Invasive Skin Rejuvenation',
+                'Custom Medical-Grade Facials'
+            ],
+            typeSpeed: 50,
+            backSpeed: 30,
+            backDelay: 3000,
+            startDelay: 1500,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|',
+            autoInsertCss: true
+        });
     }
     
     /**
-     * Update carousel width based on the longest item
+     * Initialize sequential reveal animations
      */
-    updateCarouselWidth() {
-        let maxWidth = 0;
+    initRevealAnimations() {
+        if (!this.revealElements.length) return;
         
-        // Create a temporary element to measure text width
-        const tempElement = document.createElement('span');
-        tempElement.style.visibility = 'hidden';
-        tempElement.style.position = 'absolute';
-        tempElement.style.fontSize = '1.1rem';
-        tempElement.style.fontWeight = '600';
-        tempElement.style.fontFamily = 'Inter, sans-serif';
-        document.body.appendChild(tempElement);
+        // Initialize Intersection Observer if supported
+        if ('IntersectionObserver' in window && !this.isLowEndDevice()) {
+            this.observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const delay = element.getAttribute('data-delay') || 0;
+                        
+                        setTimeout(() => {
+                            element.classList.add('animated');
+                            
+                            // Handle specific element types
+                            if (element.classList.contains('hero-logo-wrapper')) {
+                                this.animateLogo(element);
+                            }
+                            
+                            // Add AOS compatibility class if AOS is present
+                            if (typeof AOS !== 'undefined') {
+                                element.classList.add('aos-animate');
+                            }
+                        }, delay * 1000);
+                        
+                        // Unobserve after animation
+                        this.observer.unobserve(element);
+                    }
+                });
+            }, {
+                threshold: this.observerThreshold,
+                rootMargin: '0px'
+            });
+            
+            // Observe each element
+            this.revealElements.forEach(el => {
+                this.observer.observe(el);
+            });
+        } else {
+            // Fallback for browsers without IntersectionObserver
+            this.revealElements.forEach(element => {
+                setTimeout(() => {
+                    element.classList.add('animated');
+                }, 500);
+            });
+        }
+    }
+    
+    /**
+     * Trigger initial animation sequence
+     */
+    startInitialAnimation() {
+        // Don't re-run animation sequence
+        if (this.hasAnimated) return;
+        this.hasAnimated = true;
         
-        // Find the longest text
-        this.serviceItems.forEach(item => {
-            tempElement.textContent = item.textContent;
-            const width = tempElement.offsetWidth;
-            maxWidth = Math.max(maxWidth, width);
+        // Reset animation classes
+        this.revealElements.forEach(el => {
+            el.classList.remove('animated');
         });
         
-        // Clean up
-        document.body.removeChild(tempElement);
+        // Play animation sequence with staggered timing
+        setTimeout(() => {
+            this.revealElements.forEach((element, index) => {
+                const delay = element.getAttribute('data-delay') || (index * 0.2);
+                
+                setTimeout(() => {
+                    element.classList.add('animated');
+                    
+                    // Animate the headline words
+                    if (element.classList.contains('hero-headline')) {
+                        this.animateHeadline();
+                    }
+                }, delay * 1000 + this.initialDelay);
+            });
+        }, 200); // Short delay after page load
+    }
+    
+    /**
+     * Animate the headline with staggered reveal
+     */
+    animateHeadline() {
+        if (!this.headlineWords.length) return;
         
-        // Set carousel width with some padding
-        this.serviceCarousel.style.width = `${maxWidth + 20}px`;
+        this.headlineWords.forEach((word, index) => {
+            setTimeout(() => {
+                word.classList.add('animated');
+            }, index * 200); // 200ms stagger between words
+        });
+    }
+    
+    /**
+     * Special animation for the logo
+     */
+    animateLogo(logoWrapper) {
+        if (!logoWrapper) return;
+        
+        const logo = logoWrapper.querySelector('.hero-logo');
+        if (logo) {
+            // Apply subtle float animation
+            logo.style.animation = 'float-logo 6s infinite alternate ease-in-out';
+        }
     }
     
     /**
@@ -363,12 +454,12 @@ class PremiumHeroSection {
     initScrollIndicator() {
         if (!this.scrollIndicator) return;
         
+        // Scroll to next section on click
         this.scrollIndicator.addEventListener('click', () => {
             const heroHeight = this.heroSection.offsetHeight;
             
-            // Smooth scroll to the section below the hero
             window.scrollTo({
-                top: heroHeight - 50,
+                top: heroHeight - 80, // Offset for header
                 behavior: 'smooth'
             });
         });
@@ -379,31 +470,55 @@ class PremiumHeroSection {
             
             if (scrollPosition > 100) {
                 this.scrollIndicator.style.opacity = '0';
+                this.scrollIndicator.style.transform = 'translateX(-50%) translateY(20px)';
                 this.scrollIndicator.style.pointerEvents = 'none';
             } else {
                 this.scrollIndicator.style.opacity = '1';
+                this.scrollIndicator.style.transform = 'translateX(-50%) translateY(0)';
                 this.scrollIndicator.style.pointerEvents = 'auto';
             }
         }, { passive: true });
     }
     
     /**
-     * Initialize feature cards
+     * Initialize treatment card interactions
      */
-    initFeatureCards() {
-        if (!this.featureCards.length) return;
+    initTreatmentCards() {
+        if (!this.treatmentCards.length) return;
         
-        this.featureCards.forEach(card => {
+        this.treatmentCards.forEach(card => {
+            // Enhanced hover effect
             card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateX(-10px)';
-                card.style.background = 'rgba(255, 255, 255, 0.15)';
-                card.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                card.style.transform = 'translateX(-15px) translateY(-5px)';
+                
+                const cardGlass = card.querySelector('.card-glass');
+                if (cardGlass) {
+                    cardGlass.style.background = 'rgba(255, 255, 255, 0.2)';
+                    cardGlass.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    cardGlass.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2), 0 1px 10px rgba(255, 255, 255, 0.2)';
+                }
+                
+                const cardIcon = card.querySelector('.card-icon');
+                if (cardIcon) {
+                    cardIcon.style.transform = 'scale(1.15) rotate(10deg)';
+                }
             });
             
+            // Reset on mouse leave
             card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateX(0)';
-                card.style.background = 'rgba(255, 255, 255, 0.1)';
-                card.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                card.style.transform = '';
+                
+                const cardGlass = card.querySelector('.card-glass');
+                if (cardGlass) {
+                    cardGlass.style.background = '';
+                    cardGlass.style.borderColor = '';
+                    cardGlass.style.boxShadow = '';
+                }
+                
+                const cardIcon = card.querySelector('.card-icon');
+                if (cardIcon) {
+                    cardIcon.style.transform = '';
+                }
             });
         });
     }
@@ -421,6 +536,11 @@ class PremiumHeroSection {
                     document.body.style.overflow = 'hidden';
                 }
             });
+            
+            // Add magnetic effect for desktop devices
+            if (!this.isMobileDevice()) {
+                this.addMagneticEffect(this.consultationBtn);
+            }
         }
         
         if (this.watchVideoBtn) {
@@ -428,6 +548,41 @@ class PremiumHeroSection {
                 this.createVideoModal('https://www.youtube.com/embed/YOUR_VIDEO_ID');
             });
         }
+    }
+    
+    /**
+     * Add magnetic button effect
+     */
+    addMagneticEffect(button) {
+        if (!button) return;
+        
+        const magneticArea = 40; // Area around button that activates the effect
+        
+        button.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Calculate distance from center
+            const distanceX = e.clientX - centerX;
+            const distanceY = e.clientY - centerY;
+            
+            // Apply movement (stronger effect closer to the button)
+            const maxMovement = 10;
+            const moveX = (distanceX / (rect.width / 2)) * maxMovement;
+            const moveY = (distanceY / (rect.height / 2)) * maxMovement;
+            
+            button.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            
+            // Scale button slightly on hover
+            button.style.transition = 'transform 0.1s ease';
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            // Reset position and add transition for smooth return
+            button.style.transform = '';
+            button.style.transition = 'transform 0.5s ease';
+        });
     }
     
     /**
@@ -517,10 +672,70 @@ class PremiumHeroSection {
     }
     
     /**
+     * Initialize scroll-based effects
+     */
+    initScrollBehavior() {
+        // Skip if device prefers reduced motion
+        if (this.prefersReducedMotion()) return;
+        
+        // Init GSAP ScrollTrigger if available
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            // Parallax video effect
+            gsap.to(this.videoElement, {
+                scale: 1.1,
+                scrollTrigger: {
+                    trigger: this.heroSection,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+            
+            // Fade out hero content on scroll
+            gsap.to('.hero-content', {
+                y: 100,
+                opacity: 0,
+                scrollTrigger: {
+                    trigger: this.heroSection,
+                    start: "5% top",
+                    end: "30% top",
+                    scrub: true
+                }
+            });
+        }
+        
+        // Fallback for when GSAP is not available
+        else {
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.scrollY;
+                const heroHeight = this.heroSection.offsetHeight;
+                
+                // Parallax effect on scroll
+                if (this.videoElement) {
+                    const scale = 1.03 + (scrollPosition / heroHeight * 0.1);
+                    this.videoElement.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                }
+                
+                // Fade out hero content
+                const heroContent = document.querySelector('.hero-content');
+                if (heroContent) {
+                    const opacity = 1 - (scrollPosition / (heroHeight * 0.4));
+                    const translateY = scrollPosition * 0.4;
+                    
+                    if (opacity > 0) {
+                        heroContent.style.opacity = opacity;
+                        heroContent.style.transform = `translateY(${translateY}px)`;
+                    }
+                }
+            }, { passive: true });
+        }
+    }
+    
+    /**
      * Initialize parallax effects
      */
     initParallaxEffects() {
-        if (!this.heroSection || !this.videoLoaded) return;
+        if (!this.heroSection) return;
         
         const handleParallax = (e) => {
             const { clientX, clientY } = e;
@@ -532,23 +747,31 @@ class PremiumHeroSection {
             
             // Apply subtle parallax to video
             if (this.videoElement) {
-                const moveX = xPercent * 10; // max 10px movement
-                const moveY = yPercent * 10; // max 10px movement
+                const moveX = xPercent * 15; // max 15px movement
+                const moveY = yPercent * 15; // max 15px movement
                 this.videoElement.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px)) scale(1.05)`;
             }
             
-            // Apply parallax to shapes
-            const shapes = document.querySelectorAll('.elegant-shape');
-            shapes.forEach((shape, i) => {
-                const factor = i === 0 ? 1.5 : 2.5;
-                shape.style.transform = `translate(${xPercent * 20 * factor}px, ${yPercent * 20 * factor}px)`;
+            // Apply parallax to glass elements
+            const glassElements = document.querySelectorAll('.glass-element');
+            glassElements.forEach((element, i) => {
+                const factor = i % 2 === 0 ? 1.5 : 2.5;
+                element.style.transform = `translate(${xPercent * 25 * factor}px, ${yPercent * 25 * factor}px) rotate(${element.style.getPropertyValue('--rotation') || '0deg'})`;
             });
             
-            // Apply parallax to glows
-            const glows = document.querySelectorAll('.light-glow');
-            glows.forEach((glow, i) => {
+            // Apply parallax to gradient accents
+            const gradientAccents = document.querySelectorAll('.gradient-accent');
+            gradientAccents.forEach((accent, i) => {
                 const factor = i === 0 ? 3 : 2;
-                glow.style.transform = `translate(${-xPercent * 30 * factor}px, ${-yPercent * 30 * factor}px)`;
+                accent.style.transform = `translate(${-xPercent * 40 * factor}px, ${-yPercent * 40 * factor}px)`;
+            });
+            
+            // Apply parallax to light rays
+            const lightRays = document.querySelectorAll('.light-ray');
+            lightRays.forEach((ray, i) => {
+                const baseRotation = ray.style.getPropertyValue('--rotation') || '0deg';
+                const additionalRotation = xPercent * 15 * (i + 1);
+                ray.style.transform = `rotate(calc(${baseRotation} + ${additionalRotation}deg))`;
             });
         };
         
@@ -566,18 +789,27 @@ class PremiumHeroSection {
         
         // Reset on mouse leave
         this.heroSection.addEventListener('mouseleave', () => {
+            // Reset video position
             if (this.videoElement) {
                 this.videoElement.style.transform = 'translate(-50%, -50%) scale(1.05)';
             }
             
-            const shapes = document.querySelectorAll('.elegant-shape');
-            shapes.forEach(shape => {
-                shape.style.transform = '';
+            // Reset glass elements
+            const glassElements = document.querySelectorAll('.glass-element');
+            glassElements.forEach(element => {
+                element.style.transform = `rotate(${element.style.getPropertyValue('--rotation') || '0deg'})`;
             });
             
-            const glows = document.querySelectorAll('.light-glow');
-            glows.forEach(glow => {
-                glow.style.transform = '';
+            // Reset gradient accents
+            const gradientAccents = document.querySelectorAll('.gradient-accent');
+            gradientAccents.forEach(accent => {
+                accent.style.transform = '';
+            });
+            
+            // Reset light rays
+            const lightRays = document.querySelectorAll('.light-ray');
+            lightRays.forEach(ray => {
+                ray.style.transform = `rotate(${ray.style.getPropertyValue('--rotation') || '0deg'})`;
             });
         });
     }
@@ -596,6 +828,43 @@ class PremiumHeroSection {
      */
     prefersReducedMotion() {
         return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    
+    /**
+     * Check if device is low-end
+     */
+    isLowEndDevice() {
+        return (
+            // Check for hardware concurrency API
+            (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4) ||
+            // Or use device memory API if available
+            (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 4)
+        );
+    }
+    
+    /**
+     * Clean up resources
+     */
+    destroy() {
+        // Clean up Typed.js instance
+        if (this.typedInstance) {
+            this.typedInstance.destroy();
+        }
+        
+        // Clean up intersection observer
+        if (this.observer) {
+            this.observer.disconnect();
+        }
+        
+        // Remove event listeners
+        if (this.scrollIndicator) {
+            this.scrollIndicator.removeEventListener('click', null);
+        }
+        
+        // Clean up GSAP ScrollTrigger instances if available
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+        }
     }
 }
 
@@ -703,8 +972,8 @@ class EviaApp {
      * Initialize hero section
      */
     initHeroSection() {
-        // Create and initialize premium hero section
-        this.heroSection = new PremiumHeroSection();
+        // Create and initialize luxury hero section
+        this.heroSection = new LuxuryHeroSection();
     }
     
     /**
