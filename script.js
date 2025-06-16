@@ -206,664 +206,403 @@ class EviaModernPreloader {
 }
 
 /**
- * Luxury Med Spa Hero Section
- * Enhanced with modern animations and interactive elements
+ * Manhattan-Style Hero Section
+ * Ultra-modern med spa hero with typed animations and smooth effects
  */
-class LuxuryHeroSection {
+class ManhattanHero {
     constructor() {
-        // Elements
-        this.heroSection = document.querySelector('.hero-section');
-        this.videoElement = document.getElementById('heroVideo');
-        this.revealElements = document.querySelectorAll('.reveal-animation');
-        this.headlineWords = document.querySelectorAll('.split-text');
-        this.scrollIndicator = document.getElementById('scrollIndicator');
-        this.treatmentCards = document.querySelectorAll('.treatment-card');
-        this.consultationBtn = document.getElementById('consultationBtn');
-        this.watchVideoBtn = document.getElementById('watchVideoBtn');
+        this.hero = document.querySelector('.manhattan-hero');
+        this.typedElement = document.getElementById('typed-text');
+        this.glassOrbs = document.querySelectorAll('.glass-orb');
+        this.scrollIndicator = document.querySelector('.manhattan-scroll-indicator');
+        this.navDots = document.querySelectorAll('.nav-dot');
+        this.primaryBtn = document.getElementById('heroBookBtn');
+        this.videoBtn = document.getElementById('heroVideoBtn');
         
-        // State
-        this.videoLoaded = false;
-        this.hasAnimated = false;
-        this.observerThreshold = 0.2;
+        // Animation states
+        this.isAnimating = false;
+        this.hasInitialized = false;
         
-        // Animation delays
-        this.initialDelay = 300; // ms
+        // Parallax settings
+        this.parallaxElements = [];
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.currentX = 0;
+        this.currentY = 0;
         
-        // Initialize
-        if (this.heroSection) {
-            this.init();
-        }
+        this.init();
     }
     
-    /**
-     * Initialize hero section
-     */
     init() {
-        console.log('✨ Initializing luxury hero section');
+        // Initialize AOS
+        this.initAOS();
         
-        // Initialize components
-        this.initVideoBackground();
-        this.initTypedAnimation();
-        this.initScrollIndicator();
+        // Initialize Typed.js
+        this.initTyped();
+        
+        // Initialize GSAP animations
+        this.initGSAP();
+        
+        // Initialize parallax
+        this.initParallax();
+        
+        // Initialize scroll effects
+        this.initScrollEffects();
+        
+        // Initialize interactive elements
+        this.initInteractions();
+        
+        // Initialize smooth reveal animations
         this.initRevealAnimations();
-        this.initButtonInteractions();
-        this.initTreatmentCards();
         
-        // Add parallax effects for non-mobile devices
-        if (!this.isMobileDevice() && !this.prefersReducedMotion()) {
-            this.initParallaxEffects();
-        }
-        
-        // Handle scroll behavior
-        this.initScrollBehavior();
-        
-        // Start initial animation sequence
-        this.startInitialAnimation();
-        
-        // Initialize Splitting.js if available
-        if (typeof Splitting !== 'undefined') {
-            Splitting();
+        console.log('✨ Manhattan Hero initialized');
+    }
+    
+    initAOS() {
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 1200,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 50,
+                delay: 100,
+                disable: window.innerWidth < 768
+            });
         }
     }
     
-    /**
-     * Initialize video background with enhanced effects
-     */
-    initVideoBackground() {
-        if (!this.videoElement) return;
+    initTyped() {
+        if (!this.typedElement || typeof Typed === 'undefined') return;
         
-        // Set initial state
-        this.videoElement.style.opacity = '0';
-        
-        // Load handler
-        this.videoElement.addEventListener('loadeddata', () => {
-            this.videoLoaded = true;
-            console.log('📹 Hero video loaded successfully');
-            
-            // Fade in video with enhanced scale effect
-            this.videoElement.style.opacity = '1';
-            
-            // Apply subtle zoom effect after loading
-            setTimeout(() => {
-                this.videoElement.style.transform = 'translate(-50%, -50%) scale(1.05)';
-                this.videoElement.style.filter = 'brightness(0.85) contrast(1.05) saturate(1.1)';
-            }, 800);
-        });
-        
-        // Error handling
-        this.videoElement.addEventListener('error', (e) => {
-            console.error('❌ Error loading hero video:', e);
-            
-            // Apply fallback background
-            if (this.heroSection) {
-                this.heroSection.style.backgroundImage = 'linear-gradient(135deg, #442C15 0%, #6D4824 100%)';
-            }
-        });
-        
-        // Pause video when not visible
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                this.videoElement.pause();
-            } else if (this.videoLoaded) {
-                this.videoElement.play().catch(() => {});
-            }
-        });
-    }
-    
-    /**
-     * Initialize typed animation with Typed.js
-     */
-    initTypedAnimation() {
-        // Check if Typed.js is available
-        if (typeof Typed === 'undefined' || !document.getElementById('serviceTyped')) {
-            console.warn('⚠️ Typed.js not available or target element missing');
-            return;
-        }
-        
-        // Create typed animation with professional services
-        this.typedInstance = new Typed('#serviceTyped', {
+        const options = {
             strings: [
+                'Botox & Dermal Fillers',
                 'Advanced Facial Treatments',
-                'Premium Body Contouring',
-                'Expert Injectable Treatments',
-                'Personalized Longevity Care',
-                'Non-Invasive Skin Rejuvenation',
-                'Custom Medical-Grade Facials'
+                'Body Contouring & Sculpting',
+                'Medical-Grade Skincare',
+                'Longevity & Wellness',
+                'Non-Invasive Procedures'
             ],
             typeSpeed: 50,
             backSpeed: 30,
-            backDelay: 3000,
-            startDelay: 1500,
+            backDelay: 2000,
             loop: true,
-            showCursor: true,
-            cursorChar: '|',
-            autoInsertCss: true
-        });
+            showCursor: false,
+            fadeOut: true,
+            fadeOutDelay: 500,
+            fadeOutClass: 'typed-fade-out'
+        };
+        
+        // Add fade animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            .typed-fade-out {
+                opacity: 0;
+                transition: opacity 0.5s;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        this.typed = new Typed(this.typedElement, options);
     }
     
-    /**
-     * Initialize sequential reveal animations
-     */
-    initRevealAnimations() {
-        if (!this.revealElements.length) return;
+    initGSAP() {
+        if (typeof gsap === 'undefined') return;
         
-        // Initialize Intersection Observer if supported
-        if ('IntersectionObserver' in window && !this.isLowEndDevice()) {
-            this.observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const element = entry.target;
-                        const delay = element.getAttribute('data-delay') || 0;
-                        
-                        setTimeout(() => {
-                            element.classList.add('animated');
-                            
-                            // Handle specific element types
-                            if (element.classList.contains('hero-logo-wrapper')) {
-                                this.animateLogo(element);
-                            }
-                            
-                            // Add AOS compatibility class if AOS is present
-                            if (typeof AOS !== 'undefined') {
-                                element.classList.add('aos-animate');
-                            }
-                        }, delay * 1000);
-                        
-                        // Unobserve after animation
-                        this.observer.unobserve(element);
+        // Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Hero content stagger animation
+        const heroTimeline = gsap.timeline({
+            defaults: {
+                ease: 'power3.out',
+                duration: 1
+            }
+        });
+        
+        // Floating orbs animation
+        this.glassOrbs.forEach((orb, index) => {
+            const speed = orb.dataset.speed || 0.5;
+            
+            gsap.to(orb, {
+                y: 'random(-30, 30)',
+                x: 'random(-20, 20)',
+                duration: 'random(15, 25)',
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                delay: index * 2
+            });
+        });
+        
+        // Glass lines pulse animation
+        gsap.to('.glass-line', {
+            scaleX: 1.2,
+            opacity: 0.6,
+            duration: 3,
+            repeat: -1,
+            yoyo: true,
+            ease: 'power2.inOut',
+            stagger: {
+                each: 0.5
+            }
+        });
+        
+        // Scroll-triggered fade out
+        gsap.to('.hero-content-inner', {
+            y: 100,
+            opacity: 0,
+            scrollTrigger: {
+                trigger: this.hero,
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1.5,
+                pin: false
+            }
+        });
+        
+        // Parallax video effect
+        if (window.innerWidth > 768) {
+            gsap.to('.hero-ambient-video', {
+                scale: 1.2,
+                scrollTrigger: {
+                    trigger: this.hero,
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        }
+    }
+    
+    initParallax() {
+        if (window.innerWidth < 992) return;
+        
+        // Collect parallax elements
+        this.parallaxElements = [
+            { element: document.querySelector('.gradient-1'), factor: 0.5 },
+            { element: document.querySelector('.gradient-2'), factor: 0.3 },
+            { element: document.querySelector('.gradient-3'), factor: 0.7 },
+            { element: document.querySelector('.orb-1'), factor: 0.4 },
+            { element: document.querySelector('.orb-2'), factor: 0.6 },
+            { element: document.querySelector('.orb-3'), factor: 0.8 }
+        ];
+        
+        // Mouse move handler
+        this.hero.addEventListener('mousemove', (e) => {
+            const rect = this.hero.getBoundingClientRect();
+            this.mouseX = (e.clientX - rect.left) / rect.width - 0.5;
+            this.mouseY = (e.clientY - rect.top) / rect.height - 0.5;
+        });
+        
+        // Smooth animation loop
+        this.animateParallax();
+    }
+    
+    animateParallax() {
+        // Smooth interpolation
+        this.currentX += (this.mouseX - this.currentX) * 0.1;
+        this.currentY += (this.mouseY - this.currentY) * 0.1;
+        
+        // Apply transforms
+        this.parallaxElements.forEach(({ element, factor }) => {
+            if (!element) return;
+            
+            const x = this.currentX * 50 * factor;
+            const y = this.currentY * 50 * factor;
+            
+            element.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        
+        requestAnimationFrame(() => this.animateParallax());
+    }
+    
+    initScrollEffects() {
+        // Smooth scroll for indicator
+        if (this.scrollIndicator) {
+            this.scrollIndicator.addEventListener('click', () => {
+                const nextSection = this.hero.nextElementSibling;
+                if (nextSection) {
+                    nextSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        }
+        
+        // Update navigation dots on scroll
+        if (this.navDots.length > 0) {
+            const sections = ['hero', 'services', 'about', 'results'];
+            
+            const updateActiveDot = () => {
+                const scrollPosition = window.scrollY;
+                const windowHeight = window.innerHeight;
+                
+                sections.forEach((section, index) => {
+                    const element = document.getElementById(section);
+                    if (!element) return;
+                    
+                    const rect = element.getBoundingClientRect();
+                    const isInView = rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2;
+                    
+                    if (isInView) {
+                        this.navDots.forEach(dot => dot.classList.remove('active'));
+                        if (this.navDots[index]) {
+                            this.navDots[index].classList.add('active');
+                        }
                     }
                 });
-            }, {
-                threshold: this.observerThreshold,
-                rootMargin: '0px'
-            });
+            };
             
-            // Observe each element
-            this.revealElements.forEach(el => {
-                this.observer.observe(el);
-            });
-        } else {
-            // Fallback for browsers without IntersectionObserver
-            this.revealElements.forEach(element => {
-                setTimeout(() => {
-                    element.classList.add('animated');
-                }, 500);
-            });
-        }
-    }
-    
-    /**
-     * Trigger initial animation sequence
-     */
-    startInitialAnimation() {
-        // Don't re-run animation sequence
-        if (this.hasAnimated) return;
-        this.hasAnimated = true;
-        
-        // Reset animation classes
-        this.revealElements.forEach(el => {
-            el.classList.remove('animated');
-        });
-        
-        // Play animation sequence with staggered timing
-        setTimeout(() => {
-            this.revealElements.forEach((element, index) => {
-                const delay = element.getAttribute('data-delay') || (index * 0.2);
-                
-                setTimeout(() => {
-                    element.classList.add('animated');
-                    
-                    // Animate the headline words
-                    if (element.classList.contains('hero-headline')) {
-                        this.animateHeadline();
+            window.addEventListener('scroll', updateActiveDot, { passive: true });
+            
+            // Navigation dot clicks
+            this.navDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    const targetSection = document.getElementById(sections[index]);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
                     }
-                }, delay * 1000 + this.initialDelay);
+                });
             });
-        }, 200); // Short delay after page load
-    }
-    
-    /**
-     * Animate the headline with staggered reveal
-     */
-    animateHeadline() {
-        if (!this.headlineWords.length) return;
-        
-        this.headlineWords.forEach((word, index) => {
-            setTimeout(() => {
-                word.classList.add('animated');
-            }, index * 200); // 200ms stagger between words
-        });
-    }
-    
-    /**
-     * Special animation for the logo
-     */
-    animateLogo(logoWrapper) {
-        if (!logoWrapper) return;
-        
-        const logo = logoWrapper.querySelector('.hero-logo');
-        if (logo) {
-            // Apply subtle float animation
-            logo.style.animation = 'float-logo 6s infinite alternate ease-in-out';
         }
     }
     
-    /**
-     * Initialize scroll indicator
-     */
-    initScrollIndicator() {
-        if (!this.scrollIndicator) return;
-        
-        // Scroll to next section on click
-        this.scrollIndicator.addEventListener('click', () => {
-            const heroHeight = this.heroSection.offsetHeight;
-            
-            window.scrollTo({
-                top: heroHeight - 80, // Offset for header
-                behavior: 'smooth'
-            });
-        });
-        
-        // Hide scroll indicator when scrolled down
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.scrollY;
-            
-            if (scrollPosition > 100) {
-                this.scrollIndicator.style.opacity = '0';
-                this.scrollIndicator.style.transform = 'translateX(-50%) translateY(20px)';
-                this.scrollIndicator.style.pointerEvents = 'none';
-            } else {
-                this.scrollIndicator.style.opacity = '1';
-                this.scrollIndicator.style.transform = 'translateX(-50%) translateY(0)';
-                this.scrollIndicator.style.pointerEvents = 'auto';
-            }
-        }, { passive: true });
-    }
-    
-    /**
-     * Initialize treatment card interactions
-     */
-    initTreatmentCards() {
-        if (!this.treatmentCards.length) return;
-        
-        this.treatmentCards.forEach(card => {
-            // Enhanced hover effect
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateX(-15px) translateY(-5px)';
-                
-                const cardGlass = card.querySelector('.card-glass');
-                if (cardGlass) {
-                    cardGlass.style.background = 'rgba(255, 255, 255, 0.2)';
-                    cardGlass.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-                    cardGlass.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2), 0 1px 10px rgba(255, 255, 255, 0.2)';
-                }
-                
-                const cardIcon = card.querySelector('.card-icon');
-                if (cardIcon) {
-                    cardIcon.style.transform = 'scale(1.15) rotate(10deg)';
-                }
-            });
-            
-            // Reset on mouse leave
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-                
-                const cardGlass = card.querySelector('.card-glass');
-                if (cardGlass) {
-                    cardGlass.style.background = '';
-                    cardGlass.style.borderColor = '';
-                    cardGlass.style.boxShadow = '';
-                }
-                
-                const cardIcon = card.querySelector('.card-icon');
-                if (cardIcon) {
-                    cardIcon.style.transform = '';
-                }
-            });
-        });
-    }
-    
-    /**
-     * Initialize button interactions
-     */
-    initButtonInteractions() {
-        if (this.consultationBtn) {
-            this.consultationBtn.addEventListener('click', () => {
-                // Open appointment modal if exists
-                const appointmentModal = document.getElementById('appointmentModal');
-                if (appointmentModal) {
-                    appointmentModal.classList.add('active');
+    initInteractions() {
+        // Primary button interaction
+        if (this.primaryBtn) {
+            this.primaryBtn.addEventListener('click', () => {
+                const modal = document.getElementById('appointmentModal');
+                if (modal) {
+                    modal.classList.add('active');
                     document.body.style.overflow = 'hidden';
                 }
             });
             
-            // Add magnetic effect for desktop devices
-            if (!this.isMobileDevice()) {
-                this.addMagneticEffect(this.consultationBtn);
-            }
+            // Magnetic effect on hover
+            this.addMagneticEffect(this.primaryBtn);
         }
         
-        if (this.watchVideoBtn) {
-            this.watchVideoBtn.addEventListener('click', () => {
-                this.createVideoModal('https://www.youtube.com/embed/YOUR_VIDEO_ID');
+        // Video button interaction
+        if (this.videoBtn) {
+            this.videoBtn.addEventListener('click', () => {
+                // You can implement video modal here
+                console.log('Video button clicked');
             });
+            
+            this.addMagneticEffect(this.videoBtn);
         }
-    }
-    
-    /**
-     * Add magnetic button effect
-     */
-    addMagneticEffect(button) {
-        if (!button) return;
         
-        const magneticArea = 40; // Area around button that activates the effect
-        
-        button.addEventListener('mousemove', (e) => {
-            const rect = button.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
+        // Feature pills hover effect
+        const featurePills = document.querySelectorAll('.feature-pill');
+        featurePills.forEach(pill => {
+            pill.addEventListener('mouseenter', function() {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(this, {
+                        scale: 1.05,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                }
+            });
             
-            // Calculate distance from center
-            const distanceX = e.clientX - centerX;
-            const distanceY = e.clientY - centerY;
-            
-            // Apply movement (stronger effect closer to the button)
-            const maxMovement = 10;
-            const moveX = (distanceX / (rect.width / 2)) * maxMovement;
-            const moveY = (distanceY / (rect.height / 2)) * maxMovement;
-            
-            button.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            
-            // Scale button slightly on hover
-            button.style.transition = 'transform 0.1s ease';
-        });
-        
-        button.addEventListener('mouseleave', () => {
-            // Reset position and add transition for smooth return
-            button.style.transform = '';
-            button.style.transition = 'transform 0.5s ease';
+            pill.addEventListener('mouseleave', function() {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(this, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                }
+            });
         });
     }
     
-    /**
-     * Create and open a video modal
-     */
-    createVideoModal(videoUrl) {
-        // Check if modal already exists
-        let modalContainer = document.querySelector('.video-modal');
+    addMagneticEffect(element) {
+        if (!element || window.innerWidth < 992 || typeof gsap === 'undefined') return;
         
-        if (!modalContainer) {
-            // Create modal container
-            modalContainer = document.createElement('div');
-            modalContainer.className = 'video-modal';
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
             
-            // Create modal content
-            modalContainer.innerHTML = `
-                <div class="video-modal-overlay"></div>
-                <div class="video-modal-content">
-                    <button class="video-modal-close">&times;</button>
-                    <div class="video-wrapper">
-                        <iframe src="${videoUrl}?autoplay=1" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                </div>
-            `;
-            
-            // Add modal to body
-            document.body.appendChild(modalContainer);
-            
-            // Set up close button
-            const closeButton = modalContainer.querySelector('.video-modal-close');
-            const overlay = modalContainer.querySelector('.video-modal-overlay');
-            
-            if (closeButton) {
-                closeButton.addEventListener('click', () => {
-                    this.closeVideoModal(modalContainer);
-                });
-            }
-            
-            if (overlay) {
-                overlay.addEventListener('click', () => {
-                    this.closeVideoModal(modalContainer);
-                });
-            }
-            
-            // Close on escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modalContainer.classList.contains('active')) {
-                    this.closeVideoModal(modalContainer);
-                }
+            gsap.to(element, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: 'power2.out'
             });
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            gsap.to(element, {
+                x: 0,
+                y: 0,
+                duration: 0.5,
+                ease: 'elastic.out(1, 0.3)'
+            });
+        });
+    }
+    
+    initRevealAnimations() {
+        // Split text animation using Splitting.js
+        if (typeof Splitting !== 'undefined') {
+            Splitting({
+                target: '.split-word',
+                by: 'chars'
+            });
+            
+            // Animate each character
+            if (typeof gsap !== 'undefined') {
+                const chars = document.querySelectorAll('.split-word .char');
+                gsap.from(chars, {
+                    y: 100,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.02,
+                    ease: 'power3.out',
+                    delay: 0.5
+                });
+            }
         }
         
-        // Prevent body scrolling
-        document.body.style.overflow = 'hidden';
-        
-        // Show modal with animation
-        setTimeout(() => {
-            modalContainer.classList.add('active');
-        }, 10);
-    }
-    
-    /**
-     * Close video modal
-     */
-    closeVideoModal(modal) {
-        if (!modal) return;
-        
-        modal.classList.remove('active');
-        
-        // Re-enable scrolling
-        document.body.style.overflow = '';
-        
-        // Remove modal after animation
-        setTimeout(() => {
-            if (modal.parentNode) {
-                // Get iframe source to stop video
-                const iframe = modal.querySelector('iframe');
-                if (iframe) {
-                    const iframeSrc = iframe.src;
-                    iframe.src = iframeSrc; // Reset iframe to stop video
-                }
-                
-                // Remove modal from DOM
-                modal.parentNode.removeChild(modal);
-            }
-        }, 400);
-    }
-    
-    /**
-     * Initialize scroll-based effects
-     */
-    initScrollBehavior() {
-        // Skip if device prefers reduced motion
-        if (this.prefersReducedMotion()) return;
-        
-        // Init GSAP ScrollTrigger if available
+        // Smooth reveal for elements
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            // Parallax video effect
-            gsap.to(this.videoElement, {
-                scale: 1.1,
-                scrollTrigger: {
-                    trigger: this.heroSection,
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-            
-            // Fade out hero content on scroll
-            gsap.to('.hero-content', {
-                y: 100,
-                opacity: 0,
-                scrollTrigger: {
-                    trigger: this.heroSection,
-                    start: "5% top",
-                    end: "30% top",
-                    scrub: true
-                }
-            });
-        }
-        
-        // Fallback for when GSAP is not available
-        else {
-            window.addEventListener('scroll', () => {
-                const scrollPosition = window.scrollY;
-                const heroHeight = this.heroSection.offsetHeight;
-                
-                // Parallax effect on scroll
-                if (this.videoElement) {
-                    const scale = 1.03 + (scrollPosition / heroHeight * 0.1);
-                    this.videoElement.style.transform = `translate(-50%, -50%) scale(${scale})`;
-                }
-                
-                // Fade out hero content
-                const heroContent = document.querySelector('.hero-content');
-                if (heroContent) {
-                    const opacity = 1 - (scrollPosition / (heroHeight * 0.4));
-                    const translateY = scrollPosition * 0.4;
-                    
-                    if (opacity > 0) {
-                        heroContent.style.opacity = opacity;
-                        heroContent.style.transform = `translateY(${translateY}px)`;
+            const revealElements = document.querySelectorAll('[data-reveal]');
+            revealElements.forEach((element, index) => {
+                gsap.from(element, {
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    delay: index * 0.1 + 0.3,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 80%',
+                        once: true
                     }
-                }
-            }, { passive: true });
+                });
+            });
         }
     }
     
-    /**
-     * Initialize parallax effects
-     */
-    initParallaxEffects() {
-        if (!this.heroSection) return;
-        
-        const handleParallax = (e) => {
-            const { clientX, clientY } = e;
-            const { innerWidth, innerHeight } = window;
-            
-            // Calculate mouse position percentage from center
-            const xPercent = (clientX / innerWidth - 0.5) * 2; // -1 to 1
-            const yPercent = (clientY / innerHeight - 0.5) * 2; // -1 to 1
-            
-            // Apply subtle parallax to video
-            if (this.videoElement) {
-                const moveX = xPercent * 15; // max 15px movement
-                const moveY = yPercent * 15; // max 15px movement
-                this.videoElement.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px)) scale(1.05)`;
-            }
-            
-            // Apply parallax to glass elements
-            const glassElements = document.querySelectorAll('.glass-element');
-            glassElements.forEach((element, i) => {
-                const factor = i % 2 === 0 ? 1.5 : 2.5;
-                element.style.transform = `translate(${xPercent * 25 * factor}px, ${yPercent * 25 * factor}px) rotate(${element.style.getPropertyValue('--rotation') || '0deg'})`;
-            });
-            
-            // Apply parallax to gradient accents
-            const gradientAccents = document.querySelectorAll('.gradient-accent');
-            gradientAccents.forEach((accent, i) => {
-                const factor = i === 0 ? 3 : 2;
-                accent.style.transform = `translate(${-xPercent * 40 * factor}px, ${-yPercent * 40 * factor}px)`;
-            });
-            
-            // Apply parallax to light rays
-            const lightRays = document.querySelectorAll('.light-ray');
-            lightRays.forEach((ray, i) => {
-                const baseRotation = ray.style.getPropertyValue('--rotation') || '0deg';
-                const additionalRotation = xPercent * 15 * (i + 1);
-                ray.style.transform = `rotate(calc(${baseRotation} + ${additionalRotation}deg))`;
-            });
-        };
-        
-        // Throttled event listener for better performance
-        let lastCallTime = 0;
-        const throttleTime = 16; // approximately 60fps
-        
-        this.heroSection.addEventListener('mousemove', (e) => {
-            const now = Date.now();
-            if (now - lastCallTime >= throttleTime) {
-                lastCallTime = now;
-                handleParallax(e);
-            }
-        }, { passive: true });
-        
-        // Reset on mouse leave
-        this.heroSection.addEventListener('mouseleave', () => {
-            // Reset video position
-            if (this.videoElement) {
-                this.videoElement.style.transform = 'translate(-50%, -50%) scale(1.05)';
-            }
-            
-            // Reset glass elements
-            const glassElements = document.querySelectorAll('.glass-element');
-            glassElements.forEach(element => {
-                element.style.transform = `rotate(${element.style.getPropertyValue('--rotation') || '0deg'})`;
-            });
-            
-            // Reset gradient accents
-            const gradientAccents = document.querySelectorAll('.gradient-accent');
-            gradientAccents.forEach(accent => {
-                accent.style.transform = '';
-            });
-            
-            // Reset light rays
-            const lightRays = document.querySelectorAll('.light-ray');
-            lightRays.forEach(ray => {
-                ray.style.transform = `rotate(${ray.style.getPropertyValue('--rotation') || '0deg'})`;
-            });
-        });
-    }
-    
-    /**
-     * Check if current device is mobile
-     */
-    isMobileDevice() {
-        return (window.innerWidth < 768) || 
-               ('ontouchstart' in window) || 
-               (navigator.maxTouchPoints > 0);
-    }
-    
-    /**
-     * Check if user prefers reduced motion
-     */
-    prefersReducedMotion() {
-        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
-    
-    /**
-     * Check if device is low-end
-     */
-    isLowEndDevice() {
-        return (
-            // Check for hardware concurrency API
-            (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4) ||
-            // Or use device memory API if available
-            (navigator.deviceMemory !== undefined && navigator.deviceMemory <= 4)
-        );
-    }
-    
-    /**
-     * Clean up resources
-     */
+    // Clean up method
     destroy() {
-        // Clean up Typed.js instance
-        if (this.typedInstance) {
-            this.typedInstance.destroy();
+        if (this.typed) {
+            this.typed.destroy();
         }
         
-        // Clean up intersection observer
-        if (this.observer) {
-            this.observer.disconnect();
-        }
-        
-        // Remove event listeners
-        if (this.scrollIndicator) {
-            this.scrollIndicator.removeEventListener('click', null);
-        }
-        
-        // Clean up GSAP ScrollTrigger instances if available
+        // Kill GSAP animations
         if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+        }
+        
+        if (typeof gsap !== 'undefined') {
+            gsap.killTweensOf('*');
         }
     }
 }
@@ -936,8 +675,7 @@ class EviaApp {
             // Bind event listeners
             this.bindEvents();
             
-            // Initialize hero section
-            this.initHeroSection();
+            // Initialize hero section will be done after preloader completes
             
             console.log('✅ Application initialized successfully');
         } catch (error) {
@@ -972,8 +710,8 @@ class EviaApp {
      * Initialize hero section
      */
     initHeroSection() {
-        // Create and initialize luxury hero section
-        this.heroSection = new LuxuryHeroSection();
+        // Create and initialize Manhattan hero section
+        this.heroSection = new ManhattanHero();
     }
     
     /**
@@ -981,6 +719,9 @@ class EviaApp {
      */
     onPreloaderComplete() {
         this.isLoading = false;
+        
+        // Initialize hero section after preloader
+        this.initHeroSection();
         
         // Initialize AOS animations after preloader
         if (typeof AOS !== 'undefined') {
@@ -1218,7 +959,7 @@ class EviaApp {
      * Initialize modal functionality with accessibility improvements
      */
     initModal() {
-        const modalTriggers = document.querySelectorAll('#headerCta, #heroCta, #mobileCta, #consultationBtn');
+        const modalTriggers = document.querySelectorAll('#headerCta, #heroBookBtn, #mobileCta, #consultationBtn');
         
         if (!this.appointmentModal) return;
         
