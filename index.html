@@ -22,8 +22,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
-    <!-- Font Imports -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Imports - Soft, Modern Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Icon Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -32,6 +32,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Swiper for Carousel Effects -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
@@ -264,160 +267,117 @@
         </div>
     </header>
 
-    <!-- Ultra-Modern Hero Section -->
-<section class="hero-section" id="hero">
-    <!-- Parallax Video Container with 3D Effect -->
-    <div class="hero-video-container">
-        <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
-            <source src="herotemp.mp4" type="video/mp4">
-        </video>
-        <!-- Advanced overlay with depth effect -->
-        <div class="hero-overlay"></div>
-    </div>
-    
-    <!-- Dynamic 3D Floating Elements -->
-    <div class="hero-3d-elements">
-        <div class="floating-element element-1"></div>
-        <div class="floating-element element-2"></div>
-        <div class="floating-element element-3"></div>
-        <div class="floating-element element-4"></div>
-        <div class="floating-element element-5"></div>
-    </div>
-    
-    <!-- Animated Gradient Orbs -->
-    <div class="gradient-orbs">
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
-        <div class="gradient-orb orb-3"></div>
-    </div>
-    
-    <!-- Laser Light Effects -->
-    <div class="laser-effects">
-        <div class="laser-beam beam-1"></div>
-        <div class="laser-beam beam-2"></div>
-        <div class="laser-beam beam-3"></div>
-    </div>
-    
-    <!-- Main Hero Content with Dynamic Layout -->
-    <div class="hero-content-wrapper">
-        <div class="hero-content">
-            <!-- Ultra-modern logo animation -->
-            <div class="hero-brand" data-depth="0.2">
-                <img src="logo1.png" alt="Evia Aesthetics" class="hero-logo">
-                <div class="logo-glow"></div>
-            </div>
-            
-            <!-- Premium Tagline with Character Animation -->
-            <div class="hero-tagline" data-depth="0.3">
-                <span class="character-reveal">Premium Aesthetic & Longevity Medicine</span>
-            </div>
-            
-            <!-- Headline with 3D Transform -->
-            <h1 class="hero-headline" data-depth="0.5">
-                <div class="headline-mask">
-                    <span class="headline-line line-1">Reimagine</span>
+    <!-- Manhattan-Style Ultra-Modern Hero Section -->
+    <section class="manhattan-hero" id="hero">
+        <!-- Ambient Video Background -->
+        <div class="hero-media-layer">
+            <video class="hero-ambient-video" autoplay muted loop playsinline>
+                <source src="herotemp.mp4" type="video/mp4">
+            </video>
+            <div class="hero-media-overlay"></div>
+        </div>
+        
+        <!-- Soft Gradient Mesh Background -->
+        <div class="hero-gradient-mesh">
+            <div class="mesh-gradient gradient-1"></div>
+            <div class="mesh-gradient gradient-2"></div>
+            <div class="mesh-gradient gradient-3"></div>
+        </div>
+        
+        <!-- Floating Glass Morphism Elements -->
+        <div class="glass-elements-container">
+            <div class="glass-orb orb-1" data-speed="0.5"></div>
+            <div class="glass-orb orb-2" data-speed="0.3"></div>
+            <div class="glass-orb orb-3" data-speed="0.7"></div>
+            <div class="glass-line line-1"></div>
+            <div class="glass-line line-2"></div>
+        </div>
+        
+        <!-- Main Hero Content -->
+        <div class="hero-content-container">
+            <div class="hero-content-inner">
+                <!-- Elegant Brand Introduction -->
+                <div class="hero-brand-intro" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="brand-line"></div>
+                    <span class="brand-text">Manhattan's Premier Medical Spa</span>
+                    <div class="brand-line"></div>
                 </div>
-                <div class="headline-mask">
-                    <span class="headline-line line-2">Your <span class="accent-text">Beauty</span></span>
-                </div>
-                <div class="headline-mask">
-                    <span class="headline-line line-3">Journey</span>
-                </div>
-            </h1>
-            
-            <!-- Dynamic Morphing Text -->
-            <div class="morphing-text-container" data-depth="0.2">
-                <div id="morphingText" class="morphing-text"></div>
-            </div>
-            
-            <!-- 3D Call-to-Action Area -->
-            <div class="cta-container" data-depth="0.1">
-                <!-- Primary CTA with Magnetic Effect -->
-                <button class="cta-primary" id="ctaConsultation">
-                    <span class="cta-text">Book Consultation</span>
-                    <span class="cta-icon">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </span>
-                    <div class="cta-background"></div>
-                    <div class="cta-border"></div>
-                    <div class="cta-glow"></div>
-                </button>
                 
-                <!-- Secondary CTA with Hover Effect -->
-                <button class="cta-secondary" id="ctaVideo">
-                    <span class="cta-play-icon">
-                        <i class="fa-solid fa-play"></i>
+                <!-- Main Headline with Split Text -->
+                <h1 class="hero-headline" data-aos="fade-up" data-aos-delay="200">
+                    <span class="headline-row">
+                        <span class="split-word">Where</span>
+                        <span class="split-word">Science</span>
                     </span>
-                    <span class="cta-text">Experience Evia</span>
-                </button>
-            </div>
-            
-            <!-- Premium Treatment Indicators -->
-            <div class="treatment-highlights" data-depth="0.1">
-                <div class="treatment-highlight">
-                    <div class="highlight-icon">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span class="headline-row">
+                        <span class="split-word">Meets</span>
+                        <span class="split-word accent">Beauty</span>
+                    </span>
+                </h1>
+                
+                <!-- Typed Animation Container -->
+                <div class="typed-container" data-aos="fade-up" data-aos-delay="400">
+                    <span class="typed-prefix">Specializing in</span>
+                    <span id="typed-text" class="typed-text"></span>
+                    <span class="typed-cursor">|</span>
+                </div>
+                
+                <!-- Hero Description -->
+                <p class="hero-description" data-aos="fade-up" data-aos-delay="600">
+                    Experience the perfect fusion of cutting-edge aesthetics and 
+                    personalized care in the heart of Manhattan
+                </p>
+                
+                <!-- CTA Buttons Group -->
+                <div class="hero-cta-group" data-aos="fade-up" data-aos-delay="800">
+                    <button class="manhattan-btn primary-btn" id="heroBookBtn">
+                        <span class="btn-text">Book Your Consultation</span>
+                        <div class="btn-shine"></div>
+                        <div class="btn-glow"></div>
+                    </button>
+                    
+                    <button class="manhattan-btn secondary-btn" id="heroVideoBtn">
+                        <div class="play-icon">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                        <span class="btn-text">Watch Our Story</span>
+                    </button>
+                </div>
+                
+                <!-- Feature Pills -->
+                <div class="hero-features" data-aos="fade-up" data-aos-delay="1000">
+                    <div class="feature-pill">
+                        <i class="fa-solid fa-award"></i>
+                        <span>Award Winning</span>
                     </div>
-                    <div class="highlight-text">Advanced Treatments</div>
-                </div>
-                <div class="treatment-highlight">
-                    <div class="highlight-icon">
-                        <i class="fa-solid fa-shield-heart"></i>
+                    <div class="feature-pill">
+                        <i class="fa-solid fa-user-doctor"></i>
+                        <span>Board Certified</span>
                     </div>
-                    <div class="highlight-text">Medical-Grade Care</div>
-                </div>
-                <div class="treatment-highlight">
-                    <div class="highlight-icon">
-                        <i class="fa-solid fa-sparkles"></i>
+                    <div class="feature-pill">
+                        <i class="fa-solid fa-star"></i>
+                        <span>5-Star Rated</span>
                     </div>
-                    <div class="highlight-text">Transformative Results</div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- 3D Scroll Indicator with Motion Effects -->
-    <div class="scroll-indicator-container">
-        <div class="scroll-indicator">
-            <div class="scroll-text">Explore Treatments</div>
-            <div class="scroll-icon">
-                <div class="scroll-chevron"></div>
-                <div class="scroll-chevron"></div>
-                <div class="scroll-chevron"></div>
+        
+        <!-- Scroll Indicator -->
+        <div class="manhattan-scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
             </div>
+            <span class="scroll-text">Scroll to explore</span>
         </div>
-    </div>
-    
-    <!-- 3D Floating Treatment Cards -->
-    <div class="floating-cards">
-        <div class="floating-card card-1">
-            <div class="card-glass"></div>
-            <div class="card-content">
-                <div class="card-icon">
-                    <i class="fa-solid fa-face-smile"></i>
-                </div>
-                <h3 class="card-title">Facial Rejuvenation</h3>
-                <p class="card-desc">Advanced non-invasive treatments</p>
-            </div>
-            <div class="card-hover-content">
-                <a href="#facials" class="card-link">Explore</a>
-            </div>
+        
+        <!-- Side Navigation Dots -->
+        <div class="hero-side-nav">
+            <div class="nav-dot active" data-section="hero"></div>
+            <div class="nav-dot" data-section="services"></div>
+            <div class="nav-dot" data-section="about"></div>
+            <div class="nav-dot" data-section="results"></div>
         </div>
-        <div class="floating-card card-2">
-            <div class="card-glass"></div>
-            <div class="card-content">
-                <div class="card-icon">
-                    <i class="fa-solid fa-hourglass-half"></i>
-                </div>
-                <h3 class="card-title">Longevity Medicine</h3>
-                <p class="card-desc">Age-defying wellness therapies</p>
-            </div>
-            <div class="card-hover-content">
-                <a href="#longevity" class="card-link">Explore</a>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
     <!-- Appointment Modal -->
     <div class="modal" id="appointmentModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
@@ -480,13 +440,29 @@
     </div>
 
     <!-- Scripts with defer attribute for better performance -->
-    <!-- Animation and Effects Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" defer></script>
-    <script src="https://unpkg.com/splitting/dist/splitting.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.10.2/build/player/lottie.min.js" defer></script>
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/TextPlugin.min.js"></script>
+    
+    <!-- AOS - Animate On Scroll -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+    <!-- Typed.js for Text Animation -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    
+    <!-- Splitting.js for Text Effects -->
+    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+    
+    <!-- Rellax for Parallax -->
+    <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
+    
+    <!-- Smooth Scrollbar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.8.4/smooth-scrollbar.min.js"></script>
+    
+    <!-- Lottie for Advanced Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    
     <!-- Custom Scripts -->
     <script src="script.js" defer></script>
 </body>
