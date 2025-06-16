@@ -28,8 +28,10 @@
     <!-- Icon Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- AOS Library for Scroll Animations -->
+    <!-- Animation Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
@@ -262,7 +264,7 @@
         </div>
     </header>
 
-    <!-- Premium Med Spa Hero Section -->
+    <!-- Modern Luxury Med Spa Hero Section -->
     <section class="hero-section" id="hero">
         <!-- Cinematic Video Background -->
         <div class="video-container">
@@ -272,55 +274,71 @@
             <div class="video-overlay"></div>
         </div>
         
-        <!-- Elegant Animated Background Elements -->
-        <div class="background-elements">
-            <div class="elegant-shape shape-1"></div>
-            <div class="elegant-shape shape-2"></div>
-            <div class="light-glow glow-1"></div>
-            <div class="light-glow glow-2"></div>
-            <div class="elegant-line line-1"></div>
-            <div class="elegant-line line-2"></div>
+        <!-- Floating Glass Elements -->
+        <div class="glass-elements">
+            <div class="glass-element element-1"></div>
+            <div class="glass-element element-2"></div>
+            <div class="glass-element element-3"></div>
+            <div class="glass-element element-4"></div>
+            <div class="glass-element element-5"></div>
         </div>
         
-        <!-- Main Content Area -->
+        <!-- Animated Gradient Accents -->
+        <div class="gradient-accents">
+            <div class="gradient-accent accent-1"></div>
+            <div class="gradient-accent accent-2"></div>
+        </div>
+        
+        <!-- Light Rays Effect -->
+        <div class="light-rays">
+            <div class="light-ray ray-1"></div>
+            <div class="light-ray ray-2"></div>
+            <div class="light-ray ray-3"></div>
+        </div>
+        
+        <!-- Main Hero Content -->
         <div class="container hero-container">
-            <div class="hero-content">
-                <!-- Premium Logo Display -->
-                <div class="hero-logo-wrapper">
-                    <img src="large.mp4" alt="Evia Aesthetics" class="hero-logo">
+            <div class="hero-content" data-splitting>
+                <!-- Logo Animation -->
+                <div class="hero-logo-wrapper reveal-animation">
+                    <img src="logo1.png" alt="Evia Aesthetics" class="hero-logo">
                 </div>
                 
-                <!-- Elegant Tagline -->
-                <div class="hero-tagline">
+                <!-- Animated Tagline -->
+                <div class="hero-tagline reveal-animation" data-delay="0.2">
                     <span>Aesthetic and Longevity Medicine</span>
                 </div>
                 
-                <!-- Main Headline -->
+                <!-- Animated Split Text Headline -->
                 <h1 class="hero-headline">
-                    <span class="headline-reveal">Transform</span>
-                    <span class="headline-reveal highlight">Your Beauty</span>
-                    <span class="headline-reveal">Journey</span>
+                    <div class="headline-line">
+                        <span class="split-text reveal-animation" data-delay="0.4">Transform</span>
+                    </div>
+                    <div class="headline-line">
+                        <span class="split-text highlight reveal-animation" data-delay="0.6">Your Beauty</span>
+                    </div>
+                    <div class="headline-line">
+                        <span class="split-text reveal-animation" data-delay="0.8">Journey</span>
+                    </div>
                 </h1>
                 
-                <!-- Dynamic Services Showcase -->
-                <div class="services-showcase">
+                <!-- Typed Text Animation -->
+                <div class="services-showcase reveal-animation" data-delay="1.0">
                     <span class="service-prefix">Specializing in</span>
-                    <div class="service-carousel" id="serviceCarousel">
-                        <div class="service-item">Advanced Facial Treatments</div>
-                        <div class="service-item">Premium Body Contouring</div>
-                        <div class="service-item">Expert Injectable Treatments</div>
-                        <div class="service-item">Personalized Longevity Care</div>
+                    <div class="service-typed-container">
+                        <span id="serviceTyped"></span>
+                        <span class="typed-cursor">|</span>
                     </div>
                 </div>
                 
-                <!-- Call to Action Area -->
-                <div class="cta-area">
-                    <button class="primary-button" id="consultationBtn">
+                <!-- Animated CTA Buttons -->
+                <div class="cta-area reveal-animation" data-delay="1.2">
+                    <button class="primary-button glass-effect" id="consultationBtn">
                         <span>Book Your Consultation</span>
                         <div class="button-icon">
                             <i class="fa-solid fa-calendar-check"></i>
                         </div>
-                        <div class="button-background"></div>
+                        <div class="button-glow"></div>
                     </button>
                     
                     <button class="video-button" id="watchVideoBtn">
@@ -331,8 +349,8 @@
                     </button>
                 </div>
                 
-                <!-- Trust Indicators -->
-                <div class="trust-indicators">
+                <!-- Animated Trust Indicators -->
+                <div class="trust-indicators reveal-animation" data-delay="1.4">
                     <div class="trust-item">
                         <div class="trust-icon">
                             <i class="fa-solid fa-award"></i>
@@ -355,19 +373,18 @@
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
+        <!-- Modern Scroll Indicator -->
         <div class="scroll-indicator" id="scrollIndicator">
             <div class="scroll-text">Discover More</div>
-            <div class="scroll-icon">
-                <div class="chevron"></div>
-                <div class="chevron"></div>
-                <div class="chevron"></div>
+            <div class="scroll-mouse">
+                <div class="mouse-wheel"></div>
             </div>
         </div>
         
-        <!-- Animated Feature Cards -->
-        <div class="feature-cards">
-            <div class="feature-card">
+        <!-- Floating Glass Treatment Cards -->
+        <div class="treatment-cards">
+            <div class="treatment-card reveal-animation" data-delay="1.6">
+                <div class="card-glass"></div>
                 <div class="card-icon">
                     <i class="fa-solid fa-face-smile"></i>
                 </div>
@@ -376,7 +393,8 @@
                     <p>Enhancing your unique beauty</p>
                 </div>
             </div>
-            <div class="feature-card">
+            <div class="treatment-card reveal-animation" data-delay="1.8">
+                <div class="card-glass"></div>
                 <div class="card-icon">
                     <i class="fa-solid fa-flask"></i>
                 </div>
@@ -449,8 +467,14 @@
     </div>
 
     <!-- Scripts with defer attribute for better performance -->
+    <!-- Animation and Effects Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" defer></script>
+    <script src="https://unpkg.com/splitting/dist/splitting.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.10.2/build/player/lottie.min.js" defer></script>
+    <!-- Custom Scripts -->
     <script src="script.js" defer></script>
 </body>
 </html>
