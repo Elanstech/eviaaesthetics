@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://unpkg.com">
     
     <!-- Font Imports - Ultra Modern Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     
     <!-- Icon Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -57,7 +57,7 @@
     
 </head>
 <body class="loading">
-    <!-- Modern Frosted Glass Preloader (KEEPING EXISTING) -->
+    <!-- Modern Frosted Glass Preloader (KEEPING YOUR EXISTING DESIGN) -->
     <div class="evia-preloader" id="eviaPreloader">
         <!-- Background elements -->
         <div class="preloader-bg-elements">
@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    <!-- Ultra-Modern Luxury Header (COMPLETELY REDESIGNED) -->
+    <!-- Enhanced Luxury Header -->
     <header class="luxury-header" id="luxuryHeader">
         <!-- Dynamic Particle Background -->
         <div class="header-bg-wrapper">
@@ -101,7 +101,7 @@
         
         <!-- Header Inner Container -->
         <div class="header-inner">
-            <!-- Left Section: Logo & Brand -->
+            <!-- Left Section: Logo & Brand (BIGGER LOGO AS REQUESTED) -->
             <div class="header-brand">
                 <a href="#" class="brand-link magnetic-hover" data-strength="20">
                     <div class="brand-logo-wrapper">
@@ -119,7 +119,7 @@
             <nav class="luxury-navigation" id="luxuryNav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="#home" class="nav-link magnetic-hover" data-strength="10">
+                        <a href="#home" class="nav-link magnetic-hover active" data-strength="10">
                             <span class="link-text" data-text="Home">Home</span>
                             <div class="link-underline"></div>
                         </a>
@@ -171,7 +171,8 @@
                                 </div>
                                 <div class="mega-column featured">
                                     <div class="mega-featured-card">
-                                        <img src="https://via.placeholder.com/300x200" alt="Special Offer">
+                                        <div class="featured-badge">New</div>
+                                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=300&h=200&fit=crop&crop=face" alt="Special Offer">
                                         <h4>New Patient Special</h4>
                                         <p>Get 20% off your first treatment</p>
                                         <a href="#" class="mega-cta">Learn More</a>
@@ -206,6 +207,7 @@
                 <!-- Search Toggle -->
                 <button class="action-btn search-toggle magnetic-hover" data-strength="15" aria-label="Search">
                     <i class="bi bi-search"></i>
+                    <div class="btn-ripple"></div>
                 </button>
                 
                 <!-- Phone Number -->
@@ -214,11 +216,14 @@
                     <span>(555) 123-4567</span>
                 </a>
                 
-                <!-- CTA Button -->
-                <button class="header-cta magnetic-hover" data-strength="20">
-                    <span class="cta-text">Book Now</span>
-                    <div class="cta-bg"></div>
-                    <div class="cta-ripple"></div>
+                <!-- CTA Button (ENHANCED WITH MODERN STYLES) -->
+                <button class="header-cta modern-btn magnetic-hover" data-strength="20">
+                    <span class="btn-text">Book Now</span>
+                    <div class="btn-bg"></div>
+                    <div class="btn-particles">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="btn-glow"></div>
                 </button>
                 
                 <!-- Mobile Menu Toggle -->
@@ -236,15 +241,15 @@
         </div>
     </header>
 
-    <!-- Search Overlay -->
+    <!-- Search Overlay (ENHANCED) -->
     <div class="search-overlay" id="searchOverlay">
-        <button class="search-close" aria-label="Close search">
+        <button class="search-close magnetic-hover" aria-label="Close search">
             <i class="bi bi-x-lg"></i>
         </button>
         <div class="search-inner">
             <form class="search-form">
                 <input type="text" class="search-input" placeholder="Search treatments, services..." autocomplete="off">
-                <button type="submit" class="search-submit">
+                <button type="submit" class="search-submit modern-btn">
                     <i class="bi bi-arrow-right"></i>
                 </button>
             </form>
@@ -255,12 +260,14 @@
                     <a href="#" class="suggestion-tag">Lip Fillers</a>
                     <a href="#" class="suggestion-tag">HydraFacial</a>
                     <a href="#" class="suggestion-tag">CoolSculpting</a>
+                    <a href="#" class="suggestion-tag">Skincare</a>
+                    <a href="#" class="suggestion-tag">Consultation</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Mobile Menu -->
+    <!-- Enhanced Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-inner">
             <div class="mobile-menu-header">
@@ -273,12 +280,14 @@
                 <ul class="mobile-nav-list">
                     <li><a href="#home" class="mobile-nav-link">Home</a></li>
                     <li class="has-submenu">
-                        <a href="#services" class="mobile-nav-link">Services <i class="bi bi-chevron-down"></i></a>
+                        <a href="#services" class="mobile-nav-link dropdown-toggle">
+                            Services <i class="bi bi-chevron-down"></i>
+                        </a>
                         <ul class="mobile-submenu">
-                            <li><a href="#">Facial Treatments</a></li>
-                            <li><a href="#">Body Contouring</a></li>
-                            <li><a href="#">Injectable Treatments</a></li>
-                            <li><a href="#">Wellness & Longevity</a></li>
+                            <li><a href="#" class="mobile-sub-link">Facial Treatments</a></li>
+                            <li><a href="#" class="mobile-sub-link">Body Contouring</a></li>
+                            <li><a href="#" class="mobile-sub-link">Injectable Treatments</a></li>
+                            <li><a href="#" class="mobile-sub-link">Wellness & Longevity</a></li>
                         </ul>
                     </li>
                     <li><a href="#about" class="mobile-nav-link">About</a></li>
@@ -287,32 +296,33 @@
                 </ul>
             </nav>
             <div class="mobile-actions">
-                <a href="tel:+15551234567" class="mobile-phone">
+                <a href="tel:+15551234567" class="mobile-phone modern-btn secondary">
                     <i class="bi bi-telephone"></i> (555) 123-4567
                 </a>
-                <button class="mobile-cta">Book Consultation</button>
+                <button class="mobile-cta modern-btn primary">Book Consultation</button>
             </div>
             <div class="mobile-social">
-                <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                <a href="#" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
-                <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="social-icon" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+                <a href="#" class="social-icon" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
             </div>
         </div>
     </div>
 
-    <!-- Enhanced Manhattan-Style Hero Section -->
-    <section class="manhattan-hero-enhanced" id="hero">
+    <!-- Ultra-Modern Hero Section (ENHANCED TO BE MORE INTRIGUING) -->
+    <section class="manhattan-hero-enhanced" id="hero" data-scroll-section>
         <!-- Multi-Layer Video Background -->
         <div class="hero-media-wrapper">
             <video class="hero-video-bg" autoplay muted loop playsinline>
                 <source src="herotemp.mp4" type="video/mp4">
+                Your browser does not support the video tag.
             </video>
             <div class="hero-video-overlay"></div>
             <div class="hero-video-pattern"></div>
         </div>
         
-        <!-- Dynamic Background Elements -->
+        <!-- Enhanced Background Elements -->
         <div class="hero-bg-elements">
             <!-- Animated Gradient Mesh -->
             <div class="gradient-mesh">
@@ -328,6 +338,7 @@
                 <div class="float-element sphere-3" data-speed="0.7"></div>
                 <div class="float-element ring-1" data-speed="0.4"></div>
                 <div class="float-element ring-2" data-speed="0.6"></div>
+                <div class="float-element cube-1" data-speed="0.8"></div>
             </div>
             
             <!-- Particle System -->
@@ -338,13 +349,14 @@
                 <div class="ray ray-1"></div>
                 <div class="ray ray-2"></div>
                 <div class="ray ray-3"></div>
+                <div class="ray ray-4"></div>
             </div>
         </div>
         
         <!-- Main Hero Content -->
         <div class="hero-content-wrapper">
             <div class="hero-content">
-                <!-- Elegant Badge -->
+                <!-- Enhanced Badge -->
                 <div class="hero-badge" data-aos="fade-down" data-aos-duration="1000">
                     <div class="badge-icon">
                         <i class="bi bi-award"></i>
@@ -353,7 +365,7 @@
                     <div class="badge-shine"></div>
                 </div>
                 
-                <!-- Split Text Headline -->
+                <!-- Enhanced Split Text Headline -->
                 <h1 class="hero-title" data-splitting data-aos="fade-up" data-aos-delay="200">
                     <span class="title-line">
                         <span class="title-word">Redefine</span>
@@ -365,7 +377,7 @@
                     </span>
                 </h1>
                 
-                <!-- Advanced Typing Animation -->
+                <!-- Enhanced Typing Animation -->
                 <div class="hero-typing" data-aos="fade-up" data-aos-delay="400">
                     <span class="typing-prefix">Specializing in</span>
                     <span class="typing-wrapper">
@@ -374,33 +386,37 @@
                     </span>
                 </div>
                 
-                <!-- Hero Description with Highlight -->
+                <!-- Enhanced Description -->
                 <p class="hero-description" data-aos="fade-up" data-aos-delay="600">
                     Experience the perfect fusion of <span class="text-highlight">cutting-edge technology</span> 
-                    and <span class="text-highlight">personalized care</span> in the heart of Manhattan
+                    and <span class="text-highlight">personalized care</span> in the heart of Manhattan.
+                    <br>Transform your natural beauty with our award-winning treatments.
                 </p>
                 
-                <!-- CTA Button Group -->
+                <!-- Enhanced CTA Button Group -->
                 <div class="hero-cta-wrapper" data-aos="fade-up" data-aos-delay="800">
-                    <button class="luxury-btn primary magnetic-hover" data-strength="25">
+                    <button class="luxury-btn primary modern-btn magnetic-hover" data-strength="25" id="heroBookBtn">
                         <span class="btn-text">Book Your Consultation</span>
-                        <div class="btn-overlay"></div>
+                        <div class="btn-bg"></div>
                         <div class="btn-particles">
                             <span></span><span></span><span></span><span></span>
                         </div>
+                        <div class="btn-glow"></div>
+                        <i class="btn-icon fas fa-calendar-check"></i>
                     </button>
                     
-                    <button class="luxury-btn secondary video-trigger magnetic-hover" data-strength="20">
+                    <button class="luxury-btn secondary modern-btn video-trigger magnetic-hover" data-strength="20" id="heroVideoBtn">
                         <div class="play-pulse">
                             <i class="bi bi-play-fill"></i>
                         </div>
                         <span class="btn-text">Watch Our Story</span>
+                        <div class="btn-ripple"></div>
                     </button>
                 </div>
                 
-                <!-- Feature Cards -->
+                <!-- Enhanced Feature Cards -->
                 <div class="hero-features" data-aos="fade-up" data-aos-delay="1000">
-                    <div class="feature-card">
+                    <div class="feature-card" data-tilt>
                         <div class="feature-icon">
                             <i class="bi bi-patch-check"></i>
                         </div>
@@ -408,17 +424,19 @@
                             <h4>Board Certified</h4>
                             <p>Expert physicians</p>
                         </div>
+                        <div class="card-glow"></div>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card" data-tilt>
                         <div class="feature-icon">
-                            <i class="bi bi-star"></i>
+                            <i class="bi bi-star-fill"></i>
                         </div>
                         <div class="feature-content">
                             <h4>5-Star Rated</h4>
                             <p>1000+ reviews</p>
                         </div>
+                        <div class="card-glow"></div>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card" data-tilt>
                         <div class="feature-icon">
                             <i class="bi bi-shield-check"></i>
                         </div>
@@ -426,6 +444,23 @@
                             <h4>FDA Approved</h4>
                             <p>Safe treatments</p>
                         </div>
+                        <div class="card-glow"></div>
+                    </div>
+                </div>
+                
+                <!-- Trust Indicators -->
+                <div class="trust-indicators" data-aos="fade-up" data-aos-delay="1200">
+                    <div class="trust-item">
+                        <div class="trust-number" data-count="500">0</div>
+                        <div class="trust-label">Happy Clients</div>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-number" data-count="15">0</div>
+                        <div class="trust-label">Years Experience</div>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-number" data-count="98">0</div>
+                        <div class="trust-label">Success Rate</div>
                     </div>
                 </div>
             </div>
@@ -444,7 +479,7 @@
             </div>
         </div>
         
-        <!-- Side Navigation -->
+        <!-- Enhanced Side Navigation -->
         <nav class="hero-side-nav">
             <div class="side-nav-line"></div>
             <a href="#hero" class="side-nav-dot active" data-tooltip="Home"></a>
@@ -454,7 +489,7 @@
             <a href="#contact" class="side-nav-dot" data-tooltip="Contact"></a>
         </nav>
         
-        <!-- Social Links -->
+        <!-- Enhanced Social Links -->
         <div class="hero-social">
             <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="Instagram">
                 <i class="bi bi-instagram"></i>
@@ -465,16 +500,19 @@
             <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="TikTok">
                 <i class="bi bi-tiktok"></i>
             </a>
+            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="YouTube">
+                <i class="bi bi-youtube"></i>
+            </a>
         </div>
     </section>
 
-    <!-- Appointment Modal (KEEPING EXISTING) -->
-    <div class="modal" id="appointmentModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <!-- Enhanced Appointment Modal -->
+    <div class="modal modern-modal" id="appointmentModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
         <div class="modal-overlay"></div>
         <div class="modal-container">
             <div class="modal-header">
                 <h2 id="modalTitle">Book Your Free Consultation</h2>
-                <button class="modal-close" id="modalClose" aria-label="Close modal">
+                <button class="modal-close modern-btn" id="modalClose" aria-label="Close modal">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -485,21 +523,25 @@
                         <div class="form-group">
                             <label for="firstName">First Name</label>
                             <input type="text" id="firstName" name="firstName" required>
+                            <div class="input-focus-line"></div>
                         </div>
                         <div class="form-group">
                             <label for="lastName">Last Name</label>
                             <input type="text" id="lastName" name="lastName" required>
+                            <div class="input-focus-line"></div>
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Email Address</label>
                         <input type="email" id="email" name="email" required>
+                        <div class="input-focus-line"></div>
                     </div>
                     
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
                         <input type="tel" id="phone" name="phone" required>
+                        <div class="input-focus-line"></div>
                     </div>
                     
                     <div class="form-group">
@@ -512,27 +554,31 @@
                             <option value="longevity">Longevity Medicine</option>
                             <option value="consultation">General Consultation</option>
                         </select>
+                        <div class="input-focus-line"></div>
                     </div>
                     
                     <div class="form-group">
                         <label for="message">Your Goals & Questions</label>
                         <textarea id="message" name="message" rows="3" placeholder="Tell us about your aesthetic goals and any questions you have..."></textarea>
+                        <div class="input-focus-line"></div>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-full" id="submitAppointment">
-                        <span>Request Appointment</span>
-                        <i class="fa-solid fa-calendar-check"></i>
+                    <button type="submit" class="modern-btn primary btn-full" id="submitAppointment">
+                        <span class="btn-text">Request Appointment</span>
+                        <i class="btn-icon fa-solid fa-calendar-check"></i>
+                        <div class="btn-bg"></div>
+                        <div class="btn-glow"></div>
                     </button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Video Modal -->
-    <div class="video-modal" id="videoModal">
+    <!-- Enhanced Video Modal -->
+    <div class="video-modal modern-modal" id="videoModal">
         <div class="video-modal-overlay"></div>
         <div class="video-modal-content">
-            <button class="video-modal-close" aria-label="Close video">
+            <button class="video-modal-close modern-btn" aria-label="Close video">
                 <i class="bi bi-x-lg"></i>
             </button>
             <div class="video-wrapper">
@@ -547,7 +593,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
     
     <!-- Three.js for 3D Effects -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r150/three.min.js"></script>
@@ -579,8 +624,8 @@
     <!-- Anime.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
     
-    <!-- Matter.js for Physics -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <!-- Tilt.js for 3D Card Effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     
     <!-- Custom Scripts -->
     <script src="script.js" defer></script>
