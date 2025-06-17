@@ -21,20 +21,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://unpkg.com">
     
-    <!-- Font Imports - Soft, Modern Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Imports - Ultra Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Icon Library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Icon Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     
     <!-- Animation Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
-    <!-- Swiper for Carousel Effects -->
+    <!-- Swiper for Advanced Carousels -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <!-- Locomotive Scroll -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    
+    <!-- Hover Effect -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
@@ -47,7 +57,7 @@
     
 </head>
 <body class="loading">
-    <!-- Modern Frosted Glass Preloader -->
+    <!-- Modern Frosted Glass Preloader (KEEPING EXISTING) -->
     <div class="evia-preloader" id="eviaPreloader">
         <!-- Background elements -->
         <div class="preloader-bg-elements">
@@ -80,385 +90,385 @@
         </div>
     </div>
 
-    <!-- Manhattan-Style Ultra-Modern Header -->
-<header class="manhattan-header" id="manhattanHeader">
-    <div class="header-inner">
-        <!-- Animated Background Layer -->
-        <div class="header-bg-layer">
-            <div class="bg-gradient gradient-1"></div>
-            <div class="bg-gradient gradient-2"></div>
-            <div class="bg-gradient gradient-3"></div>
-            <div class="floating-orb orb-1"></div>
-            <div class="floating-orb orb-2"></div>
+    <!-- Ultra-Modern Luxury Header (COMPLETELY REDESIGNED) -->
+    <header class="luxury-header" id="luxuryHeader">
+        <!-- Dynamic Particle Background -->
+        <div class="header-bg-wrapper">
+            <canvas id="headerParticles" class="header-particles"></canvas>
+            <div class="header-gradient-overlay"></div>
+            <div class="header-noise"></div>
         </div>
         
-        <!-- Glass Morphism Container -->
-        <div class="header-glass-container">
-            <div class="glass-edge"></div>
-            <div class="glass-shine"></div>
+        <!-- Header Inner Container -->
+        <div class="header-inner">
+            <!-- Left Section: Logo & Brand -->
+            <div class="header-brand">
+                <a href="#" class="brand-link magnetic-hover" data-strength="20">
+                    <div class="brand-logo-wrapper">
+                        <img src="logo1.png" alt="Evia Aesthetics" class="brand-logo">
+                        <div class="brand-logo-glow"></div>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">EVIA</span>
+                        <span class="brand-tagline">Medical Aesthetics</span>
+                    </div>
+                </a>
+            </div>
             
-            <div class="header-content">
-                <!-- Logo Section with Magnetic Effect -->
-                <div class="logo-section">
-                    <a href="#" class="logo-link magnetic-element" data-magnetic="true">
-                        <div class="logo-glow"></div>
-                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-image">
-                        <div class="logo-text">
-                            <span class="logo-name">Evia</span>
-                            <span class="logo-tagline">Aesthetics & Wellness</span>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Navigation with Liquid Hover Effects -->
-                <nav class="nav-modern" aria-label="Main navigation">
-                    <ul class="nav-list">
-                        <li class="nav-item" data-aos="fade-down" data-aos-delay="100">
-                            <a href="#home" class="nav-link active">
-                                <span class="nav-text">Home</span>
-                                <div class="nav-indicator"></div>
-                                <div class="nav-glow"></div>
-                            </a>
-                        </li>
-                        <li class="nav-item has-dropdown" data-aos="fade-down" data-aos-delay="200">
-                            <a href="#services" class="nav-link">
-                                <span class="nav-text">Services</span>
-                                <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12">
-                                    <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                </svg>
-                                <div class="nav-indicator"></div>
-                                <div class="nav-glow"></div>
-                            </a>
-                            <!-- Glassmorphic Dropdown -->
-                            <div class="dropdown-modern">
-                                <div class="dropdown-bg"></div>
-                                <div class="dropdown-content">
-                                    <a href="#facial" class="dropdown-link">
-                                        <div class="link-icon">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="currentColor" opacity="0.3"/>
-                                                <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
-                                                <circle cx="15" cy="10" r="1.5" fill="currentColor"/>
-                                                <path d="M12 16c1.48 0 2.75-.81 3.45-2H8.55c.7 1.19 1.97 2 3.45 2z" fill="currentColor"/>
-                                            </svg>
-                                        </div>
-                                        <div class="link-content">
-                                            <span class="link-title">Facial Treatments</span>
-                                            <span class="link-desc">Rejuvenate & restore</span>
-                                        </div>
-                                        <div class="link-arrow">→</div>
-                                    </a>
-                                    <a href="#body" class="dropdown-link">
-                                        <div class="link-icon">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2Z" fill="currentColor"/>
-                                                <path d="M10 7H14C14.55 7 15 7.45 15 8V15L13 20V22H11V20L9 15V8C9 7.45 9.45 7 10 7Z" fill="currentColor" opacity="0.3"/>
-                                            </svg>
-                                        </div>
-                                        <div class="link-content">
-                                            <span class="link-title">Body Contouring</span>
-                                            <span class="link-desc">Sculpt & define</span>
-                                        </div>
-                                        <div class="link-arrow">→</div>
-                                    </a>
-                                    <a href="#injectable" class="dropdown-link">
-                                        <div class="link-icon">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                <path d="M19.5 8L18.09 6.59L15 9.68V2H13V9.68L9.91 6.59L8.5 8L14 13.5L19.5 8Z" fill="currentColor"/>
-                                                <path d="M5 16V18C5 19.1 5.9 20 7 20H17C18.1 20 19 19.1 19 18V16H5Z" fill="currentColor" opacity="0.3"/>
-                                            </svg>
-                                        </div>
-                                        <div class="link-content">
-                                            <span class="link-title">Injectable Treatments</span>
-                                            <span class="link-desc">Enhance naturally</span>
-                                        </div>
-                                        <div class="link-arrow">→</div>
-                                    </a>
-                                    <a href="#wellness" class="dropdown-link">
-                                        <div class="link-icon">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="currentColor" opacity="0.3"/>
-                                                <path d="M12 17L11 16C6.5 12 3.5 9.5 3.5 6.5C3.5 4 5.5 2 8 2C9.5 2 11 2.5 12 3.5C13 2.5 14.5 2 16 2C18.5 2 20.5 4 20.5 6.5C20.5 9.5 17.5 12 13 16L12 17Z" fill="currentColor"/>
-                                            </svg>
-                                        </div>
-                                        <div class="link-content">
-                                            <span class="link-title">Wellness & Longevity</span>
-                                            <span class="link-desc">Live beautifully</span>
-                                        </div>
-                                        <div class="link-arrow">→</div>
-                                    </a>
+            <!-- Center Section: Navigation -->
+            <nav class="luxury-navigation" id="luxuryNav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link magnetic-hover" data-strength="10">
+                            <span class="link-text" data-text="Home">Home</span>
+                            <div class="link-underline"></div>
+                        </a>
+                    </li>
+                    <li class="nav-item has-dropdown">
+                        <a href="#services" class="nav-link magnetic-hover" data-strength="10">
+                            <span class="link-text" data-text="Services">Services</span>
+                            <i class="fas fa-chevron-down dropdown-icon"></i>
+                            <div class="link-underline"></div>
+                        </a>
+                        <!-- Mega Menu Dropdown -->
+                        <div class="mega-menu">
+                            <div class="mega-menu-inner">
+                                <div class="mega-column">
+                                    <h3 class="mega-title">
+                                        <i class="bi bi-stars"></i>
+                                        Facial Treatments
+                                    </h3>
+                                    <ul class="mega-list">
+                                        <li><a href="#" class="mega-link">HydraFacial MD</a></li>
+                                        <li><a href="#" class="mega-link">Micro-needling</a></li>
+                                        <li><a href="#" class="mega-link">Chemical Peels</a></li>
+                                        <li><a href="#" class="mega-link">LED Light Therapy</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-column">
+                                    <h3 class="mega-title">
+                                        <i class="bi bi-activity"></i>
+                                        Body Contouring
+                                    </h3>
+                                    <ul class="mega-list">
+                                        <li><a href="#" class="mega-link">CoolSculpting Elite</a></li>
+                                        <li><a href="#" class="mega-link">EMSculpt NEO</a></li>
+                                        <li><a href="#" class="mega-link">Morpheus8 Body</a></li>
+                                        <li><a href="#" class="mega-link">Cellulite Treatment</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-column">
+                                    <h3 class="mega-title">
+                                        <i class="bi bi-droplet"></i>
+                                        Injectable Treatments
+                                    </h3>
+                                    <ul class="mega-list">
+                                        <li><a href="#" class="mega-link">Botox & Dysport</a></li>
+                                        <li><a href="#" class="mega-link">Dermal Fillers</a></li>
+                                        <li><a href="#" class="mega-link">Sculptra</a></li>
+                                        <li><a href="#" class="mega-link">PRP Therapy</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-column featured">
+                                    <div class="mega-featured-card">
+                                        <img src="https://via.placeholder.com/300x200" alt="Special Offer">
+                                        <h4>New Patient Special</h4>
+                                        <p>Get 20% off your first treatment</p>
+                                        <a href="#" class="mega-cta">Learn More</a>
+                                    </div>
                                 </div>
                             </div>
-                        </li>
-                        <li class="nav-item" data-aos="fade-down" data-aos-delay="300">
-                            <a href="#about" class="nav-link">
-                                <span class="nav-text">About</span>
-                                <div class="nav-indicator"></div>
-                                <div class="nav-glow"></div>
-                            </a>
-                        </li>
-                        <li class="nav-item" data-aos="fade-down" data-aos-delay="400">
-                            <a href="#results" class="nav-link">
-                                <span class="nav-text">Results</span>
-                                <div class="nav-indicator"></div>
-                                <div class="nav-glow"></div>
-                            </a>
-                        </li>
-                        <li class="nav-item" data-aos="fade-down" data-aos-delay="500">
-                            <a href="#contact" class="nav-link">
-                                <span class="nav-text">Contact</span>
-                                <div class="nav-indicator"></div>
-                                <div class="nav-glow"></div>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                
-                <!-- Action Section -->
-                <div class="header-actions">
-                    <!-- Phone Link with Hover Animation -->
-                    <a href="tel:+15551234567" class="phone-link magnetic-element" data-magnetic="true">
-                        <div class="phone-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/>
-                            </svg>
                         </div>
-                        <span class="phone-text">(555) 123-4567</span>
-                    </a>
-                    
-                    <!-- CTA Button with Liquid Effect -->
-                    <button class="cta-button magnetic-element" data-magnetic="true">
-                        <div class="button-bg"></div>
-                        <div class="button-content">
-                            <span>Book Consultation</span>
-                            <div class="button-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" fill="currentColor"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="button-glow"></div>
-                        <div class="button-particles">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </button>
-                    
-                    <!-- Mobile Menu Toggle -->
-                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-                        <div class="menu-icon">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <div class="menu-bg"></div>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Scroll Progress Indicator -->
-        <div class="scroll-progress">
-            <div class="progress-bar"></div>
-        </div>
-    </div>
-    
-    <!-- Mobile Menu -->
-    <div class="mobile-menu-modern" id="mobileMenu">
-        <div class="mobile-menu-bg">
-            <div class="mobile-gradient-1"></div>
-            <div class="mobile-gradient-2"></div>
-        </div>
-        
-        <div class="mobile-menu-content">
-            <div class="mobile-header">
-                <img src="logo1.png" alt="Evia Aesthetics" class="mobile-logo">
-                <button class="mobile-close" id="mobileClose">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <nav class="mobile-nav">
-                <a href="#home" class="mobile-nav-link">
-                    <span>Home</span>
-                    <div class="link-bg"></div>
-                </a>
-                <div class="mobile-dropdown">
-                    <button class="mobile-nav-link dropdown-toggle">
-                        <span>Services</span>
-                        <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                            <path d="M7 10l5 5 5-5z" fill="currentColor"/>
-                        </svg>
-                    </button>
-                    <div class="mobile-dropdown-content">
-                        <a href="#facial" class="mobile-sub-link">Facial Treatments</a>
-                        <a href="#body" class="mobile-sub-link">Body Contouring</a>
-                        <a href="#injectable" class="mobile-sub-link">Injectable Treatments</a>
-                        <a href="#wellness" class="mobile-sub-link">Wellness & Longevity</a>
-                    </div>
-                </div>
-                <a href="#about" class="mobile-nav-link">
-                    <span>About</span>
-                    <div class="link-bg"></div>
-                </a>
-                <a href="#results" class="mobile-nav-link">
-                    <span>Results</span>
-                    <div class="link-bg"></div>
-                </a>
-                <a href="#contact" class="mobile-nav-link">
-                    <span>Contact</span>
-                    <div class="link-bg"></div>
-                </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link magnetic-hover" data-strength="10">
+                            <span class="link-text" data-text="About">About</span>
+                            <div class="link-underline"></div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#results" class="nav-link magnetic-hover" data-strength="10">
+                            <span class="link-text" data-text="Results">Results</span>
+                            <div class="link-underline"></div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link magnetic-hover" data-strength="10">
+                            <span class="link-text" data-text="Contact">Contact</span>
+                            <div class="link-underline"></div>
+                        </a>
+                    </li>
+                </ul>
             </nav>
             
+            <!-- Right Section: Actions -->
+            <div class="header-actions">
+                <!-- Search Toggle -->
+                <button class="action-btn search-toggle magnetic-hover" data-strength="15" aria-label="Search">
+                    <i class="bi bi-search"></i>
+                </button>
+                
+                <!-- Phone Number -->
+                <a href="tel:+15551234567" class="header-phone magnetic-hover" data-strength="10">
+                    <i class="bi bi-telephone"></i>
+                    <span>(555) 123-4567</span>
+                </a>
+                
+                <!-- CTA Button -->
+                <button class="header-cta magnetic-hover" data-strength="20">
+                    <span class="cta-text">Book Now</span>
+                    <div class="cta-bg"></div>
+                    <div class="cta-ripple"></div>
+                </button>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="header-progress">
+            <div class="progress-fill"></div>
+        </div>
+    </header>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <button class="search-close" aria-label="Close search">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="search-inner">
+            <form class="search-form">
+                <input type="text" class="search-input" placeholder="Search treatments, services..." autocomplete="off">
+                <button type="submit" class="search-submit">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </form>
+            <div class="search-suggestions">
+                <h4>Popular Searches</h4>
+                <div class="suggestion-tags">
+                    <a href="#" class="suggestion-tag">Botox</a>
+                    <a href="#" class="suggestion-tag">Lip Fillers</a>
+                    <a href="#" class="suggestion-tag">HydraFacial</a>
+                    <a href="#" class="suggestion-tag">CoolSculpting</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <div class="mobile-menu-header">
+                <img src="logo1.png" alt="Evia Aesthetics" class="mobile-logo">
+                <button class="mobile-close" id="mobileClose">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <nav class="mobile-nav">
+                <ul class="mobile-nav-list">
+                    <li><a href="#home" class="mobile-nav-link">Home</a></li>
+                    <li class="has-submenu">
+                        <a href="#services" class="mobile-nav-link">Services <i class="bi bi-chevron-down"></i></a>
+                        <ul class="mobile-submenu">
+                            <li><a href="#">Facial Treatments</a></li>
+                            <li><a href="#">Body Contouring</a></li>
+                            <li><a href="#">Injectable Treatments</a></li>
+                            <li><a href="#">Wellness & Longevity</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#about" class="mobile-nav-link">About</a></li>
+                    <li><a href="#results" class="mobile-nav-link">Results</a></li>
+                    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                </ul>
+            </nav>
             <div class="mobile-actions">
                 <a href="tel:+15551234567" class="mobile-phone">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/>
-                    </svg>
-                    <span>(555) 123-4567</span>
+                    <i class="bi bi-telephone"></i> (555) 123-4567
                 </a>
                 <button class="mobile-cta">Book Consultation</button>
             </div>
-            
             <div class="mobile-social">
-                <a href="#" class="social-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" fill="currentColor"/>
-                    </svg>
-                </a>
-                <a href="#" class="social-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill="currentColor"/>
-                    </svg>
-                </a>
-                <a href="#" class="social-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" fill="currentColor"/>
-                    </svg>
-                </a>
+                <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+                <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
             </div>
         </div>
     </div>
-</header>
 
-    <!-- Manhattan-Style Ultra-Modern Hero Section -->
-    <section class="manhattan-hero" id="hero">
-        <!-- Ambient Video Background -->
-        <div class="hero-media-layer">
-            <video class="hero-ambient-video" autoplay muted loop playsinline>
+    <!-- Enhanced Manhattan-Style Hero Section -->
+    <section class="manhattan-hero-enhanced" id="hero">
+        <!-- Multi-Layer Video Background -->
+        <div class="hero-media-wrapper">
+            <video class="hero-video-bg" autoplay muted loop playsinline>
                 <source src="herotemp.mp4" type="video/mp4">
             </video>
-            <div class="hero-media-overlay"></div>
+            <div class="hero-video-overlay"></div>
+            <div class="hero-video-pattern"></div>
         </div>
         
-        <!-- Soft Gradient Mesh Background -->
-        <div class="hero-gradient-mesh">
-            <div class="mesh-gradient gradient-1"></div>
-            <div class="mesh-gradient gradient-2"></div>
-            <div class="mesh-gradient gradient-3"></div>
-        </div>
-        
-        <!-- Floating Glass Morphism Elements -->
-        <div class="glass-elements-container">
-            <div class="glass-orb orb-1" data-speed="0.5"></div>
-            <div class="glass-orb orb-2" data-speed="0.3"></div>
-            <div class="glass-orb orb-3" data-speed="0.7"></div>
-            <div class="glass-line line-1"></div>
-            <div class="glass-line line-2"></div>
+        <!-- Dynamic Background Elements -->
+        <div class="hero-bg-elements">
+            <!-- Animated Gradient Mesh -->
+            <div class="gradient-mesh">
+                <div class="mesh-layer mesh-1"></div>
+                <div class="mesh-layer mesh-2"></div>
+                <div class="mesh-layer mesh-3"></div>
+            </div>
+            
+            <!-- Floating 3D Elements -->
+            <div class="floating-elements">
+                <div class="float-element sphere-1" data-speed="0.5"></div>
+                <div class="float-element sphere-2" data-speed="0.3"></div>
+                <div class="float-element sphere-3" data-speed="0.7"></div>
+                <div class="float-element ring-1" data-speed="0.4"></div>
+                <div class="float-element ring-2" data-speed="0.6"></div>
+            </div>
+            
+            <!-- Particle System -->
+            <canvas id="heroParticles" class="hero-particles"></canvas>
+            
+            <!-- Light Rays -->
+            <div class="light-rays">
+                <div class="ray ray-1"></div>
+                <div class="ray ray-2"></div>
+                <div class="ray ray-3"></div>
+            </div>
         </div>
         
         <!-- Main Hero Content -->
-        <div class="hero-content-container">
-            <div class="hero-content-inner">
-                <!-- Elegant Brand Introduction -->
-                <div class="hero-brand-intro" data-aos="fade-up" data-aos-duration="1000">
-                    <div class="brand-line"></div>
-                    <span class="brand-text">Manhattan's Premier Medical Spa</span>
-                    <div class="brand-line"></div>
+        <div class="hero-content-wrapper">
+            <div class="hero-content">
+                <!-- Elegant Badge -->
+                <div class="hero-badge" data-aos="fade-down" data-aos-duration="1000">
+                    <div class="badge-icon">
+                        <i class="bi bi-award"></i>
+                    </div>
+                    <span class="badge-text">Manhattan's Premier Medical Spa</span>
+                    <div class="badge-shine"></div>
                 </div>
                 
-                <!-- Main Headline with Split Text -->
-                <h1 class="hero-headline" data-aos="fade-up" data-aos-delay="200">
-                    <span class="headline-row">
-                        <span class="split-word">Where</span>
-                        <span class="split-word">Science</span>
+                <!-- Split Text Headline -->
+                <h1 class="hero-title" data-splitting data-aos="fade-up" data-aos-delay="200">
+                    <span class="title-line">
+                        <span class="title-word">Redefine</span>
+                        <span class="title-word accent">Beauty</span>
                     </span>
-                    <span class="headline-row">
-                        <span class="split-word">Meets</span>
-                        <span class="split-word accent">Beauty</span>
+                    <span class="title-line">
+                        <span class="title-word">Embrace</span>
+                        <span class="title-word">Confidence</span>
                     </span>
                 </h1>
                 
-                <!-- Typed Animation Container -->
-                <div class="typed-container" data-aos="fade-up" data-aos-delay="400">
-                    <span class="typed-prefix">Specializing in</span>
-                    <span id="typed-text" class="typed-text"></span>
-                    <span class="typed-cursor">|</span>
+                <!-- Advanced Typing Animation -->
+                <div class="hero-typing" data-aos="fade-up" data-aos-delay="400">
+                    <span class="typing-prefix">Specializing in</span>
+                    <span class="typing-wrapper">
+                        <span id="typingText" class="typing-text"></span>
+                        <span class="typing-cursor"></span>
+                    </span>
                 </div>
                 
-                <!-- Hero Description -->
+                <!-- Hero Description with Highlight -->
                 <p class="hero-description" data-aos="fade-up" data-aos-delay="600">
-                    Experience the perfect fusion of cutting-edge aesthetics and 
-                    personalized care in the heart of Manhattan
+                    Experience the perfect fusion of <span class="text-highlight">cutting-edge technology</span> 
+                    and <span class="text-highlight">personalized care</span> in the heart of Manhattan
                 </p>
                 
-                <!-- CTA Buttons Group -->
-                <div class="hero-cta-group" data-aos="fade-up" data-aos-delay="800">
-                    <button class="manhattan-btn primary-btn" id="heroBookBtn">
+                <!-- CTA Button Group -->
+                <div class="hero-cta-wrapper" data-aos="fade-up" data-aos-delay="800">
+                    <button class="luxury-btn primary magnetic-hover" data-strength="25">
                         <span class="btn-text">Book Your Consultation</span>
-                        <div class="btn-shine"></div>
-                        <div class="btn-glow"></div>
+                        <div class="btn-overlay"></div>
+                        <div class="btn-particles">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
                     </button>
                     
-                    <button class="manhattan-btn secondary-btn" id="heroVideoBtn">
-                        <div class="play-icon">
-                            <i class="fa-solid fa-play"></i>
+                    <button class="luxury-btn secondary video-trigger magnetic-hover" data-strength="20">
+                        <div class="play-pulse">
+                            <i class="bi bi-play-fill"></i>
                         </div>
                         <span class="btn-text">Watch Our Story</span>
                     </button>
                 </div>
                 
-                <!-- Feature Pills -->
+                <!-- Feature Cards -->
                 <div class="hero-features" data-aos="fade-up" data-aos-delay="1000">
-                    <div class="feature-pill">
-                        <i class="fa-solid fa-award"></i>
-                        <span>Award Winning</span>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-patch-check"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Board Certified</h4>
+                            <p>Expert physicians</p>
+                        </div>
                     </div>
-                    <div class="feature-pill">
-                        <i class="fa-solid fa-user-doctor"></i>
-                        <span>Board Certified</span>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-star"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>5-Star Rated</h4>
+                            <p>1000+ reviews</p>
+                        </div>
                     </div>
-                    <div class="feature-pill">
-                        <i class="fa-solid fa-star"></i>
-                        <span>5-Star Rated</span>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>FDA Approved</h4>
+                            <p>Safe treatments</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
-        <div class="manhattan-scroll-indicator">
-            <div class="scroll-mouse">
-                <div class="scroll-wheel"></div>
+        <!-- Enhanced Scroll Indicator -->
+        <div class="scroll-indicator-wrapper">
+            <div class="scroll-indicator magnetic-hover" data-strength="10">
+                <div class="scroll-icon">
+                    <div class="scroll-wheel"></div>
+                </div>
+                <span class="scroll-text">Scroll to explore</span>
+                <div class="scroll-arrow">
+                    <i class="bi bi-arrow-down"></i>
+                </div>
             </div>
-            <span class="scroll-text">Scroll to explore</span>
         </div>
         
-        <!-- Side Navigation Dots -->
-        <div class="hero-side-nav">
-            <div class="nav-dot active" data-section="hero"></div>
-            <div class="nav-dot" data-section="services"></div>
-            <div class="nav-dot" data-section="about"></div>
-            <div class="nav-dot" data-section="results"></div>
+        <!-- Side Navigation -->
+        <nav class="hero-side-nav">
+            <div class="side-nav-line"></div>
+            <a href="#hero" class="side-nav-dot active" data-tooltip="Home"></a>
+            <a href="#services" class="side-nav-dot" data-tooltip="Services"></a>
+            <a href="#about" class="side-nav-dot" data-tooltip="About"></a>
+            <a href="#results" class="side-nav-dot" data-tooltip="Results"></a>
+            <a href="#contact" class="side-nav-dot" data-tooltip="Contact"></a>
+        </nav>
+        
+        <!-- Social Links -->
+        <div class="hero-social">
+            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="Instagram">
+                <i class="bi bi-instagram"></i>
+            </a>
+            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="Facebook">
+                <i class="bi bi-facebook"></i>
+            </a>
+            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="TikTok">
+                <i class="bi bi-tiktok"></i>
+            </a>
         </div>
     </section>
 
-    <!-- Appointment Modal -->
+    <!-- Appointment Modal (KEEPING EXISTING) -->
     <div class="modal" id="appointmentModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
         <div class="modal-overlay"></div>
         <div class="modal-container">
@@ -518,29 +528,59 @@
         </div>
     </div>
 
-    <!-- Scripts with defer attribute for better performance -->
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-overlay"></div>
+        <div class="video-modal-content">
+            <button class="video-modal-close" aria-label="Close video">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <div class="video-wrapper">
+                <iframe src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <!-- Core Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+    
+    <!-- Three.js for 3D Effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r150/three.min.js"></script>
     
     <!-- AOS - Animate On Scroll -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     
-    <!-- Typed.js for Text Animation -->
+    <!-- Typed.js for Advanced Text Animation -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     
     <!-- Splitting.js for Text Effects -->
     <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
     
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
     <!-- Rellax for Parallax -->
     <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
     
-    <!-- Smooth Scrollbar -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.8.4/smooth-scrollbar.min.js"></script>
+    <!-- Locomotive Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
     <!-- Lottie for Advanced Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    
+    <!-- Matter.js for Physics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     
     <!-- Custom Scripts -->
     <script src="script.js" defer></script>
