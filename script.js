@@ -1,6 +1,6 @@
 /**
  * Evia Aesthetics - Complete Integrated JavaScript
- * Includes all functionality: preloader, hero section, and header
+ * Includes: preloader, hero section, header, modals, and Dr. Nano section
  */
 
 'use strict';
@@ -822,7 +822,7 @@ class EnhancedMedSpaHero {
         this.navDots.forEach((dot, index) => {
             dot.addEventListener('click', (e) => {
                 e.preventDefault();
-                const sections = ['hero', 'services', 'about', 'results', 'contact'];
+                const sections = ['hero', 'about', 'services', 'results', 'contact'];
                 const targetSection = document.getElementById(sections[index]);
                 if (targetSection) {
                     const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
@@ -850,7 +850,7 @@ class EnhancedMedSpaHero {
     }
     
     updateActiveDot() {
-        const sections = ['hero', 'services', 'about', 'results', 'contact'];
+        const sections = ['hero', 'about', 'services', 'results', 'contact'];
         
         const observerOptions = {
             rootMargin: '-40% 0px -40% 0px',
@@ -1020,6 +1020,478 @@ class EnhancedMedSpaHero {
                 }
             });
         }
+    }
+}
+
+/**
+ * Doctor Section Interactive Elements
+ */
+class DoctorSectionController {
+    constructor() {
+        this.section = document.querySelector('.meet-doctor-section');
+        this.statNumbers = document.querySelectorAll('.stat-number');
+        this.bookWithDoctorBtn = document.querySelector('.book-with-doctor');
+        this.learnMoreBtn = document.querySelector('.learn-more-btn');
+        this.expertiseItems = document.querySelectorAll('.expertise-item');
+        this.credentialItems = document.querySelectorAll('.credential-item');
+        
+        this.statsAnimated = false;
+        this.isVisible = false;
+        
+        this.init();
+    }
+    
+    init() {
+        this.initScrollAnimations();
+        this.initButtonInteractions();
+        this.initHoverEffects();
+        this.initStatCounters();
+        this.initMagneticEffects();
+        this.initParallaxEffects();
+        
+        console.log('✨ Doctor section initialized');
+    }
+    
+    initScrollAnimations() {
+        // Intersection Observer for section visibility
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !this.isVisible) {
+                    this.isVisible = true;
+                    this.triggerEntranceAnimations();
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        });
+        
+        if (this.section) {
+            sectionObserver.observe(this.section);
+        }
+        
+        // Individual element animations
+        this.initElementRevealAnimations();
+    }
+    
+    initElementRevealAnimations() {
+        const revealElements = [
+            ...this.expertiseItems,
+            ...this.credentialItems,
+            '.credentials-badge',
+            '.award-item',
+            '.brand-item'
+        ];
+        
+        const elementObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-reveal');
+                    elementObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        revealElements.forEach(selector => {
+            const elements = typeof selector === 'string' 
+                ? document.querySelectorAll(selector)
+                : [selector];
+            
+            elements.forEach(element => {
+                if (element) {
+                    elementObserver.observe(element);
+                }
+            });
+        });
+    }
+    
+    triggerEntranceAnimations() {
+        // Animate doctor photo entrance
+        const imageContainer = document.querySelector('.image-container');
+        if (imageContainer) {
+            setTimeout(() => {
+                imageContainer.style.transform = 'translateY(0)';
+                imageContainer.style.opacity = '1';
+            }, 200);
+        }
+        
+        // Animate credentials badge
+        const credentialsBadge = document.querySelector('.credentials-badge');
+        if (credentialsBadge) {
+            setTimeout(() => {
+                credentialsBadge.style.transform = 'translateY(0) scale(1)';
+                credentialsBadge.style.opacity = '1';
+            }, 600);
+        }
+        
+        // Animate awards
+        const awardItems = document.querySelectorAll('.award-item');
+        awardItems.forEach((award, index) => {
+            setTimeout(() => {
+                award.style.transform = 'translateY(0) scale(1)';
+                award.style.opacity = '1';
+            }, 800 + (index * 200));
+        });
+    }
+    
+    initButtonInteractions() {
+        // Book with Doctor button
+        if (this.bookWithDoctorBtn) {
+            this.bookWithDoctorBtn.addEventListener('click', () => {
+                this.openAppointmentModal();
+                
+                // Track specific doctor booking
+                this.trackEvent('doctor_booking_clicked', {
+                    doctor: 'Dr. Evia Alikaj Nano',
+                    section: 'about'
+                });
+            });
+            
+            this.addAdvancedButtonEffects(this.bookWithDoctorBtn);
+        }
+        
+        // Learn More button
+        if (this.learnMoreBtn) {
+            this.learnMoreBtn.addEventListener('click', () => {
+                this.scrollToServices();
+            });
+            
+            this.addAdvancedButtonEffects(this.learnMoreBtn);
+        }
+    }
+    
+    openAppointmentModal() {
+        const modal = document.getElementById('appointmentModal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Pre-fill with doctor preference if form has the option
+            setTimeout(() => {
+                const doctorSelect = modal.querySelector('select[name="doctor"]');
+                if (doctorSelect) {
+                    doctorSelect.value = 'dr-nano';
+                }
+                
+                const firstInput = modal.querySelector('input');
+                if (firstInput) {
+                    firstInput.focus();
+                }
+            }, 300);
+        }
+    }
+    
+    scrollToServices() {
+        const servicesSection = document.getElementById('services');
+        if (servicesSection) {
+            const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
+            const targetPosition = servicesSection.offsetTop - headerHeight - 20;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+    
+    addAdvancedButtonEffects(button) {
+        if (!button) return;
+        
+        // Enhanced ripple effect
+        button.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'advanced-ripple';
+            
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height) * 1.5;
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.4);
+                border-radius: 50%;
+                pointer-events: none;
+                animation: advancedRipple 0.8s ease-out;
+                z-index: 1;
+            `;
+            
+            button.style.position = 'relative';
+            button.style.overflow = 'hidden';
+            button.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 800);
+        });
+        
+        // Hover particle effects
+        button.addEventListener('mouseenter', () => {
+            this.createHoverParticles(button);
+        });
+    }
+    
+    createHoverParticles(button) {
+        const particles = button.querySelectorAll('.btn-particles span');
+        particles.forEach((particle, index) => {
+            setTimeout(() => {
+                particle.style.animation = 'btnParticle 1.2s ease-out';
+            }, index * 100);
+        });
+        
+        // Reset after animation
+        setTimeout(() => {
+            particles.forEach(particle => {
+                particle.style.animation = '';
+            });
+        }, 1200);
+    }
+    
+    initHoverEffects() {
+        // Expertise items hover effects
+        this.expertiseItems.forEach((item, index) => {
+            item.addEventListener('mouseenter', () => {
+                // Add subtle scale and glow
+                item.style.transform = 'translateY(-8px) scale(1.02)';
+                
+                // Stagger effect for neighboring items
+                const neighbors = this.getNeighboringItems(item, index);
+                neighbors.forEach((neighbor, i) => {
+                    setTimeout(() => {
+                        neighbor.style.transform = 'translateY(-3px) scale(1.01)';
+                    }, i * 50);
+                });
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateY(0) scale(1)';
+                
+                // Reset neighbors
+                const neighbors = this.getNeighboringItems(item, index);
+                neighbors.forEach(neighbor => {
+                    neighbor.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+        
+        // Credential items hover effects
+        this.credentialItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-3px) scale(1.02)';
+                
+                // Add glow effect
+                const icon = item.querySelector('i');
+                if (icon) {
+                    icon.style.textShadow = '0 0 10px rgba(255, 158, 24, 0.6)';
+                }
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateY(0) scale(1)';
+                
+                const icon = item.querySelector('i');
+                if (icon) {
+                    icon.style.textShadow = '';
+                }
+            });
+        });
+        
+        // Doctor photo advanced hover effects
+        const imageContainer = document.querySelector('.image-container');
+        if (imageContainer) {
+            imageContainer.addEventListener('mouseenter', () => {
+                this.createPhotoHoverEffect();
+            });
+        }
+    }
+    
+    getNeighboringItems(currentItem, currentIndex) {
+        const neighbors = [];
+        const totalItems = this.expertiseItems.length;
+        
+        // Get adjacent items based on grid layout
+        if (currentIndex > 0) neighbors.push(this.expertiseItems[currentIndex - 1]);
+        if (currentIndex < totalItems - 1) neighbors.push(this.expertiseItems[currentIndex + 1]);
+        
+        return neighbors.filter(item => item && item !== currentItem);
+    }
+    
+    createPhotoHoverEffect() {
+        // Create floating particles around photo
+        const imageContainer = document.querySelector('.image-container');
+        if (!imageContainer) return;
+        
+        for (let i = 0; i < 6; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'photo-hover-particle';
+            
+            const size = Math.random() * 8 + 4;
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            particle.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                background: rgba(255, 158, 24, 0.6);
+                border-radius: 50%;
+                left: ${x}%;
+                top: ${y}%;
+                pointer-events: none;
+                animation: floatParticle 3s ease-out forwards;
+                z-index: 10;
+            `;
+            
+            imageContainer.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 3000);
+        }
+    }
+    
+    initStatCounters() {
+        if (!this.statNumbers.length) return;
+        
+        const animateCounter = (counter) => {
+            const target = parseInt(counter.dataset.count);
+            const increment = target / 80; // Smooth 80-frame animation
+            let current = 0;
+            
+            const updateCounter = () => {
+                if (current < target) {
+                    current += increment;
+                    const displayValue = Math.ceil(current);
+                    counter.textContent = displayValue;
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target;
+                    
+                    // Add completion effect
+                    counter.style.transform = 'scale(1.15)';
+                    counter.style.textShadow = '0 0 20px rgba(255, 158, 24, 0.5)';
+                    
+                    setTimeout(() => {
+                        counter.style.transform = 'scale(1)';
+                        counter.style.textShadow = '';
+                    }, 300);
+                }
+            };
+            
+            updateCounter();
+        };
+        
+        // Trigger counter animation when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !this.statsAnimated) {
+                    this.statsAnimated = true;
+                    
+                    // Stagger counter animations
+                    this.statNumbers.forEach((counter, index) => {
+                        setTimeout(() => {
+                            animateCounter(counter);
+                        }, index * 200);
+                    });
+                    
+                    statsObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+    }
+    
+    initMagneticEffects() {
+        if (window.innerWidth < 992) return; // Desktop only
+        
+        const magneticElements = document.querySelectorAll('.magnetic-hover');
+        
+        magneticElements.forEach(element => {
+            element.addEventListener('mousemove', (e) => {
+                const strength = parseInt(element.dataset.strength) || 15;
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                const magnetX = x * (strength / 200);
+                const magnetY = y * (strength / 200);
+                
+                element.style.transform = `translate(${magnetX}px, ${magnetY}px)`;
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translate(0, 0)';
+            });
+        });
+    }
+    
+    initParallaxEffects() {
+        if (window.innerWidth < 768) return; // Skip on mobile for performance
+        
+        const parallaxElements = [
+            { element: '.credentials-badge', speed: 0.3 },
+            { element: '.award-item', speed: 0.5 },
+            { element: '.floating-accent', speed: 0.2 }
+        ];
+        
+        const handleScroll = () => {
+            const scrolled = window.pageYOffset;
+            const sectionTop = this.section?.offsetTop || 0;
+            const sectionHeight = this.section?.offsetHeight || 0;
+            
+            // Only apply parallax when section is in view
+            if (scrolled + window.innerHeight > sectionTop && 
+                scrolled < sectionTop + sectionHeight) {
+                
+                parallaxElements.forEach(({ element, speed }) => {
+                    const elements = document.querySelectorAll(element);
+                    elements.forEach(el => {
+                        const parallaxValue = (scrolled - sectionTop) * speed;
+                        el.style.transform = `translateY(${parallaxValue}px)`;
+                    });
+                });
+            }
+        };
+        
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+    
+    trackEvent(eventName, eventData = {}) {
+        // Analytics tracking (replace with your analytics service)
+        console.log('Event tracked:', eventName, eventData);
+        
+        // Example: Google Analytics 4
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, {
+                custom_parameter: eventData
+            });
+        }
+        
+        // Example: Facebook Pixel
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'CustomEvent', {
+                event_name: eventName,
+                ...eventData
+            });
+        }
+    }
+    
+    // Cleanup method for performance
+    destroy() {
+        // Remove event listeners and clean up
+        window.removeEventListener('scroll', this.handleScroll);
+        
+        // Clean up any ongoing animations
+        this.statNumbers.forEach(counter => {
+            counter.style.animation = '';
+        });
     }
 }
 
@@ -1311,6 +1783,7 @@ class EviaApp {
         this.heroSection = null;
         this.header = null;
         this.modals = null;
+        this.doctorSection = null;
         
         // Initialize application
         this.init();
@@ -1390,6 +1863,11 @@ class EviaApp {
         
         // Initialize hero section after preloader
         this.heroSection = new EnhancedMedSpaHero();
+        
+        // Initialize doctor section after a slight delay
+        setTimeout(() => {
+            this.doctorSection = new DoctorSectionController();
+        }, 1000);
         
         // Initialize AOS animations after preloader
         if (typeof AOS !== 'undefined') {
@@ -1483,6 +1961,47 @@ class EviaApp {
                 }
             }
             
+            @keyframes advancedRipple {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes floatParticle {
+                0% {
+                    transform: translateY(0) scale(0);
+                    opacity: 1;
+                }
+                50% {
+                    transform: translateY(-30px) scale(1);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: translateY(-60px) scale(0);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes animate-reveal {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .animate-reveal {
+                animation: animate-reveal 0.8s ease-out forwards;
+            }
+            
             .form-group.focused input,
             .form-group.focused select,
             .form-group.focused textarea {
@@ -1514,8 +2033,36 @@ class EviaApp {
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
             
-            .trust-number {
+            .trust-number,
+            .stat-number {
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            /* Initial hidden state for animated elements */
+            .credentials-badge,
+            .award-item {
+                opacity: 0;
+                transform: translateY(20px) scale(0.8);
+                transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .expertise-item,
+            .credential-item {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            /* Enhanced hover states */
+            .expertise-item:hover .expertise-icon {
+                transform: scale(1.1);
+                box-shadow: 0 8px 25px rgba(255, 158, 24, 0.3);
+            }
+            
+            .credential-item:hover {
+                box-shadow: 0 8px 25px rgba(255, 158, 24, 0.2);
+            }
+            
+            .brand-item:hover {
+                box-shadow: 0 5px 15px rgba(255, 158, 24, 0.3);
             }
         `;
         document.head.appendChild(style);
@@ -1552,4 +2099,7 @@ class EviaApp {
 // Initialize application
 document.addEventListener('DOMContentLoaded', () => {
     const eviaApp = new EviaApp();
+    
+    // Store globally for external access
+    window.eviaApp = eviaApp;
 });
