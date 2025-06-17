@@ -310,201 +310,194 @@
         </div>
     </div>
 
-    <!-- Ultra-Modern Hero Section (ENHANCED TO BE MORE INTRIGUING) -->
-    <section class="manhattan-hero-enhanced" id="hero" data-scroll-section>
-        <!-- Multi-Layer Video Background -->
-        <div class="hero-media-wrapper">
-            <video class="hero-video-bg" autoplay muted loop playsinline>
-                <source src="herotemp.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="hero-video-overlay"></div>
-            <div class="hero-video-pattern"></div>
+    <!-- Ultra-Modern Hero Section (FIXED & EXTENDED) -->
+<section class="manhattan-hero-enhanced" id="hero" data-scroll-section>
+    <!-- Multi-Layer Video Background -->
+    <div class="hero-media-wrapper">
+        <video class="hero-video-bg" autoplay muted loop playsinline>
+            <source src="herotemp.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-video-overlay"></div>
+        <div class="hero-video-pattern"></div>
+    </div>
+    
+    <!-- Enhanced Background Elements (NO PARTICLES) -->
+    <div class="hero-bg-elements">
+        <!-- Animated Gradient Mesh -->
+        <div class="gradient-mesh">
+            <div class="mesh-layer mesh-1"></div>
+            <div class="mesh-layer mesh-2"></div>
+            <div class="mesh-layer mesh-3"></div>
         </div>
         
-        <!-- Enhanced Background Elements -->
-        <div class="hero-bg-elements">
-            <!-- Animated Gradient Mesh -->
-            <div class="gradient-mesh">
-                <div class="mesh-layer mesh-1"></div>
-                <div class="mesh-layer mesh-2"></div>
-                <div class="mesh-layer mesh-3"></div>
+        <!-- Floating 3D Elements (Subtle for Med Spa) -->
+        <div class="floating-elements">
+            <div class="float-element sphere-1" data-speed="0.3"></div>
+            <div class="float-element sphere-2" data-speed="0.2"></div>
+            <div class="float-element ring-1" data-speed="0.4"></div>
+            <div class="float-element ring-2" data-speed="0.5"></div>
+        </div>
+        
+        <!-- Light Rays (Subtle) -->
+        <div class="light-rays">
+            <div class="ray ray-1"></div>
+            <div class="ray ray-2"></div>
+        </div>
+    </div>
+    
+    <!-- Main Hero Content -->
+    <div class="hero-content-wrapper">
+        <div class="hero-content">
+            <!-- Enhanced Badge -->
+            <div class="hero-badge" data-aos="fade-down" data-aos-duration="1000">
+                <div class="badge-icon">
+                    <i class="bi bi-award"></i>
+                </div>
+                <span class="badge-text">Manhattan's Premier Medical Spa</span>
+                <div class="badge-shine"></div>
             </div>
             
-            <!-- Floating 3D Elements -->
-            <div class="floating-elements">
-                <div class="float-element sphere-1" data-speed="0.5"></div>
-                <div class="float-element sphere-2" data-speed="0.3"></div>
-                <div class="float-element sphere-3" data-speed="0.7"></div>
-                <div class="float-element ring-1" data-speed="0.4"></div>
-                <div class="float-element ring-2" data-speed="0.6"></div>
-                <div class="float-element cube-1" data-speed="0.8"></div>
+            <!-- Enhanced Split Text Headline -->
+            <h1 class="hero-title" data-splitting data-aos="fade-up" data-aos-delay="200">
+                <span class="title-line">
+                    <span class="title-word">Redefine</span>
+                    <span class="title-word accent">Beauty</span>
+                </span>
+                <span class="title-line">
+                    <span class="title-word">Embrace</span>
+                    <span class="title-word">Confidence</span>
+                </span>
+            </h1>
+            
+            <!-- Enhanced Typing Animation -->
+            <div class="hero-typing" data-aos="fade-up" data-aos-delay="400">
+                <span class="typing-prefix">Specializing in</span>
+                <span class="typing-wrapper">
+                    <span id="typingText" class="typing-text"></span>
+                    <span class="typing-cursor"></span>
+                </span>
             </div>
             
-            <!-- Particle System -->
-            <canvas id="heroParticles" class="hero-particles"></canvas>
+            <!-- Enhanced Description -->
+            <p class="hero-description" data-aos="fade-up" data-aos-delay="600">
+                Experience the perfect fusion of <span class="text-highlight">cutting-edge technology</span> 
+                and <span class="text-highlight">personalized care</span> in the heart of Manhattan.
+                <br>Transform your natural beauty with our award-winning treatments.
+            </p>
             
-            <!-- Light Rays -->
-            <div class="light-rays">
-                <div class="ray ray-1"></div>
-                <div class="ray ray-2"></div>
-                <div class="ray ray-3"></div>
-                <div class="ray ray-4"></div>
+            <!-- Enhanced CTA Button Group -->
+            <div class="hero-cta-wrapper" data-aos="fade-up" data-aos-delay="800">
+                <button class="luxury-btn primary modern-btn magnetic-hover" data-strength="25" id="heroBookBtn">
+                    <span class="btn-text">Book Your Consultation</span>
+                    <div class="btn-bg"></div>
+                    <div class="btn-particles">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="btn-glow"></div>
+                    <i class="btn-icon fas fa-calendar-check"></i>
+                </button>
+                
+                <button class="luxury-btn secondary modern-btn video-trigger magnetic-hover" data-strength="20" id="heroVideoBtn">
+                    <div class="play-pulse">
+                        <i class="bi bi-play-fill"></i>
+                    </div>
+                    <span class="btn-text">Watch Our Story</span>
+                    <div class="btn-ripple"></div>
+                </button>
             </div>
-        </div>
-        
-        <!-- Main Hero Content -->
-        <div class="hero-content-wrapper">
-            <div class="hero-content">
-                <!-- Enhanced Badge -->
-                <div class="hero-badge" data-aos="fade-down" data-aos-duration="1000">
-                    <div class="badge-icon">
-                        <i class="bi bi-award"></i>
+            
+            <!-- Enhanced Feature Cards -->
+            <div class="hero-features" data-aos="fade-up" data-aos-delay="1000">
+                <div class="feature-card" data-tilt>
+                    <div class="feature-icon">
+                        <i class="bi bi-patch-check"></i>
                     </div>
-                    <span class="badge-text">Manhattan's Premier Medical Spa</span>
-                    <div class="badge-shine"></div>
+                    <div class="feature-content">
+                        <h4>Board Certified</h4>
+                        <p>Expert physicians</p>
+                    </div>
+                    <div class="card-glow"></div>
                 </div>
-                
-                <!-- Enhanced Split Text Headline -->
-                <h1 class="hero-title" data-splitting data-aos="fade-up" data-aos-delay="200">
-                    <span class="title-line">
-                        <span class="title-word">Redefine</span>
-                        <span class="title-word accent">Beauty</span>
-                    </span>
-                    <span class="title-line">
-                        <span class="title-word">Embrace</span>
-                        <span class="title-word">Confidence</span>
-                    </span>
-                </h1>
-                
-                <!-- Enhanced Typing Animation -->
-                <div class="hero-typing" data-aos="fade-up" data-aos-delay="400">
-                    <span class="typing-prefix">Specializing in</span>
-                    <span class="typing-wrapper">
-                        <span id="typingText" class="typing-text"></span>
-                        <span class="typing-cursor"></span>
-                    </span>
+                <div class="feature-card" data-tilt>
+                    <div class="feature-icon">
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>5-Star Rated</h4>
+                        <p>1000+ reviews</p>
+                    </div>
+                    <div class="card-glow"></div>
                 </div>
-                
-                <!-- Enhanced Description -->
-                <p class="hero-description" data-aos="fade-up" data-aos-delay="600">
-                    Experience the perfect fusion of <span class="text-highlight">cutting-edge technology</span> 
-                    and <span class="text-highlight">personalized care</span> in the heart of Manhattan.
-                    <br>Transform your natural beauty with our award-winning treatments.
-                </p>
-                
-                <!-- Enhanced CTA Button Group -->
-                <div class="hero-cta-wrapper" data-aos="fade-up" data-aos-delay="800">
-                    <button class="luxury-btn primary modern-btn magnetic-hover" data-strength="25" id="heroBookBtn">
-                        <span class="btn-text">Book Your Consultation</span>
-                        <div class="btn-bg"></div>
-                        <div class="btn-particles">
-                            <span></span><span></span><span></span><span></span>
-                        </div>
-                        <div class="btn-glow"></div>
-                        <i class="btn-icon fas fa-calendar-check"></i>
-                    </button>
-                    
-                    <button class="luxury-btn secondary modern-btn video-trigger magnetic-hover" data-strength="20" id="heroVideoBtn">
-                        <div class="play-pulse">
-                            <i class="bi bi-play-fill"></i>
-                        </div>
-                        <span class="btn-text">Watch Our Story</span>
-                        <div class="btn-ripple"></div>
-                    </button>
+                <div class="feature-card" data-tilt>
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h4>FDA Approved</h4>
+                        <p>Safe treatments</p>
+                    </div>
+                    <div class="card-glow"></div>
                 </div>
-                
-                <!-- Enhanced Feature Cards -->
-                <div class="hero-features" data-aos="fade-up" data-aos-delay="1000">
-                    <div class="feature-card" data-tilt>
-                        <div class="feature-icon">
-                            <i class="bi bi-patch-check"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Board Certified</h4>
-                            <p>Expert physicians</p>
-                        </div>
-                        <div class="card-glow"></div>
-                    </div>
-                    <div class="feature-card" data-tilt>
-                        <div class="feature-icon">
-                            <i class="bi bi-star-fill"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>5-Star Rated</h4>
-                            <p>1000+ reviews</p>
-                        </div>
-                        <div class="card-glow"></div>
-                    </div>
-                    <div class="feature-card" data-tilt>
-                        <div class="feature-icon">
-                            <i class="bi bi-shield-check"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>FDA Approved</h4>
-                            <p>Safe treatments</p>
-                        </div>
-                        <div class="card-glow"></div>
-                    </div>
+            </div>
+            
+            <!-- Trust Indicators (PROPERLY POSITIONED) -->
+            <div class="trust-indicators" data-aos="fade-up" data-aos-delay="1200">
+                <div class="trust-item">
+                    <div class="trust-number" data-count="500">0</div>
+                    <div class="trust-label">Happy Clients</div>
                 </div>
-                
-                <!-- Trust Indicators -->
-                <div class="trust-indicators" data-aos="fade-up" data-aos-delay="1200">
-                    <div class="trust-item">
-                        <div class="trust-number" data-count="500">0</div>
-                        <div class="trust-label">Happy Clients</div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-number" data-count="15">0</div>
-                        <div class="trust-label">Years Experience</div>
-                    </div>
-                    <div class="trust-item">
-                        <div class="trust-number" data-count="98">0</div>
-                        <div class="trust-label">Success Rate</div>
-                    </div>
+                <div class="trust-item">
+                    <div class="trust-number" data-count="15">0</div>
+                    <div class="trust-label">Years Experience</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-number" data-count="98">0</div>
+                    <div class="trust-label">Success Rate</div>
                 </div>
             </div>
         </div>
-        
-        <!-- Enhanced Scroll Indicator -->
-        <div class="scroll-indicator-wrapper">
-            <div class="scroll-indicator magnetic-hover" data-strength="10">
-                <div class="scroll-icon">
-                    <div class="scroll-wheel"></div>
-                </div>
-                <span class="scroll-text">Scroll to explore</span>
-                <div class="scroll-arrow">
-                    <i class="bi bi-arrow-down"></i>
-                </div>
+    </div>
+    
+    <!-- Enhanced Scroll Indicator (MOVED TO BOTTOM) -->
+    <div class="scroll-indicator-wrapper">
+        <div class="scroll-indicator magnetic-hover" data-strength="10">
+            <div class="scroll-icon">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span class="scroll-text">Scroll to explore</span>
+            <div class="scroll-arrow">
+                <i class="bi bi-arrow-down"></i>
             </div>
         </div>
-        
-        <!-- Enhanced Side Navigation -->
-        <nav class="hero-side-nav">
-            <div class="side-nav-line"></div>
-            <a href="#hero" class="side-nav-dot active" data-tooltip="Home"></a>
-            <a href="#services" class="side-nav-dot" data-tooltip="Services"></a>
-            <a href="#about" class="side-nav-dot" data-tooltip="About"></a>
-            <a href="#results" class="side-nav-dot" data-tooltip="Results"></a>
-            <a href="#contact" class="side-nav-dot" data-tooltip="Contact"></a>
-        </nav>
-        
-        <!-- Enhanced Social Links -->
-        <div class="hero-social">
-            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="Instagram">
-                <i class="bi bi-instagram"></i>
-            </a>
-            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="Facebook">
-                <i class="bi bi-facebook"></i>
-            </a>
-            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="TikTok">
-                <i class="bi bi-tiktok"></i>
-            </a>
-            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="YouTube">
-                <i class="bi bi-youtube"></i>
-            </a>
-        </div>
-    </section>
+    </div>
+    
+    <!-- Enhanced Side Navigation -->
+    <nav class="hero-side-nav">
+        <div class="side-nav-line"></div>
+        <a href="#hero" class="side-nav-dot active" data-tooltip="Home"></a>
+        <a href="#services" class="side-nav-dot" data-tooltip="Services"></a>
+        <a href="#about" class="side-nav-dot" data-tooltip="About"></a>
+        <a href="#results" class="side-nav-dot" data-tooltip="Results"></a>
+        <a href="#contact" class="side-nav-dot" data-tooltip="Contact"></a>
+    </nav>
+    
+    <!-- Enhanced Social Links -->
+    <div class="hero-social">
+        <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="Instagram">
+            <i class="bi bi-instagram"></i>
+        </a>
+        <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="Facebook">
+            <i class="bi bi-facebook"></i>
+        </a>
+        <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="TikTok">
+            <i class="bi bi-tiktok"></i>
+        </a>
+        <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="YouTube">
+            <i class="bi bi-youtube"></i>
+        </a>
+    </div>
+</section>
 
     <!-- Enhanced Appointment Modal -->
     <div class="modal modern-modal" id="appointmentModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
