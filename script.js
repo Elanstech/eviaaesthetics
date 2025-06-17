@@ -1,22 +1,196 @@
 /**
- * Evia Aesthetics - Complete JavaScript
- * Includes all functionality: preloader, hero section, and Manhattan header
+ * Evia Aesthetics - Enhanced JavaScript
+ * Professional medical spa with modern interactive elements
  */
 
 'use strict';
 
 /**
- * Manhattan Header Class
- * Ultra-modern header with smooth animations and glassmorphism effects
+ * Enhanced Evia Preloader (KEEPING YOUR DESIGN)
+ * Handles loading animation and elegant transition to main content
  */
-class ManhattanHeader {
+class EviaEnhancedPreloader {
+    constructor(options = {}) {
+        // Default options
+        this.options = {
+            minDuration: 2000,       // Minimum display time
+            maxDuration: 5000,       // Maximum time before force-hiding
+            exitDuration: 1200,      // Exit animation duration
+            loadingMessages: [
+                'Welcome to Evia Aesthetics',
+                'Preparing your experience',
+                'Loading premium treatments',
+                'Almost ready'
+            ],
+            ...options
+        };
+        
+        // Elements
+        this.preloader = document.getElementById('eviaPreloader');
+        this.progressLine = document.getElementById('progressLine');
+        this.progressPercentage = document.getElementById('progressPercentage');
+        this.loadingMessage = document.getElementById('loadingMessage');
+        
+        // State
+        this.isLoading = true;
+        this.startTime = performance.now();
+        this.progress = 0;
+        this.raf = null;
+        this.messageInterval = null;
+        this.currentMessage = 0;
+        
+        // Initialize
+        if (this.preloader) {
+            this.init();
+        }
+    }
+    
+    init() {
+        console.log('✨ Initializing enhanced preloader');
+        
+        // Add loading class to body
+        document.body.classList.add('loading');
+        
+        // Start progress animation
+        this.animateProgress();
+        
+        // Rotate loading messages
+        this.rotateMessages();
+        
+        // Check page load status
+        this.checkPageLoaded();
+        
+        // Fallback timer
+        setTimeout(() => {
+            if (this.isLoading) {
+                console.log('Preloader fallback triggered');
+                this.completePreloader();
+            }
+        }, this.options.maxDuration);
+    }
+    
+    animateProgress() {
+        const duration = this.options.minDuration;
+        const startTime = performance.now();
+        
+        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+        
+        const updateProgress = (timestamp) => {
+            if (!this.isLoading) return;
+            
+            const elapsed = timestamp - startTime;
+            const targetProgress = Math.min(elapsed / duration, 0.9);
+            
+            this.progress = easeOutCubic(targetProgress) * 90;
+            
+            if (this.progressLine) {
+                this.progressLine.style.width = `${this.progress}%`;
+            }
+            
+            if (this.progressPercentage) {
+                this.progressPercentage.textContent = `${Math.round(this.progress)}%`;
+            }
+            
+            if (targetProgress < 0.9) {
+                this.raf = requestAnimationFrame(updateProgress);
+            }
+        };
+        
+        this.raf = requestAnimationFrame(updateProgress);
+    }
+    
+    rotateMessages() {
+        const { loadingMessages } = this.options;
+        if (!loadingMessages.length || !this.loadingMessage) return;
+        
+        this.loadingMessage.textContent = loadingMessages[0];
+        
+        this.messageInterval = setInterval(() => {
+            if (!this.isLoading) {
+                clearInterval(this.messageInterval);
+                return;
+            }
+            
+            this.currentMessage = (this.currentMessage + 1) % loadingMessages.length;
+            
+            this.loadingMessage.style.opacity = '0';
+            
+            setTimeout(() => {
+                this.loadingMessage.textContent = loadingMessages[this.currentMessage];
+                this.loadingMessage.style.opacity = '0.8';
+            }, 300);
+            
+        }, 3000);
+    }
+    
+    checkPageLoaded() {
+        if (document.readyState === 'complete') {
+            const elapsedTime = performance.now() - this.startTime;
+            
+            if (elapsedTime < this.options.minDuration) {
+                setTimeout(() => {
+                    this.completePreloader();
+                }, this.options.minDuration - elapsedTime);
+            } else {
+                this.completePreloader();
+            }
+        } else {
+            setTimeout(() => this.checkPageLoaded(), 100);
+        }
+    }
+    
+    completePreloader() {
+        if (!this.isLoading || !this.preloader) return;
+        
+        this.isLoading = false;
+        
+        // Clear animations
+        if (this.raf) {
+            cancelAnimationFrame(this.raf);
+        }
+        
+        if (this.messageInterval) {
+            clearInterval(this.messageInterval);
+        }
+        
+        // Finish progress to 100%
+        if (this.progressLine) {
+            this.progressLine.style.width = '100%';
+        }
+        
+        if (this.progressPercentage) {
+            this.progressPercentage.textContent = '100%';
+        }
+        
+        // Trigger sliding panel animation
+        setTimeout(() => {
+            this.preloader.classList.add('complete');
+            
+            setTimeout(() => {
+                this.preloader.classList.add('hidden');
+                document.body.classList.remove('loading');
+                
+                // Dispatch completion event
+                window.dispatchEvent(new CustomEvent('preloaderComplete'));
+                
+                console.log('✨ Enhanced preloader complete');
+            }, this.options.exitDuration);
+            
+        }, 400);
+    }
+}
+
+/**
+ * Enhanced Header with Modern Interactions
+ */
+class EnhancedHeader {
     constructor() {
-        this.header = document.getElementById('manhattanHeader');
-        this.menuToggle = document.getElementById('menuToggle');
+        this.header = document.getElementById('luxuryHeader');
+        this.menuToggle = document.getElementById('mobileToggle');
         this.mobileMenu = document.getElementById('mobileMenu');
         this.mobileClose = document.getElementById('mobileClose');
-        this.progressBar = document.querySelector('.progress-bar');
-        this.magneticElements = document.querySelectorAll('[data-magnetic="true"]');
+        this.searchOverlay = document.getElementById('searchOverlay');
+        this.progressBar = document.querySelector('.header-progress .progress-fill');
         
         this.scrolled = false;
         this.lastScrollY = 0;
@@ -26,27 +200,18 @@ class ManhattanHeader {
     }
     
     init() {
-        // Initialize all features
         this.initScrollEffects();
         this.initMobileMenu();
         this.initMagneticElements();
         this.initDropdowns();
-        this.initNavLinks();
-        this.initParticleEffects();
+        this.initNavigation();
+        this.initSearch();
         this.initScrollProgress();
+        this.initParticleHeader();
         
-        // Initialize AOS if available
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 800,
-                easing: 'ease-out-cubic',
-                once: true,
-                offset: 50
-            });
-        }
+        console.log('✨ Enhanced header initialized');
     }
     
-    // Smooth scroll effects with header transformation
     initScrollEffects() {
         let lastScroll = 0;
         
@@ -55,16 +220,20 @@ class ManhattanHeader {
             
             // Add/remove scrolled class
             if (currentScroll > 50) {
-                this.header.classList.add('scrolled');
+                this.header?.classList.add('scrolled');
             } else {
-                this.header.classList.remove('scrolled');
+                this.header?.classList.remove('scrolled');
             }
             
             // Hide/show header on scroll
             if (currentScroll > lastScroll && currentScroll > 100) {
-                this.header.style.transform = 'translateY(-100%)';
+                if (this.header) {
+                    this.header.style.transform = 'translateY(-100%)';
+                }
             } else {
-                this.header.style.transform = 'translateY(0)';
+                if (this.header) {
+                    this.header.style.transform = 'translateY(0)';
+                }
             }
             
             lastScroll = currentScroll;
@@ -79,16 +248,13 @@ class ManhattanHeader {
         }, { passive: true });
     }
     
-    // Mobile menu functionality
     initMobileMenu() {
         if (!this.menuToggle || !this.mobileMenu) return;
         
-        // Toggle menu
         this.menuToggle.addEventListener('click', () => {
             this.toggleMobileMenu();
         });
         
-        // Close menu
         if (this.mobileClose) {
             this.mobileClose.addEventListener('click', () => {
                 this.closeMobileMenu();
@@ -97,9 +263,9 @@ class ManhattanHeader {
         
         // Close on outside click
         document.addEventListener('click', (e) => {
-            if (this.mobileMenu.classList.contains('active') && 
-                !e.target.closest('.mobile-menu-modern') && 
-                !e.target.closest('.menu-toggle')) {
+            if (this.mobileMenu?.classList.contains('active') && 
+                !e.target.closest('.mobile-menu') && 
+                !e.target.closest('.mobile-toggle')) {
                 this.closeMobileMenu();
             }
         });
@@ -107,12 +273,12 @@ class ManhattanHeader {
         // Handle dropdown toggles
         const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
         dropdownToggles.forEach(toggle => {
-            toggle.addEventListener('click', () => {
-                const dropdown = toggle.parentElement;
-                const content = dropdown.querySelector('.mobile-dropdown-content');
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const submenu = toggle.nextElementSibling;
+                const parent = toggle.closest('.has-submenu');
                 
-                toggle.classList.toggle('active');
-                content.classList.toggle('active');
+                parent?.classList.toggle('active');
             });
         });
         
@@ -126,30 +292,31 @@ class ManhattanHeader {
     }
     
     toggleMobileMenu() {
-        this.mobileMenu.classList.toggle('active');
-        this.menuToggle.classList.toggle('active');
-        document.body.style.overflow = this.mobileMenu.classList.contains('active') ? 'hidden' : '';
+        this.mobileMenu?.classList.toggle('active');
+        this.menuToggle?.classList.toggle('active');
+        document.body.style.overflow = this.mobileMenu?.classList.contains('active') ? 'hidden' : '';
     }
     
     closeMobileMenu() {
-        this.mobileMenu.classList.remove('active');
-        this.menuToggle.classList.remove('active');
+        this.mobileMenu?.classList.remove('active');
+        this.menuToggle?.classList.remove('active');
         document.body.style.overflow = '';
     }
     
-    // Magnetic hover effect for elements
     initMagneticElements() {
         if (window.innerWidth < 992) return;
         
-        this.magneticElements.forEach(element => {
+        const magneticElements = document.querySelectorAll('.magnetic-hover');
+        
+        magneticElements.forEach(element => {
             element.addEventListener('mousemove', (e) => {
+                const strength = parseInt(element.dataset.strength) || 10;
                 const rect = element.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 
-                // Apply magnetic effect
-                const magnetX = x * 0.3;
-                const magnetY = y * 0.3;
+                const magnetX = x * (strength / 100);
+                const magnetY = y * (strength / 100);
                 
                 element.style.transform = `translate(${magnetX}px, ${magnetY}px)`;
             });
@@ -160,7 +327,6 @@ class ManhattanHeader {
         });
     }
     
-    // Initialize dropdowns with smooth animations
     initDropdowns() {
         const dropdowns = document.querySelectorAll('.has-dropdown');
         
@@ -180,24 +346,23 @@ class ManhattanHeader {
         });
     }
     
-    // Active navigation state
-    initNavLinks() {
+    initNavigation() {
         const navLinks = document.querySelectorAll('.nav-link');
         
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                // Remove active class from all links
-                navLinks.forEach(l => l.classList.remove('active'));
-                // Add active class to clicked link
-                link.classList.add('active');
-                
-                // Smooth scroll to section
                 const href = link.getAttribute('href');
                 if (href && href.startsWith('#')) {
                     e.preventDefault();
+                    
+                    // Update active state
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Smooth scroll
                     const target = document.querySelector(href);
                     if (target) {
-                        const headerHeight = this.header.offsetHeight;
+                        const headerHeight = this.header?.offsetHeight || 0;
                         const targetPosition = target.offsetTop - headerHeight - 20;
                         
                         window.scrollTo({
@@ -239,40 +404,39 @@ class ManhattanHeader {
         sections.forEach(section => observer.observe(section));
     }
     
-    // Particle effects for CTA button
-    initParticleEffects() {
-        const ctaButton = document.querySelector('.cta-button');
-        if (!ctaButton) return;
+    initSearch() {
+        const searchToggle = document.querySelector('.search-toggle');
+        const searchClose = document.querySelector('.search-close');
+        const searchInput = document.querySelector('.search-input');
         
-        ctaButton.addEventListener('click', (e) => {
-            // Create ripple effect
-            const ripple = document.createElement('div');
-            ripple.className = 'button-ripple';
-            
-            const rect = ctaButton.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            
-            ctaButton.appendChild(ripple);
-            
-            // Remove ripple after animation
-            setTimeout(() => ripple.remove(), 600);
-            
-            // Trigger booking modal if exists
-            const modal = document.getElementById('appointmentModal');
-            if (modal) {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+        searchToggle?.addEventListener('click', () => {
+            this.searchOverlay?.classList.add('active');
+            setTimeout(() => searchInput?.focus(), 100);
+        });
+        
+        searchClose?.addEventListener('click', () => {
+            this.searchOverlay?.classList.remove('active');
+        });
+        
+        // Close on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.searchOverlay?.classList.contains('active')) {
+                this.searchOverlay.classList.remove('active');
+            }
+        });
+        
+        // Search functionality
+        const searchForm = document.querySelector('.search-form');
+        searchForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = searchInput?.value.trim();
+            if (query) {
+                console.log('Search query:', query);
+                // Implement search functionality here
             }
         });
     }
     
-    // Scroll progress indicator
     initScrollProgress() {
         if (!this.progressBar) return;
         
@@ -281,265 +445,110 @@ class ManhattanHeader {
             const scrollPosition = window.scrollY;
             const progress = (scrollPosition / scrollHeight) * 100;
             
-            this.progressBar.style.width = `${progress}%`;
+            this.progressBar.style.width = `${Math.min(progress, 100)}%`;
         };
         
         window.addEventListener('scroll', updateProgress, { passive: true });
-        updateProgress(); // Initial call
+        updateProgress();
+    }
+    
+    initParticleHeader() {
+        const canvas = document.getElementById('headerParticles');
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+        
+        const resizeCanvas = () => {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        };
+        
+        const createParticles = () => {
+            particles = [];
+            const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+            
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 1,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.5 + 0.2
+                });
+            }
+        };
+        
+        const animateParticles = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.y > canvas.height) particle.y = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 158, 24, ${particle.opacity})`;
+                ctx.fill();
+            });
+            
+            animationId = requestAnimationFrame(animateParticles);
+        };
+        
+        resizeCanvas();
+        createParticles();
+        animateParticles();
+        
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createParticles();
+        });
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+        });
     }
 }
 
 /**
- * Evia Modern Preloader
- * Handles loading animation and elegant transition to main content
+ * Enhanced Hero Section with Modern Interactions
  */
-class EviaModernPreloader {
-    constructor(options = {}) {
-        // Default options
-        this.options = {
-            minDuration: 1800,       // Minimum display time in ms
-            maxDuration: 4000,       // Maximum time before force-hiding
-            exitDuration: 1200,      // Exit animation duration
-            loadingMessages: [
-                'Welcome to Evia Aesthetics',
-                'Preparing your experience',
-                'Loading treatments',
-                'Almost ready'
-            ],
-            ...options
-        };
-        
-        // Elements
-        this.preloader = document.getElementById('eviaPreloader');
-        this.progressLine = document.getElementById('progressLine');
-        this.progressPercentage = document.getElementById('progressPercentage');
-        this.loadingMessage = document.getElementById('loadingMessage');
-        
-        // State
-        this.isLoading = true;
-        this.startTime = performance.now();
-        this.progress = 0;
-        this.raf = null;
-        this.messageInterval = null;
-        this.currentMessage = 0;
-        
-        // Initialize
-        if (this.preloader) {
-            this.init();
-        } else {
-            console.error('Preloader elements not found');
-        }
-    }
-    
-    /**
-     * Initialize preloader functionality
-     */
-    init() {
-        console.log('✨ Initializing modern preloader');
-        
-        // Add loading class to body
-        document.body.classList.add('loading');
-        
-        // Start progress animation
-        this.animateProgress();
-        
-        // Rotate loading messages
-        this.rotateMessages();
-        
-        // Check page load status
-        this.checkPageLoaded();
-        
-        // Fallback timer for maximum duration
-        setTimeout(() => {
-            if (this.isLoading) {
-                console.log('Preloader fallback triggered (max duration)');
-                this.completePreloader();
-            }
-        }, this.options.maxDuration);
-    }
-    
-    /**
-     * Animate progress bar with smooth acceleration
-     */
-    animateProgress() {
-        const duration = this.options.minDuration;
-        const startTime = performance.now();
-        
-        // Smooth easing function for natural progress
-        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
-        
-        const updateProgress = (timestamp) => {
-            if (!this.isLoading) return;
-            
-            const elapsed = timestamp - startTime;
-            // Cap at 90% until actually loaded
-            const targetProgress = Math.min(elapsed / duration, 0.9);
-            
-            // Apply easing for natural progression
-            this.progress = easeOutCubic(targetProgress) * 90;
-            
-            // Update DOM
-            if (this.progressLine) {
-                this.progressLine.style.width = `${this.progress}%`;
-            }
-            
-            if (this.progressPercentage) {
-                this.progressPercentage.textContent = `${Math.round(this.progress)}%`;
-            }
-            
-            if (targetProgress < 0.9) {
-                this.raf = requestAnimationFrame(updateProgress);
-            }
-        };
-        
-        this.raf = requestAnimationFrame(updateProgress);
-    }
-    
-    /**
-     * Rotate through loading messages
-     */
-    rotateMessages() {
-        const { loadingMessages } = this.options;
-        if (!loadingMessages.length || !this.loadingMessage) return;
-        
-        this.loadingMessage.textContent = loadingMessages[0];
-        
-        this.messageInterval = setInterval(() => {
-            if (!this.isLoading) {
-                clearInterval(this.messageInterval);
-                return;
-            }
-            
-            this.currentMessage = (this.currentMessage + 1) % loadingMessages.length;
-            
-            // Apply fade transition
-            this.loadingMessage.style.opacity = '0';
-            
-            setTimeout(() => {
-                this.loadingMessage.textContent = loadingMessages[this.currentMessage];
-                this.loadingMessage.style.opacity = '0.7';
-            }, 300);
-            
-        }, 3000);
-    }
-    
-    /**
-     * Check if page is fully loaded
-     */
-    checkPageLoaded() {
-        if (document.readyState === 'complete') {
-            const elapsedTime = performance.now() - this.startTime;
-            
-            // Ensure minimum display time
-            if (elapsedTime < this.options.minDuration) {
-                setTimeout(() => {
-                    this.completePreloader();
-                }, this.options.minDuration - elapsedTime);
-            } else {
-                this.completePreloader();
-            }
-        } else {
-            // Check again after a delay
-            setTimeout(() => this.checkPageLoaded(), 100);
-        }
-    }
-    
-    /**
-     * Complete preloader with elegant exit animation
-     */
-    completePreloader() {
-        if (!this.isLoading || !this.preloader) return;
-        
-        this.isLoading = false;
-        
-        // Clear any ongoing animations
-        if (this.raf) {
-            cancelAnimationFrame(this.raf);
-        }
-        
-        if (this.messageInterval) {
-            clearInterval(this.messageInterval);
-        }
-        
-        // Finish progress to 100%
-        if (this.progressLine) {
-            this.progressLine.style.width = '100%';
-        }
-        
-        if (this.progressPercentage) {
-            this.progressPercentage.textContent = '100%';
-        }
-        
-        // Trigger the sliding panel animation
-        setTimeout(() => {
-            this.preloader.classList.add('complete');
-            
-            // Remove preloader after animation completes
-            setTimeout(() => {
-                this.preloader.classList.add('hidden');
-                document.body.classList.remove('loading');
-                
-                // Dispatch event when fully complete
-                window.dispatchEvent(new CustomEvent('preloaderComplete'));
-                
-                console.log('✨ Modern preloader transition complete');
-            }, this.options.exitDuration);
-            
-        }, 400); // Short delay before starting exit animation
-    }
-}
-
-/**
- * Manhattan-Style Hero Section
- * Ultra-modern med spa hero with typed animations and smooth effects
- */
-class ManhattanHero {
+class EnhancedHero {
     constructor() {
-        this.hero = document.querySelector('.manhattan-hero');
-        this.typedElement = document.getElementById('typed-text');
-        this.glassOrbs = document.querySelectorAll('.glass-orb');
-        this.scrollIndicator = document.querySelector('.manhattan-scroll-indicator');
-        this.navDots = document.querySelectorAll('.nav-dot');
+        this.hero = document.querySelector('.manhattan-hero-enhanced');
+        this.typedElement = document.getElementById('typingText');
+        this.scrollIndicator = document.querySelector('.scroll-indicator');
+        this.navDots = document.querySelectorAll('.side-nav-dot');
         this.primaryBtn = document.getElementById('heroBookBtn');
         this.videoBtn = document.getElementById('heroVideoBtn');
         
-        // Animation states
+        this.typed = null;
         this.isAnimating = false;
-        this.hasInitialized = false;
-        
-        // Parallax settings
-        this.parallaxElements = [];
-        this.mouseX = 0;
-        this.mouseY = 0;
-        this.currentX = 0;
-        this.currentY = 0;
         
         this.init();
     }
     
     init() {
-        // Initialize AOS
         this.initAOS();
-        
-        // Initialize Typed.js
-        this.initTyped();
-        
-        // Initialize GSAP animations
-        this.initGSAP();
-        
-        // Initialize parallax
-        this.initParallax();
-        
-        // Initialize scroll effects
-        this.initScrollEffects();
-        
-        // Initialize interactive elements
+        this.initTypedAnimation();
+        this.initGSAPAnimations();
         this.initInteractions();
+        this.initScrollEffects();
+        this.initParticleSystem();
+        this.initCounterAnimations();
+        this.initTiltEffects();
         
-        // Initialize smooth reveal animations
-        this.initRevealAnimations();
-        
-        console.log('✨ Manhattan Hero initialized');
+        console.log('✨ Enhanced hero initialized');
     }
     
     initAOS() {
@@ -555,21 +564,22 @@ class ManhattanHero {
         }
     }
     
-    initTyped() {
+    initTypedAnimation() {
         if (!this.typedElement || typeof Typed === 'undefined') return;
         
         const options = {
             strings: [
-                'Botox & Dermal Fillers',
-                'Advanced Facial Treatments',
+                'Advanced Botox & Fillers',
+                'Luxury Facial Treatments',
                 'Body Contouring & Sculpting',
                 'Medical-Grade Skincare',
-                'Longevity & Wellness',
-                'Non-Invasive Procedures'
+                'Longevity & Wellness Medicine',
+                'Non-Invasive Procedures',
+                'Skin Rejuvenation Therapy'
             ],
             typeSpeed: 50,
             backSpeed: 30,
-            backDelay: 2000,
+            backDelay: 2500,
             loop: true,
             showCursor: false,
             fadeOut: true,
@@ -577,40 +587,23 @@ class ManhattanHero {
             fadeOutClass: 'typed-fade-out'
         };
         
-        // Add fade animation CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            .typed-fade-out {
-                opacity: 0;
-                transition: opacity 0.5s;
-            }
-        `;
-        document.head.appendChild(style);
-        
         this.typed = new Typed(this.typedElement, options);
     }
     
-    initGSAP() {
+    initGSAPAnimations() {
         if (typeof gsap === 'undefined') return;
         
-        // Register ScrollTrigger
         gsap.registerPlugin(ScrollTrigger);
         
-        // Hero content stagger animation
-        const heroTimeline = gsap.timeline({
-            defaults: {
-                ease: 'power3.out',
-                duration: 1
-            }
-        });
-        
-        // Floating orbs animation
-        this.glassOrbs.forEach((orb, index) => {
-            const speed = orb.dataset.speed || 0.5;
+        // Floating elements animation
+        const floatingElements = document.querySelectorAll('.float-element');
+        floatingElements.forEach((element, index) => {
+            const speed = parseFloat(element.dataset.speed) || 0.5;
             
-            gsap.to(orb, {
+            gsap.to(element, {
                 y: 'random(-30, 30)',
                 x: 'random(-20, 20)',
+                rotation: 'random(-5, 5)',
                 duration: 'random(15, 25)',
                 repeat: -1,
                 yoyo: true,
@@ -619,23 +612,10 @@ class ManhattanHero {
             });
         });
         
-        // Glass lines pulse animation
-        gsap.to('.glass-line', {
-            scaleX: 1.2,
-            opacity: 0.6,
-            duration: 3,
-            repeat: -1,
-            yoyo: true,
-            ease: 'power2.inOut',
-            stagger: {
-                each: 0.5
-            }
-        });
-        
-        // Scroll-triggered fade out
-        gsap.to('.hero-content-inner', {
+        // Scroll-triggered animations
+        gsap.to('.hero-content', {
             y: 100,
-            opacity: 0,
+            opacity: 0.3,
             scrollTrigger: {
                 trigger: this.hero,
                 start: 'top top',
@@ -645,10 +625,10 @@ class ManhattanHero {
             }
         });
         
-        // Parallax video effect
+        // Video background parallax
         if (window.innerWidth > 768) {
-            gsap.to('.hero-ambient-video', {
-                scale: 1.2,
+            gsap.to('.hero-video-bg', {
+                scale: 1.3,
                 scrollTrigger: {
                     trigger: this.hero,
                     start: 'top top',
@@ -659,53 +639,96 @@ class ManhattanHero {
         }
     }
     
-    initParallax() {
-        if (window.innerWidth < 992) return;
+    initInteractions() {
+        // Primary CTA button
+        if (this.primaryBtn) {
+            this.primaryBtn.addEventListener('click', () => {
+                const modal = document.getElementById('appointmentModal');
+                modal?.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            this.addAdvancedButtonEffects(this.primaryBtn);
+        }
         
-        // Collect parallax elements
-        this.parallaxElements = [
-            { element: document.querySelector('.gradient-1'), factor: 0.5 },
-            { element: document.querySelector('.gradient-2'), factor: 0.3 },
-            { element: document.querySelector('.gradient-3'), factor: 0.7 },
-            { element: document.querySelector('.orb-1'), factor: 0.4 },
-            { element: document.querySelector('.orb-2'), factor: 0.6 },
-            { element: document.querySelector('.orb-3'), factor: 0.8 }
-        ];
+        // Video button
+        if (this.videoBtn) {
+            this.videoBtn.addEventListener('click', () => {
+                const modal = document.getElementById('videoModal');
+                if (modal) {
+                    modal.classList.add('active');
+                    const iframe = modal.querySelector('iframe');
+                    if (iframe) {
+                        iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
+                    }
+                }
+            });
+            
+            this.addAdvancedButtonEffects(this.videoBtn);
+        }
         
-        // Mouse move handler
-        this.hero.addEventListener('mousemove', (e) => {
-            const rect = this.hero.getBoundingClientRect();
-            this.mouseX = (e.clientX - rect.left) / rect.width - 0.5;
-            this.mouseY = (e.clientY - rect.top) / rect.height - 0.5;
+        // Header CTA buttons
+        const headerCTA = document.querySelector('.header-cta');
+        const mobileCTA = document.querySelector('.mobile-cta');
+        
+        [headerCTA, mobileCTA].forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    const modal = document.getElementById('appointmentModal');
+                    modal?.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
         });
-        
-        // Smooth animation loop
-        this.animateParallax();
     }
     
-    animateParallax() {
-        // Smooth interpolation
-        this.currentX += (this.mouseX - this.currentX) * 0.1;
-        this.currentY += (this.mouseY - this.currentY) * 0.1;
+    addAdvancedButtonEffects(button) {
+        if (!button) return;
         
-        // Apply transforms
-        this.parallaxElements.forEach(({ element, factor }) => {
-            if (!element) return;
+        // Ripple effect on click
+        button.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'button-ripple';
             
-            const x = this.currentX * 50 * factor;
-            const y = this.currentY * 50 * factor;
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
             
-            element.style.transform = `translate(${x}px, ${y}px)`;
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 50%;
+                pointer-events: none;
+                animation: ripple 0.6s ease-out;
+            `;
+            
+            button.style.position = 'relative';
+            button.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
         });
         
-        requestAnimationFrame(() => this.animateParallax());
+        // Particle effect on hover
+        button.addEventListener('mouseenter', () => {
+            const particles = button.querySelectorAll('.btn-particles span');
+            particles.forEach((particle, index) => {
+                setTimeout(() => {
+                    particle.style.animation = 'btnParticle 1s ease-out';
+                }, index * 100);
+            });
+        });
     }
     
     initScrollEffects() {
-        // Smooth scroll for indicator
+        // Scroll indicator
         if (this.scrollIndicator) {
             this.scrollIndicator.addEventListener('click', () => {
-                const nextSection = this.hero.nextElementSibling;
+                const nextSection = this.hero?.nextElementSibling;
                 if (nextSection) {
                     nextSection.scrollIntoView({ 
                         behavior: 'smooth',
@@ -715,219 +738,506 @@ class ManhattanHero {
             });
         }
         
-        // Update navigation dots on scroll
-        if (this.navDots.length > 0) {
-            const sections = ['hero', 'services', 'about', 'results'];
-            
-            const updateActiveDot = () => {
-                const scrollPosition = window.scrollY;
-                const windowHeight = window.innerHeight;
-                
-                sections.forEach((section, index) => {
-                    const element = document.getElementById(section);
-                    if (!element) return;
+        // Side navigation dots
+        this.navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const sections = ['hero', 'services', 'about', 'results', 'contact'];
+                const targetSection = document.getElementById(sections[index]);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Update active dot on scroll
+        this.updateActiveDot();
+    }
+    
+    updateActiveDot() {
+        const sections = ['hero', 'services', 'about', 'results', 'contact'];
+        
+        const observerOptions = {
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    const index = sections.indexOf(id);
                     
-                    const rect = element.getBoundingClientRect();
-                    const isInView = rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2;
-                    
-                    if (isInView) {
+                    if (index !== -1) {
                         this.navDots.forEach(dot => dot.classList.remove('active'));
                         if (this.navDots[index]) {
                             this.navDots[index].classList.add('active');
                         }
                     }
-                });
-            };
-            
-            window.addEventListener('scroll', updateActiveDot, { passive: true });
-            
-            // Navigation dot clicks
-            this.navDots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    const targetSection = document.getElementById(sections[index]);
-                    if (targetSection) {
-                        targetSection.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        }
-    }
-    
-    initInteractions() {
-        // Primary button interaction
-        if (this.primaryBtn) {
-            this.primaryBtn.addEventListener('click', () => {
-                const modal = document.getElementById('appointmentModal');
-                if (modal) {
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
                 }
             });
-            
-            // Magnetic effect on hover
-            this.addMagneticEffect(this.primaryBtn);
-        }
+        }, observerOptions);
         
-        // Video button interaction
-        if (this.videoBtn) {
-            this.videoBtn.addEventListener('click', () => {
-                // You can implement video modal here
-                console.log('Video button clicked');
-            });
-            
-            this.addMagneticEffect(this.videoBtn);
-        }
-        
-        // Feature pills hover effect
-        const featurePills = document.querySelectorAll('.feature-pill');
-        featurePills.forEach(pill => {
-            pill.addEventListener('mouseenter', function() {
-                if (typeof gsap !== 'undefined') {
-                    gsap.to(this, {
-                        scale: 1.05,
-                        duration: 0.3,
-                        ease: 'power2.out'
-                    });
-                }
-            });
-            
-            pill.addEventListener('mouseleave', function() {
-                if (typeof gsap !== 'undefined') {
-                    gsap.to(this, {
-                        scale: 1,
-                        duration: 0.3,
-                        ease: 'power2.out'
-                    });
-                }
-            });
+        sections.forEach(sectionId => {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                observer.observe(section);
+            }
         });
     }
     
-    addMagneticEffect(element) {
-        if (!element || window.innerWidth < 992 || typeof gsap === 'undefined') return;
+    initParticleSystem() {
+        const canvas = document.getElementById('heroParticles');
+        if (!canvas) return;
         
-        element.addEventListener('mousemove', (e) => {
-            const rect = element.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            gsap.to(element, {
-                x: x * 0.3,
-                y: y * 0.3,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        });
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+        let mouse = { x: 0, y: 0 };
         
-        element.addEventListener('mouseleave', () => {
-            gsap.to(element, {
-                x: 0,
-                y: 0,
-                duration: 0.5,
-                ease: 'elastic.out(1, 0.3)'
-            });
-        });
-    }
-    
-    initRevealAnimations() {
-        // Split text animation using Splitting.js
-        if (typeof Splitting !== 'undefined') {
-            Splitting({
-                target: '.split-word',
-                by: 'chars'
-            });
+        const resizeCanvas = () => {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        };
+        
+        const createParticles = () => {
+            particles = [];
+            const particleCount = Math.floor((canvas.width * canvas.height) / 8000);
             
-            // Animate each character
-            if (typeof gsap !== 'undefined') {
-                const chars = document.querySelectorAll('.split-word .char');
-                gsap.from(chars, {
-                    y: 100,
-                    opacity: 0,
-                    duration: 0.8,
-                    stagger: 0.02,
-                    ease: 'power3.out',
-                    delay: 0.5
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 3 + 1,
+                    speedX: (Math.random() - 0.5) * 1,
+                    speedY: (Math.random() - 0.5) * 1,
+                    opacity: Math.random() * 0.8 + 0.2,
+                    color: Math.random() > 0.5 ? 'rgba(255, 158, 24, ' : 'rgba(255, 255, 255, '
                 });
             }
-        }
+        };
         
-        // Smooth reveal for elements
-        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            const revealElements = document.querySelectorAll('[data-reveal]');
-            revealElements.forEach((element, index) => {
-                gsap.from(element, {
-                    y: 50,
-                    opacity: 0,
-                    duration: 1,
-                    delay: index * 0.1 + 0.3,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: element,
-                        start: 'top 80%',
-                        once: true
+        const animateParticles = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                // Move particles
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                // Mouse interaction
+                const dx = mouse.x - particle.x;
+                const dy = mouse.y - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 100) {
+                    const force = (100 - distance) / 100;
+                    particle.x -= dx * force * 0.02;
+                    particle.y -= dy * force * 0.02;
+                }
+                
+                // Boundary wrapping
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.y > canvas.height) particle.y = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                
+                // Draw particle
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = particle.color + particle.opacity + ')';
+                ctx.fill();
+                
+                // Connect nearby particles
+                particles.forEach(otherParticle => {
+                    const dx = particle.x - otherParticle.x;
+                    const dy = particle.y - otherParticle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(otherParticle.x, otherParticle.y);
+                        ctx.strokeStyle = `rgba(255, 158, 24, ${0.2 * (1 - distance / 100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
                     }
                 });
             });
-        }
+            
+            animationId = requestAnimationFrame(animateParticles);
+        };
+        
+        // Mouse tracking
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        
+        resizeCanvas();
+        createParticles();
+        animateParticles();
+        
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createParticles();
+        });
     }
     
-    // Clean up method
-    destroy() {
-        if (this.typed) {
-            this.typed.destroy();
+    initCounterAnimations() {
+        const counters = document.querySelectorAll('.trust-number');
+        
+        const animateCounter = (counter) => {
+            const target = parseInt(counter.dataset.count);
+            const increment = target / 100;
+            let current = 0;
+            
+            const updateCounter = () => {
+                if (current < target) {
+                    current += increment;
+                    counter.textContent = Math.ceil(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target;
+                }
+            };
+            
+            updateCounter();
+        };
+        
+        // Intersection Observer for counter animation
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        counters.forEach(counter => {
+            counterObserver.observe(counter);
+        });
+    }
+    
+    initTiltEffects() {
+        if (typeof VanillaTilt !== 'undefined') {
+            const tiltElements = document.querySelectorAll('[data-tilt]');
+            VanillaTilt.init(tiltElements, {
+                max: 15,
+                speed: 1000,
+                glare: true,
+                'max-glare': 0.2,
+                perspective: 1000,
+                scale: 1.02
+            });
+        }
+    }
+}
+
+/**
+ * Enhanced Modal System
+ */
+class EnhancedModals {
+    constructor() {
+        this.appointmentModal = document.getElementById('appointmentModal');
+        this.videoModal = document.getElementById('videoModal');
+        this.activeModal = null;
+        
+        this.init();
+    }
+    
+    init() {
+        this.initAppointmentModal();
+        this.initVideoModal();
+        this.initFormValidation();
+        
+        console.log('✨ Enhanced modals initialized');
+    }
+    
+    initAppointmentModal() {
+        if (!this.appointmentModal) return;
+        
+        const closeBtn = this.appointmentModal.querySelector('.modal-close');
+        const overlay = this.appointmentModal.querySelector('.modal-overlay');
+        
+        closeBtn?.addEventListener('click', () => {
+            this.closeModal(this.appointmentModal);
+        });
+        
+        overlay?.addEventListener('click', () => {
+            this.closeModal(this.appointmentModal);
+        });
+        
+        // Form submission
+        const form = this.appointmentModal.querySelector('#appointmentForm');
+        form?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleFormSubmission(form);
+        });
+    }
+    
+    initVideoModal() {
+        if (!this.videoModal) return;
+        
+        const closeBtn = this.videoModal.querySelector('.video-modal-close');
+        const overlay = this.videoModal.querySelector('.video-modal-overlay');
+        
+        const closeVideo = () => {
+            this.closeModal(this.videoModal);
+            const iframe = this.videoModal.querySelector('iframe');
+            if (iframe) {
+                iframe.src = '';
+            }
+        };
+        
+        closeBtn?.addEventListener('click', closeVideo);
+        overlay?.addEventListener('click', closeVideo);
+    }
+    
+    closeModal(modal) {
+        if (!modal) return;
+        
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        this.activeModal = null;
+    }
+    
+    initFormValidation() {
+        const inputs = document.querySelectorAll('.appointment-form input, .appointment-form select, .appointment-form textarea');
+        
+        inputs.forEach(input => {
+            // Focus effects
+            input.addEventListener('focus', () => {
+                const group = input.closest('.form-group');
+                group?.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', () => {
+                const group = input.closest('.form-group');
+                group?.classList.remove('focused');
+                this.validateField(input);
+            });
+            
+            // Real-time validation
+            input.addEventListener('input', () => {
+                if (input.classList.contains('error')) {
+                    this.validateField(input);
+                }
+            });
+        });
+    }
+    
+    validateField(field) {
+        const value = field.value.trim();
+        const isValid = field.checkValidity() && value !== '';
+        const group = field.closest('.form-group');
+        
+        if (group) {
+            group.classList.toggle('error', !isValid);
+            group.classList.toggle('valid', isValid);
         }
         
-        // Kill GSAP animations
-        if (typeof ScrollTrigger !== 'undefined') {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+        return isValid;
+    }
+    
+    validateForm(form) {
+        const fields = form.querySelectorAll('input[required], select[required], textarea[required]');
+        let isValid = true;
+        
+        fields.forEach(field => {
+            if (!this.validateField(field)) {
+                isValid = false;
+            }
+        });
+        
+        return isValid;
+    }
+    
+    handleFormSubmission(form) {
+        if (!this.validateForm(form)) {
+            this.showFormError('Please fill in all required fields correctly.');
+            return;
         }
         
-        if (typeof gsap !== 'undefined') {
-            gsap.killTweensOf('*');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn?.innerHTML;
+        
+        // Show loading state
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <i class="fas fa-spinner fa-spin"></i>
+                <span class="btn-text">Sending...</span>
+            `;
         }
+        
+        // Simulate form submission
+        setTimeout(() => {
+            this.showSuccessMessage(form);
+            
+            setTimeout(() => {
+                this.closeModal(this.appointmentModal);
+            }, 3000);
+        }, 2000);
+    }
+    
+    showFormError(message) {
+        // Implementation for showing error messages
+        console.error('Form error:', message);
+    }
+    
+    showSuccessMessage(form) {
+        form.innerHTML = `
+            <div class="success-message" style="text-align: center; padding: 40px;">
+                <div class="success-icon" style="width: 80px; height: 80px; margin: 0 auto 20px; background: var(--luxury-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3 style="color: var(--evia-brown); margin-bottom: 15px; font-family: var(--font-display);">Thank You!</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6;">Your appointment request has been received. We'll contact you shortly to confirm your consultation.</p>
+            </div>
+        `;
+    }
+}
+
+/**
+ * Enhanced Interactive Elements
+ */
+class EnhancedInteractions {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        this.initSmoothScrolling();
+        this.initRippleEffects();
+        this.initParallaxElements();
+        this.initKeyboardNavigation();
+        
+        console.log('✨ Enhanced interactions initialized');
+    }
+    
+    initSmoothScrolling() {
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href^="#"]');
+            if (link && link.getAttribute('href') !== '#') {
+                e.preventDefault();
+                
+                const targetId = link.getAttribute('href');
+                const target = document.querySelector(targetId);
+                
+                if (target) {
+                    const header = document.querySelector('.luxury-header');
+                    const headerHeight = header?.offsetHeight || 0;
+                    const targetPosition = target.offsetTop - headerHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    }
+    
+    initRippleEffects() {
+        const rippleElements = document.querySelectorAll('.modern-btn, .action-btn, .social-link');
+        
+        rippleElements.forEach(element => {
+            element.addEventListener('click', (e) => {
+                this.createRipple(e, element);
+            });
+        });
+    }
+    
+    createRipple(e, element) {
+        const ripple = document.createElement('div');
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: ripple 0.6s ease-out;
+            z-index: 1;
+        `;
+        
+        element.style.position = 'relative';
+        element.style.overflow = 'hidden';
+        element.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    }
+    
+    initParallaxElements() {
+        if (window.innerWidth < 768) return; // Skip on mobile
+        
+        const parallaxElements = document.querySelectorAll('[data-parallax]');
+        
+        const updateParallax = () => {
+            const scrolled = window.pageYOffset;
+            
+            parallaxElements.forEach(element => {
+                const speed = parseFloat(element.dataset.parallax) || 0.5;
+                const rect = element.getBoundingClientRect();
+                const elementTop = rect.top + scrolled;
+                const elementHeight = rect.height;
+                const windowHeight = window.innerHeight;
+                
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    const parallaxValue = (scrolled - elementTop) * speed;
+                    element.style.transform = `translateY(${parallaxValue}px)`;
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', updateParallax, { passive: true });
+    }
+    
+    initKeyboardNavigation() {
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Close modals with Escape
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modern-modal.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                
+                const searchOverlay = document.querySelector('.search-overlay.active');
+                if (searchOverlay) {
+                    searchOverlay.classList.remove('active');
+                }
+            }
+        });
     }
 }
 
 /**
  * Main Application Class
  */
-class EviaApp {
+class EviaEnhancedApp {
     constructor() {
-        // State properties
         this.isLoading = true;
-        this.scrolled = false;
-        this.mobileMenuOpen = false;
-        this.modalOpen = false;
-        this.raf = null; // Store requestAnimationFrame for cancellation
-        this.scrollY = window.scrollY;
-        this.resizeTimer = null;
+        this.components = {};
         
-        // DOM elements cached for performance
-        this.header = document.getElementById('header');
-        this.mobileMenu = document.getElementById('mobileMenu');
-        this.appointmentModal = document.getElementById('appointmentModal');
-        this.menuToggle = document.getElementById('menuToggle');
-        this.menuClose = document.getElementById('menuClose');
-        this.modalClose = document.getElementById('modalClose');
-        this.modalOverlay = document.querySelector('.modal-overlay');
-        
-        // Components
-        this.preloader = null;
-        this.heroSection = null;
-        this.manhattanHeader = null; // New Manhattan header
-        
-        // Initialize application
         this.init();
     }
     
-    /**
-     * Initialize application
-     */
     init() {
-        // Wait for DOM content to be loaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.initApp());
         } else {
@@ -935,733 +1245,162 @@ class EviaApp {
         }
     }
     
-    /**
-     * Main application initialization
-     */
     initApp() {
         try {
-            console.log('🌿 Initializing Evia Aesthetics application...');
-            
-            // Detect browser and device capabilities
-            this.detectCapabilities();
+            console.log('🌿 Initializing Enhanced Evia Aesthetics...');
             
             // Initialize preloader first
-            this.initPreloader();
+            this.components.preloader = new EviaEnhancedPreloader();
             
-            // Initialize components
-            this.initHeaderScroll();
-            this.initMobileMenu();
-            this.initDropdowns();
-            this.initModal();
-            this.initScrollAnimations();
-            this.initFormValidation();
-            this.initScrollToElements();
+            // Listen for preloader completion
+            window.addEventListener('preloaderComplete', () => {
+                this.onPreloaderComplete();
+            });
             
-            // Initialize Manhattan header
-            this.initManhattanHeader();
+            // Initialize non-blocking components
+            this.initializeComponents();
             
-            // Bind event listeners
-            this.bindEvents();
-            
-            // Initialize hero section will be done after preloader completes
-            
-            console.log('✅ Application initialized successfully');
+            console.log('✅ Enhanced application initialized');
         } catch (error) {
             console.error('❌ Error initializing application:', error);
             this.handleInitError();
         }
     }
     
-    /**
-     * Initialize Manhattan Header
-     */
-    initManhattanHeader() {
-        // Check if Manhattan header exists
-        if (document.getElementById('manhattanHeader')) {
-            this.manhattanHeader = new ManhattanHeader();
-            console.log('✨ Manhattan header initialized');
-        }
-    }
-    
-    /**
-     * Initialize preloader
-     */
-    initPreloader() {
-        // Create and initialize preloader
-        this.preloader = new EviaModernPreloader({
-            minDuration: 2000,
-            exitDuration: 1200,
-            loadingMessages: [
-                'Welcome to Evia Aesthetics',
-                'Preparing your experience',
-                'Loading treatments',
-                'Almost ready'
-            ]
-        });
+    initializeComponents() {
+        // Initialize header
+        this.components.header = new EnhancedHeader();
         
-        // Listen for preloader completion
-        window.addEventListener('preloaderComplete', () => {
-            this.onPreloaderComplete();
-        });
+        // Initialize modals
+        this.components.modals = new EnhancedModals();
+        
+        // Initialize interactions
+        this.components.interactions = new EnhancedInteractions();
+        
+        // Add CSS for dynamic animations
+        this.addDynamicStyles();
     }
     
-    /**
-     * Initialize hero section
-     */
-    initHeroSection() {
-        // Create and initialize Manhattan hero section
-        this.heroSection = new ManhattanHero();
-    }
-    
-    /**
-     * Handle preloader completion
-     */
     onPreloaderComplete() {
         this.isLoading = false;
         
         // Initialize hero section after preloader
-        this.initHeroSection();
+        this.components.hero = new EnhancedHero();
         
-        // Initialize AOS animations after preloader
+        // Initialize AOS
         if (typeof AOS !== 'undefined') {
             AOS.init({
-                duration: this.prefersReducedMotion ? 0 : 800,
+                duration: 800,
                 easing: 'ease-out',
                 once: true,
                 offset: 50,
-                delay: this.prefersReducedMotion ? 0 : 100,
-                disable: this.isLowEndDevice
+                delay: 100,
+                disable: window.innerWidth < 768
             });
         }
         
-        // Trigger initial scroll check
-        this.handleScroll();
+        // Initialize any scroll-dependent features
+        this.initScrollFeatures();
     }
     
-    /**
-     * Detect browser capabilities for performance optimizations
-     */
-    detectCapabilities() {
-        // Detect touch capability
-        this.isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    initScrollFeatures() {
+        // Add any features that depend on scroll
+        const sections = document.querySelectorAll('section');
         
-        // Detect reduced motion preference
-        this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        
-        // Add relevant classes to the body
-        if (this.isTouch) document.body.classList.add('touch-device');
-        if (this.prefersReducedMotion) document.body.classList.add('reduced-motion');
-        
-        // Detect low-end devices
-        this.isLowEndDevice = navigator.hardwareConcurrency <= 4;
-        
-        if (this.isLowEndDevice) {
-            document.body.classList.add('low-end-device');
-            console.log('Low-end device detected, optimizing animations');
-        }
-    }
-    
-    /**
-     * Initialize optimized header scroll effect
-     */
-    initHeaderScroll() {
-        if (!this.header) return;
-        
-        // Use passive scroll listener for better performance
-        window.addEventListener('scroll', () => {
-            // Store scroll position but don't process immediately
-            this.scrollY = window.scrollY;
-            
-            // Use requestAnimationFrame to process scroll events efficiently
-            if (!this.raf) {
-                this.raf = requestAnimationFrame(() => {
-                    this.handleScroll();
-                    this.raf = null;
-                });
-            }
-        }, { passive: true });
-        
-        // Initial check
-        this.handleScroll();
-    }
-    
-    /**
-     * Handle scroll events efficiently
-     */
-    handleScroll() {
-        const shouldBeScrolled = this.scrollY > 50;
-        
-        if (this.scrolled !== shouldBeScrolled) {
-            this.scrolled = shouldBeScrolled;
-            this.header?.classList.toggle('scrolled', shouldBeScrolled);
-        }
-    }
-    
-    /**
-     * Initialize mobile menu functionality
-     */
-    initMobileMenu() {
-        if (!this.menuToggle || !this.menuClose || !this.mobileMenu) return;
-        
-        this.menuToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.toggleMobileMenu();
-        });
-        
-        this.menuClose.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.closeMobileMenu();
-        });
-        
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (this.mobileMenuOpen && 
-                !e.target.closest('.mobile-menu') && 
-                !e.target.closest('.menu-toggle')) {
-                this.closeMobileMenu();
-            }
-        });
-        
-        // Mobile dropdown toggles
-        const mobileNav = document.querySelector('.mobile-nav');
-        if (mobileNav) {
-            mobileNav.addEventListener('click', (e) => {
-                const toggle = e.target.closest('.mobile-nav-link.dropdown-toggle');
-                if (toggle) {
-                    e.preventDefault();
-                    const item = toggle.closest('.mobile-nav-item');
-                    if (item) {
-                        item.classList.toggle('active');
-                    }
+        const revealSections = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
                 }
             });
-        }
+        }, { threshold: 0.1 });
         
-        // Handle navigation clicks to close mobile menu
-        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link:not(.dropdown-toggle), .mobile-dropdown-item');
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                this.closeMobileMenu();
-            });
+        sections.forEach(section => {
+            revealSections.observe(section);
         });
     }
     
-    /**
-     * Toggle mobile menu state
-     */
-    toggleMobileMenu() {
-        if (this.mobileMenuOpen) {
-            this.closeMobileMenu();
-        } else {
-            this.openMobileMenu();
-        }
-    }
-    
-    /**
-     * Open mobile menu with smooth animation
-     */
-    openMobileMenu() {
-        if (!this.mobileMenu || !this.menuToggle) return;
-        
-        this.mobileMenuOpen = true;
-        this.mobileMenu.classList.add('active');
-        this.menuToggle.classList.add('active');
-        this.menuToggle.setAttribute('aria-expanded', 'true');
-        
-        document.body.style.overflow = 'hidden';
-        
-        // Focus trap for accessibility
-        setTimeout(() => {
-            const firstFocusable = this.mobileMenu.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-            if (firstFocusable) {
-                firstFocusable.focus();
-            }
-        }, 100);
-    }
-    
-    /**
-     * Close mobile menu with smooth animation
-     */
-    closeMobileMenu() {
-        if (!this.mobileMenu || !this.menuToggle) return;
-        
-        this.mobileMenuOpen = false;
-        this.mobileMenu.classList.remove('active');
-        this.menuToggle.classList.remove('active');
-        this.menuToggle.setAttribute('aria-expanded', 'false');
-        
-        document.body.style.overflow = '';
-        
-        // Return focus to menu toggle
-        this.menuToggle.focus();
-    }
-    
-    /**
-     * Initialize dropdown interactions with accessibility improvements
-     */
-    initDropdowns() {
-        // Desktop dropdowns are handled with CSS hover
-        // This is just for accessibility enhancements
-        const dropdownItems = document.querySelectorAll('.nav-item.dropdown');
-        
-        dropdownItems.forEach(item => {
-            const link = item.querySelector('.nav-link');
-            const menu = item.querySelector('.dropdown-menu');
-            
-            if (link && menu) {
-                // Add ARIA attributes
-                link.setAttribute('aria-expanded', 'false');
-                link.setAttribute('aria-haspopup', 'true');
-                
-                // Handle keyboard access
-                link.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        link.setAttribute('aria-expanded', 'true');
-                        menu.style.opacity = '1';
-                        menu.style.visibility = 'visible';
-                        menu.style.transform = 'translateX(-50%) translateY(0)';
-                        
-                        // Focus the first link in the dropdown
-                        const firstLink = menu.querySelector('a');
-                        if (firstLink) {
-                            firstLink.focus();
-                        }
-                    }
-                });
-                
-                // Close dropdown on escape
-                menu.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        link.setAttribute('aria-expanded', 'false');
-                        menu.style.opacity = '';
-                        menu.style.visibility = '';
-                        menu.style.transform = '';
-                        link.focus();
-                    }
-                });
-                
-                // Handle focus leaving the dropdown
-                menu.addEventListener('focusout', (e) => {
-                    if (!menu.contains(e.relatedTarget)) {
-                        link.setAttribute('aria-expanded', 'false');
-                        menu.style.opacity = '';
-                        menu.style.visibility = '';
-                        menu.style.transform = '';
-                    }
-                });
-            }
-        });
-    }
-    
-    /**
-     * Initialize modal functionality with accessibility improvements
-     */
-    initModal() {
-        const modalTriggers = document.querySelectorAll('#headerCta, #heroBookBtn, #mobileCta, #consultationBtn, .cta-button');
-        
-        if (!this.appointmentModal) return;
-        
-        modalTriggers.forEach(trigger => {
-            if (trigger) {
-                trigger.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.openModal();
-                });
-            }
-        });
-        
-        if (this.modalClose) {
-            this.modalClose.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.closeModal();
-            });
-        }
-        
-        if (this.modalOverlay) {
-            this.modalOverlay.addEventListener('click', () => {
-                this.closeModal();
-            });
-        }
-        
-        // Close modal on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.modalOpen) {
-                this.closeModal();
-            }
-        });
-        
-        // Handle form submission
-        const form = document.getElementById('appointmentForm');
-        if (form) {
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                // Basic validation
-                const isValid = this.validateForm(form);
-                
-                if (isValid) {
-                    this.submitForm(form);
+    addDynamicStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
                 }
-            });
-        }
-    }
-    
-    /**
-     * Open appointment modal with smooth animation and accessibility
-     */
-    openModal() {
-        if (!this.appointmentModal) return;
-        
-        this.modalOpen = true;
-        this.appointmentModal.classList.add('active');
-        this.appointmentModal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        
-        // Store element that had focus before opening modal
-        this.lastFocusedElement = document.activeElement;
-        
-        // Focus first input for accessibility
-        setTimeout(() => {
-            const firstInput = this.appointmentModal.querySelector('input');
-            if (firstInput) {
-                firstInput.focus();
-            }
-        }, 100);
-    }
-    
-    /**
-     * Close appointment modal with smooth animation and accessibility
-     */
-    closeModal() {
-        if (!this.appointmentModal) return;
-        
-        this.modalOpen = false;
-        this.appointmentModal.classList.remove('active');
-        this.appointmentModal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        
-        // Return focus to element that had focus before modal was opened
-        if (this.lastFocusedElement) {
-            this.lastFocusedElement.focus();
-        }
-    }
-    
-    /**
-     * Initialize scroll animations with performance optimizations
-     */
-    initScrollAnimations() {
-        // Skip if AOS is available or if reduced motion is preferred
-        if (typeof AOS !== 'undefined' || this.prefersReducedMotion) return;
-        
-        const animatedElements = document.querySelectorAll('[data-aos]');
-        
-        if (!animatedElements.length) return;
-        
-        const animateElements = () => {
-            animatedElements.forEach(element => {
-                // Use IntersectionObserver if supported
-                if ('IntersectionObserver' in window && !this.isLowEndDevice) {
-                    if (!this.intersectionObserver) {
-                        this.intersectionObserver = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting && !entry.target.classList.contains('aos-animate')) {
-                                    entry.target.classList.add('aos-animate');
-                                }
-                            });
-                        }, {
-                            root: null,
-                            threshold: 0.1,
-                            rootMargin: '0px 0px -20% 0px'
-                        });
-                    }
-                    
-                    this.intersectionObserver.observe(element);
-                } else {
-                    // Fallback for browsers that don't support IntersectionObserver
-                    const rect = element.getBoundingClientRect();
-                    const isInViewport = (
-                        rect.top <= window.innerHeight * 0.8 &&
-                        rect.bottom >= 0
-                    );
-                    
-                    if (isInViewport && !element.classList.contains('aos-animate')) {
-                        element.classList.add('aos-animate');
-                    }
-                }
-            });
-        };
-        
-        // Animate elements on scroll with throttling
-        window.addEventListener('scroll', this.throttle(animateElements, 100), { passive: true });
-        
-        // Initial check
-        setTimeout(animateElements, 100);
-    }
-    
-    /**
-     * Initialize form validation with improved UX
-     */
-    initFormValidation() {
-        const form = document.getElementById('appointmentForm');
-        
-        if (!form) return;
-        
-        // Add validation on blur for each field
-        const fields = form.querySelectorAll('input, select, textarea');
-        
-        fields.forEach(field => {
-            field.addEventListener('blur', () => {
-                this.validateField(field);
-            });
-            
-            // Clear error on focus
-            field.addEventListener('focus', () => {
-                const formGroup = field.closest('.form-group');
-                if (formGroup && formGroup.classList.contains('error')) {
-                    formGroup.classList.remove('error');
-                    const errorMessage = formGroup.querySelector('.error-message');
-                    if (errorMessage) {
-                        errorMessage.remove();
-                    }
-                }
-            });
-            
-            // Validate on input after initial blur
-            field.addEventListener('input', () => {
-                const formGroup = field.closest('.form-group');
-                if (formGroup && formGroup.classList.contains('error')) {
-                    this.validateField(field);
-                }
-            });
-        });
-    }
-    
-    /**
-     * Validate entire form
-     */
-    validateForm(form) {
-        let isValid = true;
-        const fields = form.querySelectorAll('input, select, textarea');
-        
-        fields.forEach(field => {
-            if (field.hasAttribute('required')) {
-                const fieldIsValid = this.validateField(field);
-                isValid = isValid && fieldIsValid;
-            }
-        });
-        
-        return isValid;
-    }
-    
-    /**
-     * Validate single field with improved error handling
-     */
-    validateField(field) {
-        const value = field.value.trim();
-        const isValid = value !== '' && field.checkValidity();
-        const formGroup = field.closest('.form-group');
-        
-        if (formGroup) {
-            formGroup.classList.toggle('error', !isValid);
-            
-            // Create or update error message
-            let errorMessage = formGroup.querySelector('.error-message');
-            
-            if (!isValid) {
-                if (!errorMessage) {
-                    errorMessage = document.createElement('div');
-                    errorMessage.className = 'error-message';
-                    formGroup.appendChild(errorMessage);
-                }
-                
-                // Get appropriate error message
-                let message = 'This field is required';
-                
-                if (value !== '') {
-                    if (field.type === 'email' && !field.checkValidity()) {
-                        message = 'Please enter a valid email address';
-                    } else if (field.type === 'tel' && !field.checkValidity()) {
-                        message = 'Please enter a valid phone number';
-                    } else if (field.validationMessage) {
-                        message = field.validationMessage;
-                    }
-                }
-                
-                errorMessage.textContent = message;
-            } else if (errorMessage) {
-                errorMessage.remove();
-            }
-        }
-        
-        return isValid;
-    }
-    
-    /**
-     * Submit form with animation
-     */
-    submitForm(form) {
-        const submitBtn = form.querySelector('button[type="submit"]');
-        
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
-        }
-        
-        // Simulate form submission (replace with actual AJAX in production)
-        setTimeout(() => {
-            form.innerHTML = `
-                <div class="success-message">
-                    <div class="success-icon">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <h3>Thank You!</h3>
-                    <p>Your appointment request has been received. We'll contact you shortly to confirm your consultation.</p>
-                </div>
-            `;
-            
-            // Close modal after delay
-            setTimeout(() => {
-                this.closeModal();
-            }, 3000);
-            
-        }, 1500);
-    }
-    
-    /**
-     * Initialize smooth scroll to elements with performance optimizations
-     */
-    initScrollToElements() {
-        const scrollLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
-        
-        // Anchor links - delegate events for better performance
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a[href^="#"]:not([href="#"])');
-            if (link) {
-                e.preventDefault();
-                
-                const targetId = link.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    // Close mobile menu if open
-                    if (this.mobileMenuOpen) {
-                        this.closeMobileMenu();
-                    }
-                    
-                    // Get header height for offset
-                    const headerHeight = this.header?.offsetHeight || 0;
-                    
-                    // Scroll to element
-                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
-                    
-                    if (this.prefersReducedMotion) {
-                        window.scrollTo(0, targetPosition);
-                    } else {
-                        this.smoothScrollTo(targetPosition, 600);
-                    }
+                100% {
+                    transform: scale(4);
+                    opacity: 0;
                 }
             }
-        });
-    }
-    
-    /**
-     * Custom smooth scroll implementation for better performance
-     */
-    smoothScrollTo(targetPosition, duration) {
-        const startPosition = window.pageYOffset;
-        const distance = targetPosition - startPosition;
-        let startTime = null;
-        
-        // Cancel any ongoing animation
-        if (this.scrollAnimation) {
-            cancelAnimationFrame(this.scrollAnimation);
-        }
-        
-        const animateScroll = (currentTime) => {
-            if (startTime === null) startTime = currentTime;
-            const timeElapsed = currentTime - startTime;
-            const progress = Math.min(timeElapsed / duration, 1);
             
-            // Easing function - easeOutQuart
-            const easeProgress = 1 - Math.pow(1 - progress, 4);
-            
-            window.scrollTo(0, startPosition + distance * easeProgress);
-            
-            if (timeElapsed < duration) {
-                this.scrollAnimation = requestAnimationFrame(animateScroll);
-            } else {
-                this.scrollAnimation = null;
+            @keyframes btnParticle {
+                0% {
+                    opacity: 1;
+                    transform: translate(0, 0) scale(0);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(var(--x), var(--y)) scale(1);
+                }
             }
-        };
-        
-        this.scrollAnimation = requestAnimationFrame(animateScroll);
+            
+            .form-group.focused input,
+            .form-group.focused select,
+            .form-group.focused textarea {
+                border-color: var(--evia-orange);
+                box-shadow: 0 0 20px rgba(255, 158, 24, 0.2);
+            }
+            
+            .form-group.valid input,
+            .form-group.valid select,
+            .form-group.valid textarea {
+                border-color: var(--success);
+            }
+            
+            .form-group.error input,
+            .form-group.error select,
+            .form-group.error textarea {
+                border-color: var(--error);
+            }
+            
+            section {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s ease-out;
+            }
+            
+            section.revealed {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .typed-fade-out {
+                opacity: 0;
+                transition: opacity 0.5s;
+            }
+        `;
+        document.head.appendChild(style);
     }
     
-    /**
-     * Handle initialization errors
-     */
     handleInitError() {
-        // Hide preloader even if there's an error
+        // Graceful degradation
         document.body.classList.remove('loading');
         const preloader = document.getElementById('eviaPreloader');
         if (preloader) {
             preloader.classList.add('hidden');
         }
         
-        console.warn('⚠️ Application initialized with limited functionality due to errors');
-    }
-    
-    /**
-     * Bind global event listeners
-     */
-    bindEvents() {
-        // Handle resize events with debouncing
-        window.addEventListener('resize', () => {
-            clearTimeout(this.resizeTimer);
-            this.resizeTimer = setTimeout(() => {
-                // Close mobile menu on larger screens
-                if (window.innerWidth >= 768 && this.mobileMenuOpen) {
-                    this.closeMobileMenu();
-                }
-                
-                // Update AOS on resize if available
-                if (typeof AOS !== 'undefined') {
-                    AOS.refresh();
-                }
-            }, 250);
-        });
-        
-        // Optimize page visibility handling
-        document.addEventListener('visibilitychange', () => {
-            // Pause animations when page is not visible
-            if (document.hidden) {
-                if (this.scrollAnimation) {
-                    cancelAnimationFrame(this.scrollAnimation);
-                    this.scrollAnimation = null;
-                }
-            }
-        });
-    }
-    
-    /**
-     * Throttle function to limit frequent executions
-     * @param {Function} func - Function to throttle
-     * @param {number} limit - Time limit in milliseconds
-     */
-    throttle(func, limit) {
-        let lastCall = 0;
-        return function(...args) {
-            const now = Date.now();
-            if (now - lastCall >= limit) {
-                lastCall = now;
-                func.apply(this, args);
-            }
-        };
+        console.warn('⚠️ Application initialized with limited functionality');
     }
 }
 
-// Initialize application
+// Initialize the enhanced application
 document.addEventListener('DOMContentLoaded', () => {
-    const eviaApp = new EviaApp();
+    const app = new EviaEnhancedApp();
 });
+
+// Export for potential external use
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = EviaEnhancedApp;
+}
