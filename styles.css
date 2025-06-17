@@ -1496,13 +1496,13 @@ h1, h2, h3, h4, h5, h6 {
 .manhattan-hero-enhanced {
     position: relative;
     width: 100%;
-    min-height: 120vh; /* EXTENDED HEIGHT */
+    min-height: 140vh; /* FURTHER EXTENDED HEIGHT */
     height: auto;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 120px 0 80px; /* Extra padding for content */
+    padding: 140px 0 120px; /* Increased padding for more space */
 }
 
 /* Video Background */
