@@ -629,8 +629,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .brand-logo-wrapper {
     position: relative;
-    width: 80px; /* INCREASED FROM 45px */
-    height: 80px; /* INCREASED FROM 45px */
+    width: 180px; /* INCREASED FROM 45px */
+    height: 180px; /* INCREASED FROM 45px */
 }
 
 .brand-logo {
