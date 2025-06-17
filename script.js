@@ -1,184 +1,9 @@
 /**
- * Evia Aesthetics - Enhanced JavaScript
- * Professional medical spa with modern interactive elements
+ * Evia Aesthetics - Complete Integrated JavaScript
+ * Includes all functionality: preloader, hero section, and header
  */
 
 'use strict';
-
-/**
- * Enhanced Evia Preloader (KEEPING YOUR DESIGN)
- * Handles loading animation and elegant transition to main content
- */
-class EviaEnhancedPreloader {
-    constructor(options = {}) {
-        // Default options
-        this.options = {
-            minDuration: 2000,       // Minimum display time
-            maxDuration: 5000,       // Maximum time before force-hiding
-            exitDuration: 1200,      // Exit animation duration
-            loadingMessages: [
-                'Welcome to Evia Aesthetics',
-                'Preparing your experience',
-                'Loading premium treatments',
-                'Almost ready'
-            ],
-            ...options
-        };
-        
-        // Elements
-        this.preloader = document.getElementById('eviaPreloader');
-        this.progressLine = document.getElementById('progressLine');
-        this.progressPercentage = document.getElementById('progressPercentage');
-        this.loadingMessage = document.getElementById('loadingMessage');
-        
-        // State
-        this.isLoading = true;
-        this.startTime = performance.now();
-        this.progress = 0;
-        this.raf = null;
-        this.messageInterval = null;
-        this.currentMessage = 0;
-        
-        // Initialize
-        if (this.preloader) {
-            this.init();
-        }
-    }
-    
-    init() {
-        console.log('✨ Initializing enhanced preloader');
-        
-        // Add loading class to body
-        document.body.classList.add('loading');
-        
-        // Start progress animation
-        this.animateProgress();
-        
-        // Rotate loading messages
-        this.rotateMessages();
-        
-        // Check page load status
-        this.checkPageLoaded();
-        
-        // Fallback timer
-        setTimeout(() => {
-            if (this.isLoading) {
-                console.log('Preloader fallback triggered');
-                this.completePreloader();
-            }
-        }, this.options.maxDuration);
-    }
-    
-    animateProgress() {
-        const duration = this.options.minDuration;
-        const startTime = performance.now();
-        
-        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
-        
-        const updateProgress = (timestamp) => {
-            if (!this.isLoading) return;
-            
-            const elapsed = timestamp - startTime;
-            const targetProgress = Math.min(elapsed / duration, 0.9);
-            
-            this.progress = easeOutCubic(targetProgress) * 90;
-            
-            if (this.progressLine) {
-                this.progressLine.style.width = `${this.progress}%`;
-            }
-            
-            if (this.progressPercentage) {
-                this.progressPercentage.textContent = `${Math.round(this.progress)}%`;
-            }
-            
-            if (targetProgress < 0.9) {
-                this.raf = requestAnimationFrame(updateProgress);
-            }
-        };
-        
-        this.raf = requestAnimationFrame(updateProgress);
-    }
-    
-    rotateMessages() {
-        const { loadingMessages } = this.options;
-        if (!loadingMessages.length || !this.loadingMessage) return;
-        
-        this.loadingMessage.textContent = loadingMessages[0];
-        
-        this.messageInterval = setInterval(() => {
-            if (!this.isLoading) {
-                clearInterval(this.messageInterval);
-                return;
-            }
-            
-            this.currentMessage = (this.currentMessage + 1) % loadingMessages.length;
-            
-            this.loadingMessage.style.opacity = '0';
-            
-            setTimeout(() => {
-                this.loadingMessage.textContent = loadingMessages[this.currentMessage];
-                this.loadingMessage.style.opacity = '0.8';
-            }, 300);
-            
-        }, 3000);
-    }
-    
-    checkPageLoaded() {
-        if (document.readyState === 'complete') {
-            const elapsedTime = performance.now() - this.startTime;
-            
-            if (elapsedTime < this.options.minDuration) {
-                setTimeout(() => {
-                    this.completePreloader();
-                }, this.options.minDuration - elapsedTime);
-            } else {
-                this.completePreloader();
-            }
-        } else {
-            setTimeout(() => this.checkPageLoaded(), 100);
-        }
-    }
-    
-    completePreloader() {
-        if (!this.isLoading || !this.preloader) return;
-        
-        this.isLoading = false;
-        
-        // Clear animations
-        if (this.raf) {
-            cancelAnimationFrame(this.raf);
-        }
-        
-        if (this.messageInterval) {
-            clearInterval(this.messageInterval);
-        }
-        
-        // Finish progress to 100%
-        if (this.progressLine) {
-            this.progressLine.style.width = '100%';
-        }
-        
-        if (this.progressPercentage) {
-            this.progressPercentage.textContent = '100%';
-        }
-        
-        // Trigger sliding panel animation
-        setTimeout(() => {
-            this.preloader.classList.add('complete');
-            
-            setTimeout(() => {
-                this.preloader.classList.add('hidden');
-                document.body.classList.remove('loading');
-                
-                // Dispatch completion event
-                window.dispatchEvent(new CustomEvent('preloaderComplete'));
-                
-                console.log('✨ Enhanced preloader complete');
-            }, this.options.exitDuration);
-            
-        }, 400);
-    }
-}
 
 /**
  * Enhanced Header with Modern Interactions
@@ -521,9 +346,209 @@ class EnhancedHeader {
 }
 
 /**
- * Enhanced Hero Section with Modern Interactions
+ * Evia Modern Preloader (KEEPING YOUR EXISTING DESIGN)
+ * Handles loading animation and elegant transition to main content
  */
-class EnhancedHero {
+class EviaModernPreloader {
+    constructor(options = {}) {
+        // Default options
+        this.options = {
+            minDuration: 1800,       // Minimum display time in ms
+            maxDuration: 4000,       // Maximum time before force-hiding
+            exitDuration: 1200,      // Exit animation duration
+            loadingMessages: [
+                'Welcome to Evia Aesthetics',
+                'Preparing your experience',
+                'Loading treatments',
+                'Almost ready'
+            ],
+            ...options
+        };
+        
+        // Elements
+        this.preloader = document.getElementById('eviaPreloader');
+        this.progressLine = document.getElementById('progressLine');
+        this.progressPercentage = document.getElementById('progressPercentage');
+        this.loadingMessage = document.getElementById('loadingMessage');
+        
+        // State
+        this.isLoading = true;
+        this.startTime = performance.now();
+        this.progress = 0;
+        this.raf = null;
+        this.messageInterval = null;
+        this.currentMessage = 0;
+        
+        // Initialize
+        if (this.preloader) {
+            this.init();
+        } else {
+            console.error('Preloader elements not found');
+        }
+    }
+    
+    /**
+     * Initialize preloader functionality
+     */
+    init() {
+        console.log('✨ Initializing modern preloader');
+        
+        // Add loading class to body
+        document.body.classList.add('loading');
+        
+        // Start progress animation
+        this.animateProgress();
+        
+        // Rotate loading messages
+        this.rotateMessages();
+        
+        // Check page load status
+        this.checkPageLoaded();
+        
+        // Fallback timer for maximum duration
+        setTimeout(() => {
+            if (this.isLoading) {
+                console.log('Preloader fallback triggered (max duration)');
+                this.completePreloader();
+            }
+        }, this.options.maxDuration);
+    }
+    
+    /**
+     * Animate progress bar with smooth acceleration
+     */
+    animateProgress() {
+        const duration = this.options.minDuration;
+        const startTime = performance.now();
+        
+        // Smooth easing function for natural progress
+        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+        
+        const updateProgress = (timestamp) => {
+            if (!this.isLoading) return;
+            
+            const elapsed = timestamp - startTime;
+            // Cap at 90% until actually loaded
+            const targetProgress = Math.min(elapsed / duration, 0.9);
+            
+            // Apply easing for natural progression
+            this.progress = easeOutCubic(targetProgress) * 90;
+            
+            // Update DOM
+            if (this.progressLine) {
+                this.progressLine.style.width = `${this.progress}%`;
+            }
+            
+            if (this.progressPercentage) {
+                this.progressPercentage.textContent = `${Math.round(this.progress)}%`;
+            }
+            
+            if (targetProgress < 0.9) {
+                this.raf = requestAnimationFrame(updateProgress);
+            }
+        };
+        
+        this.raf = requestAnimationFrame(updateProgress);
+    }
+    
+    /**
+     * Rotate through loading messages
+     */
+    rotateMessages() {
+        const { loadingMessages } = this.options;
+        if (!loadingMessages.length || !this.loadingMessage) return;
+        
+        this.loadingMessage.textContent = loadingMessages[0];
+        
+        this.messageInterval = setInterval(() => {
+            if (!this.isLoading) {
+                clearInterval(this.messageInterval);
+                return;
+            }
+            
+            this.currentMessage = (this.currentMessage + 1) % loadingMessages.length;
+            
+            // Apply fade transition
+            this.loadingMessage.style.opacity = '0';
+            
+            setTimeout(() => {
+                this.loadingMessage.textContent = loadingMessages[this.currentMessage];
+                this.loadingMessage.style.opacity = '0.7';
+            }, 300);
+            
+        }, 3000);
+    }
+    
+    /**
+     * Check if page is fully loaded
+     */
+    checkPageLoaded() {
+        if (document.readyState === 'complete') {
+            const elapsedTime = performance.now() - this.startTime;
+            
+            // Ensure minimum display time
+            if (elapsedTime < this.options.minDuration) {
+                setTimeout(() => {
+                    this.completePreloader();
+                }, this.options.minDuration - elapsedTime);
+            } else {
+                this.completePreloader();
+            }
+        } else {
+            // Check again after a delay
+            setTimeout(() => this.checkPageLoaded(), 100);
+        }
+    }
+    
+    /**
+     * Complete preloader with elegant exit animation
+     */
+    completePreloader() {
+        if (!this.isLoading || !this.preloader) return;
+        
+        this.isLoading = false;
+        
+        // Clear any ongoing animations
+        if (this.raf) {
+            cancelAnimationFrame(this.raf);
+        }
+        
+        if (this.messageInterval) {
+            clearInterval(this.messageInterval);
+        }
+        
+        // Finish progress to 100%
+        if (this.progressLine) {
+            this.progressLine.style.width = '100%';
+        }
+        
+        if (this.progressPercentage) {
+            this.progressPercentage.textContent = '100%';
+        }
+        
+        // Trigger the sliding panel animation
+        setTimeout(() => {
+            this.preloader.classList.add('complete');
+            
+            // Remove preloader after animation completes
+            setTimeout(() => {
+                this.preloader.classList.add('hidden');
+                document.body.classList.remove('loading');
+                
+                // Dispatch event when fully complete
+                window.dispatchEvent(new CustomEvent('preloaderComplete'));
+                
+                console.log('✨ Modern preloader transition complete');
+            }, this.options.exitDuration);
+            
+        }, 400); // Short delay before starting exit animation
+    }
+}
+
+/**
+ * Enhanced Hero Section with Med Spa Appropriate Design
+ */
+class EnhancedMedSpaHero {
     constructor() {
         this.hero = document.querySelector('.manhattan-hero-enhanced');
         this.typedElement = document.getElementById('typingText');
@@ -531,9 +556,11 @@ class EnhancedHero {
         this.navDots = document.querySelectorAll('.side-nav-dot');
         this.primaryBtn = document.getElementById('heroBookBtn');
         this.videoBtn = document.getElementById('heroVideoBtn');
+        this.trustNumbers = document.querySelectorAll('.trust-number');
         
         this.typed = null;
         this.isAnimating = false;
+        this.countersAnimated = false;
         
         this.init();
     }
@@ -544,11 +571,11 @@ class EnhancedHero {
         this.initGSAPAnimations();
         this.initInteractions();
         this.initScrollEffects();
-        this.initParticleSystem();
         this.initCounterAnimations();
         this.initTiltEffects();
+        this.initMagneticEffects();
         
-        console.log('✨ Enhanced hero initialized');
+        console.log('✨ Enhanced Med Spa Hero initialized');
     }
     
     initAOS() {
@@ -567,24 +594,34 @@ class EnhancedHero {
     initTypedAnimation() {
         if (!this.typedElement || typeof Typed === 'undefined') return;
         
+        const medSpaServices = [
+            'Advanced Botox & Dermal Fillers',
+            'Luxury HydraFacial Treatments',
+            'Body Contouring & CoolSculpting',
+            'Medical-Grade Skincare',
+            'Anti-Aging & Longevity Medicine',
+            'Non-Invasive Aesthetic Procedures',
+            'Skin Rejuvenation Therapy',
+            'Laser Treatments & IPL'
+        ];
+        
         const options = {
-            strings: [
-                'Advanced Botox & Fillers',
-                'Luxury Facial Treatments',
-                'Body Contouring & Sculpting',
-                'Medical-Grade Skincare',
-                'Longevity & Wellness Medicine',
-                'Non-Invasive Procedures',
-                'Skin Rejuvenation Therapy'
-            ],
-            typeSpeed: 50,
-            backSpeed: 30,
+            strings: medSpaServices,
+            typeSpeed: 45,
+            backSpeed: 25,
             backDelay: 2500,
             loop: true,
             showCursor: false,
             fadeOut: true,
             fadeOutDelay: 500,
-            fadeOutClass: 'typed-fade-out'
+            fadeOutClass: 'typed-fade-out',
+            onStringTyped: (arrayPos) => {
+                // Add subtle glow effect when typing completes
+                this.typedElement.style.textShadow = '0 0 20px rgba(255, 158, 24, 0.5)';
+                setTimeout(() => {
+                    this.typedElement.style.textShadow = '0 2px 10px rgba(255, 158, 24, 0.3)';
+                }, 1000);
+            }
         };
         
         this.typed = new Typed(this.typedElement, options);
@@ -595,27 +632,27 @@ class EnhancedHero {
         
         gsap.registerPlugin(ScrollTrigger);
         
-        // Floating elements animation
+        // Subtle floating elements animation (Med Spa appropriate)
         const floatingElements = document.querySelectorAll('.float-element');
         floatingElements.forEach((element, index) => {
-            const speed = parseFloat(element.dataset.speed) || 0.5;
+            const speed = parseFloat(element.dataset.speed) || 0.3;
             
             gsap.to(element, {
-                y: 'random(-30, 30)',
-                x: 'random(-20, 20)',
-                rotation: 'random(-5, 5)',
-                duration: 'random(15, 25)',
+                y: 'random(-20, 20)',
+                x: 'random(-15, 15)',
+                rotation: 'random(-3, 3)',
+                duration: 'random(20, 30)',
                 repeat: -1,
                 yoyo: true,
                 ease: 'sine.inOut',
-                delay: index * 2
+                delay: index * 3
             });
         });
         
-        // Scroll-triggered animations
+        // Scroll-triggered content fade
         gsap.to('.hero-content', {
-            y: 100,
-            opacity: 0.3,
+            y: 80,
+            opacity: 0.4,
             scrollTrigger: {
                 trigger: this.hero,
                 start: 'top top',
@@ -625,10 +662,10 @@ class EnhancedHero {
             }
         });
         
-        // Video background parallax
+        // Video background subtle parallax
         if (window.innerWidth > 768) {
             gsap.to('.hero-video-bg', {
-                scale: 1.3,
+                scale: 1.2,
                 scrollTrigger: {
                     trigger: this.hero,
                     start: 'top top',
@@ -637,15 +674,25 @@ class EnhancedHero {
                 }
             });
         }
+        
+        // Gradient mesh animation
+        gsap.to('.mesh-layer', {
+            rotation: 360,
+            duration: 50,
+            repeat: -1,
+            ease: 'none',
+            stagger: {
+                each: 5,
+                from: 'random'
+            }
+        });
     }
     
     initInteractions() {
         // Primary CTA button
         if (this.primaryBtn) {
             this.primaryBtn.addEventListener('click', () => {
-                const modal = document.getElementById('appointmentModal');
-                modal?.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                this.openAppointmentModal();
             });
             
             this.addAdvancedButtonEffects(this.primaryBtn);
@@ -654,14 +701,7 @@ class EnhancedHero {
         // Video button
         if (this.videoBtn) {
             this.videoBtn.addEventListener('click', () => {
-                const modal = document.getElementById('videoModal');
-                if (modal) {
-                    modal.classList.add('active');
-                    const iframe = modal.querySelector('iframe');
-                    if (iframe) {
-                        iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
-                    }
-                }
+                this.openVideoModal();
             });
             
             this.addAdvancedButtonEffects(this.videoBtn);
@@ -674,24 +714,51 @@ class EnhancedHero {
         [headerCTA, mobileCTA].forEach(btn => {
             if (btn) {
                 btn.addEventListener('click', () => {
-                    const modal = document.getElementById('appointmentModal');
-                    modal?.classList.add('active');
-                    document.body.style.overflow = 'hidden';
+                    this.openAppointmentModal();
                 });
+                this.addAdvancedButtonEffects(btn);
             }
         });
+    }
+    
+    openAppointmentModal() {
+        const modal = document.getElementById('appointmentModal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Focus first input for accessibility
+            setTimeout(() => {
+                const firstInput = modal.querySelector('input');
+                if (firstInput) {
+                    firstInput.focus();
+                }
+            }, 300);
+        }
+    }
+    
+    openVideoModal() {
+        const modal = document.getElementById('videoModal');
+        if (modal) {
+            modal.classList.add('active');
+            const iframe = modal.querySelector('iframe');
+            if (iframe) {
+                // Replace with your actual video URL
+                iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
+            }
+        }
     }
     
     addAdvancedButtonEffects(button) {
         if (!button) return;
         
-        // Ripple effect on click
+        // Enhanced ripple effect on click
         button.addEventListener('click', (e) => {
             const ripple = document.createElement('div');
             ripple.className = 'button-ripple';
             
             const rect = button.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
+            const size = Math.max(rect.width, rect.height) * 1.5;
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
             
@@ -701,16 +768,18 @@ class EnhancedHero {
                 height: ${size}px;
                 left: ${x}px;
                 top: ${y}px;
-                background: rgba(255, 255, 255, 0.5);
+                background: rgba(255, 255, 255, 0.3);
                 border-radius: 50%;
                 pointer-events: none;
-                animation: ripple 0.6s ease-out;
+                animation: ripple 0.8s ease-out;
+                z-index: 1;
             `;
             
             button.style.position = 'relative';
+            button.style.overflow = 'hidden';
             button.appendChild(ripple);
             
-            setTimeout(() => ripple.remove(), 600);
+            setTimeout(() => ripple.remove(), 800);
         });
         
         // Particle effect on hover
@@ -718,21 +787,32 @@ class EnhancedHero {
             const particles = button.querySelectorAll('.btn-particles span');
             particles.forEach((particle, index) => {
                 setTimeout(() => {
-                    particle.style.animation = 'btnParticle 1s ease-out';
-                }, index * 100);
+                    particle.style.animation = 'btnParticle 1.2s ease-out';
+                }, index * 150);
+            });
+        });
+        
+        // Reset particles
+        button.addEventListener('mouseleave', () => {
+            const particles = button.querySelectorAll('.btn-particles span');
+            particles.forEach(particle => {
+                particle.style.animation = '';
             });
         });
     }
     
     initScrollEffects() {
-        // Scroll indicator
+        // Scroll indicator functionality
         if (this.scrollIndicator) {
             this.scrollIndicator.addEventListener('click', () => {
                 const nextSection = this.hero?.nextElementSibling;
                 if (nextSection) {
-                    nextSection.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
+                    const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
+                    const targetPosition = nextSection.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
                     });
                 }
             });
@@ -740,13 +820,23 @@ class EnhancedHero {
         
         // Side navigation dots
         this.navDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
                 const sections = ['hero', 'services', 'about', 'results', 'contact'];
                 const targetSection = document.getElementById(sections[index]);
                 if (targetSection) {
-                    targetSection.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
+                    const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
+                    let targetPosition;
+                    
+                    if (sections[index] === 'hero') {
+                        targetPosition = 0;
+                    } else {
+                        targetPosition = targetSection.offsetTop - headerHeight - 20;
+                    }
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
                     });
                 }
             });
@@ -754,13 +844,16 @@ class EnhancedHero {
         
         // Update active dot on scroll
         this.updateActiveDot();
+        
+        // Hide scroll indicator when scrolled
+        this.initScrollIndicatorHide();
     }
     
     updateActiveDot() {
         const sections = ['hero', 'services', 'about', 'results', 'contact'];
         
         const observerOptions = {
-            rootMargin: '-50% 0px -50% 0px',
+            rootMargin: '-40% 0px -40% 0px',
             threshold: 0
         };
         
@@ -788,120 +881,50 @@ class EnhancedHero {
         });
     }
     
-    initParticleSystem() {
-        const canvas = document.getElementById('heroParticles');
-        if (!canvas) return;
+    initScrollIndicatorHide() {
+        let lastScrollY = window.scrollY;
         
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let animationId;
-        let mouse = { x: 0, y: 0 };
-        
-        const resizeCanvas = () => {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-        };
-        
-        const createParticles = () => {
-            particles = [];
-            const particleCount = Math.floor((canvas.width * canvas.height) / 8000);
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            const scrollIndicatorWrapper = document.querySelector('.scroll-indicator-wrapper');
             
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 3 + 1,
-                    speedX: (Math.random() - 0.5) * 1,
-                    speedY: (Math.random() - 0.5) * 1,
-                    opacity: Math.random() * 0.8 + 0.2,
-                    color: Math.random() > 0.5 ? 'rgba(255, 158, 24, ' : 'rgba(255, 255, 255, '
-                });
-            }
-        };
-        
-        const animateParticles = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            particles.forEach(particle => {
-                // Move particles
-                particle.x += particle.speedX;
-                particle.y += particle.speedY;
-                
-                // Mouse interaction
-                const dx = mouse.x - particle.x;
-                const dy = mouse.y - particle.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < 100) {
-                    const force = (100 - distance) / 100;
-                    particle.x -= dx * force * 0.02;
-                    particle.y -= dy * force * 0.02;
+            if (scrollIndicatorWrapper) {
+                if (currentScrollY > 100) {
+                    scrollIndicatorWrapper.style.opacity = '0';
+                    scrollIndicatorWrapper.style.transform = 'translateX(-50%) translateY(20px)';
+                } else {
+                    scrollIndicatorWrapper.style.opacity = '1';
+                    scrollIndicatorWrapper.style.transform = 'translateX(-50%) translateY(0)';
                 }
-                
-                // Boundary wrapping
-                if (particle.x > canvas.width) particle.x = 0;
-                if (particle.x < 0) particle.x = canvas.width;
-                if (particle.y > canvas.height) particle.y = 0;
-                if (particle.y < 0) particle.y = canvas.height;
-                
-                // Draw particle
-                ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                ctx.fillStyle = particle.color + particle.opacity + ')';
-                ctx.fill();
-                
-                // Connect nearby particles
-                particles.forEach(otherParticle => {
-                    const dx = particle.x - otherParticle.x;
-                    const dy = particle.y - otherParticle.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 100) {
-                        ctx.beginPath();
-                        ctx.moveTo(particle.x, particle.y);
-                        ctx.lineTo(otherParticle.x, otherParticle.y);
-                        ctx.strokeStyle = `rgba(255, 158, 24, ${0.2 * (1 - distance / 100)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                });
-            });
+            }
             
-            animationId = requestAnimationFrame(animateParticles);
+            lastScrollY = currentScrollY;
         };
         
-        // Mouse tracking
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = e.clientX - rect.left;
-            mouse.y = e.clientY - rect.top;
-        });
-        
-        resizeCanvas();
-        createParticles();
-        animateParticles();
-        
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            createParticles();
-        });
+        window.addEventListener('scroll', handleScroll, { passive: true });
     }
     
     initCounterAnimations() {
-        const counters = document.querySelectorAll('.trust-number');
+        if (!this.trustNumbers.length) return;
         
         const animateCounter = (counter) => {
             const target = parseInt(counter.dataset.count);
-            const increment = target / 100;
+            const increment = target / 60; // 60 frames for smooth animation
             let current = 0;
             
             const updateCounter = () => {
                 if (current < target) {
                     current += increment;
-                    counter.textContent = Math.ceil(current);
+                    const displayValue = Math.ceil(current);
+                    counter.textContent = displayValue;
                     requestAnimationFrame(updateCounter);
                 } else {
                     counter.textContent = target;
+                    // Add a subtle pulse effect when complete
+                    counter.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        counter.style.transform = 'scale(1)';
+                    }, 200);
                 }
             };
             
@@ -911,28 +934,90 @@ class EnhancedHero {
         // Intersection Observer for counter animation
         const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounter(entry.target);
-                    counterObserver.unobserve(entry.target);
+                if (entry.isIntersecting && !this.countersAnimated) {
+                    this.countersAnimated = true;
+                    
+                    // Stagger the counter animations
+                    this.trustNumbers.forEach((counter, index) => {
+                        setTimeout(() => {
+                            animateCounter(counter);
+                        }, index * 200);
+                    });
+                    
+                    counterObserver.disconnect();
                 }
             });
         }, { threshold: 0.5 });
         
-        counters.forEach(counter => {
-            counterObserver.observe(counter);
-        });
+        const trustIndicators = document.querySelector('.trust-indicators');
+        if (trustIndicators) {
+            counterObserver.observe(trustIndicators);
+        }
     }
     
     initTiltEffects() {
         if (typeof VanillaTilt !== 'undefined') {
             const tiltElements = document.querySelectorAll('[data-tilt]');
             VanillaTilt.init(tiltElements, {
-                max: 15,
-                speed: 1000,
+                max: 10, // Subtle tilt for med spa
+                speed: 1500,
                 glare: true,
-                'max-glare': 0.2,
+                'max-glare': 0.15,
                 perspective: 1000,
-                scale: 1.02
+                scale: 1.03,
+                transition: true,
+                axis: null,
+                reset: true
+            });
+        }
+    }
+    
+    initMagneticEffects() {
+        if (window.innerWidth < 992) return; // Desktop only
+        
+        const magneticElements = document.querySelectorAll('.magnetic-hover');
+        
+        magneticElements.forEach(element => {
+            element.addEventListener('mousemove', (e) => {
+                const strength = parseInt(element.dataset.strength) || 10;
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                const magnetX = x * (strength / 200);
+                const magnetY = y * (strength / 200);
+                
+                element.style.transform = `translate(${magnetX}px, ${magnetY}px)`;
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translate(0, 0)';
+            });
+        });
+    }
+    
+    // Cleanup method
+    destroy() {
+        if (this.typed) {
+            this.typed.destroy();
+        }
+        
+        // Kill GSAP animations
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+        }
+        
+        if (typeof gsap !== 'undefined') {
+            gsap.killTweensOf('*');
+        }
+        
+        // Kill VanillaTilt
+        if (typeof VanillaTilt !== 'undefined') {
+            const tiltElements = document.querySelectorAll('[data-tilt]');
+            tiltElements.forEach(element => {
+                if (element.vanillaTilt) {
+                    element.vanillaTilt.destroy();
+                }
             });
         }
     }
@@ -954,6 +1039,7 @@ class EnhancedModals {
         this.initAppointmentModal();
         this.initVideoModal();
         this.initFormValidation();
+        this.initKeyboardNavigation();
         
         console.log('✨ Enhanced modals initialized');
     }
@@ -1004,16 +1090,23 @@ class EnhancedModals {
         modal.classList.remove('active');
         document.body.style.overflow = '';
         this.activeModal = null;
+        
+        // Return focus to trigger element
+        const lastFocused = document.activeElement;
+        if (lastFocused && lastFocused !== document.body) {
+            lastFocused.blur();
+        }
     }
     
     initFormValidation() {
         const inputs = document.querySelectorAll('.appointment-form input, .appointment-form select, .appointment-form textarea');
         
         inputs.forEach(input => {
-            // Focus effects
+            // Enhanced focus effects
             input.addEventListener('focus', () => {
                 const group = input.closest('.form-group');
                 group?.classList.add('focused');
+                this.clearFieldError(input);
             });
             
             input.addEventListener('blur', () => {
@@ -1044,6 +1137,13 @@ class EnhancedModals {
         return isValid;
     }
     
+    clearFieldError(field) {
+        const group = field.closest('.form-group');
+        if (group) {
+            group.classList.remove('error');
+        }
+    }
+    
     validateForm(form) {
         const fields = form.querySelectorAll('input[required], select[required], textarea[required]');
         let isValid = true;
@@ -1064,162 +1164,128 @@ class EnhancedModals {
         }
         
         const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn?.innerHTML;
+        const originalHTML = submitBtn?.innerHTML;
         
-        // Show loading state
+        // Show loading state with enhanced animation
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = `
-                <i class="fas fa-spinner fa-spin"></i>
-                <span class="btn-text">Sending...</span>
+                <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>
+                <span class="btn-text">Sending Request...</span>
             `;
+            submitBtn.style.background = 'linear-gradient(135deg, #666 0%, #444 100%)';
         }
         
-        // Simulate form submission
+        // Simulate form submission (replace with actual API call)
         setTimeout(() => {
             this.showSuccessMessage(form);
             
             setTimeout(() => {
                 this.closeModal(this.appointmentModal);
-            }, 3000);
-        }, 2000);
+            }, 3500);
+        }, 2500);
     }
     
     showFormError(message) {
-        // Implementation for showing error messages
-        console.error('Form error:', message);
+        // Create error notification
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'form-error-message';
+        errorDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        `;
+        errorDiv.textContent = message;
+        
+        document.body.appendChild(errorDiv);
+        
+        // Animate in
+        setTimeout(() => {
+            errorDiv.style.opacity = '1';
+            errorDiv.style.transform = 'translateX(0)';
+        }, 10);
+        
+        // Remove after delay
+        setTimeout(() => {
+            errorDiv.style.opacity = '0';
+            errorDiv.style.transform = 'translateX(100%)';
+            setTimeout(() => errorDiv.remove(), 300);
+        }, 4000);
     }
     
     showSuccessMessage(form) {
         form.innerHTML = `
-            <div class="success-message" style="text-align: center; padding: 40px;">
-                <div class="success-icon" style="width: 80px; height: 80px; margin: 0 auto 20px; background: var(--luxury-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
-                    <i class="fas fa-check"></i>
+            <div class="success-message" style="text-align: center; padding: 50px 20px;">
+                <div class="success-animation" style="margin-bottom: 30px;">
+                    <div class="success-icon" style="
+                        width: 80px; 
+                        height: 80px; 
+                        margin: 0 auto 20px; 
+                        background: linear-gradient(135deg, #10B981 0%, #059669 100%); 
+                        border-radius: 50%; 
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: center; 
+                        color: white; 
+                        font-size: 2rem;
+                        animation: successPulse 0.6s ease-out;
+                    ">
+                        <i class="fas fa-check"></i>
+                    </div>
                 </div>
-                <h3 style="color: var(--evia-brown); margin-bottom: 15px; font-family: var(--font-display);">Thank You!</h3>
-                <p style="color: var(--text-secondary); line-height: 1.6;">Your appointment request has been received. We'll contact you shortly to confirm your consultation.</p>
+                <h3 style="
+                    color: #442C15; 
+                    margin-bottom: 15px; 
+                    font-family: 'Playfair Display', serif;
+                    font-size: 1.75rem;
+                    font-weight: 600;
+                ">Thank You!</h3>
+                <p style="
+                    color: #6D6D6D; 
+                    line-height: 1.6;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 1rem;
+                    margin-bottom: 20px;
+                ">Your consultation request has been received. Our team will contact you within 24 hours to schedule your appointment.</p>
+                <div style="
+                    font-size: 0.875rem;
+                    color: #9F9F9F;
+                    font-style: italic;
+                ">This window will close automatically...</div>
             </div>
         `;
-    }
-}
-
-/**
- * Enhanced Interactive Elements
- */
-class EnhancedInteractions {
-    constructor() {
-        this.init();
-    }
-    
-    init() {
-        this.initSmoothScrolling();
-        this.initRippleEffects();
-        this.initParallaxElements();
-        this.initKeyboardNavigation();
         
-        console.log('✨ Enhanced interactions initialized');
-    }
-    
-    initSmoothScrolling() {
-        // Smooth scrolling for anchor links
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a[href^="#"]');
-            if (link && link.getAttribute('href') !== '#') {
-                e.preventDefault();
-                
-                const targetId = link.getAttribute('href');
-                const target = document.querySelector(targetId);
-                
-                if (target) {
-                    const header = document.querySelector('.luxury-header');
-                    const headerHeight = header?.offsetHeight || 0;
-                    const targetPosition = target.offsetTop - headerHeight - 20;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+        // Add success animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes successPulse {
+                0% { transform: scale(0); opacity: 0; }
+                50% { transform: scale(1.2); }
+                100% { transform: scale(1); opacity: 1; }
             }
-        });
-    }
-    
-    initRippleEffects() {
-        const rippleElements = document.querySelectorAll('.modern-btn, .action-btn, .social-link');
-        
-        rippleElements.forEach(element => {
-            element.addEventListener('click', (e) => {
-                this.createRipple(e, element);
-            });
-        });
-    }
-    
-    createRipple(e, element) {
-        const ripple = document.createElement('div');
-        const rect = element.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-        
-        ripple.style.cssText = `
-            position: absolute;
-            width: ${size}px;
-            height: ${size}px;
-            left: ${x}px;
-            top: ${y}px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: ripple 0.6s ease-out;
-            z-index: 1;
         `;
-        
-        element.style.position = 'relative';
-        element.style.overflow = 'hidden';
-        element.appendChild(ripple);
-        
-        setTimeout(() => ripple.remove(), 600);
-    }
-    
-    initParallaxElements() {
-        if (window.innerWidth < 768) return; // Skip on mobile
-        
-        const parallaxElements = document.querySelectorAll('[data-parallax]');
-        
-        const updateParallax = () => {
-            const scrolled = window.pageYOffset;
-            
-            parallaxElements.forEach(element => {
-                const speed = parseFloat(element.dataset.parallax) || 0.5;
-                const rect = element.getBoundingClientRect();
-                const elementTop = rect.top + scrolled;
-                const elementHeight = rect.height;
-                const windowHeight = window.innerHeight;
-                
-                if (rect.top < windowHeight && rect.bottom > 0) {
-                    const parallaxValue = (scrolled - elementTop) * speed;
-                    element.style.transform = `translateY(${parallaxValue}px)`;
-                }
-            });
-        };
-        
-        window.addEventListener('scroll', updateParallax, { passive: true });
+        document.head.appendChild(style);
     }
     
     initKeyboardNavigation() {
-        // Enhanced keyboard navigation
         document.addEventListener('keydown', (e) => {
             // Close modals with Escape
             if (e.key === 'Escape') {
                 const activeModal = document.querySelector('.modern-modal.active');
                 if (activeModal) {
-                    activeModal.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-                
-                const searchOverlay = document.querySelector('.search-overlay.active');
-                if (searchOverlay) {
-                    searchOverlay.classList.remove('active');
+                    this.closeModal(activeModal);
                 }
             }
         });
@@ -1229,15 +1295,32 @@ class EnhancedInteractions {
 /**
  * Main Application Class
  */
-class EviaEnhancedApp {
+class EviaApp {
     constructor() {
+        // State properties
         this.isLoading = true;
-        this.components = {};
+        this.scrolled = false;
+        this.mobileMenuOpen = false;
+        this.modalOpen = false;
+        this.raf = null;
+        this.scrollY = window.scrollY;
+        this.resizeTimer = null;
         
+        // Components
+        this.preloader = null;
+        this.heroSection = null;
+        this.header = null;
+        this.modals = null;
+        
+        // Initialize application
         this.init();
     }
     
+    /**
+     * Initialize application
+     */
     init() {
+        // Wait for DOM content to be loaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.initApp());
         } else {
@@ -1245,81 +1328,136 @@ class EviaEnhancedApp {
         }
     }
     
+    /**
+     * Main application initialization
+     */
     initApp() {
         try {
-            console.log('🌿 Initializing Enhanced Evia Aesthetics...');
+            console.log('🌿 Initializing Evia Aesthetics application...');
+            
+            // Detect browser and device capabilities
+            this.detectCapabilities();
             
             // Initialize preloader first
-            this.components.preloader = new EviaEnhancedPreloader();
+            this.initPreloader();
             
-            // Listen for preloader completion
-            window.addEventListener('preloaderComplete', () => {
-                this.onPreloaderComplete();
-            });
+            // Initialize header
+            this.header = new EnhancedHeader();
             
-            // Initialize non-blocking components
-            this.initializeComponents();
+            // Initialize modals
+            this.modals = new EnhancedModals();
             
-            console.log('✅ Enhanced application initialized');
+            // Add dynamic styles
+            this.addDynamicStyles();
+            
+            // Bind global events
+            this.bindEvents();
+            
+            console.log('✅ Application initialized successfully');
         } catch (error) {
             console.error('❌ Error initializing application:', error);
             this.handleInitError();
         }
     }
     
-    initializeComponents() {
-        // Initialize header
-        this.components.header = new EnhancedHeader();
+    /**
+     * Initialize preloader
+     */
+    initPreloader() {
+        // Create and initialize preloader
+        this.preloader = new EviaModernPreloader({
+            minDuration: 2000,
+            exitDuration: 1200,
+            loadingMessages: [
+                'Welcome to Evia Aesthetics',
+                'Preparing your experience',
+                'Loading treatments',
+                'Almost ready'
+            ]
+        });
         
-        // Initialize modals
-        this.components.modals = new EnhancedModals();
-        
-        // Initialize interactions
-        this.components.interactions = new EnhancedInteractions();
-        
-        // Add CSS for dynamic animations
-        this.addDynamicStyles();
+        // Listen for preloader completion
+        window.addEventListener('preloaderComplete', () => {
+            this.onPreloaderComplete();
+        });
     }
     
+    /**
+     * Handle preloader completion
+     */
     onPreloaderComplete() {
         this.isLoading = false;
         
         // Initialize hero section after preloader
-        this.components.hero = new EnhancedHero();
+        this.heroSection = new EnhancedMedSpaHero();
         
-        // Initialize AOS
+        // Initialize AOS animations after preloader
         if (typeof AOS !== 'undefined') {
             AOS.init({
-                duration: 800,
+                duration: this.prefersReducedMotion ? 0 : 800,
                 easing: 'ease-out',
                 once: true,
                 offset: 50,
-                delay: 100,
-                disable: window.innerWidth < 768
+                delay: this.prefersReducedMotion ? 0 : 100,
+                disable: this.isLowEndDevice
             });
         }
         
-        // Initialize any scroll-dependent features
-        this.initScrollFeatures();
+        // Trigger initial scroll check
+        this.handleScroll();
     }
     
-    initScrollFeatures() {
-        // Add any features that depend on scroll
-        const sections = document.querySelectorAll('section');
+    /**
+     * Detect browser capabilities for performance optimizations
+     */
+    detectCapabilities() {
+        // Detect touch capability
+        this.isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
-        const revealSections = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                }
-            });
-        }, { threshold: 0.1 });
+        // Detect reduced motion preference
+        this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         
-        sections.forEach(section => {
-            revealSections.observe(section);
-        });
+        // Add relevant classes to the body
+        if (this.isTouch) document.body.classList.add('touch-device');
+        if (this.prefersReducedMotion) document.body.classList.add('reduced-motion');
+        
+        // Detect low-end devices
+        this.isLowEndDevice = navigator.hardwareConcurrency <= 4;
+        
+        if (this.isLowEndDevice) {
+            document.body.classList.add('low-end-device');
+            console.log('Low-end device detected, optimizing animations');
+        }
     }
     
+    /**
+     * Handle scroll events efficiently
+     */
+    handleScroll() {
+        const shouldBeScrolled = this.scrollY > 50;
+        
+        if (this.scrolled !== shouldBeScrolled) {
+            this.scrolled = shouldBeScrolled;
+        }
+    }
+    
+    /**
+     * Handle initialization errors
+     */
+    handleInitError() {
+        // Hide preloader even if there's an error
+        document.body.classList.remove('loading');
+        const preloader = document.getElementById('eviaPreloader');
+        if (preloader) {
+            preloader.classList.add('hidden');
+        }
+        
+        console.warn('⚠️ Application initialized with limited functionality due to errors');
+    }
+    
+    /**
+     * Add dynamic styles
+     */
     addDynamicStyles() {
         const style = document.createElement('style');
         style.textContent = `
@@ -1348,59 +1486,70 @@ class EviaEnhancedApp {
             .form-group.focused input,
             .form-group.focused select,
             .form-group.focused textarea {
-                border-color: var(--evia-orange);
+                border-color: #FF9E18;
                 box-shadow: 0 0 20px rgba(255, 158, 24, 0.2);
+                background: rgba(255, 255, 255, 0.95);
             }
             
             .form-group.valid input,
             .form-group.valid select,
             .form-group.valid textarea {
-                border-color: var(--success);
+                border-color: #10B981;
+                box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
             }
             
             .form-group.error input,
             .form-group.error select,
             .form-group.error textarea {
-                border-color: var(--error);
-            }
-            
-            section {
-                opacity: 0;
-                transform: translateY(30px);
-                transition: all 0.8s ease-out;
-            }
-            
-            section.revealed {
-                opacity: 1;
-                transform: translateY(0);
+                border-color: #EF4444;
+                box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
             }
             
             .typed-fade-out {
                 opacity: 0;
-                transition: opacity 0.5s;
+                transition: opacity 0.5s ease;
+            }
+            
+            .scroll-indicator-wrapper {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .trust-number {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
         `;
         document.head.appendChild(style);
     }
     
-    handleInitError() {
-        // Graceful degradation
-        document.body.classList.remove('loading');
-        const preloader = document.getElementById('eviaPreloader');
-        if (preloader) {
-            preloader.classList.add('hidden');
-        }
+    /**
+     * Bind global event listeners
+     */
+    bindEvents() {
+        // Handle resize events with debouncing
+        window.addEventListener('resize', () => {
+            clearTimeout(this.resizeTimer);
+            this.resizeTimer = setTimeout(() => {
+                // Update AOS on resize if available
+                if (typeof AOS !== 'undefined') {
+                    AOS.refresh();
+                }
+            }, 250);
+        });
         
-        console.warn('⚠️ Application initialized with limited functionality');
+        // Optimize page visibility handling
+        document.addEventListener('visibilitychange', () => {
+            // Pause animations when page is not visible
+            if (document.hidden) {
+                if (this.scrollAnimation) {
+                    cancelAnimationFrame(this.scrollAnimation);
+                    this.scrollAnimation = null;
+                }
+            }
+        });
     }
 }
 
-// Initialize the enhanced application
+// Initialize application
 document.addEventListener('DOMContentLoaded', () => {
-    const app = new EviaEnhancedApp();
+    const eviaApp = new EviaApp();
 });
-
-// Export for potential external use
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EviaEnhancedApp;
-}
