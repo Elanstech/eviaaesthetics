@@ -1495,7 +1495,7 @@ ul, ol {
 }
 
 .logo-image {
-    height: 45px;
+    height: 250px;
     width: auto;
     transition: transform 0.4s var(--transition-smooth);
 }
