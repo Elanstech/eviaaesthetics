@@ -1,9 +1,293 @@
 /**
- * Evia Aesthetics - Main JavaScript
- * Includes premium hero section functionality and preloader
+ * Evia Aesthetics - Complete JavaScript
+ * Includes all functionality: preloader, hero section, and Manhattan header
  */
 
 'use strict';
+
+/**
+ * Manhattan Header Class
+ * Ultra-modern header with smooth animations and glassmorphism effects
+ */
+class ManhattanHeader {
+    constructor() {
+        this.header = document.getElementById('manhattanHeader');
+        this.menuToggle = document.getElementById('menuToggle');
+        this.mobileMenu = document.getElementById('mobileMenu');
+        this.mobileClose = document.getElementById('mobileClose');
+        this.progressBar = document.querySelector('.progress-bar');
+        this.magneticElements = document.querySelectorAll('[data-magnetic="true"]');
+        
+        this.scrolled = false;
+        this.lastScrollY = 0;
+        this.ticking = false;
+        
+        this.init();
+    }
+    
+    init() {
+        // Initialize all features
+        this.initScrollEffects();
+        this.initMobileMenu();
+        this.initMagneticElements();
+        this.initDropdowns();
+        this.initNavLinks();
+        this.initParticleEffects();
+        this.initScrollProgress();
+        
+        // Initialize AOS if available
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 50
+            });
+        }
+    }
+    
+    // Smooth scroll effects with header transformation
+    initScrollEffects() {
+        let lastScroll = 0;
+        
+        const handleScroll = () => {
+            const currentScroll = window.pageYOffset;
+            
+            // Add/remove scrolled class
+            if (currentScroll > 50) {
+                this.header.classList.add('scrolled');
+            } else {
+                this.header.classList.remove('scrolled');
+            }
+            
+            // Hide/show header on scroll
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                this.header.style.transform = 'translateY(-100%)';
+            } else {
+                this.header.style.transform = 'translateY(0)';
+            }
+            
+            lastScroll = currentScroll;
+            this.ticking = false;
+        };
+        
+        window.addEventListener('scroll', () => {
+            if (!this.ticking) {
+                requestAnimationFrame(handleScroll);
+                this.ticking = true;
+            }
+        }, { passive: true });
+    }
+    
+    // Mobile menu functionality
+    initMobileMenu() {
+        if (!this.menuToggle || !this.mobileMenu) return;
+        
+        // Toggle menu
+        this.menuToggle.addEventListener('click', () => {
+            this.toggleMobileMenu();
+        });
+        
+        // Close menu
+        if (this.mobileClose) {
+            this.mobileClose.addEventListener('click', () => {
+                this.closeMobileMenu();
+            });
+        }
+        
+        // Close on outside click
+        document.addEventListener('click', (e) => {
+            if (this.mobileMenu.classList.contains('active') && 
+                !e.target.closest('.mobile-menu-modern') && 
+                !e.target.closest('.menu-toggle')) {
+                this.closeMobileMenu();
+            }
+        });
+        
+        // Handle dropdown toggles
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const dropdown = toggle.parentElement;
+                const content = dropdown.querySelector('.mobile-dropdown-content');
+                
+                toggle.classList.toggle('active');
+                content.classList.toggle('active');
+            });
+        });
+        
+        // Close menu on link click
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link:not(.dropdown-toggle), .mobile-sub-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                this.closeMobileMenu();
+            });
+        });
+    }
+    
+    toggleMobileMenu() {
+        this.mobileMenu.classList.toggle('active');
+        this.menuToggle.classList.toggle('active');
+        document.body.style.overflow = this.mobileMenu.classList.contains('active') ? 'hidden' : '';
+    }
+    
+    closeMobileMenu() {
+        this.mobileMenu.classList.remove('active');
+        this.menuToggle.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    // Magnetic hover effect for elements
+    initMagneticElements() {
+        if (window.innerWidth < 992) return;
+        
+        this.magneticElements.forEach(element => {
+            element.addEventListener('mousemove', (e) => {
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                // Apply magnetic effect
+                const magnetX = x * 0.3;
+                const magnetY = y * 0.3;
+                
+                element.style.transform = `translate(${magnetX}px, ${magnetY}px)`;
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translate(0, 0)';
+            });
+        });
+    }
+    
+    // Initialize dropdowns with smooth animations
+    initDropdowns() {
+        const dropdowns = document.querySelectorAll('.has-dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            let hoverTimeout;
+            
+            dropdown.addEventListener('mouseenter', () => {
+                clearTimeout(hoverTimeout);
+                dropdown.classList.add('active');
+            });
+            
+            dropdown.addEventListener('mouseleave', () => {
+                hoverTimeout = setTimeout(() => {
+                    dropdown.classList.remove('active');
+                }, 300);
+            });
+        });
+    }
+    
+    // Active navigation state
+    initNavLinks() {
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Smooth scroll to section
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerHeight = this.header.offsetHeight;
+                        const targetPosition = target.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Update active state on scroll
+        this.updateActiveNavOnScroll();
+    }
+    
+    updateActiveNavOnScroll() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        const observerOptions = {
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => observer.observe(section));
+    }
+    
+    // Particle effects for CTA button
+    initParticleEffects() {
+        const ctaButton = document.querySelector('.cta-button');
+        if (!ctaButton) return;
+        
+        ctaButton.addEventListener('click', (e) => {
+            // Create ripple effect
+            const ripple = document.createElement('div');
+            ripple.className = 'button-ripple';
+            
+            const rect = ctaButton.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            
+            ctaButton.appendChild(ripple);
+            
+            // Remove ripple after animation
+            setTimeout(() => ripple.remove(), 600);
+            
+            // Trigger booking modal if exists
+            const modal = document.getElementById('appointmentModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    }
+    
+    // Scroll progress indicator
+    initScrollProgress() {
+        if (!this.progressBar) return;
+        
+        const updateProgress = () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPosition = window.scrollY;
+            const progress = (scrollPosition / scrollHeight) * 100;
+            
+            this.progressBar.style.width = `${progress}%`;
+        };
+        
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress(); // Initial call
+    }
+}
 
 /**
  * Evia Modern Preloader
@@ -633,6 +917,7 @@ class EviaApp {
         // Components
         this.preloader = null;
         this.heroSection = null;
+        this.manhattanHeader = null; // New Manhattan header
         
         // Initialize application
         this.init();
@@ -672,6 +957,9 @@ class EviaApp {
             this.initFormValidation();
             this.initScrollToElements();
             
+            // Initialize Manhattan header
+            this.initManhattanHeader();
+            
             // Bind event listeners
             this.bindEvents();
             
@@ -681,6 +969,17 @@ class EviaApp {
         } catch (error) {
             console.error('❌ Error initializing application:', error);
             this.handleInitError();
+        }
+    }
+    
+    /**
+     * Initialize Manhattan Header
+     */
+    initManhattanHeader() {
+        // Check if Manhattan header exists
+        if (document.getElementById('manhattanHeader')) {
+            this.manhattanHeader = new ManhattanHeader();
+            console.log('✨ Manhattan header initialized');
         }
     }
     
@@ -959,7 +1258,7 @@ class EviaApp {
      * Initialize modal functionality with accessibility improvements
      */
     initModal() {
-        const modalTriggers = document.querySelectorAll('#headerCta, #heroBookBtn, #mobileCta, #consultationBtn');
+        const modalTriggers = document.querySelectorAll('#headerCta, #heroBookBtn, #mobileCta, #consultationBtn, .cta-button');
         
         if (!this.appointmentModal) return;
         
