@@ -346,7 +346,7 @@ class EnhancedHeader {
 }
 
 /**
- * Evia Modern Preloader (KEEPING YOUR EXISTING DESIGN)
+ * Evia Modern Preloader
  * Handles loading animation and elegant transition to main content
  */
 class EviaModernPreloader {
