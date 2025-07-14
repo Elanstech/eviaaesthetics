@@ -1,6 +1,6 @@
 /**
  * Evia Aesthetics - Complete Integrated JavaScript
- * Includes: preloader, hero section, header, modals, and Dr. Nano section
+ * Includes: preloader, enhanced hero section, header, modals, and Dr. Nano section
  */
 
 'use strict';
@@ -546,9 +546,10 @@ class EviaModernPreloader {
 }
 
 /**
- * Enhanced Hero Section with Med Spa Appropriate Design
+ * Professional Med Spa Hero Section Controller
+ * Enhanced version with glass morphism design for perfect video background visibility
  */
-class EnhancedMedSpaHero {
+class ProfessionalMedSpaHero {
     constructor() {
         this.hero = document.querySelector('.manhattan-hero-enhanced');
         this.typedElement = document.getElementById('typingText');
@@ -561,23 +562,46 @@ class EnhancedMedSpaHero {
         this.typed = null;
         this.isAnimating = false;
         this.countersAnimated = false;
+        this.isInitialized = false;
         
         this.init();
     }
     
+    /**
+     * Initialize all hero section functionality
+     */
     init() {
+        if (this.isInitialized) return;
+        
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.initializeComponents());
+        } else {
+            this.initializeComponents();
+        }
+        
+        this.isInitialized = true;
+        console.log('✨ Professional Med Spa Hero initialized');
+    }
+    
+    /**
+     * Initialize all components
+     */
+    initializeComponents() {
         this.initAOS();
         this.initTypedAnimation();
         this.initGSAPAnimations();
-        this.initInteractions();
+        this.initButtonInteractions();
         this.initScrollEffects();
         this.initCounterAnimations();
-        this.initTiltEffects();
         this.initMagneticEffects();
-        
-        console.log('✨ Enhanced Med Spa Hero initialized');
+        this.initVideoEffects();
+        this.initAccessibility();
     }
     
+    /**
+     * Initialize AOS (Animate On Scroll) animations
+     */
     initAOS() {
         if (typeof AOS !== 'undefined') {
             AOS.init({
@@ -588,27 +612,38 @@ class EnhancedMedSpaHero {
                 delay: 100,
                 disable: window.innerWidth < 768
             });
+            
+            // Refresh AOS when needed
+            setTimeout(() => {
+                AOS.refresh();
+            }, 500);
         }
     }
     
+    /**
+     * Initialize typing animation with medical spa services
+     */
     initTypedAnimation() {
-        if (!this.typedElement || typeof Typed === 'undefined') return;
+        if (!this.typedElement || typeof Typed === 'undefined') {
+            console.warn('Typed.js not available or element not found');
+            return;
+        }
         
         const medSpaServices = [
             'Advanced Botox & Dermal Fillers',
-            'Luxury HydraFacial Treatments',
+            'Luxury HydraFacial Treatments', 
             'Body Contouring & CoolSculpting',
-            'Medical-Grade Skincare',
+            'Medical-Grade Skincare Solutions',
             'Anti-Aging & Longevity Medicine',
             'Non-Invasive Aesthetic Procedures',
-            'Skin Rejuvenation Therapy',
-            'Laser Treatments & IPL'
+            'Professional Skin Rejuvenation',
+            'Laser Treatments & IPL Therapy'
         ];
         
         const options = {
             strings: medSpaServices,
-            typeSpeed: 45,
-            backSpeed: 25,
+            typeSpeed: 50,
+            backSpeed: 30,
             backDelay: 2500,
             loop: true,
             showCursor: false,
@@ -616,83 +651,90 @@ class EnhancedMedSpaHero {
             fadeOutDelay: 500,
             fadeOutClass: 'typed-fade-out',
             onStringTyped: (arrayPos) => {
-                // Add subtle glow effect when typing completes
-                this.typedElement.style.textShadow = '0 0 20px rgba(255, 158, 24, 0.5)';
+                // Add glow effect when typing completes
+                this.typedElement.style.textShadow = '0 0 20px rgba(255, 158, 24, 0.6)';
                 setTimeout(() => {
-                    this.typedElement.style.textShadow = '0 2px 10px rgba(255, 158, 24, 0.3)';
-                }, 1000);
+                    this.typedElement.style.textShadow = '0 1px 3px rgba(255, 158, 24, 0.3)';
+                }, 1200);
+            },
+            onBegin: () => {
+                this.typedElement.style.opacity = '1';
             }
         };
         
-        this.typed = new Typed(this.typedElement, options);
+        // Initialize with error handling
+        try {
+            this.typed = new Typed(this.typedElement, options);
+        } catch (error) {
+            console.error('Error initializing Typed.js:', error);
+        }
     }
     
+    /**
+     * Initialize GSAP animations if available
+     */
     initGSAPAnimations() {
         if (typeof gsap === 'undefined') return;
         
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // Subtle floating elements animation (Med Spa appropriate)
-        const floatingElements = document.querySelectorAll('.float-element');
-        floatingElements.forEach((element, index) => {
-            const speed = parseFloat(element.dataset.speed) || 0.3;
+        try {
+            gsap.registerPlugin(ScrollTrigger);
             
-            gsap.to(element, {
-                y: 'random(-20, 20)',
-                x: 'random(-15, 15)',
-                rotation: 'random(-3, 3)',
-                duration: 'random(20, 30)',
-                repeat: -1,
-                yoyo: true,
-                ease: 'sine.inOut',
-                delay: index * 3
-            });
-        });
-        
-        // Scroll-triggered content fade
-        gsap.to('.hero-content', {
-            y: 80,
-            opacity: 0.4,
-            scrollTrigger: {
-                trigger: this.hero,
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1.5,
-                pin: false
+            // Parallax effect for video background
+            if (window.innerWidth > 768) {
+                gsap.to('.hero-video-bg', {
+                    scale: 1.15,
+                    scrollTrigger: {
+                        trigger: this.hero,
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: 1
+                    }
+                });
             }
-        });
-        
-        // Video background subtle parallax
-        if (window.innerWidth > 768) {
-            gsap.to('.hero-video-bg', {
-                scale: 1.2,
+            
+            // Content fade on scroll
+            gsap.to('.hero-content', {
+                y: 50,
+                opacity: 0.6,
                 scrollTrigger: {
                     trigger: this.hero,
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: 1
+                    scrub: 1.5
                 }
             });
+            
+            // Staggered animation for feature cards
+            gsap.fromTo('.feature-card', 
+                {
+                    y: 30,
+                    opacity: 0
+                },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: 'power2.out',
+                    delay: 1.5
+                }
+            );
+            
+        } catch (error) {
+            console.error('Error initializing GSAP:', error);
         }
-        
-        // Gradient mesh animation
-        gsap.to('.mesh-layer', {
-            rotation: 360,
-            duration: 50,
-            repeat: -1,
-            ease: 'none',
-            stagger: {
-                each: 5,
-                from: 'random'
-            }
-        });
     }
     
-    initInteractions() {
+    /**
+     * Initialize button interactions and effects
+     */
+    initButtonInteractions() {
         // Primary CTA button
         if (this.primaryBtn) {
-            this.primaryBtn.addEventListener('click', () => {
+            this.primaryBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.openAppointmentModal();
+                this.trackEvent('hero_cta_clicked', { type: 'primary', text: 'Book Your Consultation' });
             });
             
             this.addAdvancedButtonEffects(this.primaryBtn);
@@ -700,20 +742,26 @@ class EnhancedMedSpaHero {
         
         // Video button
         if (this.videoBtn) {
-            this.videoBtn.addEventListener('click', () => {
+            this.videoBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.openVideoModal();
+                this.trackEvent('hero_video_clicked', { type: 'secondary', text: 'Watch Our Story' });
             });
             
             this.addAdvancedButtonEffects(this.videoBtn);
         }
         
-        // Header CTA buttons
-        const headerCTA = document.querySelector('.header-cta');
-        const mobileCTA = document.querySelector('.mobile-cta');
+        // Additional CTA buttons (header, mobile)
+        const additionalCTAs = [
+            '.header-cta',
+            '.mobile-cta'
+        ];
         
-        [headerCTA, mobileCTA].forEach(btn => {
+        additionalCTAs.forEach(selector => {
+            const btn = document.querySelector(selector);
             if (btn) {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
                     this.openAppointmentModal();
                 });
                 this.addAdvancedButtonEffects(btn);
@@ -721,22 +769,40 @@ class EnhancedMedSpaHero {
         });
     }
     
+    /**
+     * Open appointment modal with smooth animation
+     */
     openAppointmentModal() {
         const modal = document.getElementById('appointmentModal');
         if (modal) {
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Focus first input for accessibility
+            // Focus management for accessibility
             setTimeout(() => {
                 const firstInput = modal.querySelector('input');
                 if (firstInput) {
                     firstInput.focus();
                 }
             }, 300);
+            
+            // Add modal opening animation
+            const modalContainer = modal.querySelector('.modal-container');
+            if (modalContainer) {
+                modalContainer.style.transform = 'scale(0.8) translateY(20px)';
+                modalContainer.style.opacity = '0';
+                
+                setTimeout(() => {
+                    modalContainer.style.transform = 'scale(1) translateY(0)';
+                    modalContainer.style.opacity = '1';
+                }, 50);
+            }
         }
     }
     
+    /**
+     * Open video modal
+     */
     openVideoModal() {
         const modal = document.getElementById('videoModal');
         if (modal) {
@@ -749,58 +815,96 @@ class EnhancedMedSpaHero {
         }
     }
     
+    /**
+     * Add advanced button effects and interactions
+     */
     addAdvancedButtonEffects(button) {
         if (!button) return;
         
         // Enhanced ripple effect on click
         button.addEventListener('click', (e) => {
-            const ripple = document.createElement('div');
-            ripple.className = 'button-ripple';
-            
-            const rect = button.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height) * 1.5;
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.cssText = `
-                position: absolute;
-                width: ${size}px;
-                height: ${size}px;
-                left: ${x}px;
-                top: ${y}px;
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 50%;
-                pointer-events: none;
-                animation: ripple 0.8s ease-out;
-                z-index: 1;
-            `;
-            
-            button.style.position = 'relative';
-            button.style.overflow = 'hidden';
-            button.appendChild(ripple);
-            
-            setTimeout(() => ripple.remove(), 800);
+            this.createRippleEffect(e, button);
         });
         
         // Particle effect on hover
         button.addEventListener('mouseenter', () => {
-            const particles = button.querySelectorAll('.btn-particles span');
+            this.createParticleEffect(button);
+        });
+        
+        // Reset effects on mouse leave
+        button.addEventListener('mouseleave', () => {
+            this.resetButtonEffects(button);
+        });
+        
+        // Keyboard accessibility
+        button.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.createRippleEffect(e, button);
+                button.click();
+            }
+        });
+    }
+    
+    /**
+     * Create ripple effect on button click
+     */
+    createRippleEffect(event, button) {
+        const ripple = document.createElement('div');
+        ripple.className = 'button-ripple';
+        
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 1.5;
+        const x = (event.clientX || rect.left + rect.width / 2) - rect.left - size / 2;
+        const y = (event.clientY || rect.top + rect.height / 2) - rect.top - size / 2;
+        
+        ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: ripple 0.6s ease-out;
+            z-index: 1;
+        `;
+        
+        button.style.position = 'relative';
+        button.style.overflow = 'hidden';
+        button.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    }
+    
+    /**
+     * Create particle effect on button hover
+     */
+    createParticleEffect(button) {
+        const particles = button.querySelectorAll('.btn-particles span');
+        if (particles.length > 0) {
             particles.forEach((particle, index) => {
                 setTimeout(() => {
                     particle.style.animation = 'btnParticle 1.2s ease-out';
                 }, index * 150);
             });
-        });
-        
-        // Reset particles
-        button.addEventListener('mouseleave', () => {
-            const particles = button.querySelectorAll('.btn-particles span');
-            particles.forEach(particle => {
-                particle.style.animation = '';
-            });
+        }
+    }
+    
+    /**
+     * Reset button effects
+     */
+    resetButtonEffects(button) {
+        const particles = button.querySelectorAll('.btn-particles span');
+        particles.forEach(particle => {
+            particle.style.animation = '';
         });
     }
     
+    /**
+     * Initialize scroll effects and indicators
+     */
     initScrollEffects() {
         // Scroll indicator functionality
         if (this.scrollIndicator) {
@@ -810,10 +914,7 @@ class EnhancedMedSpaHero {
                     const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
                     const targetPosition = nextSection.offsetTop - headerHeight;
                     
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
+                    this.smoothScrollTo(targetPosition);
                 }
             });
         }
@@ -822,23 +923,7 @@ class EnhancedMedSpaHero {
         this.navDots.forEach((dot, index) => {
             dot.addEventListener('click', (e) => {
                 e.preventDefault();
-                const sections = ['hero', 'about', 'services', 'results', 'contact'];
-                const targetSection = document.getElementById(sections[index]);
-                if (targetSection) {
-                    const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
-                    let targetPosition;
-                    
-                    if (sections[index] === 'hero') {
-                        targetPosition = 0;
-                    } else {
-                        targetPosition = targetSection.offsetTop - headerHeight - 20;
-                    }
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+                this.handleNavDotClick(index);
             });
         });
         
@@ -846,9 +931,43 @@ class EnhancedMedSpaHero {
         this.updateActiveDot();
         
         // Hide scroll indicator when scrolled
-        this.initScrollIndicatorHide();
+        this.initScrollIndicatorVisibility();
     }
     
+    /**
+     * Handle navigation dot clicks
+     */
+    handleNavDotClick(index) {
+        const sections = ['hero', 'about', 'services', 'results', 'contact'];
+        const targetSection = document.getElementById(sections[index]);
+        
+        if (targetSection) {
+            const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
+            let targetPosition;
+            
+            if (sections[index] === 'hero') {
+                targetPosition = 0;
+            } else {
+                targetPosition = targetSection.offsetTop - headerHeight - 20;
+            }
+            
+            this.smoothScrollTo(targetPosition);
+        }
+    }
+    
+    /**
+     * Smooth scroll to position
+     */
+    smoothScrollTo(position) {
+        window.scrollTo({
+            top: position,
+            behavior: 'smooth'
+        });
+    }
+    
+    /**
+     * Update active navigation dot based on scroll position
+     */
     updateActiveDot() {
         const sections = ['hero', 'about', 'services', 'results', 'contact'];
         
@@ -863,11 +982,9 @@ class EnhancedMedSpaHero {
                     const id = entry.target.getAttribute('id');
                     const index = sections.indexOf(id);
                     
-                    if (index !== -1) {
+                    if (index !== -1 && this.navDots[index]) {
                         this.navDots.forEach(dot => dot.classList.remove('active'));
-                        if (this.navDots[index]) {
-                            this.navDots[index].classList.add('active');
-                        }
+                        this.navDots[index].classList.add('active');
                     }
                 }
             });
@@ -881,15 +998,16 @@ class EnhancedMedSpaHero {
         });
     }
     
-    initScrollIndicatorHide() {
-        let lastScrollY = window.scrollY;
-        
+    /**
+     * Initialize scroll indicator visibility
+     */
+    initScrollIndicatorVisibility() {
         const handleScroll = () => {
-            const currentScrollY = window.scrollY;
+            const scrollY = window.scrollY;
             const scrollIndicatorWrapper = document.querySelector('.scroll-indicator-wrapper');
             
             if (scrollIndicatorWrapper) {
-                if (currentScrollY > 100) {
+                if (scrollY > 100) {
                     scrollIndicatorWrapper.style.opacity = '0';
                     scrollIndicatorWrapper.style.transform = 'translateX(-50%) translateY(20px)';
                 } else {
@@ -897,13 +1015,14 @@ class EnhancedMedSpaHero {
                     scrollIndicatorWrapper.style.transform = 'translateX(-50%) translateY(0)';
                 }
             }
-            
-            lastScrollY = currentScrollY;
         };
         
         window.addEventListener('scroll', handleScroll, { passive: true });
     }
     
+    /**
+     * Initialize counter animations for trust indicators
+     */
     initCounterAnimations() {
         if (!this.trustNumbers.length) return;
         
@@ -920,7 +1039,7 @@ class EnhancedMedSpaHero {
                     requestAnimationFrame(updateCounter);
                 } else {
                     counter.textContent = target;
-                    // Add a subtle pulse effect when complete
+                    // Add completion effect
                     counter.style.transform = 'scale(1.1)';
                     setTimeout(() => {
                         counter.style.transform = 'scale(1)';
@@ -937,7 +1056,7 @@ class EnhancedMedSpaHero {
                 if (entry.isIntersecting && !this.countersAnimated) {
                     this.countersAnimated = true;
                     
-                    // Stagger the counter animations
+                    // Stagger counter animations
                     this.trustNumbers.forEach((counter, index) => {
                         setTimeout(() => {
                             animateCounter(counter);
@@ -949,29 +1068,15 @@ class EnhancedMedSpaHero {
             });
         }, { threshold: 0.5 });
         
-        const trustIndicators = document.querySelector('.trust-indicators');
+        const trustIndicators = document.querySelector('.trust-indicators-container');
         if (trustIndicators) {
             counterObserver.observe(trustIndicators);
         }
     }
     
-    initTiltEffects() {
-        if (typeof VanillaTilt !== 'undefined') {
-            const tiltElements = document.querySelectorAll('[data-tilt]');
-            VanillaTilt.init(tiltElements, {
-                max: 10, // Subtle tilt for med spa
-                speed: 1500,
-                glare: true,
-                'max-glare': 0.15,
-                perspective: 1000,
-                scale: 1.03,
-                transition: true,
-                axis: null,
-                reset: true
-            });
-        }
-    }
-    
+    /**
+     * Initialize magnetic hover effects (desktop only)
+     */
     initMagneticEffects() {
         if (window.innerWidth < 992) return; // Desktop only
         
@@ -996,10 +1101,130 @@ class EnhancedMedSpaHero {
         });
     }
     
-    // Cleanup method
+    /**
+     * Initialize video background effects
+     */
+    initVideoEffects() {
+        const video = document.querySelector('.hero-video-bg');
+        if (!video) return;
+        
+        // Ensure video plays
+        video.addEventListener('loadeddata', () => {
+            if (video.paused) {
+                video.play().catch(e => {
+                    console.log('Video autoplay prevented:', e);
+                });
+            }
+        });
+        
+        // Handle video errors
+        video.addEventListener('error', (e) => {
+            console.error('Video error:', e);
+            // Optionally add fallback background
+            this.hero.style.background = 'linear-gradient(135deg, #FFF8F0 0%, #FFFFFF 100%)';
+        });
+        
+        // Optimize video performance
+        video.addEventListener('loadstart', () => {
+            video.playbackRate = 1.0;
+        });
+    }
+    
+    /**
+     * Initialize accessibility features
+     */
+    initAccessibility() {
+        // Add ARIA labels
+        const buttons = this.hero.querySelectorAll('button');
+        buttons.forEach(button => {
+            if (!button.getAttribute('aria-label') && !button.getAttribute('aria-labelledby')) {
+                const text = button.querySelector('.btn-text')?.textContent || button.textContent;
+                if (text) {
+                    button.setAttribute('aria-label', text.trim());
+                }
+            }
+        });
+        
+        // Add reduced motion support
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            // Disable complex animations for users who prefer reduced motion
+            const style = document.createElement('style');
+            style.textContent = `
+                .manhattan-hero-enhanced *, 
+                .manhattan-hero-enhanced *::before, 
+                .manhattan-hero-enhanced *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Focus management
+        this.initFocusManagement();
+    }
+    
+    /**
+     * Initialize focus management for keyboard navigation
+     */
+    initFocusManagement() {
+        const focusableElements = this.hero.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        focusableElements.forEach(element => {
+            element.addEventListener('focus', () => {
+                element.style.outline = '3px solid rgba(255, 158, 24, 0.6)';
+                element.style.outlineOffset = '2px';
+            });
+            
+            element.addEventListener('blur', () => {
+                element.style.outline = '';
+                element.style.outlineOffset = '';
+            });
+        });
+    }
+    
+    /**
+     * Track events for analytics
+     */
+    trackEvent(eventName, eventData = {}) {
+        // Console logging for development
+        console.log('Event tracked:', eventName, eventData);
+        
+        // Google Analytics 4
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, {
+                event_category: 'hero_interaction',
+                event_label: eventData.text || '',
+                custom_parameter: eventData
+            });
+        }
+        
+        // Facebook Pixel
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'CustomEvent', {
+                event_name: eventName,
+                content_category: 'hero_section',
+                ...eventData
+            });
+        }
+        
+        // Custom analytics endpoint
+        if (window.customAnalytics) {
+            window.customAnalytics.track(eventName, eventData);
+        }
+    }
+    
+    /**
+     * Cleanup method for performance
+     */
     destroy() {
+        // Destroy Typed.js instance
         if (this.typed) {
             this.typed.destroy();
+            this.typed = null;
         }
         
         // Kill GSAP animations
@@ -1011,14 +1236,23 @@ class EnhancedMedSpaHero {
             gsap.killTweensOf('*');
         }
         
-        // Kill VanillaTilt
-        if (typeof VanillaTilt !== 'undefined') {
-            const tiltElements = document.querySelectorAll('[data-tilt]');
-            tiltElements.forEach(element => {
-                if (element.vanillaTilt) {
-                    element.vanillaTilt.destroy();
-                }
-            });
+        // Remove event listeners
+        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('resize', this.handleResize);
+        
+        console.log('Hero section destroyed');
+    }
+    
+    /**
+     * Refresh/reinitialize components
+     */
+    refresh() {
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
+        
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh();
         }
     }
 }
@@ -1861,8 +2095,8 @@ class EviaApp {
     onPreloaderComplete() {
         this.isLoading = false;
         
-        // Initialize hero section after preloader
-        this.heroSection = new EnhancedMedSpaHero();
+        // Initialize hero section after preloader (using new enhanced version)
+        this.heroSection = new ProfessionalMedSpaHero();
         
         // Initialize doctor section after a slight delay
         setTimeout(() => {
@@ -2064,6 +2298,10 @@ class EviaApp {
             .brand-item:hover {
                 box-shadow: 0 5px 15px rgba(255, 158, 24, 0.3);
             }
+            
+            .button-ripple {
+                pointer-events: none;
+            }
         `;
         document.head.appendChild(style);
     }
@@ -2079,6 +2317,11 @@ class EviaApp {
                 // Update AOS on resize if available
                 if (typeof AOS !== 'undefined') {
                     AOS.refresh();
+                }
+                
+                // Refresh hero section if available
+                if (this.heroSection && typeof this.heroSection.refresh === 'function') {
+                    this.heroSection.refresh();
                 }
             }, 250);
         });
@@ -2103,3 +2346,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // Store globally for external access
     window.eviaApp = eviaApp;
 });
+
+// Global utility functions
+window.eviaUtils = {
+    openModal: (modalId) => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    },
+    
+    closeModal: (modalId) => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    },
+    
+    smoothScrollTo: (targetId) => {
+        const target = document.getElementById(targetId);
+        if (target) {
+            const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
+            const targetPosition = target.offsetTop - headerHeight - 20;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+};
