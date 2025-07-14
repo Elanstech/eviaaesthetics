@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
-    <!-- Font Imports - Manhattan Modern Typography -->
+    <!-- Font Imports -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Icon Libraries -->
@@ -42,294 +42,175 @@
     <link rel="manifest" href="/site.webmanifest">
 </head>
 <body class="loading">
-    <!-- Ultra-Modern Manhattan Med Spa Preloader -->
-    <div class="evia-preloader" id="eviaPreloader">
-        <!-- Animated Background Elements -->
-        <div class="preloader-bg-wrapper">
-            <!-- Floating medical spa elements -->
-            <div class="spa-element spa-element-1">
-                <i class="fas fa-spa"></i>
-            </div>
-            <div class="spa-element spa-element-2">
-                <i class="fas fa-leaf"></i>
-            </div>
-            <div class="spa-element spa-element-3">
-                <i class="fas fa-heart"></i>
-            </div>
-            <div class="spa-element spa-element-4">
-                <i class="fas fa-star"></i>
-            </div>
-            
-            <!-- Gradient orbs -->
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
-        </div>
-        
-        <!-- Multi-layer sliding doors -->
-        <div class="sliding-doors">
-            <div class="door door-1">
-                <div class="door-inner">
-                    <div class="door-pattern"></div>
-                </div>
-            </div>
-            <div class="door door-2">
-                <div class="door-inner">
-                    <div class="door-pattern"></div>
-                </div>
-            </div>
-            <div class="door door-3">
-                <div class="door-inner">
-                    <div class="door-pattern"></div>
-                </div>
-            </div>
-            <div class="door door-4">
-                <div class="door-inner">
-                    <div class="door-pattern"></div>
-                </div>
+    <!-- Refined Preloader -->
+    <div class="refined-preloader" id="refinedPreloader">
+        <div class="preloader-background">
+            <div class="floating-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
             </div>
         </div>
         
-        <!-- Central content with advanced animations -->
         <div class="preloader-content">
-            <!-- Logo container with sophisticated animations -->
             <div class="logo-container">
-                <div class="logo-frame">
-                    <div class="logo-glow-ring"></div>
-                    <div class="logo-particles">
-                        <span class="particle"></span>
-                        <span class="particle"></span>
-                        <span class="particle"></span>
-                        <span class="particle"></span>
-                        <span class="particle"></span>
-                        <span class="particle"></span>
-                    </div>
+                <div class="logo-wrapper">
                     <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo">
+                    <div class="logo-glow"></div>
                 </div>
             </div>
             
-            <!-- Modern progress system -->
-            <div class="progress-system">
-                <div class="progress-label">Preparing Your Experience</div>
-                <div class="progress-track-modern">
-                    <div class="progress-fill" id="progressLine"></div>
-                    <div class="progress-shimmer"></div>
+            <div class="loading-text">
+                <span class="loading-message" id="loadingMessage">Welcome to Evia Aesthetics</span>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
                 </div>
                 <div class="progress-percentage" id="progressPercentage">0%</div>
             </div>
-            
-            <!-- Animated loading phases -->
-            <div class="loading-phases">
-                <div class="phase phase-1" id="loadingMessage">Welcome to Evia Aesthetics</div>
-                <div class="loading-dots">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
-            </div>
         </div>
         
-        <!-- Reveal curtains -->
-        <div class="reveal-curtains">
-            <div class="curtain curtain-left"></div>
-            <div class="curtain curtain-right"></div>
-        </div>
+        <div class="preloader-overlay"></div>
     </div>
 
-   <!-- Enhanced Luxury Header -->
-    <header class="luxury-header" id="luxuryHeader">
-        <!-- Dynamic Particle Background -->
-        <div class="header-bg-wrapper">
-            <canvas id="headerParticles" class="header-particles"></canvas>
-            <div class="header-gradient-overlay"></div>
-            <div class="header-noise"></div>
+    <!-- Modern Circled Header -->
+    <header class="modern-header" id="modernHeader">
+        <div class="header-background">
+            <div class="header-blur"></div>
+            <div class="header-gradient"></div>
         </div>
         
-        <!-- Header Inner Container -->
-        <div class="header-inner">
-            <!-- Left Section: Logo Only (BIGGER & NO TEXT) -->
-            <div class="header-brand">
-                <a href="#" class="brand-link magnetic-hover" data-strength="20">
-                    <div class="brand-logo-wrapper">
-                        <img src="logo1.png" alt="Evia Aesthetics" class="brand-logo">
-                        <div class="brand-logo-glow"></div>
+        <div class="header-container">
+            <!-- Logo Section -->
+            <div class="header-logo">
+                <a href="#" class="logo-link" id="logoLink">
+                    <div class="logo-circle">
+                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-image">
+                        <div class="logo-ring"></div>
                     </div>
                 </a>
             </div>
             
-            <!-- Center Section: Navigation -->
-            <nav class="luxury-navigation" id="luxuryNav">
+            <!-- Desktop Navigation -->
+            <nav class="header-nav" id="headerNav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="#home" class="nav-link magnetic-hover active" data-strength="10">
-                            <span class="link-text" data-text="Home">Home</span>
-                            <div class="link-underline"></div>
+                        <a href="#home" class="nav-link active">
+                            <span class="link-text">Home</span>
+                            <div class="link-indicator"></div>
                         </a>
                     </li>
-                    <li class="nav-item has-dropdown">
-                        <a href="#services" class="nav-link magnetic-hover" data-strength="10">
-                            <span class="link-text" data-text="Services">Services</span>
-                            <i class="fas fa-chevron-down dropdown-icon"></i>
-                            <div class="link-underline"></div>
+                    <li class="nav-item dropdown">
+                        <a href="#services" class="nav-link">
+                            <span class="link-text">Services</span>
+                            <i class="bi bi-chevron-down dropdown-arrow"></i>
+                            <div class="link-indicator"></div>
                         </a>
-                        <!-- Mega Menu Dropdown -->
-                        <div class="mega-menu">
-                            <div class="mega-menu-inner">
-                                <div class="mega-column">
-                                    <h3 class="mega-title">
-                                        <i class="bi bi-stars"></i>
-                                        Facial Treatments
-                                    </h3>
-                                    <ul class="mega-list">
-                                        <li><a href="#" class="mega-link">HydraFacial MD</a></li>
-                                        <li><a href="#" class="mega-link">Micro-needling</a></li>
-                                        <li><a href="#" class="mega-link">Chemical Peels</a></li>
-                                        <li><a href="#" class="mega-link">LED Light Therapy</a></li>
-                                    </ul>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-content">
+                                <div class="dropdown-section">
+                                    <h4>Facial Treatments</h4>
+                                    <a href="#">HydraFacial MD</a>
+                                    <a href="#">Micro-needling</a>
+                                    <a href="#">Chemical Peels</a>
                                 </div>
-                                <div class="mega-column">
-                                    <h3 class="mega-title">
-                                        <i class="bi bi-activity"></i>
-                                        Body Contouring
-                                    </h3>
-                                    <ul class="mega-list">
-                                        <li><a href="#" class="mega-link">CoolSculpting Elite</a></li>
-                                        <li><a href="#" class="mega-link">EMSculpt NEO</a></li>
-                                        <li><a href="#" class="mega-link">Morpheus8 Body</a></li>
-                                        <li><a href="#" class="mega-link">Cellulite Treatment</a></li>
-                                    </ul>
+                                <div class="dropdown-section">
+                                    <h4>Body Contouring</h4>
+                                    <a href="#">CoolSculpting Elite</a>
+                                    <a href="#">EMSculpt NEO</a>
+                                    <a href="#">Morpheus8 Body</a>
                                 </div>
-                                <div class="mega-column">
-                                    <h3 class="mega-title">
-                                        <i class="bi bi-droplet"></i>
-                                        Injectable Treatments
-                                    </h3>
-                                    <ul class="mega-list">
-                                        <li><a href="#" class="mega-link">Botox & Dysport</a></li>
-                                        <li><a href="#" class="mega-link">Dermal Fillers</a></li>
-                                        <li><a href="#" class="mega-link">Sculptra</a></li>
-                                        <li><a href="#" class="mega-link">PRP Therapy</a></li>
-                                    </ul>
-                                </div>
-                                <div class="mega-column featured">
-                                    <div class="mega-featured-card">
-                                        <div class="featured-badge">New</div>
-                                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=300&h=200&fit=crop&crop=face" alt="Special Offer">
-                                        <h4>New Patient Special</h4>
-                                        <p>Get 20% off your first treatment</p>
-                                        <a href="#" class="mega-cta">Learn More</a>
-                                    </div>
+                                <div class="dropdown-section">
+                                    <h4>Injectable Treatments</h4>
+                                    <a href="#">Botox & Dysport</a>
+                                    <a href="#">Dermal Fillers</a>
+                                    <a href="#">Sculptra</a>
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a href="#about" class="nav-link magnetic-hover" data-strength="10">
-                            <span class="link-text" data-text="About">About</span>
-                            <div class="link-underline"></div>
+                        <a href="#about" class="nav-link">
+                            <span class="link-text">About</span>
+                            <div class="link-indicator"></div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#results" class="nav-link magnetic-hover" data-strength="10">
-                            <span class="link-text" data-text="Results">Results</span>
-                            <div class="link-underline"></div>
+                        <a href="#results" class="nav-link">
+                            <span class="link-text">Results</span>
+                            <div class="link-indicator"></div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#contact" class="nav-link magnetic-hover" data-strength="10">
-                            <span class="link-text" data-text="Contact">Contact</span>
-                            <div class="link-underline"></div>
+                        <a href="#contact" class="nav-link">
+                            <span class="link-text">Contact</span>
+                            <div class="link-indicator"></div>
                         </a>
                     </li>
                 </ul>
             </nav>
             
-            <!-- Right Section: Actions -->
+            <!-- Header Actions -->
             <div class="header-actions">
-                <!-- Search Toggle -->
-                <button class="action-btn search-toggle magnetic-hover" data-strength="15" aria-label="Search">
-                    <i class="bi bi-search"></i>
-                    <div class="btn-ripple"></div>
-                </button>
-                
-                <!-- Phone Number -->
-                <a href="tel:+15551234567" class="header-phone magnetic-hover" data-strength="10">
+                <a href="tel:+15551234567" class="phone-button">
                     <i class="bi bi-telephone"></i>
                     <span>(555) 123-4567</span>
                 </a>
                 
-                <!-- CTA Button -->
-                <button class="header-cta modern-btn magnetic-hover" data-strength="20">
-                    <span class="btn-text">Book Now</span>
-                    <div class="btn-bg"></div>
-                    <div class="btn-particles">
-                        <span></span><span></span><span></span><span></span>
-                    </div>
-                    <div class="btn-glow"></div>
+                <button class="cta-button" id="headerCTA">
+                    <span>Book Now</span>
+                    <i class="bi bi-arrow-right"></i>
                 </button>
                 
                 <!-- Mobile Menu Toggle -->
                 <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
+                    <div class="toggle-container">
+                        <span class="toggle-line"></span>
+                        <span class="toggle-line"></span>
+                        <span class="toggle-line"></span>
+                    </div>
                 </button>
             </div>
         </div>
         
-        <!-- Progress Bar -->
-        <div class="header-progress">
-            <div class="progress-fill"></div>
+        <div class="scroll-progress">
+            <div class="progress-line" id="scrollProgress"></div>
         </div>
     </header>
 
-    <!-- Search Overlay -->
-    <div class="search-overlay" id="searchOverlay">
-        <button class="search-close magnetic-hover" aria-label="Close search">
-            <i class="bi bi-x-lg"></i>
-        </button>
-        <div class="search-inner">
-            <form class="search-form">
-                <input type="text" class="search-input" placeholder="Search treatments, services..." autocomplete="off">
-                <button type="submit" class="search-submit modern-btn">
-                    <i class="bi bi-arrow-right"></i>
-                </button>
-            </form>
-            <div class="search-suggestions">
-                <h4>Popular Searches</h4>
-                <div class="suggestion-tags">
-                    <a href="#" class="suggestion-tag">Botox</a>
-                    <a href="#" class="suggestion-tag">Lip Fillers</a>
-                    <a href="#" class="suggestion-tag">HydraFacial</a>
-                    <a href="#" class="suggestion-tag">CoolSculpting</a>
-                    <a href="#" class="suggestion-tag">Skincare</a>
-                    <a href="#" class="suggestion-tag">Consultation</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Enhanced Mobile Menu -->
+    <!-- Modern Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-inner">
-            <div class="mobile-menu-header">
-                <img src="logo1.png" alt="Evia Aesthetics" class="mobile-logo">
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+        <div class="mobile-content">
+            <div class="mobile-header">
+                <div class="mobile-logo-circles">
+                    <div class="mobile-logo-circle primary">
+                        <img src="logo1.png" alt="Evia" class="mobile-logo-img">
+                    </div>
+                    <div class="mobile-logo-circle secondary">
+                        <i class="bi bi-spa"></i>
+                    </div>
+                </div>
                 <button class="mobile-close" id="mobileClose">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
+            
             <nav class="mobile-nav">
                 <ul class="mobile-nav-list">
                     <li><a href="#home" class="mobile-nav-link">Home</a></li>
-                    <li class="has-submenu">
-                        <a href="#services" class="mobile-nav-link dropdown-toggle">
+                    <li class="mobile-dropdown">
+                        <button class="mobile-nav-link dropdown-toggle">
                             Services <i class="bi bi-chevron-down"></i>
-                        </a>
+                        </button>
                         <ul class="mobile-submenu">
                             <li><a href="#" class="mobile-sub-link">Facial Treatments</a></li>
                             <li><a href="#" class="mobile-sub-link">Body Contouring</a></li>
                             <li><a href="#" class="mobile-sub-link">Injectable Treatments</a></li>
-                            <li><a href="#" class="mobile-sub-link">Wellness & Longevity</a></li>
                         </ul>
                     </li>
                     <li><a href="#about" class="mobile-nav-link">About</a></li>
@@ -337,523 +218,309 @@
                     <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
                 </ul>
             </nav>
+            
             <div class="mobile-actions">
-                <a href="tel:+15551234567" class="mobile-phone modern-btn secondary">
-                    <i class="bi bi-telephone"></i> (555) 123-4567
+                <a href="tel:+15551234567" class="mobile-phone">
+                    <i class="bi bi-telephone"></i>
+                    <span>(555) 123-4567</span>
                 </a>
-                <button class="mobile-cta modern-btn primary">Book Consultation</button>
+                <button class="mobile-cta" id="mobileCTA">Book Consultation</button>
             </div>
+            
             <div class="mobile-social">
-                <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="social-icon" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
-                <a href="#" class="social-icon" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
+                <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
             </div>
         </div>
     </div>
 
-    <!-- ELEVATED Manhattan Hero Section - Next Level Design -->
-    <section class="manhattan-hero-elevated" id="hero" data-scroll-section>
-        <!-- Advanced 3D Background System -->
-        <div class="hero-3d-canvas" id="hero3DCanvas"></div>
-        
-        <!-- Multi-Layer Video Background -->
-        <div class="hero-media-wrapper">
-            <video class="hero-video-bg" autoplay muted loop playsinline>
+    <!-- Refined Hero Section -->
+    <section class="refined-hero" id="hero">
+        <!-- Cinematic Video Background -->
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop playsinline>
                 <source src="hero.mp4" type="video/mp4">
-                Your browser does not support the video tag.
             </video>
-            <div class="hero-video-overlay"></div>
-        </div>
-        
-        <!-- Interactive Particle System -->
-        <div class="hero-particles-advanced" id="heroParticles"></div>
-        
-        <!-- Floating Elements -->
-        <div class="floating-elements">
-            <div class="float-element element-1">
-                <i class="fas fa-spa"></i>
-            </div>
-            <div class="float-element element-2">
-                <i class="fas fa-leaf"></i>
-            </div>
-            <div class="float-element element-3">
-                <i class="fas fa-heart"></i>
-            </div>
-            <div class="float-element element-4">
-                <i class="fas fa-star"></i>
+            <div class="video-overlay"></div>
+            <div class="cinematic-bars">
+                <div class="bar bar-top"></div>
+                <div class="bar bar-bottom"></div>
             </div>
         </div>
         
-        <!-- Main Hero Content -->
-        <div class="hero-content-wrapper">
+        <!-- Enhanced Floating Elements -->
+        <div class="hero-floating-elements">
+            <div class="floating-element" style="--delay: 0s; --duration: 8s;">
+                <i class="bi bi-heart-pulse"></i>
+            </div>
+            <div class="floating-element" style="--delay: 2s; --duration: 10s;">
+                <i class="bi bi-stars"></i>
+            </div>
+            <div class="floating-element" style="--delay: 4s; --duration: 12s;">
+                <i class="bi bi-droplet"></i>
+            </div>
+        </div>
+        
+        <!-- Hero Content -->
+        <div class="hero-content-container">
             <div class="hero-content">
-                <!-- Manhattan Badge with Advanced Glass Effect -->
-                <div class="hero-badge-container" data-aos="fade-down" data-aos-duration="1000">
-                    <div class="hero-badge">
-                        <div class="badge-icon">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                        <span class="badge-text">Manhattan's Premier Medical Spa</span>
-                        <div class="badge-shine"></div>
-                        <div class="badge-particles">
-                            <span></span><span></span><span></span>
-                        </div>
+                <!-- Manhattan Badge -->
+                <div class="hero-badge" data-aos="fade-up" data-aos-delay="200">
+                    <div class="badge-circle">
+                        <i class="bi bi-geo-alt"></i>
                     </div>
+                    <span class="badge-text">Manhattan's Premier Medical Spa</span>
                 </div>
                 
-                <!-- Main Title with 3D Glass Background -->
-                <div class="hero-title-container" data-aos="fade-up" data-aos-delay="200">
-                    <h1 class="hero-title" data-splitting>
-                        <span class="title-line">
-                            <span class="title-word">Redefine</span>
-                            <span class="title-word accent">Beauty</span>
-                        </span>
-                        <span class="title-line">
-                            <span class="title-word">Embrace</span>
-                            <span class="title-word">Confidence</span>
-                        </span>
+                <!-- Main Title -->
+                <div class="hero-title-section" data-aos="fade-up" data-aos-delay="400">
+                    <h1 class="hero-title">
+                        <span class="title-line">Redefine Your</span>
+                        <span class="title-line accent">Natural Beauty</span>
                     </h1>
                     <div class="title-decoration">
+                        <div class="decoration-dot"></div>
                         <div class="decoration-line"></div>
-                        <div class="decoration-diamond">
-                            <i class="fas fa-gem"></i>
-                        </div>
-                        <div class="decoration-line"></div>
+                        <div class="decoration-dot"></div>
                     </div>
                 </div>
                 
-                <!-- Advanced Typing Animation -->
-                <div class="hero-typing-container" data-aos="fade-up" data-aos-delay="400">
-                    <div class="hero-typing">
-                        <span class="typing-prefix">Specializing in</span>
-                        <span class="typing-wrapper">
-                            <span id="typingText" class="typing-text"></span>
-                            <span class="typing-cursor"></span>
-                        </span>
-                    </div>
+                <!-- Typing Animation -->
+                <div class="hero-typing" data-aos="fade-up" data-aos-delay="600">
+                    <span class="typing-prefix">Specializing in</span>
+                    <span class="typing-text" id="typingText"></span>
+                    <span class="typing-cursor">|</span>
                 </div>
                 
-                <!-- Enhanced Description -->
-                <div class="hero-description-container" data-aos="fade-up" data-aos-delay="600">
-                    <p class="hero-description">
-                        Experience the perfect fusion of <span class="text-highlight">cutting-edge technology</span> 
-                        and <span class="text-highlight">personalized care</span> in the heart of Manhattan.
-                        <br>Transform your natural beauty with our award-winning treatments.
-                    </p>
+                <!-- Description -->
+                <div class="hero-description" data-aos="fade-up" data-aos-delay="800">
+                    <p>Experience the perfect blend of cutting-edge technology and personalized care in the heart of Manhattan. Transform your confidence with our award-winning treatments.</p>
                 </div>
                 
-                <!-- Premium CTA Buttons -->
-                <div class="hero-cta-container" data-aos="fade-up" data-aos-delay="800">
-                    <div class="hero-cta-wrapper">
-                        <button class="luxury-btn primary modern-btn magnetic-hover" data-strength="25" id="heroBookBtn">
-                            <span class="btn-text">Book Your Consultation</span>
-                            <div class="btn-bg"></div>
-                            <div class="btn-particles">
-                                <span></span><span></span><span></span><span></span>
-                            </div>
-                            <div class="btn-glow"></div>
-                            <i class="btn-icon fas fa-calendar-check"></i>
-                        </button>
-                        
-                        <button class="luxury-btn secondary modern-btn video-trigger magnetic-hover" data-strength="20" id="heroVideoBtn">
-                            <div class="play-pulse">
-                                <i class="bi bi-play-fill"></i>
-                            </div>
-                            <span class="btn-text">Watch Our Story</span>
-                            <div class="btn-ripple"></div>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Enhanced Feature Cards -->
-                <div class="hero-features-container" data-aos="fade-up" data-aos-delay="1000">
-                    <div class="hero-features">
-                        <div class="feature-card" data-tilt>
-                            <div class="feature-icon">
-                                <i class="bi bi-patch-check"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>Board Certified</h4>
-                                <p>Expert physicians</p>
-                            </div>
-                            <div class="card-glow"></div>
-                            <div class="card-particles">
-                                <span></span><span></span><span></span>
-                            </div>
+                <!-- CTA Buttons -->
+                <div class="hero-actions" data-aos="fade-up" data-aos-delay="1000">
+                    <button class="primary-button" id="heroBookBtn">
+                        <span class="btn-text">Book Consultation</span>
+                        <div class="btn-icon">
+                            <i class="bi bi-calendar-check"></i>
                         </div>
-                        <div class="feature-card" data-tilt>
-                            <div class="feature-icon">
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>5-Star Rated</h4>
-                                <p>1000+ reviews</p>
-                            </div>
-                            <div class="card-glow"></div>
-                            <div class="card-particles">
-                                <span></span><span></span><span></span>
-                            </div>
+                        <div class="btn-ripple"></div>
+                    </button>
+                    
+                    <button class="secondary-button video-btn" id="heroVideoBtn">
+                        <div class="play-icon">
+                            <i class="bi bi-play-fill"></i>
                         </div>
-                        <div class="feature-card" data-tilt>
-                            <div class="feature-icon">
-                                <i class="bi bi-shield-check"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>FDA Approved</h4>
-                                <p>Safe treatments</p>
-                            </div>
-                            <div class="card-glow"></div>
-                            <div class="card-particles">
-                                <span></span><span></span><span></span>
-                            </div>
+                        <span class="btn-text">Watch Tour</span>
+                    </button>
+                </div>
+                
+                <!-- Trust Indicators -->
+                <div class="hero-trust" data-aos="fade-up" data-aos-delay="1200">
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i class="bi bi-patch-check-fill"></i>
+                        </div>
+                        <div class="trust-text">
+                            <strong>Board Certified</strong>
+                            <span>Expert Physicians</span>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Luxury Trust Indicators -->
-                <div class="trust-indicators-container" data-aos="fade-up" data-aos-delay="1200">
-                    <div class="trust-indicators">
-                        <div class="trust-item">
-                            <div class="trust-number" data-count="500">0</div>
-                            <div class="trust-label">Happy Clients</div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i class="bi bi-star-fill"></i>
                         </div>
-                        <div class="trust-divider"></div>
-                        <div class="trust-item">
-                            <div class="trust-number" data-count="15">0</div>
-                            <div class="trust-label">Years Experience</div>
+                        <div class="trust-text">
+                            <strong>5-Star Rated</strong>
+                            <span>1000+ Reviews</span>
                         </div>
-                        <div class="trust-divider"></div>
-                        <div class="trust-item">
-                            <div class="trust-number" data-count="98">0</div>
-                            <div class="trust-label">Success Rate</div>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-item">
+                        <div class="trust-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div class="trust-text">
+                            <strong>FDA Approved</strong>
+                            <span>Safe Treatments</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Enhanced Scroll Indicator -->
-        <div class="scroll-indicator-wrapper">
-            <div class="scroll-indicator magnetic-hover" data-strength="10">
-                <div class="scroll-icon">
-                    <div class="scroll-wheel"></div>
-                </div>
-                <span class="scroll-text">Scroll to explore</span>
-                <div class="scroll-arrow">
-                    <i class="bi bi-arrow-down"></i>
-                </div>
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" id="scrollIndicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
             </div>
-        </div>
-        
-        <!-- Enhanced Side Navigation -->
-        <nav class="hero-side-nav">
-            <div class="side-nav-line"></div>
-            <a href="#hero" class="side-nav-dot active" data-tooltip="Home"></a>
-            <a href="#services" class="side-nav-dot" data-tooltip="Services"></a>
-            <a href="#about" class="side-nav-dot" data-tooltip="About"></a>
-            <a href="#results" class="side-nav-dot" data-tooltip="Results"></a>
-            <a href="#contact" class="side-nav-dot" data-tooltip="Contact"></a>
-        </nav>
-        
-        <!-- Enhanced Social Links -->
-        <div class="hero-social">
-            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="Instagram">
-                <i class="bi bi-instagram"></i>
-            </a>
-            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="Facebook">
-                <i class="bi bi-facebook"></i>
-            </a>
-            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="TikTok">
-                <i class="bi bi-tiktok"></i>
-            </a>
-            <a href="#" class="social-link magnetic-hover" data-strength="10" aria-label="YouTube">
-                <i class="bi bi-youtube"></i>
-            </a>
+            <span class="scroll-text">Scroll to explore</span>
         </div>
     </section>
     
-    <!-- Meet Dr. Evia Alikaj Nano Section -->
-    <section class="meet-doctor-section" id="about" data-scroll-section>
-        <!-- Background Elements -->
-        <div class="doctor-bg-elements">
-            <div class="bg-gradient gradient-1"></div>
-            <div class="bg-gradient gradient-2"></div>
-            <div class="floating-accent accent-1"></div>
-            <div class="floating-accent accent-2"></div>
-        </div>
-        
-        <!-- Main Content -->
-        <div class="doctor-container">
-            <!-- Left Side - Doctor Photo -->
-            <div class="doctor-image-wrapper" data-aos="fade-right" data-aos-duration="1200">
-                <div class="image-frame">
-                    <div class="image-container">
-                        <img src="eviaherself.jpg" 
-                             alt="Evia A Nano, MD" 
-                             class="doctor-photo">
+    <!-- Meet Dr. Evia Section -->
+    <section class="meet-doctor-section" id="about">
+        <div class="section-container">
+            <div class="doctor-grid">
+                <!-- Doctor Image -->
+                <div class="doctor-image" data-aos="fade-right">
+                    <div class="image-wrapper">
+                        <img src="eviaherself.jpg" alt="Dr. Evia Alikaj Nano" class="doctor-photo">
                         <div class="image-overlay"></div>
-                        <div class="image-glow"></div>
                     </div>
                     
-                    <!-- Floating Credentials Badge -->
                     <div class="credentials-badge">
                         <div class="badge-icon">
-                            <i class="fas fa-user-md"></i>
+                            <i class="bi bi-award"></i>
                         </div>
                         <div class="badge-content">
                             <span class="badge-title">Board Certified</span>
                             <span class="badge-subtitle">20+ Years Experience</span>
                         </div>
                     </div>
-                    
-                    <!-- Awards & Recognition -->
-                    <div class="awards-container">
-                        <div class="award-item">
-                            <i class="fas fa-star"></i>
-                            <span>5-Star Rated</span>
-                        </div>
-                        <div class="award-item">
-                            <i class="fas fa-certificate"></i>
-                            <span>MD Certified</span>
-                        </div>
-                    </div>
                 </div>
-            </div>
-            
-            <!-- Right Side - Content -->
-            <div class="doctor-content" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
-                <!-- Section Header -->
-                <div class="section-header">
-                    <div class="section-badge" data-aos="fade-up" data-aos-delay="300">
-                        <i class="fas fa-stethoscope"></i>
-                        <span>Meet Your Aesthetic Expert</span>
+                
+                <!-- Doctor Content -->
+                <div class="doctor-content" data-aos="fade-left">
+                    <div class="section-badge">
+                        <i class="bi bi-person-heart"></i>
+                        <span>Meet Your Expert</span>
                     </div>
                     
-                    <h2 class="section-title" data-aos="fade-up" data-aos-delay="400">
+                    <h2 class="section-title">
                         Dr. Evia Alikaj Nano
                         <span class="title-accent">MD</span>
                     </h2>
                     
-                    <div class="section-subtitle" data-aos="fade-up" data-aos-delay="500">
-                        Combining Two Decades of Medical Excellence with Holistic Aesthetic Care
+                    <div class="section-subtitle">
+                        Combining two decades of medical excellence with holistic aesthetic care
                     </div>
-                </div>
-                
-                <!-- Philosophy -->
-                <div class="doctor-philosophy" data-aos="fade-up" data-aos-delay="600">
-                    <blockquote class="philosophy-quote">
-                        "I believe that natural beauty is timeless. My passion is working with each patient to elevate their looks to their best natural selves through personalized, holistic care."
+                    
+                    <blockquote class="doctor-quote">
+                        "I believe that natural beauty is timeless. My passion is working with each patient to elevate their looks to their best natural selves."
                     </blockquote>
-                    <cite class="quote-author">- Dr. Evia Alikaj Nano</cite>
-                </div>
-                
-                <!-- Expertise Grid -->
-                <div class="expertise-grid" data-aos="fade-up" data-aos-delay="700">
-                    <div class="expertise-item">
-                        <div class="expertise-icon">
-                            <i class="fas fa-spa"></i>
+                    
+                    <div class="expertise-list">
+                        <div class="expertise-item">
+                            <div class="expertise-icon">
+                                <i class="bi bi-droplet"></i>
+                            </div>
+                            <div class="expertise-text">
+                                <h4>Facial Rejuvenation</h4>
+                                <p>Chemical peels, microneedling, and PRP for healthier skin</p>
+                            </div>
                         </div>
-                        <div class="expertise-content">
-                            <h4>Facial Rejuvenation</h4>
-                            <p>Chemical peels, microneedling, and PRP services for healthier, glowing skin</p>
+                        
+                        <div class="expertise-item">
+                            <div class="expertise-icon">
+                                <i class="bi bi-heart-pulse"></i>
+                            </div>
+                            <div class="expertise-text">
+                                <h4>Injectable Expertise</h4>
+                                <p>Botox and dermal fillers for natural-looking results</p>
+                            </div>
+                        </div>
+                        
+                        <div class="expertise-item">
+                            <div class="expertise-icon">
+                                <i class="bi bi-stars"></i>
+                            </div>
+                            <div class="expertise-text">
+                                <h4>Wellness Integration</h4>
+                                <p>IV therapy and personalized medical weight loss</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="expertise-item">
-                        <div class="expertise-icon">
-                            <i class="fas fa-syringe"></i>
-                        </div>
-                        <div class="expertise-content">
-                            <h4>Injectable Expertise</h4>
-                            <p>Neurotoxin injectables like Botox for natural-looking fine line reduction</p>
-                        </div>
+                    <div class="doctor-actions">
+                        <button class="primary-button" id="bookWithDr">
+                            <span class="btn-text">Book with Dr. Nano</span>
+                            <div class="btn-icon">
+                                <i class="bi bi-calendar-plus"></i>
+                            </div>
+                        </button>
+                        
+                        <button class="secondary-button outline" id="learnMore">
+                            <span class="btn-text">Learn More</span>
+                            <div class="btn-icon">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </button>
                     </div>
-                    
-                    <div class="expertise-item">
-                        <div class="expertise-icon">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                        <div class="expertise-content">
-                            <h4>Hair Restoration</h4>
-                            <p>Mesotherapy using Pistor Method and PRP injections for follicle recovery</p>
-                        </div>
-                    </div>
-                    
-                    <div class="expertise-item">
-                        <div class="expertise-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="expertise-content">
-                            <h4>Wellness Integration</h4>
-                            <p>IV therapy and personalized medical weight loss plans for total wellness</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Credentials & Training -->
-                <div class="credentials-section" data-aos="fade-up" data-aos-delay="800">
-                    <h3 class="credentials-title">Credentials & Specialized Training</h3>
-                    <div class="credentials-grid">
-                        <div class="credential-item">
-                            <i class="fas fa-graduation-cap"></i>
-                            <span>Medical Doctor (MD)</span>
-                        </div>
-                        <div class="credential-item">
-                            <i class="fas fa-certificate"></i>
-                            <span>20+ Years Medical Experience</span>
-                        </div>
-                        <div class="credential-item">
-                            <i class="fas fa-award"></i>
-                            <span>Pistor Method Certified</span>
-                        </div>
-                        <div class="credential-item">
-                            <i class="fas fa-microscope"></i>
-                            <span>Advanced PRP Training</span>
-                        </div>
-                        <div class="credential-item">
-                            <i class="fas fa-star-of-life"></i>
-                            <span>Integrative Medicine</span>
-                        </div>
-                        <div class="credential-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Midtown Manhattan, NYC</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Partner Brands -->
-                <div class="partner-brands" data-aos="fade-up" data-aos-delay="900">
-                    <h4 class="brands-title">Trusted Medical-Grade Partners</h4>
-                    <div class="brands-container">
-                        <div class="brand-item">
-                            <span>AlumierMD</span>
-                        </div>
-                        <div class="brand-item">
-                            <span>Medical Grade Skincare</span>
-                        </div>
-                        <div class="brand-item">
-                            <span>FDA Approved Treatments</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- CTA Buttons -->
-                <div class="doctor-cta-wrapper" data-aos="fade-up" data-aos-delay="1000">
-                    <button class="luxury-btn primary modern-btn magnetic-hover book-with-doctor" data-strength="25">
-                        <span class="btn-text">Book with Dr. Nano</span>
-                        <div class="btn-bg"></div>
-                        <div class="btn-particles">
-                            <span></span><span></span><span></span><span></span>
-                        </div>
-                        <div class="btn-glow"></div>
-                        <i class="btn-icon fas fa-calendar-plus"></i>
-                    </button>
-                    
-                    <button class="luxury-btn secondary modern-btn magnetic-hover learn-more-btn" data-strength="20">
-                        <span class="btn-text">Learn More</span>
-                        <i class="btn-icon fas fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Stats Counter -->
-        <div class="stats-section" data-aos="fade-up" data-aos-delay="1100">
-            <div class="stats-container">
-                <div class="stat-item">
-                    <div class="stat-number" data-count="20">0</div>
-                    <div class="stat-label">Years Experience</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-count="1000">0</div>
-                    <div class="stat-label">Happy Patients</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-count="15">0</div>
-                    <div class="stat-label">Treatment Types</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-count="99">0</div>
-                    <div class="stat-label">Satisfaction Rate</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Enhanced Appointment Modal -->
-    <div class="modal modern-modal" id="appointmentModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
-        <div class="modal-overlay"></div>
+    <!-- Appointment Modal -->
+    <div class="modern-modal" id="appointmentModal">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
         <div class="modal-container">
             <div class="modal-header">
-                <h2 id="modalTitle">Book Your Free Consultation</h2>
-                <button class="modal-close modern-btn" id="modalClose" aria-label="Close modal">
-                    <i class="fa-solid fa-xmark"></i>
+                <h3 class="modal-title">Book Your Consultation</h3>
+                <button class="modal-close" id="modalClose">
+                    <i class="bi bi-x-lg"></i>
                 </button>
             </div>
             
             <div class="modal-body">
-                <form id="appointmentForm" class="appointment-form">
+                <form class="appointment-form" id="appointmentForm">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="firstName">First Name</label>
                             <input type="text" id="firstName" name="firstName" required>
-                            <div class="input-focus-line"></div>
                         </div>
                         <div class="form-group">
                             <label for="lastName">Last Name</label>
                             <input type="text" id="lastName" name="lastName" required>
-                            <div class="input-focus-line"></div>
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Email Address</label>
                         <input type="email" id="email" name="email" required>
-                        <div class="input-focus-line"></div>
                     </div>
                     
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
                         <input type="tel" id="phone" name="phone" required>
-                        <div class="input-focus-line"></div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="service">Service of Interest</label>
+                        <label for="service">Service Interest</label>
                         <select id="service" name="service" required>
-                            <option value="" disabled selected>Select a service</option>
+                            <option value="">Select a service</option>
                             <option value="facial">Facial Treatments</option>
                             <option value="body">Body Contouring</option>
                             <option value="injectable">Injectable Treatments</option>
-                            <option value="longevity">Longevity Medicine</option>
                             <option value="consultation">General Consultation</option>
                         </select>
-                        <div class="input-focus-line"></div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="message">Your Goals & Questions</label>
-                        <textarea id="message" name="message" rows="3" placeholder="Tell us about your aesthetic goals and any questions you have..."></textarea>
-                        <div class="input-focus-line"></div>
+                        <label for="message">Message (Optional)</label>
+                        <textarea id="message" name="message" rows="3" placeholder="Tell us about your goals..."></textarea>
                     </div>
                     
-                    <button type="submit" class="modern-btn primary btn-full" id="submitAppointment">
-                        <span class="btn-text">Request Appointment</span>
-                        <i class="btn-icon fa-solid fa-calendar-check"></i>
-                        <div class="btn-bg"></div>
-                        <div class="btn-glow"></div>
+                    <button type="submit" class="primary-button full-width" id="submitForm">
+                        <span class="btn-text">Request Consultation</span>
+                        <div class="btn-icon">
+                            <i class="bi bi-send"></i>
+                        </div>
                     </button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Enhanced Video Modal -->
-    <div class="video-modal modern-modal" id="videoModal">
-        <div class="video-modal-overlay"></div>
-        <div class="video-modal-content">
-            <button class="video-modal-close modern-btn" aria-label="Close video">
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-backdrop" id="videoBackdrop"></div>
+        <div class="video-container">
+            <button class="video-close" id="videoClose">
                 <i class="bi bi-x-lg"></i>
             </button>
             <div class="video-wrapper">
@@ -863,31 +530,17 @@
     </div>
 
     <!-- Scripts -->
-    <!-- Core Libraries -->
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
     
-    <!-- Three.js for 3D Effects -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r150/three.min.js"></script>
-    
-    <!-- AOS - Animate On Scroll -->
+    <!-- AOS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     
-    <!-- Typed.js for Advanced Text Animation -->
+    <!-- Typed.js -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     
-    <!-- Splitting.js for Text Effects -->
-    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
-    
-    <!-- Particles.js -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    
-    <!-- Tilt.js for 3D Card Effects -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-    
-    <!-- Custom Scripts -->
-    <script src="script.js" defer></script>
+    <!-- Custom Script -->
+    <script src="script.js"></script>
 </body>
 </html>
