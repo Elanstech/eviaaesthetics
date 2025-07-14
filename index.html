@@ -42,113 +42,152 @@
     <link rel="manifest" href="/site.webmanifest">
 </head>
 <body class="loading">
-    <!-- Refined Preloader -->
-    <div class="refined-preloader" id="refinedPreloader">
+    <!-- Soft Elegant Preloader -->
+    <div class="elegant-preloader" id="elegantPreloader">
         <div class="preloader-background">
-            <div class="floating-particles">
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
+            <div class="soft-particles">
+                <div class="particle" style="--delay: 0s; --duration: 8s;"></div>
+                <div class="particle" style="--delay: 2s; --duration: 10s;"></div>
+                <div class="particle" style="--delay: 4s; --duration: 12s;"></div>
+                <div class="particle" style="--delay: 6s; --duration: 14s;"></div>
+                <div class="particle" style="--delay: 1s; --duration: 9s;"></div>
+            </div>
+            <div class="gradient-waves">
+                <div class="wave wave-1"></div>
+                <div class="wave wave-2"></div>
+                <div class="wave wave-3"></div>
             </div>
         </div>
         
         <div class="preloader-content">
             <div class="logo-container">
                 <div class="logo-wrapper">
+                    <div class="logo-glow-ring"></div>
                     <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo">
-                    <div class="logo-glow"></div>
+                    <div class="logo-pulse"></div>
                 </div>
             </div>
             
             <div class="loading-text">
-                <span class="loading-message" id="loadingMessage">Welcome to Evia Aesthetics</span>
+                <div class="loading-message" id="loadingMessage">Welcome to Evia Aesthetics</div>
+                <div class="loading-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
             </div>
             
             <div class="progress-container">
-                <div class="progress-bar">
+                <div class="progress-track">
                     <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-shimmer"></div>
                 </div>
                 <div class="progress-percentage" id="progressPercentage">0%</div>
             </div>
         </div>
         
-        <div class="preloader-overlay"></div>
+        <div class="preloader-curtains">
+            <div class="curtain curtain-left"></div>
+            <div class="curtain curtain-right"></div>
+        </div>
     </div>
 
     <!-- Modern Circled Header -->
-    <header class="modern-header" id="modernHeader">
-        <div class="header-background">
-            <div class="header-blur"></div>
-            <div class="header-gradient"></div>
-        </div>
-        
+    <header class="modern-circled-header" id="modernHeader">
+        <div class="header-blur-bg"></div>
         <div class="header-container">
-            <!-- Logo Section -->
-            <div class="header-logo">
-                <a href="#" class="logo-link" id="logoLink">
+            <!-- Circled Logo -->
+            <div class="header-logo-section">
+                <div class="logo-circle-container" id="logoContainer">
                     <div class="logo-circle">
-                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-image">
-                        <div class="logo-ring"></div>
+                        <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
+                        <div class="logo-border-ring"></div>
+                        <div class="logo-hover-glow"></div>
                     </div>
-                </a>
+                </div>
             </div>
             
             <!-- Desktop Navigation -->
-            <nav class="header-nav" id="headerNav">
-                <ul class="nav-list">
+            <nav class="desktop-navigation" id="desktopNav">
+                <ul class="nav-menu">
                     <li class="nav-item">
-                        <a href="#home" class="nav-link active">
+                        <a href="#home" class="nav-link active" data-section="home">
                             <span class="link-text">Home</span>
-                            <div class="link-indicator"></div>
+                            <div class="link-circle"></div>
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a href="#services" class="nav-link">
+                    <li class="nav-item dropdown-item">
+                        <a href="#services" class="nav-link" data-section="services">
                             <span class="link-text">Services</span>
-                            <i class="bi bi-chevron-down dropdown-arrow"></i>
-                            <div class="link-indicator"></div>
+                            <i class="bi bi-chevron-down dropdown-icon"></i>
+                            <div class="link-circle"></div>
                         </a>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-panel">
                             <div class="dropdown-content">
-                                <div class="dropdown-section">
-                                    <h4>Facial Treatments</h4>
-                                    <a href="#">HydraFacial MD</a>
-                                    <a href="#">Micro-needling</a>
-                                    <a href="#">Chemical Peels</a>
+                                <div class="service-column">
+                                    <h4 class="column-title">
+                                        <i class="bi bi-droplet"></i>
+                                        Facial Treatments
+                                    </h4>
+                                    <ul class="service-list">
+                                        <li><a href="#" class="service-link">HydraFacial MD</a></li>
+                                        <li><a href="#" class="service-link">Micro-needling</a></li>
+                                        <li><a href="#" class="service-link">Chemical Peels</a></li>
+                                        <li><a href="#" class="service-link">LED Light Therapy</a></li>
+                                    </ul>
                                 </div>
-                                <div class="dropdown-section">
-                                    <h4>Body Contouring</h4>
-                                    <a href="#">CoolSculpting Elite</a>
-                                    <a href="#">EMSculpt NEO</a>
-                                    <a href="#">Morpheus8 Body</a>
+                                <div class="service-column">
+                                    <h4 class="column-title">
+                                        <i class="bi bi-heart-pulse"></i>
+                                        Body Contouring
+                                    </h4>
+                                    <ul class="service-list">
+                                        <li><a href="#" class="service-link">CoolSculpting Elite</a></li>
+                                        <li><a href="#" class="service-link">EMSculpt NEO</a></li>
+                                        <li><a href="#" class="service-link">Morpheus8 Body</a></li>
+                                        <li><a href="#" class="service-link">Cellulite Treatment</a></li>
+                                    </ul>
                                 </div>
-                                <div class="dropdown-section">
-                                    <h4>Injectable Treatments</h4>
-                                    <a href="#">Botox & Dysport</a>
-                                    <a href="#">Dermal Fillers</a>
-                                    <a href="#">Sculptra</a>
+                                <div class="service-column">
+                                    <h4 class="column-title">
+                                        <i class="bi bi-syringe"></i>
+                                        Injectable Treatments
+                                    </h4>
+                                    <ul class="service-list">
+                                        <li><a href="#" class="service-link">Botox & Dysport</a></li>
+                                        <li><a href="#" class="service-link">Dermal Fillers</a></li>
+                                        <li><a href="#" class="service-link">Sculptra</a></li>
+                                        <li><a href="#" class="service-link">PRP Therapy</a></li>
+                                    </ul>
+                                </div>
+                                <div class="service-column featured-column">
+                                    <div class="featured-service">
+                                        <div class="featured-badge">New</div>
+                                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=300&h=200&fit=crop&crop=face" alt="Featured Service" class="featured-img">
+                                        <h4 class="featured-title">New Patient Special</h4>
+                                        <p class="featured-desc">Get 20% off your first treatment</p>
+                                        <a href="#" class="featured-link">Learn More</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a href="#about" class="nav-link">
+                        <a href="#about" class="nav-link" data-section="about">
                             <span class="link-text">About</span>
-                            <div class="link-indicator"></div>
+                            <div class="link-circle"></div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#results" class="nav-link">
+                        <a href="#results" class="nav-link" data-section="results">
                             <span class="link-text">Results</span>
-                            <div class="link-indicator"></div>
+                            <div class="link-circle"></div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#contact" class="nav-link">
+                        <a href="#contact" class="nav-link" data-section="contact">
                             <span class="link-text">Contact</span>
-                            <div class="link-indicator"></div>
+                            <div class="link-circle"></div>
                         </a>
                     </li>
                 </ul>
@@ -156,391 +195,624 @@
             
             <!-- Header Actions -->
             <div class="header-actions">
-                <a href="tel:+15551234567" class="phone-button">
+                <a href="tel:+15551234567" class="phone-circle" id="phoneButton">
                     <i class="bi bi-telephone"></i>
-                    <span>(555) 123-4567</span>
+                    <span class="phone-text">(555) 123-4567</span>
+                    <div class="phone-ripple"></div>
                 </a>
                 
-                <button class="cta-button" id="headerCTA">
-                    <span>Book Now</span>
-                    <i class="bi bi-arrow-right"></i>
+                <button class="cta-circle" id="headerCTA">
+                    <span class="cta-text">Book Now</span>
+                    <i class="bi bi-arrow-right cta-arrow"></i>
+                    <div class="cta-glow"></div>
                 </button>
                 
-                <!-- Mobile Menu Toggle -->
-                <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
-                    <div class="toggle-container">
-                        <span class="toggle-line"></span>
-                        <span class="toggle-line"></span>
-                        <span class="toggle-line"></span>
+                <!-- Modern Hamburger Menu -->
+                <button class="hamburger-modern" id="hamburgerToggle" aria-label="Menu">
+                    <div class="hamburger-container">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
                     </div>
                 </button>
             </div>
         </div>
         
-        <div class="scroll-progress">
-            <div class="progress-line" id="scrollProgress"></div>
+        <!-- Scroll Progress -->
+        <div class="scroll-progress-bar">
+            <div class="progress-track-bg"></div>
+            <div class="progress-line" id="scrollProgressLine"></div>
         </div>
     </header>
 
-    <!-- Modern Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-overlay" id="mobileOverlay"></div>
-        <div class="mobile-content">
+    <!-- Two-Circle Mobile Menu -->
+    <div class="mobile-menu-modern" id="mobileMenu">
+        <div class="mobile-backdrop" id="mobileBackdrop"></div>
+        <div class="mobile-panel">
             <div class="mobile-header">
                 <div class="mobile-logo-circles">
-                    <div class="mobile-logo-circle primary">
-                        <img src="logo1.png" alt="Evia" class="mobile-logo-img">
+                    <div class="mobile-circle primary-circle">
+                        <img src="logo1.png" alt="Evia" class="mobile-logo-primary">
                     </div>
-                    <div class="mobile-logo-circle secondary">
-                        <i class="bi bi-spa"></i>
+                    <div class="mobile-circle secondary-circle">
+                        <i class="bi bi-heart-pulse"></i>
                     </div>
                 </div>
-                <button class="mobile-close" id="mobileClose">
+                <button class="mobile-close-btn" id="mobileCloseBtn">
                     <i class="bi bi-x-lg"></i>
+                    <div class="close-ripple"></div>
                 </button>
             </div>
             
-            <nav class="mobile-nav">
+            <nav class="mobile-navigation">
                 <ul class="mobile-nav-list">
-                    <li><a href="#home" class="mobile-nav-link">Home</a></li>
-                    <li class="mobile-dropdown">
-                        <button class="mobile-nav-link dropdown-toggle">
-                            Services <i class="bi bi-chevron-down"></i>
+                    <li class="mobile-nav-item">
+                        <a href="#home" class="mobile-nav-link" data-section="home">
+                            <div class="nav-icon-circle">
+                                <i class="bi bi-house"></i>
+                            </div>
+                            <span class="nav-text">Home</span>
+                            <div class="nav-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item dropdown-mobile">
+                        <button class="mobile-nav-link dropdown-toggle-mobile">
+                            <div class="nav-icon-circle">
+                                <i class="bi bi-grid"></i>
+                            </div>
+                            <span class="nav-text">Services</span>
+                            <div class="nav-arrow dropdown-arrow-mobile">
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
                         </button>
                         <ul class="mobile-submenu">
                             <li><a href="#" class="mobile-sub-link">Facial Treatments</a></li>
                             <li><a href="#" class="mobile-sub-link">Body Contouring</a></li>
                             <li><a href="#" class="mobile-sub-link">Injectable Treatments</a></li>
+                            <li><a href="#" class="mobile-sub-link">Wellness & Longevity</a></li>
                         </ul>
                     </li>
-                    <li><a href="#about" class="mobile-nav-link">About</a></li>
-                    <li><a href="#results" class="mobile-nav-link">Results</a></li>
-                    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                    <li class="mobile-nav-item">
+                        <a href="#about" class="mobile-nav-link" data-section="about">
+                            <div class="nav-icon-circle">
+                                <i class="bi bi-person-heart"></i>
+                            </div>
+                            <span class="nav-text">About</span>
+                            <div class="nav-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#results" class="mobile-nav-link" data-section="results">
+                            <div class="nav-icon-circle">
+                                <i class="bi bi-star"></i>
+                            </div>
+                            <span class="nav-text">Results</span>
+                            <div class="nav-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="#contact" class="mobile-nav-link" data-section="contact">
+                            <div class="nav-icon-circle">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <span class="nav-text">Contact</span>
+                            <div class="nav-arrow">
+                                <i class="bi bi-arrow-right"></i>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             
             <div class="mobile-actions">
-                <a href="tel:+15551234567" class="mobile-phone">
+                <a href="tel:+15551234567" class="mobile-phone-btn">
                     <i class="bi bi-telephone"></i>
                     <span>(555) 123-4567</span>
                 </a>
-                <button class="mobile-cta" id="mobileCTA">Book Consultation</button>
+                <button class="mobile-cta-btn" id="mobileCTA">
+                    <span>Book Consultation</span>
+                    <i class="bi bi-calendar-check"></i>
+                </button>
             </div>
             
             <div class="mobile-social">
-                <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="social-link"><i class="bi bi-tiktok"></i></a>
-                <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
+                <a href="#" class="social-circle" aria-label="Instagram">
+                    <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" class="social-circle" aria-label="Facebook">
+                    <i class="bi bi-facebook"></i>
+                </a>
+                <a href="#" class="social-circle" aria-label="TikTok">
+                    <i class="bi bi-tiktok"></i>
+                </a>
+                <a href="#" class="social-circle" aria-label="YouTube">
+                    <i class="bi bi-youtube"></i>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Refined Hero Section -->
-    <section class="refined-hero" id="hero">
-        <!-- Cinematic Video Background -->
-        <div class="hero-video-container">
+    <!-- Cinematic Hero Section -->
+    <section class="cinematic-hero" id="hero">
+        <!-- Enhanced Video Background -->
+        <div class="hero-video-wrapper">
             <video class="hero-video" autoplay muted loop playsinline>
                 <source src="hero.mp4" type="video/mp4">
+                Your browser does not support the video tag.
             </video>
-            <div class="video-overlay"></div>
-            <div class="cinematic-bars">
-                <div class="bar bar-top"></div>
-                <div class="bar bar-bottom"></div>
+            <div class="video-overlay-gradient"></div>
+            <div class="cinematic-frame">
+                <div class="frame-top"></div>
+                <div class="frame-bottom"></div>
+                <div class="frame-left"></div>
+                <div class="frame-right"></div>
             </div>
+            <div class="video-grain"></div>
         </div>
         
-        <!-- Enhanced Floating Elements -->
-        <div class="hero-floating-elements">
-            <div class="floating-element" style="--delay: 0s; --duration: 8s;">
+        <!-- Floating Aesthetic Elements -->
+        <div class="aesthetic-floaters">
+            <div class="floater floater-1" style="--delay: 0s;">
                 <i class="bi bi-heart-pulse"></i>
             </div>
-            <div class="floating-element" style="--delay: 2s; --duration: 10s;">
+            <div class="floater floater-2" style="--delay: 2s;">
+                <i class="bi bi-droplet"></i>
+            </div>
+            <div class="floater floater-3" style="--delay: 4s;">
                 <i class="bi bi-stars"></i>
             </div>
-            <div class="floating-element" style="--delay: 4s; --duration: 12s;">
-                <i class="bi bi-droplet"></i>
+            <div class="floater floater-4" style="--delay: 6s;">
+                <i class="bi bi-spa"></i>
             </div>
         </div>
         
-        <!-- Hero Content -->
-        <div class="hero-content-container">
+        <!-- Hero Content (Smaller and More Refined) -->
+        <div class="hero-content-wrapper">
             <div class="hero-content">
-                <!-- Manhattan Badge -->
-                <div class="hero-badge" data-aos="fade-up" data-aos-delay="200">
-                    <div class="badge-circle">
+                <!-- Manhattan Badge (Smaller) -->
+                <div class="manhattan-badge" data-aos="fade-up" data-aos-delay="300">
+                    <div class="badge-icon-small">
                         <i class="bi bi-geo-alt"></i>
                     </div>
-                    <span class="badge-text">Manhattan's Premier Medical Spa</span>
+                    <span class="badge-text-small">Manhattan's Premier Medical Spa</span>
+                    <div class="badge-glow-small"></div>
                 </div>
                 
-                <!-- Main Title -->
-                <div class="hero-title-section" data-aos="fade-up" data-aos-delay="400">
-                    <h1 class="hero-title">
-                        <span class="title-line">Redefine Your</span>
-                        <span class="title-line accent">Natural Beauty</span>
+                <!-- Main Title (Refined Size) -->
+                <div class="hero-title-container" data-aos="fade-up" data-aos-delay="500">
+                    <h1 class="hero-main-title">
+                        <span class="title-word">Redefine</span>
+                        <span class="title-word accent-word">Beauty</span>
+                        <span class="title-word">Naturally</span>
                     </h1>
-                    <div class="title-decoration">
-                        <div class="decoration-dot"></div>
-                        <div class="decoration-line"></div>
-                        <div class="decoration-dot"></div>
+                    <div class="title-underline">
+                        <div class="underline-dot"></div>
+                        <div class="underline-line"></div>
+                        <div class="underline-dot"></div>
                     </div>
                 </div>
                 
-                <!-- Typing Animation -->
-                <div class="hero-typing" data-aos="fade-up" data-aos-delay="600">
-                    <span class="typing-prefix">Specializing in</span>
-                    <span class="typing-text" id="typingText"></span>
-                    <span class="typing-cursor">|</span>
+                <!-- Enhanced Typing Effect -->
+                <div class="typing-container" data-aos="fade-up" data-aos-delay="700">
+                    <span class="typing-label">Specializing in</span>
+                    <div class="typing-wrapper">
+                        <span class="typing-text" id="typingText"></span>
+                        <span class="typing-cursor">|</span>
+                    </div>
                 </div>
                 
-                <!-- Description -->
-                <div class="hero-description" data-aos="fade-up" data-aos-delay="800">
-                    <p>Experience the perfect blend of cutting-edge technology and personalized care in the heart of Manhattan. Transform your confidence with our award-winning treatments.</p>
+                <!-- Description (Compact) -->
+                <div class="hero-description-small" data-aos="fade-up" data-aos-delay="900">
+                    <p>Experience cutting-edge technology and personalized care in Manhattan's most sophisticated medical spa.</p>
                 </div>
                 
-                <!-- CTA Buttons -->
-                <div class="hero-actions" data-aos="fade-up" data-aos-delay="1000">
-                    <button class="primary-button" id="heroBookBtn">
+                <!-- Enhanced CTA Buttons -->
+                <div class="hero-cta-section" data-aos="fade-up" data-aos-delay="1100">
+                    <button class="primary-cta-btn" id="heroBookingBtn">
                         <span class="btn-text">Book Consultation</span>
                         <div class="btn-icon">
                             <i class="bi bi-calendar-check"></i>
                         </div>
-                        <div class="btn-ripple"></div>
+                        <div class="btn-particles">
+                            <span class="particle"></span>
+                            <span class="particle"></span>
+                            <span class="particle"></span>
+                        </div>
+                        <div class="btn-glow"></div>
                     </button>
                     
-                    <button class="secondary-button video-btn" id="heroVideoBtn">
-                        <div class="play-icon">
+                    <button class="video-play-btn" id="videoPlayBtn">
+                        <div class="play-circle">
+                            <div class="play-pulse-ring"></div>
                             <i class="bi bi-play-fill"></i>
                         </div>
-                        <span class="btn-text">Watch Tour</span>
+                        <span class="play-text">Watch Cinematic Tour</span>
                     </button>
                 </div>
                 
-                <!-- Trust Indicators -->
-                <div class="hero-trust" data-aos="fade-up" data-aos-delay="1200">
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <i class="bi bi-patch-check-fill"></i>
+                <!-- Trust Badges (Compact) -->
+                <div class="trust-badges-small" data-aos="fade-up" data-aos-delay="1300">
+                    <div class="trust-badge">
+                        <div class="trust-icon-small">
+                            <i class="bi bi-patch-check"></i>
                         </div>
-                        <div class="trust-text">
-                            <strong>Board Certified</strong>
-                            <span>Expert Physicians</span>
-                        </div>
+                        <span class="trust-text-small">Board Certified</span>
                     </div>
-                    <div class="trust-divider"></div>
-                    <div class="trust-item">
-                        <div class="trust-icon">
+                    <div class="trust-divider-small"></div>
+                    <div class="trust-badge">
+                        <div class="trust-icon-small">
                             <i class="bi bi-star-fill"></i>
                         </div>
-                        <div class="trust-text">
-                            <strong>5-Star Rated</strong>
-                            <span>1000+ Reviews</span>
-                        </div>
+                        <span class="trust-text-small">5-Star Rated</span>
                     </div>
-                    <div class="trust-divider"></div>
-                    <div class="trust-item">
-                        <div class="trust-icon">
+                    <div class="trust-divider-small"></div>
+                    <div class="trust-badge">
+                        <div class="trust-icon-small">
                             <i class="bi bi-shield-check"></i>
                         </div>
-                        <div class="trust-text">
-                            <strong>FDA Approved</strong>
-                            <span>Safe Treatments</span>
-                        </div>
+                        <span class="trust-text-small">FDA Approved</span>
+                    </div>
+                </div>
+                
+                <!-- Stats Counter (Refined) -->
+                <div class="stats-row-small" data-aos="fade-up" data-aos-delay="1500">
+                    <div class="stat-item-small">
+                        <div class="stat-number-small" data-count="500">0</div>
+                        <div class="stat-label-small">Happy Clients</div>
+                    </div>
+                    <div class="stat-item-small">
+                        <div class="stat-number-small" data-count="15">0</div>
+                        <div class="stat-label-small">Years Experience</div>
+                    </div>
+                    <div class="stat-item-small">
+                        <div class="stat-number-small" data-count="98">0</div>
+                        <div class="stat-label-small">Success Rate</div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator" id="scrollIndicator">
-            <div class="scroll-mouse">
-                <div class="scroll-wheel"></div>
+        <!-- Enhanced Scroll Indicator -->
+        <div class="scroll-indicator-elegant" id="scrollIndicator">
+            <div class="scroll-mouse-modern">
+                <div class="mouse-wheel"></div>
             </div>
-            <span class="scroll-text">Scroll to explore</span>
+            <span class="scroll-text-modern">Discover More</span>
+            <div class="scroll-arrow-bounce">
+                <i class="bi bi-chevron-down"></i>
+            </div>
+        </div>
+        
+        <!-- Side Navigation Dots -->
+        <nav class="side-nav-dots" id="sideNavDots">
+            <a href="#hero" class="nav-dot active" data-tooltip="Home"></a>
+            <a href="#about" class="nav-dot" data-tooltip="About"></a>
+            <a href="#services" class="nav-dot" data-tooltip="Services"></a>
+            <a href="#results" class="nav-dot" data-tooltip="Results"></a>
+            <a href="#contact" class="nav-dot" data-tooltip="Contact"></a>
+        </nav>
+        
+        <!-- Social Links -->
+        <div class="hero-social-links" id="heroSocial">
+            <a href="#" class="social-link-elegant" aria-label="Instagram">
+                <i class="bi bi-instagram"></i>
+            </a>
+            <a href="#" class="social-link-elegant" aria-label="Facebook">
+                <i class="bi bi-facebook"></i>
+            </a>
+            <a href="#" class="social-link-elegant" aria-label="TikTok">
+                <i class="bi bi-tiktok"></i>
+            </a>
+            <a href="#" class="social-link-elegant" aria-label="YouTube">
+                <i class="bi bi-youtube"></i>
+            </a>
         </div>
     </section>
     
     <!-- Meet Dr. Evia Section -->
-    <section class="meet-doctor-section" id="about">
-        <div class="section-container">
-            <div class="doctor-grid">
-                <!-- Doctor Image -->
-                <div class="doctor-image" data-aos="fade-right">
-                    <div class="image-wrapper">
-                        <img src="eviaherself.jpg" alt="Dr. Evia Alikaj Nano" class="doctor-photo">
-                        <div class="image-overlay"></div>
+    <section class="meet-doctor-refined" id="about" data-scroll-section>
+        <div class="doctor-bg-elements">
+            <div class="bg-gradient bg-gradient-1"></div>
+            <div class="bg-gradient bg-gradient-2"></div>
+            <div class="floating-accent floating-accent-1"></div>
+            <div class="floating-accent floating-accent-2"></div>
+        </div>
+        
+        <div class="doctor-container">
+            <!-- Doctor Image Side -->
+            <div class="doctor-image-section" data-aos="fade-right" data-aos-duration="1200">
+                <div class="doctor-image-frame">
+                    <div class="image-container-refined">
+                        <img src="eviaherself.jpg" alt="Dr. Evia Alikaj Nano, MD" class="doctor-photo-refined">
+                        <div class="image-overlay-refined"></div>
+                        <div class="image-glow-refined"></div>
                     </div>
                     
-                    <div class="credentials-badge">
-                        <div class="badge-icon">
+                    <div class="credentials-floating-badge">
+                        <div class="badge-icon-refined">
                             <i class="bi bi-award"></i>
                         </div>
-                        <div class="badge-content">
-                            <span class="badge-title">Board Certified</span>
-                            <span class="badge-subtitle">20+ Years Experience</span>
+                        <div class="badge-content-refined">
+                            <span class="badge-title-refined">Board Certified</span>
+                            <span class="badge-subtitle-refined">20+ Years Experience</span>
+                        </div>
+                    </div>
+                    
+                    <div class="awards-floating">
+                        <div class="award-item-refined">
+                            <i class="bi bi-star-fill"></i>
+                            <span>5-Star Rated</span>
+                        </div>
+                        <div class="award-item-refined">
+                            <i class="bi bi-patch-check"></i>
+                            <span>MD Certified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Doctor Content Side -->
+            <div class="doctor-content-section" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
+                <div class="section-header-refined">
+                    <div class="section-badge-refined" data-aos="fade-up" data-aos-delay="300">
+                        <i class="bi bi-person-heart"></i>
+                        <span>Meet Your Aesthetic Expert</span>
+                    </div>
+                    
+                    <h2 class="section-title-refined" data-aos="fade-up" data-aos-delay="400">
+                        Dr. Evia Alikaj Nano
+                        <span class="title-accent-refined">MD</span>
+                    </h2>
+                    
+                    <div class="section-subtitle-refined" data-aos="fade-up" data-aos-delay="500">
+                        Combining two decades of medical excellence with holistic aesthetic care
+                    </div>
+                </div>
+                
+                <div class="doctor-philosophy-refined" data-aos="fade-up" data-aos-delay="600">
+                    <blockquote class="philosophy-quote-refined">
+                        "I believe that natural beauty is timeless. My passion is working with each patient to elevate their looks to their best natural selves through personalized, holistic care."
+                    </blockquote>
+                    <cite class="quote-author-refined">- Dr. Evia Alikaj Nano</cite>
+                </div>
+                
+                <div class="expertise-grid-refined" data-aos="fade-up" data-aos-delay="700">
+                    <div class="expertise-item-refined">
+                        <div class="expertise-icon-refined">
+                            <i class="bi bi-droplet"></i>
+                        </div>
+                        <div class="expertise-content-refined">
+                            <h4>Facial Rejuvenation</h4>
+                            <p>Chemical peels, microneedling, and PRP services for healthier, glowing skin</p>
+                        </div>
+                    </div>
+                    
+                    <div class="expertise-item-refined">
+                        <div class="expertise-icon-refined">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <div class="expertise-content-refined">
+                            <h4>Injectable Expertise</h4>
+                            <p>Neurotoxin injectables like Botox for natural-looking fine line reduction</p>
+                        </div>
+                    </div>
+                    
+                    <div class="expertise-item-refined">
+                        <div class="expertise-icon-refined">
+                            <i class="bi bi-stars"></i>
+                        </div>
+                        <div class="expertise-content-refined">
+                            <h4>Hair Restoration</h4>
+                            <p>Mesotherapy using Pistor Method and PRP injections for follicle recovery</p>
+                        </div>
+                    </div>
+                    
+                    <div class="expertise-item-refined">
+                        <div class="expertise-icon-refined">
+                            <i class="bi bi-heart"></i>
+                        </div>
+                        <div class="expertise-content-refined">
+                            <h4>Wellness Integration</h4>
+                            <p>IV therapy and personalized medical weight loss plans for total wellness</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Doctor Content -->
-                <div class="doctor-content" data-aos="fade-left">
-                    <div class="section-badge">
-                        <i class="bi bi-person-heart"></i>
-                        <span>Meet Your Expert</span>
-                    </div>
-                    
-                    <h2 class="section-title">
-                        Dr. Evia Alikaj Nano
-                        <span class="title-accent">MD</span>
-                    </h2>
-                    
-                    <div class="section-subtitle">
-                        Combining two decades of medical excellence with holistic aesthetic care
-                    </div>
-                    
-                    <blockquote class="doctor-quote">
-                        "I believe that natural beauty is timeless. My passion is working with each patient to elevate their looks to their best natural selves."
-                    </blockquote>
-                    
-                    <div class="expertise-list">
-                        <div class="expertise-item">
-                            <div class="expertise-icon">
-                                <i class="bi bi-droplet"></i>
-                            </div>
-                            <div class="expertise-text">
-                                <h4>Facial Rejuvenation</h4>
-                                <p>Chemical peels, microneedling, and PRP for healthier skin</p>
-                            </div>
+                <div class="credentials-section-refined" data-aos="fade-up" data-aos-delay="800">
+                    <h3 class="credentials-title-refined">Credentials & Specialized Training</h3>
+                    <div class="credentials-grid-refined">
+                        <div class="credential-item-refined">
+                            <i class="bi bi-mortarboard"></i>
+                            <span>Medical Doctor (MD)</span>
                         </div>
-                        
-                        <div class="expertise-item">
-                            <div class="expertise-icon">
-                                <i class="bi bi-heart-pulse"></i>
-                            </div>
-                            <div class="expertise-text">
-                                <h4>Injectable Expertise</h4>
-                                <p>Botox and dermal fillers for natural-looking results</p>
-                            </div>
+                        <div class="credential-item-refined">
+                            <i class="bi bi-clock-history"></i>
+                            <span>20+ Years Experience</span>
                         </div>
-                        
-                        <div class="expertise-item">
-                            <div class="expertise-icon">
-                                <i class="bi bi-stars"></i>
-                            </div>
-                            <div class="expertise-text">
-                                <h4>Wellness Integration</h4>
-                                <p>IV therapy and personalized medical weight loss</p>
-                            </div>
+                        <div class="credential-item-refined">
+                            <i class="bi bi-award"></i>
+                            <span>Pistor Method Certified</span>
+                        </div>
+                        <div class="credential-item-refined">
+                            <i class="bi bi-graph-up"></i>
+                            <span>Advanced PRP Training</span>
+                        </div>
+                        <div class="credential-item-refined">
+                            <i class="bi bi-heart-pulse"></i>
+                            <span>Integrative Medicine</span>
+                        </div>
+                        <div class="credential-item-refined">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>Midtown Manhattan, NYC</span>
                         </div>
                     </div>
-                    
-                    <div class="doctor-actions">
-                        <button class="primary-button" id="bookWithDr">
-                            <span class="btn-text">Book with Dr. Nano</span>
-                            <div class="btn-icon">
-                                <i class="bi bi-calendar-plus"></i>
-                            </div>
-                        </button>
-                        
-                        <button class="secondary-button outline" id="learnMore">
-                            <span class="btn-text">Learn More</span>
-                            <div class="btn-icon">
-                                <i class="bi bi-arrow-right"></i>
-                            </div>
-                        </button>
+                </div>
+                
+                <div class="partner-brands-refined" data-aos="fade-up" data-aos-delay="900">
+                    <h4 class="brands-title-refined">Trusted Medical-Grade Partners</h4>
+                    <div class="brands-container-refined">
+                        <div class="brand-item-refined">AlumierMD</div>
+                        <div class="brand-item-refined">Medical Grade Skincare</div>
+                        <div class="brand-item-refined">FDA Approved Treatments</div>
                     </div>
+                </div>
+                
+                <div class="doctor-cta-wrapper-refined" data-aos="fade-up" data-aos-delay="1000">
+                    <button class="primary-cta-btn book-with-doctor" id="bookWithDoctorBtn">
+                        <span class="btn-text">Book with Dr. Nano</span>
+                        <div class="btn-icon">
+                            <i class="bi bi-calendar-plus"></i>
+                        </div>
+                        <div class="btn-particles">
+                            <span class="particle"></span>
+                            <span class="particle"></span>
+                            <span class="particle"></span>
+                        </div>
+                        <div class="btn-glow"></div>
+                    </button>
+                    
+                    <button class="secondary-cta-btn learn-more-doctor" id="learnMoreDoctorBtn">
+                        <span class="btn-text">Learn More</span>
+                        <div class="btn-icon">
+                            <i class="bi bi-arrow-right"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Counter -->
+        <div class="stats-section-refined" data-aos="fade-up" data-aos-delay="1100">
+            <div class="stats-container-refined">
+                <div class="stat-item-refined">
+                    <div class="stat-number-refined" data-count="20">0</div>
+                    <div class="stat-label-refined">Years Experience</div>
+                </div>
+                <div class="stat-item-refined">
+                    <div class="stat-number-refined" data-count="1000">0</div>
+                    <div class="stat-label-refined">Happy Patients</div>
+                </div>
+                <div class="stat-item-refined">
+                    <div class="stat-number-refined" data-count="15">0</div>
+                    <div class="stat-label-refined">Treatment Types</div>
+                </div>
+                <div class="stat-item-refined">
+                    <div class="stat-number-refined" data-count="99">0</div>
+                    <div class="stat-label-refined">Satisfaction Rate</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Appointment Modal -->
-    <div class="modern-modal" id="appointmentModal">
-        <div class="modal-backdrop" id="modalBackdrop"></div>
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3 class="modal-title">Book Your Consultation</h3>
-                <button class="modal-close" id="modalClose">
+    <!-- Enhanced Appointment Modal -->
+    <div class="modern-modal-elegant" id="appointmentModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+        <div class="modal-overlay-elegant"></div>
+        <div class="modal-container-elegant">
+            <div class="modal-header-elegant">
+                <h2 id="modalTitle" class="modal-title-elegant">Book Your Free Consultation</h2>
+                <button class="modal-close-elegant" id="modalCloseBtn" aria-label="Close modal">
                     <i class="bi bi-x-lg"></i>
+                    <div class="close-ripple-elegant"></div>
                 </button>
             </div>
             
-            <div class="modal-body">
-                <form class="appointment-form" id="appointmentForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" name="firstName" required>
+            <div class="modal-body-elegant">
+                <form id="appointmentForm" class="appointment-form-elegant">
+                    <div class="form-row-elegant">
+                        <div class="form-group-elegant">
+                            <label for="firstName" class="form-label-elegant">First Name</label>
+                            <input type="text" id="firstName" name="firstName" class="form-input-elegant" required>
+                            <div class="input-focus-line-elegant"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" id="lastName" name="lastName" required>
+                        <div class="form-group-elegant">
+                            <label for="lastName" class="form-label-elegant">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" class="form-input-elegant" required>
+                            <div class="input-focus-line-elegant"></div>
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required>
+                    <div class="form-group-elegant">
+                        <label for="email" class="form-label-elegant">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-input-elegant" required>
+                        <div class="input-focus-line-elegant"></div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" required>
+                    <div class="form-group-elegant">
+                        <label for="phone" class="form-label-elegant">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-input-elegant" required>
+                        <div class="input-focus-line-elegant"></div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="service">Service Interest</label>
-                        <select id="service" name="service" required>
-                            <option value="">Select a service</option>
+                    <div class="form-group-elegant">
+                        <label for="service" class="form-label-elegant">Service of Interest</label>
+                        <select id="service" name="service" class="form-select-elegant" required>
+                            <option value="" disabled selected>Select a service</option>
                             <option value="facial">Facial Treatments</option>
                             <option value="body">Body Contouring</option>
                             <option value="injectable">Injectable Treatments</option>
+                            <option value="longevity">Longevity Medicine</option>
                             <option value="consultation">General Consultation</option>
                         </select>
+                        <div class="input-focus-line-elegant"></div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="message">Message (Optional)</label>
-                        <textarea id="message" name="message" rows="3" placeholder="Tell us about your goals..."></textarea>
+                    <div class="form-group-elegant">
+                        <label for="message" class="form-label-elegant">Your Goals & Questions</label>
+                        <textarea id="message" name="message" rows="3" class="form-textarea-elegant" placeholder="Tell us about your aesthetic goals and any questions you have..."></textarea>
+                        <div class="input-focus-line-elegant"></div>
                     </div>
                     
-                    <button type="submit" class="primary-button full-width" id="submitForm">
-                        <span class="btn-text">Request Consultation</span>
+                    <button type="submit" class="primary-cta-btn btn-full-elegant" id="submitAppointmentBtn">
+                        <span class="btn-text">Request Appointment</span>
                         <div class="btn-icon">
-                            <i class="bi bi-send"></i>
+                            <i class="bi bi-calendar-check"></i>
                         </div>
+                        <div class="btn-particles">
+                            <span class="particle"></span>
+                            <span class="particle"></span>
+                            <span class="particle"></span>
+                        </div>
+                        <div class="btn-glow"></div>
                     </button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Video Modal -->
-    <div class="video-modal" id="videoModal">
-        <div class="video-backdrop" id="videoBackdrop"></div>
-        <div class="video-container">
-            <button class="video-close" id="videoClose">
+    <!-- Enhanced Video Modal -->
+    <div class="video-modal-elegant" id="videoModal">
+        <div class="video-modal-overlay-elegant"></div>
+        <div class="video-modal-content-elegant">
+            <button class="video-modal-close-elegant" id="videoModalCloseBtn" aria-label="Close video">
                 <i class="bi bi-x-lg"></i>
+                <div class="video-close-ripple"></div>
             </button>
-            <div class="video-wrapper">
+            <div class="video-wrapper-elegant">
                 <iframe src="" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
-    <!-- GSAP -->
+    <!-- Core Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
     
-    <!-- AOS -->
+    <!-- AOS - Animate On Scroll -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     
-    <!-- Typed.js -->
+    <!-- Typed.js for Advanced Text Animation -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     
-    <!-- Custom Script -->
-    <script src="script.js"></script>
+    <!-- Custom Scripts -->
+    <script src="script.js" defer></script>
 </body>
 </html>
