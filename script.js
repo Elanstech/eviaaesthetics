@@ -1,14 +1,14 @@
 /**
- * Evia Aesthetics - Complete Integrated JavaScript
- * Includes: preloader, enhanced hero section, header, modals, and Dr. Nano section
+ * Evia Aesthetics - Complete Manhattan Med Spa JavaScript
+ * Sophisticated interactions with elevated user experience
  */
 
 'use strict';
 
 /**
- * Enhanced Header with Modern Interactions
+ * Enhanced Manhattan Header System
  */
-class EnhancedHeader {
+class ManhattanHeader {
     constructor() {
         this.header = document.getElementById('luxuryHeader');
         this.menuToggle = document.getElementById('mobileToggle');
@@ -34,7 +34,7 @@ class EnhancedHeader {
         this.initScrollProgress();
         this.initParticleHeader();
         
-        console.log('✨ Enhanced header initialized');
+        console.log('✨ Manhattan header initialized');
     }
     
     initScrollEffects() {
@@ -50,8 +50,8 @@ class EnhancedHeader {
                 this.header?.classList.remove('scrolled');
             }
             
-            // Hide/show header on scroll
-            if (currentScroll > lastScroll && currentScroll > 100) {
+            // Hide/show header on scroll (with enhanced logic)
+            if (currentScroll > lastScroll && currentScroll > 150) {
                 if (this.header) {
                     this.header.style.transform = 'translateY(-100%)';
                 }
@@ -292,16 +292,16 @@ class EnhancedHeader {
         
         const createParticles = () => {
             particles = [];
-            const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+            const particleCount = Math.floor((canvas.width * canvas.height) / 20000);
             
             for (let i = 0; i < particleCount; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     size: Math.random() * 2 + 1,
-                    speedX: (Math.random() - 0.5) * 0.5,
-                    speedY: (Math.random() - 0.5) * 0.5,
-                    opacity: Math.random() * 0.5 + 0.2
+                    speedX: (Math.random() - 0.5) * 0.3,
+                    speedY: (Math.random() - 0.5) * 0.3,
+                    opacity: Math.random() * 0.4 + 0.1
                 });
             }
         };
@@ -346,21 +346,19 @@ class EnhancedHeader {
 }
 
 /**
- * Evia Modern Preloader
- * Handles loading animation and elegant transition to main content
+ * Ultra-Modern Manhattan Med Spa Preloader
  */
-class EviaModernPreloader {
+class ManhattanPreloader {
     constructor(options = {}) {
-        // Default options
         this.options = {
-            minDuration: 1800,       // Minimum display time in ms
-            maxDuration: 4000,       // Maximum time before force-hiding
-            exitDuration: 1200,      // Exit animation duration
+            minDuration: 2500,       // Extended for sophistication
+            maxDuration: 5000,       // Maximum time before force-hiding
+            exitDuration: 1500,      // Longer exit animation
             loadingMessages: [
                 'Welcome to Evia Aesthetics',
-                'Preparing your experience',
-                'Loading treatments',
-                'Almost ready'
+                'Preparing your luxury experience',
+                'Loading premium treatments',
+                'Almost ready for elegance'
             ],
             ...options
         };
@@ -387,19 +385,16 @@ class EviaModernPreloader {
         }
     }
     
-    /**
-     * Initialize preloader functionality
-     */
     init() {
-        console.log('✨ Initializing modern preloader');
+        console.log('✨ Initializing Manhattan preloader');
         
         // Add loading class to body
         document.body.classList.add('loading');
         
-        // Start progress animation
+        // Start sophisticated progress animation
         this.animateProgress();
         
-        // Rotate loading messages
+        // Rotate luxury loading messages
         this.rotateMessages();
         
         // Check page load status
@@ -414,27 +409,23 @@ class EviaModernPreloader {
         }, this.options.maxDuration);
     }
     
-    /**
-     * Animate progress bar with smooth acceleration
-     */
     animateProgress() {
         const duration = this.options.minDuration;
         const startTime = performance.now();
         
-        // Smooth easing function for natural progress
-        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+        // Sophisticated easing function
+        const easeOutExpo = t => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
         
         const updateProgress = (timestamp) => {
             if (!this.isLoading) return;
             
             const elapsed = timestamp - startTime;
-            // Cap at 90% until actually loaded
-            const targetProgress = Math.min(elapsed / duration, 0.9);
+            const targetProgress = Math.min(elapsed / duration, 0.95);
             
-            // Apply easing for natural progression
-            this.progress = easeOutCubic(targetProgress) * 90;
+            // Apply sophisticated easing
+            this.progress = easeOutExpo(targetProgress) * 95;
             
-            // Update DOM
+            // Update DOM with elegant animations
             if (this.progressLine) {
                 this.progressLine.style.width = `${this.progress}%`;
             }
@@ -443,7 +434,7 @@ class EviaModernPreloader {
                 this.progressPercentage.textContent = `${Math.round(this.progress)}%`;
             }
             
-            if (targetProgress < 0.9) {
+            if (targetProgress < 0.95) {
                 this.raf = requestAnimationFrame(updateProgress);
             }
         };
@@ -451,9 +442,6 @@ class EviaModernPreloader {
         this.raf = requestAnimationFrame(updateProgress);
     }
     
-    /**
-     * Rotate through loading messages
-     */
     rotateMessages() {
         const { loadingMessages } = this.options;
         if (!loadingMessages.length || !this.loadingMessage) return;
@@ -468,25 +456,24 @@ class EviaModernPreloader {
             
             this.currentMessage = (this.currentMessage + 1) % loadingMessages.length;
             
-            // Apply fade transition
+            // Sophisticated fade transition
             this.loadingMessage.style.opacity = '0';
+            this.loadingMessage.style.transform = 'translateY(10px)';
             
             setTimeout(() => {
                 this.loadingMessage.textContent = loadingMessages[this.currentMessage];
-                this.loadingMessage.style.opacity = '0.7';
-            }, 300);
+                this.loadingMessage.style.opacity = '0.8';
+                this.loadingMessage.style.transform = 'translateY(0)';
+            }, 400);
             
-        }, 3000);
+        }, 3500);
     }
     
-    /**
-     * Check if page is fully loaded
-     */
     checkPageLoaded() {
         if (document.readyState === 'complete') {
             const elapsedTime = performance.now() - this.startTime;
             
-            // Ensure minimum display time
+            // Ensure minimum display time for luxury experience
             if (elapsedTime < this.options.minDuration) {
                 setTimeout(() => {
                     this.completePreloader();
@@ -495,20 +482,16 @@ class EviaModernPreloader {
                 this.completePreloader();
             }
         } else {
-            // Check again after a delay
             setTimeout(() => this.checkPageLoaded(), 100);
         }
     }
     
-    /**
-     * Complete preloader with elegant exit animation
-     */
     completePreloader() {
         if (!this.isLoading || !this.preloader) return;
         
         this.isLoading = false;
         
-        // Clear any ongoing animations
+        // Clear animations
         if (this.raf) {
             cancelAnimationFrame(this.raf);
         }
@@ -517,7 +500,7 @@ class EviaModernPreloader {
             clearInterval(this.messageInterval);
         }
         
-        // Finish progress to 100%
+        // Complete progress with elegance
         if (this.progressLine) {
             this.progressLine.style.width = '100%';
         }
@@ -526,40 +509,42 @@ class EviaModernPreloader {
             this.progressPercentage.textContent = '100%';
         }
         
-        // Trigger the sliding panel animation
+        // Trigger sophisticated exit animation
         setTimeout(() => {
             this.preloader.classList.add('complete');
             
-            // Remove preloader after animation completes
+            // Remove preloader with staggered timing
             setTimeout(() => {
                 this.preloader.classList.add('hidden');
                 document.body.classList.remove('loading');
                 
-                // Dispatch event when fully complete
+                // Dispatch completion event
                 window.dispatchEvent(new CustomEvent('preloaderComplete'));
                 
-                console.log('✨ Modern preloader transition complete');
+                console.log('✨ Manhattan preloader completed elegantly');
             }, this.options.exitDuration);
             
-        }, 400); // Short delay before starting exit animation
+        }, 600);
     }
 }
 
 /**
- * Professional Med Spa Hero Section Controller
- * Enhanced version with glass morphism design for perfect video background visibility
+ * Elevated Manhattan Hero Section Controller
  */
-class ProfessionalMedSpaHero {
+class ElevatedManhattanHero {
     constructor() {
-        this.hero = document.querySelector('.manhattan-hero-enhanced');
+        this.hero = document.querySelector('.manhattan-hero-elevated');
         this.typedElement = document.getElementById('typingText');
         this.scrollIndicator = document.querySelector('.scroll-indicator');
         this.navDots = document.querySelectorAll('.side-nav-dot');
         this.primaryBtn = document.getElementById('heroBookBtn');
         this.videoBtn = document.getElementById('heroVideoBtn');
         this.trustNumbers = document.querySelectorAll('.trust-number');
+        this.particlesCanvas = document.getElementById('heroParticles');
+        this.threeDCanvas = document.getElementById('hero3DCanvas');
         
         this.typed = null;
+        this.particleSystem = null;
         this.isAnimating = false;
         this.countersAnimated = false;
         this.isInitialized = false;
@@ -567,13 +552,9 @@ class ProfessionalMedSpaHero {
         this.init();
     }
     
-    /**
-     * Initialize all hero section functionality
-     */
     init() {
         if (this.isInitialized) return;
         
-        // Wait for DOM to be ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.initializeComponents());
         } else {
@@ -581,12 +562,9 @@ class ProfessionalMedSpaHero {
         }
         
         this.isInitialized = true;
-        console.log('✨ Professional Med Spa Hero initialized');
+        console.log('✨ Elevated Manhattan Hero initialized');
     }
     
-    /**
-     * Initialize all components
-     */
     initializeComponents() {
         this.initAOS();
         this.initTypedAnimation();
@@ -596,73 +574,71 @@ class ProfessionalMedSpaHero {
         this.initCounterAnimations();
         this.initMagneticEffects();
         this.initVideoEffects();
+        this.initAdvancedParticles();
+        this.init3DElements();
         this.initAccessibility();
     }
     
-    /**
-     * Initialize AOS (Animate On Scroll) animations
-     */
     initAOS() {
         if (typeof AOS !== 'undefined') {
             AOS.init({
-                duration: 1200,
+                duration: 1400,
                 easing: 'ease-out-cubic',
                 once: true,
-                offset: 50,
-                delay: 100,
+                offset: 60,
+                delay: 120,
                 disable: window.innerWidth < 768
             });
             
-            // Refresh AOS when needed
             setTimeout(() => {
                 AOS.refresh();
-            }, 500);
+            }, 800);
         }
     }
     
-    /**
-     * Initialize typing animation with medical spa services
-     */
     initTypedAnimation() {
         if (!this.typedElement || typeof Typed === 'undefined') {
             console.warn('Typed.js not available or element not found');
             return;
         }
         
-        const medSpaServices = [
-            'Advanced Botox & Dermal Fillers',
-            'Luxury HydraFacial Treatments', 
-            'Body Contouring & CoolSculpting',
+        const manhattanMedSpaServices = [
+            'Luxury Botox & Premium Dermal Fillers',
+            'Manhattan HydraFacial Excellence', 
+            'Elite Body Contouring & CoolSculpting',
             'Medical-Grade Skincare Solutions',
             'Anti-Aging & Longevity Medicine',
             'Non-Invasive Aesthetic Procedures',
             'Professional Skin Rejuvenation',
-            'Laser Treatments & IPL Therapy'
+            'Advanced Laser Treatments & IPL Therapy',
+            'Precision Micro-needling & PRP',
+            'Luxury Wellness & IV Therapy'
         ];
         
         const options = {
-            strings: medSpaServices,
-            typeSpeed: 50,
-            backSpeed: 30,
-            backDelay: 2500,
+            strings: manhattanMedSpaServices,
+            typeSpeed: 40,
+            backSpeed: 25,
+            backDelay: 3000,
             loop: true,
             showCursor: false,
             fadeOut: true,
-            fadeOutDelay: 500,
+            fadeOutDelay: 600,
             fadeOutClass: 'typed-fade-out',
             onStringTyped: (arrayPos) => {
-                // Add glow effect when typing completes
-                this.typedElement.style.textShadow = '0 0 20px rgba(255, 158, 24, 0.6)';
+                // Enhanced completion effect
+                this.typedElement.style.textShadow = '0 0 25px rgba(255, 158, 24, 0.7)';
+                this.typedElement.style.transform = 'scale(1.02)';
                 setTimeout(() => {
-                    this.typedElement.style.textShadow = '0 1px 3px rgba(255, 158, 24, 0.3)';
-                }, 1200);
+                    this.typedElement.style.textShadow = '0 2px 4px rgba(255, 158, 24, 0.3)';
+                    this.typedElement.style.transform = 'scale(1)';
+                }, 1500);
             },
             onBegin: () => {
                 this.typedElement.style.opacity = '1';
             }
         };
         
-        // Initialize with error handling
         try {
             this.typed = new Typed(this.typedElement, options);
         } catch (error) {
@@ -670,66 +646,73 @@ class ProfessionalMedSpaHero {
         }
     }
     
-    /**
-     * Initialize GSAP animations if available
-     */
     initGSAPAnimations() {
         if (typeof gsap === 'undefined') return;
         
         try {
             gsap.registerPlugin(ScrollTrigger);
             
-            // Parallax effect for video background
+            // Enhanced parallax for video background
             if (window.innerWidth > 768) {
                 gsap.to('.hero-video-bg', {
-                    scale: 1.15,
+                    scale: 1.2,
                     scrollTrigger: {
                         trigger: this.hero,
                         start: 'top top',
                         end: 'bottom top',
-                        scrub: 1
+                        scrub: 1.5
                     }
                 });
             }
             
-            // Content fade on scroll
+            // Sophisticated content fade
             gsap.to('.hero-content', {
-                y: 50,
-                opacity: 0.6,
+                y: 80,
+                opacity: 0.4,
                 scrollTrigger: {
                     trigger: this.hero,
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: 1.5
+                    scrub: 2
                 }
             });
             
-            // Staggered animation for feature cards
+            // Enhanced staggered animation for feature cards
             gsap.fromTo('.feature-card', 
                 {
-                    y: 30,
-                    opacity: 0
+                    y: 50,
+                    opacity: 0,
+                    scale: 0.8
                 },
                 {
                     y: 0,
                     opacity: 1,
-                    duration: 0.8,
-                    stagger: 0.2,
-                    ease: 'power2.out',
-                    delay: 1.5
+                    scale: 1,
+                    duration: 1.2,
+                    stagger: 0.3,
+                    ease: 'power3.out',
+                    delay: 2
                 }
             );
+            
+            // Floating elements animation
+            gsap.to('.float-element', {
+                y: -30,
+                rotation: 360,
+                duration: 8,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                stagger: 1
+            });
             
         } catch (error) {
             console.error('Error initializing GSAP:', error);
         }
     }
     
-    /**
-     * Initialize button interactions and effects
-     */
     initButtonInteractions() {
-        // Primary CTA button
+        // Enhanced primary CTA button
         if (this.primaryBtn) {
             this.primaryBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -740,7 +723,7 @@ class ProfessionalMedSpaHero {
             this.addAdvancedButtonEffects(this.primaryBtn);
         }
         
-        // Video button
+        // Enhanced video button
         if (this.videoBtn) {
             this.videoBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -751,7 +734,7 @@ class ProfessionalMedSpaHero {
             this.addAdvancedButtonEffects(this.videoBtn);
         }
         
-        // Additional CTA buttons (header, mobile)
+        // Header and mobile CTAs
         const additionalCTAs = [
             '.header-cta',
             '.mobile-cta'
@@ -769,92 +752,87 @@ class ProfessionalMedSpaHero {
         });
     }
     
-    /**
-     * Open appointment modal with smooth animation
-     */
     openAppointmentModal() {
         const modal = document.getElementById('appointmentModal');
         if (modal) {
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Focus management for accessibility
+            // Enhanced focus management
             setTimeout(() => {
                 const firstInput = modal.querySelector('input');
                 if (firstInput) {
                     firstInput.focus();
                 }
-            }, 300);
+            }, 400);
             
-            // Add modal opening animation
+            // Sophisticated modal opening animation
             const modalContainer = modal.querySelector('.modal-container');
             if (modalContainer) {
-                modalContainer.style.transform = 'scale(0.8) translateY(20px)';
+                modalContainer.style.transform = 'scale(0.7) translateY(50px)';
                 modalContainer.style.opacity = '0';
                 
                 setTimeout(() => {
                     modalContainer.style.transform = 'scale(1) translateY(0)';
                     modalContainer.style.opacity = '1';
-                }, 50);
+                }, 100);
             }
         }
     }
     
-    /**
-     * Open video modal
-     */
     openVideoModal() {
         const modal = document.getElementById('videoModal');
         if (modal) {
             modal.classList.add('active');
             const iframe = modal.querySelector('iframe');
             if (iframe) {
-                // Replace with your actual video URL
+                // Replace with actual video URL
                 iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
             }
         }
     }
     
-    /**
-     * Add advanced button effects and interactions
-     */
     addAdvancedButtonEffects(button) {
         if (!button) return;
         
-        // Enhanced ripple effect on click
+        // Sophisticated ripple effect
         button.addEventListener('click', (e) => {
-            this.createRippleEffect(e, button);
+            this.createAdvancedRippleEffect(e, button);
         });
         
-        // Particle effect on hover
+        // Enhanced particle effect on hover
         button.addEventListener('mouseenter', () => {
-            this.createParticleEffect(button);
+            this.createEnhancedParticleEffect(button);
         });
         
-        // Reset effects on mouse leave
+        // Magnetic attraction effect
+        if (window.innerWidth > 768) {
+            button.addEventListener('mousemove', (e) => {
+                this.createMagneticEffect(e, button);
+            });
+        }
+        
+        // Reset effects
         button.addEventListener('mouseleave', () => {
             this.resetButtonEffects(button);
         });
         
-        // Keyboard accessibility
+        // Enhanced keyboard accessibility
         button.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                this.createRippleEffect(e, button);
+                this.createAdvancedRippleEffect(e, button);
                 button.click();
             }
         });
     }
     
-    /**
-     * Create ripple effect on button click
-     */
-    createRippleEffect(event, button) {
+    createAdvancedRippleEffect(event, button) {
         const ripple = document.createElement('div');
-        ripple.className = 'button-ripple';
+        ripple.className = 'advanced-button-ripple';
         
         const rect = button.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height) * 1.5;
+        const size = Math.max(rect.width, rect.height) * 2;
         const x = (event.clientX || rect.left + rect.width / 2) - rect.left - size / 2;
         const y = (event.clientY || rect.top + rect.height / 2) - rect.top - size / 2;
         
@@ -864,10 +842,10 @@ class ProfessionalMedSpaHero {
             height: ${size}px;
             left: ${x}px;
             top: ${y}px;
-            background: rgba(255, 255, 255, 0.4);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent 70%);
             border-radius: 50%;
             pointer-events: none;
-            animation: ripple 0.6s ease-out;
+            animation: advancedRipple 0.8s ease-out;
             z-index: 1;
         `;
         
@@ -875,38 +853,45 @@ class ProfessionalMedSpaHero {
         button.style.overflow = 'hidden';
         button.appendChild(ripple);
         
-        setTimeout(() => ripple.remove(), 600);
+        setTimeout(() => ripple.remove(), 800);
     }
     
-    /**
-     * Create particle effect on button hover
-     */
-    createParticleEffect(button) {
+    createEnhancedParticleEffect(button) {
         const particles = button.querySelectorAll('.btn-particles span');
         if (particles.length > 0) {
             particles.forEach((particle, index) => {
                 setTimeout(() => {
-                    particle.style.animation = 'btnParticle 1.2s ease-out';
-                }, index * 150);
+                    particle.style.animation = 'btnParticle 1.5s ease-out';
+                    particle.style.background = `rgba(255, 158, 24, ${0.8 - index * 0.1})`;
+                }, index * 100);
             });
         }
     }
     
-    /**
-     * Reset button effects
-     */
+    createMagneticEffect(event, button) {
+        const rect = button.getBoundingClientRect();
+        const x = event.clientX - rect.left - rect.width / 2;
+        const y = event.clientY - rect.top - rect.height / 2;
+        
+        const magnetStrength = 0.15;
+        const magnetX = x * magnetStrength;
+        const magnetY = y * magnetStrength;
+        
+        button.style.transform = `translate(${magnetX}px, ${magnetY}px)`;
+    }
+    
     resetButtonEffects(button) {
+        button.style.transform = 'translate(0, 0)';
+        
         const particles = button.querySelectorAll('.btn-particles span');
         particles.forEach(particle => {
             particle.style.animation = '';
+            particle.style.background = '';
         });
     }
     
-    /**
-     * Initialize scroll effects and indicators
-     */
     initScrollEffects() {
-        // Scroll indicator functionality
+        // Enhanced scroll indicator
         if (this.scrollIndicator) {
             this.scrollIndicator.addEventListener('click', () => {
                 const nextSection = this.hero?.nextElementSibling;
@@ -919,24 +904,30 @@ class ProfessionalMedSpaHero {
             });
         }
         
-        // Side navigation dots
+        // Enhanced side navigation
         this.navDots.forEach((dot, index) => {
             dot.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.handleNavDotClick(index);
             });
+            
+            // Add hover tooltip effect
+            dot.addEventListener('mouseenter', () => {
+                const tooltip = dot.getAttribute('data-tooltip');
+                if (tooltip) {
+                    this.showTooltip(dot, tooltip);
+                }
+            });
+            
+            dot.addEventListener('mouseleave', () => {
+                this.hideTooltip();
+            });
         });
         
-        // Update active dot on scroll
         this.updateActiveDot();
-        
-        // Hide scroll indicator when scrolled
         this.initScrollIndicatorVisibility();
     }
     
-    /**
-     * Handle navigation dot clicks
-     */
     handleNavDotClick(index) {
         const sections = ['hero', 'about', 'services', 'results', 'contact'];
         const targetSection = document.getElementById(sections[index]);
@@ -948,16 +939,13 @@ class ProfessionalMedSpaHero {
             if (sections[index] === 'hero') {
                 targetPosition = 0;
             } else {
-                targetPosition = targetSection.offsetTop - headerHeight - 20;
+                targetPosition = targetSection.offsetTop - headerHeight - 30;
             }
             
             this.smoothScrollTo(targetPosition);
         }
     }
     
-    /**
-     * Smooth scroll to position
-     */
     smoothScrollTo(position) {
         window.scrollTo({
             top: position,
@@ -965,9 +953,50 @@ class ProfessionalMedSpaHero {
         });
     }
     
-    /**
-     * Update active navigation dot based on scroll position
-     */
+    showTooltip(element, text) {
+        const existingTooltip = document.querySelector('.nav-tooltip');
+        if (existingTooltip) {
+            existingTooltip.remove();
+        }
+        
+        const tooltip = document.createElement('div');
+        tooltip.className = 'nav-tooltip';
+        tooltip.textContent = text;
+        tooltip.style.cssText = `
+            position: absolute;
+            background: rgba(68, 44, 21, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateX(-50%) translateY(-100%);
+            transition: opacity 0.3s ease;
+        `;
+        
+        const rect = element.getBoundingClientRect();
+        tooltip.style.left = rect.left + rect.width / 2 + 'px';
+        tooltip.style.top = rect.top - 10 + 'px';
+        
+        document.body.appendChild(tooltip);
+        
+        setTimeout(() => {
+            tooltip.style.opacity = '1';
+        }, 50);
+    }
+    
+    hideTooltip() {
+        const tooltip = document.querySelector('.nav-tooltip');
+        if (tooltip) {
+            tooltip.style.opacity = '0';
+            setTimeout(() => tooltip.remove(), 300);
+        }
+    }
+    
     updateActiveDot() {
         const sections = ['hero', 'about', 'services', 'results', 'contact'];
         
@@ -998,18 +1027,15 @@ class ProfessionalMedSpaHero {
         });
     }
     
-    /**
-     * Initialize scroll indicator visibility
-     */
     initScrollIndicatorVisibility() {
         const handleScroll = () => {
             const scrollY = window.scrollY;
             const scrollIndicatorWrapper = document.querySelector('.scroll-indicator-wrapper');
             
             if (scrollIndicatorWrapper) {
-                if (scrollY > 100) {
+                if (scrollY > 150) {
                     scrollIndicatorWrapper.style.opacity = '0';
-                    scrollIndicatorWrapper.style.transform = 'translateX(-50%) translateY(20px)';
+                    scrollIndicatorWrapper.style.transform = 'translateX(-50%) translateY(30px)';
                 } else {
                     scrollIndicatorWrapper.style.opacity = '1';
                     scrollIndicatorWrapper.style.transform = 'translateX(-50%) translateY(0)';
@@ -1020,15 +1046,12 @@ class ProfessionalMedSpaHero {
         window.addEventListener('scroll', handleScroll, { passive: true });
     }
     
-    /**
-     * Initialize counter animations for trust indicators
-     */
     initCounterAnimations() {
         if (!this.trustNumbers.length) return;
         
         const animateCounter = (counter) => {
             const target = parseInt(counter.dataset.count);
-            const increment = target / 60; // 60 frames for smooth animation
+            const increment = target / 80; // Smoother animation
             let current = 0;
             
             const updateCounter = () => {
@@ -1039,34 +1062,35 @@ class ProfessionalMedSpaHero {
                     requestAnimationFrame(updateCounter);
                 } else {
                     counter.textContent = target;
-                    // Add completion effect
-                    counter.style.transform = 'scale(1.1)';
+                    // Enhanced completion effect
+                    counter.style.transform = 'scale(1.15)';
+                    counter.style.textShadow = '0 0 30px rgba(255, 158, 24, 0.6)';
                     setTimeout(() => {
                         counter.style.transform = 'scale(1)';
-                    }, 200);
+                        counter.style.textShadow = '0 3px 6px rgba(255, 158, 24, 0.3)';
+                    }, 300);
                 }
             };
             
             updateCounter();
         };
         
-        // Intersection Observer for counter animation
         const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !this.countersAnimated) {
                     this.countersAnimated = true;
                     
-                    // Stagger counter animations
+                    // Staggered counter animations
                     this.trustNumbers.forEach((counter, index) => {
                         setTimeout(() => {
                             animateCounter(counter);
-                        }, index * 200);
+                        }, index * 300);
                     });
                     
                     counterObserver.disconnect();
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.6 });
         
         const trustIndicators = document.querySelector('.trust-indicators-container');
         if (trustIndicators) {
@@ -1074,11 +1098,8 @@ class ProfessionalMedSpaHero {
         }
     }
     
-    /**
-     * Initialize magnetic hover effects (desktop only)
-     */
     initMagneticEffects() {
-        if (window.innerWidth < 992) return; // Desktop only
+        if (window.innerWidth < 992) return;
         
         const magneticElements = document.querySelectorAll('.magnetic-hover');
         
@@ -1089,8 +1110,8 @@ class ProfessionalMedSpaHero {
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 
-                const magnetX = x * (strength / 200);
-                const magnetY = y * (strength / 200);
+                const magnetX = x * (strength / 250);
+                const magnetY = y * (strength / 250);
                 
                 element.style.transform = `translate(${magnetX}px, ${magnetY}px)`;
             });
@@ -1101,14 +1122,10 @@ class ProfessionalMedSpaHero {
         });
     }
     
-    /**
-     * Initialize video background effects
-     */
     initVideoEffects() {
         const video = document.querySelector('.hero-video-bg');
         if (!video) return;
         
-        // Ensure video plays
         video.addEventListener('loadeddata', () => {
             if (video.paused) {
                 video.play().catch(e => {
@@ -1117,24 +1134,183 @@ class ProfessionalMedSpaHero {
             }
         });
         
-        // Handle video errors
         video.addEventListener('error', (e) => {
             console.error('Video error:', e);
-            // Optionally add fallback background
-            this.hero.style.background = 'linear-gradient(135deg, #FFF8F0 0%, #FFFFFF 100%)';
+            // Enhanced fallback background
+            this.hero.style.background = 'linear-gradient(135deg, #FFF8F0 0%, #FFFFFF 50%, #FFF8F0 100%)';
         });
         
-        // Optimize video performance
         video.addEventListener('loadstart', () => {
             video.playbackRate = 1.0;
         });
     }
     
-    /**
-     * Initialize accessibility features
-     */
+    initAdvancedParticles() {
+        if (!this.particlesCanvas || window.innerWidth < 768) return;
+        
+        const canvas = this.particlesCanvas;
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+        
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        
+        const createAdvancedParticles = () => {
+            particles = [];
+            const particleCount = Math.floor((canvas.width * canvas.height) / 25000);
+            
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 3 + 1,
+                    speedX: (Math.random() - 0.5) * 0.4,
+                    speedY: (Math.random() - 0.5) * 0.4,
+                    opacity: Math.random() * 0.6 + 0.2,
+                    hue: Math.random() * 30 + 30 // Golden hues
+                });
+            }
+        };
+        
+        const animateAdvancedParticles = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach((particle, index) => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                // Boundary wrapping
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.y > canvas.height) particle.y = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                
+                // Dynamic opacity based on mouse proximity
+                const mouseX = window.mouseX || canvas.width / 2;
+                const mouseY = window.mouseY || canvas.height / 2;
+                const distance = Math.sqrt(
+                    Math.pow(particle.x - mouseX, 2) + Math.pow(particle.y - mouseY, 2)
+                );
+                const maxDistance = 150;
+                const proximityOpacity = distance < maxDistance ? 
+                    (1 - distance / maxDistance) * 0.8 : particle.opacity;
+                
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${particle.hue}, 70%, 60%, ${proximityOpacity})`;
+                ctx.fill();
+                
+                // Connect nearby particles
+                particles.slice(index + 1).forEach(otherParticle => {
+                    const dx = particle.x - otherParticle.x;
+                    const dy = particle.y - otherParticle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(otherParticle.x, otherParticle.y);
+                        ctx.strokeStyle = `hsla(45, 70%, 60%, ${0.2 * (1 - distance / 100)})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            animationId = requestAnimationFrame(animateAdvancedParticles);
+        };
+        
+        // Mouse tracking for particle interaction
+        window.addEventListener('mousemove', (e) => {
+            window.mouseX = e.clientX;
+            window.mouseY = e.clientY;
+        });
+        
+        resizeCanvas();
+        createAdvancedParticles();
+        animateAdvancedParticles();
+        
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createAdvancedParticles();
+        });
+        
+        this.particleSystem = {
+            cleanup: () => {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+            }
+        };
+    }
+    
+    init3DElements() {
+        if (!this.threeDCanvas || typeof THREE === 'undefined' || window.innerWidth < 992) return;
+        
+        try {
+            // Create 3D scene for background elements
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: this.threeDCanvas, alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0); // Transparent background
+            
+            // Create floating geometric elements
+            const geometry = new THREE.IcosahedronGeometry(1, 0);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0xff9e18, 
+                wireframe: true, 
+                transparent: true, 
+                opacity: 0.1 
+            });
+            
+            const elements = [];
+            for (let i = 0; i < 5; i++) {
+                const element = new THREE.Mesh(geometry, material);
+                element.position.x = (Math.random() - 0.5) * 20;
+                element.position.y = (Math.random() - 0.5) * 20;
+                element.position.z = (Math.random() - 0.5) * 20;
+                element.rotation.x = Math.random() * Math.PI;
+                element.rotation.y = Math.random() * Math.PI;
+                scene.add(element);
+                elements.push(element);
+            }
+            
+            camera.position.z = 10;
+            
+            // Animation loop
+            const animate = () => {
+                requestAnimationFrame(animate);
+                
+                elements.forEach((element, index) => {
+                    element.rotation.x += 0.005 * (index + 1);
+                    element.rotation.y += 0.003 * (index + 1);
+                    element.position.y = Math.sin(Date.now() * 0.001 + index) * 2;
+                });
+                
+                renderer.render(scene, camera);
+            };
+            
+            animate();
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+        } catch (error) {
+            console.log('3D elements not initialized:', error);
+        }
+    }
+    
     initAccessibility() {
-        // Add ARIA labels
+        // Enhanced ARIA labels
         const buttons = this.hero.querySelectorAll('button');
         buttons.forEach(button => {
             if (!button.getAttribute('aria-label') && !button.getAttribute('aria-labelledby')) {
@@ -1145,29 +1321,29 @@ class ProfessionalMedSpaHero {
             }
         });
         
-        // Add reduced motion support
+        // Enhanced reduced motion support
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            // Disable complex animations for users who prefer reduced motion
             const style = document.createElement('style');
             style.textContent = `
-                .manhattan-hero-enhanced *, 
-                .manhattan-hero-enhanced *::before, 
-                .manhattan-hero-enhanced *::after {
+                .manhattan-hero-elevated *, 
+                .manhattan-hero-elevated *::before, 
+                .manhattan-hero-elevated *::after {
                     animation-duration: 0.01ms !important;
                     animation-iteration-count: 1 !important;
                     transition-duration: 0.01ms !important;
+                }
+                .float-element,
+                .hero-particles-advanced {
+                    display: none !important;
                 }
             `;
             document.head.appendChild(style);
         }
         
-        // Focus management
+        // Enhanced focus management
         this.initFocusManagement();
     }
     
-    /**
-     * Initialize focus management for keyboard navigation
-     */
     initFocusManagement() {
         const focusableElements = this.hero.querySelectorAll(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -1175,8 +1351,9 @@ class ProfessionalMedSpaHero {
         
         focusableElements.forEach(element => {
             element.addEventListener('focus', () => {
-                element.style.outline = '3px solid rgba(255, 158, 24, 0.6)';
-                element.style.outlineOffset = '2px';
+                element.style.outline = '3px solid rgba(255, 158, 24, 0.7)';
+                element.style.outlineOffset = '3px';
+                element.style.borderRadius = '8px';
             });
             
             element.addEventListener('blur', () => {
@@ -1186,11 +1363,7 @@ class ProfessionalMedSpaHero {
         });
     }
     
-    /**
-     * Track events for analytics
-     */
     trackEvent(eventName, eventData = {}) {
-        // Console logging for development
         console.log('Event tracked:', eventName, eventData);
         
         // Google Analytics 4
@@ -1210,24 +1383,19 @@ class ProfessionalMedSpaHero {
                 ...eventData
             });
         }
-        
-        // Custom analytics endpoint
-        if (window.customAnalytics) {
-            window.customAnalytics.track(eventName, eventData);
-        }
     }
     
-    /**
-     * Cleanup method for performance
-     */
     destroy() {
-        // Destroy Typed.js instance
+        // Enhanced cleanup
         if (this.typed) {
             this.typed.destroy();
             this.typed = null;
         }
         
-        // Kill GSAP animations
+        if (this.particleSystem) {
+            this.particleSystem.cleanup();
+        }
+        
         if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         }
@@ -1236,16 +1404,9 @@ class ProfessionalMedSpaHero {
             gsap.killTweensOf('*');
         }
         
-        // Remove event listeners
-        window.removeEventListener('scroll', this.handleScroll);
-        window.removeEventListener('resize', this.handleResize);
-        
-        console.log('Hero section destroyed');
+        console.log('Elevated Hero section destroyed');
     }
     
-    /**
-     * Refresh/reinitialize components
-     */
     refresh() {
         if (typeof AOS !== 'undefined') {
             AOS.refresh();
@@ -1258,9 +1419,9 @@ class ProfessionalMedSpaHero {
 }
 
 /**
- * Doctor Section Interactive Elements
+ * Enhanced Doctor Section Controller
  */
-class DoctorSectionController {
+class EnhancedDoctorSection {
     constructor() {
         this.section = document.querySelector('.meet-doctor-section');
         this.statNumbers = document.querySelectorAll('.stat-number');
@@ -1278,16 +1439,15 @@ class DoctorSectionController {
     init() {
         this.initScrollAnimations();
         this.initButtonInteractions();
-        this.initHoverEffects();
+        this.initAdvancedHoverEffects();
         this.initStatCounters();
         this.initMagneticEffects();
         this.initParallaxEffects();
         
-        console.log('✨ Doctor section initialized');
+        console.log('✨ Enhanced doctor section initialized');
     }
     
     initScrollAnimations() {
-        // Intersection Observer for section visibility
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !this.isVisible) {
@@ -1296,15 +1456,14 @@ class DoctorSectionController {
                 }
             });
         }, {
-            threshold: 0.3,
-            rootMargin: '0px 0px -100px 0px'
+            threshold: 0.4,
+            rootMargin: '0px 0px -150px 0px'
         });
         
         if (this.section) {
             sectionObserver.observe(this.section);
         }
         
-        // Individual element animations
         this.initElementRevealAnimations();
     }
     
@@ -1321,12 +1480,18 @@ class DoctorSectionController {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate-reveal');
+                    
+                    // Add staggered animation effect
+                    const siblings = Array.from(entry.target.parentNode.children);
+                    const index = siblings.indexOf(entry.target);
+                    entry.target.style.animationDelay = `${index * 0.1}s`;
+                    
                     elementObserver.unobserve(entry.target);
                 }
             });
         }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.2,
+            rootMargin: '0px 0px -80px 0px'
         });
         
         revealElements.forEach(selector => {
@@ -1343,41 +1508,39 @@ class DoctorSectionController {
     }
     
     triggerEntranceAnimations() {
-        // Animate doctor photo entrance
+        // Enhanced doctor photo entrance
         const imageContainer = document.querySelector('.image-container');
         if (imageContainer) {
             setTimeout(() => {
                 imageContainer.style.transform = 'translateY(0)';
                 imageContainer.style.opacity = '1';
-            }, 200);
+            }, 300);
         }
         
-        // Animate credentials badge
+        // Enhanced credentials badge
         const credentialsBadge = document.querySelector('.credentials-badge');
         if (credentialsBadge) {
             setTimeout(() => {
                 credentialsBadge.style.transform = 'translateY(0) scale(1)';
                 credentialsBadge.style.opacity = '1';
-            }, 600);
+            }, 800);
         }
         
-        // Animate awards
+        // Enhanced awards animation
         const awardItems = document.querySelectorAll('.award-item');
         awardItems.forEach((award, index) => {
             setTimeout(() => {
                 award.style.transform = 'translateY(0) scale(1)';
                 award.style.opacity = '1';
-            }, 800 + (index * 200));
+            }, 1000 + (index * 300));
         });
     }
     
     initButtonInteractions() {
-        // Book with Doctor button
         if (this.bookWithDoctorBtn) {
             this.bookWithDoctorBtn.addEventListener('click', () => {
                 this.openAppointmentModal();
                 
-                // Track specific doctor booking
                 this.trackEvent('doctor_booking_clicked', {
                     doctor: 'Dr. Evia Alikaj Nano',
                     section: 'about'
@@ -1387,7 +1550,6 @@ class DoctorSectionController {
             this.addAdvancedButtonEffects(this.bookWithDoctorBtn);
         }
         
-        // Learn More button
         if (this.learnMoreBtn) {
             this.learnMoreBtn.addEventListener('click', () => {
                 this.scrollToServices();
@@ -1403,7 +1565,6 @@ class DoctorSectionController {
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Pre-fill with doctor preference if form has the option
             setTimeout(() => {
                 const doctorSelect = modal.querySelector('select[name="doctor"]');
                 if (doctorSelect) {
@@ -1414,7 +1575,7 @@ class DoctorSectionController {
                 if (firstInput) {
                     firstInput.focus();
                 }
-            }, 300);
+            }, 400);
         }
     }
     
@@ -1422,7 +1583,7 @@ class DoctorSectionController {
         const servicesSection = document.getElementById('services');
         if (servicesSection) {
             const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
-            const targetPosition = servicesSection.offsetTop - headerHeight - 20;
+            const targetPosition = servicesSection.offsetTop - headerHeight - 30;
             
             window.scrollTo({
                 top: targetPosition,
@@ -1437,10 +1598,10 @@ class DoctorSectionController {
         // Enhanced ripple effect
         button.addEventListener('click', (e) => {
             const ripple = document.createElement('div');
-            ripple.className = 'advanced-ripple';
+            ripple.className = 'enhanced-ripple';
             
             const rect = button.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height) * 1.5;
+            const size = Math.max(rect.width, rect.height) * 1.8;
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
             
@@ -1450,10 +1611,10 @@ class DoctorSectionController {
                 height: ${size}px;
                 left: ${x}px;
                 top: ${y}px;
-                background: rgba(255, 255, 255, 0.4);
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent 70%);
                 border-radius: 50%;
                 pointer-events: none;
-                animation: advancedRipple 0.8s ease-out;
+                animation: enhancedRipple 1s ease-out;
                 z-index: 1;
             `;
             
@@ -1461,51 +1622,56 @@ class DoctorSectionController {
             button.style.overflow = 'hidden';
             button.appendChild(ripple);
             
-            setTimeout(() => ripple.remove(), 800);
+            setTimeout(() => ripple.remove(), 1000);
         });
         
-        // Hover particle effects
+        // Enhanced hover effects
         button.addEventListener('mouseenter', () => {
-            this.createHoverParticles(button);
+            this.createAdvancedHoverParticles(button);
         });
     }
     
-    createHoverParticles(button) {
+    createAdvancedHoverParticles(button) {
         const particles = button.querySelectorAll('.btn-particles span');
         particles.forEach((particle, index) => {
             setTimeout(() => {
-                particle.style.animation = 'btnParticle 1.2s ease-out';
-            }, index * 100);
+                particle.style.animation = 'btnParticle 1.5s ease-out';
+                particle.style.background = `hsla(${30 + index * 10}, 70%, 60%, 0.8)`;
+            }, index * 80);
         });
         
-        // Reset after animation
         setTimeout(() => {
             particles.forEach(particle => {
                 particle.style.animation = '';
+                particle.style.background = '';
             });
-        }, 1200);
+        }, 1500);
     }
     
-    initHoverEffects() {
-        // Expertise items hover effects
+    initAdvancedHoverEffects() {
+        // Enhanced expertise items effects
         this.expertiseItems.forEach((item, index) => {
             item.addEventListener('mouseenter', () => {
-                // Add subtle scale and glow
-                item.style.transform = 'translateY(-8px) scale(1.02)';
+                item.style.transform = 'translateY(-12px) scale(1.03)';
                 
-                // Stagger effect for neighboring items
+                // Create ripple effect on icon
+                const icon = item.querySelector('.expertise-icon');
+                if (icon) {
+                    this.createIconRipple(icon);
+                }
+                
+                // Enhanced neighboring items effect
                 const neighbors = this.getNeighboringItems(item, index);
                 neighbors.forEach((neighbor, i) => {
                     setTimeout(() => {
-                        neighbor.style.transform = 'translateY(-3px) scale(1.01)';
-                    }, i * 50);
+                        neighbor.style.transform = 'translateY(-4px) scale(1.01)';
+                    }, i * 80);
                 });
             });
             
             item.addEventListener('mouseleave', () => {
                 item.style.transform = 'translateY(0) scale(1)';
                 
-                // Reset neighbors
                 const neighbors = this.getNeighboringItems(item, index);
                 neighbors.forEach(neighbor => {
                     neighbor.style.transform = 'translateY(0) scale(1)';
@@ -1513,15 +1679,15 @@ class DoctorSectionController {
             });
         });
         
-        // Credential items hover effects
+        // Enhanced credential items effects
         this.credentialItems.forEach(item => {
             item.addEventListener('mouseenter', () => {
-                item.style.transform = 'translateY(-3px) scale(1.02)';
+                item.style.transform = 'translateY(-5px) scale(1.03)';
                 
-                // Add glow effect
                 const icon = item.querySelector('i');
                 if (icon) {
-                    icon.style.textShadow = '0 0 10px rgba(255, 158, 24, 0.6)';
+                    icon.style.textShadow = '0 0 15px rgba(255, 158, 24, 0.8)';
+                    icon.style.transform = 'scale(1.2) rotate(5deg)';
                 }
             });
             
@@ -1531,16 +1697,72 @@ class DoctorSectionController {
                 const icon = item.querySelector('i');
                 if (icon) {
                     icon.style.textShadow = '';
+                    icon.style.transform = 'scale(1) rotate(0deg)';
                 }
             });
         });
         
-        // Doctor photo advanced hover effects
+        // Enhanced doctor photo effects
         const imageContainer = document.querySelector('.image-container');
         if (imageContainer) {
             imageContainer.addEventListener('mouseenter', () => {
-                this.createPhotoHoverEffect();
+                this.createAdvancedPhotoEffect();
             });
+        }
+    }
+    
+    createIconRipple(icon) {
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: iconRipple 0.8s ease-out;
+            pointer-events: none;
+        `;
+        
+        icon.style.position = 'relative';
+        icon.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 800);
+    }
+    
+    createAdvancedPhotoEffect() {
+        const imageContainer = document.querySelector('.image-container');
+        if (!imageContainer) return;
+        
+        // Create sophisticated floating elements
+        for (let i = 0; i < 8; i++) {
+            const element = document.createElement('div');
+            element.className = 'photo-hover-element';
+            
+            const size = Math.random() * 12 + 6;
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const delay = Math.random() * 2;
+            
+            element.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                background: hsla(${30 + Math.random() * 30}, 70%, 60%, 0.6);
+                border-radius: 50%;
+                left: ${x}%;
+                top: ${y}%;
+                pointer-events: none;
+                animation: advancedFloatParticle 4s ease-out forwards;
+                animation-delay: ${delay}s;
+                z-index: 15;
+            `;
+            
+            imageContainer.appendChild(element);
+            
+            setTimeout(() => element.remove(), 4000 + delay * 1000);
         }
     }
     
@@ -1548,43 +1770,10 @@ class DoctorSectionController {
         const neighbors = [];
         const totalItems = this.expertiseItems.length;
         
-        // Get adjacent items based on grid layout
         if (currentIndex > 0) neighbors.push(this.expertiseItems[currentIndex - 1]);
         if (currentIndex < totalItems - 1) neighbors.push(this.expertiseItems[currentIndex + 1]);
         
         return neighbors.filter(item => item && item !== currentItem);
-    }
-    
-    createPhotoHoverEffect() {
-        // Create floating particles around photo
-        const imageContainer = document.querySelector('.image-container');
-        if (!imageContainer) return;
-        
-        for (let i = 0; i < 6; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'photo-hover-particle';
-            
-            const size = Math.random() * 8 + 4;
-            const x = Math.random() * 100;
-            const y = Math.random() * 100;
-            
-            particle.style.cssText = `
-                position: absolute;
-                width: ${size}px;
-                height: ${size}px;
-                background: rgba(255, 158, 24, 0.6);
-                border-radius: 50%;
-                left: ${x}%;
-                top: ${y}%;
-                pointer-events: none;
-                animation: floatParticle 3s ease-out forwards;
-                z-index: 10;
-            `;
-            
-            imageContainer.appendChild(particle);
-            
-            setTimeout(() => particle.remove(), 3000);
-        }
     }
     
     initStatCounters() {
@@ -1592,7 +1781,7 @@ class DoctorSectionController {
         
         const animateCounter = (counter) => {
             const target = parseInt(counter.dataset.count);
-            const increment = target / 80; // Smooth 80-frame animation
+            const increment = target / 100;
             let current = 0;
             
             const updateCounter = () => {
@@ -1604,37 +1793,35 @@ class DoctorSectionController {
                 } else {
                     counter.textContent = target;
                     
-                    // Add completion effect
-                    counter.style.transform = 'scale(1.15)';
-                    counter.style.textShadow = '0 0 20px rgba(255, 158, 24, 0.5)';
+                    // Enhanced completion effect
+                    counter.style.transform = 'scale(1.2)';
+                    counter.style.textShadow = '0 0 30px rgba(255, 158, 24, 0.8)';
                     
                     setTimeout(() => {
                         counter.style.transform = 'scale(1)';
-                        counter.style.textShadow = '';
-                    }, 300);
+                        counter.style.textShadow = '0 3px 6px rgba(255, 158, 24, 0.3)';
+                    }, 400);
                 }
             };
             
             updateCounter();
         };
         
-        // Trigger counter animation when stats section is visible
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !this.statsAnimated) {
                     this.statsAnimated = true;
                     
-                    // Stagger counter animations
                     this.statNumbers.forEach((counter, index) => {
                         setTimeout(() => {
                             animateCounter(counter);
-                        }, index * 200);
+                        }, index * 400);
                     });
                     
                     statsObserver.disconnect();
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.6 });
         
         const statsSection = document.querySelector('.stats-section');
         if (statsSection) {
@@ -1643,7 +1830,7 @@ class DoctorSectionController {
     }
     
     initMagneticEffects() {
-        if (window.innerWidth < 992) return; // Desktop only
+        if (window.innerWidth < 992) return;
         
         const magneticElements = document.querySelectorAll('.magnetic-hover');
         
@@ -1654,8 +1841,8 @@ class DoctorSectionController {
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 
-                const magnetX = x * (strength / 200);
-                const magnetY = y * (strength / 200);
+                const magnetX = x * (strength / 250);
+                const magnetY = y * (strength / 250);
                 
                 element.style.transform = `translate(${magnetX}px, ${magnetY}px)`;
             });
@@ -1667,12 +1854,12 @@ class DoctorSectionController {
     }
     
     initParallaxEffects() {
-        if (window.innerWidth < 768) return; // Skip on mobile for performance
+        if (window.innerWidth < 768) return;
         
         const parallaxElements = [
-            { element: '.credentials-badge', speed: 0.3 },
-            { element: '.award-item', speed: 0.5 },
-            { element: '.floating-accent', speed: 0.2 }
+            { element: '.credentials-badge', speed: 0.4 },
+            { element: '.award-item', speed: 0.6 },
+            { element: '.floating-accent', speed: 0.3 }
         ];
         
         const handleScroll = () => {
@@ -1680,7 +1867,6 @@ class DoctorSectionController {
             const sectionTop = this.section?.offsetTop || 0;
             const sectionHeight = this.section?.offsetHeight || 0;
             
-            // Only apply parallax when section is in view
             if (scrolled + window.innerHeight > sectionTop && 
                 scrolled < sectionTop + sectionHeight) {
                 
@@ -1698,17 +1884,14 @@ class DoctorSectionController {
     }
     
     trackEvent(eventName, eventData = {}) {
-        // Analytics tracking (replace with your analytics service)
         console.log('Event tracked:', eventName, eventData);
         
-        // Example: Google Analytics 4
         if (typeof gtag !== 'undefined') {
             gtag('event', eventName, {
                 custom_parameter: eventData
             });
         }
         
-        // Example: Facebook Pixel
         if (typeof fbq !== 'undefined') {
             fbq('track', 'CustomEvent', {
                 event_name: eventName,
@@ -1717,12 +1900,9 @@ class DoctorSectionController {
         }
     }
     
-    // Cleanup method for performance
     destroy() {
-        // Remove event listeners and clean up
         window.removeEventListener('scroll', this.handleScroll);
         
-        // Clean up any ongoing animations
         this.statNumbers.forEach(counter => {
             counter.style.animation = '';
         });
@@ -1732,7 +1912,7 @@ class DoctorSectionController {
 /**
  * Enhanced Modal System
  */
-class EnhancedModals {
+class EnhancedModalSystem {
     constructor() {
         this.appointmentModal = document.getElementById('appointmentModal');
         this.videoModal = document.getElementById('videoModal');
@@ -1744,10 +1924,10 @@ class EnhancedModals {
     init() {
         this.initAppointmentModal();
         this.initVideoModal();
-        this.initFormValidation();
+        this.initEnhancedFormValidation();
         this.initKeyboardNavigation();
         
-        console.log('✨ Enhanced modals initialized');
+        console.log('✨ Enhanced modal system initialized');
     }
     
     initAppointmentModal() {
@@ -1764,11 +1944,11 @@ class EnhancedModals {
             this.closeModal(this.appointmentModal);
         });
         
-        // Form submission
+        // Enhanced form submission
         const form = this.appointmentModal.querySelector('#appointmentForm');
         form?.addEventListener('submit', (e) => {
             e.preventDefault();
-            this.handleFormSubmission(form);
+            this.handleEnhancedFormSubmission(form);
         });
     }
     
@@ -1797,14 +1977,14 @@ class EnhancedModals {
         document.body.style.overflow = '';
         this.activeModal = null;
         
-        // Return focus to trigger element
+        // Enhanced focus return
         const lastFocused = document.activeElement;
         if (lastFocused && lastFocused !== document.body) {
             lastFocused.blur();
         }
     }
     
-    initFormValidation() {
+    initEnhancedFormValidation() {
         const inputs = document.querySelectorAll('.appointment-form input, .appointment-form select, .appointment-form textarea');
         
         inputs.forEach(input => {
@@ -1813,28 +1993,48 @@ class EnhancedModals {
                 const group = input.closest('.form-group');
                 group?.classList.add('focused');
                 this.clearFieldError(input);
+                
+                // Add sophisticated focus animation
+                input.style.boxShadow = '0 0 25px rgba(255, 158, 24, 0.3)';
             });
             
             input.addEventListener('blur', () => {
                 const group = input.closest('.form-group');
                 group?.classList.remove('focused');
                 this.validateField(input);
+                
+                input.style.boxShadow = '';
             });
             
-            // Real-time validation
+            // Real-time validation with debouncing
+            let validationTimeout;
             input.addEventListener('input', () => {
-                if (input.classList.contains('error')) {
-                    this.validateField(input);
-                }
+                clearTimeout(validationTimeout);
+                validationTimeout = setTimeout(() => {
+                    if (input.classList.contains('error')) {
+                        this.validateField(input);
+                    }
+                }, 500);
             });
         });
     }
     
     validateField(field) {
         const value = field.value.trim();
-        const isValid = field.checkValidity() && value !== '';
-        const group = field.closest('.form-group');
+        let isValid = field.checkValidity() && value !== '';
         
+        // Enhanced validation rules
+        if (field.type === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            isValid = emailRegex.test(value);
+        }
+        
+        if (field.type === 'tel' && value) {
+            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+            isValid = phoneRegex.test(value.replace(/[^\d\+]/g, ''));
+        }
+        
+        const group = field.closest('.form-group');
         if (group) {
             group.classList.toggle('error', !isValid);
             group.classList.toggle('valid', isValid);
@@ -1863,123 +2063,151 @@ class EnhancedModals {
         return isValid;
     }
     
-    handleFormSubmission(form) {
+    handleEnhancedFormSubmission(form) {
         if (!this.validateForm(form)) {
-            this.showFormError('Please fill in all required fields correctly.');
+            this.showEnhancedFormError('Please fill in all required fields correctly.');
             return;
         }
         
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalHTML = submitBtn?.innerHTML;
         
-        // Show loading state with enhanced animation
+        // Enhanced loading state
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = `
-                <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>
-                <span class="btn-text">Sending Request...</span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <span class="btn-text">Sending Request...</span>
+                </div>
             `;
-            submitBtn.style.background = 'linear-gradient(135deg, #666 0%, #444 100%)';
+            submitBtn.style.background = 'linear-gradient(135deg, #888 0%, #666 100%)';
         }
         
-        // Simulate form submission (replace with actual API call)
+        // Enhanced form submission simulation
         setTimeout(() => {
-            this.showSuccessMessage(form);
+            this.showEnhancedSuccessMessage(form);
             
             setTimeout(() => {
                 this.closeModal(this.appointmentModal);
-            }, 3500);
-        }, 2500);
+            }, 4000);
+        }, 3000);
     }
     
-    showFormError(message) {
-        // Create error notification
+    showEnhancedFormError(message) {
+        // Create sophisticated error notification
         const errorDiv = document.createElement('div');
-        errorDiv.className = 'form-error-message';
+        errorDiv.className = 'enhanced-form-error';
         errorDiv.style.cssText = `
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 30px;
+            right: 30px;
             background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
             color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
+            padding: 20px 25px;
+            border-radius: 15px;
             font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
+            font-size: 0.9375rem;
             font-weight: 500;
-            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 15px 40px rgba(239, 68, 68, 0.4);
             z-index: 10000;
             opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 350px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         `;
-        errorDiv.textContent = message;
+        
+        errorDiv.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 24px; height: 24px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-exclamation" style="font-size: 12px;"></i>
+                </div>
+                <div>${message}</div>
+            </div>
+        `;
         
         document.body.appendChild(errorDiv);
         
         // Animate in
         setTimeout(() => {
             errorDiv.style.opacity = '1';
-            errorDiv.style.transform = 'translateX(0)';
-        }, 10);
+            errorDiv.style.transform = 'translateX(0) scale(1)';
+        }, 50);
         
         // Remove after delay
         setTimeout(() => {
             errorDiv.style.opacity = '0';
-            errorDiv.style.transform = 'translateX(100%)';
-            setTimeout(() => errorDiv.remove(), 300);
-        }, 4000);
+            errorDiv.style.transform = 'translateX(100%) scale(0.8)';
+            setTimeout(() => errorDiv.remove(), 400);
+        }, 5000);
     }
     
-    showSuccessMessage(form) {
+    showEnhancedSuccessMessage(form) {
         form.innerHTML = `
-            <div class="success-message" style="text-align: center; padding: 50px 20px;">
-                <div class="success-animation" style="margin-bottom: 30px;">
+            <div class="enhanced-success-message" style="text-align: center; padding: 60px 30px;">
+                <div class="success-animation" style="margin-bottom: 40px;">
                     <div class="success-icon" style="
-                        width: 80px; 
-                        height: 80px; 
-                        margin: 0 auto 20px; 
+                        width: 100px; 
+                        height: 100px; 
+                        margin: 0 auto 30px; 
                         background: linear-gradient(135deg, #10B981 0%, #059669 100%); 
                         border-radius: 50%; 
                         display: flex; 
                         align-items: center; 
                         justify-content: center; 
                         color: white; 
-                        font-size: 2rem;
-                        animation: successPulse 0.6s ease-out;
+                        font-size: 2.5rem;
+                        animation: enhancedSuccessPulse 0.8s ease-out;
+                        box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
                     ">
                         <i class="fas fa-check"></i>
                     </div>
                 </div>
                 <h3 style="
                     color: #442C15; 
-                    margin-bottom: 15px; 
+                    margin-bottom: 20px; 
                     font-family: 'Playfair Display', serif;
-                    font-size: 1.75rem;
+                    font-size: 2rem;
                     font-weight: 600;
                 ">Thank You!</h3>
                 <p style="
                     color: #6D6D6D; 
-                    line-height: 1.6;
+                    line-height: 1.7;
                     font-family: 'Inter', sans-serif;
-                    font-size: 1rem;
-                    margin-bottom: 20px;
-                ">Your consultation request has been received. Our team will contact you within 24 hours to schedule your appointment.</p>
+                    font-size: 1.125rem;
+                    margin-bottom: 25px;
+                ">Your consultation request has been received. Our team will contact you within 24 hours to schedule your appointment at our Manhattan location.</p>
                 <div style="
-                    font-size: 0.875rem;
+                    font-size: 0.9375rem;
                     color: #9F9F9F;
                     font-style: italic;
-                ">This window will close automatically...</div>
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                ">
+                    <div style="width: 8px; height: 8px; background: #FF9E18; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                    This window will close automatically...
+                </div>
             </div>
         `;
         
-        // Add success animation CSS
+        // Add enhanced success animations
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes successPulse {
+            @keyframes enhancedSuccessPulse {
                 0% { transform: scale(0); opacity: 0; }
-                50% { transform: scale(1.2); }
+                50% { transform: scale(1.3); }
                 100% { transform: scale(1); opacity: 1; }
+            }
+            @keyframes pulse {
+                0%, 100% { opacity: 0.4; transform: scale(1); }
+                50% { opacity: 1; transform: scale(1.2); }
+            }
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
             }
         `;
         document.head.appendChild(style);
@@ -1987,23 +2215,50 @@ class EnhancedModals {
     
     initKeyboardNavigation() {
         document.addEventListener('keydown', (e) => {
-            // Close modals with Escape
+            // Enhanced escape key handling
             if (e.key === 'Escape') {
                 const activeModal = document.querySelector('.modern-modal.active');
                 if (activeModal) {
                     this.closeModal(activeModal);
                 }
             }
+            
+            // Enhanced tab navigation within modals
+            if (e.key === 'Tab') {
+                const activeModal = document.querySelector('.modern-modal.active');
+                if (activeModal) {
+                    this.handleTabNavigation(e, activeModal);
+                }
+            }
         });
+    }
+    
+    handleTabNavigation(e, modal) {
+        const focusableElements = modal.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        if (e.shiftKey) {
+            if (document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+            }
+        } else {
+            if (document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+            }
+        }
     }
 }
 
 /**
- * Main Application Class
+ * Main Application Controller
  */
-class EviaApp {
+class EviaApplication {
     constructor() {
-        // State properties
         this.isLoading = true;
         this.scrolled = false;
         this.mobileMenuOpen = false;
@@ -2012,22 +2267,17 @@ class EviaApp {
         this.scrollY = window.scrollY;
         this.resizeTimer = null;
         
-        // Components
+        // Component instances
         this.preloader = null;
         this.heroSection = null;
         this.header = null;
         this.modals = null;
         this.doctorSection = null;
         
-        // Initialize application
         this.init();
     }
     
-    /**
-     * Initialize application
-     */
     init() {
-        // Wait for DOM content to be loaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.initApp());
         } else {
@@ -2035,116 +2285,81 @@ class EviaApp {
         }
     }
     
-    /**
-     * Main application initialization
-     */
     initApp() {
         try {
-            console.log('🌿 Initializing Evia Aesthetics application...');
+            console.log('🌿 Initializing Manhattan Evia Aesthetics application...');
             
-            // Detect browser and device capabilities
             this.detectCapabilities();
-            
-            // Initialize preloader first
             this.initPreloader();
-            
-            // Initialize header
-            this.header = new EnhancedHeader();
-            
-            // Initialize modals
-            this.modals = new EnhancedModals();
-            
-            // Add dynamic styles
+            this.header = new ManhattanHeader();
+            this.modals = new EnhancedModalSystem();
             this.addDynamicStyles();
-            
-            // Bind global events
             this.bindEvents();
             
-            console.log('✅ Application initialized successfully');
+            console.log('✅ Manhattan application initialized successfully');
         } catch (error) {
             console.error('❌ Error initializing application:', error);
             this.handleInitError();
         }
     }
     
-    /**
-     * Initialize preloader
-     */
     initPreloader() {
-        // Create and initialize preloader
-        this.preloader = new EviaModernPreloader({
-            minDuration: 2000,
-            exitDuration: 1200,
+        this.preloader = new ManhattanPreloader({
+            minDuration: 2800,
+            exitDuration: 1500,
             loadingMessages: [
-                'Welcome to Evia Aesthetics',
-                'Preparing your experience',
-                'Loading treatments',
-                'Almost ready'
+                'Welcome to Manhattan\'s Premier Med Spa',
+                'Preparing your luxury experience',
+                'Loading premium treatments',
+                'Almost ready for elegance'
             ]
         });
         
-        // Listen for preloader completion
         window.addEventListener('preloaderComplete', () => {
             this.onPreloaderComplete();
         });
     }
     
-    /**
-     * Handle preloader completion
-     */
     onPreloaderComplete() {
         this.isLoading = false;
         
-        // Initialize hero section after preloader (using new enhanced version)
-        this.heroSection = new ProfessionalMedSpaHero();
+        // Initialize enhanced hero section
+        this.heroSection = new ElevatedManhattanHero();
         
-        // Initialize doctor section after a slight delay
+        // Initialize enhanced doctor section
         setTimeout(() => {
-            this.doctorSection = new DoctorSectionController();
-        }, 1000);
+            this.doctorSection = new EnhancedDoctorSection();
+        }, 1200);
         
-        // Initialize AOS animations after preloader
+        // Initialize enhanced AOS
         if (typeof AOS !== 'undefined') {
             AOS.init({
-                duration: this.prefersReducedMotion ? 0 : 800,
-                easing: 'ease-out',
+                duration: this.prefersReducedMotion ? 0 : 1000,
+                easing: 'ease-out-cubic',
                 once: true,
-                offset: 50,
-                delay: this.prefersReducedMotion ? 0 : 100,
+                offset: 60,
+                delay: this.prefersReducedMotion ? 0 : 150,
                 disable: this.isLowEndDevice
             });
         }
         
-        // Trigger initial scroll check
         this.handleScroll();
     }
     
-    /**
-     * Detect browser capabilities for performance optimizations
-     */
     detectCapabilities() {
-        // Detect touch capability
         this.isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-        
-        // Detect reduced motion preference
         this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        
-        // Add relevant classes to the body
-        if (this.isTouch) document.body.classList.add('touch-device');
-        if (this.prefersReducedMotion) document.body.classList.add('reduced-motion');
-        
-        // Detect low-end devices
         this.isLowEndDevice = navigator.hardwareConcurrency <= 4;
         
+        if (this.isTouch) document.body.classList.add('touch-device');
+        if (this.prefersReducedMotion) document.body.classList.add('reduced-motion');
+        if (this.isLowEndDevice) document.body.classList.add('low-end-device');
+        
         if (this.isLowEndDevice) {
-            document.body.classList.add('low-end-device');
-            console.log('Low-end device detected, optimizing animations');
+            console.log('Low-end device detected, optimizing for performance');
         }
     }
     
-    /**
-     * Handle scroll events efficiently
-     */
     handleScroll() {
         const shouldBeScrolled = this.scrollY > 50;
         
@@ -2153,182 +2368,87 @@ class EviaApp {
         }
     }
     
-    /**
-     * Handle initialization errors
-     */
     handleInitError() {
-        // Hide preloader even if there's an error
         document.body.classList.remove('loading');
         const preloader = document.getElementById('eviaPreloader');
         if (preloader) {
             preloader.classList.add('hidden');
         }
         
-        console.warn('⚠️ Application initialized with limited functionality due to errors');
+        console.warn('⚠️ Application initialized with limited functionality');
     }
     
-    /**
-     * Add dynamic styles
-     */
     addDynamicStyles() {
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes ripple {
-                0% {
-                    transform: scale(0);
-                    opacity: 1;
-                }
-                100% {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-            
-            @keyframes btnParticle {
-                0% {
-                    opacity: 1;
-                    transform: translate(0, 0) scale(0);
-                }
-                100% {
-                    opacity: 0;
-                    transform: translate(var(--x), var(--y)) scale(1);
-                }
-            }
-            
             @keyframes advancedRipple {
-                0% {
-                    transform: scale(0);
-                    opacity: 1;
-                }
-                100% {
-                    transform: scale(4);
-                    opacity: 0;
-                }
+                0% { transform: scale(0); opacity: 1; }
+                100% { transform: scale(4); opacity: 0; }
             }
             
-            @keyframes floatParticle {
+            @keyframes enhancedRipple {
+                0% { transform: scale(0); opacity: 1; }
+                100% { transform: scale(4); opacity: 0; }
+            }
+            
+            @keyframes iconRipple {
+                0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+                100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+            }
+            
+            @keyframes advancedFloatParticle {
                 0% {
                     transform: translateY(0) scale(0);
                     opacity: 1;
                 }
                 50% {
-                    transform: translateY(-30px) scale(1);
+                    transform: translateY(-40px) scale(1);
                     opacity: 0.8;
                 }
                 100% {
-                    transform: translateY(-60px) scale(0);
+                    transform: translateY(-80px) scale(0);
                     opacity: 0;
-                }
-            }
-            
-            @keyframes animate-reveal {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
                 }
             }
             
             .animate-reveal {
-                animation: animate-reveal 0.8s ease-out forwards;
+                animation: enhancedReveal 1s ease-out forwards;
             }
             
-            .form-group.focused input,
-            .form-group.focused select,
-            .form-group.focused textarea {
-                border-color: #FF9E18;
-                box-shadow: 0 0 20px rgba(255, 158, 24, 0.2);
-                background: rgba(255, 255, 255, 0.95);
+            @keyframes enhancedReveal {
+                from {
+                    opacity: 0;
+                    transform: translateY(40px) scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
             }
             
-            .form-group.valid input,
-            .form-group.valid select,
-            .form-group.valid textarea {
-                border-color: #10B981;
-                box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
-            }
-            
-            .form-group.error input,
-            .form-group.error select,
-            .form-group.error textarea {
-                border-color: #EF4444;
-                box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
-            }
-            
-            .typed-fade-out {
-                opacity: 0;
-                transition: opacity 0.5s ease;
-            }
-            
-            .scroll-indicator-wrapper {
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            .trust-number,
-            .stat-number {
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            /* Initial hidden state for animated elements */
-            .credentials-badge,
-            .award-item {
-                opacity: 0;
-                transform: translateY(20px) scale(0.8);
-                transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            .expertise-item,
-            .credential-item {
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            /* Enhanced hover states */
-            .expertise-item:hover .expertise-icon {
-                transform: scale(1.1);
-                box-shadow: 0 8px 25px rgba(255, 158, 24, 0.3);
-            }
-            
-            .credential-item:hover {
-                box-shadow: 0 8px 25px rgba(255, 158, 24, 0.2);
-            }
-            
-            .brand-item:hover {
-                box-shadow: 0 5px 15px rgba(255, 158, 24, 0.3);
-            }
-            
-            .button-ripple {
-                pointer-events: none;
+            .enhanced-hover-glow {
+                box-shadow: 0 0 30px rgba(255, 158, 24, 0.4);
+                transform: translateY(-8px) scale(1.02);
             }
         `;
         document.head.appendChild(style);
     }
     
-    /**
-     * Bind global event listeners
-     */
     bindEvents() {
-        // Handle resize events with debouncing
         window.addEventListener('resize', () => {
             clearTimeout(this.resizeTimer);
             this.resizeTimer = setTimeout(() => {
-                // Update AOS on resize if available
                 if (typeof AOS !== 'undefined') {
                     AOS.refresh();
                 }
                 
-                // Refresh hero section if available
                 if (this.heroSection && typeof this.heroSection.refresh === 'function') {
                     this.heroSection.refresh();
                 }
-            }, 250);
+            }, 300);
         });
         
-        // Optimize page visibility handling
         document.addEventListener('visibilitychange', () => {
-            // Pause animations when page is not visible
             if (document.hidden) {
                 if (this.scrollAnimation) {
                     cancelAnimationFrame(this.scrollAnimation);
@@ -2341,9 +2461,7 @@ class EviaApp {
 
 // Initialize application
 document.addEventListener('DOMContentLoaded', () => {
-    const eviaApp = new EviaApp();
-    
-    // Store globally for external access
+    const eviaApp = new EviaApplication();
     window.eviaApp = eviaApp;
 });
 
@@ -2369,7 +2487,7 @@ window.eviaUtils = {
         const target = document.getElementById(targetId);
         if (target) {
             const headerHeight = document.querySelector('.luxury-header')?.offsetHeight || 0;
-            const targetPosition = target.offsetTop - headerHeight - 20;
+            const targetPosition = target.offsetTop - headerHeight - 30;
             
             window.scrollTo({
                 top: targetPosition,
