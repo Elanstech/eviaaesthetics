@@ -1017,9 +1017,9 @@ body.no-scroll {
 /* Hero Section - Enhanced */
 .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 110vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     overflow: hidden;
     padding-top: 0;
@@ -1090,7 +1090,8 @@ body.no-scroll {
     width: 100%;
     text-align: center;
     color: var(--white);
-    padding: var(--space-3xl) 0;
+    padding: calc(var(--space-4xl) + 60px) 0 var(--space-4xl);
+    margin-top: 8vh;
 }
 
 .medical-badge-hero {
@@ -1409,7 +1410,7 @@ body.no-scroll {
 /* Enhanced Scroll Indicator */
 .scroll-indicator {
     position: absolute;
-    bottom: var(--space-2xl);
+    bottom: var(--space-4xl);
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -2441,9 +2442,14 @@ body.no-scroll {
     html {
         scroll-padding-top: 100px;
     }
+   
+    .hero {
+        min-height: 105vh;
+    }
     
     .hero-content {
-        padding: var(--space-2xl) 0;
+        padding: calc(var(--space-3xl) + 40px) 0 var(--space-3xl);
+        margin-top: 5vh;
     }
     
     .hero-title h1 {
