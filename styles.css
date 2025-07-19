@@ -1107,6 +1107,8 @@ body.no-scroll {
     margin-bottom: var(--space-2xl);
     color: var(--text-primary);
     animation: slideInUp 0.8s ease-out;
+    position: relative;
+    top: -40px; 
 }
 
 .badge-icon {
