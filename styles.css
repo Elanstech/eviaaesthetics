@@ -1090,8 +1090,8 @@ body.no-scroll {
     width: 100%;
     text-align: center;
     color: var(--white);
-    padding: calc(var(--space-4xl) + 60px) 0 var(--space-4xl);
-    margin-top: 8vh;
+    padding: calc(var(--space-4xl) + 80px) 0 calc(var(--space-4xl) + 80px);
+    margin-top: 6vh;
 }
 
 .medical-badge-hero {
