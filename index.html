@@ -17,10 +17,7 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- AOS Animation Library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    
-    <!-- Main Stylesheet -->
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,11 +25,21 @@
     <div class="preloader" id="preloader">
         <div class="preloader-content">
             <div class="logo-container">
-                <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo">
-                <div class="medical-badge">MD</div>
+                <div class="logo-wrapper">
+                    <div class="logo-circle-preloader">
+                        <div class="logo-inner">
+                            <span class="logo-text">E</span>
+                        </div>
+                    </div>
+                    <div class="medical-badge-preloader">MD</div>
+                </div>
+                <div class="brand-text">
+                    <h1 class="brand-name">Evia Aesthetics</h1>
+                    <p class="brand-tagline">Manhattan's Premier Medical Spa</p>
+                </div>
             </div>
             <div class="loading-text">
-                <div class="loading-message">Welcome to Manhattan's Premier Medical Spa</div>
+                <div class="loading-message">Preparing Your Experience</div>
                 <div class="loading-dots">
                     <span></span>
                     <span></span>
@@ -49,18 +56,20 @@
     <header class="header" id="header">
         <div class="header-container">
             <!-- Logo -->
-            <div class="logo-section">
+            <div class="logo-section" data-animate="header">
                 <div class="logo-circle" id="logoContainer">
-                    <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
+                    <div class="logo-inner">
+                        <span class="logo-text">E</span>
+                    </div>
                     <div class="medical-badge">MD</div>
                 </div>
             </div>
             
             <!-- Navigation -->
-            <nav class="navigation" id="navigation">
+            <nav class="navigation" id="navigation" data-animate="header">
                 <ul class="nav-menu">
-                    <li><a href="#home" class="nav-link active">Home</a></li>
-                    <li class="dropdown">
+                    <li data-animate-delay="0.1"><a href="#home" class="nav-link active">Home</a></li>
+                    <li class="dropdown" data-animate-delay="0.2">
                         <a href="#services" class="nav-link">Services <i class="fas fa-chevron-down"></i></a>
                         <div class="dropdown-menu">
                             <div class="dropdown-content">
@@ -94,26 +103,26 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="#about" class="nav-link">About Dr. Nano</a></li>
-                    <li><a href="#results" class="nav-link">Results</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li data-animate-delay="0.3"><a href="#about" class="nav-link">About Dr. Nano</a></li>
+                    <li data-animate-delay="0.4"><a href="#results" class="nav-link">Results</a></li>
+                    <li data-animate-delay="0.5"><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
             
             <!-- Header Actions -->
-            <div class="header-actions">
-                <a href="tel:+15551234567" class="phone-link">
+            <div class="header-actions" data-animate="header">
+                <a href="tel:+15551234567" class="phone-link" data-animate-delay="0.6">
                     <i class="fas fa-phone"></i>
                     <span>(555) 123-4567</span>
                 </a>
                 
-                <button class="cta-button" id="headerCTA">
+                <button class="cta-button" id="headerCTA" data-animate-delay="0.7">
                     <span>Book Consultation</span>
                     <i class="fas fa-calendar-check"></i>
                 </button>
                 
                 <!-- Mobile Menu Toggle -->
-                <button class="mobile-toggle" id="mobileToggle">
+                <button class="mobile-toggle" id="mobileToggle" data-animate-delay="0.8">
                     <div class="hamburger">
                         <span></span>
                         <span></span>
@@ -129,12 +138,14 @@
         </div>
     </header>
 
-    <!-- Sleek Mobile Menu -->
+    <!-- Mobile Menu -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
             <div class="mobile-logo">
-                <img src="logo1.png" alt="Evia" class="mobile-logo-img">
+                <div class="mobile-logo-circle">
+                    <span class="mobile-logo-text">E</span>
+                </div>
                 <div class="medical-badge">MD</div>
             </div>
             <button class="mobile-close" id="mobileClose">
@@ -211,22 +222,29 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <!-- Background Video -->
+        <!-- Background Elements -->
         <div class="hero-background">
             <div class="hero-video-container">
                 <video class="hero-video" autoplay muted loop playsinline>
-                    <source src="hero.mp4" type="video/mp4">
+                    <source src="https://videos.pexels.com/video-files/6615956/6615956-hd_1920_1080_30fps.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="hero-overlay"></div>
             <div class="hero-gradient"></div>
+            <div class="floating-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
         </div>
         
         <!-- Content -->
         <div class="hero-content">
             <div class="container">
                 <!-- Medical Badge -->
-                <div class="medical-badge-hero" data-aos="fade-up" data-aos-delay="300">
+                <div class="medical-badge-hero" data-animate="hero" data-animate-delay="0.2">
                     <div class="badge-icon">
                         <i class="fas fa-hospital"></i>
                     </div>
@@ -240,11 +258,11 @@
                 </div>
                 
                 <!-- Main Title -->
-                <div class="hero-title" data-aos="fade-up" data-aos-delay="500">
+                <div class="hero-title" data-animate="hero" data-animate-delay="0.4">
                     <h1>
-                        <span class="title-word">Elevate</span>
-                        <span class="title-word accent">Your Beauty</span>
-                        <span class="title-word">Naturally</span>
+                        <span class="title-word" data-word-delay="0">Elevate</span>
+                        <span class="title-word accent" data-word-delay="0.2">Your Beauty</span>
+                        <span class="title-word" data-word-delay="0.4">Naturally</span>
                     </h1>
                     <div class="title-underline">
                         <div class="underline-dot"></div>
@@ -254,18 +272,18 @@
                 </div>
                 
                 <!-- Typing Effect -->
-                <div class="typing-container" data-aos="fade-up" data-aos-delay="700">
+                <div class="typing-container" data-animate="hero" data-animate-delay="0.8">
                     <span class="typing-label">Specializing in</span>
                     <span class="typing-text" id="typingText">Premium Botox</span>
                 </div>
                 
                 <!-- Description -->
-                <div class="hero-description" data-aos="fade-up" data-aos-delay="900">
+                <div class="hero-description" data-animate="hero" data-animate-delay="1.0">
                     <p>Experience world-class aesthetic medicine in Manhattan's most sophisticated medical spa, where cutting-edge technology meets personalized care under the expert guidance of Dr. Evia Alikaj Nano, MD.</p>
                 </div>
                 
                 <!-- CTA Buttons -->
-                <div class="hero-cta" data-aos="fade-up" data-aos-delay="1100">
+                <div class="hero-cta" data-animate="hero" data-animate-delay="1.2">
                     <button class="cta-button primary" id="heroBooking">
                         <span>Book Free Consultation</span>
                         <i class="fas fa-calendar-check"></i>
@@ -280,7 +298,7 @@
                 </div>
                 
                 <!-- Credentials -->
-                <div class="hero-credentials" data-aos="fade-up" data-aos-delay="1300">
+                <div class="hero-credentials" data-animate="hero" data-animate-delay="1.4">
                     <div class="credential-item">
                         <i class="fas fa-award"></i>
                         <span>Board Certified MD</span>
@@ -300,7 +318,7 @@
                 </div>
                 
                 <!-- Stats -->
-                <div class="hero-stats" data-aos="fade-up" data-aos-delay="1500">
+                <div class="hero-stats" data-animate="hero" data-animate-delay="1.6">
                     <div class="stat-item">
                         <div class="stat-number" data-count="1000">0</div>
                         <div class="stat-label">Happy Patients</div>
@@ -322,7 +340,7 @@
         </div>
         
         <!-- Scroll Indicator -->
-        <div class="scroll-indicator" id="scrollIndicator">
+        <div class="scroll-indicator" id="scrollIndicator" data-animate="hero" data-animate-delay="1.8">
             <div class="scroll-mouse">
                 <div class="scroll-wheel"></div>
             </div>
@@ -331,7 +349,7 @@
         </div>
         
         <!-- Side Navigation -->
-        <nav class="side-nav" id="sideNav">
+        <nav class="side-nav" id="sideNav" data-animate="hero" data-animate-delay="2.0">
             <a href="#home" class="nav-dot active" data-tooltip="Home"></a>
             <a href="#about" class="nav-dot" data-tooltip="About Dr. Nano"></a>
             <a href="#services" class="nav-dot" data-tooltip="Services"></a>
@@ -344,7 +362,7 @@
     <section class="about-section-new" id="about">
         <div class="container">
             <!-- Section Header -->
-            <div class="section-header-new" data-aos="fade-up">
+            <div class="section-header-new" data-animate="section">
                 <div class="header-badge">
                     <i class="fas fa-user-md"></i>
                     <span>Board-Certified Excellence</span>
@@ -366,11 +384,11 @@
             <!-- Main Content Grid -->
             <div class="about-grid">
                 <!-- Doctor Portrait Card -->
-                <div class="doctor-card" data-aos="fade-right" data-aos-delay="200">
+                <div class="doctor-card" data-animate="section" data-animate-delay="0.2">
                     <div class="card-inner">
                         <div class="doctor-image-new">
                             <div class="image-container">
-                                <img src="eviaherself.jpg" alt="Dr. Evia Alikaj Nano, MD" class="doctor-photo-new">
+                                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500&h=600&fit=crop&crop=face" alt="Dr. Evia Alikaj Nano, MD" class="doctor-photo-new">
                                 <div class="image-overlay-new"></div>
                                 
                                 <!-- Floating Elements -->
@@ -405,7 +423,7 @@
                 </div>
 
                 <!-- Content Area -->
-                <div class="about-content-new" data-aos="fade-left" data-aos-delay="400">
+                <div class="about-content-new" data-animate="section" data-animate-delay="0.4">
                     <!-- Philosophy Quote -->
                     <div class="philosophy-card">
                         <div class="quote-icon">
@@ -421,7 +439,7 @@
                     <div class="expertise-section">
                         <h3 class="expertise-title">Areas of Excellence</h3>
                         <div class="expertise-grid-new">
-                            <div class="expertise-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="expertise-card" data-animate="stagger" data-animate-delay="0.1">
                                 <div class="expertise-icon-new">
                                     <i class="fas fa-spa"></i>
                                 </div>
@@ -431,7 +449,7 @@
                                 </div>
                             </div>
                             
-                            <div class="expertise-card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="expertise-card" data-animate="stagger" data-animate-delay="0.2">
                                 <div class="expertise-icon-new">
                                     <i class="fas fa-syringe"></i>
                                 </div>
@@ -441,7 +459,7 @@
                                 </div>
                             </div>
                             
-                            <div class="expertise-card" data-aos="fade-up" data-aos-delay="300">
+                            <div class="expertise-card" data-animate="stagger" data-animate-delay="0.3">
                                 <div class="expertise-icon-new">
                                     <i class="fas fa-leaf"></i>
                                 </div>
@@ -451,7 +469,7 @@
                                 </div>
                             </div>
                             
-                            <div class="expertise-card" data-aos="fade-up" data-aos-delay="400">
+                            <div class="expertise-card" data-animate="stagger" data-animate-delay="0.4">
                                 <div class="expertise-icon-new">
                                     <i class="fas fa-heartbeat"></i>
                                 </div>
@@ -467,19 +485,19 @@
                     <div class="credentials-showcase">
                         <h3 class="credentials-title">Medical Excellence</h3>
                         <div class="credentials-list">
-                            <div class="credential-badge-new" data-aos="fade-up" data-aos-delay="100">
+                            <div class="credential-badge-new" data-animate="stagger" data-animate-delay="0.1">
                                 <i class="fas fa-graduation-cap"></i>
                                 <span>Medical Doctor (MD)</span>
                             </div>
-                            <div class="credential-badge-new" data-aos="fade-up" data-aos-delay="200">
+                            <div class="credential-badge-new" data-animate="stagger" data-animate-delay="0.2">
                                 <i class="fas fa-certificate"></i>
                                 <span>Board Certified</span>
                             </div>
-                            <div class="credential-badge-new" data-aos="fade-up" data-aos-delay="300">
+                            <div class="credential-badge-new" data-animate="stagger" data-animate-delay="0.3">
                                 <i class="fas fa-award"></i>
                                 <span>Pistor Method Certified</span>
                             </div>
-                            <div class="credential-badge-new" data-aos="fade-up" data-aos-delay="400">
+                            <div class="credential-badge-new" data-animate="stagger" data-animate-delay="0.4">
                                 <i class="fas fa-star"></i>
                                 <span>Advanced PRP Training</span>
                             </div>
@@ -487,7 +505,7 @@
                     </div>
 
                     <!-- CTA -->
-                    <div class="about-cta" data-aos="fade-up" data-aos-delay="500">
+                    <div class="about-cta" data-animate="section" data-animate-delay="0.6">
                         <button class="cta-button primary large" id="bookWithDoctorNew">
                             <span>Schedule Your Consultation</span>
                             <i class="fas fa-calendar-plus"></i>
@@ -506,7 +524,7 @@
     <section class="services-section" id="services">
         <div class="container">
             <!-- Section Header -->
-            <div class="services-header" data-aos="fade-up">
+            <div class="services-header" data-animate="section">
                 <div class="header-badge-services">
                     <i class="fas fa-gem"></i>
                     <span>Luxury Medical Services</span>
@@ -523,10 +541,10 @@
             </div>
 
             <!-- Services Grid -->
-            <div class="services-grid" data-aos="fade-up" data-aos-delay="200">
+            <div class="services-grid" data-animate="section" data-animate-delay="0.2">
                 
                 <!-- Facial Rejuvenation -->
-                <div class="service-category" data-category="facial" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-category" data-category="facial" data-animate="stagger" data-animate-delay="0.1">
                     <div class="category-header">
                         <div class="category-icon">
                             <i class="fas fa-spa"></i>
@@ -595,7 +613,7 @@
                 </div>
 
                 <!-- Medical Injectables -->
-                <div class="service-category featured" data-category="injectables" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-category featured" data-category="injectables" data-animate="stagger" data-animate-delay="0.2">
                     <div class="featured-badge">
                         <i class="fas fa-crown"></i>
                         <span>Most Popular</span>
@@ -668,7 +686,7 @@
                 </div>
 
                 <!-- Body Sculpting -->
-                <div class="service-category" data-category="body" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-category" data-category="body" data-animate="stagger" data-animate-delay="0.3">
                     <div class="category-header">
                         <div class="category-icon">
                             <i class="fas fa-heartbeat"></i>
@@ -738,7 +756,7 @@
             </div>
 
             <!-- Services CTA -->
-            <div class="services-cta" data-aos="fade-up" data-aos-delay="400">
+            <div class="services-cta" data-animate="section" data-animate-delay="0.4">
                 <div class="cta-content">
                     <h3 class="cta-title">Ready to Begin Your Transformation?</h3>
                     <p class="cta-description">
@@ -833,7 +851,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
