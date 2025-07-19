@@ -1022,7 +1022,7 @@ body.no-scroll {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-top: 0;
+    padding-top: 120px; 
 }
 
 /* Hero Background */
@@ -1090,7 +1090,7 @@ body.no-scroll {
     width: 100%;
     text-align: center;
     color: var(--white);
-    padding: var(--space-3xl) 0;
+    padding: var(--space-2xl) 0; 
 }
 
 .medical-badge-hero {
@@ -1409,7 +1409,7 @@ body.no-scroll {
 /* Enhanced Scroll Indicator */
 .scroll-indicator {
     position: absolute;
-    bottom: var(--space-2xl);
+    bottom: var(--space-xl); /* Moved up from var(--space-2xl) */
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -2442,8 +2442,13 @@ body.no-scroll {
         scroll-padding-top: 100px;
     }
     
+    .hero {
+        padding-top: 100px; /* Reduced for mobile */
+        min-height: calc(100vh - 20px); /* Adjust minimum height */
+    }
+    
     .hero-content {
-        padding: var(--space-2xl) 0;
+        padding: var(--space-lg) 0; /* Further reduced for mobile */
     }
     
     .hero-title h1 {
@@ -2475,6 +2480,10 @@ body.no-scroll {
     
     .badge-subtitle {
         font-size: 0.75rem;
+    }
+    
+    .scroll-indicator {
+        bottom: var(--space-lg); /* Move up more on mobile */
     }
     
     /* Fixed Mobile Credentials */
@@ -2524,6 +2533,7 @@ body.no-scroll {
     .image-container {
         height: 350px;
     }
+    
     
     .floating-badge {
         position: static !important;
