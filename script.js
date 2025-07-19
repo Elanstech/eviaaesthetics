@@ -1,4 +1,4 @@
-// Evia Aesthetics - Modern Advanced Animations JavaScript
+// Evia Aesthetics - Advanced Professional JavaScript with Perfect Animations
 
 'use strict';
 
@@ -12,195 +12,81 @@ const EviaApp = {
         timeline: null,
         observers: new Map(),
         isReduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    },
+    performance: {
+        startTime: performance.now(),
+        loadTime: 0,
+        animations: new Set()
     }
 };
 
 /**
- * Advanced Animation System
+ * Advanced Performance Monitor
  */
-class AnimationController {
+class PerformanceMonitor {
     constructor() {
-        this.queue = new Map();
-        this.running = new Set();
-        this.completed = new Set();
-        this.isReduced = EviaApp.animations.isReduced;
-        
+        this.metrics = {
+            loadTime: 0,
+            animationFrames: 0,
+            fps: 60,
+            lastFrame: performance.now()
+        };
         this.init();
     }
     
     init() {
-        if (this.isReduced) {
-            this.disableAnimations();
-            return;
+        this.trackFPS();
+        this.trackLoadTime();
+        this.optimizeAnimations();
+    }
+    
+    trackFPS() {
+        const trackFrame = (timestamp) => {
+            this.metrics.animationFrames++;
+            const delta = timestamp - this.metrics.lastFrame;
+            this.metrics.fps = Math.round(1000 / delta);
+            this.metrics.lastFrame = timestamp;
+            
+            // Adjust animation quality based on FPS
+            if (this.metrics.fps < 30) {
+                this.reduceAnimationQuality();
+            }
+            
+            requestAnimationFrame(trackFrame);
+        };
+        requestAnimationFrame(trackFrame);
+    }
+    
+    trackLoadTime() {
+        window.addEventListener('load', () => {
+            this.metrics.loadTime = performance.now() - EviaApp.performance.startTime;
+            console.log(`🚀 Page loaded in ${this.metrics.loadTime.toFixed(2)}ms`);
+        });
+    }
+    
+    optimizeAnimations() {
+        // Disable heavy animations on low-end devices
+        if (navigator.hardwareConcurrency < 4) {
+            document.body.classList.add('reduced-animations');
         }
-        
-        this.setupObservers();
-        this.initializeElements();
     }
     
-    disableAnimations() {
-        document.body.classList.add('no-animations');
-        // Show all elements immediately
-        document.querySelectorAll('[data-animate]').forEach(el => {
-            el.style.opacity = '1';
-            el.style.transform = 'none';
-        });
-    }
-    
-    setupObservers() {
-        // Header animation observer
-        const headerObserver = new IntersectionObserver(
-            (entries) => this.handleHeaderAnimation(entries),
-            { threshold: 0, rootMargin: '0px' }
-        );
-        
-        // Section animation observer
-        const sectionObserver = new IntersectionObserver(
-            (entries) => this.handleSectionAnimations(entries),
-            { threshold: 0.1, rootMargin: '-50px 0px' }
-        );
-        
-        // Stagger animation observer
-        const staggerObserver = new IntersectionObserver(
-            (entries) => this.handleStaggerAnimations(entries),
-            { threshold: 0.2, rootMargin: '-30px 0px' }
-        );
-        
-        EviaApp.animations.observers.set('header', headerObserver);
-        EviaApp.animations.observers.set('section', sectionObserver);
-        EviaApp.animations.observers.set('stagger', staggerObserver);
-    }
-    
-    initializeElements() {
-        // Observe header elements
-        document.querySelectorAll('[data-animate="header"]').forEach(el => {
-            EviaApp.animations.observers.get('header').observe(el);
-        });
-        
-        // Observe section elements
-        document.querySelectorAll('[data-animate="section"]').forEach(el => {
-            EviaApp.animations.observers.get('section').observe(el);
-        });
-        
-        // Observe stagger elements
-        document.querySelectorAll('[data-animate="stagger"]').forEach(el => {
-            EviaApp.animations.observers.get('stagger').observe(el);
-        });
-    }
-    
-    handleHeaderAnimation(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !this.completed.has('header')) {
-                this.completed.add('header');
-                this.animateHeader();
-            }
-        });
-    }
-    
-    handleSectionAnimations(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const element = entry.target;
-                const delay = parseFloat(element.dataset.animateDelay) || 0;
-                
-                if (!this.running.has(element)) {
-                    this.running.add(element);
-                    this.animateElement(element, delay * 1000);
-                }
-            }
-        });
-    }
-    
-    handleStaggerAnimations(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const element = entry.target;
-                const container = element.closest('.expertise-grid-new, .credentials-list, .services-grid');
-                
-                if (container && !this.running.has(container)) {
-                    this.running.add(container);
-                    this.animateStaggerGroup(container);
-                }
-            }
-        });
-    }
-    
-    animateHeader() {
-        const headerElements = document.querySelectorAll('[data-animate="header"]');
-        
-        headerElements.forEach((element, index) => {
-            const delay = parseFloat(element.dataset.animateDelay) || index * 0.1;
-            this.animateElement(element, delay * 1000);
-        });
-    }
-    
-    animateElement(element, delay = 0) {
-        setTimeout(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'none';
-            element.classList.add('animated');
-        }, delay);
-    }
-    
-    animateStaggerGroup(container) {
-        const children = container.querySelectorAll('[data-animate="stagger"]');
-        
-        children.forEach((child, index) => {
-            const delay = index * 100;
-            setTimeout(() => {
-                child.style.opacity = '1';
-                child.style.transform = 'none';
-                child.classList.add('animated');
-            }, delay);
-        });
-    }
-    
-    animateHero() {
-        if (this.isReduced) return;
-        
-        const heroElements = document.querySelectorAll('[data-animate="hero"]');
-        
-        heroElements.forEach(element => {
-            const delay = parseFloat(element.dataset.animateDelay) || 0;
-            
-            setTimeout(() => {
-                element.style.opacity = '1';
-                element.style.transform = 'none';
-                element.classList.add('animated');
-                
-                // Special handling for title words
-                if (element.classList.contains('hero-title')) {
-                    this.animateTitleWords(element);
-                }
-            }, delay * 1000);
-        });
-    }
-    
-    animateTitleWords(titleContainer) {
-        const words = titleContainer.querySelectorAll('.title-word');
-        
-        words.forEach(word => {
-            const delay = parseFloat(word.dataset.wordDelay) || 0;
-            
-            setTimeout(() => {
-                word.style.opacity = '1';
-                word.style.transform = 'none';
-                word.classList.add('word-animated');
-            }, delay * 1000);
-        });
+    reduceAnimationQuality() {
+        document.body.classList.add('low-performance');
     }
 }
 
 /**
- * Enhanced Preloader Controller
+ * Enhanced Preloader with Perfect Sequencing
  */
-class PreloaderController {
+class AdvancedPreloader {
     constructor() {
         this.element = document.getElementById('preloader');
         this.progressFill = document.getElementById('progressFill');
-        this.progress = 0;
         this.isComplete = false;
-        this.duration = 3500;
+        this.duration = 3000;
+        this.progress = 0;
+        this.sequence = [];
         
         this.init();
     }
@@ -208,70 +94,91 @@ class PreloaderController {
     init() {
         if (!this.element) return;
         
-        console.log('🎬 Initializing advanced preloader');
+        console.log('🎬 Initializing advanced preloader system');
         
-        // Add loading class to body
+        // Prevent scrolling during load
         document.body.classList.add('loading', 'no-scroll');
         
-        // Start sequential animations
+        // Setup sequence
+        this.createSequence();
+        
+        // Start loading process
         this.startSequence();
         
-        // Check page readiness
-        this.checkPageReady();
+        // Check for completion
+        this.checkReadiness();
         
-        // Fallback timer
-        this.fallbackTimer = setTimeout(() => {
-            if (!this.isComplete) {
-                console.log('⏰ Preloader fallback triggered');
-                this.complete();
-            }
-        }, 5000);
+        // Fallback safety
+        this.setupFallback();
+    }
+    
+    createSequence() {
+        this.sequence = [
+            { name: 'logo', duration: 800, progress: 20 },
+            { name: 'brand', duration: 600, progress: 40 },
+            { name: 'loading', duration: 500, progress: 60 },
+            { name: 'progress', duration: 1100, progress: 100 }
+        ];
     }
     
     startSequence() {
-        // Phase 1: Logo animation (0-1000ms)
-        this.animateLogo();
+        let cumulativeDelay = 0;
         
-        // Phase 2: Brand text (1000-1500ms)
-        setTimeout(() => this.animateBrandText(), 1000);
+        this.sequence.forEach((step, index) => {
+            setTimeout(() => {
+                this.executeStep(step, index);
+            }, cumulativeDelay);
+            
+            cumulativeDelay += step.duration;
+        });
+    }
+    
+    executeStep(step, index) {
+        const stepElement = this.element.querySelector(`.${step.name}-animation`);
         
-        // Phase 3: Loading text (1500-2000ms)
-        setTimeout(() => this.animateLoadingText(), 1500);
+        switch (step.name) {
+            case 'logo':
+                this.animateLogo();
+                break;
+            case 'brand':
+                this.animateBrand();
+                break;
+            case 'loading':
+                this.animateLoading();
+                break;
+            case 'progress':
+                this.animateProgress();
+                break;
+        }
         
-        // Phase 4: Progress bar (2000-3500ms)
-        setTimeout(() => this.animateProgress(), 2000);
+        // Update progress
+        this.updateProgress(step.progress);
     }
     
     animateLogo() {
         const logoWrapper = this.element.querySelector('.logo-wrapper');
-        const logoCircle = this.element.querySelector('.logo-circle-preloader');
-        const logoInner = this.element.querySelector('.logo-inner');
-        const badge = this.element.querySelector('.medical-badge-preloader');
+        const logoCircle = this.element.querySelector('.preloader-logo-circle');
+        const logoImg = this.element.querySelector('.preloader-logo');
         
         if (logoWrapper) {
-            logoWrapper.style.animation = 'float 4s ease-in-out infinite';
+            logoWrapper.style.opacity = '1';
+            logoWrapper.style.transform = 'scale(1) rotate(0deg)';
         }
         
         if (logoCircle) {
-            logoCircle.style.animation = 'pulse 3s ease-in-out infinite';
+            logoCircle.style.opacity = '1';
+            logoCircle.style.transform = 'scale(1)';
         }
         
-        if (logoInner) {
+        if (logoImg) {
             setTimeout(() => {
-                logoInner.style.opacity = '1';
-                logoInner.style.transform = 'scale(1) rotate(0deg)';
-            }, 500);
-        }
-        
-        if (badge) {
-            setTimeout(() => {
-                badge.style.opacity = '1';
-                badge.style.transform = 'scale(1)';
-            }, 1200);
+                logoImg.style.opacity = '1';
+                logoImg.style.transform = 'scale(1)';
+            }, 300);
         }
     }
     
-    animateBrandText() {
+    animateBrand() {
         const brandText = this.element.querySelector('.brand-text');
         if (brandText) {
             brandText.style.opacity = '1';
@@ -279,7 +186,7 @@ class PreloaderController {
         }
     }
     
-    animateLoadingText() {
+    animateLoading() {
         const loadingText = this.element.querySelector('.loading-text');
         if (loadingText) {
             loadingText.style.opacity = '1';
@@ -288,24 +195,29 @@ class PreloaderController {
     }
     
     animateProgress() {
-        const duration = 1500;
+        this.animateProgressBar();
+    }
+    
+    animateProgressBar() {
+        if (!this.progressFill) return;
+        
+        const duration = 1200;
         const startTime = performance.now();
         
         const animate = (currentTime) => {
             if (this.isComplete) return;
             
             const elapsed = currentTime - startTime;
-            const progress = Math.min((elapsed / duration) * 100, 100);
+            const progress = Math.min((elapsed / duration), 1);
             
-            // Eased progress
-            const easedProgress = this.easeOutExpo(progress / 100) * 100;
+            // Smooth easing
+            const easedProgress = this.easeOutQuart(progress) * 100;
             this.updateProgress(easedProgress);
             
-            if (progress < 100) {
+            if (progress < 1) {
                 requestAnimationFrame(animate);
             } else {
-                // Auto-complete after progress finishes
-                setTimeout(() => this.complete(), 300);
+                setTimeout(() => this.checkCompletion(), 200);
             }
         };
         
@@ -313,19 +225,59 @@ class PreloaderController {
     }
     
     updateProgress(progress) {
-        this.progress = progress;
+        this.progress = Math.min(progress, 100);
         
         if (this.progressFill) {
-            this.progressFill.style.width = `${progress}%`;
+            this.progressFill.style.width = `${this.progress}%`;
         }
+    }
+    
+    checkReadiness() {
+        const checkAssets = () => {
+            const images = Array.from(document.images);
+            const videos = Array.from(document.querySelectorAll('video'));
+            
+            const allAssetsLoaded = [
+                ...images.map(img => img.complete),
+                ...videos.map(video => video.readyState >= 3)
+            ].every(Boolean);
+            
+            if (allAssetsLoaded && document.readyState === 'complete') {
+                this.assetsReady = true;
+            } else {
+                setTimeout(checkAssets, 100);
+            }
+        };
+        
+        if (document.readyState === 'complete') {
+            checkAssets();
+        } else {
+            window.addEventListener('load', checkAssets);
+        }
+    }
+    
+    checkCompletion() {
+        if (this.progress >= 100 && !this.isComplete) {
+            this.complete();
+        }
+    }
+    
+    setupFallback() {
+        this.fallbackTimer = setTimeout(() => {
+            if (!this.isComplete) {
+                console.log('⏰ Preloader fallback triggered');
+                this.complete();
+            }
+        }, 6000);
     }
     
     complete() {
         if (this.isComplete) return;
         
         this.isComplete = true;
+        console.log('✨ Preloader sequence completed');
         
-        // Clear fallback timer
+        // Clear fallback
         if (this.fallbackTimer) {
             clearTimeout(this.fallbackTimer);
         }
@@ -336,51 +288,54 @@ class PreloaderController {
         // Exit animation
         setTimeout(() => {
             this.element.style.opacity = '0';
-            this.element.style.transform = 'scale(0.9)';
+            this.element.style.transform = 'scale(0.95)';
             
             setTimeout(() => {
                 this.element.classList.add('hidden');
                 document.body.classList.remove('loading', 'no-scroll');
+                document.body.classList.add('page-loaded');
+                
                 this.onComplete();
             }, 800);
-        }, 400);
-        
-        console.log('✨ Advanced preloader completed');
+        }, 300);
     }
     
     onComplete() {
-        document.body.classList.add('page-loaded');
+        // Initialize AOS animations
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 100,
+                delay: 100
+            });
+        }
         
         // Trigger post-load animations
         setTimeout(() => {
-            EviaApp.components.animations?.animateHero();
+            EviaApp.components.hero?.initAnimations();
             EviaApp.components.header?.show();
         }, 200);
         
         // Dispatch completion event
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
         EviaApp.isLoaded = true;
+        
+        // Track performance
+        EviaApp.performance.loadTime = performance.now() - EviaApp.performance.startTime;
+        console.log(`🚀 Total load time: ${EviaApp.performance.loadTime.toFixed(2)}ms`);
     }
     
-    checkPageReady() {
-        if (document.readyState === 'complete') {
-            // Already loaded
-        } else {
-            window.addEventListener('load', () => {
-                // Let animations play out before auto-completing
-            });
-        }
-    }
-    
-    easeOutExpo(t) {
-        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    easeOutQuart(t) {
+        return 1 - Math.pow(1 - t, 4);
     }
 }
 
 /**
- * Enhanced Header Controller
+ * Perfect Header Controller
  */
-class HeaderController {
+class PerfectHeader {
     constructor() {
         this.element = document.getElementById('header');
         this.progressLine = document.getElementById('progressLine');
@@ -390,7 +345,7 @@ class HeaderController {
         this.isScrolled = false;
         this.isVisible = false;
         this.lastScrollY = 0;
-        this.scrollThreshold = 60;
+        this.scrollThreshold = 80;
         this.ticking = false;
         
         this.init();
@@ -399,7 +354,7 @@ class HeaderController {
     init() {
         if (!this.element) return;
         
-        console.log('📱 Initializing enhanced header');
+        console.log('📱 Initializing perfect header system');
         
         // Initially hidden
         this.element.style.opacity = '0';
@@ -408,47 +363,37 @@ class HeaderController {
         this.bindEvents();
         this.initNavigation();
         this.initScrollSpy();
-    }
-    
-    show() {
-        if (this.isVisible) return;
-        
-        this.isVisible = true;
-        this.element.style.opacity = '1';
-        this.element.style.transform = 'translateY(0)';
-        
-        // Animate header elements
-        const headerElements = this.element.querySelectorAll('[data-animate="header"]');
-        headerElements.forEach((element, index) => {
-            const delay = parseFloat(element.dataset.animateDelay) || index * 0.1;
-            
-            setTimeout(() => {
-                element.style.opacity = '1';
-                element.style.transform = 'none';
-                element.classList.add('header-animated');
-            }, delay * 1000);
-        });
+        this.initEnhancedEffects();
     }
     
     bindEvents() {
-        // Throttled scroll handler
-        window.addEventListener('scroll', () => {
-            if (this.ticking) return;
-            
-            this.ticking = true;
-            requestAnimationFrame(() => {
-                this.handleScroll();
-                this.ticking = false;
-            });
-        }, { passive: true });
+        // Optimized scroll handler
+        const scrollHandler = () => {
+            if (!this.ticking) {
+                requestAnimationFrame(() => {
+                    this.handleScroll();
+                    this.ticking = false;
+                });
+                this.ticking = true;
+            }
+        };
         
-        window.addEventListener('resize', this.handleResize.bind(this));
+        window.addEventListener('scroll', scrollHandler, { passive: true });
+        window.addEventListener('resize', this.handleResize.bind(this), { passive: true });
         
-        // Logo click
+        // Logo interactions
         if (this.logoContainer) {
             this.logoContainer.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.scrollToTop();
+            });
+            
+            this.logoContainer.addEventListener('mouseenter', () => {
+                this.logoContainer.style.transform = 'scale(1.1) rotate(5deg)';
+            });
+            
+            this.logoContainer.addEventListener('mouseleave', () => {
+                this.logoContainer.style.transform = 'scale(1) rotate(0deg)';
             });
         }
         
@@ -457,7 +402,10 @@ class HeaderController {
         if (headerCTA) {
             headerCTA.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.openModal('appointmentModal');
+                this.triggerButtonEffect(headerCTA);
+                setTimeout(() => {
+                    EviaApp.components.modals?.openModal('appointmentModal');
+                }, 300);
             });
         }
     }
@@ -466,15 +414,10 @@ class HeaderController {
         const scrollY = window.pageYOffset;
         const shouldBeScrolled = scrollY > this.scrollThreshold;
         
-        // Update scrolled state with smooth transition
+        // Update scrolled state
         if (shouldBeScrolled !== this.isScrolled) {
             this.isScrolled = shouldBeScrolled;
-            
-            if (this.isScrolled) {
-                this.element.classList.add('scrolled');
-            } else {
-                this.element.classList.remove('scrolled');
-            }
+            this.updateScrolledState();
         }
         
         // Update scroll progress
@@ -485,6 +428,44 @@ class HeaderController {
         
         this.lastScrollY = scrollY;
         EviaApp.scrollY = scrollY;
+    }
+    
+    updateScrolledState() {
+        if (this.isScrolled) {
+            this.element.classList.add('scrolled');
+            this.animateScrolledState();
+        } else {
+            this.element.classList.remove('scrolled');
+            this.animateNormalState();
+        }
+    }
+    
+    animateScrolledState() {
+        // Animate to compact state
+        this.element.style.padding = 'var(--space-md) 0';
+        this.element.style.background = 'var(--glass-white)';
+        this.element.style.backdropFilter = 'var(--glass-blur)';
+        this.element.style.boxShadow = 'var(--shadow-lg)';
+        
+        // Logo animation
+        if (this.logoContainer) {
+            this.logoContainer.style.width = '60px';
+            this.logoContainer.style.height = '60px';
+        }
+    }
+    
+    animateNormalState() {
+        // Animate to normal state
+        this.element.style.padding = 'var(--space-lg) 0';
+        this.element.style.background = 'rgba(255, 255, 255, 0.05)';
+        this.element.style.backdropFilter = 'blur(15px)';
+        this.element.style.boxShadow = 'none';
+        
+        // Logo animation
+        if (this.logoContainer) {
+            this.logoContainer.style.width = '70px';
+            this.logoContainer.style.height = '70px';
+        }
     }
     
     updateScrollProgress() {
@@ -498,7 +479,7 @@ class HeaderController {
     }
     
     initNavigation() {
-        this.navLinks.forEach(link => {
+        this.navLinks.forEach((link, index) => {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
                 if (href && href.startsWith('#')) {
@@ -509,25 +490,43 @@ class HeaderController {
             
             // Enhanced hover effects
             link.addEventListener('mouseenter', () => {
-                link.style.transform = 'translateY(-2px)';
+                this.animateNavHover(link, true);
             });
             
             link.addEventListener('mouseleave', () => {
                 if (!link.classList.contains('active')) {
-                    link.style.transform = 'translateY(0)';
+                    this.animateNavHover(link, false);
                 }
             });
         });
+    }
+    
+    animateNavHover(link, isHover) {
+        const underline = link.querySelector('.nav-underline');
+        
+        if (isHover) {
+            link.style.transform = 'translateY(-2px)';
+            link.style.color = 'var(--evia-orange)';
+            if (underline) {
+                underline.style.width = '80%';
+            }
+        } else {
+            link.style.transform = 'translateY(0)';
+            link.style.color = this.isScrolled ? 'var(--text-primary)' : 'var(--white)';
+            if (underline) {
+                underline.style.width = '0';
+            }
+        }
     }
     
     navigateToSection(target, activeLink) {
         const element = document.querySelector(target);
         if (!element) return;
         
-        // Update active state with animation
+        // Update active state
         this.setActiveNav(activeLink);
         
-        // Smooth scroll with easing
+        // Smooth scroll
         const headerHeight = this.element.offsetHeight;
         const targetPosition = element.offsetTop - headerHeight - 20;
         
@@ -537,22 +536,17 @@ class HeaderController {
     setActiveNav(activeLink) {
         this.navLinks.forEach(link => {
             link.classList.remove('active');
-            link.style.transform = 'translateY(0)';
+            this.animateNavHover(link, false);
         });
         
         if (activeLink) {
             activeLink.classList.add('active');
-            activeLink.style.transform = 'translateY(-2px)';
+            this.animateNavHover(activeLink, true);
         }
     }
     
     initScrollSpy() {
         const sections = document.querySelectorAll('section[id]');
-        
-        const observerOptions = {
-            rootMargin: '-20% 0px -60% 0px',
-            threshold: 0
-        };
         
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -564,30 +558,85 @@ class HeaderController {
                     }
                     
                     // Update side nav
-                    const sideNavDot = document.querySelector(`.nav-dot[href="#${id}"]`);
-                    if (sideNavDot) {
-                        document.querySelectorAll('.nav-dot').forEach(dot => {
-                            dot.classList.remove('active');
-                            dot.style.transform = 'scale(1)';
-                        });
-                        sideNavDot.classList.add('active');
-                        sideNavDot.style.transform = 'scale(1.4)';
-                    }
+                    this.updateSideNav(id);
                 }
             });
-        }, observerOptions);
+        }, {
+            rootMargin: '-20% 0px -60% 0px',
+            threshold: 0
+        });
         
         sections.forEach(section => observer.observe(section));
     }
     
-    scrollToTop() {
-        this.smoothScrollTo(0);
+    updateSideNav(activeId) {
+        const sideNavDots = document.querySelectorAll('.nav-dot');
+        sideNavDots.forEach(dot => {
+            dot.classList.remove('active');
+            dot.style.transform = 'scale(1)';
+        });
+        
+        const activeDot = document.querySelector(`.nav-dot[href="#${activeId}"]`);
+        if (activeDot) {
+            activeDot.classList.add('active');
+            activeDot.style.transform = 'scale(1.4)';
+        }
+    }
+    
+    initEnhancedEffects() {
+        // Logo glow effect
+        if (this.logoContainer) {
+            const logoGlow = this.logoContainer.querySelector('.logo-glow');
+            if (logoGlow) {
+                this.logoContainer.addEventListener('mouseenter', () => {
+                    logoGlow.style.opacity = '1';
+                });
+                
+                this.logoContainer.addEventListener('mouseleave', () => {
+                    logoGlow.style.opacity = '0';
+                });
+            }
+        }
+        
+        // Phone link pulse effect
+        const phoneLink = document.querySelector('.phone-link');
+        if (phoneLink) {
+            const phonePulse = phoneLink.querySelector('.phone-pulse');
+            if (phonePulse) {
+                phoneLink.addEventListener('mouseenter', () => {
+                    phonePulse.style.opacity = '1';
+                });
+                
+                phoneLink.addEventListener('mouseleave', () => {
+                    phonePulse.style.opacity = '0';
+                });
+            }
+        }
+    }
+    
+    show() {
+        if (this.isVisible) return;
+        
+        this.isVisible = true;
+        
+        // Smooth reveal
+        this.element.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        this.element.style.opacity = '1';
+        this.element.style.transform = 'translateY(0)';
+        
+        // Stagger navigation items
+        this.navLinks.forEach((link, index) => {
+            setTimeout(() => {
+                link.style.opacity = '1';
+                link.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
     }
     
     smoothScrollTo(position) {
         const startPosition = window.pageYOffset;
         const distance = position - startPosition;
-        const duration = Math.min(Math.abs(distance) / 2, 1000);
+        const duration = Math.min(Math.abs(distance) / 3, 1200);
         let start = null;
         
         const animation = (currentTime) => {
@@ -596,7 +645,6 @@ class HeaderController {
             const timeElapsed = currentTime - start;
             const progress = Math.min(timeElapsed / duration, 1);
             
-            // Eased progress
             const easeProgress = this.easeInOutCubic(progress);
             const currentPosition = startPosition + (distance * easeProgress);
             
@@ -610,36 +658,60 @@ class HeaderController {
         requestAnimationFrame(animation);
     }
     
-    easeInOutCubic(t) {
-        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    scrollToTop() {
+        this.smoothScrollTo(0);
+    }
+    
+    triggerButtonEffect(button) {
+        const shine = button.querySelector('.button-shine');
+        const particles = button.querySelector('.button-particles');
+        
+        if (shine) {
+            shine.style.left = '-100%';
+            setTimeout(() => {
+                shine.style.left = '100%';
+            }, 10);
+        }
+        
+        if (particles) {
+            particles.style.opacity = '1';
+            setTimeout(() => {
+                particles.style.opacity = '0';
+            }, 800);
+        }
+        
+        // Scale effect
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            button.style.transform = 'scale(1)';
+        }, 150);
     }
     
     handleResize() {
         EviaApp.isMobile = window.innerWidth <= 768;
     }
     
-    openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.classList.add('active');
-            document.body.classList.add('no-scroll');
-        }
+    easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 }
 
 /**
- * Modern Mobile Menu Controller
+ * Professional Mobile Menu Controller
  */
-class ModernMobileMenuController {
+class ProfessionalMobileMenu {
     constructor() {
         this.menu = document.getElementById('mobileMenu');
         this.overlay = document.getElementById('mobileMenuOverlay');
         this.toggle = document.getElementById('mobileToggle');
         this.close = document.getElementById('mobileClose');
         this.navLinks = document.querySelectorAll('.mobile-nav-link');
+        this.navItems = document.querySelectorAll('.mobile-nav-item');
         
         this.isOpen = false;
         this.isAnimating = false;
+        this.touchStartX = 0;
+        this.touchCurrentX = 0;
         
         this.init();
     }
@@ -647,30 +719,66 @@ class ModernMobileMenuController {
     init() {
         if (!this.menu) return;
         
-        console.log('📱 Initializing modern mobile menu');
+        console.log('📱 Initializing professional mobile menu');
         
         this.bindEvents();
         this.initNavigation();
         this.initGestures();
+        this.initAnimationSequence();
+        this.preventHorizontalScroll();
+    }
+    
+    preventHorizontalScroll() {
+        // Disable horizontal scrolling globally
+        document.body.style.overflowX = 'hidden';
+        document.documentElement.style.overflowX = 'hidden';
+        
+        // Prevent horizontal scroll on touch devices
+        let isScrolling = false;
+        
+        document.addEventListener('touchstart', (e) => {
+            this.touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        
+        document.addEventListener('touchmove', (e) => {
+            if (!this.isOpen) {
+                const touchCurrentX = e.touches[0].clientX;
+                const deltaX = Math.abs(touchCurrentX - this.touchStartX);
+                const deltaY = Math.abs(e.touches[0].clientY - (e.touches[0].clientY || 0));
+                
+                // Prevent horizontal scrolling if moving more horizontally than vertically
+                if (deltaX > deltaY && deltaX > 10) {
+                    e.preventDefault();
+                }
+            }
+        }, { passive: false });
     }
     
     bindEvents() {
-        // Toggle button with enhanced animation
+        // Toggle button
         if (this.toggle) {
             this.toggle.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 this.toggleMenu();
             });
         }
         
         // Close button
         if (this.close) {
-            this.close.addEventListener('click', this.closeMenu.bind(this));
+            this.close.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.closeMenu();
+            });
         }
         
         // Overlay click
         if (this.overlay) {
-            this.overlay.addEventListener('click', this.closeMenu.bind(this));
+            this.overlay.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeMenu();
+            });
         }
         
         // Escape key
@@ -680,7 +788,7 @@ class ModernMobileMenuController {
             }
         });
         
-        // CTA buttons
+        // CTA button
         const mobileBookingBtn = document.getElementById('mobileBookingBtn');
         if (mobileBookingBtn) {
             mobileBookingBtn.addEventListener('click', (e) => {
@@ -688,7 +796,14 @@ class ModernMobileMenuController {
                 this.closeMenu();
                 setTimeout(() => {
                     EviaApp.components.modals?.openModal('appointmentModal');
-                }, 300);
+                }, 400);
+            });
+        }
+        
+        // Prevent menu close when clicking inside menu
+        if (this.menu) {
+            this.menu.addEventListener('click', (e) => {
+                e.stopPropagation();
             });
         }
     }
@@ -712,17 +827,77 @@ class ModernMobileMenuController {
             link.addEventListener('mouseleave', () => {
                 this.animateNavItem(link, 'leave');
             });
+            
+            // Touch effects for mobile
+            link.addEventListener('touchstart', () => {
+                this.animateNavItem(link, 'enter');
+            });
+            
+            link.addEventListener('touchend', () => {
+                setTimeout(() => {
+                    this.animateNavItem(link, 'leave');
+                }, 150);
+            });
         });
     }
     
+    animateNavItem(item, state) {
+        const icon = item.querySelector('.nav-icon');
+        const arrow = item.querySelector('.nav-arrow');
+        const content = item.querySelector('.nav-content');
+        
+        if (state === 'enter') {
+            item.style.background = 'linear-gradient(135deg, rgba(255, 158, 24, 0.15) 0%, rgba(255, 158, 24, 0.08) 100%)';
+            item.style.transform = 'translateX(8px)';
+            item.style.borderColor = 'rgba(255, 158, 24, 0.3)';
+            
+            if (icon) {
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+                icon.style.boxShadow = 'var(--shadow-lg)';
+            }
+            
+            if (arrow) {
+                arrow.style.opacity = '1';
+                arrow.style.transform = 'translateX(0) scale(1)';
+            }
+            
+            if (content) {
+                content.style.transform = 'translateX(4px)';
+            }
+        } else {
+            item.style.background = 'rgba(255, 255, 255, 0.7)';
+            item.style.transform = 'translateX(0)';
+            item.style.borderColor = 'transparent';
+            
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0deg)';
+                icon.style.boxShadow = 'var(--shadow-sm)';
+            }
+            
+            if (arrow) {
+                arrow.style.opacity = '0';
+                arrow.style.transform = 'translateX(-10px) scale(0.8)';
+            }
+            
+            if (content) {
+                content.style.transform = 'translateX(0)';
+            }
+        }
+    }
+    
     initGestures() {
+        if (!this.menu) return;
+        
+        let isDragging = false;
         let startX = 0;
         let currentX = 0;
-        let isDragging = false;
         
         this.menu.addEventListener('touchstart', (e) => {
+            if (!this.isOpen) return;
+            
             startX = e.touches[0].clientX;
             isDragging = true;
+            this.menu.style.transition = 'none';
         }, { passive: true });
         
         this.menu.addEventListener('touchmove', (e) => {
@@ -733,13 +908,20 @@ class ModernMobileMenuController {
             
             if (deltaX > 0) {
                 const progress = Math.min(deltaX / 200, 1);
-                this.menu.style.transform = `translateX(${deltaX}px) scale(${1 - progress * 0.1})`;
-                this.overlay.style.opacity = 1 - progress * 0.5;
+                const translateX = deltaX;
+                const scale = 1 - progress * 0.05;
+                const opacity = 1 - progress * 0.3;
+                
+                this.menu.style.transform = `translateX(${translateX}px) scale(${scale})`;
+                this.overlay.style.opacity = opacity;
             }
         }, { passive: true });
         
         this.menu.addEventListener('touchend', () => {
             if (!isDragging) return;
+            
+            isDragging = false;
+            this.menu.style.transition = 'all var(--transition-slow)';
             
             const deltaX = currentX - startX;
             
@@ -750,31 +932,23 @@ class ModernMobileMenuController {
                 this.menu.style.transform = 'translateX(0) scale(1)';
                 this.overlay.style.opacity = '1';
             }
-            
-            isDragging = false;
         }, { passive: true });
     }
     
-    animateNavItem(item, state) {
-        const icon = item.querySelector('.nav-icon');
-        const arrow = item.querySelector('.nav-arrow');
+    initAnimationSequence() {
+        // Reset all items for animation
+        this.navItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(50px)';
+            item.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        });
         
-        if (state === 'enter') {
-            if (icon) {
-                icon.style.transform = 'scale(1.15) rotate(10deg)';
-            }
-            if (arrow) {
-                arrow.style.opacity = '1';
-                arrow.style.transform = 'translateX(0) scale(1)';
-            }
-        } else {
-            if (icon) {
-                icon.style.transform = 'scale(1) rotate(0deg)';
-            }
-            if (arrow) {
-                arrow.style.opacity = '0';
-                arrow.style.transform = 'translateX(-20px) scale(0.8)';
-            }
+        // Contact section
+        const contactSection = this.menu.querySelector('.mobile-contact');
+        if (contactSection) {
+            contactSection.style.opacity = '0';
+            contactSection.style.transform = 'translateY(30px)';
+            contactSection.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         }
     }
     
@@ -783,7 +957,7 @@ class ModernMobileMenuController {
         
         setTimeout(() => {
             EviaApp.components.header?.navigateToSection(target);
-        }, 300);
+        }, 400);
     }
     
     toggleMenu() {
@@ -802,6 +976,13 @@ class ModernMobileMenuController {
         this.isAnimating = true;
         this.isOpen = true;
         
+        console.log('📱 Opening professional mobile menu');
+        
+        // Prevent body scroll
+        document.body.classList.add('no-scroll');
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+        
         // Update toggle button
         this.toggle.classList.add('active');
         
@@ -810,16 +991,13 @@ class ModernMobileMenuController {
         
         // Show menu
         this.menu.classList.add('active');
-        document.body.classList.add('no-scroll');
         
-        // Sequence animations
+        // Animate menu items in sequence
         this.animateMenuOpen();
         
         setTimeout(() => {
             this.isAnimating = false;
-        }, 1200);
-        
-        console.log('📱 Modern mobile menu opened');
+        }, 1000);
     }
     
     closeMenu() {
@@ -827,6 +1005,8 @@ class ModernMobileMenuController {
         
         this.isAnimating = true;
         this.isOpen = false;
+        
+        console.log('📱 Closing professional mobile menu');
         
         // Update toggle button
         this.toggle.classList.remove('active');
@@ -836,58 +1016,59 @@ class ModernMobileMenuController {
         
         // Hide menu
         this.menu.classList.remove('active');
+        
+        // Restore body scroll
         document.body.classList.remove('no-scroll');
+        document.body.style.position = '';
+        document.body.style.width = '';
         
+        // Reset menu items for next open
         setTimeout(() => {
+            this.initAnimationSequence();
             this.isAnimating = false;
-        }, 800);
-        
-        console.log('📱 Modern mobile menu closed');
+        }, 500);
     }
     
     animateMenuOpen() {
-        // Reset all elements for animation
+        // Animate header first
         const header = this.menu.querySelector('.mobile-menu-header');
-        const navItems = this.menu.querySelectorAll('.mobile-nav-item');
-        const contact = this.menu.querySelector('.mobile-contact');
-        
-        // Animate header
         if (header) {
             setTimeout(() => {
                 header.style.opacity = '1';
                 header.style.transform = 'translateY(0)';
-            }, 200);
+            }, 100);
         }
         
-        // Animate nav items with stagger
-        navItems.forEach((item, index) => {
+        // Animate navigation items with stagger
+        this.navItems.forEach((item, index) => {
+            const delay = item.dataset.delay ? parseInt(item.dataset.delay) : index * 100;
+            
             setTimeout(() => {
                 item.style.opacity = '1';
                 item.style.transform = 'translateX(0)';
-            }, 300 + (index * 100));
+            }, 200 + delay);
         });
         
         // Animate contact section
-        if (contact) {
+        const contactSection = this.menu.querySelector('.mobile-contact');
+        if (contactSection) {
             setTimeout(() => {
-                contact.style.opacity = '1';
-                contact.style.transform = 'translateY(0)';
-            }, 800);
+                contactSection.style.opacity = '1';
+                contactSection.style.transform = 'translateY(0)';
+            }, 600);
         }
     }
 }
 
 /**
- * Enhanced Hero Controller
+ * Enhanced Hero Controller with Perfect Animations
  */
-class HeroController {
+class EnhancedHero {
     constructor() {
         this.element = document.querySelector('.hero');
         this.video = document.querySelector('.hero-video');
         this.typingElement = document.getElementById('typingText');
         this.scrollIndicator = document.getElementById('scrollIndicator');
-        this.heroBooking = document.getElementById('heroBooking');
-        this.videoPlay = document.getElementById('videoPlay');
         this.statNumbers = document.querySelectorAll('.stat-number');
         this.sideNavDots = document.querySelectorAll('.nav-dot');
         
@@ -901,9 +1082,9 @@ class HeroController {
             'IV Wellness Therapy',
             'Holistic Beauty Medicine'
         ];
-        this.currentIndex = 0;
-        this.typingInterval = null;
+        this.currentTextIndex = 0;
         this.statsAnimated = false;
+        this.typingInterval = null;
         
         this.init();
     }
@@ -914,12 +1095,57 @@ class HeroController {
         console.log('🎬 Initializing enhanced hero section');
         
         this.initVideo();
-        this.initTypingAnimation();
+        this.initParticles();
         this.initButtonInteractions();
         this.initScrollIndicator();
         this.initSideNavigation();
         this.initStatsCounter();
-        this.initParticles();
+        this.perfectLayoutAdjustment();
+    }
+    
+    perfectLayoutAdjustment() {
+        // Ensure hero fits viewport perfectly
+        const adjustLayout = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            // Adjust hero height
+            this.element.style.height = `${window.innerHeight}px`;
+            
+            // Ensure scroll indicator is perfectly positioned
+            if (this.scrollIndicator) {
+                const heroHeight = this.element.offsetHeight;
+                const indicatorHeight = this.scrollIndicator.offsetHeight;
+                const perfectBottom = Math.max(40, (heroHeight * 0.08));
+                
+                this.scrollIndicator.style.bottom = `${perfectBottom}px`;
+            }
+        };
+        
+        adjustLayout();
+        window.addEventListener('resize', adjustLayout, { passive: true });
+        window.addEventListener('orientationchange', () => {
+            setTimeout(adjustLayout, 100);
+        });
+    }
+    
+    initAnimations() {
+        if (!EviaApp.isLoaded) return;
+        
+        console.log('🎨 Starting hero animations');
+        
+        // Start typing animation
+        setTimeout(() => {
+            this.startTypingAnimation();
+        }, 1500);
+        
+        // Initialize stats counter
+        setTimeout(() => {
+            this.initStatsCounter();
+        }, 2000);
+        
+        // Animate particles
+        this.animateParticles();
     }
     
     initVideo() {
@@ -935,108 +1161,175 @@ class HeroController {
         
         this.video.addEventListener('error', (e) => {
             console.error('Video error:', e);
+            // Hide video container if error
+            const videoContainer = this.video.closest('.hero-video-container');
+            if (videoContainer) {
+                videoContainer.style.display = 'none';
+            }
         });
         
-        // Enhanced video controls
+        // Enhanced video effects
         this.video.addEventListener('mouseenter', () => {
             this.video.style.transform = 'translate(-50%, -50%) scale(1.02)';
+            this.video.style.filter = 'brightness(0.7) saturate(1.2)';
         });
         
         this.video.addEventListener('mouseleave', () => {
             this.video.style.transform = 'translate(-50%, -50%) scale(1)';
+            this.video.style.filter = 'brightness(0.6) saturate(1.1)';
         });
     }
     
-    initTypingAnimation() {
-        if (!this.typingElement) return;
+    initParticles() {
+        const particles = document.querySelectorAll('.floating-particles .particle');
         
-        setTimeout(() => {
-            this.startTypingAnimation();
-        }, 2000);
+        particles.forEach((particle, index) => {
+            const speed = particle.dataset.speed || 0.5;
+            const delay = index * 3000;
+            const duration = 15000 + (index * 2000);
+            
+            setTimeout(() => {
+                particle.style.animation = `particleFloat ${duration}ms infinite linear`;
+            }, delay);
+        });
+    }
+    
+    animateParticles() {
+        const particles = document.querySelectorAll('.floating-particles .particle');
+        
+        particles.forEach((particle, index) => {
+            // Random initial position
+            const randomX = Math.random() * 100;
+            const randomDelay = Math.random() * 5000;
+            
+            particle.style.left = `${randomX}%`;
+            particle.style.animationDelay = `${randomDelay}ms`;
+        });
     }
     
     startTypingAnimation() {
+        if (!this.typingElement) return;
+        
         let currentText = '';
         let isDeleting = false;
         let charIndex = 0;
+        let typeSpeed = 100;
         
         const type = () => {
-            const fullText = this.typingTexts[this.currentIndex];
+            const fullText = this.typingTexts[this.currentTextIndex];
             
             if (isDeleting) {
                 currentText = fullText.substring(0, charIndex - 1);
                 charIndex--;
+                typeSpeed = 50;
             } else {
                 currentText = fullText.substring(0, charIndex + 1);
                 charIndex++;
+                typeSpeed = 120;
             }
             
             this.typingElement.textContent = currentText;
-            
-            let typeSpeed = isDeleting ? 50 : 100;
             
             if (!isDeleting && charIndex === fullText.length) {
                 typeSpeed = 2000;
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
-                this.currentIndex = (this.currentIndex + 1) % this.typingTexts.length;
+                this.currentTextIndex = (this.currentTextIndex + 1) % this.typingTexts.length;
                 typeSpeed = 500;
             }
             
-            setTimeout(type, typeSpeed);
+            this.typingInterval = setTimeout(type, typeSpeed);
         };
         
         type();
     }
     
     initButtonInteractions() {
-        // Enhanced button animations
-        const buttons = [this.heroBooking, this.videoPlay];
+        const buttons = [
+            document.getElementById('heroBooking'),
+            document.getElementById('videoPlay'),
+            document.getElementById('bookWithDoctorNew')
+        ];
         
         buttons.forEach(button => {
             if (!button) return;
             
+            // Enhanced hover effects
             button.addEventListener('mouseenter', () => {
-                button.style.transform = 'translateY(-3px) scale(1.05)';
+                this.animateButtonHover(button, true);
             });
             
             button.addEventListener('mouseleave', () => {
-                button.style.transform = 'translateY(0) scale(1)';
+                this.animateButtonHover(button, false);
             });
             
             button.addEventListener('mousedown', () => {
-                button.style.transform = 'translateY(-1px) scale(1.02)';
+                this.triggerButtonPress(button);
             });
             
-            button.addEventListener('mouseup', () => {
-                button.style.transform = 'translateY(-3px) scale(1.05)';
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleButtonClick(button);
             });
         });
+    }
+    
+    animateButtonHover(button, isHover) {
+        const shine = button.querySelector('.button-shine');
+        const particles = button.querySelector('.button-particles');
         
-        // Hero booking button
-        if (this.heroBooking) {
-            this.heroBooking.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.openModal('appointmentModal');
-            });
+        if (isHover) {
+            button.style.transform = 'translateY(-4px) scale(1.03)';
+            button.style.boxShadow = 'var(--shadow-2xl)';
+            
+            if (shine) {
+                shine.style.left = '100%';
+            }
+        } else {
+            button.style.transform = 'translateY(0) scale(1)';
+            button.style.boxShadow = 'var(--shadow-lg)';
+            
+            if (shine) {
+                shine.style.left = '-100%';
+            }
+        }
+    }
+    
+    triggerButtonPress(button) {
+        button.style.transform = 'translateY(-2px) scale(1.01)';
+        
+        setTimeout(() => {
+            button.style.transform = 'translateY(-4px) scale(1.03)';
+        }, 100);
+    }
+    
+    handleButtonClick(button) {
+        const buttonId = button.id;
+        
+        // Trigger particle explosion
+        const particles = button.querySelector('.button-particles');
+        if (particles) {
+            particles.style.opacity = '1';
+            setTimeout(() => {
+                particles.style.opacity = '0';
+            }, 800);
         }
         
-        // Video play button
-        if (this.videoPlay) {
-            this.videoPlay.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.openModal('videoModal');
-            });
-        }
-        
-        // Other CTAs
-        const bookWithDoctor = document.getElementById('bookWithDoctorNew');
-        if (bookWithDoctor) {
-            bookWithDoctor.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.openModal('appointmentModal');
-            });
+        // Handle different button actions
+        switch (buttonId) {
+            case 'heroBooking':
+            case 'bookWithDoctorNew':
+                setTimeout(() => {
+                    EviaApp.components.modals?.openModal('appointmentModal');
+                }, 200);
+                break;
+                
+            case 'videoPlay':
+                setTimeout(() => {
+                    EviaApp.components.modals?.openModal('videoModal');
+                }, 200);
+                break;
         }
     }
     
@@ -1059,11 +1352,17 @@ class HeroController {
             this.scrollIndicator.style.transform = 'translateX(-50%) translateY(0) scale(1)';
         });
         
-        // Hide on scroll
+        // Auto-hide on scroll
         window.addEventListener('scroll', () => {
             const scrollY = window.pageYOffset;
-            const opacity = Math.max(0, 1 - (scrollY / 300));
+            const opacity = Math.max(0, 1 - (scrollY / 400));
             this.scrollIndicator.style.opacity = opacity;
+            
+            if (opacity < 0.1) {
+                this.scrollIndicator.style.pointerEvents = 'none';
+            } else {
+                this.scrollIndicator.style.pointerEvents = 'auto';
+            }
         }, { passive: true });
     }
     
@@ -1079,106 +1378,127 @@ class HeroController {
             
             // Enhanced hover effects
             dot.addEventListener('mouseenter', () => {
-                dot.style.transform = 'scale(1.6)';
-                dot.style.boxShadow = '0 0 20px rgba(255, 158, 24, 0.6)';
+                this.animateDotHover(dot, true);
             });
             
             dot.addEventListener('mouseleave', () => {
                 if (!dot.classList.contains('active')) {
-                    dot.style.transform = 'scale(1)';
-                    dot.style.boxShadow = 'none';
+                    this.animateDotHover(dot, false);
                 }
             });
         });
+    }
+    
+    animateDotHover(dot, isHover) {
+        const glow = dot.querySelector('.dot-glow');
+        
+        if (isHover) {
+            dot.style.transform = 'scale(1.6)';
+            dot.style.background = 'var(--evia-orange)';
+            if (glow) {
+                glow.style.opacity = '1';
+            }
+        } else {
+            dot.style.transform = 'scale(1)';
+            dot.style.background = 'rgba(255, 158, 24, 0.3)';
+            if (glow) {
+                glow.style.opacity = '0';
+            }
+        }
     }
     
     navigateToSection(target, activeDot) {
         // Update active state
         this.sideNavDots.forEach(dot => {
             dot.classList.remove('active');
-            dot.style.transform = 'scale(1)';
-            dot.style.boxShadow = 'none';
+            this.animateDotHover(dot, false);
         });
         
         activeDot.classList.add('active');
-        activeDot.style.transform = 'scale(1.4)';
-        activeDot.style.boxShadow = '0 0 15px rgba(255, 158, 24, 0.5)';
+        this.animateDotHover(activeDot, true);
         
         // Navigate
         EviaApp.components.header?.navigateToSection(target);
     }
     
     initStatsCounter() {
-        if (!this.statNumbers.length) return;
+        if (!this.statNumbers.length || this.statsAnimated) return;
         
-        const animateCounter = (counter) => {
-            const target = parseInt(counter.dataset.count);
-            const duration = 2000;
-            const increment = target / (duration / 16);
-            let current = 0;
-            
-            const updateCounter = () => {
-                if (current < target) {
-                    current += increment;
-                    const displayValue = Math.ceil(current);
-                    counter.textContent = displayValue;
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    counter.textContent = target;
-                }
-            };
-            
-            updateCounter();
-        };
-        
-        const statsObserver = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !this.statsAnimated) {
                     this.statsAnimated = true;
-                    
-                    this.statNumbers.forEach((counter, index) => {
-                        setTimeout(() => {
-                            animateCounter(counter);
-                        }, index * 200);
-                    });
-                    
-                    statsObserver.disconnect();
+                    this.animateStats();
+                    observer.disconnect();
                 }
             });
         }, { threshold: 0.5 });
         
         const statsContainer = document.querySelector('.hero-stats');
         if (statsContainer) {
-            statsObserver.observe(statsContainer);
+            observer.observe(statsContainer);
         }
     }
     
-    initParticles() {
-        const particles = document.querySelectorAll('.particle');
-        
-        particles.forEach((particle, index) => {
-            const delay = index * 4000;
-            const duration = 20000 + (index * 5000);
-            
+    animateStats() {
+        this.statNumbers.forEach((counter, index) => {
             setTimeout(() => {
-                particle.style.animation = `particleFloat ${duration}ms infinite ease-in-out`;
-            }, delay);
+                this.animateCounter(counter);
+            }, index * 200);
         });
     }
     
-    openModal(modalId) {
-        EviaApp.components.modals?.openModal(modalId);
+    animateCounter(counter) {
+        const target = parseInt(counter.dataset.count);
+        const duration = 2000;
+        const startTime = performance.now();
+        
+        const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Eased progress
+            const easeProgress = this.easeOutCubic(progress);
+            const currentValue = Math.floor(easeProgress * target);
+            
+            counter.textContent = currentValue;
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                counter.textContent = target;
+                
+                // Trigger completion effect
+                const statItem = counter.closest('.stat-item');
+                if (statItem) {
+                    const glow = statItem.querySelector('.stat-glow');
+                    if (glow) {
+                        glow.style.opacity = '1';
+                        setTimeout(() => {
+                            glow.style.opacity = '0';
+                        }, 1000);
+                    }
+                }
+            }
+        };
+        
+        requestAnimationFrame(animate);
+    }
+    
+    easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
     }
 }
 
 /**
- * Enhanced Modal System Controller
+ * Enhanced Modal System
  */
-class ModalController {
+class EnhancedModalSystem {
     constructor() {
         this.appointmentModal = document.getElementById('appointmentModal');
         this.videoModal = document.getElementById('videoModal');
         this.activeModal = null;
+        this.isAnimating = false;
         
         this.init();
     }
@@ -1190,6 +1510,7 @@ class ModalController {
         this.initVideoModal();
         this.initFormHandling();
         this.initKeyboardNavigation();
+        this.initAccessibility();
     }
     
     initAppointmentModal() {
@@ -1219,6 +1540,8 @@ class ModalController {
         
         const closeVideo = () => {
             this.closeModal(this.videoModal);
+            
+            // Clear video source
             const iframe = this.videoModal.querySelector('iframe');
             if (iframe) {
                 iframe.src = '';
@@ -1243,7 +1566,7 @@ class ModalController {
             this.handleFormSubmission(form);
         });
         
-        // Enhanced form validation with animations
+        // Enhanced form validation
         const inputs = form.querySelectorAll('input, select, textarea');
         inputs.forEach(input => {
             input.addEventListener('blur', () => {
@@ -1252,6 +1575,12 @@ class ModalController {
             
             input.addEventListener('focus', () => {
                 this.clearFieldError(input);
+            });
+            
+            input.addEventListener('input', () => {
+                if (input.classList.contains('error')) {
+                    this.validateField(input);
+                }
             });
         });
     }
@@ -1275,17 +1604,22 @@ class ModalController {
             `;
         }
         
-        // Simulate form submission with enhanced animation
+        // Simulate API call
         setTimeout(() => {
             this.showSuccessMessage(form);
             
             setTimeout(() => {
                 this.closeModal(this.appointmentModal);
+                
                 if (submitBtn) {
                     submitBtn.disabled = false;
                     submitBtn.style.transform = 'scale(1)';
                     submitBtn.innerHTML = originalHTML;
                 }
+                
+                // Reset form
+                form.reset();
+                this.clearAllFieldErrors(form);
             }, 3000);
         }, 2000);
     }
@@ -1307,7 +1641,7 @@ class ModalController {
         const value = field.value.trim();
         let isValid = field.checkValidity() && value !== '';
         
-        // Enhanced validation
+        // Enhanced validation rules
         if (field.type === 'email' && value) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             isValid = emailRegex.test(value);
@@ -1318,30 +1652,40 @@ class ModalController {
             isValid = phoneRegex.test(value.replace(/[^\d\+]/g, ''));
         }
         
-        // Enhanced visual feedback with animations
+        // Visual feedback
         const group = field.closest('.form-group');
         if (group) {
             if (!isValid && value) {
                 group.classList.add('error');
                 group.classList.remove('valid');
-                field.style.transform = 'translateX(5px)';
-                setTimeout(() => {
-                    field.style.transform = 'translateX(-5px)';
-                    setTimeout(() => {
-                        field.style.transform = 'translateX(0)';
-                    }, 150);
-                }, 150);
+                this.addFieldShake(field);
             } else if (isValid && value) {
                 group.classList.add('valid');
                 group.classList.remove('error');
-                field.style.transform = 'scale(1.02)';
-                setTimeout(() => {
-                    field.style.transform = 'scale(1)';
-                }, 200);
+                this.addFieldSuccess(field);
+            } else {
+                group.classList.remove('error', 'valid');
             }
         }
         
         return isValid;
+    }
+    
+    addFieldShake(field) {
+        field.style.transform = 'translateX(5px)';
+        setTimeout(() => {
+            field.style.transform = 'translateX(-5px)';
+            setTimeout(() => {
+                field.style.transform = 'translateX(0)';
+            }, 100);
+        }, 100);
+    }
+    
+    addFieldSuccess(field) {
+        field.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+            field.style.transform = 'scale(1)';
+        }, 200);
     }
     
     clearFieldError(field) {
@@ -1351,29 +1695,37 @@ class ModalController {
         }
     }
     
+    clearAllFieldErrors(form) {
+        const groups = form.querySelectorAll('.form-group');
+        groups.forEach(group => {
+            group.classList.remove('error', 'valid');
+        });
+    }
+    
     showSuccessMessage(form) {
         form.innerHTML = `
-            <div class="success-message" style="text-align: center; padding: 2rem; animation: fadeInScale 0.6s ease-out;">
+            <div class="success-message" style="text-align: center; padding: 3rem 2rem;">
                 <div style="
-                    width: 80px; 
-                    height: 80px; 
-                    margin: 0 auto 1.5rem; 
+                    width: 100px; 
+                    height: 100px; 
+                    margin: 0 auto 2rem; 
                     background: linear-gradient(135deg, #10B981 0%, #059669 100%); 
                     border-radius: 50%; 
                     display: flex; 
                     align-items: center; 
                     justify-content: center; 
                     color: white; 
-                    font-size: 2rem;
-                    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s both;
+                    font-size: 2.5rem;
+                    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
                 ">
                     <i class="fas fa-check"></i>
                 </div>
-                <h3 style="color: var(--evia-brown); margin-bottom: 1rem; font-size: 1.5rem; animation: slideInUp 0.6s ease-out 0.4s both;">Thank You!</h3>
-                <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; animation: slideInUp 0.6s ease-out 0.6s both;">
+                <h3 style="color: var(--evia-brown); margin-bottom: 1.5rem; font-size: 1.75rem; font-family: var(--font-display);">Thank You!</h3>
+                <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.5rem; font-size: 1.1rem;">
                     Your consultation request has been received. Dr. Nano's team will contact you within 24 hours to schedule your appointment.
                 </p>
-                <div style="font-size: 0.875rem; color: var(--evia-orange); font-style: italic; animation: slideInUp 0.6s ease-out 0.8s both;">
+                <div style="font-size: 0.9rem; color: var(--evia-orange); font-style: italic; font-weight: 600;">
                     This window will close automatically...
                 </div>
             </div>
@@ -1383,25 +1735,30 @@ class ModalController {
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
+        
+        const bgColor = type === 'error' ? '#EF4444' : '#10B981';
+        const icon = type === 'error' ? 'exclamation-circle' : 'check-circle';
+        
         notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === 'error' ? '#EF4444' : '#10B981'};
+            background: ${bgColor};
             color: white;
             padding: 1rem 1.5rem;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             font-weight: 600;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             z-index: 10000;
             opacity: 0;
             transform: translateX(100%) scale(0.9);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            max-width: 350px;
         `;
         
         notification.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <i class="fas fa-${icon}" style="font-size: 1.25rem;"></i>
                 <span>${message}</span>
             </div>
         `;
@@ -1423,14 +1780,21 @@ class ModalController {
     }
     
     openModal(modalId) {
+        if (this.isAnimating) return;
+        
         const modal = document.getElementById(modalId);
         if (!modal) return;
         
+        this.isAnimating = true;
         this.activeModal = modal;
-        modal.classList.add('active');
+        
+        // Prevent body scroll
         document.body.classList.add('no-scroll');
         
-        // Enhanced open animation
+        // Show modal
+        modal.classList.add('active');
+        
+        // Enhanced opening animation
         const container = modal.querySelector('.modal-container, .video-modal-content');
         if (container) {
             container.style.transform = 'scale(0.8) translateY(60px)';
@@ -1439,22 +1803,30 @@ class ModalController {
             setTimeout(() => {
                 container.style.transform = 'scale(1) translateY(0)';
                 container.style.opacity = '1';
+                this.isAnimating = false;
             }, 100);
+        } else {
+            this.isAnimating = false;
         }
         
-        // For video modal, set video source
+        // Setup video modal
         if (modalId === 'videoModal') {
             const iframe = modal.querySelector('iframe');
             if (iframe) {
-                iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0';
+                iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
             }
         }
+        
+        // Focus management
+        this.trapFocus(modal);
     }
     
     closeModal(modal) {
-        if (!modal) return;
+        if (!modal || this.isAnimating) return;
         
-        // Enhanced close animation
+        this.isAnimating = true;
+        
+        // Enhanced closing animation
         const container = modal.querySelector('.modal-container, .video-modal-content');
         if (container) {
             container.style.transform = 'scale(0.9) translateY(30px)';
@@ -1465,6 +1837,7 @@ class ModalController {
             modal.classList.remove('active');
             document.body.classList.remove('no-scroll');
             this.activeModal = null;
+            this.isAnimating = false;
         }, 300);
     }
     
@@ -1475,292 +1848,62 @@ class ModalController {
             }
         });
     }
-}
-
-/**
- * Services Section Controller
- */
-class ServicesController {
-    constructor() {
-        this.element = document.querySelector('.services-section');
-        this.serviceItems = document.querySelectorAll('.service-item');
-        this.servicesBooking = document.getElementById('servicesBooking');
-        this.servicesCatalog = document.getElementById('servicesCatalog');
-        
-        this.init();
-    }
     
-    init() {
-        if (!this.element) return;
-        
-        console.log('💼 Initializing enhanced services section');
-        
-        this.initServiceInteractions();
-        this.initCTAButtons();
-        this.observeAnimations();
-    }
-    
-    initServiceInteractions() {
-        this.serviceItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                const service = item.dataset.service;
-                if (service) {
-                    this.handleServiceSelection(service);
-                }
-            });
-            
-            // Enhanced hover effects
-            item.addEventListener('mouseenter', () => {
-                this.animateServiceItem(item, 'enter');
-            });
-            
-            item.addEventListener('mouseleave', () => {
-                this.animateServiceItem(item, 'leave');
-            });
+    initAccessibility() {
+        // Add ARIA attributes
+        const modals = document.querySelectorAll('.modal, .video-modal');
+        modals.forEach(modal => {
+            modal.setAttribute('role', 'dialog');
+            modal.setAttribute('aria-modal', 'true');
+            modal.setAttribute('aria-hidden', 'true');
         });
     }
     
-    animateServiceItem(item, state) {
-        const arrow = item.querySelector('.service-arrow');
-        const features = item.querySelectorAll('.feature-tag');
+    trapFocus(modal) {
+        const focusableElements = modal.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
         
-        if (state === 'enter') {
-            item.style.transform = 'translateX(12px) translateY(-3px)';
-            if (arrow) {
-                arrow.style.transform = 'translateX(8px) scale(1.2)';
-            }
-            features.forEach((tag, index) => {
-                setTimeout(() => {
-                    tag.style.transform = 'scale(1.05)';
-                }, index * 50);
-            });
-        } else {
-            item.style.transform = 'translateX(0) translateY(0)';
-            if (arrow) {
-                arrow.style.transform = 'translateX(0) scale(1)';
-            }
-            features.forEach(tag => {
-                tag.style.transform = 'scale(1)';
-            });
-        }
-    }
-    
-    handleServiceSelection(service) {
-        const modal = document.getElementById('appointmentModal');
-        if (modal) {
-            const serviceSelect = modal.querySelector('#service');
-            if (serviceSelect) {
-                const optionMap = {
-                    'hydrafacial': 'facial',
-                    'microneedling': 'facial',
-                    'peels': 'facial',
-                    'led': 'facial',
-                    'coolsculpting': 'body',
-                    'emsculpt': 'body',
-                    'morpheus': 'body',
-                    'cellulite': 'body',
-                    'botox': 'injectable',
-                    'fillers': 'injectable',
-                    'sculptra': 'injectable',
-                    'prp': 'injectable'
-                };
-                
-                const category = optionMap[service] || 'consultation';
-                serviceSelect.value = category;
-            }
-            
-            EviaApp.components.modals?.openModal('appointmentModal');
-        }
-    }
-    
-    initCTAButtons() {
-        if (this.servicesBooking) {
-            this.servicesBooking.addEventListener('click', (e) => {
-                e.preventDefault();
-                EviaApp.components.modals?.openModal('appointmentModal');
-            });
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        if (firstElement) {
+            firstElement.focus();
         }
         
-        if (this.servicesCatalog) {
-            this.servicesCatalog.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.showNotification('Treatment guide download will be available soon!', 'info');
-            });
-        }
-    }
-    
-    observeAnimations() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const element = entry.target;
-                    
-                    if (element.classList.contains('service-category')) {
-                        this.animateServiceCategory(element);
+        modal.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        lastElement.focus();
+                        e.preventDefault();
                     }
-                }
-            });
-        }, { threshold: 0.3 });
-        
-        const categories = document.querySelectorAll('.service-category');
-        categories.forEach(category => observer.observe(category));
-    }
-    
-    animateServiceCategory(category) {
-        const icon = category.querySelector('.category-icon');
-        const items = category.querySelectorAll('.service-item');
-        
-        if (icon) {
-            icon.style.transform = 'scale(1.1) rotate(5deg)';
-            setTimeout(() => {
-                icon.style.transform = 'scale(1) rotate(0deg)';
-            }, 600);
-        }
-        
-        items.forEach((item, index) => {
-            setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateX(0)';
-            }, index * 100);
-        });
-    }
-    
-    showNotification(message, type = 'info') {
-        EviaApp.components.modals?.showNotification(message, type);
-    }
-}
-
-/**
- * About Section Controller
- */
-class AboutController {
-    constructor() {
-        this.element = document.querySelector('.about-section-new');
-        this.statNumbers = document.querySelectorAll('.stat-number-new');
-        this.statsAnimated = false;
-        
-        this.init();
-    }
-    
-    init() {
-        if (!this.element) return;
-        
-        console.log('👩‍⚕️ Initializing enhanced about section');
-        
-        this.initStatsCounter();
-        this.observeAnimations();
-    }
-    
-    initStatsCounter() {
-        if (!this.statNumbers.length) return;
-        
-        const animateCounter = (counter) => {
-            const target = parseInt(counter.dataset.count);
-            const duration = 1500;
-            const increment = target / (duration / 16);
-            let current = 0;
-            
-            const updateCounter = () => {
-                if (current < target) {
-                    current += increment;
-                    const displayValue = Math.ceil(current);
-                    counter.textContent = displayValue;
-                    requestAnimationFrame(updateCounter);
                 } else {
-                    counter.textContent = target;
-                }
-            };
-            
-            updateCounter();
-        };
-        
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !this.statsAnimated) {
-                    this.statsAnimated = true;
-                    
-                    this.statNumbers.forEach((counter, index) => {
-                        setTimeout(() => {
-                            animateCounter(counter);
-                        }, index * 300);
-                    });
-                    
-                    statsObserver.disconnect();
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        const statsSection = document.querySelector('.quick-stats');
-        if (statsSection) {
-            statsObserver.observe(statsSection);
-        }
-    }
-    
-    observeAnimations() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const element = entry.target;
-                    
-                    if (element.classList.contains('doctor-card')) {
-                        this.animateDoctorCard(element);
-                    } else if (element.classList.contains('expertise-card')) {
-                        this.animateExpertiseCard(element);
+                    if (document.activeElement === lastElement) {
+                        firstElement.focus();
+                        e.preventDefault();
                     }
                 }
-            });
-        }, { threshold: 0.3 });
-        
-        const cards = document.querySelectorAll('.doctor-card, .expertise-card');
-        cards.forEach(card => observer.observe(card));
-    }
-    
-    animateDoctorCard(card) {
-        const image = card.querySelector('.doctor-photo-new');
-        const badges = card.querySelectorAll('.floating-badge');
-        
-        if (image) {
-            image.style.transform = 'scale(1.02)';
-            setTimeout(() => {
-                image.style.transform = 'scale(1)';
-            }, 800);
-        }
-        
-        badges.forEach((badge, index) => {
-            setTimeout(() => {
-                badge.style.opacity = '1';
-                badge.style.transform = 'translateY(0) scale(1)';
-            }, index * 200 + 300);
+            }
         });
-    }
-    
-    animateExpertiseCard(card) {
-        const icon = card.querySelector('.expertise-icon-new');
-        
-        if (icon) {
-            icon.style.transform = 'scale(1.2) rotate(10deg)';
-            setTimeout(() => {
-                icon.style.transform = 'scale(1) rotate(0deg)';
-            }, 500);
-        }
     }
 }
 
 /**
  * Main Application Controller
  */
-class EviaApplication {
+class EviaAdvancedApplication {
     constructor() {
         this.isLoading = true;
         this.components = {};
         this.loadStartTime = performance.now();
+        this.performanceMonitor = new PerformanceMonitor();
         
         this.init();
     }
     
     init() {
-        console.log('🏢 Initializing Evia Aesthetics Application...');
+        console.log('🏢 Initializing Evia Advanced Application...');
         
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.initApp());
@@ -1771,21 +1914,14 @@ class EviaApplication {
     
     initApp() {
         try {
-            // Initialize animation system first
-            this.components.animations = new AnimationController();
+            // Initialize preloader first
+            this.components.preloader = new AdvancedPreloader();
             
-            // Initialize preloader
-            this.components.preloader = new PreloaderController();
-            
-            // Initialize other core components
-            this.components.header = new HeaderController();
-            this.components.mobileMenu = new ModernMobileMenuController();
-            this.components.modals = new ModalController();
-            
-            // Initialize content sections
-            this.components.hero = new HeroController();
-            this.components.about = new AboutController();
-            this.components.services = new ServicesController();
+            // Initialize core components
+            this.components.header = new PerfectHeader();
+            this.components.mobileMenu = new ProfessionalMobileMenu();
+            this.components.modals = new EnhancedModalSystem();
+            this.components.hero = new EnhancedHero();
             
             // Bind global events
             this.bindGlobalEvents();
@@ -1793,8 +1929,9 @@ class EviaApplication {
             // Store components globally
             EviaApp.components = this.components;
             
+            // Performance tracking
             const loadTime = performance.now() - this.loadStartTime;
-            console.log(`✅ Evia application initialized successfully in ${loadTime.toFixed(2)}ms`);
+            console.log(`✅ Evia application initialized in ${loadTime.toFixed(2)}ms`);
             
         } catch (error) {
             console.error('❌ Error initializing application:', error);
@@ -1806,12 +1943,8 @@ class EviaApplication {
         // Enhanced resize handler
         window.addEventListener('resize', this.debounce(() => {
             EviaApp.isMobile = window.innerWidth <= 768;
-            
-            // Refresh intersection observers
-            if (this.components.animations) {
-                this.components.animations.setupObservers();
-            }
-        }, 250));
+            this.handleResize();
+        }, 250), { passive: true });
         
         // Visibility change handler
         document.addEventListener('visibilitychange', () => {
@@ -1824,17 +1957,76 @@ class EviaApplication {
         
         // Performance monitoring
         window.addEventListener('load', () => {
-            const loadTime = performance.now() - this.loadStartTime;
-            console.log(`🚀 Full page load completed in ${loadTime.toFixed(2)}ms`);
+            const totalLoadTime = performance.now() - this.loadStartTime;
+            console.log(`🚀 Complete application load: ${totalLoadTime.toFixed(2)}ms`);
+            
+            // Optimize after load
+            this.optimizeAfterLoad();
         });
         
-        // Error handling
+        // Enhanced error handling
         window.addEventListener('error', (event) => {
             console.error('Global error:', event.error);
+            this.handleGlobalError(event);
         });
         
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Unhandled promise rejection:', event.reason);
+            this.handlePromiseRejection(event);
+        });
+        
+        // Perfect scroll handling
+        this.initScrollOptimization();
+    }
+    
+    initScrollOptimization() {
+        let isScrolling = false;
+        
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                requestAnimationFrame(() => {
+                    this.handleGlobalScroll();
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        }, { passive: true });
+    }
+    
+    handleGlobalScroll() {
+        const scrollY = window.pageYOffset;
+        
+        // Update global scroll position
+        EviaApp.scrollY = scrollY;
+        
+        // Performance optimization: reduce animations during scroll
+        if (scrollY > 100) {
+            document.body.classList.add('scrolling');
+        } else {
+            document.body.classList.remove('scrolling');
+        }
+    }
+    
+    handleResize() {
+        // Update CSS custom properties for perfect responsive design
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        
+        // Update mobile state
+        if (EviaApp.isMobile !== (window.innerWidth <= 768)) {
+            EviaApp.isMobile = window.innerWidth <= 768;
+            
+            // Close mobile menu if switching to desktop
+            if (!EviaApp.isMobile && this.components.mobileMenu?.isOpen) {
+                this.components.mobileMenu.closeMenu();
+            }
+        }
+        
+        // Trigger component resize handlers
+        Object.values(this.components).forEach(component => {
+            if (component.handleResize) {
+                component.handleResize();
+            }
         });
     }
     
@@ -1844,11 +2036,8 @@ class EviaApplication {
             video.pause();
         }
         
-        // Pause other animations if needed
-        const particles = document.querySelectorAll('.particle');
-        particles.forEach(particle => {
-            particle.style.animationPlayState = 'paused';
-        });
+        // Pause CSS animations
+        document.body.classList.add('paused-animations');
     }
     
     resumeAnimations() {
@@ -1859,21 +2048,152 @@ class EviaApplication {
             });
         }
         
-        // Resume other animations
-        const particles = document.querySelectorAll('.particle');
-        particles.forEach(particle => {
-            particle.style.animationPlayState = 'running';
+        // Resume CSS animations
+        document.body.classList.remove('paused-animations');
+    }
+    
+    optimizeAfterLoad() {
+        // Remove unused CSS classes
+        document.body.classList.remove('loading');
+        
+        // Lazy load non-critical resources
+        this.lazyLoadResources();
+        
+        // Preload critical next-page resources
+        this.preloadCriticalResources();
+    }
+    
+    lazyLoadResources() {
+        // Implement lazy loading for images
+        const images = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
+    }
+    
+    preloadCriticalResources() {
+        // Preload font resources
+        const fontPreloads = [
+            'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
+            'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap'
+        ];
+        
+        fontPreloads.forEach(href => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'style';
+            link.href = href;
+            document.head.appendChild(link);
         });
     }
     
     handleInitError() {
         document.body.classList.remove('loading', 'no-scroll');
+        
         const preloader = document.getElementById('preloader');
         if (preloader) {
             preloader.classList.add('hidden');
         }
         
         console.warn('⚠️ Application initialized with limited functionality');
+        
+        // Show fallback interface
+        this.showFallbackInterface();
+    }
+    
+    handleGlobalError(event) {
+        // Log error details
+        console.error('Error details:', {
+            message: event.message,
+            filename: event.filename,
+            lineno: event.lineno,
+            colno: event.colno,
+            stack: event.error?.stack
+        });
+        
+        // Show user-friendly error message if critical
+        if (event.error && event.error.name === 'TypeError') {
+            this.showErrorNotification('Something went wrong. Please refresh the page.');
+        }
+    }
+    
+    handlePromiseRejection(event) {
+        console.error('Promise rejection details:', event.reason);
+        
+        // Prevent default browser behavior
+        event.preventDefault();
+    }
+    
+    showFallbackInterface() {
+        const fallback = document.createElement('div');
+        fallback.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: var(--white);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                font-family: var(--font-primary);
+            ">
+                <div style="text-align: center; max-width: 400px; padding: 2rem;">
+                    <h2 style="color: var(--evia-brown); margin-bottom: 1rem;">Evia Aesthetics</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                        We're experiencing technical difficulties. Please refresh the page or contact us directly.
+                    </p>
+                    <button onclick="window.location.reload()" style="
+                        background: var(--gradient-primary);
+                        color: white;
+                        border: none;
+                        padding: 1rem 2rem;
+                        border-radius: 2rem;
+                        cursor: pointer;
+                        font-weight: 600;
+                    ">
+                        Refresh Page
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(fallback);
+    }
+    
+    showErrorNotification(message) {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #EF4444;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+        `;
+        
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
     }
     
     // Utility functions
@@ -1888,14 +2208,27 @@ class EviaApplication {
             timeout = setTimeout(later, wait);
         };
     }
+    
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
 }
 
-// Initialize the application
+// Initialize the application when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    window.EviaApp = new EviaApplication();
+    window.EviaApp = new EviaAdvancedApplication();
 });
 
-// Global utility functions
+// Global utility functions for external access
 window.EviaUtils = {
     scrollTo: (selector, offset = 80) => {
         if (EviaApp.components.header) {
@@ -1914,7 +2247,13 @@ window.EviaUtils = {
         if (EviaApp.components.modals && modal) {
             EviaApp.components.modals.closeModal(modal);
         }
+    },
+    
+    showNotification: (message, type = 'info') => {
+        if (EviaApp.components.modals) {
+            EviaApp.components.modals.showNotification(message, type);
+        }
     }
 };
 
-console.log('🚀 Evia Aesthetics JavaScript loaded successfully!');
+console.log('🚀 Evia Aesthetics Advanced JavaScript System Loaded Successfully!');
