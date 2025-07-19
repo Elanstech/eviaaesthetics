@@ -129,7 +129,7 @@
         </div>
     </header>
 
-    <!-- Modern Mobile Menu -->
+    <!-- Sleek Mobile Menu -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
@@ -138,10 +138,8 @@
                 <div class="medical-badge">MD</div>
             </div>
             <button class="mobile-close" id="mobileClose">
-                <div class="close-lines">
-                    <span></span>
-                    <span></span>
-                </div>
+                <span></span>
+                <span></span>
             </button>
         </div>
         
@@ -149,48 +147,44 @@
             <ul class="mobile-nav-list">
                 <li class="mobile-nav-item">
                     <a href="#home" class="mobile-nav-link">
-                        <span class="nav-number">01</span>
+                        <div class="nav-icon"><i class="fas fa-home"></i></div>
                         <span class="nav-text">Home</span>
-                        <div class="nav-arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="nav-arrow"><i class="fas fa-chevron-right"></i></div>
                     </a>
                 </li>
                 <li class="mobile-nav-item">
                     <a href="#about" class="mobile-nav-link">
-                        <span class="nav-number">02</span>
+                        <div class="nav-icon"><i class="fas fa-user-md"></i></div>
                         <span class="nav-text">About Dr. Nano</span>
-                        <div class="nav-arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="nav-arrow"><i class="fas fa-chevron-right"></i></div>
                     </a>
                 </li>
                 <li class="mobile-nav-item">
                     <a href="#services" class="mobile-nav-link">
-                        <span class="nav-number">03</span>
+                        <div class="nav-icon"><i class="fas fa-spa"></i></div>
                         <span class="nav-text">Services</span>
-                        <div class="nav-arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="nav-arrow"><i class="fas fa-chevron-right"></i></div>
                     </a>
                 </li>
                 <li class="mobile-nav-item">
                     <a href="#results" class="mobile-nav-link">
-                        <span class="nav-number">04</span>
+                        <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
                         <span class="nav-text">Results</span>
-                        <div class="nav-arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="nav-arrow"><i class="fas fa-chevron-right"></i></div>
                     </a>
                 </li>
                 <li class="mobile-nav-item">
                     <a href="#contact" class="mobile-nav-link">
-                        <span class="nav-number">05</span>
+                        <div class="nav-icon"><i class="fas fa-envelope"></i></div>
                         <span class="nav-text">Contact</span>
-                        <div class="nav-arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="nav-arrow"><i class="fas fa-chevron-right"></i></div>
                     </a>
                 </li>
             </ul>
         </nav>
         
         <div class="mobile-contact">
-            <div class="mobile-contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Midtown Manhattan</span>
-                </div>
+            <div class="contact-info">
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
                     <span>(555) 123-4567</span>
@@ -201,12 +195,10 @@
                 </div>
             </div>
             
-            <div class="mobile-cta">
-                <button class="cta-button primary full-width">
-                    <span>Book Consultation</span>
-                    <i class="fas fa-calendar-check"></i>
-                </button>
-            </div>
+            <button class="mobile-cta-button" id="mobileBookingBtn">
+                <span>Book Consultation</span>
+                <i class="fas fa-calendar-check"></i>
+            </button>
             
             <div class="mobile-social">
                 <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -217,7 +209,7 @@
         </div>
     </div>
 
-    <!-- Hero Section (KEEPING EXACTLY AS ORIGINAL) -->
+    <!-- Hero Section -->
     <section class="hero" id="home">
         <!-- Background Video -->
         <div class="hero-background">
@@ -348,7 +340,7 @@
         </nav>
     </section>
 
-    <!-- NEW: Soft Cream About Dr. Evia Section -->
+    <!-- About Dr. Evia Section -->
     <section class="about-section-new" id="about">
         <div class="container">
             <!-- Section Header -->
@@ -429,7 +421,7 @@
                     <div class="expertise-section">
                         <h3 class="expertise-title">Areas of Excellence</h3>
                         <div class="expertise-grid-new">
-                            <div class="expertise-card">
+                            <div class="expertise-card" data-aos="fade-up" data-aos-delay="100">
                                 <div class="expertise-icon-new">
                                     <i class="fas fa-spa"></i>
                                 </div>
@@ -439,7 +431,7 @@
                                 </div>
                             </div>
                             
-                            <div class="expertise-card">
+                            <div class="expertise-card" data-aos="fade-up" data-aos-delay="200">
                                 <div class="expertise-icon-new">
                                     <i class="fas fa-syringe"></i>
                                 </div>
@@ -449,7 +441,7 @@
                                 </div>
                             </div>
                             
-                            <div class="expertise-card">
+                            <div class="expertise-card" data-aos="fade-up" data-aos-delay="300">
                                 <div class="expertise-icon-new">
                                     <i class="fas fa-leaf"></i>
                                 </div>
@@ -459,7 +451,7 @@
                                 </div>
                             </div>
                             
-                            <div class="expertise-card">
+                            <div class="expertise-card" data-aos="fade-up" data-aos-delay="400">
                                 <div class="expertise-icon-new">
                                     <i class="fas fa-heartbeat"></i>
                                 </div>
@@ -475,19 +467,19 @@
                     <div class="credentials-showcase">
                         <h3 class="credentials-title">Medical Excellence</h3>
                         <div class="credentials-list">
-                            <div class="credential-badge-new">
+                            <div class="credential-badge-new" data-aos="fade-up" data-aos-delay="100">
                                 <i class="fas fa-graduation-cap"></i>
                                 <span>Medical Doctor (MD)</span>
                             </div>
-                            <div class="credential-badge-new">
+                            <div class="credential-badge-new" data-aos="fade-up" data-aos-delay="200">
                                 <i class="fas fa-certificate"></i>
                                 <span>Board Certified</span>
                             </div>
-                            <div class="credential-badge-new">
+                            <div class="credential-badge-new" data-aos="fade-up" data-aos-delay="300">
                                 <i class="fas fa-award"></i>
                                 <span>Pistor Method Certified</span>
                             </div>
-                            <div class="credential-badge-new">
+                            <div class="credential-badge-new" data-aos="fade-up" data-aos-delay="400">
                                 <i class="fas fa-star"></i>
                                 <span>Advanced PRP Training</span>
                             </div>
@@ -495,7 +487,7 @@
                     </div>
 
                     <!-- CTA -->
-                    <div class="about-cta">
+                    <div class="about-cta" data-aos="fade-up" data-aos-delay="500">
                         <button class="cta-button primary large" id="bookWithDoctorNew">
                             <span>Schedule Your Consultation</span>
                             <i class="fas fa-calendar-plus"></i>
@@ -510,7 +502,7 @@
         </div>
     </section>
 
-    <!-- NEW: Soft Cream Services Section -->
+    <!-- Services Section -->
     <section class="services-section" id="services">
         <div class="container">
             <!-- Section Header -->
@@ -534,7 +526,7 @@
             <div class="services-grid" data-aos="fade-up" data-aos-delay="200">
                 
                 <!-- Facial Rejuvenation -->
-                <div class="service-category" data-category="facial">
+                <div class="service-category" data-category="facial" data-aos="fade-up" data-aos-delay="100">
                     <div class="category-header">
                         <div class="category-icon">
                             <i class="fas fa-spa"></i>
@@ -603,7 +595,7 @@
                 </div>
 
                 <!-- Medical Injectables -->
-                <div class="service-category featured" data-category="injectables">
+                <div class="service-category featured" data-category="injectables" data-aos="fade-up" data-aos-delay="200">
                     <div class="featured-badge">
                         <i class="fas fa-crown"></i>
                         <span>Most Popular</span>
@@ -676,7 +668,7 @@
                 </div>
 
                 <!-- Body Sculpting -->
-                <div class="service-category" data-category="body">
+                <div class="service-category" data-category="body" data-aos="fade-up" data-aos-delay="300">
                     <div class="category-header">
                         <div class="category-icon">
                             <i class="fas fa-heartbeat"></i>
