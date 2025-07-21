@@ -77,9 +77,10 @@
                     <span>(555) 123-4567</span>
                 </a>
                 
-                <button class="cta-bubble primary" id="headerBooking">
+                <button class="cta-bubble primary enhanced-button" id="headerBooking">
                     <span>Book Consultation</span>
                     <i class="fas fa-calendar-check"></i>
+                    <div class="button-ripple"></div>
                 </button>
                 
                 <!-- Mobile Toggle -->
@@ -138,37 +139,92 @@
         </nav>
         
         <div class="mobile-cta">
-            <button class="cta-bubble primary full-width">
+            <button class="cta-bubble primary full-width enhanced-button">
                 <span>Book Consultation</span>
                 <i class="fas fa-calendar-check"></i>
+                <div class="button-ripple"></div>
             </button>
         </div>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Hero Section Enhanced -->
     <section class="luxury-hero" id="home">
         <div class="hero-background">
             <video class="hero-video" autoplay muted loop playsinline>
                 <source src="hero.mp4" type="video/mp4">
             </video>
             <div class="hero-overlay"></div>
+            
+            <!-- Subtle Professional Animation Elements -->
+            <div class="hero-ambient-light"></div>
+            <div class="parallax-layer layer-1"></div>
+            <div class="parallax-layer layer-2"></div>
+        </div>
+        
+        <!-- Social Proof Floating Elements -->
+        <div class="floating-social-proof">
+            <div class="social-proof-item" data-delay="0">
+                <div class="social-icon instagram">
+                    <i class="fab fa-instagram"></i>
+                </div>
+                <div class="social-stats">
+                    <span class="follower-count" data-count="15000">15K+</span>
+                    <span class="social-label">Followers</span>
+                </div>
+            </div>
+            
+            <div class="social-proof-item" data-delay="200">
+                <div class="social-icon facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-stats">
+                    <span class="follower-count" data-count="8500">8.5K+</span>
+                    <span class="social-label">Likes</span>
+                </div>
+            </div>
+            
+            <div class="social-proof-item" data-delay="400">
+                <div class="social-icon google">
+                    <i class="fab fa-google"></i>
+                </div>
+                <div class="social-stats">
+                    <span class="rating-display">4.9 ★</span>
+                    <span class="social-label">Google Rating</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Trust Badges -->
+        <div class="trust-badges">
+            <div class="trust-badge" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-shield-alt"></i>
+                <span>FDA Approved</span>
+            </div>
+            <div class="trust-badge" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-award"></i>
+                <span>Board Certified</span>
+            </div>
+            <div class="trust-badge" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-heart"></i>
+                <span>1000+ Happy Patients</span>
+            </div>
         </div>
         
         <div class="hero-content">
             <div class="container">
-                <!-- Main Title -->
+                <!-- Main Title with Enhanced Animation -->
                 <div class="hero-title-wrapper">
-                    <h1 class="hero-title">
-                        <span class="title-line">Elevate Your</span>
-                        <span class="title-line accent">Beauty Naturally</span>
+                    <h1 class="hero-title animated-title">
+                        <span class="title-line reveal-text" data-delay="0">Elevate Your</span>
+                        <span class="title-line accent reveal-text" data-delay="100">Beauty Naturally</span>
                     </h1>
-                    <p class="hero-subtitle">
+                    <p class="hero-subtitle reveal-text" data-delay="200">
                         Experience Manhattan's most sophisticated medical spa, where cutting-edge technology meets personalized luxury care.
                     </p>
                 </div>
                 
-                <!-- Medical Badge - Moved Down -->
-                <div class="medical-credential-badge">
+                <!-- Medical Badge - Enhanced -->
+                <div class="medical-credential-badge enhanced-badge" data-aos="fade-up" data-aos-delay="300">
                     <div class="credential-content">
                         <i class="fas fa-award"></i>
                         <span>Board-Certified MD • 20+ Years Experience</span>
@@ -176,45 +232,48 @@
                     </div>
                 </div>
                 
-                <!-- CTA Buttons -->
+                <!-- CTA Buttons Enhanced -->
                 <div class="hero-actions">
-                    <button class="cta-bubble primary large" id="heroBooking">
+                    <button class="cta-bubble primary large enhanced-button magnetic-button" id="heroBooking">
                         <span>Book Free Consultation</span>
                         <i class="fas fa-calendar-check"></i>
+                        <div class="button-ripple"></div>
+                        <div class="magnetic-field"></div>
                     </button>
                     
-                    <button class="video-bubble" id="virtualTour">
+                    <button class="video-bubble enhanced-video-button" id="virtualTour">
                         <div class="play-icon">
                             <i class="fas fa-play"></i>
                         </div>
                         <span>Virtual Tour</span>
+                        <div class="pulse-ring"></div>
                     </button>
                 </div>
                 
-                <!-- Stats Bar - Single Line on Desktop -->
+                <!-- Stats Bar Enhanced -->
                 <div class="hero-stats-container">
-                    <div class="stat-bubble">
-                        <div class="stat-number" data-count="1000">0</div>
+                    <div class="stat-bubble enhanced-stat" data-delay="0">
+                        <div class="stat-number animated-counter" data-count="1000">0</div>
                         <div class="stat-label">Happy Patients</div>
                     </div>
-                    <div class="stat-bubble">
-                        <div class="stat-number" data-count="20">0</div>
+                    <div class="stat-bubble enhanced-stat" data-delay="100">
+                        <div class="stat-number animated-counter" data-count="20">0</div>
                         <div class="stat-label">Years Experience</div>
                     </div>
-                    <div class="stat-bubble">
-                        <div class="stat-number" data-count="99">0</div>
+                    <div class="stat-bubble enhanced-stat" data-delay="200">
+                        <div class="stat-number animated-counter" data-count="99">0</div>
                         <div class="stat-label">Success Rate</div>
                     </div>
-                    <div class="stat-bubble">
-                        <div class="stat-number" data-count="6">0</div>
+                    <div class="stat-bubble enhanced-stat" data-delay="300">
+                        <div class="stat-number animated-counter" data-count="6">0</div>
                         <div class="stat-label">Treatment Types</div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Scroll Indicator - Better Positioned -->
-        <div class="scroll-indicator" id="scrollIndicator">
+        <!-- Scroll Indicator Enhanced -->
+        <div class="scroll-indicator enhanced-scroll" id="scrollIndicator">
             <div class="scroll-mouse">
                 <div class="scroll-wheel"></div>
             </div>
@@ -259,9 +318,10 @@
                         <span class="price-label">From</span>
                         <span class="price-amount">$350</span>
                     </div>
-                    <button class="service-cta">
+                    <button class="service-cta enhanced-button">
                         <span>Learn More</span>
                         <i class="fas fa-arrow-right"></i>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
 
@@ -285,9 +345,10 @@
                         <span class="price-label">From</span>
                         <span class="price-amount">$450</span>
                     </div>
-                    <button class="service-cta">
+                    <button class="service-cta enhanced-button">
                         <span>Learn More</span>
                         <i class="fas fa-arrow-right"></i>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
 
@@ -310,9 +371,10 @@
                         <span class="price-label">From</span>
                         <span class="price-amount">$200</span>
                     </div>
-                    <button class="service-cta">
+                    <button class="service-cta enhanced-button">
                         <span>Learn More</span>
                         <i class="fas fa-arrow-right"></i>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
 
@@ -335,9 +397,10 @@
                         <span class="price-label">From</span>
                         <span class="price-amount">$300</span>
                     </div>
-                    <button class="service-cta">
+                    <button class="service-cta enhanced-button">
                         <span>Learn More</span>
                         <i class="fas fa-arrow-right"></i>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
 
@@ -360,9 +423,10 @@
                         <span class="price-label">From</span>
                         <span class="price-amount">$500</span>
                     </div>
-                    <button class="service-cta">
+                    <button class="service-cta enhanced-button">
                         <span>Learn More</span>
                         <i class="fas fa-arrow-right"></i>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
 
@@ -385,9 +449,10 @@
                         <span class="price-label">From</span>
                         <span class="price-amount">$150</span>
                     </div>
-                    <button class="service-cta">
+                    <button class="service-cta enhanced-button">
                         <span>Learn More</span>
                         <i class="fas fa-arrow-right"></i>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
             </div>
@@ -449,9 +514,10 @@
                         </div>
                     </div>
 
-                    <button class="cta-bubble primary">
+                    <button class="cta-bubble primary enhanced-button">
                         <span>Schedule Consultation</span>
                         <i class="fas fa-calendar-plus"></i>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
             </div>
@@ -539,83 +605,49 @@
             </div>
 
             <div class="section-cta">
-                <button class="cta-bubble secondary">
+                <button class="cta-bubble secondary enhanced-button">
                     <span>View Full Gallery</span>
                     <i class="fas fa-images"></i>
+                    <div class="button-ripple"></div>
                 </button>
             </div>
         </div>
     </section>
 
     <!-- Google Reviews Section -->
-<section class="google-reviews" id="reviews">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-badge">
-                <i class="fab fa-google"></i>
-                <span>Patient Reviews</span>
-            </div>
-            <h2 class="section-title">
-                What Our Patients
-                <span class="gradient-text">Say About Us</span>
-            </h2>
-            
-            <div class="rating-showcase">
-                <div class="rating-bubble">
-                    <span class="rating-number">5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+    <section class="google-reviews" id="reviews">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fab fa-google"></i>
+                    <span>Patient Reviews</span>
+                </div>
+                <h2 class="section-title">
+                    What Our Patients
+                    <span class="gradient-text">Say About Us</span>
+                </h2>
+                
+                <div class="rating-showcase">
+                    <div class="rating-bubble">
+                        <span class="rating-number">4.9</span>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="review-count">500+ Google Reviews</span>
                     </div>
-                    <span class="review-count">100+ Google Reviews</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Replace this div with your Elfsight Google Reviews widget -->
-        <div class="reviews-widget-container" data-aos="fade-up">
-            <div class="elfsight-app-11e6a6c5-a645-4f66-855b-72683346f480" data-elfsight-app-lazy></div>
-        </div>
-    </div>
-</section>
-
-    <!-- Google Reviews Section -->
-<section class="google-reviews" id="reviews">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-badge">
-                <i class="fab fa-google"></i>
-                <span>Patient Reviews</span>
-            </div>
-            <h2 class="section-title">
-                What Our Patients
-                <span class="gradient-text">Say About Us</span>
-            </h2>
-            
-            <div class="rating-showcase">
-                <div class="rating-bubble">
-                    <span class="rating-number">4.9</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <span class="review-count">500+ Google Reviews</span>
-                </div>
+            <!-- Replace this div with your Elfsight Google Reviews widget -->
+            <div class="reviews-widget-container" data-aos="fade-up">
+                <div class="elfsight-app-11e6a6c5-a645-4f66-855b-72683346f480" data-elfsight-app-lazy></div>
             </div>
         </div>
-
-        <!-- Replace this div with your Elfsight Google Reviews widget -->
-        <div class="reviews-widget-container" data-aos="fade-up">
-            <div class="elfsight-app-11e6a6c5-a645-4f66-855b-72683346f480" data-elfsight-app-lazy></div>
-        </div>
-    </div>
-</section>
+    </section>
 
     <!-- Special Offers Section -->
     <section class="special-offers">
@@ -642,9 +674,10 @@
                     <p class="offer-description">
                         Experience luxury aesthetic care with our exclusive new patient discount on any service.
                     </p>
-                    <button class="cta-bubble primary">
+                    <button class="cta-bubble primary enhanced-button">
                         <span>Claim Offer</span>
                         <i class="fas fa-arrow-right"></i>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
 
@@ -657,8 +690,9 @@
                     <p class="offer-description">
                         Special pricing when you purchase 50+ units. Perfect for comprehensive treatment.
                     </p>
-                    <button class="cta-bubble secondary">
+                    <button class="cta-bubble secondary enhanced-button">
                         <span>Learn More</span>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
 
@@ -671,8 +705,9 @@
                     <p class="offer-description">
                         Both you and your friend receive $50 credit toward any service when they book.
                     </p>
-                    <button class="cta-bubble secondary">
+                    <button class="cta-bubble secondary enhanced-button">
                         <span>Refer Now</span>
+                        <div class="button-ripple"></div>
                     </button>
                 </div>
             </div>
@@ -820,9 +855,10 @@
                             <div class="input-bubble">
                                 <textarea placeholder="Tell us about your aesthetic goals and any questions you have..." rows="4"></textarea>
                             </div>
-                            <button type="submit" class="cta-bubble primary full-width">
+                            <button type="submit" class="cta-bubble primary full-width enhanced-button">
                                 <span>Submit Request</span>
                                 <i class="fas fa-paper-plane"></i>
+                                <div class="button-ripple"></div>
                             </button>
                         </form>
                     </div>
@@ -937,9 +973,10 @@
                     <div class="input-bubble">
                         <textarea placeholder="Your aesthetic goals..." rows="3"></textarea>
                     </div>
-                    <button type="submit" class="cta-bubble primary full-width">
+                    <button type="submit" class="cta-bubble primary full-width enhanced-button">
                         <span>Request Consultation</span>
                         <i class="fas fa-calendar-check"></i>
+                        <div class="button-ripple"></div>
                     </button>
                 </form>
             </div>
@@ -948,9 +985,10 @@
 
     <!-- Floating Book Button -->
     <div class="floating-book-button" id="floatingBook">
-        <button class="float-cta">
+        <button class="float-cta enhanced-button">
             <i class="fas fa-calendar-check"></i>
             <span>Book Now</span>
+            <div class="button-ripple"></div>
         </button>
     </div>
 
