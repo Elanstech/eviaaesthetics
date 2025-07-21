@@ -229,19 +229,20 @@ body.no-scroll {
     border-bottom: 1px solid rgba(255, 158, 24, 0.1);
     z-index: var(--z-header);
     transition: all var(--transition-normal);
-    padding: var(--space-lg) 0;
+    padding: 0.25rem 0;
 }
 
 .luxury-header.scrolled {
     background: var(--white);
     box-shadow: var(--shadow-soft);
-    padding: var(--space-md) 0;
+    padding: 0.125rem 0;
 }
 
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: auto; /* Let it be as small as possible */
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--space-xl);
@@ -261,7 +262,7 @@ body.no-scroll {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-lg);
+    padding: 0.5rem;
     box-shadow: var(--shadow-bubble);
     transition: all var(--transition-normal);
 }
