@@ -254,14 +254,14 @@ body.no-scroll {
 }
 
 .logo-bubble {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     background: var(--gradient-primary);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-sm);
+    padding: var(--space-lg);
     box-shadow: var(--shadow-bubble);
     transition: all var(--transition-normal);
 }
