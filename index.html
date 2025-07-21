@@ -23,337 +23,167 @@
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
-    <!-- Styles -->
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Enhanced Preloader -->
     <div class="preloader" id="preloader">
-        <div class="preloader-background">
-            <div class="preloader-particles">
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-            </div>
-        </div>
         <div class="preloader-content">
             <div class="logo-container">
-                <div class="logo-wrapper">
-                    <div class="preloader-logo-circle">
-                        <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo">
-                    </div>
-                    <div class="preloader-glow"></div>
+                <div class="preloader-logo-circle">
+                    <img src="logo1.png" alt="Evia Aesthetics" class="preloader-logo">
                 </div>
                 <div class="brand-text">
                     <h1 class="brand-name">Evia Aesthetics</h1>
                     <p class="brand-tagline">Manhattan's Premier Medical Spa</p>
                 </div>
             </div>
-            <div class="loading-text">
-                <div class="loading-message">Preparing Your Luxury Experience</div>
-                <div class="loading-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-                <div class="progress-glow"></div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loadingProgress"></div>
             </div>
         </div>
     </div>
 
-    <!-- Enhanced Header -->
-    <header class="header" id="header">
+    <!-- Luxury Header -->
+    <header class="luxury-header" id="header">
         <div class="header-container">
             <!-- Logo Section -->
-            <div class="logo-section" data-aos="fade-right">
-                <div class="logo-circle" id="logoContainer">
+            <div class="logo-section">
+                <div class="logo-bubble">
                     <img src="logo1.png" alt="Evia Aesthetics" class="logo-img">
-                    <div class="logo-glow"></div>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-name">Evia Aesthetics</span>
                 </div>
             </div>
             
             <!-- Navigation -->
-            <nav class="navigation" id="navigation" data-aos="fade-down" data-aos-delay="200">
+            <nav class="main-navigation">
                 <ul class="nav-menu">
-                    <li data-aos="fade-down" data-aos-delay="100">
-                        <a href="#home" class="nav-link active">
-                            <span>Home</span>
-                            <div class="nav-underline"></div>
-                        </a>
-                    </li>
-                    <li class="dropdown" data-aos="fade-down" data-aos-delay="200">
-                        <a href="#services" class="nav-link">
-                            <span>Services</span>
-                            <i class="fas fa-chevron-down"></i>
-                            <div class="nav-underline"></div>
-                        </a>
-                        <div class="dropdown-menu">
-                            <div class="dropdown-content">
-                                <div class="service-column">
-                                    <h4><i class="fas fa-syringe"></i> Injectable Treatments</h4>
-                                    <ul>
-                                        <li><a href="#botox">Botox & Fillers</a></li>
-                                        <li><a href="#prp">PRP Therapy</a></li>
-                                    </ul>
-                                </div>
-                                <div class="service-column">
-                                    <h4><i class="fas fa-spa"></i> Skin Treatments</h4>
-                                    <ul>
-                                        <li><a href="#microneedling">Microneedling</a></li>
-                                        <li><a href="#peels">Chemical Peels</a></li>
-                                    </ul>
-                                </div>
-                                <div class="service-column">
-                                    <h4><i class="fas fa-heartbeat"></i> Wellness</h4>
-                                    <ul>
-                                        <li><a href="#weightloss">Weight Loss</a></li>
-                                        <li><a href="#iv">IV Therapy</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li data-aos="fade-down" data-aos-delay="300">
-                        <a href="#about" class="nav-link">
-                            <span>About Dr. Nano</span>
-                            <div class="nav-underline"></div>
-                        </a>
-                    </li>
-                    <li data-aos="fade-down" data-aos-delay="400">
-                        <a href="#results" class="nav-link">
-                            <span>Results</span>
-                            <div class="nav-underline"></div>
-                        </a>
-                    </li>
-                    <li data-aos="fade-down" data-aos-delay="500">
-                        <a href="#reviews" class="nav-link">
-                            <span>Reviews</span>
-                            <div class="nav-underline"></div>
-                        </a>
-                    </li>
-                    <li data-aos="fade-down" data-aos-delay="600">
-                        <a href="#contact" class="nav-link">
-                            <span>Contact</span>
-                            <div class="nav-underline"></div>
-                        </a>
-                    </li>
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#about" class="nav-link">About Dr. Nano</a></li>
+                    <li><a href="#results" class="nav-link">Results</a></li>
+                    <li><a href="#reviews" class="nav-link">Reviews</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
             
             <!-- Header Actions -->
-            <div class="header-actions" data-aos="fade-left" data-aos-delay="300">
-                <a href="tel:+15551234567" class="phone-link">
+            <div class="header-actions">
+                <a href="tel:+15551234567" class="phone-bubble">
                     <i class="fas fa-phone"></i>
                     <span>(555) 123-4567</span>
-                    <div class="phone-pulse"></div>
                 </a>
                 
-                <button class="cta-button primary bubble-button" id="headerCTA">
+                <button class="cta-bubble primary" id="headerBooking">
                     <span>Book Consultation</span>
                     <i class="fas fa-calendar-check"></i>
-                    <div class="button-shine"></div>
                 </button>
                 
-                <!-- Enhanced Mobile Toggle -->
+                <!-- Mobile Toggle -->
                 <button class="mobile-toggle" id="mobileToggle">
-                    <div class="hamburger">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
             </div>
         </div>
         
-        <!-- Enhanced Progress Bar -->
-        <div class="scroll-progress">
-            <div class="progress-line" id="progressLine"></div>
-            <div class="progress-glow"></div>
+        <!-- Scroll Progress -->
+        <div class="scroll-progress-bar">
+            <div class="scroll-progress" id="scrollProgress"></div>
         </div>
     </header>
 
-    <!-- Professional Mobile Menu -->
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-header">
+        <div class="mobile-header">
             <div class="mobile-logo">
-                <img src="logo1.png" alt="Evia Aesthetics" class="mobile-logo-img">
-                <div class="mobile-logo-text">
-                    <h3>Evia Aesthetics</h3>
-                    <p>Premier Medical Spa</p>
-                </div>
+                <img src="logo1.png" alt="Evia Aesthetics">
+                <span>Evia Aesthetics</span>
             </div>
             <button class="mobile-close" id="mobileClose">
-                <span></span>
-                <span></span>
+                <i class="fas fa-times"></i>
             </button>
         </div>
         
-        <nav class="mobile-navigation">
-            <ul class="mobile-nav-list">
-                <li class="mobile-nav-item" data-delay="0">
-                    <a href="#home" class="mobile-nav-link">
-                        <div class="nav-icon bubble-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <div class="nav-content">
-                            <span class="nav-text">Home</span>
-                            <span class="nav-subtitle">Welcome</span>
-                        </div>
-                        <div class="nav-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </a>
-                </li>
-                <li class="mobile-nav-item" data-delay="100">
-                    <a href="#services" class="mobile-nav-link">
-                        <div class="nav-icon bubble-icon">
-                            <i class="fas fa-spa"></i>
-                        </div>
-                        <div class="nav-content">
-                            <span class="nav-text">Services</span>
-                            <span class="nav-subtitle">Premium Treatments</span>
-                        </div>
-                        <div class="nav-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </a>
-                </li>
-                <li class="mobile-nav-item" data-delay="200">
-                    <a href="#about" class="mobile-nav-link">
-                        <div class="nav-icon bubble-icon">
-                            <i class="fas fa-user-md"></i>
-                        </div>
-                        <div class="nav-content">
-                            <span class="nav-text">About Dr. Nano</span>
-                            <span class="nav-subtitle">Board Certified MD</span>
-                        </div>
-                        <div class="nav-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </a>
-                </li>
-                <li class="mobile-nav-item" data-delay="300">
-                    <a href="#results" class="mobile-nav-link">
-                        <div class="nav-icon bubble-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="nav-content">
-                            <span class="nav-text">Results</span>
-                            <span class="nav-subtitle">Before & After</span>
-                        </div>
-                        <div class="nav-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </a>
-                </li>
-                <li class="mobile-nav-item" data-delay="400">
-                    <a href="#contact" class="mobile-nav-link">
-                        <div class="nav-icon bubble-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="nav-content">
-                            <span class="nav-text">Contact</span>
-                            <span class="nav-subtitle">Get In Touch</span>
-                        </div>
-                        <div class="nav-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                    </a>
-                </li>
-            </ul>
+        <nav class="mobile-nav">
+            <a href="#home" class="mobile-nav-link">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#services" class="mobile-nav-link">
+                <i class="fas fa-spa"></i>
+                <span>Services</span>
+            </a>
+            <a href="#about" class="mobile-nav-link">
+                <i class="fas fa-user-md"></i>
+                <span>About Dr. Nano</span>
+            </a>
+            <a href="#results" class="mobile-nav-link">
+                <i class="fas fa-chart-line"></i>
+                <span>Results</span>
+            </a>
+            <a href="#reviews" class="mobile-nav-link">
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
+            </a>
+            <a href="#contact" class="mobile-nav-link">
+                <i class="fas fa-envelope"></i>
+                <span>Contact</span>
+            </a>
         </nav>
         
-        <div class="mobile-contact">
-            <button class="mobile-cta-button bubble-button" id="mobileBookingBtn">
+        <div class="mobile-cta">
+            <button class="cta-bubble primary full-width">
                 <span>Book Consultation</span>
                 <i class="fas fa-calendar-check"></i>
-                <div class="button-shine"></div>
             </button>
-            
-            <div class="mobile-social">
-                <a href="#" class="social-link bubble-icon">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#" class="social-link bubble-icon">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" class="social-link bubble-icon">
-                    <i class="fab fa-youtube"></i>
-                </a>
-                <a href="#" class="social-link bubble-icon">
-                    <i class="fab fa-tiktok"></i>
-                </a>
-            </div>
         </div>
     </div>
 
-    <!-- Optimized Hero Section -->
-    <section class="hero-optimized" id="home">
-        <!-- Enhanced Background -->
+    <!-- Hero Section -->
+    <section class="luxury-hero" id="home">
         <div class="hero-background">
-            <div class="hero-video-container">
-                <video class="hero-video" autoplay muted loop playsinline preload="metadata">
-                    <source src="hero.mp4" type="video/mp4">
-                </video>
-                <div class="video-overlay"></div>
-                <div class="video-fallback">
-                    <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1920&h=1080&fit=crop" alt="Medical Spa Interior" class="fallback-image">
-                </div>
-            </div>
-            <div class="hero-gradient"></div>
-            <div class="floating-orbs">
-                <div class="orb orb-1"></div>
-                <div class="orb orb-2"></div>
-                <div class="orb orb-3"></div>
-                <div class="orb orb-4"></div>
-            </div>
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="hero.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
         </div>
         
-        <!-- Hero Content -->
-        <div class="hero-content-optimized">
+        <div class="hero-content">
             <div class="container">
-                <!-- Enhanced Title First -->
-                <div class="hero-title-section" data-aos="fade-up" data-aos-delay="800">
+                <!-- Main Title -->
+                <div class="hero-title-wrapper">
                     <h1 class="hero-title">
-                        <span class="title-line">
-                            <span class="title-word">Elevate</span>
-                            <span class="title-word accent">Your Beauty</span>
-                        </span>
-                        <span class="title-line">
-                            <span class="title-word">Naturally</span>
-                        </span>
+                        <span class="title-line">Elevate Your</span>
+                        <span class="title-line accent">Beauty Naturally</span>
                     </h1>
+                    <p class="hero-subtitle">
+                        Experience Manhattan's most sophisticated medical spa, where cutting-edge technology meets personalized luxury care.
+                    </p>
                 </div>
                 
-                <!-- Medical Badge Below Title -->
-                <div class="medical-badge-optimized" data-aos="zoom-in" data-aos-delay="1000">
-                    <div class="badge-content">
+                <!-- Medical Badge - Moved Down -->
+                <div class="medical-credential-badge">
+                    <div class="credential-content">
                         <i class="fas fa-award"></i>
-                        <span class="badge-text">Board-Certified MD • 20+ Years Experience</span>
+                        <span>Board-Certified MD • 20+ Years Experience</span>
                         <i class="fas fa-check-circle"></i>
                     </div>
                 </div>
                 
-                <!-- Description -->
-                <div class="hero-description" data-aos="fade-up" data-aos-delay="1200">
-                    <p>Experience Manhattan's most sophisticated medical spa, where cutting-edge technology meets personalized luxury care.</p>
-                </div>
-                
                 <!-- CTA Buttons -->
-                <div class="hero-cta-optimized" data-aos="fade-up" data-aos-delay="1400">
-                    <button class="cta-button primary large bubble-button" id="heroBooking">
+                <div class="hero-actions">
+                    <button class="cta-bubble primary large" id="heroBooking">
                         <span>Book Free Consultation</span>
                         <i class="fas fa-calendar-check"></i>
-                        <div class="button-shine"></div>
                     </button>
                     
-                    <button class="video-play-button bubble-button" id="videoPlay">
+                    <button class="video-bubble" id="virtualTour">
                         <div class="play-icon">
                             <i class="fas fa-play"></i>
                         </div>
@@ -361,44 +191,41 @@
                     </button>
                 </div>
                 
-                <!-- Compact Stats Bar -->
-                <div class="hero-stats-bar" data-aos="fade-up" data-aos-delay="1600">
-                    <div class="stat-item compact">
+                <!-- Stats Bar - Single Line on Desktop -->
+                <div class="hero-stats-container">
+                    <div class="stat-bubble">
                         <div class="stat-number" data-count="1000">0</div>
                         <div class="stat-label">Happy Patients</div>
                     </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item compact">
+                    <div class="stat-bubble">
                         <div class="stat-number" data-count="20">0</div>
                         <div class="stat-label">Years Experience</div>
                     </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item compact">
+                    <div class="stat-bubble">
                         <div class="stat-number" data-count="99">0</div>
                         <div class="stat-label">Success Rate</div>
                     </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item compact">
-                        <div class="stat-number" data-count="15">0</div>
+                    <div class="stat-bubble">
+                        <div class="stat-number" data-count="6">0</div>
                         <div class="stat-label">Treatment Types</div>
                     </div>
                 </div>
-                
-                <!-- Scroll Indicator -->
-                <div class="scroll-indicator-optimized" id="scrollIndicator" data-aos="fade-up" data-aos-delay="1800">
-                    <div class="scroll-mouse">
-                        <div class="scroll-wheel"></div>
-                    </div>
-                    <span class="scroll-text">Discover Excellence</span>
-                </div>
             </div>
+        </div>
+        
+        <!-- Scroll Indicator - Better Positioned -->
+        <div class="scroll-indicator" id="scrollIndicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span class="scroll-text">Discover More</span>
         </div>
     </section>
 
-    <!-- Premium Services Showcase -->
-    <section class="services-showcase" id="services">
+    <!-- Premium Services Section -->
+    <section class="premium-services" id="services">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
+            <div class="section-header">
                 <div class="section-badge">
                     <i class="fas fa-star"></i>
                     <span>Premium Services</span>
@@ -407,271 +234,225 @@
                     Transform Your Beauty with
                     <span class="gradient-text">Expert Care</span>
                 </h2>
-                <p class="section-subtitle">
-                    Discover our curated selection of advanced aesthetic treatments
+                <p class="section-description">
+                    Discover our curated selection of advanced aesthetic treatments designed for Manhattan's most discerning clientele.
                 </p>
             </div>
 
-            <div class="services-carousel">
-                <div class="swiper services-swiper">
-                    <div class="swiper-wrapper">
-                        <!-- Botox & Fillers -->
-                        <div class="swiper-slide">
-                            <div class="service-card premium" data-aos="zoom-in">
-                                <div class="service-icon-wrapper">
-                                    <div class="service-icon bubble-icon">
-                                        <i class="fas fa-syringe"></i>
-                                    </div>
-                                    <div class="icon-float"></div>
-                                </div>
-                                <h3 class="service-title">Botox & Fillers</h3>
-                                <p class="service-description">
-                                    Expert injectable treatments for natural-looking rejuvenation. 
-                                    Smooth wrinkles and restore volume with precision.
-                                </p>
-                                <ul class="service-features">
-                                    <li><i class="fas fa-check"></i> Natural Results</li>
-                                    <li><i class="fas fa-check"></i> Minimal Downtime</li>
-                                    <li><i class="fas fa-check"></i> FDA Approved</li>
-                                </ul>
-                                <div class="service-price">
-                                    <span class="from">From</span>
-                                    <span class="amount">$350</span>
-                                </div>
-                                <button class="service-cta bubble-button">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Weight Loss -->
-                        <div class="swiper-slide">
-                            <div class="service-card premium" data-aos="zoom-in" data-aos-delay="100">
-                                <div class="service-icon-wrapper">
-                                    <div class="service-icon bubble-icon">
-                                        <i class="fas fa-weight"></i>
-                                    </div>
-                                    <div class="icon-float"></div>
-                                </div>
-                                <h3 class="service-title">Weight Loss Program</h3>
-                                <p class="service-description">
-                                    Medical weight management with personalized plans and 
-                                    cutting-edge treatments for sustainable results.
-                                </p>
-                                <ul class="service-features">
-                                    <li><i class="fas fa-check"></i> Semaglutide Available</li>
-                                    <li><i class="fas fa-check"></i> Nutritional Guidance</li>
-                                    <li><i class="fas fa-check"></i> Medical Supervision</li>
-                                </ul>
-                                <div class="service-price">
-                                    <span class="from">From</span>
-                                    <span class="amount">$450</span>
-                                </div>
-                                <button class="service-cta bubble-button">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- IV Therapy -->
-                        <div class="swiper-slide">
-                            <div class="service-card premium" data-aos="zoom-in" data-aos-delay="200">
-                                <div class="service-icon-wrapper">
-                                    <div class="service-icon bubble-icon">
-                                        <i class="fas fa-tint"></i>
-                                    </div>
-                                    <div class="icon-float"></div>
-                                </div>
-                                <h3 class="service-title">IV Therapy</h3>
-                                <p class="service-description">
-                                    Luxury vitamin infusions for instant hydration, energy, 
-                                    and wellness delivered directly to your cells.
-                                </p>
-                                <ul class="service-features">
-                                    <li><i class="fas fa-check"></i> Immune Boost</li>
-                                    <li><i class="fas fa-check"></i> Beauty Drips</li>
-                                    <li><i class="fas fa-check"></i> Energy Enhancement</li>
-                                </ul>
-                                <div class="service-price">
-                                    <span class="from">From</span>
-                                    <span class="amount">$200</span>
-                                </div>
-                                <button class="service-cta bubble-button">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Microneedling -->
-                        <div class="swiper-slide">
-                            <div class="service-card premium" data-aos="zoom-in" data-aos-delay="300">
-                                <div class="service-icon-wrapper">
-                                    <div class="service-icon bubble-icon">
-                                        <i class="fas fa-magic"></i>
-                                    </div>
-                                    <div class="icon-float"></div>
-                                </div>
-                                <h3 class="service-title">Microneedling</h3>
-                                <p class="service-description">
-                                    Advanced collagen induction therapy for skin rejuvenation, 
-                                    texture improvement, and scar reduction.
-                                </p>
-                                <ul class="service-features">
-                                    <li><i class="fas fa-check"></i> RF Technology</li>
-                                    <li><i class="fas fa-check"></i> Minimal Downtime</li>
-                                    <li><i class="fas fa-check"></i> All Skin Types</li>
-                                </ul>
-                                <div class="service-price">
-                                    <span class="from">From</span>
-                                    <span class="amount">$300</span>
-                                </div>
-                                <button class="service-cta bubble-button">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- PRP -->
-                        <div class="swiper-slide">
-                            <div class="service-card premium" data-aos="zoom-in" data-aos-delay="400">
-                                <div class="service-icon-wrapper">
-                                    <div class="service-icon bubble-icon">
-                                        <i class="fas fa-leaf"></i>
-                                    </div>
-                                    <div class="icon-float"></div>
-                                </div>
-                                <h3 class="service-title">PRP Therapy</h3>
-                                <p class="service-description">
-                                    Harness your body's natural healing power for hair restoration 
-                                    and facial rejuvenation treatments.
-                                </p>
-                                <ul class="service-features">
-                                    <li><i class="fas fa-check"></i> Hair Restoration</li>
-                                    <li><i class="fas fa-check"></i> Vampire Facial</li>
-                                    <li><i class="fas fa-check"></i> Natural Results</li>
-                                </ul>
-                                <div class="service-price">
-                                    <span class="from">From</span>
-                                    <span class="amount">$500</span>
-                                </div>
-                                <button class="service-cta bubble-button">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Chemical Peels -->
-                        <div class="swiper-slide">
-                            <div class="service-card premium" data-aos="zoom-in" data-aos-delay="500">
-                                <div class="service-icon-wrapper">
-                                    <div class="service-icon bubble-icon">
-                                        <i class="fas fa-spa"></i>
-                                    </div>
-                                    <div class="icon-float"></div>
-                                </div>
-                                <h3 class="service-title">Chemical Peels</h3>
-                                <p class="service-description">
-                                    Medical-grade peels for radiant skin, targeting pigmentation, 
-                                    acne scars, and signs of aging.
-                                </p>
-                                <ul class="service-features">
-                                    <li><i class="fas fa-check"></i> Custom Formulas</li>
-                                    <li><i class="fas fa-check"></i> Instant Glow</li>
-                                    <li><i class="fas fa-check"></i> Expert Application</li>
-                                </ul>
-                                <div class="service-price">
-                                    <span class="from">From</span>
-                                    <span class="amount">$150</span>
-                                </div>
-                                <button class="service-cta bubble-button">
-                                    <span>Learn More</span>
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
-                        </div>
+            <div class="services-grid">
+                <!-- Botox & Fillers -->
+                <div class="service-bubble" data-aos="fade-up">
+                    <div class="service-icon">
+                        <i class="fas fa-syringe"></i>
                     </div>
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-next bubble-icon"></div>
-                    <div class="swiper-button-prev bubble-icon"></div>
+                    <h3 class="service-title">Botox & Fillers</h3>
+                    <p class="service-description">
+                        Expert injectable treatments for natural-looking rejuvenation. 
+                        Smooth wrinkles and restore volume with precision artistry.
+                    </p>
+                    <div class="service-features">
+                        <span class="feature-tag">Natural Results</span>
+                        <span class="feature-tag">No Downtime</span>
+                        <span class="feature-tag">FDA Approved</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-label">From</span>
+                        <span class="price-amount">$350</span>
+                    </div>
+                    <button class="service-cta">
+                        <span>Learn More</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Weight Loss -->
+                <div class="service-bubble featured" data-aos="fade-up" data-aos-delay="100">
+                    <div class="featured-badge">Most Popular</div>
+                    <div class="service-icon">
+                        <i class="fas fa-weight"></i>
+                    </div>
+                    <h3 class="service-title">Weight Loss Program</h3>
+                    <p class="service-description">
+                        Medical weight management with personalized plans and 
+                        cutting-edge treatments for sustainable results.
+                    </p>
+                    <div class="service-features">
+                        <span class="feature-tag">Semaglutide Available</span>
+                        <span class="feature-tag">Medical Supervision</span>
+                        <span class="feature-tag">Proven Results</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-label">From</span>
+                        <span class="price-amount">$450</span>
+                    </div>
+                    <button class="service-cta">
+                        <span>Learn More</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- IV Therapy -->
+                <div class="service-bubble" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3 class="service-title">IV Therapy</h3>
+                    <p class="service-description">
+                        Luxury vitamin infusions for instant hydration, energy, 
+                        and wellness delivered directly to your cells.
+                    </p>
+                    <div class="service-features">
+                        <span class="feature-tag">Immune Boost</span>
+                        <span class="feature-tag">Beauty Drips</span>
+                        <span class="feature-tag">Energy Enhancement</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-label">From</span>
+                        <span class="price-amount">$200</span>
+                    </div>
+                    <button class="service-cta">
+                        <span>Learn More</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Microneedling -->
+                <div class="service-bubble" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 class="service-title">Microneedling</h3>
+                    <p class="service-description">
+                        Advanced collagen induction therapy for skin rejuvenation, 
+                        texture improvement, and scar reduction.
+                    </p>
+                    <div class="service-features">
+                        <span class="feature-tag">RF Technology</span>
+                        <span class="feature-tag">Minimal Downtime</span>
+                        <span class="feature-tag">All Skin Types</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-label">From</span>
+                        <span class="price-amount">$300</span>
+                    </div>
+                    <button class="service-cta">
+                        <span>Learn More</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- PRP -->
+                <div class="service-bubble" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="service-title">PRP Therapy</h3>
+                    <p class="service-description">
+                        Harness your body's natural healing power for hair restoration 
+                        and facial rejuvenation treatments.
+                    </p>
+                    <div class="service-features">
+                        <span class="feature-tag">Hair Restoration</span>
+                        <span class="feature-tag">Vampire Facial</span>
+                        <span class="feature-tag">Natural Results</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-label">From</span>
+                        <span class="price-amount">$500</span>
+                    </div>
+                    <button class="service-cta">
+                        <span>Learn More</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Chemical Peels -->
+                <div class="service-bubble" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3 class="service-title">Chemical Peels</h3>
+                    <p class="service-description">
+                        Medical-grade peels for radiant skin, targeting pigmentation, 
+                        acne scars, and signs of aging.
+                    </p>
+                    <div class="service-features">
+                        <span class="feature-tag">Custom Formulas</span>
+                        <span class="feature-tag">Instant Glow</span>
+                        <span class="feature-tag">Expert Application</span>
+                    </div>
+                    <div class="service-price">
+                        <span class="price-label">From</span>
+                        <span class="price-amount">$150</span>
+                    </div>
+                    <button class="service-cta">
+                        <span>Learn More</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Dr. Evia Section -->
-    <section class="about-section-luxury" id="about">
+    <!-- About Dr. Nano Section -->
+    <section class="about-doctor" id="about">
         <div class="container">
-            <div class="about-wrapper">
-                <div class="about-image-side" data-aos="fade-right">
-                    <div class="doctor-image-container">
-                        <div class="image-bubble">
-                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&h=700&fit=crop&crop=face" alt="Dr. Evia Alikaj Nano" class="doctor-photo">
-                            <div class="image-overlay-gradient"></div>
-                        </div>
-                        <div class="floating-credential" style="top: 20px; right: -20px;">
+            <div class="about-grid">
+                <div class="doctor-image-side" data-aos="fade-right">
+                    <div class="doctor-image-bubble">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&h=700&fit=crop&crop=face" alt="Dr. Evia Alikaj Nano" class="doctor-photo">
+                        <div class="floating-badge top-right">
                             <i class="fas fa-award"></i>
                             <span>Board Certified</span>
                         </div>
-                        <div class="floating-credential" style="bottom: 40px; left: -20px;">
+                        <div class="floating-badge bottom-left">
                             <i class="fas fa-star"></i>
                             <span>5-Star Rated</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="about-content-side" data-aos="fade-left">
-                    <div class="section-header-left">
-                        <div class="section-badge">
-                            <i class="fas fa-user-md"></i>
-                            <span>Meet The Expert</span>
-                        </div>
-                        <h2 class="section-title">
-                            Dr. Evia Alikaj Nano
-                            <span class="gradient-text">MD</span>
-                        </h2>
+                <div class="doctor-content-side" data-aos="fade-left">
+                    <div class="section-badge">
+                        <i class="fas fa-user-md"></i>
+                        <span>Meet The Expert</span>
                     </div>
+                    
+                    <h2 class="section-title">
+                        Dr. Evia Alikaj Nano
+                        <span class="gradient-text">MD</span>
+                    </h2>
 
-                    <div class="doctor-quote bubble-card">
-                        <i class="fas fa-quote-left quote-icon"></i>
-                        <p>"Beauty is not about changing who you are, but revealing the best version of yourself. 
-                        My approach combines medical expertise with an artistic eye to enhance your natural beauty."</p>
+                    <div class="doctor-quote-bubble">
+                        <i class="fas fa-quote-left"></i>
+                        <blockquote>
+                            "Beauty is not about changing who you are, but revealing the best version of yourself. 
+                            My approach combines medical expertise with an artistic eye to enhance your natural beauty."
+                        </blockquote>
                         <cite>- Dr. Evia Alikaj Nano</cite>
                     </div>
 
-                    <div class="credentials-grid">
-                        <div class="credential-item bubble-card">
+                    <div class="credentials-bubbles">
+                        <div class="credential-bubble">
                             <i class="fas fa-graduation-cap"></i>
-                            <h4>Medical Doctor</h4>
-                            <p>Board Certified MD</p>
+                            <div class="credential-text">
+                                <h4>Medical Doctor</h4>
+                                <p>Board Certified MD</p>
+                            </div>
                         </div>
-                        <div class="credential-item bubble-card">
-                            <i class="fas fa-certificate"></i>
-                            <h4>20+ Years</h4>
-                            <p>Clinical Experience</p>
-                        </div>
-                        <div class="credential-item bubble-card">
+                        <div class="credential-bubble">
                             <i class="fas fa-trophy"></i>
-                            <h4>1000+ Patients</h4>
-                            <p>Transformed Lives</p>
-                        </div>
-                        <div class="credential-item bubble-card">
-                            <i class="fas fa-heart"></i>
-                            <h4>99% Success</h4>
-                            <p>Patient Satisfaction</p>
+                            <div class="credential-text">
+                                <h4>20+ Years</h4>
+                                <p>Clinical Experience</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="about-cta">
-                        <button class="cta-button primary bubble-button" id="meetDoctor">
-                            <span>Schedule Consultation</span>
-                            <i class="fas fa-calendar-plus"></i>
-                        </button>
-                    </div>
+                    <button class="cta-bubble primary">
+                        <span>Schedule Consultation</span>
+                        <i class="fas fa-calendar-plus"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -680,7 +461,7 @@
     <!-- Before & After Gallery -->
     <section class="results-gallery" id="results">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
+            <div class="section-header">
                 <div class="section-badge">
                     <i class="fas fa-camera"></i>
                     <span>Real Results</span>
@@ -689,80 +470,76 @@
                     Transformations That
                     <span class="gradient-text">Speak Volumes</span>
                 </h2>
-                <p class="section-subtitle">
-                    See the stunning results our patients have achieved
+                <p class="section-description">
+                    See the stunning results our patients have achieved with our expert treatments.
                 </p>
             </div>
 
-            <div class="results-filter" data-aos="fade-up" data-aos-delay="200">
-                <button class="filter-btn bubble-button active" data-filter="all">All</button>
-                <button class="filter-btn bubble-button" data-filter="botox">Botox</button>
-                <button class="filter-btn bubble-button" data-filter="fillers">Fillers</button>
-                <button class="filter-btn bubble-button" data-filter="skin">Skin</button>
-                <button class="filter-btn bubble-button" data-filter="body">Body</button>
+            <div class="results-filter-tabs">
+                <button class="filter-tab active" data-filter="all">All Results</button>
+                <button class="filter-tab" data-filter="botox">Botox</button>
+                <button class="filter-tab" data-filter="fillers">Fillers</button>
+                <button class="filter-tab" data-filter="skin">Skin Care</button>
             </div>
 
             <div class="results-grid">
-                <div class="result-item" data-category="botox" data-aos="zoom-in">
-                    <div class="result-card bubble-card">
-                        <div class="before-after">
-                            <div class="ba-image before">
-                                <img src="https://via.placeholder.com/400x300/f0e6d8/9b7b5c?text=Before" alt="Before">
-                                <span class="ba-label">Before</span>
-                            </div>
-                            <div class="ba-image after">
-                                <img src="https://via.placeholder.com/400x300/ffe5cc/ff9e18?text=After" alt="After">
-                                <span class="ba-label">After</span>
-                            </div>
+                <div class="result-bubble" data-category="botox" data-aos="zoom-in">
+                    <div class="before-after-container">
+                        <div class="ba-image before">
+                            <img src="https://via.placeholder.com/400x300/E8D5C4/8B7355?text=Before" alt="Before Treatment">
+                            <span class="ba-label">Before</span>
                         </div>
-                        <div class="result-info">
-                            <h4>Forehead Lines Treatment</h4>
-                            <p>Botox • 20 Units</p>
+                        <div class="ba-divider"></div>
+                        <div class="ba-image after">
+                            <img src="https://via.placeholder.com/400x300/F5E6D3/D4A574?text=After" alt="After Treatment">
+                            <span class="ba-label">After</span>
                         </div>
+                    </div>
+                    <div class="result-info">
+                        <h4>Forehead Lines Treatment</h4>
+                        <p>Botox • 20 Units • 2 Weeks</p>
                     </div>
                 </div>
 
-                <div class="result-item" data-category="fillers" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="result-card bubble-card">
-                        <div class="before-after">
-                            <div class="ba-image before">
-                                <img src="https://via.placeholder.com/400x300/f0e6d8/9b7b5c?text=Before" alt="Before">
-                                <span class="ba-label">Before</span>
-                            </div>
-                            <div class="ba-image after">
-                                <img src="https://via.placeholder.com/400x300/ffe5cc/ff9e18?text=After" alt="After">
-                                <span class="ba-label">After</span>
-                            </div>
+                <div class="result-bubble" data-category="fillers" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="before-after-container">
+                        <div class="ba-image before">
+                            <img src="https://via.placeholder.com/400x300/E8D5C4/8B7355?text=Before" alt="Before Treatment">
+                            <span class="ba-label">Before</span>
                         </div>
-                        <div class="result-info">
-                            <h4>Lip Enhancement</h4>
-                            <p>Juvederm • 1ml</p>
+                        <div class="ba-divider"></div>
+                        <div class="ba-image after">
+                            <img src="https://via.placeholder.com/400x300/F5E6D3/D4A574?text=After" alt="After Treatment">
+                            <span class="ba-label">After</span>
                         </div>
+                    </div>
+                    <div class="result-info">
+                        <h4>Lip Enhancement</h4>
+                        <p>Juvederm • 1ml • Immediate</p>
                     </div>
                 </div>
 
-                <div class="result-item" data-category="skin" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="result-card bubble-card">
-                        <div class="before-after">
-                            <div class="ba-image before">
-                                <img src="https://via.placeholder.com/400x300/f0e6d8/9b7b5c?text=Before" alt="Before">
-                                <span class="ba-label">Before</span>
-                            </div>
-                            <div class="ba-image after">
-                                <img src="https://via.placeholder.com/400x300/ffe5cc/ff9e18?text=After" alt="After">
-                                <span class="ba-label">After</span>
-                            </div>
+                <div class="result-bubble" data-category="skin" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="before-after-container">
+                        <div class="ba-image before">
+                            <img src="https://via.placeholder.com/400x300/E8D5C4/8B7355?text=Before" alt="Before Treatment">
+                            <span class="ba-label">Before</span>
                         </div>
-                        <div class="result-info">
-                            <h4>Acne Scar Reduction</h4>
-                            <p>Microneedling • 3 Sessions</p>
+                        <div class="ba-divider"></div>
+                        <div class="ba-image after">
+                            <img src="https://via.placeholder.com/400x300/F5E6D3/D4A574?text=After" alt="After Treatment">
+                            <span class="ba-label">After</span>
                         </div>
+                    </div>
+                    <div class="result-info">
+                        <h4>Acne Scar Reduction</h4>
+                        <p>Microneedling • 3 Sessions</p>
                     </div>
                 </div>
             </div>
 
-            <div class="results-cta" data-aos="fade-up">
-                <button class="cta-button secondary bubble-button">
+            <div class="section-cta">
+                <button class="cta-bubble secondary">
                     <span>View Full Gallery</span>
                     <i class="fas fa-images"></i>
                 </button>
@@ -771,19 +548,20 @@
     </section>
 
     <!-- Google Reviews Section -->
-    <section class="reviews-section" id="reviews">
+    <section class="google-reviews" id="reviews">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
+            <div class="section-header">
                 <div class="section-badge">
-                    <i class="fas fa-star"></i>
+                    <i class="fab fa-google"></i>
                     <span>Patient Reviews</span>
                 </div>
                 <h2 class="section-title">
                     What Our Patients
                     <span class="gradient-text">Say About Us</span>
                 </h2>
-                <div class="reviews-stats">
-                    <div class="rating-summary">
+                
+                <div class="rating-showcase">
+                    <div class="rating-bubble">
                         <span class="rating-number">4.9</span>
                         <div class="stars">
                             <i class="fas fa-star"></i>
@@ -792,19 +570,19 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                         </div>
-                        <span class="review-count">500+ Reviews</span>
+                        <span class="review-count">500+ Google Reviews</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Elfsight Google Reviews Widget Container -->
-            <div class="google-reviews-widget" data-aos="fade-up" data-aos-delay="200">
-                <div class="elfsight-app-placeholder">
-                    <!-- Add your Elfsight Google Reviews widget code here -->
-                    <div class="widget-placeholder bubble-card">
+            <!-- Elfsight Google Reviews Widget -->
+            <div class="reviews-widget-container" data-aos="fade-up">
+                <div class="widget-placeholder">
+                    <div class="placeholder-content">
                         <i class="fab fa-google"></i>
-                        <p>Google Reviews Widget</p>
-                        <small>Add your Elfsight widget code here</small>
+                        <h3>Google Reviews Widget</h3>
+                        <p>Add your Elfsight Google Reviews widget code here</p>
+                        <code>&lt;script src="https://apps.elfsight.com/p/platform.js" defer&gt;&lt;/script&gt;</code>
                     </div>
                 </div>
             </div>
@@ -812,36 +590,36 @@
     </section>
 
     <!-- Instagram Feed Section -->
-    <section class="instagram-section">
+    <section class="instagram-feed">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
+            <div class="section-header">
                 <div class="section-badge">
                     <i class="fab fa-instagram"></i>
-                    <span>Follow Us</span>
+                    <span>Follow Our Journey</span>
                 </div>
                 <h2 class="section-title">
                     Beauty in
                     <span class="gradient-text">Every Post</span>
                 </h2>
-                <p class="section-subtitle">
+                <p class="section-description">
                     @eviaaesthetics • Join our community of beauty enthusiasts
                 </p>
             </div>
 
-            <!-- Elfsight Instagram Widget Container -->
-            <div class="instagram-widget" data-aos="fade-up" data-aos-delay="200">
-                <div class="elfsight-app-placeholder">
-                    <!-- Add your Elfsight Instagram widget code here -->
-                    <div class="widget-placeholder bubble-card">
+            <!-- Elfsight Instagram Widget -->
+            <div class="instagram-widget-container" data-aos="fade-up">
+                <div class="widget-placeholder">
+                    <div class="placeholder-content">
                         <i class="fab fa-instagram"></i>
-                        <p>Instagram Feed Widget</p>
-                        <small>Add your Elfsight widget code here</small>
+                        <h3>Instagram Feed Widget</h3>
+                        <p>Add your Elfsight Instagram widget code here</p>
+                        <code>&lt;script src="https://apps.elfsight.com/p/platform.js" defer&gt;&lt;/script&gt;</code>
                     </div>
                 </div>
             </div>
 
-            <div class="instagram-cta" data-aos="fade-up" data-aos-delay="300">
-                <a href="https://instagram.com/eviaaesthetics" class="cta-button secondary bubble-button">
+            <div class="section-cta">
+                <a href="https://instagram.com/eviaaesthetics" class="cta-bubble secondary" target="_blank">
                     <span>Follow @eviaaesthetics</span>
                     <i class="fab fa-instagram"></i>
                 </a>
@@ -850,55 +628,61 @@
     </section>
 
     <!-- Special Offers Section -->
-    <section class="offers-section">
+    <section class="special-offers">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
+            <div class="section-header">
                 <div class="section-badge">
                     <i class="fas fa-gift"></i>
-                    <span>Limited Time</span>
+                    <span>Limited Time Offers</span>
                 </div>
                 <h2 class="section-title">
                     Exclusive
-                    <span class="gradient-text">Offers</span>
+                    <span class="gradient-text">Promotions</span>
                 </h2>
             </div>
 
             <div class="offers-grid">
-                <div class="offer-card bubble-card featured" data-aos="zoom-in">
+                <div class="offer-bubble featured" data-aos="zoom-in">
                     <div class="offer-badge">New Patient Special</div>
                     <div class="offer-icon">
                         <i class="fas fa-percentage"></i>
                     </div>
-                    <h3>20% OFF</h3>
-                    <h4>First Treatment</h4>
-                    <p>Experience luxury aesthetic care with our exclusive new patient discount</p>
-                    <button class="cta-button primary bubble-button">
+                    <h3 class="offer-title">20% OFF</h3>
+                    <h4 class="offer-subtitle">First Treatment</h4>
+                    <p class="offer-description">
+                        Experience luxury aesthetic care with our exclusive new patient discount on any service.
+                    </p>
+                    <button class="cta-bubble primary">
                         <span>Claim Offer</span>
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
 
-                <div class="offer-card bubble-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="offer-bubble" data-aos="zoom-in" data-aos-delay="100">
                     <div class="offer-icon">
                         <i class="fas fa-syringe"></i>
                     </div>
-                    <h3>Botox Bundle</h3>
-                    <h4>$12/unit</h4>
-                    <p>Purchase 50+ units</p>
-                    <button class="cta-button secondary bubble-button">
+                    <h3 class="offer-title">Botox Bundle</h3>
+                    <h4 class="offer-subtitle">$12/unit</h4>
+                    <p class="offer-description">
+                        Special pricing when you purchase 50+ units. Perfect for comprehensive treatment.
+                    </p>
+                    <button class="cta-bubble secondary">
                         <span>Learn More</span>
                     </button>
                 </div>
 
-                <div class="offer-card bubble-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="offer-bubble" data-aos="zoom-in" data-aos-delay="200">
                     <div class="offer-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3>Refer a Friend</h3>
-                    <h4>$50 Credit</h4>
-                    <p>For you and your friend</p>
-                    <button class="cta-button secondary bubble-button">
-                        <span>Learn More</span>
+                    <h3 class="offer-title">Refer a Friend</h3>
+                    <h4 class="offer-subtitle">$50 Credit</h4>
+                    <p class="offer-description">
+                        Both you and your friend receive $50 credit toward any service when they book.
+                    </p>
+                    <button class="cta-bubble secondary">
+                        <span>Refer Now</span>
                     </button>
                 </div>
             </div>
@@ -906,12 +690,12 @@
     </section>
 
     <!-- Luxury Experience Section -->
-    <section class="experience-section">
+    <section class="luxury-experience">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
+            <div class="section-header">
                 <div class="section-badge">
                     <i class="fas fa-gem"></i>
-                    <span>The Experience</span>
+                    <span>The Evia Experience</span>
                 </div>
                 <h2 class="section-title">
                     Manhattan's Most
@@ -920,36 +704,36 @@
             </div>
 
             <div class="experience-grid">
-                <div class="experience-item" data-aos="fade-up">
-                    <div class="exp-icon bubble-icon">
+                <div class="experience-bubble" data-aos="fade-up">
+                    <div class="experience-icon">
                         <i class="fas fa-concierge-bell"></i>
                     </div>
                     <h3>Concierge Service</h3>
-                    <p>Personalized care from consultation to aftercare</p>
+                    <p>Personalized care from initial consultation through complete aftercare and follow-up.</p>
                 </div>
 
-                <div class="experience-item" data-aos="fade-up" data-aos-delay="100">
-                    <div class="exp-icon bubble-icon">
+                <div class="experience-bubble" data-aos="fade-up" data-aos-delay="100">
+                    <div class="experience-icon">
                         <i class="fas fa-wine-glass"></i>
                     </div>
                     <h3>Luxury Amenities</h3>
-                    <p>Complimentary refreshments in our elegant lounge</p>
+                    <p>Complimentary refreshments, Wi-Fi, and relaxation in our elegant patient lounge.</p>
                 </div>
 
-                <div class="experience-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="exp-icon bubble-icon">
+                <div class="experience-bubble" data-aos="fade-up" data-aos-delay="200">
+                    <div class="experience-icon">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <h3>Flexible Hours</h3>
-                    <p>Evening and weekend appointments available</p>
+                    <h3>Flexible Scheduling</h3>
+                    <p>Evening and weekend appointments available to fit your busy Manhattan lifestyle.</p>
                 </div>
 
-                <div class="experience-item" data-aos="fade-up" data-aos-delay="300">
-                    <div class="exp-icon bubble-icon">
+                <div class="experience-bubble" data-aos="fade-up" data-aos-delay="300">
+                    <div class="experience-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h3>Privacy Assured</h3>
-                    <p>Discrete entrance and private treatment rooms</p>
+                    <p>Discrete entrance, private treatment rooms, and confidential consultations.</p>
                 </div>
             </div>
         </div>
@@ -958,55 +742,54 @@
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
         <div class="container">
-            <div class="contact-wrapper">
+            <div class="contact-grid">
                 <div class="contact-info-side" data-aos="fade-right">
-                    <div class="section-header-left">
-                        <div class="section-badge">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Visit Us</span>
-                        </div>
-                        <h2 class="section-title">
-                            Get in
-                            <span class="gradient-text">Touch</span>
-                        </h2>
+                    <div class="section-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Visit Our Spa</span>
                     </div>
+                    
+                    <h2 class="section-title">
+                        Get in
+                        <span class="gradient-text">Touch</span>
+                    </h2>
 
-                    <div class="contact-details">
-                        <div class="contact-item bubble-card">
-                            <div class="contact-icon bubble-icon">
+                    <div class="contact-bubbles">
+                        <div class="contact-bubble">
+                            <div class="contact-icon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
-                            <div class="contact-text">
-                                <h4>Location</h4>
+                            <div class="contact-details">
+                                <h4>Manhattan Location</h4>
                                 <p>123 Park Avenue<br>Midtown Manhattan, NY 10017</p>
                             </div>
                         </div>
 
-                        <div class="contact-item bubble-card">
-                            <div class="contact-icon bubble-icon">
+                        <div class="contact-bubble">
+                            <div class="contact-icon">
                                 <i class="fas fa-phone"></i>
                             </div>
-                            <div class="contact-text">
+                            <div class="contact-details">
                                 <h4>Phone</h4>
                                 <p>(555) 123-4567</p>
                             </div>
                         </div>
 
-                        <div class="contact-item bubble-card">
-                            <div class="contact-icon bubble-icon">
+                        <div class="contact-bubble">
+                            <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>
-                            <div class="contact-text">
+                            <div class="contact-details">
                                 <h4>Email</h4>
                                 <p>info@eviaaesthetics.com</p>
                             </div>
                         </div>
 
-                        <div class="contact-item bubble-card">
-                            <div class="contact-icon bubble-icon">
+                        <div class="contact-bubble">
+                            <div class="contact-icon">
                                 <i class="fas fa-clock"></i>
                             </div>
-                            <div class="contact-text">
+                            <div class="contact-details">
                                 <h4>Hours</h4>
                                 <p>Mon-Fri: 9AM - 7PM<br>Sat: 10AM - 6PM<br>Sun: By Appointment</p>
                             </div>
@@ -1015,66 +798,70 @@
                 </div>
 
                 <div class="contact-form-side" data-aos="fade-left">
-                    <form class="contact-form bubble-card">
+                    <div class="form-bubble">
                         <h3>Book Your Consultation</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="text" placeholder="First Name" required>
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-row">
+                                <div class="input-bubble">
+                                    <input type="text" placeholder="First Name" required>
+                                </div>
+                                <div class="input-bubble">
+                                    <input type="text" placeholder="Last Name" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="text" placeholder="Last Name" required>
+                            <div class="input-bubble">
+                                <input type="email" placeholder="Email Address" required>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" placeholder="Email Address" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="tel" placeholder="Phone Number" required>
-                        </div>
-                        <div class="form-group">
-                            <select required>
-                                <option value="">Select Service</option>
-                                <option value="botox">Botox & Fillers</option>
-                                <option value="weightloss">Weight Loss</option>
-                                <option value="iv">IV Therapy</option>
-                                <option value="microneedling">Microneedling</option>
-                                <option value="prp">PRP</option>
-                                <option value="peels">Chemical Peels</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <textarea placeholder="Tell us about your goals..." rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="cta-button primary bubble-button full-width">
-                            <span>Submit Request</span>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
+                            <div class="input-bubble">
+                                <input type="tel" placeholder="Phone Number" required>
+                            </div>
+                            <div class="input-bubble">
+                                <select required>
+                                    <option value="">Select Service of Interest</option>
+                                    <option value="botox">Botox & Fillers</option>
+                                    <option value="weightloss">Weight Loss Program</option>
+                                    <option value="iv">IV Therapy</option>
+                                    <option value="microneedling">Microneedling</option>
+                                    <option value="prp">PRP Therapy</option>
+                                    <option value="peels">Chemical Peels</option>
+                                    <option value="consultation">General Consultation</option>
+                                </select>
+                            </div>
+                            <div class="input-bubble">
+                                <textarea placeholder="Tell us about your aesthetic goals and any questions you have..." rows="4"></textarea>
+                            </div>
+                            <button type="submit" class="cta-bubble primary full-width">
+                                <span>Submit Request</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="luxury-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <div class="footer-logo">
+                    <div class="footer-logo-bubble">
                         <img src="logo1.png" alt="Evia Aesthetics">
                     </div>
+                    <h3>Evia Aesthetics</h3>
                     <p>Manhattan's Premier Medical Spa</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link bubble-icon">
+                    <div class="social-bubbles">
+                        <a href="#" class="social-bubble">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="social-link bubble-icon">
+                        <a href="#" class="social-bubble">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="social-link bubble-icon">
+                        <a href="#" class="social-bubble">
                             <i class="fab fa-youtube"></i>
                         </a>
-                        <a href="#" class="social-link bubble-icon">
+                        <a href="#" class="social-bubble">
                             <i class="fab fa-tiktok"></i>
                         </a>
                     </div>
@@ -1084,19 +871,21 @@
                     <div class="footer-column">
                         <h4>Services</h4>
                         <ul>
-                            <li><a href="#botox">Botox & Fillers</a></li>
-                            <li><a href="#weightloss">Weight Loss</a></li>
-                            <li><a href="#iv">IV Therapy</a></li>
-                            <li><a href="#microneedling">Microneedling</a></li>
+                            <li><a href="#services">Botox & Fillers</a></li>
+                            <li><a href="#services">Weight Loss</a></li>
+                            <li><a href="#services">IV Therapy</a></li>
+                            <li><a href="#services">Microneedling</a></li>
+                            <li><a href="#services">PRP Therapy</a></li>
+                            <li><a href="#services">Chemical Peels</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h4>About</h4>
                         <ul>
                             <li><a href="#about">Dr. Nano</a></li>
-                            <li><a href="#results">Results</a></li>
-                            <li><a href="#reviews">Reviews</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="#results">Results Gallery</a></li>
+                            <li><a href="#reviews">Patient Reviews</a></li>
+                            <li><a href="#contact">Contact Us</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -1105,7 +894,7 @@
                             <li><a href="#">Privacy Policy</a></li>
                             <li><a href="#">Terms of Service</a></li>
                             <li><a href="#">Cancellation Policy</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Patient Resources</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1113,100 +902,71 @@
 
             <div class="footer-bottom">
                 <p>&copy; 2024 Evia Aesthetics. All rights reserved.</p>
-                <p>Designed with <i class="fas fa-heart"></i> in Manhattan</p>
+                <p>Designed with <i class="fas fa-heart"></i> for Manhattan</p>
             </div>
         </div>
     </footer>
 
-    <!-- Enhanced Modals -->
-    <div class="modal" id="appointmentModal">
-        <div class="modal-overlay"></div>
-        <div class="modal-container bubble-card">
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="booking-modal" id="bookingModal">
             <div class="modal-header">
-                <h2>Book Your Complimentary Consultation</h2>
-                <button class="modal-close bubble-icon" id="modalClose">
+                <h2>Book Your Consultation</h2>
+                <button class="modal-close" id="modalClose">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
-            <div class="modal-body">
-                <form id="appointmentForm" class="appointment-form">
+            <div class="modal-content">
+                <form class="booking-form" id="bookingForm">
                     <div class="form-row">
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" name="firstName" required>
+                        <div class="input-bubble">
+                            <input type="text" placeholder="First Name" required>
                         </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" id="lastName" name="lastName" required>
+                        <div class="input-bubble">
+                            <input type="text" placeholder="Last Name" required>
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required>
+                    <div class="input-bubble">
+                        <input type="email" placeholder="Email Address" required>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" required>
+                    <div class="input-bubble">
+                        <input type="tel" placeholder="Phone Number" required>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="service">Service of Interest</label>
-                        <select id="service" name="service" required>
-                            <option value="" disabled selected>Select a service</option>
+                    <div class="input-bubble">
+                        <select required>
+                            <option value="">Service of Interest</option>
                             <option value="botox">Botox & Fillers</option>
                             <option value="weightloss">Weight Loss Program</option>
                             <option value="iv">IV Therapy</option>
                             <option value="microneedling">Microneedling</option>
                             <option value="prp">PRP Therapy</option>
                             <option value="peels">Chemical Peels</option>
-                            <option value="consultation">General Consultation</option>
                         </select>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Your Aesthetic Goals</label>
-                        <textarea id="message" name="message" rows="3" placeholder="Tell us about your aesthetic goals and any questions you have..."></textarea>
+                    <div class="input-bubble">
+                        <textarea placeholder="Your aesthetic goals..." rows="3"></textarea>
                     </div>
-                    
-                    <button type="submit" class="cta-button primary bubble-button full-width">
+                    <button type="submit" class="cta-bubble primary full-width">
                         <span>Request Consultation</span>
                         <i class="fas fa-calendar-check"></i>
-                        <div class="button-shine"></div>
                     </button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Video Modal -->
-    <div class="video-modal" id="videoModal">
-        <div class="video-modal-overlay"></div>
-        <div class="video-modal-content">
-            <button class="video-modal-close bubble-icon" id="videoModalClose">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="video-wrapper">
-                <iframe src="" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
-
-    <!-- Floating Booking Button -->
-    <div class="floating-booking" id="floatingBooking">
-        <button class="floating-btn bubble-button">
+    <!-- Floating Book Button -->
+    <div class="floating-book-button" id="floatingBook">
+        <button class="float-cta">
             <i class="fas fa-calendar-check"></i>
             <span>Book Now</span>
         </button>
     </div>
 
-    <!-- AOS Library -->
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <!-- Swiper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <!-- Custom Script -->
     <script src="script.js"></script>
 </body>
 </html>
