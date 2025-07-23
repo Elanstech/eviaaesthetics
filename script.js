@@ -792,6 +792,163 @@ class HeroSection {
 }
 
 /**
+ * Enhanced Luxury Services Controller - NEW
+ */
+class LuxuryServices {
+    constructor() {
+        this.serviceCards = document.querySelectorAll('.luxury-service-card');
+        this.serviceButtons = document.querySelectorAll('.service-cta-luxury');
+        
+        this.init();
+    }
+    
+    init() {
+        if (!this.serviceCards.length) return;
+        
+        this.initServiceCards();
+        this.initServiceButtons();
+        this.initMagneticEffects();
+        this.initIntersectionObserver();
+    }
+    
+    initServiceCards() {
+        this.serviceCards.forEach((card, index) => {
+            // Add hover effects
+            card.addEventListener('mouseenter', () => {
+                this.onCardHover(card);
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                this.onCardLeave(card);
+            });
+            
+            // Add click handler for entire card
+            card.addEventListener('click', (e) => {
+                // Don't trigger if clicking the button
+                if (!e.target.closest('.service-cta-luxury')) {
+                    const button = card.querySelector('.service-cta-luxury');
+                    if (button) {
+                        button.click();
+                    }
+                }
+            });
+        });
+    }
+    
+    onCardHover(card) {
+        // Add additional hover animations
+        const icon = card.querySelector('.service-icon-luxury');
+        if (icon) {
+            icon.style.transform = 'translateY(-5px) scale(1.1)';
+        }
+        
+        // Subtle animation for other cards
+        this.serviceCards.forEach(otherCard => {
+            if (otherCard !== card) {
+                otherCard.style.opacity = '0.7';
+                otherCard.style.transform = 'scale(0.98)';
+            }
+        });
+    }
+    
+    onCardLeave(card) {
+        // Reset all cards
+        this.serviceCards.forEach(otherCard => {
+            otherCard.style.opacity = '';
+            otherCard.style.transform = '';
+        });
+        
+        const icon = card.querySelector('.service-icon-luxury');
+        if (icon) {
+            icon.style.transform = '';
+        }
+    }
+    
+    initServiceButtons() {
+        this.serviceButtons.forEach(button => {
+            // Add ripple effect
+            LuxuryMedSpa.utils.addRippleEffect(button);
+            
+            // Add magnetic effect
+            LuxuryMedSpa.utils.addMagneticEffect(button, 0.15);
+            
+            // Add click handler
+            button.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent card click
+                const service = button.dataset.service;
+                this.handleServiceClick(service, button);
+            });
+        });
+    }
+    
+    handleServiceClick(service, button) {
+        // Add loading state
+        const originalText = button.innerHTML;
+        button.disabled = true;
+        button.innerHTML = '<span>Loading...</span> <i class="fas fa-spinner fa-spin"></i>';
+        
+        // Simulate service selection and open modal
+        setTimeout(() => {
+            button.disabled = false;
+            button.innerHTML = originalText;
+            
+            // Pre-select service in modal if available
+            if (LuxuryMedSpa.components.modal) {
+                LuxuryMedSpa.components.modal.openBookingModal(service);
+            }
+        }, 800);
+        
+        // Analytics tracking (placeholder)
+        console.log(`Service selected: ${service}`);
+        
+        // Optional: Track with Google Analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'service_click', {
+                'service_type': service,
+                'event_category': 'engagement'
+            });
+        }
+    }
+    
+    initMagneticEffects() {
+        // Add magnetic effects to service icons
+        const serviceIcons = document.querySelectorAll('.service-icon-luxury');
+        serviceIcons.forEach(icon => {
+            LuxuryMedSpa.utils.addMagneticEffect(icon, 0.1);
+        });
+    }
+    
+    initIntersectionObserver() {
+        // Enhanced entrance animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0) scale(1)';
+                        entry.target.classList.add('animated');
+                    }, index * 150);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        this.serviceCards.forEach(card => {
+            // Set initial state for animation
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px) scale(0.95)';
+            card.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            
+            observer.observe(card);
+        });
+    }
+}
+
+/**
  * Enhanced Button System
  */
 class EnhancedButtons {
@@ -822,7 +979,7 @@ class EnhancedButtons {
     }
 
     initServiceButtons() {
-        const serviceButtons = document.querySelectorAll('.service-cta');
+        const serviceButtons = document.querySelectorAll('.service-cta:not(.service-cta-luxury)');
         serviceButtons.forEach(btn => {
             LuxuryMedSpa.utils.addRippleEffect(btn);
             btn.addEventListener('click', () => {
@@ -942,7 +1099,7 @@ class ModalSystem {
         }
         
         // All booking trigger buttons
-        const bookingTriggers = document.querySelectorAll('[data-booking], .service-cta');
+        const bookingTriggers = document.querySelectorAll('[data-booking], .service-cta:not(.service-cta-luxury)');
         bookingTriggers.forEach(trigger => {
             trigger.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -962,10 +1119,31 @@ class ModalSystem {
         }
     }
     
-    openBookingModal() {
+    openBookingModal(preSelectedService = null) {
         this.activeModal = this.bookingModal;
         document.body.classList.add('no-scroll');
         this.overlay.classList.add('active');
+        
+        // Pre-select service if provided
+        if (preSelectedService && this.form) {
+            const serviceSelect = this.form.querySelector('select');
+            if (serviceSelect) {
+                // Map service data attributes to select values
+                const serviceMap = {
+                    'botox': 'botox',
+                    'weight-loss': 'weightloss',
+                    'iv-therapy': 'iv',
+                    'microneedling': 'microneedling',
+                    'prp': 'prp',
+                    'chemical-peels': 'peels'
+                };
+                
+                const selectValue = serviceMap[preSelectedService];
+                if (selectValue) {
+                    serviceSelect.value = selectValue;
+                }
+            }
+        }
     }
     
     closeModal() {
@@ -1441,6 +1619,7 @@ class LuxuryMedSpaApp {
                 header: new LuxuryHeader(),
                 mobileMenu: new MobileMenu(),
                 hero: new HeroSection(),
+                luxuryServices: new LuxuryServices(), // NEW COMPONENT
                 enhancedButtons: new EnhancedButtons(),
                 resultsGallery: new ResultsGallery(),
                 modal: new ModalSystem(),
@@ -1638,7 +1817,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         components: () => LuxuryMedSpa.components,
         settings: () => LuxuryMedSpa.settings,
         utils: () => LuxuryMedSpa.utils,
-        version: '2.0.0 - Enhanced'
+        version: '2.0.0 - Enhanced with Luxury Services'
     };
     
     console.log('🔧 Debug mode enabled. Use window.LuxuryMedSpaDebug for debugging.');
