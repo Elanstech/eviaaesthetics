@@ -12,7 +12,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -229,8 +229,8 @@
         </div>
     </section>
 
-    <!-- Premium Services Section -->
-    <section class="premium-services" id="services">
+    <!-- Luxury Services Section - REDESIGNED -->
+    <section class="luxury-services-section" id="services">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">
@@ -246,156 +246,113 @@
                 </p>
             </div>
 
-            <div class="services-grid">
+            <div class="luxury-services-grid">
                 <!-- Botox & Fillers -->
-                <div class="service-bubble" data-aos="fade-up">
-                    <div class="service-icon">
+                <div class="luxury-service-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="service-icon-luxury">
                         <i class="fas fa-syringe"></i>
                     </div>
-                    <h3 class="service-title">Botox & Fillers</h3>
-                    <p class="service-description">
-                        Expert injectable treatments for natural-looking rejuvenation. 
-                        Smooth wrinkles and restore volume with precision artistry.
-                    </p>
-                    <div class="service-features">
-                        <span class="feature-tag">Natural Results</span>
-                        <span class="feature-tag">No Downtime</span>
-                        <span class="feature-tag">FDA Approved</span>
+                    <div class="service-content-luxury">
+                        <h3 class="service-title-luxury">Botox & Fillers</h3>
+                        <p class="service-tagline-luxury">Sculpt. Smooth. Refresh.</p>
+                        <p class="service-description-luxury">
+                            Enhance your natural beauty with precision-placed injectables for smoother, more youthful skin.
+                        </p>
+                        <button class="service-cta-luxury" data-service="botox">
+                            <span>Learn More</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <div class="service-price">
-                        <span class="price-label">From</span>
-                        <span class="price-amount">$350</span>
-                    </div>
-                    <button class="service-cta modern-btn">
-                        <span>Learn More</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
 
                 <!-- Weight Loss -->
-                <div class="service-bubble featured" data-aos="fade-up" data-aos-delay="100">
-                    <div class="featured-badge">Most Popular</div>
-                    <div class="service-icon">
+                <div class="luxury-service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon-luxury">
                         <i class="fas fa-weight"></i>
                     </div>
-                    <h3 class="service-title">Weight Loss Program</h3>
-                    <p class="service-description">
-                        Medical weight management with personalized plans and 
-                        cutting-edge treatments for sustainable results.
-                    </p>
-                    <div class="service-features">
-                        <span class="feature-tag">Semaglutide Available</span>
-                        <span class="feature-tag">Medical Supervision</span>
-                        <span class="feature-tag">Proven Results</span>
+                    <div class="service-content-luxury">
+                        <h3 class="service-title-luxury">Weight Loss</h3>
+                        <p class="service-tagline-luxury">Transform. Sustain. Thrive.</p>
+                        <p class="service-description-luxury">
+                            Medical weight management with personalized plans and cutting-edge treatments for sustainable results.
+                        </p>
+                        <button class="service-cta-luxury" data-service="weight-loss">
+                            <span>Learn More</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <div class="service-price">
-                        <span class="price-label">From</span>
-                        <span class="price-amount">$450</span>
-                    </div>
-                    <button class="service-cta modern-btn">
-                        <span>Learn More</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
 
                 <!-- IV Therapy -->
-                <div class="service-bubble" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-icon">
+                <div class="luxury-service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon-luxury">
                         <i class="fas fa-tint"></i>
                     </div>
-                    <h3 class="service-title">IV Therapy</h3>
-                    <p class="service-description">
-                        Luxury vitamin infusions for instant hydration, energy, 
-                        and wellness delivered directly to your cells.
-                    </p>
-                    <div class="service-features">
-                        <span class="feature-tag">Immune Boost</span>
-                        <span class="feature-tag">Beauty Drips</span>
-                        <span class="feature-tag">Energy Enhancement</span>
+                    <div class="service-content-luxury">
+                        <h3 class="service-title-luxury">IV Therapy</h3>
+                        <p class="service-tagline-luxury">Hydrate. Energize. Glow.</p>
+                        <p class="service-description-luxury">
+                            Luxury vitamin infusions for instant hydration, energy, and wellness delivered directly to your cells.
+                        </p>
+                        <button class="service-cta-luxury" data-service="iv-therapy">
+                            <span>Learn More</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <div class="service-price">
-                        <span class="price-label">From</span>
-                        <span class="price-amount">$200</span>
-                    </div>
-                    <button class="service-cta modern-btn">
-                        <span>Learn More</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
 
                 <!-- Microneedling -->
-                <div class="service-bubble" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-icon">
+                <div class="luxury-service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon-luxury">
                         <i class="fas fa-magic"></i>
                     </div>
-                    <h3 class="service-title">Microneedling</h3>
-                    <p class="service-description">
-                        Advanced collagen induction therapy for skin rejuvenation, 
-                        texture improvement, and scar reduction.
-                    </p>
-                    <div class="service-features">
-                        <span class="feature-tag">RF Technology</span>
-                        <span class="feature-tag">Minimal Downtime</span>
-                        <span class="feature-tag">All Skin Types</span>
+                    <div class="service-content-luxury">
+                        <h3 class="service-title-luxury">Microneedling</h3>
+                        <p class="service-tagline-luxury">Renew. Repair. Radiate.</p>
+                        <p class="service-description-luxury">
+                            Advanced collagen induction therapy for skin rejuvenation, texture improvement, and scar reduction.
+                        </p>
+                        <button class="service-cta-luxury" data-service="microneedling">
+                            <span>Learn More</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <div class="service-price">
-                        <span class="price-label">From</span>
-                        <span class="price-amount">$300</span>
-                    </div>
-                    <button class="service-cta modern-btn">
-                        <span>Learn More</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
 
-                <!-- PRP -->
-                <div class="service-bubble" data-aos="fade-up" data-aos-delay="400">
-                    <div class="service-icon">
+                <!-- PRP Therapy -->
+                <div class="luxury-service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-icon-luxury">
                         <i class="fas fa-leaf"></i>
                     </div>
-                    <h3 class="service-title">PRP Therapy</h3>
-                    <p class="service-description">
-                        Harness your body's natural healing power for hair restoration 
-                        and facial rejuvenation treatments.
-                    </p>
-                    <div class="service-features">
-                        <span class="feature-tag">Hair Restoration</span>
-                        <span class="feature-tag">Vampire Facial</span>
-                        <span class="feature-tag">Natural Results</span>
+                    <div class="service-content-luxury">
+                        <h3 class="service-title-luxury">PRP Therapy</h3>
+                        <p class="service-tagline-luxury">Heal. Restore. Regenerate.</p>
+                        <p class="service-description-luxury">
+                            Harness your body's natural healing power for hair restoration and facial rejuvenation treatments.
+                        </p>
+                        <button class="service-cta-luxury" data-service="prp">
+                            <span>Learn More</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <div class="service-price">
-                        <span class="price-label">From</span>
-                        <span class="price-amount">$500</span>
-                    </div>
-                    <button class="service-cta modern-btn">
-                        <span>Learn More</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
 
                 <!-- Chemical Peels -->
-                <div class="service-bubble" data-aos="fade-up" data-aos-delay="500">
-                    <div class="service-icon">
+                <div class="luxury-service-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-icon-luxury">
                         <i class="fas fa-spa"></i>
                     </div>
-                    <h3 class="service-title">Chemical Peels</h3>
-                    <p class="service-description">
-                        Medical-grade peels for radiant skin, targeting pigmentation, 
-                        acne scars, and signs of aging.
-                    </p>
-                    <div class="service-features">
-                        <span class="feature-tag">Custom Formulas</span>
-                        <span class="feature-tag">Instant Glow</span>
-                        <span class="feature-tag">Expert Application</span>
+                    <div class="service-content-luxury">
+                        <h3 class="service-title-luxury">Chemical Peels</h3>
+                        <p class="service-tagline-luxury">Reveal. Refine. Rejuvenate.</p>
+                        <p class="service-description-luxury">
+                            Medical-grade peels for radiant skin, targeting pigmentation, acne scars, and signs of aging.
+                        </p>
+                        <button class="service-cta-luxury" data-service="chemical-peels">
+                            <span>Learn More</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <div class="service-price">
-                        <span class="price-label">From</span>
-                        <span class="price-amount">$150</span>
-                    </div>
-                    <button class="service-cta modern-btn">
-                        <span>Learn More</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
             </div>
         </div>
