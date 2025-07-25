@@ -1,5 +1,5 @@
 // ========================================
-// LUXURY MANHATTAN MED SPA - ORGANIZED JAVASCRIPT
+// LUXURY MANHATTAN MED SPA - ENHANCED JAVASCRIPT WITH MODERN HERO
 // ========================================
 
 'use strict';
@@ -314,9 +314,9 @@ class LuxuryPreloader {
         LuxuryMedSpa.isLoaded = true;
         window.dispatchEvent(new CustomEvent('spaLoaded'));
         
-        // Start hero animations
-        if (LuxuryMedSpa.components.hero) {
-            LuxuryMedSpa.components.hero.startAnimations();
+        // Start enhanced hero animations
+        if (LuxuryMedSpa.components.enhancedHero) {
+            LuxuryMedSpa.components.enhancedHero.startAnimations();
         }
         
         console.log('🌟 Enhanced Luxury Med Spa Loaded Successfully');
@@ -586,29 +586,37 @@ class MobileMenu {
 }
 
 // ========================================
-// HERO SECTION
+// ENHANCED HERO SECTION
 // ========================================
 
-class HeroSection {
+class EnhancedHeroSection {
     constructor() {
-        this.video = document.querySelector('.hero-video');
-        this.statNumbers = document.querySelectorAll('.stat-number');
-        this.scrollIndicator = document.querySelector('.scroll-indicator');
-        this.animatedElements = document.querySelectorAll('[class*="animate-"]');
+        this.hero = document.querySelector('.luxury-hero-enhanced');
+        this.video = document.querySelector('.hero-video-enhanced');
+        this.dynamicText = document.getElementById('dynamicText');
+        this.subtitleLines = document.querySelectorAll('.subtitle-line');
+        this.statNumbers = document.querySelectorAll('.stat-number-enhanced');
+        this.scrollIndicator = document.querySelector('.scroll-indicator-enhanced');
+        this.floatingDecorations = document.querySelectorAll('.floating-decoration');
         
         this.statsAnimated = false;
         this.animationsTriggered = false;
+        this.typedInstance = null;
         
         this.init();
     }
     
     init() {
+        if (!this.hero) return;
+        
         this.initVideo();
         this.initButtons();
         this.initScrollIndicator();
+        this.initFloatingDecorations();
         this.observeStats();
-        this.initHeroAnimations();
+        this.initGSAPAnimations();
         this.initMagneticEffects();
+        this.initGlowEffects();
     }
     
     initVideo() {
@@ -617,11 +625,11 @@ class HeroSection {
         // Video event listeners
         this.video.addEventListener('loadeddata', () => {
             this.video.classList.add('loaded');
-            console.log('Hero video loaded');
+            console.log('Enhanced hero video loaded');
         });
         
         this.video.addEventListener('error', () => {
-            console.warn('Hero video failed to load');
+            console.warn('Enhanced hero video failed to load');
             // Show fallback if available
             const fallback = document.querySelector('.video-fallback');
             if (fallback) {
@@ -658,30 +666,30 @@ class HeroSection {
     }
     
     initButtons() {
-        // Hero booking button
-        const heroBooking = document.getElementById('heroBooking');
-        if (heroBooking) {
-            LuxuryMedSpa.utils.addMagneticEffect(heroBooking, 0.3);
-            LuxuryMedSpa.utils.addRippleEffect(heroBooking);
-            heroBooking.addEventListener('click', () => {
+        // Enhanced hero booking button
+        const heroBookingEnhanced = document.getElementById('heroBookingEnhanced');
+        if (heroBookingEnhanced) {
+            LuxuryMedSpa.utils.addMagneticEffect(heroBookingEnhanced, 0.3);
+            LuxuryMedSpa.utils.addRippleEffect(heroBookingEnhanced);
+            heroBookingEnhanced.addEventListener('click', () => {
                 if (LuxuryMedSpa.components.modal) {
                     LuxuryMedSpa.components.modal.openBookingModal();
                 }
             });
         }
         
-        // Virtual tour button
-        const virtualTour = document.getElementById('virtualTour');
-        if (virtualTour) {
-            LuxuryMedSpa.utils.addMagneticEffect(virtualTour, 0.25);
-            virtualTour.addEventListener('click', () => {
+        // Enhanced virtual tour button
+        const virtualTourEnhanced = document.getElementById('virtualTourEnhanced');
+        if (virtualTourEnhanced) {
+            LuxuryMedSpa.utils.addMagneticEffect(virtualTourEnhanced, 0.25);
+            virtualTourEnhanced.addEventListener('click', () => {
                 this.showVirtualTour();
             });
         }
 
-        // Add magnetic effects to all CTA bubbles
-        const ctaBubbles = document.querySelectorAll('.cta-bubble.magnetic-btn');
-        ctaBubbles.forEach(btn => {
+        // Add magnetic effects to all enhanced CTA bubbles
+        const enhancedCTAs = document.querySelectorAll('.cta-bubble-enhanced, .video-bubble-enhanced');
+        enhancedCTAs.forEach(btn => {
             LuxuryMedSpa.utils.addMagneticEffect(btn, 0.2);
             LuxuryMedSpa.utils.addRippleEffect(btn);
         });
@@ -703,37 +711,151 @@ class HeroSection {
             }
         });
         
-        // Hide scroll indicator on scroll
+        // Hide scroll indicator on scroll with enhanced animation
         const scrollHandler = LuxuryMedSpa.utils.throttle(() => {
             const scrollY = window.pageYOffset;
-            const opacity = Math.max(0, 1 - (scrollY / 400));
+            const opacity = Math.max(0, 1 - (scrollY / 500));
+            const translateY = scrollY * 0.3;
+            
             this.scrollIndicator.style.opacity = opacity;
+            this.scrollIndicator.style.transform = `translateX(-50%) translateY(${translateY}px)`;
             this.scrollIndicator.style.pointerEvents = opacity < 0.1 ? 'none' : 'auto';
         }, 16);
         
         window.addEventListener('scroll', scrollHandler, { passive: true });
     }
 
-    initHeroAnimations() {
-        // Professional entrance animations with proper delays
-        this.animatedElements.forEach(element => {
-            const delay = element.dataset.delay || 0;
-            element.style.animationDelay = delay + 'ms';
-        });
+    initFloatingDecorations() {
+        // Enhanced floating decorations with GSAP if available
+        if (typeof gsap !== 'undefined' && this.floatingDecorations.length > 0) {
+            this.floatingDecorations.forEach((decoration, index) => {
+                gsap.set(decoration, {
+                    rotation: Math.random() * 360,
+                    x: Math.random() * 100 - 50,
+                    y: Math.random() * 100 - 50
+                });
+                
+                gsap.to(decoration, {
+                    rotation: `+=${360 + Math.random() * 180}`,
+                    x: `+=${Math.random() * 200 - 100}`,
+                    y: `+=${Math.random() * 200 - 100}`,
+                    duration: 20 + Math.random() * 10,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut",
+                    delay: index * 2
+                });
+            });
+        }
+    }
+    
+    initGSAPAnimations() {
+        // Initialize enhanced animations if GSAP is available
+        if (typeof gsap !== 'undefined') {
+            // Register ScrollTrigger if available
+            if (typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+            }
+            
+            // Enhanced timeline for hero entrance
+            this.heroTimeline = gsap.timeline({ paused: true });
+            
+            // Enhanced glow effects
+            const glowElements = document.querySelectorAll('.credential-glow, .button-glow, .glass-glow, .stat-glow');
+            glowElements.forEach(glow => {
+                gsap.to(glow, {
+                    opacity: 1,
+                    scale: 1.1,
+                    duration: 2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            });
+        }
+        
+        // Initialize Typed.js for dynamic text if available
+        this.initDynamicText();
+    }
+    
+    initDynamicText() {
+        if (typeof Typed !== 'undefined' && this.dynamicText) {
+            // Dynamic text options
+            const textOptions = [
+                'Beauty Naturally',
+                'Confidence',
+                'Glow',
+                'Radiance',
+                'Elegance'
+            ];
+            
+            // Initialize Typed.js
+            this.typedInstance = new Typed(this.dynamicText, {
+                strings: textOptions,
+                typeSpeed: 80,
+                backSpeed: 60,
+                backDelay: 2000,
+                startDelay: 1000,
+                loop: true,
+                loopCount: 2, // Only loop twice to avoid distraction
+                showCursor: false,
+                onComplete: () => {
+                    // After typing animation completes, set final text
+                    setTimeout(() => {
+                        if (this.typedInstance) {
+                            this.typedInstance.destroy();
+                            this.dynamicText.textContent = 'Beauty Naturally';
+                        }
+                    }, 3000);
+                }
+            });
+        } else {
+            // Fallback if Typed.js is not available
+            if (this.dynamicText) {
+                this.dynamicText.textContent = 'Beauty Naturally';
+            }
+        }
     }
 
     initMagneticEffects() {
-        // Add magnetic effects to stat bubbles
-        const statBubbles = document.querySelectorAll('.stat-bubble');
-        statBubbles.forEach(bubble => {
-            LuxuryMedSpa.utils.addMagneticEffect(bubble, 0.1);
+        // Add magnetic effects to stat cards
+        const statCards = document.querySelectorAll('.stat-card-enhanced');
+        statCards.forEach(card => {
+            LuxuryMedSpa.utils.addMagneticEffect(card, 0.1);
         });
 
         // Add magnetic effects to credential badge
-        const credentialBadge = document.querySelector('.medical-credential-badge');
+        const credentialBadge = document.querySelector('.medical-credential-badge-enhanced');
         if (credentialBadge) {
             LuxuryMedSpa.utils.addMagneticEffect(credentialBadge, 0.15);
         }
+    }
+    
+    initGlowEffects() {
+        // Enhanced glow effects on hover for interactive elements
+        const interactiveElements = document.querySelectorAll('.cta-bubble-enhanced, .video-bubble-enhanced, .stat-card-enhanced');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(element, {
+                        boxShadow: '0 0 40px rgba(255, 158, 24, 0.5)',
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                }
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(element, {
+                        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                }
+            });
+        });
     }
     
     observeStats() {
@@ -748,7 +870,7 @@ class HeroSection {
             });
         }, { threshold: 0.5 });
         
-        const statsContainer = document.querySelector('.hero-stats-container');
+        const statsContainer = document.querySelector('.hero-stats-enhanced');
         if (statsContainer) {
             observer.observe(statsContainer);
         }
@@ -786,6 +908,17 @@ class HeroSection {
                 requestAnimationFrame(animate);
             } else {
                 counter.textContent = target;
+                
+                // Add completion glow effect
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(counter.parentElement, {
+                        boxShadow: '0 0 30px rgba(255, 158, 24, 0.5)',
+                        duration: 0.5,
+                        yoyo: true,
+                        repeat: 1,
+                        ease: "power2.inOut"
+                    });
+                }
             }
         };
         
@@ -797,7 +930,23 @@ class HeroSection {
         if (this.animationsTriggered) return;
         this.animationsTriggered = true;
         
-        console.log('Hero animations started');
+        // Start GSAP timeline if available
+        if (this.heroTimeline && typeof gsap !== 'undefined') {
+            this.heroTimeline.play();
+        }
+        
+        console.log('Enhanced hero animations started');
+    }
+    
+    destroy() {
+        // Cleanup method
+        if (this.typedInstance) {
+            this.typedInstance.destroy();
+        }
+        
+        if (this.heroTimeline && typeof gsap !== 'undefined') {
+            this.heroTimeline.kill();
+        }
     }
 }
 
@@ -900,7 +1049,7 @@ class ModernServicesCarousel {
             }
         });
         
-        console.log('🎠 Services carousel initialized');
+        console.log('🎠 Enhanced services carousel initialized');
     }
     
     onSlideChange() {
@@ -1126,6 +1275,7 @@ class EnhancedButtons {
         this.initModernButtons();
         this.initServiceButtons();
         this.initFilterTabs();
+        this.initEnhancedButtons();
     }
 
     initModernButtons() {
@@ -1160,6 +1310,21 @@ class EnhancedButtons {
         const filterTabs = document.querySelectorAll('.filter-tab');
         filterTabs.forEach(tab => {
             LuxuryMedSpa.utils.addRippleEffect(tab);
+        });
+    }
+
+    initEnhancedButtons() {
+        // Initialize enhanced CTA bubbles
+        const enhancedCTAs = document.querySelectorAll('.cta-bubble-enhanced');
+        enhancedCTAs.forEach(btn => {
+            LuxuryMedSpa.utils.addMagneticEffect(btn, 0.2);
+            LuxuryMedSpa.utils.addRippleEffect(btn);
+        });
+
+        // Initialize enhanced video bubbles
+        const enhancedVideos = document.querySelectorAll('.video-bubble-enhanced');
+        enhancedVideos.forEach(btn => {
+            LuxuryMedSpa.utils.addMagneticEffect(btn, 0.15);
         });
     }
 }
@@ -1267,7 +1432,7 @@ class ModalSystem {
         }
         
         // All booking trigger buttons
-        const bookingTriggers = document.querySelectorAll('[data-booking], .service-cta:not(.service-cta-luxury)');
+        const bookingTriggers = document.querySelectorAll('[data-booking], .service-cta:not(.service-cta-luxury), #heroBookingEnhanced');
         bookingTriggers.forEach(trigger => {
             trigger.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1678,7 +1843,7 @@ class AnimationObserver {
     }
     
     observeCounters() {
-        const counters = document.querySelectorAll('[data-count]:not(.stat-number)');
+        const counters = document.querySelectorAll('[data-count]:not(.stat-number-enhanced)');
         
         counters.forEach(counter => {
             this.observeElement(counter, () => {
@@ -1790,8 +1955,8 @@ class LuxuryMedSpaApp {
                 preloader: new LuxuryPreloader(),
                 header: new LuxuryHeader(),
                 mobileMenu: new MobileMenu(),
-                hero: new HeroSection(),
-                modernServicesCarousel: new ModernServicesCarousel(), // NEW COMPONENT
+                enhancedHero: new EnhancedHeroSection(), // ENHANCED HERO COMPONENT
+                modernServicesCarousel: new ModernServicesCarousel(),
                 enhancedButtons: new EnhancedButtons(),
                 resultsGallery: new ResultsGallery(),
                 modal: new ModalSystem(),
@@ -1957,13 +2122,13 @@ class LuxuryMedSpaApp {
     }
     
     preloadCriticalResources() {
-        // Preload hero video poster
-        const heroVideo = document.querySelector('.hero-video');
-        if (heroVideo && heroVideo.poster) {
+        // Preload enhanced hero video poster
+        const enhancedHeroVideo = document.querySelector('.hero-video-enhanced');
+        if (enhancedHeroVideo && enhancedHeroVideo.poster) {
             const link = document.createElement('link');
             link.rel = 'preload';
             link.as = 'image';
-            link.href = heroVideo.poster;
+            link.href = enhancedHeroVideo.poster;
             document.head.appendChild(link);
         }
     }
@@ -1986,6 +2151,11 @@ class LuxuryMedSpaApp {
                     LuxuryMedSpa.components.modernServicesCarousel.pauseAutoplay();
                 }
                 
+                // Disable enhanced animations for performance
+                if (LuxuryMedSpa.components.enhancedHero && LuxuryMedSpa.components.enhancedHero.typedInstance) {
+                    LuxuryMedSpa.components.enhancedHero.typedInstance.destroy();
+                }
+                
                 console.log('🐌 Slow connection detected, optimizing experience');
             }
         }
@@ -1996,22 +2166,24 @@ class LuxuryMedSpaApp {
 // APPLICATION INITIALIZATION
 // ========================================
 
-// Initialize the application
+// Initialize the enhanced application
 const app = new LuxuryMedSpaApp();
 
 // Export for global access
 window.LuxuryMedSpa = LuxuryMedSpa;
 
-// Debug helper in development
+// Enhanced debug helper in development
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     window.LuxuryMedSpaDebug = {
         components: () => LuxuryMedSpa.components,
         settings: () => LuxuryMedSpa.settings,
         utils: () => LuxuryMedSpa.utils,
         carousel: () => LuxuryMedSpa.components.modernServicesCarousel,
-        version: '3.0.0 - Enhanced with Modern Services Carousel'
+        enhancedHero: () => LuxuryMedSpa.components.enhancedHero,
+        version: '4.0.0 - Enhanced with Modern Hero Section'
     };
     
-    console.log('🔧 Debug mode enabled. Use window.LuxuryMedSpaDebug for debugging.');
+    console.log('🔧 Enhanced debug mode enabled. Use window.LuxuryMedSpaDebug for debugging.');
+    console.log('🌟 Enhanced hero controls available via window.LuxuryMedSpaDebug.enhancedHero()');
     console.log('🎠 Carousel controls available via window.LuxuryMedSpaDebug.carousel()');
 }
