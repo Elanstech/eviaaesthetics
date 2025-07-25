@@ -23,6 +23,14 @@
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
+    <!-- GSAP for Advanced Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+
+    <!-- Typed.js for Text Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.16/typed.min.js"></script>
+
     <!-- Elfsight Platform Script -->
     <script src="https://static.elfsight.com/platform/platform.js" async></script>
     
@@ -145,87 +153,125 @@
         </div>
     </div>
 
-    <!-- Enhanced Hero Section -->
-    <section class="luxury-hero" id="home">
-        <!-- Professional Floating Elements -->
-        <div class="hero-floating-elements">
-            <div class="floating-orb floating-orb-1"></div>
-            <div class="floating-orb floating-orb-2"></div>
-            <div class="floating-orb floating-orb-3"></div>
+    <!-- ENHANCED HERO SECTION -->
+    <section class="luxury-hero-enhanced" id="home">
+        <!-- Advanced Floating Elements with Icons -->
+        <div class="hero-floating-decorations">
+            <div class="floating-decoration floating-icon-1">
+                <i class="fas fa-sparkles"></i>
+            </div>
+            <div class="floating-decoration floating-icon-2">
+                <i class="fas fa-syringe"></i>
+            </div>
+            <div class="floating-decoration floating-icon-3">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="floating-decoration floating-icon-4">
+                <i class="fas fa-gem"></i>
+            </div>
+            <div class="floating-decoration floating-icon-5">
+                <i class="fas fa-heart"></i>
+            </div>
         </div>
         
-        <div class="hero-background">
-            <video class="hero-video" autoplay muted loop playsinline>
+        <!-- Enhanced Background with Overlay -->
+        <div class="hero-background-enhanced">
+            <video class="hero-video-enhanced" autoplay muted loop playsinline>
                 <source src="hero.mp4" type="video/mp4">
             </video>
-            <div class="hero-overlay"></div>
+            <div class="hero-overlay-enhanced"></div>
         </div>
         
-        <div class="hero-content">
+        <div class="hero-content-enhanced">
             <div class="container">
-                <!-- Main Title with enhanced animations -->
-                <div class="hero-title-wrapper">
-                    <h1 class="hero-title">
-                        <span class="title-line animate-slide-up" data-delay="0">Elevate Your</span>
-                        <span class="title-line accent animate-slide-up" data-delay="200">Beauty Naturally</span>
+                <!-- Animated Title Section -->
+                <div class="hero-title-wrapper-enhanced">
+                    <h1 class="hero-title-enhanced">
+                        <span class="title-line-static">Elevate Your</span>
+                        <span class="title-line-animated" id="dynamicText"></span>
                     </h1>
-                    <p class="hero-subtitle animate-fade-up" data-delay="600">
-                        Experience Manhattan's most sophisticated medical spa, where cutting-edge technology meets personalized luxury care.
-                    </p>
-                </div>
-                
-                <!-- Medical Badge -->
-                <div class="medical-credential-badge animate-fade-up" data-delay="900">
-                    <div class="credential-content">
-                        <i class="fas fa-award"></i>
-                        <span>Board-Certified MD • 20+ Years Experience</span>
-                        <i class="fas fa-check-circle"></i>
+                    
+                    <!-- Line-by-line Animated Subtitle -->
+                    <div class="hero-subtitle-enhanced">
+                        <p class="subtitle-line" data-line="1">Experience Manhattan's most sophisticated medical spa,</p>
+                        <p class="subtitle-line" data-line="2">where cutting-edge technology meets personalized luxury care.</p>
+                        <p class="subtitle-line" data-line="3">Transform your beauty with expert precision and artistry.</p>
                     </div>
                 </div>
                 
-                <!-- Enhanced CTA Buttons -->
-                <div class="hero-actions animate-fade-up" data-delay="1200">
-                    <button class="cta-bubble primary large magnetic-btn" id="heroBooking">
-                        <span>Book Free Consultation</span>
-                        <i class="fas fa-calendar-check"></i>
+                <!-- Enhanced Medical Badge -->
+                <div class="medical-credential-badge-enhanced">
+                    <div class="credential-glow"></div>
+                    <div class="credential-content-enhanced">
+                        <i class="fas fa-award credential-icon"></i>
+                        <span class="credential-text">Board-Certified MD • 20+ Years Experience</span>
+                        <i class="fas fa-check-circle credential-check"></i>
+                    </div>
+                </div>
+                
+                <!-- Enhanced CTA Buttons with Glow Effects -->
+                <div class="hero-actions-enhanced">
+                    <button class="cta-bubble-enhanced primary-glow magnetic-btn" id="heroBookingEnhanced">
+                        <div class="button-glow"></div>
+                        <span class="button-content">
+                            <span class="button-text">Book Free Consultation</span>
+                            <i class="fas fa-calendar-check button-icon"></i>
+                        </span>
                     </button>
                     
-                    <button class="video-bubble magnetic-btn" id="virtualTour">
-                        <div class="play-icon">
+                    <button class="video-bubble-enhanced glassmorphism magnetic-btn" id="virtualTourEnhanced">
+                        <div class="glass-glow"></div>
+                        <div class="play-icon-enhanced">
                             <i class="fas fa-play"></i>
                         </div>
-                        <span>Virtual Tour</span>
+                        <span class="video-text">Virtual Tour</span>
                     </button>
                 </div>
                 
-                <!-- Stats Bar -->
-                <div class="hero-stats-container animate-fade-up" data-delay="1500">
-                    <div class="stat-bubble">
-                        <div class="stat-number" data-count="1000">0</div>
-                        <div class="stat-label">Happy Patients</div>
+                <!-- Enhanced Floating Glass Stats Cards -->
+                <div class="hero-stats-enhanced">
+                    <div class="stat-card-enhanced glass-bubble" data-stat="1">
+                        <div class="stat-glow"></div>
+                        <div class="stat-content">
+                            <div class="stat-number-enhanced" data-count="1000">0</div>
+                            <div class="stat-label-enhanced">Happy Patients</div>
+                        </div>
                     </div>
-                    <div class="stat-bubble">
-                        <div class="stat-number" data-count="20">0</div>
-                        <div class="stat-label">Years Experience</div>
+                    <div class="stat-card-enhanced glass-bubble" data-stat="2">
+                        <div class="stat-glow"></div>
+                        <div class="stat-content">
+                            <div class="stat-number-enhanced" data-count="20">0</div>
+                            <div class="stat-label-enhanced">Years Experience</div>
+                        </div>
                     </div>
-                    <div class="stat-bubble">
-                        <div class="stat-number" data-count="99">0</div>
-                        <div class="stat-label">Success Rate</div>
+                    <div class="stat-card-enhanced glass-bubble" data-stat="3">
+                        <div class="stat-glow"></div>
+                        <div class="stat-content">
+                            <div class="stat-number-enhanced" data-count="99">0</div>
+                            <div class="stat-label-enhanced">Success Rate</div>
+                        </div>
                     </div>
-                    <div class="stat-bubble">
-                        <div class="stat-number" data-count="6">0</div>
-                        <div class="stat-label">Treatment Types</div>
+                    <div class="stat-card-enhanced glass-bubble" data-stat="4">
+                        <div class="stat-glow"></div>
+                        <div class="stat-content">
+                            <div class="stat-number-enhanced" data-count="6">0</div>
+                            <div class="stat-label-enhanced">Treatment Types</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator animate-fade-up" id="scrollIndicator" data-delay="1800">
-            <div class="scroll-mouse">
-                <div class="scroll-wheel"></div>
+        <!-- Enhanced Interactive Scroll Indicator -->
+        <div class="scroll-indicator-enhanced" id="scrollIndicatorEnhanced">
+            <div class="scroll-pulse"></div>
+            <div class="scroll-mouse-enhanced">
+                <div class="scroll-wheel-enhanced"></div>
             </div>
-            <span class="scroll-text">Discover More</span>
+            <span class="scroll-text-enhanced">Discover More</span>
+            <div class="scroll-arrow-enhanced">
+                <i class="fas fa-chevron-down"></i>
+            </div>
         </div>
     </section>
 
