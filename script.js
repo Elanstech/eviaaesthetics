@@ -732,7 +732,8 @@ class EnhancedHeroSection {
                 gsap.set(decoration, {
                     rotation: Math.random() * 360,
                     x: Math.random() * 100 - 50,
-                    y: Math.random() * 100 - 50
+                    y: Math.random() * 100 - 50,
+                    opacity: 0.04 + Math.random() * 0.03
                 });
                 
                 gsap.to(decoration, {
@@ -1614,32 +1615,42 @@ class ModalSystem {
 }
 
 // ========================================
-// FLOATING BOOKING BUTTON
+// FLOATING ELEMENTS SECTION
 // ========================================
 
-class FloatingBooking {
+class FloatingElements {
     constructor() {
-        this.button = document.getElementById('floatingBook');
+        this.bookButton = document.getElementById('floatingBook');
+        this.callButton = document.getElementById('floatingCall');
+        this.socialIcons = document.getElementById('floatingSocials');
         this.isVisible = false;
         
         this.init();
     }
     
     init() {
-        if (!this.button) return;
-        
         this.bindEvents();
         this.checkVisibility();
         this.initEnhancements();
+        this.initDelayedElements();
     }
     
     bindEvents() {
-        // Click event
-        this.button.addEventListener('click', () => {
-            if (LuxuryMedSpa.components.modal) {
-                LuxuryMedSpa.components.modal.openBookingModal();
-            }
-        });
+        // Book button click event
+        if (this.bookButton) {
+            this.bookButton.addEventListener('click', () => {
+                if (LuxuryMedSpa.components.modal) {
+                    LuxuryMedSpa.components.modal.openBookingModal();
+                }
+            });
+        }
+        
+        // Call button click event
+        if (this.callButton) {
+            this.callButton.addEventListener('click', () => {
+                window.location.href = 'tel:+15551234567';
+            });
+        }
         
         // Show/hide based on scroll
         const scrollHandler = LuxuryMedSpa.utils.throttle(() => {
@@ -1650,11 +1661,42 @@ class FloatingBooking {
     }
 
     initEnhancements() {
-        const floatCTA = this.button.querySelector('.float-cta');
-        if (floatCTA) {
-            LuxuryMedSpa.utils.addMagneticEffect(floatCTA, 0.3);
-            LuxuryMedSpa.utils.addRippleEffect(floatCTA);
+        // Add magnetic effects to floating buttons
+        if (this.bookButton) {
+            const floatCTA = this.bookButton.querySelector('.float-cta');
+            if (floatCTA) {
+                LuxuryMedSpa.utils.addMagneticEffect(floatCTA, 0.3);
+                LuxuryMedSpa.utils.addRippleEffect(floatCTA);
+            }
         }
+        
+        if (this.callButton) {
+            const callCTA = this.callButton.querySelector('.call-cta');
+            if (callCTA) {
+                LuxuryMedSpa.utils.addMagneticEffect(callCTA, 0.3);
+                LuxuryMedSpa.utils.addRippleEffect(callCTA);
+            }
+        }
+        
+        // Add magnetic effects to social icons
+        if (this.socialIcons) {
+            const socialFloatIcons = this.socialIcons.querySelectorAll('.social-float-icon');
+            socialFloatIcons.forEach(icon => {
+                LuxuryMedSpa.utils.addMagneticEffect(icon, 0.2);
+            });
+        }
+    }
+    
+    initDelayedElements() {
+        // Show call button and social icons after delay
+        setTimeout(() => {
+            if (this.callButton) {
+                this.callButton.classList.add('visible');
+            }
+            if (this.socialIcons) {
+                this.socialIcons.classList.add('visible');
+            }
+        }, 2500);
     }
     
     checkVisibility() {
@@ -1670,12 +1712,16 @@ class FloatingBooking {
     
     show() {
         this.isVisible = true;
-        this.button.classList.add('visible');
+        if (this.bookButton) {
+            this.bookButton.classList.add('visible');
+        }
     }
     
     hide() {
         this.isVisible = false;
-        this.button.classList.remove('visible');
+        if (this.bookButton) {
+            this.bookButton.classList.remove('visible');
+        }
     }
 }
 
@@ -1960,7 +2006,7 @@ class LuxuryMedSpaApp {
                 enhancedButtons: new EnhancedButtons(),
                 resultsGallery: new ResultsGallery(),
                 modal: new ModalSystem(),
-                floatingBooking: new FloatingBooking(),
+                floatingElements: new FloatingElements(), // ENHANCED FLOATING ELEMENTS
                 contactForm: new ContactForm(),
                 animationObserver: new AnimationObserver()
             };
@@ -2180,10 +2226,12 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         utils: () => LuxuryMedSpa.utils,
         carousel: () => LuxuryMedSpa.components.modernServicesCarousel,
         enhancedHero: () => LuxuryMedSpa.components.enhancedHero,
-        version: '4.0.0 - Enhanced with Modern Hero Section'
+        floatingElements: () => LuxuryMedSpa.components.floatingElements,
+        version: '4.1.0 - Enhanced with Floating Elements & Trust Strip'
     };
     
     console.log('🔧 Enhanced debug mode enabled. Use window.LuxuryMedSpaDebug for debugging.');
     console.log('🌟 Enhanced hero controls available via window.LuxuryMedSpaDebug.enhancedHero()');
     console.log('🎠 Carousel controls available via window.LuxuryMedSpaDebug.carousel()');
+    console.log('📞 Floating elements controls available via window.LuxuryMedSpaDebug.floatingElements()');
 }
