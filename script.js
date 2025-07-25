@@ -1,5 +1,5 @@
 // ========================================
-// LUXURY MANHATTAN MED SPA - COMPLETE JAVASCRIPT WITH REDESIGNED HERO
+// LUXURY MANHATTAN MED SPA - FIXED HERO SECTION JAVASCRIPT
 // ========================================
 
 'use strict';
@@ -314,12 +314,12 @@ class LuxuryPreloader {
         LuxuryMedSpa.isLoaded = true;
         window.dispatchEvent(new CustomEvent('spaLoaded'));
         
-        // Start masterpiece hero animations
-        if (LuxuryMedSpa.components.masterpieceHero) {
-            LuxuryMedSpa.components.masterpieceHero.startAnimations();
+        // Start fixed hero animations
+        if (LuxuryMedSpa.components.fixedHero) {
+            LuxuryMedSpa.components.fixedHero.startAnimations();
         }
         
-        console.log('🌟 Masterpiece Luxury Med Spa Loaded Successfully');
+        console.log('🌟 Fixed Luxury Med Spa Loaded Successfully');
     }
 }
 
@@ -586,10 +586,10 @@ class MobileMenu {
 }
 
 // ========================================
-// REDESIGNED MASTERPIECE HERO SECTION
+// FIXED MASTERPIECE HERO SECTION
 // ========================================
 
-class MasterpieceHeroSection {
+class FixedMasterpieceHeroSection {
     constructor() {
         this.hero = document.querySelector('.luxury-hero-masterpiece');
         this.video = document.querySelector('.hero-video-bg');
@@ -601,7 +601,7 @@ class MasterpieceHeroSection {
         this.liveStatNumbers = document.querySelectorAll('.stat-number-live');
         this.serviceCards = document.querySelectorAll('.service-card-premium');
         this.resultSliders = document.querySelectorAll('.result-slider');
-        this.quickBookingForm = document.querySelector('.booking-form-premium');
+        this.quickBookingWidget = document.getElementById('quickBookingWidget');
         
         this.statsAnimated = false;
         this.animationsTriggered = false;
@@ -624,6 +624,7 @@ class MasterpieceHeroSection {
         this.initMagneticEffects();
         this.initDynamicText();
         this.initLiveStats();
+        this.initResponsiveBookingWidget();
     }
     
     initVideo() {
@@ -632,11 +633,11 @@ class MasterpieceHeroSection {
         // Video event listeners
         this.video.addEventListener('loadeddata', () => {
             this.video.classList.add('loaded');
-            console.log('Masterpiece hero video loaded');
+            console.log('Fixed hero video loaded');
         });
         
         this.video.addEventListener('error', () => {
-            console.warn('Masterpiece hero video failed to load');
+            console.warn('Fixed hero video failed to load');
         });
         
         // Ensure video plays
@@ -834,14 +835,17 @@ class MasterpieceHeroSection {
     }
 
     initQuickBooking() {
-        if (!this.quickBookingForm) return;
+        if (!this.quickBookingWidget) return;
 
-        const steps = this.quickBookingForm.querySelectorAll('.form-step');
+        const form = this.quickBookingWidget.querySelector('.booking-form-premium');
+        if (!form) return;
+
+        const steps = form.querySelectorAll('.form-step');
         const submitBtn = document.getElementById('quickBookingSubmit');
         let currentStep = 0;
 
         // Step progression
-        const inputs = this.quickBookingForm.querySelectorAll('select, input');
+        const inputs = form.querySelectorAll('select, input');
         inputs.forEach((input, index) => {
             input.addEventListener('change', () => {
                 if (input.value && index < steps.length - 1) {
@@ -863,14 +867,15 @@ class MasterpieceHeroSection {
     }
 
     activateStep(stepIndex) {
-        const steps = this.quickBookingForm.querySelectorAll('.form-step');
+        const steps = this.quickBookingWidget.querySelectorAll('.form-step');
         steps.forEach((step, index) => {
             step.classList.toggle('active', index <= stepIndex);
         });
     }
 
     handleQuickBooking() {
-        const formData = new FormData(this.quickBookingForm);
+        const form = this.quickBookingWidget.querySelector('.booking-form-premium');
+        const formData = new FormData(form);
         const data = Object.fromEntries(formData);
         
         // Simple validation
@@ -899,7 +904,7 @@ class MasterpieceHeroSection {
             setTimeout(() => {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalHTML;
-                this.quickBookingForm.reset();
+                form.reset();
                 this.activateStep(0);
             }, 3000);
         }, 2000);
@@ -929,6 +934,39 @@ class MasterpieceHeroSection {
             setTimeout(() => notification.remove(), 300);
         }, 4000);
     }
+
+    initResponsiveBookingWidget() {
+        if (!this.quickBookingWidget) return;
+
+        const handleResize = () => {
+            if (window.innerWidth <= 1200) {
+                // Move widget into hero content on smaller screens
+                const heroStats = document.querySelector('.hero-stats-section');
+                if (heroStats && this.quickBookingWidget.parentElement !== heroStats) {
+                    heroStats.appendChild(this.quickBookingWidget);
+                    this.quickBookingWidget.style.position = 'relative';
+                    this.quickBookingWidget.style.bottom = 'auto';
+                    this.quickBookingWidget.style.right = 'auto';
+                    this.quickBookingWidget.style.width = '100%';
+                    this.quickBookingWidget.style.maxWidth = '400px';
+                    this.quickBookingWidget.style.margin = '2rem auto 0';
+                }
+            } else {
+                // Move widget back to fixed position on larger screens
+                if (this.quickBookingWidget.parentElement !== document.body) {
+                    document.body.appendChild(this.quickBookingWidget);
+                    this.quickBookingWidget.style.position = 'fixed';
+                    this.quickBookingWidget.style.bottom = '2rem';
+                    this.quickBookingWidget.style.right = '2rem';
+                    this.quickBookingWidget.style.width = '320px';
+                    this.quickBookingWidget.style.margin = '0';
+                }
+            }
+        };
+
+        window.addEventListener('resize', LuxuryMedSpa.utils.debounce(handleResize, 250));
+        handleResize(); // Initial call
+    }
     
     observeStats() {
         if (!this.statNumbers.length && !this.liveStatNumbers.length) return;
@@ -942,7 +980,7 @@ class MasterpieceHeroSection {
             });
         }, { threshold: 0.5 });
         
-        const statsContainer = document.querySelector('.hero-live-stats') || document.querySelector('.doctor-stats-premium');
+        const statsContainer = document.querySelector('.hero-stats-section') || document.querySelector('.doctor-stats-premium');
         if (statsContainer) {
             observer.observe(statsContainer);
         }
@@ -1081,7 +1119,7 @@ class MasterpieceHeroSection {
         if (this.animationsTriggered) return;
         this.animationsTriggered = true;
         
-        console.log('Masterpiece hero animations started');
+        console.log('Fixed hero animations started');
     }
     
     destroy() {
@@ -1574,7 +1612,7 @@ class ModalSystem {
         }
         
         // All booking trigger buttons
-        const bookingTriggers = document.querySelectorAll('[data-booking], .service-cta:not(.service-cta-luxury), #heroBookingEnhanced');
+        const bookingTriggers = document.querySelectorAll('[data-booking], .service-cta:not(.service-cta-luxury)');
         bookingTriggers.forEach(trigger => {
             trigger.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -2131,7 +2169,7 @@ class LuxuryMedSpaApp {
     initializeApp() {
         if (this.isInitialized) return;
         
-        console.log('🌟 Initializing Masterpiece Luxury Med Spa Application...');
+        console.log('🌟 Initializing Fixed Luxury Med Spa Application...');
         
         try {
             // Add required CSS for animations
@@ -2142,7 +2180,7 @@ class LuxuryMedSpaApp {
                 preloader: new LuxuryPreloader(),
                 header: new LuxuryHeader(),
                 mobileMenu: new MobileMenu(),
-                masterpieceHero: new MasterpieceHeroSection(), // MASTERPIECE HERO COMPONENT
+                fixedHero: new FixedMasterpieceHeroSection(), // FIXED HERO COMPONENT
                 modernServicesCarousel: new ModernServicesCarousel(),
                 enhancedButtons: new EnhancedButtons(),
                 resultsGallery: new ResultsGallery(),
@@ -2160,7 +2198,7 @@ class LuxuryMedSpaApp {
             
             this.isInitialized = true;
             
-            console.log('✅ Masterpiece Luxury Med Spa Application Initialized Successfully');
+            console.log('✅ Fixed Luxury Med Spa Application Initialized Successfully');
             
         } catch (error) {
             console.error('❌ Error initializing application:', error);
@@ -2309,13 +2347,13 @@ class LuxuryMedSpaApp {
     }
     
     preloadCriticalResources() {
-        // Preload masterpiece hero video poster
-        const masterpieceHeroVideo = document.querySelector('.hero-video-bg');
-        if (masterpieceHeroVideo && masterpieceHeroVideo.poster) {
+        // Preload fixed hero video poster
+        const fixedHeroVideo = document.querySelector('.hero-video-bg');
+        if (fixedHeroVideo && fixedHeroVideo.poster) {
             const link = document.createElement('link');
             link.rel = 'preload';
             link.as = 'image';
-            link.href = masterpieceHeroVideo.poster;
+            link.href = fixedHeroVideo.poster;
             document.head.appendChild(link);
         }
     }
@@ -2339,8 +2377,8 @@ class LuxuryMedSpaApp {
                 }
                 
                 // Disable typed animations for performance
-                if (LuxuryMedSpa.components.masterpieceHero && LuxuryMedSpa.components.masterpieceHero.typedInstance) {
-                    LuxuryMedSpa.components.masterpieceHero.typedInstance.destroy();
+                if (LuxuryMedSpa.components.fixedHero && LuxuryMedSpa.components.fixedHero.typedInstance) {
+                    LuxuryMedSpa.components.fixedHero.typedInstance.destroy();
                 }
                 
                 console.log('🐌 Slow connection detected, optimizing experience');
@@ -2353,7 +2391,7 @@ class LuxuryMedSpaApp {
 // APPLICATION INITIALIZATION
 // ========================================
 
-// Initialize the masterpiece application
+// Initialize the fixed application
 const app = new LuxuryMedSpaApp();
 
 // Export for global access
@@ -2366,13 +2404,13 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         settings: () => LuxuryMedSpa.settings,
         utils: () => LuxuryMedSpa.utils,
         carousel: () => LuxuryMedSpa.components.modernServicesCarousel,
-        masterpieceHero: () => LuxuryMedSpa.components.masterpieceHero,
+        fixedHero: () => LuxuryMedSpa.components.fixedHero,
         floatingElements: () => LuxuryMedSpa.components.floatingElements,
-        version: '5.0.0 - Masterpiece Hero Section'
+        version: '6.0.0 - Fixed Hero Section'
     };
     
     console.log('🔧 Enhanced debug mode enabled. Use window.LuxuryMedSpaDebug for debugging.');
-    console.log('🎨 Masterpiece hero controls available via window.LuxuryMedSpaDebug.masterpieceHero()');
+    console.log('🎨 Fixed hero controls available via window.LuxuryMedSpaDebug.fixedHero()');
     console.log('🎠 Carousel controls available via window.LuxuryMedSpaDebug.carousel()');
     console.log('📞 Floating elements controls available via window.LuxuryMedSpaDebug.floatingElements()');
 }
