@@ -153,39 +153,44 @@
         </div>
     </div>
 
-    <!-- REDESIGNED MASTERPIECE HERO SECTION -->
+    <!-- FIXED MASTERPIECE HERO SECTION -->
     <section class="luxury-hero-masterpiece" id="home">
-        <!-- Cinematic Video Background -->
-        <div class="hero-video-cinematic">
-            <video class="hero-video-bg" autoplay muted loop playsinline>
-                <source src="hero.mp4" type="video/mp4">
-            </video>
-            <div class="hero-video-gradient"></div>
+        <!-- Background Layer (z-index: 1) -->
+        <div class="hero-background-layer">
+            <!-- Cinematic Video Background -->
+            <div class="hero-video-cinematic">
+                <video class="hero-video-bg" autoplay muted loop playsinline>
+                    <source src="hero.mp4" type="video/mp4">
+                </video>
+                <div class="hero-video-gradient"></div>
+            </div>
         </div>
         
-        <!-- Floating Aesthetic Elements -->
-        <div class="floating-aesthetic-orbs">
-            <div class="aesthetic-orb orb-1">
-                <div class="orb-inner"></div>
+        <!-- Decorative Layer (z-index: 2) -->
+        <div class="hero-decorative-layer">
+            <div class="floating-aesthetic-orbs">
+                <div class="aesthetic-orb orb-1">
+                    <div class="orb-inner"></div>
+                </div>
+                <div class="aesthetic-orb orb-2">
+                    <div class="orb-inner"></div>
+                </div>
+                <div class="aesthetic-orb orb-3">
+                    <div class="orb-inner"></div>
+                </div>
+                <div class="floating-icon icon-1"><i class="fas fa-sparkles"></i></div>
+                <div class="floating-icon icon-2"><i class="fas fa-gem"></i></div>
+                <div class="floating-icon icon-3"><i class="fas fa-heart"></i></div>
             </div>
-            <div class="aesthetic-orb orb-2">
-                <div class="orb-inner"></div>
-            </div>
-            <div class="aesthetic-orb orb-3">
-                <div class="orb-inner"></div>
-            </div>
-            <div class="floating-icon icon-1"><i class="fas fa-sparkles"></i></div>
-            <div class="floating-icon icon-2"><i class="fas fa-gem"></i></div>
-            <div class="floating-icon icon-3"><i class="fas fa-heart"></i></div>
         </div>
         
-        <div class="hero-content-masterpiece">
+        <!-- Content Layer (z-index: 10) -->
+        <div class="hero-content-layer">
             <div class="container">
-                <!-- Advanced Grid Layout -->
-                <div class="hero-masterpiece-grid">
+                <div class="hero-content-grid">
                     
-                    <!-- Main Content Zone -->
-                    <div class="hero-primary-content">
+                    <!-- Main Content Section -->
+                    <div class="hero-main-content">
                         <!-- Location Badge -->
                         <div class="location-prestige-badge">
                             <div class="badge-glow"></div>
@@ -254,269 +259,280 @@
                         </div>
                     </div>
                     
-                    <!-- Interactive Service Showcase -->
-                    <div class="hero-service-showcase">
-                        <div class="showcase-header">
-                            <h3>Popular Treatments</h3>
-                            <div class="showcase-nav">
-                                <button class="nav-btn prev-btn" id="servicePrev">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <button class="nav-btn next-btn" id="serviceNext">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
+                    <!-- Sidebar Content -->
+                    <div class="hero-sidebar-content">
+                        
+                        <!-- Service Showcase -->
+                        <div class="hero-service-showcase">
+                            <div class="showcase-header">
+                                <h3>Popular Treatments</h3>
+                                <div class="showcase-nav">
+                                    <button class="nav-btn prev-btn" id="servicePrev">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button class="nav-btn next-btn" id="serviceNext">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="service-cards-container">
+                                <div class="service-card-premium active" data-service="botox">
+                                    <div class="service-card-glow"></div>
+                                    <div class="service-icon-premium">
+                                        <i class="fas fa-syringe"></i>
+                                    </div>
+                                    <div class="service-info">
+                                        <h4>Botox & Fillers</h4>
+                                        <p class="service-price">Starting $12/unit</p>
+                                        <div class="popularity-indicator">
+                                            <div class="popularity-bar">
+                                                <div class="popularity-fill" style="--width: 95%"></div>
+                                            </div>
+                                            <span class="popularity-text">Most Popular</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="service-card-premium" data-service="skin">
+                                    <div class="service-card-glow"></div>
+                                    <div class="service-icon-premium">
+                                        <i class="fas fa-magic"></i>
+                                    </div>
+                                    <div class="service-info">
+                                        <h4>Skin Rejuvenation</h4>
+                                        <p class="service-price">From $300</p>
+                                        <div class="popularity-indicator">
+                                            <div class="popularity-bar">
+                                                <div class="popularity-fill" style="--width: 88%"></div>
+                                            </div>
+                                            <span class="popularity-text">Trending</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="service-card-premium" data-service="weight">
+                                    <div class="service-card-glow"></div>
+                                    <div class="service-icon-premium">
+                                        <i class="fas fa-weight"></i>
+                                    </div>
+                                    <div class="service-info">
+                                        <h4>Weight Management</h4>
+                                        <p class="service-price">Consultation</p>
+                                        <div class="popularity-indicator">
+                                            <div class="popularity-bar">
+                                                <div class="popularity-fill" style="--width: 76%"></div>
+                                            </div>
+                                            <span class="popularity-text">New</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="service-cards-container">
-                            <div class="service-card-premium active" data-service="botox">
-                                <div class="service-card-glow"></div>
-                                <div class="service-icon-premium">
-                                    <i class="fas fa-syringe"></i>
-                                </div>
-                                <div class="service-info">
-                                    <h4>Botox & Fillers</h4>
-                                    <p class="service-price">Starting $12/unit</p>
-                                    <div class="popularity-indicator">
-                                        <div class="popularity-bar">
-                                            <div class="popularity-fill" style="--width: 95%"></div>
-                                        </div>
-                                        <span class="popularity-text">Most Popular</span>
+                        <!-- Doctor Spotlight -->
+                        <div class="hero-doctor-spotlight">
+                            <div class="doctor-card-luxury">
+                                <div class="doctor-image-container">
+                                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop&crop=face" alt="Dr. Evia Alikaj Nano" class="doctor-image-premium">
+                                    <div class="status-online">
+                                        <div class="status-dot-animated"></div>
+                                        <span>Available Today</span>
+                                    </div>
+                                    <div class="doctor-badge-floating">
+                                        <i class="fas fa-certificate"></i>
+                                        <span>Board Certified</span>
                                     </div>
                                 </div>
+                                <div class="doctor-info-luxury">
+                                    <h4>Dr. Evia Alikaj Nano</h4>
+                                    <p>MD • Aesthetic Medicine Specialist</p>
+                                    <div class="doctor-stats-premium">
+                                        <div class="stat-item">
+                                            <span class="stat-number" data-count="20">0</span>
+                                            <span class="stat-label">Years</span>
+                                        </div>
+                                        <div class="stat-divider"></div>
+                                        <div class="stat-item">
+                                            <span class="stat-number" data-count="1000">0</span>
+                                            <span class="stat-label">Patients</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Preview -->
+                        <div class="hero-results-preview">
+                            <div class="results-header">
+                                <h3>Real Results</h3>
+                                <button class="view-gallery-btn">View Gallery</button>
                             </div>
                             
-                            <div class="service-card-premium" data-service="skin">
-                                <div class="service-card-glow"></div>
-                                <div class="service-icon-premium">
-                                    <i class="fas fa-magic"></i>
-                                </div>
-                                <div class="service-info">
-                                    <h4>Skin Rejuvenation</h4>
-                                    <p class="service-price">From $300</p>
-                                    <div class="popularity-indicator">
-                                        <div class="popularity-bar">
-                                            <div class="popularity-fill" style="--width: 88%"></div>
+                            <div class="results-showcase">
+                                <div class="result-card-interactive" data-treatment="botox">
+                                    <div class="result-image-wrapper">
+                                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop" alt="Before" class="result-image before-image">
+                                        <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop" alt="After" class="result-image after-image">
+                                        <div class="result-slider">
+                                            <div class="slider-handle">
+                                                <i class="fas fa-arrows-alt-h"></i>
+                                            </div>
                                         </div>
-                                        <span class="popularity-text">Trending</span>
+                                    </div>
+                                    <div class="result-details">
+                                        <span class="treatment-name">Botox Treatment</span>
+                                        <span class="treatment-time">2 weeks result</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="result-card-interactive" data-treatment="filler">
+                                    <div class="result-image-wrapper">
+                                        <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=300&fit=crop" alt="Before" class="result-image before-image">
+                                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=300&fit=crop" alt="After" class="result-image after-image">
+                                        <div class="result-slider">
+                                            <div class="slider-handle">
+                                                <i class="fas fa-arrows-alt-h"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="result-details">
+                                        <span class="treatment-name">Lip Enhancement</span>
+                                        <span class="treatment-time">Immediate result</span>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="service-card-premium" data-service="weight">
-                                <div class="service-card-glow"></div>
-                                <div class="service-icon-premium">
-                                    <i class="fas fa-weight"></i>
-                                </div>
-                                <div class="service-info">
-                                    <h4>Weight Management</h4>
-                                    <p class="service-price">Consultation</p>
-                                    <div class="popularity-indicator">
-                                        <div class="popularity-bar">
-                                            <div class="popularity-fill" style="--width: 76%"></div>
-                                        </div>
-                                        <span class="popularity-text">New</span>
-                                    </div>
-                                </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+                <!-- Live Stats Section -->
+                <div class="hero-stats-section">
+                    <div class="stats-container-premium">
+                        <div class="live-stat-card" data-target="98">
+                            <div class="stat-icon-container">
+                                <i class="fas fa-heart"></i>
+                                <div class="icon-pulse"></div>
                             </div>
+                            <div class="stat-data">
+                                <span class="stat-number-live">0</span>
+                                <span class="stat-unit">%</span>
+                                <span class="stat-label-live">Satisfaction</span>
+                            </div>
+                            <div class="stat-growth">+5% this month</div>
+                        </div>
+                        
+                        <div class="live-stat-card" data-target="247">
+                            <div class="stat-icon-container">
+                                <i class="fas fa-users"></i>
+                                <div class="icon-pulse"></div>
+                            </div>
+                            <div class="stat-data">
+                                <span class="stat-number-live">0</span>
+                                <span class="stat-unit">+</span>
+                                <span class="stat-label-live">This Year</span>
+                            </div>
+                            <div class="stat-growth">New patients</div>
                         </div>
                     </div>
                     
-                    <!-- Doctor Spotlight -->
-                    <div class="hero-doctor-spotlight">
-                        <div class="doctor-card-luxury">
-                            <div class="doctor-image-container">
-                                <img src="eviaherself.jpg" alt="Dr. Evia Alikaj Nano" class="doctor-image-premium">
-                                <div class="status-online">
-                                    <div class="status-dot-animated"></div>
-                                    <span>Available Today</span>
-                                </div>
-                                <div class="doctor-badge-floating">
-                                    <i class="fas fa-certificate"></i>
-                                    <span>Board Certified</span>
-                                </div>
+                    <!-- Review Ticker -->
+                    <div class="review-ticker-premium">
+                        <div class="ticker-track">
+                            <div class="review-snippet">
+                                <div class="review-stars">★★★★★</div>
+                                <p>"Dr. Nano transformed my confidence completely!"</p>
+                                <span>- Sarah M.</span>
                             </div>
-                            <div class="doctor-info-luxury">
-                                <h4>Dr. Evia Alikaj Nano</h4>
-                                <p>MD • Aesthetic Medicine Specialist</p>
-                                <div class="doctor-stats-premium">
-                                    <div class="stat-item">
-                                        <span class="stat-number" data-count="20">0</span>
-                                        <span class="stat-label">Years</span>
-                                    </div>
-                                    <div class="stat-divider"></div>
-                                    <div class="stat-item">
-                                        <span class="stat-number" data-count="1000">0</span>
-                                        <span class="stat-label">Patients</span>
-                                    </div>
-                                </div>
+                            <div class="review-snippet">
+                                <div class="review-stars">★★★★★</div>
+                                <p>"The most professional spa in Manhattan."</p>
+                                <span>- Jennifer K.</span>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Before/After Preview -->
-                    <div class="hero-results-preview">
-                        <div class="results-header">
-                            <h3>Real Results</h3>
-                            <button class="view-gallery-btn">View Gallery</button>
-                        </div>
-                        
-                        <div class="results-showcase">
-                            <div class="result-card-interactive" data-treatment="botox">
-                                <div class="result-image-wrapper">
-                                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop" alt="Before" class="result-image before-image">
-                                    <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop" alt="After" class="result-image after-image">
-                                    <div class="result-slider">
-                                        <div class="slider-handle">
-                                            <i class="fas fa-arrows-alt-h"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="result-details">
-                                    <span class="treatment-name">Botox Treatment</span>
-                                    <span class="treatment-time">2 weeks result</span>
-                                </div>
-                            </div>
-                            
-                            <div class="result-card-interactive" data-treatment="filler">
-                                <div class="result-image-wrapper">
-                                    <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=300&fit=crop" alt="Before" class="result-image before-image">
-                                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=300&fit=crop" alt="After" class="result-image after-image">
-                                    <div class="result-slider">
-                                        <div class="slider-handle">
-                                            <i class="fas fa-arrows-alt-h"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="result-details">
-                                    <span class="treatment-name">Lip Enhancement</span>
-                                    <span class="treatment-time">Immediate result</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Live Stats & Social Proof -->
-                    <div class="hero-live-stats">
-                        <div class="stats-container-premium">
-                            <div class="live-stat-card" data-target="98">
-                                <div class="stat-icon-container">
-                                    <i class="fas fa-heart"></i>
-                                    <div class="icon-pulse"></div>
-                                </div>
-                                <div class="stat-data">
-                                    <span class="stat-number-live">0</span>
-                                    <span class="stat-unit">%</span>
-                                    <span class="stat-label-live">Satisfaction</span>
-                                </div>
-                                <div class="stat-growth">+5% this month</div>
-                            </div>
-                            
-                            <div class="live-stat-card" data-target="247">
-                                <div class="stat-icon-container">
-                                    <i class="fas fa-users"></i>
-                                    <div class="icon-pulse"></div>
-                                </div>
-                                <div class="stat-data">
-                                    <span class="stat-number-live">0</span>
-                                    <span class="stat-unit">+</span>
-                                    <span class="stat-label-live">This Year</span>
-                                </div>
-                                <div class="stat-growth">New patients</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Review Ticker -->
-                        <div class="review-ticker-premium">
-                            <div class="ticker-track">
-                                <div class="review-snippet">
-                                    <div class="review-stars">★★★★★</div>
-                                    <p>"Dr. Nano transformed my confidence completely!"</p>
-                                    <span>- Sarah M.</span>
-                                </div>
-                                <div class="review-snippet">
-                                    <div class="review-stars">★★★★★</div>
-                                    <p>"The most professional spa in Manhattan."</p>
-                                    <span>- Jennifer K.</span>
-                                </div>
-                                <div class="review-snippet">
-                                    <div class="review-stars">★★★★★</div>
-                                    <p>"Results exceeded all my expectations!"</p>
-                                    <span>- Maria L.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Quick Booking Widget -->
-                    <div class="hero-booking-widget-premium">
-                        <div class="booking-widget-header">
-                            <h3>Quick Booking</h3>
-                            <div class="availability-indicator">
-                                <div class="availability-dot-pulse"></div>
-                                <span>Available Today</span>
-                            </div>
-                        </div>
-                        
-                        <div class="booking-form-premium">
-                            <div class="form-step active" data-step="1">
-                                <label class="form-label-premium">Select Service</label>
-                                <div class="select-container-premium">
-                                    <select class="select-premium" id="quickServiceSelect">
-                                        <option value="">Choose treatment...</option>
-                                        <option value="consultation">Free Consultation ($500 value)</option>
-                                        <option value="botox">Botox & Fillers</option>
-                                        <option value="skin">Skin Treatments</option>
-                                        <option value="weight">Weight Management</option>
-                                    </select>
-                                    <i class="fas fa-chevron-down select-arrow"></i>
-                                </div>
-                            </div>
-                            
-                            <div class="form-step" data-step="2">
-                                <label class="form-label-premium">Preferred Date</label>
-                                <input type="date" class="input-premium" id="quickDateSelect">
-                            </div>
-                            
-                            <div class="form-step" data-step="3">
-                                <label class="form-label-premium">Phone Number</label>
-                                <input type="tel" class="input-premium" placeholder="(555) 123-4567" id="quickPhoneInput">
-                            </div>
-                            
-                            <button class="booking-submit-premium" id="quickBookingSubmit">
-                                <div class="submit-glow"></div>
-                                <span>Confirm Booking</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="booking-benefits-premium">
-                            <div class="benefit-item-premium">
-                                <i class="fas fa-gift"></i>
-                                <span>Free $500 consultation</span>
-                            </div>
-                            <div class="benefit-item-premium">
-                                <i class="fas fa-clock"></i>
-                                <span>Same-day appointments</span>
+                            <div class="review-snippet">
+                                <div class="review-stars">★★★★★</div>
+                                <p>"Results exceeded all my expectations!"</p>
+                                <span>- Maria L.</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Enhanced Scroll Indicator -->
-                <div class="scroll-indicator-masterpiece">
-                    <div class="scroll-text-premium">Discover More</div>
-                    <div class="scroll-animation-premium">
-                        <div class="scroll-line-animated"></div>
-                        <div class="scroll-dot-bounce"></div>
-                    </div>
-                    <div class="scroll-chevron-animated">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
+            </div>
+        </div>
+        
+        <!-- UI Layer (z-index: 15) -->
+        <div class="hero-ui-layer">
+            <!-- Enhanced Scroll Indicator -->
+            <div class="scroll-indicator-masterpiece">
+                <div class="scroll-text-premium">Discover More</div>
+                <div class="scroll-animation-premium">
+                    <div class="scroll-line-animated"></div>
+                    <div class="scroll-dot-bounce"></div>
+                </div>
+                <div class="scroll-chevron-animated">
+                    <i class="fas fa-chevron-down"></i>
                 </div>
             </div>
         </div>
+        
     </section>
+
+    <!-- Quick Booking Widget (Separate from hero) -->
+    <div class="hero-booking-widget-premium" id="quickBookingWidget">
+        <div class="booking-widget-header">
+            <h3>Quick Booking</h3>
+            <div class="availability-indicator">
+                <div class="availability-dot-pulse"></div>
+                <span>Available Today</span>
+            </div>
+        </div>
+        
+        <div class="booking-form-premium">
+            <div class="form-step active" data-step="1">
+                <label class="form-label-premium">Select Service</label>
+                <div class="select-container-premium">
+                    <select class="select-premium" id="quickServiceSelect">
+                        <option value="">Choose treatment...</option>
+                        <option value="consultation">Free Consultation ($500 value)</option>
+                        <option value="botox">Botox & Fillers</option>
+                        <option value="skin">Skin Treatments</option>
+                        <option value="weight">Weight Management</option>
+                    </select>
+                    <i class="fas fa-chevron-down select-arrow"></i>
+                </div>
+            </div>
+            
+            <div class="form-step" data-step="2">
+                <label class="form-label-premium">Preferred Date</label>
+                <input type="date" class="input-premium" id="quickDateSelect">
+            </div>
+            
+            <div class="form-step" data-step="3">
+                <label class="form-label-premium">Phone Number</label>
+                <input type="tel" class="input-premium" placeholder="(555) 123-4567" id="quickPhoneInput">
+            </div>
+            
+            <button class="booking-submit-premium" id="quickBookingSubmit">
+                <div class="submit-glow"></div>
+                <span>Confirm Booking</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <div class="booking-benefits-premium">
+            <div class="benefit-item-premium">
+                <i class="fas fa-gift"></i>
+                <span>Free $500 consultation</span>
+            </div>
+            <div class="benefit-item-premium">
+                <i class="fas fa-clock"></i>
+                <span>Same-day appointments</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Modern Luxury Services Carousel Section -->
     <section class="luxury-services-section" id="services">
@@ -711,7 +727,7 @@
             <div class="about-grid">
                 <div class="doctor-image-side" data-aos="fade-right">
                     <div class="doctor-image-bubble">
-                        <img src="eviaherself.jpg" alt="Dr. Evia Alikaj Nano" class="doctor-photo">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&h=800&fit=crop&crop=face" alt="Dr. Evia Alikaj Nano" class="doctor-photo">
                         <div class="floating-badge top-right">
                             <i class="fas fa-award"></i>
                             <span>Board Certified</span>
@@ -797,12 +813,12 @@
                 <div class="result-bubble" data-category="botox" data-aos="zoom-in">
                     <div class="before-after-container">
                         <div class="ba-image before">
-                            <img src="https://via.placeholder.com/400x300/E8D5C4/8B7355?text=Before" alt="Before Treatment">
+                            <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=300&fit=crop" alt="Before Treatment">
                             <span class="ba-label">Before</span>
                         </div>
                         <div class="ba-divider"></div>
                         <div class="ba-image after">
-                            <img src="https://via.placeholder.com/400x300/F5E6D3/D4A574?text=After" alt="After Treatment">
+                            <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop" alt="After Treatment">
                             <span class="ba-label">After</span>
                         </div>
                     </div>
@@ -815,12 +831,12 @@
                 <div class="result-bubble" data-category="fillers" data-aos="zoom-in" data-aos-delay="100">
                     <div class="before-after-container">
                         <div class="ba-image before">
-                            <img src="https://via.placeholder.com/400x300/E8D5C4/8B7355?text=Before" alt="Before Treatment">
+                            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=300&fit=crop" alt="Before Treatment">
                             <span class="ba-label">Before</span>
                         </div>
                         <div class="ba-divider"></div>
                         <div class="ba-image after">
-                            <img src="https://via.placeholder.com/400x300/F5E6D3/D4A574?text=After" alt="After Treatment">
+                            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=300&fit=crop" alt="After Treatment">
                             <span class="ba-label">After</span>
                         </div>
                     </div>
@@ -833,12 +849,12 @@
                 <div class="result-bubble" data-category="skin" data-aos="zoom-in" data-aos-delay="200">
                     <div class="before-after-container">
                         <div class="ba-image before">
-                            <img src="https://via.placeholder.com/400x300/E8D5C4/8B7355?text=Before" alt="Before Treatment">
+                            <img src="https://images.unsplash.com/photo-1616391182219-e080b4d1043a?w=400&h=300&fit=crop" alt="Before Treatment">
                             <span class="ba-label">Before</span>
                         </div>
                         <div class="ba-divider"></div>
                         <div class="ba-image after">
-                            <img src="https://via.placeholder.com/400x300/F5E6D3/D4A574?text=After" alt="After Treatment">
+                            <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop" alt="After Treatment">
                             <span class="ba-label">After</span>
                         </div>
                     </div>
@@ -1144,7 +1160,7 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="footer-logo-bubble">
-                        <img src="logo1.png" alt="Evia Aesthetics">
+                        <img src="https://raw.githubusercontent.com/Elanstech/eviaaesthetics/refs/heads/main/logo1.png" alt="Evia Aesthetics">
                     </div>
                     <h3>Evia Aesthetics</h3>
                     <p>Manhattan's Premier Medical Spa</p>
