@@ -762,7 +762,7 @@ class EnhancedHeroSection {
             this.heroTimeline = gsap.timeline({ paused: true });
             
             // Enhanced glow effects
-            const glowElements = document.querySelectorAll('.credential-glow, .button-glow, .glass-glow, .stat-glow');
+            const glowElements = document.querySelectorAll('.credential-glow, .button-glow, .glass-glow, .stat-glow-ring');
             glowElements.forEach(glow => {
                 gsap.to(glow, {
                     opacity: 1,
@@ -819,10 +819,10 @@ class EnhancedHeroSection {
     }
 
     initMagneticEffects() {
-        // Add magnetic effects to stat cards
-        const statCards = document.querySelectorAll('.stat-card-enhanced');
-        statCards.forEach(card => {
-            LuxuryMedSpa.utils.addMagneticEffect(card, 0.1);
+        // Add magnetic effects to floating stat bubbles
+        const statBubbles = document.querySelectorAll('.floating-stat-bubble');
+        statBubbles.forEach(bubble => {
+            LuxuryMedSpa.utils.addMagneticEffect(bubble, 0.1);
         });
 
         // Add magnetic effects to credential badge
@@ -834,7 +834,7 @@ class EnhancedHeroSection {
     
     initGlowEffects() {
         // Enhanced glow effects on hover for interactive elements
-        const interactiveElements = document.querySelectorAll('.cta-bubble-enhanced, .video-bubble-enhanced, .stat-card-enhanced');
+        const interactiveElements = document.querySelectorAll('.cta-bubble-enhanced, .video-bubble-enhanced, .floating-stat-bubble');
         
         interactiveElements.forEach(element => {
             element.addEventListener('mouseenter', () => {
@@ -850,7 +850,7 @@ class EnhancedHeroSection {
             element.addEventListener('mouseleave', () => {
                 if (typeof gsap !== 'undefined') {
                     gsap.to(element, {
-                        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
+                        boxShadow: '0 8px 32px rgba(31, 38, 135, 0.37)',
                         duration: 0.3,
                         ease: "power2.out"
                     });
@@ -871,7 +871,7 @@ class EnhancedHeroSection {
             });
         }, { threshold: 0.5 });
         
-        const statsContainer = document.querySelector('.hero-stats-enhanced');
+        const statsContainer = document.querySelector('.hero-floating-stats');
         if (statsContainer) {
             observer.observe(statsContainer);
         }
@@ -912,13 +912,16 @@ class EnhancedHeroSection {
                 
                 // Add completion glow effect
                 if (typeof gsap !== 'undefined') {
-                    gsap.to(counter.parentElement, {
-                        boxShadow: '0 0 30px rgba(255, 158, 24, 0.5)',
-                        duration: 0.5,
-                        yoyo: true,
-                        repeat: 1,
-                        ease: "power2.inOut"
-                    });
+                    const statBubble = counter.closest('.floating-stat-bubble');
+                    if (statBubble) {
+                        gsap.to(statBubble, {
+                            boxShadow: '0 0 30px rgba(255, 158, 24, 0.5)',
+                            duration: 0.5,
+                            yoyo: true,
+                            repeat: 1,
+                            ease: "power2.inOut"
+                        });
+                    }
                 }
             }
         };
@@ -1622,7 +1625,7 @@ class FloatingElements {
     constructor() {
         this.bookButton = document.getElementById('floatingBook');
         this.callButton = document.getElementById('floatingCall');
-        this.socialIcons = document.getElementById('floatingSocials');
+        this.socialDock = document.getElementById('floatingSocials');
         this.isVisible = false;
         
         this.init();
@@ -1678,9 +1681,9 @@ class FloatingElements {
             }
         }
         
-        // Add magnetic effects to social icons
-        if (this.socialIcons) {
-            const socialFloatIcons = this.socialIcons.querySelectorAll('.social-float-icon');
+        // Add magnetic effects to social dock icons
+        if (this.socialDock) {
+            const socialFloatIcons = this.socialDock.querySelectorAll('.social-float-icon');
             socialFloatIcons.forEach(icon => {
                 LuxuryMedSpa.utils.addMagneticEffect(icon, 0.2);
             });
@@ -1688,13 +1691,13 @@ class FloatingElements {
     }
     
     initDelayedElements() {
-        // Show call button and social icons after delay
+        // Show call button and social dock after delay
         setTimeout(() => {
             if (this.callButton) {
                 this.callButton.classList.add('visible');
             }
-            if (this.socialIcons) {
-                this.socialIcons.classList.add('visible');
+            if (this.socialDock) {
+                this.socialDock.classList.add('visible');
             }
         }, 2500);
     }
