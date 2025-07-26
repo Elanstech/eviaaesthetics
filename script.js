@@ -1,5 +1,5 @@
 // ========================================
-// LUXURY MANHATTAN MED SPA - ENHANCED JAVASCRIPT
+// LUXURY MANHATTAN MED SPA - FIXED HERO SECTION JAVASCRIPT
 // ========================================
 
 'use strict';
@@ -19,11 +19,10 @@ const LuxuryMedSpa = {
     
     // Settings
     settings: {
-        preloaderMinTime: 2500,
+        preloaderMinTime: 2000,
         scrollThreshold: 50,
         animationDuration: 800,
-        easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-        particleCount: 50
+        easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
     },
     
     // Utility functions
@@ -82,29 +81,19 @@ const LuxuryMedSpa = {
             requestAnimationFrame(animation);
         },
         
-        // Easing functions
+        // Easing function
         easeInOutCubic: (t) => {
             return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
         },
         
-        easeOutExpo: (t) => {
-            return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-        },
-        
-        easeOutBack: (t) => {
-            const c1 = 1.70158;
-            const c3 = c1 + 1;
-            return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-        },
-        
         // Check if element is in viewport
-        isInViewport: (element, threshold = 0) => {
+        isInViewport: (element) => {
             const rect = element.getBoundingClientRect();
             return (
-                rect.top <= (window.innerHeight || document.documentElement.clientHeight) - threshold &&
-                rect.bottom >= threshold &&
-                rect.left <= (window.innerWidth || document.documentElement.clientWidth) - threshold &&
-                rect.right >= threshold
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
             );
         },
         
@@ -113,39 +102,20 @@ const LuxuryMedSpa = {
             return Math.random().toString(36).substr(2, 9);
         },
 
-        // Enhanced magnetic effect
+        // Add magnetic effect to buttons
         addMagneticEffect: (element, strength = 0.3) => {
-            if (!element || LuxuryMedSpa.isMobile) return;
-            
-            let boundingRect = element.getBoundingClientRect();
-            
-            // Update bounding rect on window resize
-            window.addEventListener('resize', () => {
-                boundingRect = element.getBoundingClientRect();
-            });
+            if (!element) return;
             
             element.addEventListener('mousemove', (e) => {
-                const centerX = boundingRect.left + boundingRect.width / 2;
-                const centerY = boundingRect.top + boundingRect.height / 2;
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
                 
-                const deltaX = (e.clientX - centerX) * strength;
-                const deltaY = (e.clientY - centerY) * strength;
-                
-                gsap.to(element, {
-                    x: deltaX,
-                    y: deltaY,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                element.style.transform = `translate(${x * strength}px, ${y * strength}px) scale(1.05)`;
             });
             
             element.addEventListener('mouseleave', () => {
-                gsap.to(element, {
-                    x: 0,
-                    y: 0,
-                    duration: 0.3,
-                    ease: 'elastic.out(1, 0.3)'
-                });
+                element.style.transform = '';
             });
         },
 
@@ -192,24 +162,18 @@ const LuxuryMedSpa = {
                     ripple.remove();
                 }, 600);
             });
-        },
-
-        // Lerp function for smooth animations
-        lerp: (start, end, factor) => {
-            return start + (end - start) * factor;
         }
     }
 };
 
 // ========================================
-// ENHANCED PRELOADER
+// PRELOADER SECTION (KEEP EXISTING)
 // ========================================
 
-class EnhancedPreloader {
+class LuxuryPreloader {
     constructor() {
         this.element = document.getElementById('preloader');
         this.progressBar = document.getElementById('loadingProgress');
-        this.percentageText = document.querySelector('.loading-percentage');
         this.startTime = Date.now();
         this.isComplete = false;
         this.progress = 0;
@@ -243,30 +207,21 @@ class EnhancedPreloader {
     }
     
     animateProgress() {
-        const targetProgress = 95;
-        const duration = LuxuryMedSpa.settings.preloaderMinTime * 0.8;
-        const startTime = performance.now();
-        
-        const animate = (currentTime) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            
-            this.progress = LuxuryMedSpa.utils.easeOutExpo(progress) * targetProgress;
+        const interval = setInterval(() => {
+            this.progress += Math.random() * 15;
+            this.progress = Math.min(this.progress, 95);
             
             if (this.progressBar) {
                 this.progressBar.style.width = `${this.progress}%`;
             }
             
-            if (this.percentageText) {
-                this.percentageText.textContent = `${Math.floor(this.progress)}%`;
+            if (this.progress >= 95 || this.isComplete) {
+                clearInterval(interval);
+                if (this.isComplete && this.progressBar) {
+                    this.progressBar.style.width = '100%';
+                }
             }
-            
-            if (progress < 1 && !this.isComplete) {
-                requestAnimationFrame(animate);
-            }
-        };
-        
-        requestAnimationFrame(animate);
+        }, 150);
     }
     
     checkAssetsLoaded() {
@@ -328,24 +283,19 @@ class EnhancedPreloader {
             this.progressBar.style.width = '100%';
         }
         
-        if (this.percentageText) {
-            this.percentageText.textContent = '100%';
-        }
-        
-        // Fade out preloader with GSAP
-        gsap.to(this.element, {
-            opacity: 0,
-            scale: 1.1,
-            duration: 0.8,
-            ease: 'power2.inOut',
-            onComplete: () => {
+        // Fade out preloader
+        setTimeout(() => {
+            this.element.style.opacity = '0';
+            this.element.style.transform = 'scale(1.1)';
+            
+            setTimeout(() => {
                 this.element.classList.add('hidden');
                 document.body.classList.remove('no-scroll');
                 document.body.classList.add('page-loaded');
                 
                 this.onComplete();
-            }
-        });
+            }, 600);
+        }, 300);
     }
     
     onComplete() {
@@ -364,20 +314,20 @@ class EnhancedPreloader {
         LuxuryMedSpa.isLoaded = true;
         window.dispatchEvent(new CustomEvent('spaLoaded'));
         
-        // Start hero animations
-        if (LuxuryMedSpa.components.hero) {
-            LuxuryMedSpa.components.hero.startAnimations();
+        // Start fixed hero animations
+        if (LuxuryMedSpa.components.fixedHero) {
+            LuxuryMedSpa.components.fixedHero.startAnimations();
         }
         
-        console.log('✨ Evia Aesthetics Loaded Successfully');
+        console.log('🌟 Fixed Luxury Med Spa Loaded Successfully');
     }
 }
 
 // ========================================
-// ENHANCED HEADER
+// HEADER SECTION (KEEP EXISTING)
 // ========================================
 
-class EnhancedHeader {
+class LuxuryHeader {
     constructor() {
         this.element = document.getElementById('header');
         this.scrollProgress = document.getElementById('scrollProgress');
@@ -385,7 +335,6 @@ class EnhancedHeader {
         
         this.isScrolled = false;
         this.lastScrollY = 0;
-        this.ticking = false;
         
         this.init();
     }
@@ -397,15 +346,15 @@ class EnhancedHeader {
         this.initNavigation();
         this.updateScrollProgress();
         this.initEnhancements();
-        this.initGSAPAnimations();
     }
     
     bindEvents() {
         // Optimized scroll handler
-        window.addEventListener('scroll', () => {
-            this.lastScrollY = window.scrollY;
-            this.requestTick();
-        }, { passive: true });
+        const scrollHandler = LuxuryMedSpa.utils.throttle(() => {
+            this.handleScroll();
+        }, 16); // ~60fps
+        
+        window.addEventListener('scroll', scrollHandler, { passive: true });
         
         // Logo click - scroll to top
         const logoSection = document.querySelector('.logo-section');
@@ -424,16 +373,6 @@ class EnhancedHeader {
                     LuxuryMedSpa.components.modal.openBookingModal();
                 }
             });
-        }
-    }
-    
-    requestTick() {
-        if (!this.ticking) {
-            window.requestAnimationFrame(() => {
-                this.handleScroll();
-                this.ticking = false;
-            });
-            this.ticking = true;
         }
     }
     
@@ -467,29 +406,8 @@ class EnhancedHeader {
         }
     }
     
-    initGSAPAnimations() {
-        // Animate header on load
-        gsap.from(this.element, {
-            y: -100,
-            opacity: 0,
-            duration: 1,
-            delay: 0.5,
-            ease: 'power3.out'
-        });
-        
-        // Stagger nav links
-        gsap.from(this.navLinks, {
-            y: -20,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            delay: 0.8,
-            ease: 'power2.out'
-        });
-    }
-    
     handleScroll() {
-        const scrollY = this.lastScrollY;
+        const scrollY = window.pageYOffset;
         const shouldBeScrolled = scrollY > LuxuryMedSpa.settings.scrollThreshold;
         
         // Update header state
@@ -504,6 +422,7 @@ class EnhancedHeader {
         // Update active navigation
         this.updateActiveNav();
         
+        this.lastScrollY = scrollY;
         LuxuryMedSpa.scrollY = scrollY;
     }
     
@@ -555,15 +474,12 @@ class EnhancedHeader {
     }
     
     scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        LuxuryMedSpa.utils.smoothScrollTo(document.body, 0);
     }
 }
 
 // ========================================
-// MOBILE MENU
+// MOBILE MENU SECTION (KEEP EXISTING)
 // ========================================
 
 class MobileMenu {
@@ -654,16 +570,6 @@ class MobileMenu {
         this.toggle.classList.add('active');
         this.overlay.classList.add('active');
         this.menu.classList.add('active');
-        
-        // Animate menu items
-        gsap.from('.mobile-nav-link', {
-            x: 50,
-            opacity: 0,
-            duration: 0.4,
-            stagger: 0.1,
-            delay: 0.2,
-            ease: 'power2.out'
-        });
     }
     
     closeMenu() {
@@ -680,22 +586,27 @@ class MobileMenu {
 }
 
 // ========================================
-// ENHANCED HERO SECTION
+// FIXED MASTERPIECE HERO SECTION
 // ========================================
 
-class EnhancedHeroSection {
+class FixedMasterpieceHeroSection {
     constructor() {
-        this.hero = document.querySelector('.hero-section-redesigned');
-        this.video = document.querySelector('.hero-video');
-        this.dynamicText = document.getElementById('dynamicText');
-        this.particlesContainer = document.getElementById('heroParticles');
-        this.scrollIndicator = document.querySelector('.hero-scroll-indicator');
-        this.serviceItems = document.querySelectorAll('.service-preview-item');
-        this.statNumbers = document.querySelectorAll('.stat-value, .stat-number');
+        this.hero = document.querySelector('.luxury-hero-masterpiece');
+        this.video = document.querySelector('.hero-video-bg');
+        this.dynamicText = document.getElementById('dynamicBeautyText');
+        this.scrollIndicator = document.querySelector('.scroll-indicator-masterpiece');
+        this.primaryCTA = document.querySelector('.cta-masterpiece-primary');
+        this.secondaryCTA = document.querySelector('.cta-masterpiece-secondary');
+        this.statNumbers = document.querySelectorAll('.stat-number');
+        this.liveStatNumbers = document.querySelectorAll('.stat-number-live');
+        this.serviceCards = document.querySelectorAll('.service-card-premium');
+        this.resultSliders = document.querySelectorAll('.result-slider');
+        this.quickBookingWidget = document.getElementById('quickBookingWidget');
         
-        this.particles = [];
-        this.typedInstance = null;
+        this.statsAnimated = false;
         this.animationsTriggered = false;
+        this.typedInstance = null;
+        this.currentServiceIndex = 0;
         
         this.init();
     }
@@ -704,16 +615,16 @@ class EnhancedHeroSection {
         if (!this.hero) return;
         
         this.initVideo();
-        this.initParticles();
         this.initButtons();
         this.initScrollIndicator();
         this.initServiceShowcase();
-        this.initSliders();
+        this.initResultSliders();
         this.initQuickBooking();
-        this.initTypedText();
         this.observeStats();
-        this.initParallax();
         this.initMagneticEffects();
+        this.initDynamicText();
+        this.initLiveStats();
+        this.initResponsiveBookingWidget();
     }
     
     initVideo() {
@@ -722,11 +633,11 @@ class EnhancedHeroSection {
         // Video event listeners
         this.video.addEventListener('loadeddata', () => {
             this.video.classList.add('loaded');
-            console.log('Hero video loaded');
+            console.log('Fixed hero video loaded');
         });
         
         this.video.addEventListener('error', () => {
-            console.warn('Hero video failed to load');
+            console.warn('Fixed hero video failed to load');
         });
         
         // Ensure video plays
@@ -757,28 +668,12 @@ class EnhancedHeroSection {
         observer.observe(this.video);
     }
     
-    initParticles() {
-        if (!this.particlesContainer || LuxuryMedSpa.isMobile) return;
-        
-        // Create particles
-        for (let i = 0; i < LuxuryMedSpa.settings.particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-            this.particlesContainer.appendChild(particle);
-            this.particles.push(particle);
-        }
-    }
-    
     initButtons() {
         // Primary CTA button
-        const heroBookCTA = document.getElementById('heroBookCTA');
-        if (heroBookCTA) {
-            LuxuryMedSpa.utils.addMagneticEffect(heroBookCTA, 0.3);
-            LuxuryMedSpa.utils.addRippleEffect(heroBookCTA);
-            heroBookCTA.addEventListener('click', () => {
+        if (this.primaryCTA) {
+            LuxuryMedSpa.utils.addMagneticEffect(this.primaryCTA, 0.3);
+            LuxuryMedSpa.utils.addRippleEffect(this.primaryCTA);
+            this.primaryCTA.addEventListener('click', () => {
                 if (LuxuryMedSpa.components.modal) {
                     LuxuryMedSpa.components.modal.openBookingModal();
                 }
@@ -786,10 +681,30 @@ class EnhancedHeroSection {
         }
         
         // Secondary CTA button (Virtual Tour)
-        const heroVideoCTA = document.getElementById('heroVideoCTA');
-        if (heroVideoCTA) {
-            LuxuryMedSpa.utils.addMagneticEffect(heroVideoCTA, 0.25);
-            heroVideoCTA.addEventListener('click', () => {
+        if (this.secondaryCTA) {
+            LuxuryMedSpa.utils.addMagneticEffect(this.secondaryCTA, 0.25);
+            this.secondaryCTA.addEventListener('click', () => {
+                this.showVirtualTour();
+            });
+        }
+
+        // Book masterpiece button
+        const bookMasterpiece = document.getElementById('bookMasterpiece');
+        if (bookMasterpiece) {
+            LuxuryMedSpa.utils.addMagneticEffect(bookMasterpiece, 0.3);
+            LuxuryMedSpa.utils.addRippleEffect(bookMasterpiece);
+            bookMasterpiece.addEventListener('click', () => {
+                if (LuxuryMedSpa.components.modal) {
+                    LuxuryMedSpa.components.modal.openBookingModal();
+                }
+            });
+        }
+
+        // Virtual tour masterpiece button
+        const virtualTourMasterpiece = document.getElementById('virtualTourMasterpiece');
+        if (virtualTourMasterpiece) {
+            LuxuryMedSpa.utils.addMagneticEffect(virtualTourMasterpiece, 0.25);
+            virtualTourMasterpiece.addEventListener('click', () => {
                 this.showVirtualTour();
             });
         }
@@ -811,63 +726,90 @@ class EnhancedHeroSection {
             }
         });
         
-        // Animate scroll indicator
-        gsap.to('.scroll-line::after', {
-            y: 30,
-            duration: 2,
-            repeat: -1,
-            ease: 'none'
-        });
+        // Hide scroll indicator on scroll
+        const scrollHandler = LuxuryMedSpa.utils.throttle(() => {
+            const scrollY = window.pageYOffset;
+            const opacity = Math.max(0, 1 - (scrollY / 500));
+            const translateY = scrollY * 0.3;
+            
+            this.scrollIndicator.style.opacity = opacity;
+            this.scrollIndicator.style.transform = `translateX(-50%) translateY(${translateY}px)`;
+            this.scrollIndicator.style.pointerEvents = opacity < 0.1 ? 'none' : 'auto';
+        }, 16);
+        
+        window.addEventListener('scroll', scrollHandler, { passive: true });
     }
-    
+
     initServiceShowcase() {
-        this.serviceItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
+        // Service navigation
+        const servicePrev = document.getElementById('servicePrev');
+        const serviceNext = document.getElementById('serviceNext');
+
+        if (servicePrev) {
+            servicePrev.addEventListener('click', () => this.prevService());
+        }
+        if (serviceNext) {
+            serviceNext.addEventListener('click', () => this.nextService());
+        }
+
+        // Service card interactions
+        this.serviceCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
                 this.setActiveService(index);
             });
             
-            item.addEventListener('mouseenter', () => {
-                gsap.to(item, {
-                    scale: 1.02,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-            });
-            
-            item.addEventListener('mouseleave', () => {
-                gsap.to(item, {
-                    scale: 1,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+            card.addEventListener('mouseenter', () => {
+                this.highlightService(card);
             });
         });
+
+        // Auto-rotate services
+        setInterval(() => {
+            this.nextService();
+        }, 5000);
     }
-    
+
     setActiveService(index) {
-        this.serviceItems.forEach((item, i) => {
-            item.classList.toggle('active', i === index);
+        this.serviceCards.forEach((card, i) => {
+            card.classList.toggle('active', i === index);
         });
+        this.currentServiceIndex = index;
     }
-    
-    initSliders() {
-        const sliders = document.querySelectorAll('.slider-handle');
-        
-        sliders.forEach(slider => {
-            const container = slider.closest('.before-after-preview');
-            const afterImage = container.querySelector('.after-img');
-            
+
+    prevService() {
+        this.currentServiceIndex = (this.currentServiceIndex - 1 + this.serviceCards.length) % this.serviceCards.length;
+        this.setActiveService(this.currentServiceIndex);
+    }
+
+    nextService() {
+        this.currentServiceIndex = (this.currentServiceIndex + 1) % this.serviceCards.length;
+        this.setActiveService(this.currentServiceIndex);
+    }
+
+    highlightService(card) {
+        // Add temporary highlight effect
+        card.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+            card.style.transform = '';
+        }, 300);
+    }
+
+    initResultSliders() {
+        this.resultSliders.forEach(slider => {
             let isDragging = false;
             
             const handleMove = (e) => {
                 if (!isDragging) return;
                 
-                const rect = container.getBoundingClientRect();
+                const rect = slider.parentElement.getBoundingClientRect();
                 const x = (e.clientX || e.touches[0].clientX) - rect.left;
                 const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
                 
                 slider.style.left = `${percentage}%`;
-                afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+                const afterImage = slider.parentElement.querySelector('.after-image');
+                if (afterImage) {
+                    afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+                }
             };
             
             slider.addEventListener('mousedown', () => {
@@ -891,61 +833,84 @@ class EnhancedHeroSection {
             });
         });
     }
-    
+
     initQuickBooking() {
-        const form = document.getElementById('heroQuickForm');
+        if (!this.quickBookingWidget) return;
+
+        const form = this.quickBookingWidget.querySelector('.booking-form-premium');
         if (!form) return;
-        
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.handleQuickBooking();
+
+        const steps = form.querySelectorAll('.form-step');
+        const submitBtn = document.getElementById('quickBookingSubmit');
+        let currentStep = 0;
+
+        // Step progression
+        const inputs = form.querySelectorAll('select, input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('change', () => {
+                if (input.value && index < steps.length - 1) {
+                    setTimeout(() => {
+                        this.activateStep(index + 1);
+                    }, 500);
+                }
+            });
         });
-        
-        // Add magnetic effect to submit button
-        const submitBtn = form.querySelector('.booking-submit-btn');
+
+        // Submit handler
         if (submitBtn) {
-            LuxuryMedSpa.utils.addMagneticEffect(submitBtn, 0.2);
             LuxuryMedSpa.utils.addRippleEffect(submitBtn);
+            submitBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleQuickBooking();
+            });
         }
     }
-    
+
+    activateStep(stepIndex) {
+        const steps = this.quickBookingWidget.querySelectorAll('.form-step');
+        steps.forEach((step, index) => {
+            step.classList.toggle('active', index <= stepIndex);
+        });
+    }
+
     handleQuickBooking() {
-        const form = document.getElementById('heroQuickForm');
+        const form = this.quickBookingWidget.querySelector('.booking-form-premium');
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
         
         // Simple validation
-        const requiredFields = ['heroServiceSelect', 'heroDateSelect', 'heroPhoneInput'];
+        const requiredFields = ['quickServiceSelect', 'quickDateSelect', 'quickPhoneInput'];
         const isValid = requiredFields.every(field => {
             const input = document.getElementById(field);
             return input && input.value.trim();
         });
-        
+
         if (!isValid) {
-            this.showNotification('Please fill in all fields', 'error');
+            this.showQuickNotification('Please fill in all fields', 'error');
             return;
         }
-        
+
         // Show success state
-        const submitBtn = form.querySelector('.booking-submit-btn');
+        const submitBtn = document.getElementById('quickBookingSubmit');
         const originalHTML = submitBtn.innerHTML;
         
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span>Booking...</span> <i class="fas fa-spinner fa-spin"></i>';
-        
+
         setTimeout(() => {
             submitBtn.innerHTML = '<span>Confirmed!</span> <i class="fas fa-check"></i>';
-            this.showNotification('Booking confirmed! We\'ll call you soon.', 'success');
+            this.showQuickNotification('Booking confirmed! We\'ll call you soon.', 'success');
             
             setTimeout(() => {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalHTML;
                 form.reset();
+                this.activateStep(0);
             }, 3000);
         }, 2000);
     }
-    
-    showNotification(message, type) {
+
+    showQuickNotification(message, type) {
         const notification = document.createElement('div');
         notification.style.cssText = `
             position: fixed;
@@ -969,8 +934,153 @@ class EnhancedHeroSection {
             setTimeout(() => notification.remove(), 300);
         }, 4000);
     }
+
+    initResponsiveBookingWidget() {
+        if (!this.quickBookingWidget) return;
+
+        const handleResize = () => {
+            if (window.innerWidth <= 1200) {
+                // Move widget into hero content on smaller screens
+                const heroStats = document.querySelector('.hero-stats-section');
+                if (heroStats && this.quickBookingWidget.parentElement !== heroStats) {
+                    heroStats.appendChild(this.quickBookingWidget);
+                    this.quickBookingWidget.style.position = 'relative';
+                    this.quickBookingWidget.style.bottom = 'auto';
+                    this.quickBookingWidget.style.right = 'auto';
+                    this.quickBookingWidget.style.width = '100%';
+                    this.quickBookingWidget.style.maxWidth = '400px';
+                    this.quickBookingWidget.style.margin = '2rem auto 0';
+                }
+            } else {
+                // Move widget back to fixed position on larger screens
+                if (this.quickBookingWidget.parentElement !== document.body) {
+                    document.body.appendChild(this.quickBookingWidget);
+                    this.quickBookingWidget.style.position = 'fixed';
+                    this.quickBookingWidget.style.bottom = '2rem';
+                    this.quickBookingWidget.style.right = '2rem';
+                    this.quickBookingWidget.style.width = '320px';
+                    this.quickBookingWidget.style.margin = '0';
+                }
+            }
+        };
+
+        window.addEventListener('resize', LuxuryMedSpa.utils.debounce(handleResize, 250));
+        handleResize(); // Initial call
+    }
     
-    initTypedText() {
+    observeStats() {
+        if (!this.statNumbers.length && !this.liveStatNumbers.length) return;
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !this.statsAnimated) {
+                    this.animateStats();
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        const statsContainer = document.querySelector('.hero-stats-section') || document.querySelector('.doctor-stats-premium');
+        if (statsContainer) {
+            observer.observe(statsContainer);
+        }
+    }
+    
+    animateStats() {
+        if (this.statsAnimated) return;
+        
+        this.statsAnimated = true;
+        
+        // Animate doctor stats
+        this.statNumbers.forEach((counter, index) => {
+            setTimeout(() => {
+                this.animateCounter(counter);
+            }, index * 200);
+        });
+
+        // Animate live stats
+        this.liveStatNumbers.forEach((counter, index) => {
+            setTimeout(() => {
+                this.animateCounter(counter);
+            }, index * 300 + 500);
+        });
+    }
+    
+    animateCounter(counter) {
+        const target = parseInt(counter.dataset.count || counter.getAttribute('data-target'));
+        if (!target) return;
+        
+        const duration = 2500;
+        const startTime = performance.now();
+        
+        const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const easeProgress = LuxuryMedSpa.utils.easeInOutCubic(progress);
+            const currentValue = Math.floor(easeProgress * target);
+            
+            counter.textContent = currentValue;
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                counter.textContent = target;
+            }
+        };
+        
+        requestAnimationFrame(animate);
+    }
+
+    initLiveStats() {
+        // Live stats cards with periodic updates
+        const liveStatCards = document.querySelectorAll('.live-stat-card');
+        liveStatCards.forEach(card => {
+            LuxuryMedSpa.utils.addMagneticEffect(card, 0.1);
+            
+            // Add hover glow effect
+            card.addEventListener('mouseenter', () => {
+                card.style.boxShadow = '0 0 40px rgba(255, 158, 24, 0.4)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.boxShadow = '';
+            });
+        });
+
+        // Simulate live updates (replace with real data)
+        setInterval(() => {
+            const statGrowthElements = document.querySelectorAll('.stat-growth');
+            statGrowthElements.forEach(element => {
+                if (Math.random() > 0.7) { // 30% chance to update
+                    element.style.animation = 'countUp 0.5s ease-out';
+                    setTimeout(() => {
+                        element.style.animation = '';
+                    }, 500);
+                }
+            });
+        }, 10000);
+    }
+
+    initMagneticEffects() {
+        // Add magnetic effects to various elements
+        const magneticElements = [
+            '.service-card-premium',
+            '.doctor-card-luxury',
+            '.result-card-interactive',
+            '.trust-badge',
+            '.live-stat-card'
+        ];
+
+        magneticElements.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(element => {
+                LuxuryMedSpa.utils.addMagneticEffect(element, 0.1);
+            });
+        });
+    }
+    
+    initDynamicText() {
         if (typeof Typed !== 'undefined' && this.dynamicText) {
             // Dynamic beauty words
             const beautyWords = [
@@ -982,99 +1092,26 @@ class EnhancedHeroSection {
                 'Youth'
             ];
             
-            // Initialize Typed.js with smooth typing
+            // Initialize Typed.js
             this.typedInstance = new Typed(this.dynamicText, {
                 strings: beautyWords,
-                typeSpeed: 80,
-                backSpeed: 60,
+                typeSpeed: 100,
+                backSpeed: 70,
                 backDelay: 2000,
-                startDelay: 1000,
+                startDelay: 1500,
                 loop: true,
-                showCursor: false,
-                fadeOut: true,
-                fadeOutClass: 'typed-fade-out',
-                fadeOutDelay: 500
-            });
-        }
-    }
-    
-    observeStats() {
-        if (!this.statNumbers.length) return;
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                    this.animateNumber(entry.target);
-                    entry.target.classList.add('animated');
+                showCursor: true,
+                cursorChar: '|',
+                onComplete: () => {
+                    // Keep the typing animation running
                 }
             });
-        }, { threshold: 0.5 });
-        
-        this.statNumbers.forEach(stat => {
-            observer.observe(stat);
-        });
-    }
-    
-    animateNumber(element) {
-        const target = parseInt(element.dataset.count || element.dataset.target);
-        if (!target) return;
-        
-        const duration = 2500;
-        const increment = target / (duration / 16);
-        let current = 0;
-        
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                element.textContent = target;
-                clearInterval(timer);
-            } else {
-                element.textContent = Math.floor(current);
+        } else {
+            // Fallback if Typed.js is not available
+            if (this.dynamicText) {
+                this.dynamicText.textContent = 'Beauty';
             }
-        }, 16);
-    }
-    
-    initParallax() {
-        if (LuxuryMedSpa.isMobile) return;
-        
-        // Parallax for decorative elements
-        gsap.to('.floating-orb', {
-            y: '100px',
-            scrollTrigger: {
-                trigger: '.hero-section-redesigned',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1
-            }
-        });
-        
-        // Parallax for content
-        gsap.to('.hero-content-wrapper', {
-            y: '50px',
-            opacity: 0.8,
-            scrollTrigger: {
-                trigger: '.hero-section-redesigned',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1
-            }
-        });
-    }
-    
-    initMagneticEffects() {
-        // Add magnetic effects to various elements
-        const magneticElements = [
-            '.trust-item',
-            '.hero-feature-card',
-            '.view-gallery-btn'
-        ];
-        
-        magneticElements.forEach(selector => {
-            const elements = document.querySelectorAll(selector);
-            elements.forEach(element => {
-                LuxuryMedSpa.utils.addMagneticEffect(element, 0.1);
-            });
-        });
+        }
     }
     
     startAnimations() {
@@ -1082,43 +1119,7 @@ class EnhancedHeroSection {
         if (this.animationsTriggered) return;
         this.animationsTriggered = true;
         
-        // Animate hero content
-        const timeline = gsap.timeline();
-        
-        timeline
-            .from('.location-badge-redesign', {
-                y: 30,
-                opacity: 0,
-                duration: 0.8,
-                ease: 'power3.out'
-            })
-            .from('.hero-title', {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.out'
-            }, '-=0.5')
-            .from('.hero-subtitle, .hero-credentials', {
-                y: 30,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: 'power3.out'
-            }, '-=0.5')
-            .from('.hero-cta-group', {
-                y: 30,
-                opacity: 0,
-                duration: 0.8,
-                ease: 'power3.out'
-            }, '-=0.3')
-            .from('.hero-trust-row', {
-                y: 20,
-                opacity: 0,
-                duration: 0.8,
-                ease: 'power3.out'
-            }, '-=0.3');
-        
-        console.log('Hero animations started');
+        console.log('Fixed hero animations started');
     }
     
     destroy() {
@@ -1130,10 +1131,10 @@ class EnhancedHeroSection {
 }
 
 // ========================================
-// SERVICES CAROUSEL
+// MODERN SERVICES CAROUSEL SECTION (KEEP EXISTING)
 // ========================================
 
-class ServicesCarousel {
+class ModernServicesCarousel {
     constructor() {
         this.carouselContainer = document.querySelector('.services-carousel-container');
         this.swiperElement = document.querySelector('.services-swiper');
@@ -1158,7 +1159,7 @@ class ServicesCarousel {
     initSwiper() {
         // Check if Swiper is available
         if (typeof Swiper === 'undefined') {
-            console.warn('Swiper not loaded');
+            console.warn('Swiper not loaded, falling back to basic functionality');
             return;
         }
         
@@ -1209,15 +1210,26 @@ class ServicesCarousel {
                 dynamicBullets: true,
             },
             
+            // Accessibility
+            a11y: {
+                enabled: true,
+                prevSlideMessage: 'Previous service',
+                nextSlideMessage: 'Next service',
+            },
+            
             // Events
             on: {
                 slideChange: () => {
                     this.onSlideChange();
+                },
+                
+                slideChangeTransitionEnd: () => {
+                    this.onSlideChangeEnd();
                 }
             }
         });
         
-        console.log('✨ Services carousel initialized');
+        console.log('🎠 Enhanced services carousel initialized');
     }
     
     onSlideChange() {
@@ -1226,16 +1238,24 @@ class ServicesCarousel {
         if (activeSlide) {
             const card = activeSlide.querySelector('.luxury-service-card');
             if (card) {
-                gsap.fromTo(card, 
-                    { scale: 0.95, opacity: 0.8 },
-                    { scale: 1, opacity: 1, duration: 0.5, ease: 'power2.out' }
-                );
+                card.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 300);
             }
         }
     }
     
+    onSlideChangeEnd() {
+        // Reset any transformations after slide change
+        const allCards = this.swiperElement.querySelectorAll('.luxury-service-card');
+        allCards.forEach(card => {
+            card.style.transform = '';
+        });
+    }
+    
     initServiceCards() {
-        this.serviceCards.forEach((card) => {
+        this.serviceCards.forEach((card, index) => {
             // Add hover effects
             card.addEventListener('mouseenter', () => {
                 this.onCardHover(card);
@@ -1252,29 +1272,31 @@ class ServicesCarousel {
                     this.swiper.autoplay.start();
                 }
             });
+            
+            // Add click handler for entire card
+            card.addEventListener('click', (e) => {
+                // Don't trigger if clicking the button
+                if (!e.target.closest('.service-cta-luxury')) {
+                    const button = card.querySelector('.service-cta-luxury');
+                    if (button) {
+                        button.click();
+                    }
+                }
+            });
         });
     }
     
     onCardHover(card) {
-        // Add hover animations with GSAP
+        // Add additional hover animations
         const icon = card.querySelector('.service-icon-luxury');
         const image = card.querySelector('.service-bg-image');
         
         if (icon) {
-            gsap.to(icon, {
-                y: -5,
-                scale: 1.1,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
+            icon.style.transform = 'translateY(-5px) scale(1.1)';
         }
         
         if (image) {
-            gsap.to(image, {
-                scale: 1.1,
-                duration: 0.5,
-                ease: 'power2.out'
-            });
+            image.style.transform = 'scale(1.1)';
         }
     }
     
@@ -1284,20 +1306,11 @@ class ServicesCarousel {
         const image = card.querySelector('.service-bg-image');
         
         if (icon) {
-            gsap.to(icon, {
-                y: 0,
-                scale: 1,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
+            icon.style.transform = '';
         }
         
         if (image) {
-            gsap.to(image, {
-                scale: 1,
-                duration: 0.5,
-                ease: 'power2.out'
-            });
+            image.style.transform = '';
         }
     }
     
@@ -1311,7 +1324,7 @@ class ServicesCarousel {
             
             // Add click handler
             button.addEventListener('click', (e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Prevent card click
                 const service = button.dataset.service;
                 this.handleServiceClick(service, button);
             });
@@ -1334,6 +1347,17 @@ class ServicesCarousel {
                 LuxuryMedSpa.components.modal.openBookingModal(service);
             }
         }, 800);
+        
+        // Analytics tracking (placeholder)
+        console.log(`Service selected: ${service}`);
+        
+        // Optional: Track with Google Analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'service_click', {
+                'service_type': service,
+                'event_category': 'engagement'
+            });
+        }
     }
     
     initMagneticEffects() {
@@ -1356,10 +1380,8 @@ class ServicesCarousel {
             entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
                     setTimeout(() => {
-                        gsap.fromTo(entry.target,
-                            { y: 30, opacity: 0, scale: 0.95 },
-                            { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' }
-                        );
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0) scale(1)';
                         entry.target.classList.add('animated');
                     }, index * 150);
                     
@@ -1372,152 +1394,174 @@ class ServicesCarousel {
         });
         
         this.serviceCards.forEach(card => {
+            // Set initial state for animation
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px) scale(0.95)';
+            card.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            
             observer.observe(card);
         });
     }
+    
+    // Public methods for external control
+    goToSlide(index) {
+        if (this.swiper) {
+            this.swiper.slideTo(index);
+        }
+    }
+    
+    nextSlide() {
+        if (this.swiper) {
+            this.swiper.slideNext();
+        }
+    }
+    
+    prevSlide() {
+        if (this.swiper) {
+            this.swiper.slidePrev();
+        }
+    }
+    
+    pauseAutoplay() {
+        if (this.swiper && this.swiper.autoplay) {
+            this.swiper.autoplay.stop();
+        }
+    }
+    
+    resumeAutoplay() {
+        if (this.swiper && this.swiper.autoplay) {
+            this.swiper.autoplay.start();
+        }
+    }
+    
+    destroy() {
+        if (this.swiper) {
+            this.swiper.destroy();
+            this.swiper = null;
+        }
+    }
 }
 
 // ========================================
-// ENHANCED PARALLAX EFFECTS
+// ENHANCED BUTTON SYSTEM (KEEP EXISTING)
 // ========================================
 
-class ParallaxEffects {
+class EnhancedButtons {
     constructor() {
-        this.elements = [];
         this.init();
     }
-    
+
     init() {
-        if (LuxuryMedSpa.isMobile) return;
-        
-        this.setupParallaxElements();
-        this.bindEvents();
+        this.initModernButtons();
+        this.initServiceButtons();
+        this.initFilterTabs();
+        this.initEnhancedButtons();
     }
-    
-    setupParallaxElements() {
-        // Find all parallax elements
-        const parallaxElements = document.querySelectorAll('.parallax-element');
-        
-        parallaxElements.forEach(element => {
-            const speed = element.dataset.parallaxSpeed || 0.5;
-            this.elements.push({
-                element: element,
-                speed: parseFloat(speed),
-                offset: element.offsetTop
+
+    initModernButtons() {
+        const modernButtons = document.querySelectorAll('.modern-btn');
+        modernButtons.forEach(btn => {
+            LuxuryMedSpa.utils.addRippleEffect(btn);
+            
+            // Add hover sound effect (optional)
+            btn.addEventListener('mouseenter', () => {
+                btn.style.transform = 'translateY(-2px)';
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = '';
             });
         });
-        
-        // Doctor image parallax
-        gsap.to('.doctor-image-bubble', {
-            y: -50,
-            scrollTrigger: {
-                trigger: '.about-doctor',
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 1
-            }
-        });
-        
-        // Floating badges parallax
-        gsap.to('.floating-badge', {
-            y: -30,
-            scrollTrigger: {
-                trigger: '.about-doctor',
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 2
-            }
-        });
     }
-    
-    bindEvents() {
-        window.addEventListener('scroll', LuxuryMedSpa.utils.throttle(() => {
-            this.updateParallax();
-        }, 16));
-    }
-    
-    updateParallax() {
-        const scrollY = window.pageYOffset;
-        
-        this.elements.forEach(item => {
-            const { element, speed, offset } = item;
-            const yPos = -(scrollY - offset) * speed;
-            
-            element.style.transform = `translateY(${yPos}px)`;
-        });
-    }
-}
 
-// ========================================
-// SMOOTH SCROLL ENHANCEMENTS
-// ========================================
-
-class SmoothScrollEnhancements {
-    constructor() {
-        this.init();
-    }
-    
-    init() {
-        this.setupScrollTriggers();
-        this.initScrollProgressRing();
-    }
-    
-    setupScrollTriggers() {
-        // Fade in elements on scroll
-        gsap.utils.toArray('[data-aos]').forEach(element => {
-            gsap.from(element, {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: element,
-                    start: 'top 80%',
-                    end: 'bottom 20%',
-                    toggleActions: 'play none none reverse'
+    initServiceButtons() {
+        const serviceButtons = document.querySelectorAll('.service-cta:not(.service-cta-luxury)');
+        serviceButtons.forEach(btn => {
+            LuxuryMedSpa.utils.addRippleEffect(btn);
+            btn.addEventListener('click', () => {
+                if (LuxuryMedSpa.components.modal) {
+                    LuxuryMedSpa.components.modal.openBookingModal();
                 }
             });
         });
     }
-    
-    initScrollProgressRing() {
-        const progressRing = document.querySelector('.scroll-progress-ring');
-        const circle = document.querySelector('.progress-ring__circle');
-        
-        if (!progressRing || !circle) return;
-        
-        const radius = circle.r.baseVal.value;
-        const circumference = radius * 2 * Math.PI;
-        
-        circle.style.strokeDasharray = `${circumference} ${circumference}`;
-        circle.style.strokeDashoffset = circumference;
-        
-        // Show/hide based on scroll
-        window.addEventListener('scroll', LuxuryMedSpa.utils.throttle(() => {
-            const scrollY = window.pageYOffset;
-            const shouldShow = scrollY > 500;
-            
-            progressRing.classList.toggle('visible', shouldShow);
-            
-            // Update progress
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = scrollY / scrollHeight;
-            const offset = circumference - (progress * circumference);
-            
-            circle.style.strokeDashoffset = offset;
-        }, 16));
-        
-        // Scroll to top on click
-        progressRing.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+
+    initFilterTabs() {
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        filterTabs.forEach(tab => {
+            LuxuryMedSpa.utils.addRippleEffect(tab);
+        });
+    }
+
+    initEnhancedButtons() {
+        // Initialize enhanced CTA bubbles
+        const enhancedCTAs = document.querySelectorAll('.cta-bubble-enhanced');
+        enhancedCTAs.forEach(btn => {
+            LuxuryMedSpa.utils.addMagneticEffect(btn, 0.2);
+            LuxuryMedSpa.utils.addRippleEffect(btn);
+        });
+
+        // Initialize enhanced video bubbles
+        const enhancedVideos = document.querySelectorAll('.video-bubble-enhanced');
+        enhancedVideos.forEach(btn => {
+            LuxuryMedSpa.utils.addMagneticEffect(btn, 0.15);
         });
     }
 }
 
 // ========================================
-// MODAL SYSTEM
+// RESULTS GALLERY SECTION (KEEP EXISTING)
+// ========================================
+
+class ResultsGallery {
+    constructor() {
+        this.filterTabs = document.querySelectorAll('.filter-tab');
+        this.resultItems = document.querySelectorAll('.result-bubble');
+        this.activeFilter = 'all';
+        
+        this.init();
+    }
+    
+    init() {
+        if (!this.filterTabs.length) return;
+        
+        this.bindEvents();
+    }
+    
+    bindEvents() {
+        this.filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const filter = tab.dataset.filter;
+                this.setActiveFilter(filter);
+                this.filterResults(filter);
+            });
+        });
+    }
+    
+    setActiveFilter(filter) {
+        this.filterTabs.forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.filter === filter);
+        });
+        this.activeFilter = filter;
+    }
+    
+    filterResults(filter) {
+        this.resultItems.forEach((item, index) => {
+            const category = item.dataset.category;
+            const shouldShow = filter === 'all' || category === filter;
+            
+            if (shouldShow) {
+                item.style.display = '';
+                item.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s both`;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+}
+
+// ========================================
+// MODAL SYSTEM (KEEP EXISTING)
 // ========================================
 
 class ModalSystem {
@@ -1566,8 +1610,17 @@ class ModalSystem {
                 this.handleFormSubmit();
             });
         }
+        
+        // All booking trigger buttons
+        const bookingTriggers = document.querySelectorAll('[data-booking], .service-cta:not(.service-cta-luxury)');
+        bookingTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.openBookingModal();
+            });
+        });
     }
-    
+
     initFormEnhancements() {
         if (!this.form) return;
         
@@ -1588,6 +1641,7 @@ class ModalSystem {
         if (preSelectedService && this.form) {
             const serviceSelect = this.form.querySelector('select');
             if (serviceSelect) {
+                // Map service data attributes to select values
                 const serviceMap = {
                     'botox': 'botox',
                     'weight-loss': 'weightloss',
@@ -1603,27 +1657,12 @@ class ModalSystem {
                 }
             }
         }
-        
-        // Animate modal entrance
-        gsap.fromTo(this.bookingModal,
-            { scale: 0.9, opacity: 0, y: 50 },
-            { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }
-        );
     }
     
     closeModal() {
-        gsap.to(this.bookingModal, {
-            scale: 0.9,
-            opacity: 0,
-            y: 50,
-            duration: 0.3,
-            ease: 'power3.in',
-            onComplete: () => {
-                this.activeModal = null;
-                this.overlay.classList.remove('active');
-                document.body.classList.remove('no-scroll');
-            }
-        });
+        this.activeModal = null;
+        this.overlay.classList.remove('active');
+        document.body.classList.remove('no-scroll');
     }
     
     handleFormSubmit() {
@@ -1719,14 +1758,6 @@ class ModalSystem {
                 </div>
             </div>
         `;
-        
-        // Animate success message
-        gsap.from(modalContent.firstElementChild, {
-            scale: 0.8,
-            opacity: 0,
-            duration: 0.5,
-            ease: 'back.out(1.7)'
-        });
     }
     
     showNotification(message, type = 'info') {
@@ -1742,6 +1773,7 @@ class ModalSystem {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             z-index: 10000;
             font-weight: 600;
+            animation: slideInRight 0.3s ease-out;
         `;
         
         notification.innerHTML = `
@@ -1753,27 +1785,16 @@ class ModalSystem {
         
         document.body.appendChild(notification);
         
-        // Animate notification
-        gsap.fromTo(notification,
-            { x: 100, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.3, ease: 'power3.out' }
-        );
-        
         // Auto remove
         setTimeout(() => {
-            gsap.to(notification, {
-                x: 100,
-                opacity: 0,
-                duration: 0.3,
-                ease: 'power3.in',
-                onComplete: () => notification.remove()
-            });
+            notification.style.animation = 'slideOutRight 0.3s ease-out';
+            setTimeout(() => notification.remove(), 300);
         }, 4000);
     }
 }
 
 // ========================================
-// FLOATING ELEMENTS
+// FLOATING ELEMENTS SECTION (KEEP EXISTING)
 // ========================================
 
 class FloatingElements {
@@ -1811,11 +1832,13 @@ class FloatingElements {
         }
         
         // Show/hide based on scroll
-        window.addEventListener('scroll', LuxuryMedSpa.utils.throttle(() => {
+        const scrollHandler = LuxuryMedSpa.utils.throttle(() => {
             this.checkVisibility();
-        }, 100), { passive: true });
+        }, 100);
+        
+        window.addEventListener('scroll', scrollHandler, { passive: true });
     }
-    
+
     initEnhancements() {
         // Add magnetic effects to floating buttons
         if (this.bookButton) {
@@ -1857,7 +1880,7 @@ class FloatingElements {
     
     checkVisibility() {
         const scrollY = window.pageYOffset;
-        const shouldShow = scrollY > 800;
+        const shouldShow = scrollY > 800; // Show after scrolling past hero
         
         if (shouldShow && !this.isVisible) {
             this.show();
@@ -1882,7 +1905,7 @@ class FloatingElements {
 }
 
 // ========================================
-// CONTACT FORM
+// CONTACT FORM SECTION (KEEP EXISTING)
 // ========================================
 
 class ContactForm {
@@ -1912,7 +1935,7 @@ class ContactForm {
             input.addEventListener('input', () => this.clearError(input));
         });
     }
-    
+
     initEnhancements() {
         const submitBtn = this.form.querySelector('button[type="submit"]');
         if (submitBtn) {
@@ -2023,6 +2046,107 @@ class ContactForm {
 }
 
 // ========================================
+// ANIMATION OBSERVER (KEEP EXISTING)
+// ========================================
+
+class AnimationObserver {
+    constructor() {
+        this.animatedElements = new Set();
+        
+        this.init();
+    }
+    
+    init() {
+        // Observe counter elements
+        this.observeCounters();
+        
+        // Observe bubbles for entrance animations
+        this.observeBubbles();
+
+        // Observe scroll-triggered animations
+        this.observeScrollAnimations();
+    }
+    
+    observeCounters() {
+        const counters = document.querySelectorAll('[data-count]:not(.stat-number-enhanced):not(.stat-number):not(.stat-number-live)');
+        
+        counters.forEach(counter => {
+            this.observeElement(counter, () => {
+                if (!this.animatedElements.has(counter)) {
+                    this.animateCounter(counter);
+                    this.animatedElements.add(counter);
+                }
+            });
+        });
+    }
+    
+    observeBubbles() {
+        const bubbles = document.querySelectorAll('.service-bubble, .offer-bubble, .experience-bubble');
+        
+        bubbles.forEach((bubble, index) => {
+            this.observeElement(bubble, () => {
+                if (!this.animatedElements.has(bubble)) {
+                    bubble.style.animation = `fadeInUp 0.8s ease-out ${index * 0.1}s both`;
+                    this.animatedElements.add(bubble);
+                }
+            }, 0.2);
+        });
+    }
+
+    observeScrollAnimations() {
+        const elements = document.querySelectorAll('.rating-bubble, .contact-bubble, .credential-bubble');
+        
+        elements.forEach((element, index) => {
+            this.observeElement(element, () => {
+                if (!this.animatedElements.has(element)) {
+                    element.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s both`;
+                    this.animatedElements.add(element);
+                }
+            }, 0.3);
+        });
+    }
+    
+    observeElement(element, callback, threshold = 0.3) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    callback();
+                    observer.unobserve(element);
+                }
+            });
+        }, { threshold });
+        
+        observer.observe(element);
+    }
+    
+    animateCounter(element) {
+        const target = parseInt(element.dataset.count);
+        if (!target) return;
+        
+        const duration = 2000;
+        const startTime = performance.now();
+        
+        const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const easeProgress = LuxuryMedSpa.utils.easeInOutCubic(progress);
+            const currentValue = Math.floor(easeProgress * target);
+            
+            element.textContent = currentValue;
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                element.textContent = target;
+            }
+        };
+        
+        requestAnimationFrame(animate);
+    }
+}
+
+// ========================================
 // APPLICATION INITIALIZER
 // ========================================
 
@@ -2045,24 +2169,25 @@ class LuxuryMedSpaApp {
     initializeApp() {
         if (this.isInitialized) return;
         
-        console.log('🌟 Initializing Evia Aesthetics...');
+        console.log('🌟 Initializing Fixed Luxury Med Spa Application...');
         
         try {
-            // Register GSAP plugins
-            gsap.registerPlugin(ScrollTrigger, TextPlugin);
+            // Add required CSS for animations
+            this.injectAnimationCSS();
             
             // Initialize all components
             LuxuryMedSpa.components = {
-                preloader: new EnhancedPreloader(),
-                header: new EnhancedHeader(),
+                preloader: new LuxuryPreloader(),
+                header: new LuxuryHeader(),
                 mobileMenu: new MobileMenu(),
-                hero: new EnhancedHeroSection(),
-                servicesCarousel: new ServicesCarousel(),
-                parallax: new ParallaxEffects(),
-                smoothScroll: new SmoothScrollEnhancements(),
+                fixedHero: new FixedMasterpieceHeroSection(), // FIXED HERO COMPONENT
+                modernServicesCarousel: new ModernServicesCarousel(),
+                enhancedButtons: new EnhancedButtons(),
+                resultsGallery: new ResultsGallery(),
                 modal: new ModalSystem(),
                 floatingElements: new FloatingElements(),
-                contactForm: new ContactForm()
+                contactForm: new ContactForm(),
+                animationObserver: new AnimationObserver()
             };
             
             // Global event listeners
@@ -2071,16 +2196,54 @@ class LuxuryMedSpaApp {
             // Performance optimizations
             this.initPerformanceOptimizations();
             
-            // Add global magnetic effects
-            this.initGlobalMagneticEffects();
-            
             this.isInitialized = true;
             
-            console.log('✅ Evia Aesthetics Initialized Successfully');
+            console.log('✅ Fixed Luxury Med Spa Application Initialized Successfully');
             
         } catch (error) {
             console.error('❌ Error initializing application:', error);
         }
+    }
+
+    injectAnimationCSS() {
+        const animationCSS = `
+            @keyframes ripple-animation {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = animationCSS;
+        document.head.appendChild(style);
     }
     
     bindGlobalEvents() {
@@ -2122,9 +2285,8 @@ class LuxuryMedSpaApp {
                 });
                 
                 // Pause carousel autoplay
-                if (LuxuryMedSpa.components.servicesCarousel && 
-                    LuxuryMedSpa.components.servicesCarousel.swiper) {
-                    LuxuryMedSpa.components.servicesCarousel.swiper.autoplay.stop();
+                if (LuxuryMedSpa.components.modernServicesCarousel) {
+                    LuxuryMedSpa.components.modernServicesCarousel.pauseAutoplay();
                 }
             } else {
                 // Resume videos when tab is visible
@@ -2136,9 +2298,8 @@ class LuxuryMedSpaApp {
                 });
                 
                 // Resume carousel autoplay
-                if (LuxuryMedSpa.components.servicesCarousel && 
-                    LuxuryMedSpa.components.servicesCarousel.swiper) {
-                    LuxuryMedSpa.components.servicesCarousel.swiper.autoplay.start();
+                if (LuxuryMedSpa.components.modernServicesCarousel) {
+                    LuxuryMedSpa.components.modernServicesCarousel.resumeAutoplay();
                 }
             }
         });
@@ -2186,13 +2347,13 @@ class LuxuryMedSpaApp {
     }
     
     preloadCriticalResources() {
-        // Preload hero video poster
-        const heroVideo = document.querySelector('.hero-video');
-        if (heroVideo && heroVideo.poster) {
+        // Preload fixed hero video poster
+        const fixedHeroVideo = document.querySelector('.hero-video-bg');
+        if (fixedHeroVideo && fixedHeroVideo.poster) {
             const link = document.createElement('link');
             link.rel = 'preload';
             link.as = 'image';
-            link.href = heroVideo.poster;
+            link.href = fixedHeroVideo.poster;
             document.head.appendChild(link);
         }
     }
@@ -2210,23 +2371,19 @@ class LuxuryMedSpaApp {
                     video.preload = 'none';
                 });
                 
-                // Disable carousel autoplay
-                if (LuxuryMedSpa.components.servicesCarousel && 
-                    LuxuryMedSpa.components.servicesCarousel.swiper) {
-                    LuxuryMedSpa.components.servicesCarousel.swiper.autoplay.stop();
+                // Disable carousel autoplay for slow connections
+                if (LuxuryMedSpa.components.modernServicesCarousel) {
+                    LuxuryMedSpa.components.modernServicesCarousel.pauseAutoplay();
+                }
+                
+                // Disable typed animations for performance
+                if (LuxuryMedSpa.components.fixedHero && LuxuryMedSpa.components.fixedHero.typedInstance) {
+                    LuxuryMedSpa.components.fixedHero.typedInstance.destroy();
                 }
                 
                 console.log('🐌 Slow connection detected, optimizing experience');
             }
         }
-    }
-    
-    initGlobalMagneticEffects() {
-        // Add magnetic effects to all magnetic-element class
-        const magneticElements = document.querySelectorAll('.magnetic-element');
-        magneticElements.forEach(element => {
-            LuxuryMedSpa.utils.addMagneticEffect(element, 0.2);
-        });
     }
 }
 
@@ -2234,7 +2391,7 @@ class LuxuryMedSpaApp {
 // APPLICATION INITIALIZATION
 // ========================================
 
-// Initialize the application
+// Initialize the fixed application
 const app = new LuxuryMedSpaApp();
 
 // Export for global access
@@ -2242,13 +2399,18 @@ window.LuxuryMedSpa = LuxuryMedSpa;
 
 // Enhanced debug helper in development
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    window.EviaDebug = {
+    window.LuxuryMedSpaDebug = {
         components: () => LuxuryMedSpa.components,
         settings: () => LuxuryMedSpa.settings,
         utils: () => LuxuryMedSpa.utils,
-        gsap: () => gsap,
-        version: '1.0.0 - Enhanced Edition'
+        carousel: () => LuxuryMedSpa.components.modernServicesCarousel,
+        fixedHero: () => LuxuryMedSpa.components.fixedHero,
+        floatingElements: () => LuxuryMedSpa.components.floatingElements,
+        version: '6.0.0 - Fixed Hero Section'
     };
     
-    console.log('🔧 Debug mode enabled. Use window.EviaDebug for debugging.');
+    console.log('🔧 Enhanced debug mode enabled. Use window.LuxuryMedSpaDebug for debugging.');
+    console.log('🎨 Fixed hero controls available via window.LuxuryMedSpaDebug.fixedHero()');
+    console.log('🎠 Carousel controls available via window.LuxuryMedSpaDebug.carousel()');
+    console.log('📞 Floating elements controls available via window.LuxuryMedSpaDebug.floatingElements()');
 }
