@@ -3103,4 +3103,639 @@ section:nth-child(even) {
 
 .footer-bottom {
     text-align: center;
-    padding-top: var(--
+    padding-top: var(--space-3xl);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0.8;
+}
+
+.footer-bottom p {
+    margin-bottom: var(--space-sm);
+}
+
+.footer-bottom .fa-heart {
+    color: var(--evia-orange);
+}
+
+.pulse-animation {
+    animation: pulse-animation 1.5s ease-in-out infinite;
+}
+
+/* Footer Media Queries */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-brand {
+        text-align: center;
+    }
+    
+    .footer-logo-bubble {
+        margin: 0 auto var(--space-lg);
+    }
+    
+    .social-bubbles {
+        justify-content: center;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+}
+
+/* ========================================
+   BOOKING MODAL
+   ======================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: var(--z-modal);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.booking-modal {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9) translateY(50px);
+    opacity: 0;
+    transition: all var(--transition-bounce);
+}
+
+.modal-overlay.active .booking-modal {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2xl);
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.modal-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    width: 40px;
+    height: 40px;
+    background: var(--gray-100);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.modal-close:hover {
+    background: var(--evia-orange);
+    color: var(--white);
+    transform: rotate(90deg);
+}
+
+.modal-content {
+    padding: var(--space-2xl);
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+/* ========================================
+   FLOATING ELEMENTS
+   ======================================== */
+
+/* Floating Book Button */
+.floating-book-button {
+    position: fixed;
+    bottom: var(--space-2xl);
+    right: var(--space-2xl);
+    z-index: var(--z-floating);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all var(--transition-smooth);
+}
+
+.floating-book-button.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.float-cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--radius-full);
+    color: var(--white);
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow-floating);
+    transition: all var(--transition-smooth);
+}
+
+.float-cta:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(255, 158, 24, 0.4);
+}
+
+/* Floating Call Button */
+.floating-call-button {
+    position: fixed;
+    bottom: var(--space-2xl);
+    left: var(--space-2xl);
+    z-index: var(--z-floating);
+    transform: translateX(-100px);
+    opacity: 0;
+    transition: all var(--transition-smooth) 0.3s;
+}
+
+.floating-call-button.visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.call-cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg) var(--space-xl);
+    background: #22C55E;
+    border: none;
+    border-radius: var(--radius-full);
+    color: var(--white);
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow-floating);
+    transition: all var(--transition-smooth);
+}
+
+.call-cta:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(34, 197, 94, 0.4);
+}
+
+/* Floating Social Dock */
+.floating-social-dock {
+    position: fixed;
+    bottom: 50%;
+    right: 0;
+    transform: translateY(50%) translateX(100px);
+    z-index: var(--z-floating);
+    opacity: 0;
+    transition: all var(--transition-smooth) 0.5s;
+}
+
+.floating-social-dock.visible {
+    transform: translateY(50%) translateX(0);
+    opacity: 1;
+}
+
+.social-dock-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-lg) var(--space-sm);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+    box-shadow: var(--shadow-bubble);
+}
+
+.social-float-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--white);
+    transition: all var(--transition-smooth);
+    position: relative;
+}
+
+.instagram-icon {
+    background: linear-gradient(45deg, #833AB4, #FD1D1D, #FCB045);
+}
+
+.facebook-icon {
+    background: #1877F2;
+}
+
+.social-float-icon:hover {
+    transform: scale(1.2);
+    box-shadow: var(--shadow-bubble);
+}
+
+.social-tooltip {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--text-primary);
+    color: var(--white);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+}
+
+.social-float-icon:hover .social-tooltip {
+    opacity: 1;
+    visibility: visible;
+    right: 55px;
+}
+
+/* Scroll Progress Ring */
+.scroll-progress-ring {
+    position: fixed;
+    bottom: var(--space-6xl);
+    right: var(--space-2xl);
+    width: 50px;
+    height: 50px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-bubble);
+    z-index: var(--z-floating);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8);
+    transition: all var(--transition-smooth);
+}
+
+.scroll-progress-ring.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.scroll-progress-ring:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-bubble-hover);
+}
+
+.scroll-progress-ring svg {
+    position: absolute;
+    transform: rotate(-90deg);
+    width: 50px;
+    height: 50px;
+}
+
+.progress-ring__circle {
+    fill: none;
+    stroke: var(--evia-orange);
+    stroke-width: 3;
+    stroke-dasharray: 126;
+    stroke-dashoffset: 126;
+    transition: stroke-dashoffset 0.1s linear;
+}
+
+.scroll-progress-ring i {
+    font-size: 1rem;
+    color: var(--evia-orange);
+}
+
+/* ========================================
+   ADDITIONAL ANIMATIONS & EFFECTS
+   ======================================== */
+
+/* Smooth Reveal for AOS */
+[data-aos] {
+    transition-property: transform, opacity;
+}
+
+[data-aos][data-aos][data-aos-duration="400"] {
+    transition-duration: 0.4s;
+}
+
+[data-aos][data-aos][data-aos-duration="600"] {
+    transition-duration: 0.6s;
+}
+
+[data-aos][data-aos][data-aos-duration="800"] {
+    transition-duration: 0.8s;
+}
+
+/* Enhanced Hover Effects */
+.hover-lift {
+    transition: transform var(--transition-smooth);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+/* Glow Effects */
+.glow-on-hover {
+    transition: all var(--transition-smooth);
+}
+
+.glow-on-hover:hover {
+    box-shadow: 0 0 30px rgba(255, 158, 24, 0.4);
+}
+
+/* ========================================
+   RESPONSIVE MEDIA QUERIES
+   ======================================== */
+
+/* Tablet Landscape */
+@media (max-width: 1024px) {
+    :root {
+        --space-5xl: 4rem;
+        --space-6xl: 5rem;
+    }
+    
+    .container {
+        padding: 0 var(--space-lg);
+    }
+    
+    .section-title {
+        font-size: clamp(1.75rem, 4vw, 3rem);
+    }
+}
+
+/* Tablet Portrait */
+@media (max-width: 768px) {
+    :root {
+        --space-4xl: 3rem;
+        --space-5xl: 3.5rem;
+        --space-6xl: 4rem;
+    }
+    
+    section {
+        padding: var(--space-4xl) 0;
+    }
+    
+    .floating-book-button {
+        bottom: var(--space-lg);
+        right: var(--space-lg);
+    }
+    
+    .floating-call-button {
+        bottom: var(--space-lg);
+        left: var(--space-lg);
+    }
+    
+    .floating-social-dock {
+        display: none;
+    }
+    
+    .scroll-progress-ring {
+        display: none;
+    }
+}
+
+/* Mobile Large */
+@media (max-width: 640px) {
+    :root {
+        --space-3xl: 2rem;
+        --space-4xl: 2.5rem;
+        --space-5xl: 3rem;
+    }
+    
+    .section-header {
+        margin-bottom: var(--space-3xl);
+    }
+    
+    .section-title {
+        font-size: clamp(1.5rem, 5vw, 2.5rem);
+    }
+    
+    .section-description {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile Small */
+@media (max-width: 480px) {
+    :root {
+        --space-2xl: 1.5rem;
+        --space-3xl: 1.75rem;
+        --space-4xl: 2rem;
+    }
+    
+    .container {
+        padding: 0 var(--space-md);
+    }
+    
+    .cta-bubble {
+        padding: var(--space-sm) var(--space-lg);
+        font-size: 0.9rem;
+    }
+    
+    .float-cta,
+    .call-cta {
+        padding: var(--space-md);
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+    }
+    
+    .float-cta span,
+    .call-cta span {
+        display: none;
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    .luxury-header,
+    .floating-book-button,
+    .floating-call-button,
+    .floating-social-dock,
+    .scroll-progress-ring,
+    .mobile-menu,
+    .mobile-menu-overlay,
+    .hero-video-background,
+    .hero-decorative-elements {
+        display: none !important;
+    }
+    
+    body {
+        color: #000;
+        background: #fff;
+    }
+    
+    .hero-section-redesigned {
+        background: #fff;
+        color: #000;
+        min-height: auto;
+        padding: 2rem 0;
+    }
+    
+    .hero-title,
+    .section-title {
+        color: #000;
+    }
+    
+    .gradient-text {
+        background: none;
+        -webkit-text-fill-color: #000;
+        color: #000;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY IMPROVEMENTS
+   ======================================== */
+
+/* Focus Styles */
+*:focus {
+    outline: 2px solid var(--evia-orange);
+    outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--evia-orange);
+    outline-offset: 2px;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --shadow-bubble: 0 0 0 2px currentColor;
+        --shadow-bubble-hover: 0 0 0 3px currentColor;
+    }
+    
+    .cta-bubble {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    /* Add dark mode styles if needed */
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+/* GPU Acceleration for Animations */
+.hero-video,
+.floating-orb,
+.animated-line,
+.particle,
+.magnetic-element,
+.parallax-element {
+    will-change: transform;
+}
+
+/* Optimize Font Loading */
+.font-display-swap {
+    font-display: swap;
+}
+
+/* Lazy Loading Background */
+.lazy-bg {
+    background-image: none !important;
+}
+
+.lazy-bg.loaded {
+    transition: background-image 0.3s ease;
+}
+
+/* ========================================
+   CUSTOM UTILITIES
+   ======================================== */
+
+/* Aspect Ratios */
+.aspect-square {
+    aspect-ratio: 1 / 1;
+}
+
+.aspect-video {
+    aspect-ratio: 16 / 9;
+}
+
+.aspect-4-3 {
+    aspect-ratio: 4 / 3;
+}
+
+/* Text Truncation */
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Backdrop Effects */
+.backdrop-blur {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.backdrop-saturate {
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
