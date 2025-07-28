@@ -375,8 +375,8 @@ section:nth-child(even) {
 }
 
 .preloader-logo-circle {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     background: var(--white);
     border-radius: 50%;
     display: flex;
@@ -388,8 +388,8 @@ section:nth-child(even) {
 }
 
 .preloader-logo {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     object-fit: contain;
 }
 
