@@ -468,8 +468,8 @@ section:nth-child(even) {
 }
 
 .logo-bubble {
-    width: 60px;
-    height: 60px;
+    width: 200px;
+    height: 200px;
     background: var(--gradient-primary);
     border-radius: var(--radius-lg);
     display: flex;
@@ -486,8 +486,8 @@ section:nth-child(even) {
 }
 
 .logo-img {
-    width: 35px;
-    height: 35px;
+    width: 200px;
+    height: 200px;
     object-fit: contain;
     filter: brightness(0) invert(1);
 }
