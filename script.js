@@ -80,7 +80,7 @@ class EviaLuxuryApp {
         try {
             // Initialize components in order
             this.components.preloader = new LuxuryPreloader();
-            this.components.header = new FloatingPillHeader();
+            this.components.header = new HermesLuxuryHeader();
             this.components.mobileMenu = new LuxuryMobileMenu();
             this.components.hero = new LuxuryHero();
             this.components.beforeAfter = new BeforeAfterSlider();
@@ -245,10 +245,10 @@ class LuxuryPreloader {
 }
 
 // ========================================
-// FLOATING PILL HEADER
+// HERMÈS-INSPIRED LUXURY HEADER
 // ========================================
 
-class FloatingPillHeader {
+class HermesLuxuryHeader {
     constructor() {
         this.header = document.getElementById('header');
         this.lastScrollY = 0;
@@ -263,8 +263,8 @@ class FloatingPillHeader {
     init() {
         this.bindEvents();
         this.initNavigationEffects();
-        this.initLogoShimmer();
-        this.initFloatingBehavior();
+        this.initLogoAnimations();
+        this.initPremiumBehavior();
     }
     
     bindEvents() {
@@ -279,7 +279,7 @@ class FloatingPillHeader {
             }
         }, { passive: true });
         
-        // CTA button smooth scroll
+        // Premium CTA button smooth scroll
         const headerCTA = document.getElementById('headerCTA');
         if (headerCTA) {
             headerCTA.addEventListener('click', (e) => {
@@ -288,29 +288,44 @@ class FloatingPillHeader {
             });
         }
         
-        // Logo click to top
-        const logoSection = this.header.querySelector('.logo-section');
-        if (logoSection) {
-            logoSection.addEventListener('click', () => {
+        // Logo click to top with premium animation
+        const logoFrame = this.header.querySelector('.logo-frame');
+        if (logoFrame) {
+            logoFrame.addEventListener('click', () => {
+                this.triggerLogoAnimation();
                 app.smoothScrollTo('#home', 0);
+            });
+        }
+        
+        // Mobile toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleMobileMenu();
             });
         }
     }
     
     handleScroll() {
         const scrollY = window.pageYOffset;
-        const shouldShrink = scrollY > 100;
+        const shouldTransform = scrollY > 100;
         
-        // Update scrolled state
-        if (shouldShrink !== this.isScrolled) {
-            this.isScrolled = shouldShrink;
+        // Update scrolled state with premium transitions
+        if (shouldTransform !== this.isScrolled) {
+            this.isScrolled = shouldTransform;
             this.header.classList.toggle('scrolled', this.isScrolled);
             
-            // Add subtle floating animation on scroll
-            if (this.isScrolled) {
-                this.header.style.transform = 'translateX(-50%) translateY(-2px)';
-            } else {
-                this.header.style.transform = 'translateX(-50%) translateY(0)';
+            // Add premium floating animation on scroll
+            const container = this.header.querySelector('.aluminum-container');
+            if (container) {
+                if (this.isScrolled) {
+                    container.style.transform = 'scale(0.96) translateY(-2px)';
+                    container.style.borderColor = 'var(--luxury-orange)';
+                } else {
+                    container.style.transform = 'scale(1) translateY(0)';
+                    container.style.borderColor = 'var(--aluminum-dark)';
+                }
             }
         }
         
@@ -329,11 +344,47 @@ class FloatingPillHeader {
                     app.smoothScrollTo(href);
                     this.updateActiveLink(href);
                 });
+                
+                // Enhanced hover effects
+                link.addEventListener('mouseenter', () => {
+                    this.addNavLinkShine(link);
+                });
             }
         });
         
         // Update active link on scroll
         this.updateActiveNavigation();
+    }
+    
+    addNavLinkShine(link) {
+        // Add premium shine effect on hover
+        const shine = document.createElement('div');
+        shine.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+            border-radius: 1.5rem;
+        `;
+        
+        link.style.position = 'relative';
+        link.appendChild(shine);
+        
+        // Trigger shine animation
+        requestAnimationFrame(() => {
+            shine.style.left = '100%';
+        });
+        
+        // Remove shine element after animation
+        setTimeout(() => {
+            if (shine.parentNode) {
+                shine.parentNode.removeChild(shine);
+            }
+        }, 600);
     }
     
     updateActiveNavigation() {
@@ -362,52 +413,140 @@ class FloatingPillHeader {
             link.classList.remove('active');
             if (link.getAttribute('href') === href) {
                 link.classList.add('active');
+                this.addActiveAnimation(link);
             }
         });
     }
     
-    initLogoShimmer() {
-        const logoWrapper = document.querySelector('.logo-wrapper');
-        if (!logoWrapper) return;
+    addActiveAnimation(link) {
+        // Add premium active state animation
+        link.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            link.style.transform = '';
+        }, 300);
+    }
+    
+    initLogoAnimations() {
+        const logoFrame = this.header.querySelector('.logo-frame');
+        const logoContainer = this.header.querySelector('.logo-container');
+        const premiumGlow = this.header.querySelector('.premium-glow');
         
-        // Trigger shimmer on hover and periodically
-        logoWrapper.addEventListener('mouseenter', () => {
-            this.triggerShimmer();
+        if (!logoFrame || !logoContainer) return;
+        
+        // Enhanced logo hover effects
+        logoFrame.addEventListener('mouseenter', () => {
+            this.triggerLogoAnimation();
+            if (premiumGlow) {
+                premiumGlow.style.opacity = '1';
+            }
         });
         
-        // Periodic shimmer every 8 seconds
+        logoFrame.addEventListener('mouseleave', () => {
+            if (premiumGlow) {
+                premiumGlow.style.opacity = '0';
+            }
+        });
+        
+        // Periodic premium glow effect
         setInterval(() => {
-            if (!logoWrapper.matches(':hover')) {
-                this.triggerShimmer();
+            if (!logoFrame.matches(':hover')) {
+                this.triggerPeriodicGlow();
             }
         }, 8000);
     }
     
-    triggerShimmer() {
-        const shimmer = document.querySelector('.shimmer-overlay');
-        if (shimmer) {
-            shimmer.style.animation = 'none';
-            shimmer.offsetHeight; // Force reflow
-            shimmer.style.animation = 'shimmer 1.2s ease-out';
+    triggerLogoAnimation() {
+        const logoContainer = this.header.querySelector('.logo-container');
+        const logoReflection = this.header.querySelector('.logo-reflection');
+        
+        if (logoContainer) {
+            logoContainer.style.transform = 'scale(1.05) rotate(5deg)';
+            logoContainer.style.boxShadow = '0 6px 20px rgba(255, 158, 24, 0.5)';
+            
+            setTimeout(() => {
+                logoContainer.style.transform = '';
+                logoContainer.style.boxShadow = '';
+            }, 400);
+        }
+        
+        if (logoReflection) {
+            logoReflection.style.animation = 'none';
+            logoReflection.offsetHeight; // Force reflow
+            logoReflection.style.animation = 'logo-shine 1s ease-out';
         }
     }
     
-    initFloatingBehavior() {
+    triggerPeriodicGlow() {
+        const premiumGlow = this.header.querySelector('.premium-glow');
+        if (premiumGlow) {
+            premiumGlow.style.opacity = '1';
+            premiumGlow.style.animation = 'glow-pulse 2s ease-in-out';
+            
+            setTimeout(() => {
+                premiumGlow.style.opacity = '0';
+                premiumGlow.style.animation = '';
+            }, 2000);
+        }
+    }
+    
+    initPremiumBehavior() {
+        const container = this.header.querySelector('.aluminum-container');
+        if (!container) return;
+        
         // Add subtle floating animation to the entire header
         let floatOffset = 0;
         
         const animate = () => {
-            floatOffset += 0.01;
-            const yOffset = Math.sin(floatOffset) * 2;
+            floatOffset += 0.008;
+            const yOffset = Math.sin(floatOffset) * 1.5;
             
             if (!this.isScrolled) {
-                this.header.style.transform = `translateX(-50%) translateY(${yOffset}px)`;
+                container.style.transform = `translateY(${yOffset}px)`;
             }
             
             requestAnimationFrame(animate);
         };
         
         animate();
+        
+        // Premium CTA button effects
+        const premiumCTA = this.header.querySelector('.premium-cta');
+        if (premiumCTA) {
+            premiumCTA.addEventListener('mouseenter', () => {
+                this.triggerCTAShine();
+            });
+        }
+    }
+    
+    triggerCTAShine() {
+        const ctaShine = this.header.querySelector('.cta-shine');
+        if (ctaShine) {
+            ctaShine.style.left = '-100%';
+            ctaShine.offsetHeight; // Force reflow
+            ctaShine.style.left = '100%';
+        }
+    }
+    
+    toggleMobileMenu() {
+        const toggle = document.getElementById('mobileToggle');
+        if (toggle) {
+            toggle.classList.toggle('active');
+            
+            // Trigger mobile menu component
+            if (app.components.mobileMenu) {
+                app.components.mobileMenu.toggleMenu();
+            }
+        }
+    }
+    
+    onResize() {
+        // Handle responsive behavior
+        if (window.innerWidth > 768) {
+            const toggle = document.getElementById('mobileToggle');
+            if (toggle) {
+                toggle.classList.remove('active');
+            }
+        }
     }
 }
 
@@ -436,12 +575,6 @@ class LuxuryMobileMenu {
     }
     
     bindEvents() {
-        // Modern toggle button
-        this.toggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.toggleMenu();
-        });
-        
         // Close button with modern animation
         if (this.close) {
             this.close.addEventListener('click', (e) => {
@@ -535,9 +668,6 @@ class LuxuryMobileMenu {
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
         
-        // Animate toggle button
-        this.toggle.classList.add('active');
-        
         // Show backdrop
         this.backdrop.classList.add('active');
         
@@ -573,8 +703,11 @@ class LuxuryMobileMenu {
         this.animationInProgress = true;
         this.isOpen = false;
         
-        // Animate toggle button
-        this.toggle.classList.remove('active');
+        // Update toggle state
+        const toggle = document.getElementById('mobileToggle');
+        if (toggle) {
+            toggle.classList.remove('active');
+        }
         
         // Reverse animate navigation items
         const reverseItems = Array.from(this.navItems).reverse();
@@ -1347,7 +1480,7 @@ class PerformanceOptimizer {
     
     optimizeAnimations() {
         // Use will-change for animated elements
-        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .logo-wrapper');
+        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .logo-container');
         animatedElements.forEach(element => {
             if (element) {
                 element.style.willChange = 'transform';
@@ -1413,7 +1546,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         app: () => window.app,
         components: () => window.app ? window.app.components : {},
         utils: () => EviaUtils,
-        version: '2.0.0 - Understated Luxury Edition'
+        version: '2.0.0 - Hermès Luxury Edition'
     };
     
     console.log('🔧 Evia Luxury Debug Mode Enabled');
