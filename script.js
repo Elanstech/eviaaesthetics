@@ -44,23 +44,86 @@ class EviaLuxuryApp {
     
     onDOMReady() {
         this.components.preloader = new LuxuryPreloader();
-        this.components.header = new GlassHeader();
-        this.components.mobileMenu = new MobileMenu();
+        this.components.header = new FloatingPillHeader();
+        this.components.mobileMenu = new LuxuryMobileMenu();
         this.components.hero = new LuxuryHero();
         this.components.beforeAfter = new BeforeAfterSlider();
         this.components.contactForm = new ContactForm();
         this.components.magneticEffects = new MagneticEffects();
         
-        // Initialize AOS
+        // Initialize AOS with modern configuration
         if (typeof AOS !== 'undefined') {
             AOS.init({
                 duration: 800,
                 easing: 'ease-out-cubic',
                 once: true,
                 offset: 100,
-                delay: 100
+                delay: 100,
+                useClassNames: true,
+                disableMutationObserver: false,
+                debounceDelay: 50,
+                throttleDelay: 99
             });
         }
+        
+        // Initialize modern intersection observers for performance
+        this.initModernObservers();
+    }
+    
+    initModernObservers() {
+        // Modern performance-optimized intersection observers
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -10% 0px',
+            threshold: [0, 0.25, 0.5, 0.75, 1.0]
+        };
+        
+        // Lazy load images with fade-in effect
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.style.opacity = '0';
+                        img.style.transition = 'opacity 0.6s ease-out';
+                        
+                        img.onload = () => {
+                            img.style.opacity = '1';
+                            img.classList.add('loaded');
+                        };
+                        
+                        imageObserver.unobserve(img);
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all lazy images
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            imageObserver.observe(img);
+        });
+        
+        // Animate elements on scroll with modern approach
+        const animationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                    element.classList.add('animate-in');
+                    animationObserver.unobserve(element);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+        
+        // Apply to elements that need scroll animation
+        document.querySelectorAll('.service-card, .result-card, .contact-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            animationObserver.observe(el);
+        });
     }
     
     onWindowLoad() {
@@ -182,14 +245,15 @@ class LuxuryPreloader {
 }
 
 // ========================================
-// GLASS HEADER
+// FLOATING PILL HEADER
 // ========================================
 
-class GlassHeader {
+class FloatingPillHeader {
     constructor() {
         this.header = document.getElementById('header');
         this.lastScrollY = 0;
         this.ticking = false;
+        this.isScrolled = false;
         
         if (this.header) {
             this.init();
@@ -200,10 +264,11 @@ class GlassHeader {
         this.bindEvents();
         this.initNavigationEffects();
         this.initLogoShimmer();
+        this.initFloatingBehavior();
     }
     
     bindEvents() {
-        // Optimized scroll handler
+        // Optimized scroll handler with RAF
         window.addEventListener('scroll', () => {
             if (!this.ticking) {
                 requestAnimationFrame(() => {
@@ -214,21 +279,40 @@ class GlassHeader {
             }
         }, { passive: true });
         
-        // CTA button
+        // CTA button smooth scroll
         const headerCTA = document.getElementById('headerCTA');
         if (headerCTA) {
-            headerCTA.addEventListener('click', () => {
+            headerCTA.addEventListener('click', (e) => {
+                e.preventDefault();
                 app.smoothScrollTo('#contact');
+            });
+        }
+        
+        // Logo click to top
+        const logoSection = this.header.querySelector('.logo-section');
+        if (logoSection) {
+            logoSection.addEventListener('click', () => {
+                app.smoothScrollTo('#home', 0);
             });
         }
     }
     
     handleScroll() {
         const scrollY = window.pageYOffset;
-        const shouldShrink = scrollY > 80;
+        const shouldShrink = scrollY > 100;
         
-        // Add/remove scrolled class
-        this.header.classList.toggle('scrolled', shouldShrink);
+        // Update scrolled state
+        if (shouldShrink !== this.isScrolled) {
+            this.isScrolled = shouldShrink;
+            this.header.classList.toggle('scrolled', this.isScrolled);
+            
+            // Add subtle floating animation on scroll
+            if (this.isScrolled) {
+                this.header.style.transform = 'translateX(-50%) translateY(-2px)';
+            } else {
+                this.header.style.transform = 'translateX(-50%) translateY(0)';
+            }
+        }
         
         this.lastScrollY = scrollY;
     }
@@ -258,12 +342,15 @@ class GlassHeader {
         
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
                     const id = entry.target.getAttribute('id');
                     this.updateActiveLink(`#${id}`);
                 }
             });
-        }, { threshold: 0.3 });
+        }, { 
+            threshold: [0.3, 0.5, 0.7],
+            rootMargin: '-20% 0px -20% 0px'
+        });
         
         sections.forEach(section => observer.observe(section));
     }
@@ -281,31 +368,62 @@ class GlassHeader {
     
     initLogoShimmer() {
         const logoWrapper = document.querySelector('.logo-wrapper');
-        if (logoWrapper) {
-            setInterval(() => {
-                const shimmer = logoWrapper.querySelector('.shimmer-overlay');
-                if (shimmer) {
-                    shimmer.style.animation = 'none';
-                    setTimeout(() => {
-                        shimmer.style.animation = 'shimmer 3s ease-in-out infinite';
-                    }, 100);
-                }
-            }, 5000); // Shimmer every 5 seconds
+        if (!logoWrapper) return;
+        
+        // Trigger shimmer on hover and periodically
+        logoWrapper.addEventListener('mouseenter', () => {
+            this.triggerShimmer();
+        });
+        
+        // Periodic shimmer every 8 seconds
+        setInterval(() => {
+            if (!logoWrapper.matches(':hover')) {
+                this.triggerShimmer();
+            }
+        }, 8000);
+    }
+    
+    triggerShimmer() {
+        const shimmer = document.querySelector('.shimmer-overlay');
+        if (shimmer) {
+            shimmer.style.animation = 'none';
+            shimmer.offsetHeight; // Force reflow
+            shimmer.style.animation = 'shimmer 1.2s ease-out';
         }
+    }
+    
+    initFloatingBehavior() {
+        // Add subtle floating animation to the entire header
+        let floatOffset = 0;
+        
+        const animate = () => {
+            floatOffset += 0.01;
+            const yOffset = Math.sin(floatOffset) * 2;
+            
+            if (!this.isScrolled) {
+                this.header.style.transform = `translateX(-50%) translateY(${yOffset}px)`;
+            }
+            
+            requestAnimationFrame(animate);
+        };
+        
+        animate();
     }
 }
 
 // ========================================
-// MOBILE MENU
+// LUXURY MOBILE MENU
 // ========================================
 
-class MobileMenu {
+class LuxuryMobileMenu {
     constructor() {
         this.toggle = document.getElementById('mobileToggle');
         this.menu = document.getElementById('mobileMenu');
-        this.overlay = document.getElementById('mobileOverlay');
+        this.backdrop = document.getElementById('mobileBackdrop');
         this.close = document.getElementById('mobileClose');
+        this.navItems = document.querySelectorAll('.nav-item');
         this.isOpen = false;
+        this.animationInProgress = false;
         
         if (this.toggle && this.menu) {
             this.init();
@@ -314,57 +432,93 @@ class MobileMenu {
     
     init() {
         this.bindEvents();
+        this.initAnimationStates();
     }
     
     bindEvents() {
-        // Toggle button
-        this.toggle.addEventListener('click', () => this.toggleMenu());
-        
-        // Close button
-        if (this.close) {
-            this.close.addEventListener('click', () => this.closeMenu());
-        }
-        
-        // Overlay click
-        if (this.overlay) {
-            this.overlay.addEventListener('click', () => this.closeMenu());
-        }
-        
-        // Navigation links
-        const navLinks = document.querySelectorAll('.mobile-nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const href = link.getAttribute('href');
-                if (href && href.startsWith('#')) {
-                    this.closeMenu();
-                    setTimeout(() => {
-                        app.smoothScrollTo(href);
-                    }, 300);
-                }
-            });
+        // Modern toggle button
+        this.toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.toggleMenu();
         });
         
-        // Mobile CTA
-        const mobileCTA = document.querySelector('.mobile-cta');
-        if (mobileCTA) {
-            mobileCTA.addEventListener('click', () => {
+        // Close button with modern animation
+        if (this.close) {
+            this.close.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.closeMenu();
-                setTimeout(() => {
-                    app.smoothScrollTo('#contact');
-                }, 300);
             });
         }
         
-        // Escape key
+        // Backdrop click to close
+        if (this.backdrop) {
+            this.backdrop.addEventListener('click', () => {
+                this.closeMenu();
+            });
+        }
+        
+        // Navigation links with smooth transitions
+        this.navItems.forEach((item, index) => {
+            const link = item.querySelector('.nav-link');
+            if (link) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        this.navigateAndClose(href, index);
+                    }
+                });
+                
+                // Add hover sound effect (optional)
+                link.addEventListener('mouseenter', () => {
+                    this.playHoverEffect(item);
+                });
+            }
+        });
+        
+        // Menu CTA button
+        const menuCTA = document.querySelector('.menu-cta');
+        if (menuCTA) {
+            menuCTA.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.navigateAndClose('#contact');
+            });
+        }
+        
+        // Keyboard accessibility
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isOpen) {
                 this.closeMenu();
             }
         });
+        
+        // Handle window resize
+        window.addEventListener('resize', this.debounce(() => {
+            if (this.isOpen && window.innerWidth > 768) {
+                this.closeMenu();
+            }
+        }, 250));
+    }
+    
+    initAnimationStates() {
+        // Set initial states for animations
+        this.navItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(50px)';
+            item.style.transition = `all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
+        });
+        
+        const menuFooter = document.querySelector('.menu-footer');
+        if (menuFooter) {
+            menuFooter.style.opacity = '0';
+            menuFooter.style.transform = 'translateY(30px)';
+            menuFooter.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s';
+        }
     }
     
     toggleMenu() {
+        if (this.animationInProgress) return;
+        
         if (this.isOpen) {
             this.closeMenu();
         } else {
@@ -372,20 +526,148 @@ class MobileMenu {
         }
     }
     
-    openMenu() {
+    async openMenu() {
+        if (this.isOpen || this.animationInProgress) return;
+        
+        this.animationInProgress = true;
         this.isOpen = true;
-        this.toggle.classList.add('active');
-        this.menu.classList.add('active');
-        this.overlay.classList.add('active');
+        
+        // Prevent body scroll
         document.body.style.overflow = 'hidden';
+        
+        // Animate toggle button
+        this.toggle.classList.add('active');
+        
+        // Show backdrop
+        this.backdrop.classList.add('active');
+        
+        // Show menu container
+        this.menu.classList.add('active');
+        
+        // Wait for menu to slide in, then animate content
+        await this.wait(200);
+        
+        // Animate navigation items with stagger
+        this.navItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            }, index * 100);
+        });
+        
+        // Animate footer
+        const menuFooter = document.querySelector('.menu-footer');
+        if (menuFooter) {
+            setTimeout(() => {
+                menuFooter.style.opacity = '1';
+                menuFooter.style.transform = 'translateY(0)';
+            }, 600);
+        }
+        
+        this.animationInProgress = false;
     }
     
-    closeMenu() {
+    async closeMenu() {
+        if (!this.isOpen || this.animationInProgress) return;
+        
+        this.animationInProgress = true;
         this.isOpen = false;
+        
+        // Animate toggle button
         this.toggle.classList.remove('active');
+        
+        // Reverse animate navigation items
+        const reverseItems = Array.from(this.navItems).reverse();
+        reverseItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(50px)';
+            }, index * 50);
+        });
+        
+        // Hide footer
+        const menuFooter = document.querySelector('.menu-footer');
+        if (menuFooter) {
+            menuFooter.style.opacity = '0';
+            menuFooter.style.transform = 'translateY(30px)';
+        }
+        
+        // Wait for content animation, then hide menu
+        await this.wait(400);
+        
+        // Hide menu container
         this.menu.classList.remove('active');
-        this.overlay.classList.remove('active');
+        
+        // Hide backdrop
+        this.backdrop.classList.remove('active');
+        
+        // Restore body scroll
         document.body.style.overflow = '';
+        
+        this.animationInProgress = false;
+    }
+    
+    async navigateAndClose(href, itemIndex = 0) {
+        // Highlight selected item
+        if (itemIndex >= 0 && this.navItems[itemIndex]) {
+            this.navItems[itemIndex].style.background = 'rgba(255, 158, 24, 0.1)';
+            this.navItems[itemIndex].style.transform = 'translateX(0) scale(1.02)';
+        }
+        
+        // Close menu
+        await this.closeMenu();
+        
+        // Navigate after menu closes
+        setTimeout(() => {
+            app.smoothScrollTo(href);
+        }, 300);
+    }
+    
+    playHoverEffect(item) {
+        // Subtle hover animation
+        const underline = item.querySelector('.nav-underline');
+        if (underline) {
+            underline.style.width = 'calc(100% - 2rem)';
+        }
+        
+        // Optional: Add subtle scaling
+        item.style.transform = 'translateX(0) scale(1.02)';
+        
+        // Reset on mouse leave
+        const link = item.querySelector('.nav-link');
+        const resetHover = () => {
+            if (underline) {
+                underline.style.width = '0';
+            }
+            item.style.transform = 'translateX(0) scale(1)';
+            link.removeEventListener('mouseleave', resetHover);
+        };
+        
+        link.addEventListener('mouseleave', resetHover);
+    }
+    
+    // Utility methods
+    wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+    
+    onResize() {
+        // Handle responsive behavior
+        if (this.isOpen && window.innerWidth > 768) {
+            this.closeMenu();
+        }
     }
 }
 
