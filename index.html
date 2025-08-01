@@ -12,135 +12,74 @@
     <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Icons & Assets -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
     
-    <!-- Animation Libraries -->
+    <!-- Animation Library -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    
-    <!-- Swiper & Lightbox -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
-    
-    <!-- Motion & Effects -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
-    
-    <!-- Advanced JS Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.16/typed.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Advanced Preloader -->
+    <!-- Elegant Preloader -->
     <div class="luxury-preloader" id="preloader">
-        <div class="preloader-content">
-            <div class="logo-animation">
-                <div class="logo-circle">
-                    <img src="https://raw.githubusercontent.com/Elanstech/eviaaesthetics/refs/heads/main/logo1.png" alt="Evia Aesthetics" class="rotating-logo">
-                </div>
-                <div class="pulse-rings">
-                    <div class="pulse-ring"></div>
-                    <div class="pulse-ring"></div>
-                    <div class="pulse-ring"></div>
+        <div class="preloader-container">
+            <div class="logo-glow-circle">
+                <div class="inner-glow">
+                    <img src="https://raw.githubusercontent.com/Elanstech/eviaaesthetics/refs/heads/main/logo1.png" alt="Evia Aesthetics" class="floating-logo">
                 </div>
             </div>
-            <div class="brand-identity">
+            <div class="brand-text">
                 <h1 class="brand-name">Evia Aesthetics</h1>
-                <p class="brand-tagline">Manhattan's Premier Medical Spa</p>
-            </div>
-            <div class="loading-system">
-                <div class="loading-bar">
-                    <div class="loading-fill" id="loadingFill"></div>
-                </div>
-                <div class="loading-stats">
-                    <span class="loading-percent">0%</span>
-                    <span class="loading-status">Initializing Experience...</span>
-                </div>
+                <p class="brand-tagline">Understated Luxury</p>
             </div>
         </div>
-        <div class="preloader-particles" id="preloaderParticles"></div>
     </div>
 
-    <!-- Cinematic Header -->
-    <header class="cinematic-header" id="header">
-        <div class="header-background"></div>
-        <div class="header-container">
-            <!-- Logo Section -->
+    <!-- Glassmorphism Header -->
+    <header class="glass-header" id="header">
+        <nav class="nav-container">
             <div class="logo-section">
-                <div class="logo-container">
-                    <div class="logo-wrapper">
-                        <img src="https://raw.githubusercontent.com/Elanstech/eviaaesthetics/refs/heads/main/logo1.png" alt="Evia Aesthetics" class="main-logo">
-                        <div class="logo-glow"></div>
-                    </div>
-                    <div class="brand-text">
-                        <span class="brand-title">Evia</span>
-                        <span class="brand-subtitle">Aesthetics</span>
-                    </div>
+                <div class="logo-wrapper">
+                    <div class="shimmer-overlay"></div>
+                    <img src="https://raw.githubusercontent.com/Elanstech/eviaaesthetics/refs/heads/main/logo1.png" alt="Evia">
+                </div>
+                <div class="brand-identity">
+                    <span class="brand-title">Evia</span>
+                    <span class="brand-subtitle">Aesthetics</span>
                 </div>
             </div>
             
-            <!-- Advanced Navigation -->
-            <nav class="main-navigation">
-                <ul class="nav-menu">
-                    <li><a href="#home" class="nav-link active" data-text="Home">Home</a></li>
-                    <li><a href="#services" class="nav-link" data-text="Services">Services</a></li>
-                    <li><a href="#about" class="nav-link" data-text="About">About Dr. Nano</a></li>
-                    <li><a href="#results" class="nav-link" data-text="Results">Results</a></li>
-                    <li><a href="#reviews" class="nav-link" data-text="Reviews">Reviews</a></li>
-                    <li><a href="#contact" class="nav-link" data-text="Contact">Contact</a></li>
-                </ul>
-            </nav>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#results" class="nav-link">Results</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
             
-            <!-- Header Actions -->
-            <div class="header-actions">
-                <div class="contact-bubble">
-                    <div class="contact-icon">
-                        <i class="ri-phone-line"></i>
-                    </div>
-                    <div class="contact-info">
-                        <span class="contact-label">Call Now</span>
-                        <span class="contact-number">(555) 123-4567</span>
-                    </div>
-                </div>
-                
-                <button class="primary-cta" id="headerBooking">
-                    <span class="cta-text">Book Consultation</span>
-                    <div class="cta-icon">
-                        <i class="ri-calendar-check-line"></i>
-                    </div>
-                    <div class="cta-bg"></div>
-                </button>
-                
-                <!-- Advanced Mobile Toggle -->
-                <button class="mobile-toggle" id="mobileToggle">
-                    <span class="toggle-line line-1"></span>
-                    <span class="toggle-line line-2"></span>
-                    <span class="toggle-line line-3"></span>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Progress Indicator -->
-        <div class="scroll-progress">
-            <div class="progress-fill" id="scrollProgress"></div>
-        </div>
+            <button class="cta-button" id="headerCTA">
+                <span>Book Consultation</span>
+                <div class="button-glow"></div>
+                <div class="ripple-effect"></div>
+            </button>
+            
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
     </header>
 
-    <!-- Mobile Menu Experience -->
+    <!-- Mobile Menu -->
     <div class="mobile-overlay" id="mobileOverlay"></div>
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-header">
-            <div class="mobile-brand">
+            <div class="mobile-logo">
                 <img src="https://raw.githubusercontent.com/Elanstech/eviaaesthetics/refs/heads/main/logo1.png" alt="Evia">
                 <span>Evia Aesthetics</span>
             </div>
@@ -148,530 +87,209 @@
                 <i class="ri-close-line"></i>
             </button>
         </div>
-        
-        <nav class="mobile-navigation">
-            <a href="#home" class="mobile-nav-item">
-                <div class="nav-icon"><i class="ri-home-4-line"></i></div>
-                <span>Home</span>
-                <div class="nav-arrow"><i class="ri-arrow-right-s-line"></i></div>
-            </a>
-            <a href="#services" class="mobile-nav-item">
-                <div class="nav-icon"><i class="ri-sparkling-2-line"></i></div>
-                <span>Services</span>
-                <div class="nav-arrow"><i class="ri-arrow-right-s-line"></i></div>
-            </a>
-            <a href="#about" class="mobile-nav-item">
-                <div class="nav-icon"><i class="ri-user-heart-line"></i></div>
-                <span>About Dr. Nano</span>
-                <div class="nav-arrow"><i class="ri-arrow-right-s-line"></i></div>
-            </a>
-            <a href="#results" class="mobile-nav-item">
-                <div class="nav-icon"><i class="ri-gallery-line"></i></div>
-                <span>Results</span>
-                <div class="nav-arrow"><i class="ri-arrow-right-s-line"></i></div>
-            </a>
-            <a href="#reviews" class="mobile-nav-item">
-                <div class="nav-icon"><i class="ri-star-smile-line"></i></div>
-                <span>Reviews</span>
-                <div class="nav-arrow"><i class="ri-arrow-right-s-line"></i></div>
-            </a>
-            <a href="#contact" class="mobile-nav-item">
-                <div class="nav-icon"><i class="ri-map-pin-line"></i></div>
-                <span>Contact</span>
-                <div class="nav-arrow"><i class="ri-arrow-right-s-line"></i></div>
-            </a>
+        <nav class="mobile-nav">
+            <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="#services" class="mobile-nav-link">Services</a>
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#results" class="mobile-nav-link">Results</a>
+            <a href="#contact" class="mobile-nav-link">Contact</a>
         </nav>
-        
-        <div class="mobile-cta">
-            <button class="mobile-book-btn">
-                <span>Book Consultation</span>
-                <i class="ri-calendar-check-line"></i>
-            </button>
-        </div>
+        <button class="mobile-cta">Book Consultation</button>
     </div>
 
-    <!-- CINEMATIC HERO SECTION -->
-    <section class="cinematic-hero" id="home">
-        <!-- Video Background System -->
-        <div class="video-background">
+    <!-- Hero Section -->
+    <section class="luxury-hero" id="home">
+        <!-- Video Background with Cream Overlay -->
+        <div class="video-container">
             <video class="hero-video" autoplay muted loop playsinline>
                 <source src="hero.mp4" type="video/mp4">
             </video>
-            <div class="video-overlay"></div>
-            <div class="video-effects">
-                <div class="light-ray ray-1"></div>
-                <div class="light-ray ray-2"></div>
-                <div class="light-ray ray-3"></div>
-            </div>
+            <div class="cream-overlay"></div>
         </div>
-
-        <!-- Particle System -->
-        <div class="hero-particles" id="heroParticles"></div>
-
-        <!-- Floating Elements -->
-        <div class="floating-elements">
-            <div class="float-orb orb-1"></div>
-            <div class="float-orb orb-2"></div>
-            <div class="float-orb orb-3"></div>
-            <div class="float-orb orb-4"></div>
+        
+        <!-- Floating Orbs -->
+        <div class="floating-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+            <div class="orb orb-4"></div>
         </div>
-
+        
         <!-- Hero Content -->
         <div class="hero-content">
-            <div class="container">
-                <div class="hero-layout">
-                    <!-- Main Content -->
-                    <div class="hero-main">
-                        <!-- Location Badge -->
-                        <div class="location-badge" data-aos="fade-down" data-aos-delay="300">
-                            <div class="badge-icon">
-                                <i class="ri-map-pin-2-fill"></i>
-                            </div>
-                            <span>Manhattan's Premier Medical Spa</span>
-                            <div class="badge-glow"></div>
-                        </div>
-
-                        <!-- Dynamic Title -->
-                        <div class="hero-title-section" data-aos="fade-up" data-aos-delay="500">
-                            <h1 class="hero-title">
-                                <span class="title-line">Transform Your</span>
-                                <span class="title-dynamic" id="dynamicText"></span>
-                                <span class="title-line">with Precision & Art</span>
-                            </h1>
-                            
-                            <p class="hero-subtitle">
-                                Where cutting-edge medical science meets artisanal beauty craftsmanship
-                            </p>
-                            
-                            <div class="hero-credentials">
-                                <div class="credential-item">
-                                    <i class="ri-award-line"></i>
-                                    <span>Dr. Evia Alikaj Nano</span>
-                                </div>
-                                <div class="credential-divider"></div>
-                                <div class="credential-item">
-                                    <i class="ri-shield-check-line"></i>
-                                    <span>Board-Certified</span>
-                                </div>
-                                <div class="credential-divider"></div>
-                                <div class="credential-item">
-                                    <i class="ri-time-line"></i>
-                                    <span>20+ Years Excellence</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CTA Section -->
-                        <div class="hero-cta-section" data-aos="fade-up" data-aos-delay="700">
-                            <button class="hero-primary-cta" id="heroPrimaryCTA">
-                                <div class="cta-content">
-                                    <div class="cta-icon-wrap">
-                                        <i class="ri-calendar-check-line"></i>
-                                    </div>
-                                    <div class="cta-text-wrap">
-                                        <span class="cta-main">Book Free Consultation</span>
-                                        <span class="cta-sub">$500 Value • Same Day Available</span>
-                                    </div>
-                                </div>
-                                <div class="cta-effects">
-                                    <div class="cta-ripple"></div>
-                                    <div class="cta-glow"></div>
-                                </div>
-                            </button>
-                            
-                            <button class="hero-secondary-cta" id="heroSecondaryCTA">
-                                <div class="play-icon">
-                                    <i class="ri-play-fill"></i>
-                                </div>
-                                <span>Virtual Spa Tour</span>
-                                <div class="cta-border"></div>
-                            </button>
-                        </div>
-
-                        <!-- Trust Indicators -->
-                        <div class="trust-indicators" data-aos="fade-up" data-aos-delay="900">
-                            <div class="trust-item">
-                                <div class="trust-icon">
-                                    <i class="ri-shield-check-fill"></i>
-                                </div>
-                                <span>FDA Approved</span>
-                            </div>
-                            <div class="trust-item">
-                                <div class="trust-icon">
-                                    <i class="ri-award-fill"></i>
-                                </div>
-                                <span>Board Certified</span>
-                            </div>
-                            <div class="trust-item">
-                                <div class="trust-icon">
-                                    <i class="ri-star-fill"></i>
-                                </div>
-                                <span>5-Star Rated</span>
-                            </div>
-                            <div class="trust-item">
-                                <div class="trust-icon">
-                                    <i class="ri-group-fill"></i>
-                                </div>
-                                <span>1000+ Patients</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Booking Card -->
-                    <div class="booking-card" data-aos="fade-left" data-aos-delay="600">
-                        <div class="card-header">
-                            <h3>Quick Booking</h3>
-                            <div class="availability-status">
-                                <div class="status-indicator"></div>
-                                <span>Available Today</span>
-                            </div>
-                        </div>
-                        
-                        <form class="booking-form" id="quickBookingForm">
-                            <div class="form-group">
-                                <label>Select Service</label>
-                                <div class="select-wrapper">
-                                    <select id="serviceSelect" required>
-                                        <option value="">Choose treatment...</option>
-                                        <option value="consultation">Free Consultation ($500 value)</option>
-                                        <option value="botox">Botox & Fillers</option>
-                                        <option value="skin">Skin Treatments</option>
-                                        <option value="weight">Weight Management</option>
-                                        <option value="iv">IV Therapy</option>
-                                        <option value="microneedling">Microneedling</option>
-                                    </select>
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Preferred Date</label>
-                                <div class="input-wrapper">
-                                    <input type="date" id="dateSelect" required>
-                                    <i class="ri-calendar-line"></i>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Phone Number</label>
-                                <div class="input-wrapper">
-                                    <input type="tel" placeholder="(555) 123-4567" id="phoneInput" required>
-                                    <i class="ri-phone-line"></i>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="submit-btn">
-                                <span>Confirm Booking</span>
-                                <i class="ri-arrow-right-line"></i>
-                                <div class="btn-effect"></div>
-                            </button>
-                        </form>
-                        
-                        <div class="booking-benefits">
-                            <div class="benefit">
-                                <i class="ri-gift-line"></i>
-                                <span>Free $500 consultation</span>
-                            </div>
-                            <div class="benefit">
-                                <i class="ri-time-line"></i>
-                                <span>Same-day appointments</span>
-                            </div>
-                        </div>
-                    </div>
+            <div class="hero-badge">
+                <i class="ri-map-pin-2-fill"></i>
+                <span>Manhattan's Premier Medical Spa</span>
+            </div>
+            
+            <h1 class="hero-headline">
+                <span class="line-1">Transform Your</span>
+                <span class="gradient-text" id="cyclingText">Beauty</span>
+                <span class="line-2">with Artisanal Care</span>
+            </h1>
+            
+            <p class="hero-description">
+                Where cutting-edge medical science meets refined aesthetic artistry, 
+                creating naturally beautiful results that enhance your confidence.
+            </p>
+            
+            <div class="hero-credentials">
+                <div class="credential">
+                    <i class="ri-award-line"></i>
+                    <span>Dr. Evia Alikaj Nano, MD</span>
                 </div>
-
-                <!-- Features Showcase -->
-                <div class="features-showcase" data-aos="fade-up" data-aos-delay="1100">
-                    <!-- Popular Services -->
-                    <div class="feature-card services-card">
-                        <h3>Popular Treatments</h3>
-                        <div class="services-list">
-                            <div class="service-item active">
-                                <div class="service-icon">
-                                    <i class="ri-syringe-line"></i>
-                                </div>
-                                <div class="service-details">
-                                    <h4>Botox & Fillers</h4>
-                                    <p>Starting $12/unit</p>
-                                </div>
-                                <div class="popularity-meter">
-                                    <div class="meter-fill" style="width: 95%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="service-item">
-                                <div class="service-icon">
-                                    <i class="ri-sparkling-2-line"></i>
-                                </div>
-                                <div class="service-details">
-                                    <h4>Skin Rejuvenation</h4>
-                                    <p>From $300</p>
-                                </div>
-                                <div class="popularity-meter">
-                                    <div class="meter-fill" style="width: 88%"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="service-item">
-                                <div class="service-icon">
-                                    <i class="ri-hearts-line"></i>
-                                </div>
-                                <div class="service-details">
-                                    <h4>Weight Management</h4>
-                                    <p>Consultation Required</p>
-                                </div>
-                                <div class="popularity-meter">
-                                    <div class="meter-fill" style="width: 76%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Doctor Profile -->
-                    <div class="feature-card doctor-card">
-                        <div class="doctor-profile">
-                            <div class="doctor-avatar">
-                                <img src="eviaherself.jpg" alt="Dr. Evia Alikaj Nano">
-                                <div class="avatar-status">
-                                    <div class="status-dot"></div>
-                                    <span>Available</span>
-                                </div>
-                            </div>
-                            <div class="doctor-info">
-                                <h4>Dr. Evia Alikaj Nano</h4>
-                                <p>MD • Aesthetic Medicine Specialist</p>
-                                <div class="doctor-stats">
-                                    <div class="stat">
-                                        <span class="stat-number" data-count="20">0</span>
-                                        <span class="stat-label">Years</span>
-                                    </div>
-                                    <div class="stat-divider"></div>
-                                    <div class="stat">
-                                        <span class="stat-number" data-count="1000">0</span>
-                                        <span class="stat-label">Patients</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Live Statistics -->
-                    <div class="feature-card stats-card">
-                        <h3>Live Statistics</h3>
-                        <div class="stats-grid">
-                            <div class="stat-box">
-                                <div class="stat-icon">
-                                    <i class="ri-heart-pulse-line"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <span class="stat-value" data-target="98">0</span>%
-                                    <span class="stat-desc">Satisfaction</span>
-                                </div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-icon">
-                                    <i class="ri-user-add-line"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <span class="stat-value" data-target="247">0</span>+
-                                    <span class="stat-desc">New Patients</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Results Preview -->
-                    <div class="feature-card results-card">
-                        <h3>Real Results</h3>
-                        <div class="before-after-preview">
-                            <div class="ba-slider">
-                                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop" alt="Before" class="before-image">
-                                <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop" alt="After" class="after-image">
-                                <div class="slider-handle">
-                                    <i class="ri-drag-move-line"></i>
-                                </div>
-                            </div>
-                            <p class="result-info">Botox Treatment • 2 weeks</p>
-                        </div>
-                        <button class="gallery-btn">
-                            <span>View Full Gallery</span>
-                            <i class="ri-external-link-line"></i>
-                        </button>
-                    </div>
+                <div class="credential">
+                    <i class="ri-shield-check-line"></i>
+                    <span>Board Certified</span>
                 </div>
-
-                <!-- Reviews Ticker -->
-                <div class="reviews-ticker" data-aos="fade-up" data-aos-delay="1300">
-                    <div class="ticker-track">
-                        <div class="review-item">
-                            <div class="stars">★★★★★</div>
-                            <p>"Dr. Nano transformed my confidence!"</p>
-                            <cite>- Sarah M.</cite>
-                        </div>
-                        <div class="review-item">
-                            <div class="stars">★★★★★</div>
-                            <p>"The most professional spa in Manhattan."</p>
-                            <cite>- Jennifer K.</cite>
-                        </div>
-                        <div class="review-item">
-                            <div class="stars">★★★★★</div>
-                            <p>"Results exceeded all expectations!"</p>
-                            <cite>- Maria L.</cite>
-                        </div>
-                        <div class="review-item">
-                            <div class="stars">★★★★★</div>
-                            <p>"Absolutely life-changing experience!"</p>
-                            <cite>- Amanda R.</cite>
-                        </div>
-                    </div>
+                <div class="credential">
+                    <i class="ri-time-line"></i>
+                    <span>20+ Years Experience</span>
                 </div>
             </div>
+            
+            <button class="primary-cta magnetic-button" id="primaryCTA">
+                <span>Book Your Consultation</span>
+                <div class="cta-glow"></div>
+                <div class="cta-ripple"></div>
+            </button>
         </div>
-
+        
         <!-- Scroll Indicator -->
         <div class="scroll-indicator">
-            <span>Discover More</span>
-            <div class="scroll-arrow">
-                <div class="arrow-line"></div>
-                <i class="ri-arrow-down-line"></i>
-            </div>
+            <div class="scroll-line"></div>
+            <i class="ri-arrow-down-line"></i>
         </div>
     </section>
 
-    <!-- SERVICES SECTION -->
+    <!-- Services Section -->
     <section class="services-section" id="services">
         <div class="container">
             <div class="section-header">
-                <div class="section-badge" data-aos="fade-down">
+                <div class="section-badge" data-aos="fade-up">
                     <i class="ri-sparkling-2-fill"></i>
                     <span>Premium Services</span>
                 </div>
-                <h2 class="section-title" data-aos="fade-up">
-                    Transform Your Beauty with
-                    <span class="gradient-text">Expert Care</span>
+                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">
+                    Exquisite Treatments for
+                    <span class="gradient-text">Natural Beauty</span>
                 </h2>
                 <p class="section-description" data-aos="fade-up" data-aos-delay="200">
-                    Discover our curated selection of advanced aesthetic treatments designed for Manhattan's most discerning clientele.
+                    Discover our curated collection of advanced aesthetic treatments, 
+                    each designed to enhance your natural radiance with subtle sophistication.
                 </p>
             </div>
 
             <div class="services-grid">
-                <!-- Service Cards -->
-                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-image">
                         <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=300&fit=crop" alt="Botox & Fillers">
-                        <div class="image-overlay"></div>
                         <div class="service-badge">Most Popular</div>
                     </div>
                     <div class="service-content">
-                        <div class="service-icon">
+                        <div class="service-icon pulse-icon">
                             <i class="ri-syringe-line"></i>
                         </div>
                         <h3>Botox & Fillers</h3>
-                        <p class="service-tagline">Sculpt. Smooth. Refresh.</p>
-                        <p class="service-description">Enhance your natural beauty with precision-placed injectables for smoother, more youthful skin.</p>
+                        <p class="service-tagline">Refined. Natural. Timeless.</p>
+                        <p class="service-description">Precision-placed injectables that enhance your natural features with subtle sophistication and lasting results.</p>
                         <div class="service-price">Starting from <span>$12/unit</span></div>
-                        <button class="service-cta">
+                        <button class="service-btn magnetic-button">
                             <span>Learn More</span>
                             <i class="ri-arrow-right-line"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Weight Loss">
-                        <div class="image-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Weight Management">
                     </div>
                     <div class="service-content">
-                        <div class="service-icon">
+                        <div class="service-icon pulse-icon">
                             <i class="ri-hearts-line"></i>
                         </div>
-                        <h3>Weight Loss</h3>
-                        <p class="service-tagline">Transform. Sustain. Thrive.</p>
-                        <p class="service-description">Medical weight management with personalized plans and cutting-edge treatments for sustainable results.</p>
+                        <h3>Weight Management</h3>
+                        <p class="service-tagline">Sustainable. Holistic. Transformative.</p>
+                        <p class="service-description">Medical weight management programs tailored to your lifestyle, ensuring lasting results and improved wellness.</p>
                         <div class="service-price">Custom <span>Consultation</span></div>
-                        <button class="service-cta">
+                        <button class="service-btn magnetic-button">
                             <span>Learn More</span>
                             <i class="ri-arrow-right-line"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="service-image">
                         <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop" alt="IV Therapy">
-                        <div class="image-overlay"></div>
                     </div>
                     <div class="service-content">
-                        <div class="service-icon">
+                        <div class="service-icon pulse-icon">
                             <i class="ri-drop-line"></i>
                         </div>
                         <h3>IV Therapy</h3>
-                        <p class="service-tagline">Hydrate. Energize. Glow.</p>
-                        <p class="service-description">Luxury vitamin infusions for instant hydration, energy, and wellness delivered directly to your cells.</p>
+                        <p class="service-tagline">Revitalize. Restore. Rejuvenate.</p>
+                        <p class="service-description">Luxury vitamin infusions designed to optimize your health, energy, and natural glow from within.</p>
                         <div class="service-price">Starting from <span>$150</span></div>
-                        <button class="service-cta">
+                        <button class="service-btn magnetic-button">
                             <span>Learn More</span>
                             <i class="ri-arrow-right-line"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="500">
+                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-image">
                         <img src="https://images.unsplash.com/photo-1616391182219-e080b4d1043a?w=400&h=300&fit=crop" alt="Microneedling">
-                        <div class="image-overlay"></div>
                     </div>
                     <div class="service-content">
-                        <div class="service-icon">
+                        <div class="service-icon pulse-icon">
                             <i class="ri-sparkling-line"></i>
                         </div>
                         <h3>Microneedling</h3>
                         <p class="service-tagline">Renew. Repair. Radiate.</p>
-                        <p class="service-description">Advanced collagen induction therapy for skin rejuvenation, texture improvement, and scar reduction.</p>
+                        <p class="service-description">Advanced collagen induction therapy for smoother skin texture and a naturally luminous complexion.</p>
                         <div class="service-price">Starting from <span>$300</span></div>
-                        <button class="service-cta">
+                        <button class="service-btn magnetic-button">
                             <span>Learn More</span>
                             <i class="ri-arrow-right-line"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="600">
+                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-image">
                         <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=300&fit=crop" alt="PRP Therapy">
-                        <div class="image-overlay"></div>
                     </div>
                     <div class="service-content">
-                        <div class="service-icon">
+                        <div class="service-icon pulse-icon">
                             <i class="ri-plant-line"></i>
                         </div>
                         <h3>PRP Therapy</h3>
-                        <p class="service-tagline">Heal. Restore. Regenerate.</p>
-                        <p class="service-description">Harness your body's natural healing power for hair restoration and facial rejuvenation treatments.</p>
+                        <p class="service-tagline">Natural. Regenerative. Powerful.</p>
+                        <p class="service-description">Harness your body's natural healing power for facial rejuvenation and hair restoration treatments.</p>
                         <div class="service-price">Starting from <span>$400</span></div>
-                        <button class="service-cta">
+                        <button class="service-btn magnetic-button">
                             <span>Learn More</span>
                             <i class="ri-arrow-right-line"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="700">
+                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="service-image">
                         <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=300&fit=crop" alt="Chemical Peels">
-                        <div class="image-overlay"></div>
                     </div>
                     <div class="service-content">
-                        <div class="service-icon">
+                        <div class="service-icon pulse-icon">
                             <i class="ri-contrast-drop-line"></i>
                         </div>
                         <h3>Chemical Peels</h3>
-                        <p class="service-tagline">Reveal. Refine. Rejuvenate.</p>
-                        <p class="service-description">Medical-grade peels for radiant skin, targeting pigmentation, acne scars, and signs of aging.</p>
+                        <p class="service-tagline">Reveal. Refine. Perfect.</p>
+                        <p class="service-description">Medical-grade peels that reveal your skin's natural radiance while addressing specific concerns with precision.</p>
                         <div class="service-price">Starting from <span>$200</span></div>
-                        <button class="service-cta">
+                        <button class="service-btn magnetic-button">
                             <span>Learn More</span>
                             <i class="ri-arrow-right-line"></i>
                         </button>
@@ -681,157 +299,147 @@
         </div>
     </section>
 
-    <!-- ABOUT SECTION -->
+    <!-- About Section -->
     <section class="about-section" id="about">
         <div class="container">
-            <div class="about-grid">
+            <div class="about-layout">
                 <div class="doctor-visual" data-aos="fade-right">
-                    <div class="doctor-image-container">
+                    <div class="doctor-image-frame">
                         <img src="eviaherself.jpg" alt="Dr. Evia Alikaj Nano" class="doctor-image">
-                        <div class="image-frame"></div>
-                        <div class="floating-badge top-badge">
-                            <i class="ri-award-fill"></i>
-                            <span>Board Certified</span>
-                        </div>
-                        <div class="floating-badge bottom-badge">
-                            <i class="ri-star-fill"></i>
-                            <span>5-Star Rated</span>
-                        </div>
+                        <div class="image-glow"></div>
+                    </div>
+                    <div class="floating-credential top">
+                        <i class="ri-award-fill"></i>
+                        <span>Board Certified</span>
+                    </div>
+                    <div class="floating-credential bottom">
+                        <i class="ri-star-fill"></i>
+                        <span>5-Star Rated</span>
                     </div>
                 </div>
-
+                
                 <div class="doctor-content" data-aos="fade-left" data-aos-delay="200">
                     <div class="section-badge">
                         <i class="ri-user-heart-line"></i>
-                        <span>Meet The Expert</span>
+                        <span>Meet Dr. Nano</span>
                     </div>
                     
                     <h2 class="section-title">
-                        Dr. Evia Alikaj Nano
-                        <span class="gradient-text">MD</span>
+                        Excellence in
+                        <span class="gradient-text">Aesthetic Medicine</span>
                     </h2>
-
-                    <div class="doctor-quote">
+                    
+                    <div class="quote-card">
                         <div class="quote-icon">
                             <i class="ri-double-quotes-l"></i>
                         </div>
                         <blockquote>
-                            "Beauty is not about changing who you are, but revealing the best version of yourself. 
-                            My approach combines medical expertise with an artistic eye to enhance your natural beauty."
+                            "True beauty is not about changing who you are, but revealing the most 
+                            confident version of yourself. My approach combines medical precision 
+                            with an artistic eye to enhance your natural radiance."
                         </blockquote>
-                        <cite>- Dr. Evia Alikaj Nano</cite>
+                        <cite>Dr. Evia Alikaj Nano, MD</cite>
                     </div>
-
-                    <div class="credentials-showcase">
-                        <div class="credential-card" data-aos="zoom-in" data-aos-delay="400">
+                    
+                    <div class="credentials-grid">
+                        <div class="credential-item" data-aos="zoom-in" data-aos-delay="300">
                             <div class="credential-icon">
                                 <i class="ri-graduation-cap-line"></i>
                             </div>
-                            <div class="credential-details">
+                            <div class="credential-text">
                                 <h4>Medical Doctor</h4>
                                 <p>Board Certified MD</p>
                             </div>
                         </div>
-                        <div class="credential-card" data-aos="zoom-in" data-aos-delay="500">
+                        <div class="credential-item" data-aos="zoom-in" data-aos-delay="400">
                             <div class="credential-icon">
                                 <i class="ri-trophy-line"></i>
                             </div>
-                            <div class="credential-details">
+                            <div class="credential-text">
                                 <h4>20+ Years</h4>
-                                <p>Clinical Experience</p>
+                                <p>Clinical Excellence</p>
                             </div>
                         </div>
                     </div>
-
-                    <button class="primary-cta large" data-aos="fade-up" data-aos-delay="600">
-                        <span class="cta-text">Schedule Consultation</span>
-                        <div class="cta-icon">
-                            <i class="ri-calendar-check-line"></i>
-                        </div>
-                        <div class="cta-bg"></div>
+                    
+                    <button class="primary-cta magnetic-button" data-aos="fade-up" data-aos-delay="500">
+                        <span>Schedule Consultation</span>
+                        <div class="cta-glow"></div>
+                        <div class="cta-ripple"></div>
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- RESULTS SECTION -->
+    <!-- Results Section -->
     <section class="results-section" id="results">
         <div class="container">
             <div class="section-header">
-                <div class="section-badge" data-aos="fade-down">
+                <div class="section-badge" data-aos="fade-up">
                     <i class="ri-gallery-line"></i>
                     <span>Real Results</span>
                 </div>
-                <h2 class="section-title" data-aos="fade-up">
-                    Transformations That
-                    <span class="gradient-text">Speak Volumes</span>
+                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">
+                    Subtle Transformations,
+                    <span class="gradient-text">Beautiful Results</span>
                 </h2>
+                <p class="section-description" data-aos="fade-up" data-aos-delay="200">
+                    Witness the artistry of natural enhancement through our carefully curated before and after gallery.
+                </p>
             </div>
 
             <div class="results-gallery">
-                <div class="result-item" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="before-after-container">
-                        <div class="ba-wrapper">
-                            <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=300&fit=crop" alt="Before" class="before-img">
-                            <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop" alt="After" class="after-img">
-                            <div class="ba-slider-handle">
-                                <div class="handle-button">
-                                    <i class="ri-drag-move-2-line"></i>
-                                </div>
-                            </div>
+                <div class="result-card magnetic-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="before-after-slider">
+                        <img src="https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=300&fit=crop" alt="Before" class="before-image">
+                        <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop" alt="After" class="after-image">
+                        <div class="slider-handle">
+                            <div class="handle-dot"></div>
                         </div>
                     </div>
-                    <div class="result-details">
-                        <h4>Forehead Lines Treatment</h4>
+                    <div class="result-info">
+                        <h4>Forehead Enhancement</h4>
                         <p>Botox • 20 Units • 2 Weeks</p>
                         <div class="result-rating">
                             <div class="stars">★★★★★</div>
-                            <span>Excellent Result</span>
+                            <span>Natural Results</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="result-item" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="before-after-container">
-                        <div class="ba-wrapper">
-                            <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=300&fit=crop" alt="Before" class="before-img">
-                            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=300&fit=crop" alt="After" class="after-img">
-                            <div class="ba-slider-handle">
-                                <div class="handle-button">
-                                    <i class="ri-drag-move-2-line"></i>
-                                </div>
-                            </div>
+                <div class="result-card magnetic-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="before-after-slider">
+                        <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=300&fit=crop" alt="Before" class="before-image">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=300&fit=crop" alt="After" class="after-image">
+                        <div class="slider-handle">
+                            <div class="handle-dot"></div>
                         </div>
                     </div>
-                    <div class="result-details">
+                    <div class="result-info">
                         <h4>Lip Enhancement</h4>
                         <p>Juvederm • 1ml • Immediate</p>
                         <div class="result-rating">
                             <div class="stars">★★★★★</div>
-                            <span>Natural Look</span>
+                            <span>Subtle Beauty</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="result-item" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="before-after-container">
-                        <div class="ba-wrapper">
-                            <img src="https://images.unsplash.com/photo-1616391182219-e080b4d1043a?w=400&h=300&fit=crop" alt="Before" class="before-img">
-                            <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop" alt="After" class="after-img">
-                            <div class="ba-slider-handle">
-                                <div class="handle-button">
-                                    <i class="ri-drag-move-2-line"></i>
-                                </div>
-                            </div>
+                <div class="result-card magnetic-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="before-after-slider">
+                        <img src="https://images.unsplash.com/photo-1616391182219-e080b4d1043a?w=400&h=300&fit=crop" alt="Before" class="before-image">
+                        <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop" alt="After" class="after-image">
+                        <div class="slider-handle">
+                            <div class="handle-dot"></div>
                         </div>
                     </div>
-                    <div class="result-details">
-                        <h4>Acne Scar Reduction</h4>
+                    <div class="result-info">
+                        <h4>Skin Refinement</h4>
                         <p>Microneedling • 3 Sessions</p>
                         <div class="result-rating">
                             <div class="stars">★★★★★</div>
-                            <span>Amazing Progress</span>
+                            <span>Radiant Glow</span>
                         </div>
                     </div>
                 </div>
@@ -839,90 +447,7 @@
         </div>
     </section>
 
-    <!-- REVIEWS SECTION -->
-    <section class="reviews-section" id="reviews">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge" data-aos="fade-down">
-                    <i class="ri-star-smile-line"></i>
-                    <span>Patient Reviews</span>
-                </div>
-                <h2 class="section-title" data-aos="fade-up">
-                    What Our Patients
-                    <span class="gradient-text">Say About Us</span>
-                </h2>
-                
-                <div class="rating-display" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="rating-card">
-                        <span class="rating-score">5.0</span>
-                        <div class="rating-stars">
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                            <i class="ri-star-fill"></i>
-                        </div>
-                        <span class="rating-count">100+ Google Reviews</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="reviews-grid">
-                <div class="review-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b79e0c5c?w=60&h=60&fit=crop&crop=face" alt="Sarah">
-                        </div>
-                        <div class="reviewer-info">
-                            <h5>Sarah M.</h5>
-                            <div class="review-stars">★★★★★</div>
-                        </div>
-                    </div>
-                    <p>"Dr. Nano and her team are absolutely amazing! Professional, caring, and the results exceeded my expectations."</p>
-                    <div class="review-treatment">
-                        <i class="ri-syringe-line"></i>
-                        <span>Botox Treatment</span>
-                    </div>
-                </div>
-
-                <div class="review-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face" alt="Jennifer">
-                        </div>
-                        <div class="reviewer-info">
-                            <h5>Jennifer K.</h5>
-                            <div class="review-stars">★★★★★</div>
-                        </div>
-                    </div>
-                    <p>"The most luxurious and professional medical spa in Manhattan. Every detail is perfect, from consultation to aftercare."</p>
-                    <div class="review-treatment">
-                        <i class="ri-sparkling-line"></i>
-                        <span>Facial Rejuvenation</span>
-                    </div>
-                </div>
-
-                <div class="review-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&h=60&fit=crop&crop=face" alt="Maria">
-                        </div>
-                        <div class="reviewer-info">
-                            <h5>Maria L.</h5>
-                            <div class="review-stars">★★★★★</div>
-                        </div>
-                    </div>
-                    <p>"Life-changing experience! Dr. Nano's expertise and artistic eye created results I never thought possible."</p>
-                    <div class="review-treatment">
-                        <i class="ri-drop-line"></i>
-                        <span>Dermal Fillers</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
+    <!-- Contact Section -->
     <section class="contact-section" id="contact">
         <div class="container">
             <div class="contact-layout">
@@ -933,109 +458,97 @@
                     </div>
                     
                     <h2 class="section-title">
-                        Get in
-                        <span class="gradient-text">Touch</span>
+                        Begin Your
+                        <span class="gradient-text">Transformation</span>
                     </h2>
-
-                    <div class="contact-cards">
-                        <div class="contact-card" data-aos="zoom-in" data-aos-delay="200">
-                            <div class="contact-card-icon">
+                    
+                    <p class="section-description">
+                        Schedule your personalized consultation and discover how we can 
+                        enhance your natural beauty with our refined approach to aesthetic medicine.
+                    </p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item magnetic-card">
+                            <div class="contact-icon">
                                 <i class="ri-map-pin-2-line"></i>
                             </div>
-                            <div class="contact-card-content">
+                            <div class="contact-text">
                                 <h4>Manhattan Location</h4>
                                 <p>123 Park Avenue<br>Midtown Manhattan, NY 10017</p>
                             </div>
                         </div>
-
-                        <div class="contact-card" data-aos="zoom-in" data-aos-delay="300">
-                            <div class="contact-card-icon">
+                        
+                        <div class="contact-item magnetic-card">
+                            <div class="contact-icon">
                                 <i class="ri-phone-line"></i>
                             </div>
-                            <div class="contact-card-content">
+                            <div class="contact-text">
                                 <h4>Phone</h4>
                                 <p>(555) 123-4567</p>
                             </div>
                         </div>
-
-                        <div class="contact-card" data-aos="zoom-in" data-aos-delay="400">
-                            <div class="contact-card-icon">
-                                <i class="ri-mail-line"></i>
-                            </div>
-                            <div class="contact-card-content">
-                                <h4>Email</h4>
-                                <p>info@eviaaesthetics.com</p>
-                            </div>
-                        </div>
-
-                        <div class="contact-card" data-aos="zoom-in" data-aos-delay="500">
-                            <div class="contact-card-icon">
+                        
+                        <div class="contact-item magnetic-card">
+                            <div class="contact-icon">
                                 <i class="ri-time-line"></i>
                             </div>
-                            <div class="contact-card-content">
+                            <div class="contact-text">
                                 <h4>Hours</h4>
-                                <p>Mon-Fri: 9AM - 7PM<br>Sat: 10AM - 6PM<br>Sun: By Appointment</p>
+                                <p>Mon-Fri: 9AM - 7PM<br>Sat: 10AM - 6PM</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="contact-form-section" data-aos="fade-left" data-aos-delay="200">
-                    <div class="form-container">
+                
+                <div class="contact-form-container" data-aos="fade-left" data-aos-delay="200">
+                    <form class="contact-form" id="contactForm">
                         <h3>Book Your Consultation</h3>
-                        <form class="contact-form" id="contactForm">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <input type="text" placeholder="First Name" required>
-                                    <div class="input-focus"></div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" placeholder="Last Name" required>
-                                    <div class="input-focus"></div>
-                                </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" placeholder="First Name" required>
                             </div>
                             <div class="form-group">
-                                <input type="email" placeholder="Email Address" required>
-                                <div class="input-focus"></div>
+                                <input type="text" placeholder="Last Name" required>
                             </div>
-                            <div class="form-group">
-                                <input type="tel" placeholder="Phone Number" required>
-                                <div class="input-focus"></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="select-wrapper">
-                                    <select required>
-                                        <option value="">Select Service of Interest</option>
-                                        <option value="botox">Botox & Fillers</option>
-                                        <option value="weightloss">Weight Loss Program</option>
-                                        <option value="iv">IV Therapy</option>
-                                        <option value="microneedling">Microneedling</option>
-                                        <option value="prp">PRP Therapy</option>
-                                        <option value="peels">Chemical Peels</option>
-                                        <option value="consultation">General Consultation</option>
-                                    </select>
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <textarea placeholder="Tell us about your aesthetic goals and any questions you have..." rows="4"></textarea>
-                                <div class="input-focus"></div>
-                            </div>
-                            <button type="submit" class="primary-cta full-width">
-                                <span class="cta-text">Submit Request</span>
-                                <div class="cta-icon">
-                                    <i class="ri-send-plane-line"></i>
-                                </div>
-                                <div class="cta-bg"></div>
-                            </button>
-                        </form>
-                    </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="email" placeholder="Email Address" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="tel" placeholder="Phone Number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <select required>
+                                <option value="">Select Service of Interest</option>
+                                <option value="botox">Botox & Fillers</option>
+                                <option value="weight">Weight Management</option>
+                                <option value="iv">IV Therapy</option>
+                                <option value="microneedling">Microneedling</option>
+                                <option value="prp">PRP Therapy</option>
+                                <option value="peels">Chemical Peels</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <textarea placeholder="Tell us about your aesthetic goals..." rows="4"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="primary-cta magnetic-button">
+                            <span>Send Request</span>
+                            <div class="cta-glow"></div>
+                            <div class="cta-ripple"></div>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- Elegant Footer -->
     <footer class="luxury-footer">
         <div class="container">
             <div class="footer-content">
@@ -1044,136 +557,57 @@
                         <img src="https://raw.githubusercontent.com/Elanstech/eviaaesthetics/refs/heads/main/logo1.png" alt="Evia Aesthetics">
                     </div>
                     <h3>Evia Aesthetics</h3>
-                    <p>Manhattan's Premier Medical Spa</p>
+                    <p>Understated Luxury in Aesthetic Medicine</p>
                     <div class="social-links">
-                        <a href="#" class="social-link">
+                        <a href="#" class="social-link magnetic-button">
                             <i class="ri-instagram-line"></i>
                         </a>
-                        <a href="#" class="social-link">
+                        <a href="#" class="social-link magnetic-button">
                             <i class="ri-facebook-line"></i>
                         </a>
-                        <a href="#" class="social-link">
+                        <a href="#" class="social-link magnetic-button">
                             <i class="ri-youtube-line"></i>
-                        </a>
-                        <a href="#" class="social-link">
-                            <i class="ri-tiktok-line"></i>
                         </a>
                     </div>
                 </div>
-
+                
                 <div class="footer-links">
                     <div class="footer-column">
                         <h4>Services</h4>
                         <ul>
                             <li><a href="#services">Botox & Fillers</a></li>
-                            <li><a href="#services">Weight Loss</a></li>
+                            <li><a href="#services">Weight Management</a></li>
                             <li><a href="#services">IV Therapy</a></li>
                             <li><a href="#services">Microneedling</a></li>
-                            <li><a href="#services">PRP Therapy</a></li>
-                            <li><a href="#services">Chemical Peels</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h4>About</h4>
                         <ul>
                             <li><a href="#about">Dr. Nano</a></li>
-                            <li><a href="#results">Results Gallery</a></li>
-                            <li><a href="#reviews">Patient Reviews</a></li>
-                            <li><a href="#contact">Contact Us</a></li>
+                            <li><a href="#results">Results</a></li>
+                            <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
-                        <h4>Policies</h4>
+                        <h4>Legal</h4>
                         <ul>
                             <li><a href="#">Privacy Policy</a></li>
                             <li><a href="#">Terms of Service</a></li>
-                            <li><a href="#">Cancellation Policy</a></li>
                             <li><a href="#">Patient Resources</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-
+            
             <div class="footer-bottom">
                 <p>&copy; 2024 Evia Aesthetics. All rights reserved.</p>
-                <p>Designed with <i class="ri-heart-pulse-fill pulse-heart"></i> for Manhattan</p>
             </div>
         </div>
     </footer>
 
-    <!-- Modal System -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="booking-modal" id="bookingModal">
-            <div class="modal-header">
-                <h2>Book Your Consultation</h2>
-                <button class="modal-close" id="modalClose">
-                    <i class="ri-close-line"></i>
-                </button>
-            </div>
-            
-            <div class="modal-content">
-                <form class="modal-form" id="bookingForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="text" placeholder="First Name" required>
-                            <div class="input-focus"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" placeholder="Last Name" required>
-                            <div class="input-focus"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Email Address" required>
-                        <div class="input-focus"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" placeholder="Phone Number" required>
-                        <div class="input-focus"></div>
-                    </div>
-                    <div class="form-group">
-                        <div class="select-wrapper">
-                            <select required>
-                                <option value="">Service of Interest</option>
-                                <option value="botox">Botox & Fillers</option>
-                                <option value="weightloss">Weight Loss Program</option>
-                                <option value="iv">IV Therapy</option>
-                                <option value="microneedling">Microneedling</option>
-                                <option value="prp">PRP Therapy</option>
-                                <option value="peels">Chemical Peels</option>
-                            </select>
-                            <i class="ri-arrow-down-s-line"></i>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <textarea placeholder="Your aesthetic goals..." rows="3"></textarea>
-                        <div class="input-focus"></div>
-                    </div>
-                    <button type="submit" class="primary-cta full-width">
-                        <span class="cta-text">Request Consultation</span>
-                        <div class="cta-icon">
-                            <i class="ri-calendar-check-line"></i>
-                        </div>
-                        <div class="cta-bg"></div>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Floating Action Button -->
-    <div class="floating-action" id="floatingAction">
-        <button class="fab-button">
-            <i class="ri-calendar-check-line"></i>
-            <span>Book Now</span>
-            <div class="fab-ripple"></div>
-        </button>
-    </div>
-
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
