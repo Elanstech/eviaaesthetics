@@ -39,9 +39,9 @@
         </div>
     </div>
 
-    <!-- Glassmorphism Header -->
-    <header class="glass-header" id="header">
-        <nav class="nav-container">
+    <!-- Floating Pill Header -->
+    <header class="floating-pill-header" id="header">
+        <nav class="pill-container">
             <div class="logo-section">
                 <div class="logo-wrapper">
                     <div class="shimmer-overlay"></div>
@@ -49,7 +49,6 @@
                 </div>
                 <div class="brand-identity">
                     <span class="brand-title">Evia</span>
-                    <span class="brand-subtitle">Aesthetics</span>
                 </div>
             </div>
             
@@ -62,39 +61,96 @@
             </ul>
             
             <button class="cta-button" id="headerCTA">
-                <span>Book Consultation</span>
+                <span>Book Now</span>
                 <div class="button-glow"></div>
-                <div class="ripple-effect"></div>
             </button>
             
-            <button class="mobile-toggle" id="mobileToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="modern-mobile-toggle" id="mobileToggle">
+                <div class="toggle-container">
+                    <span class="toggle-line"></span>
+                    <span class="toggle-line"></span>
+                </div>
             </button>
         </nav>
     </header>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-overlay" id="mobileOverlay"></div>
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-header">
-            <div class="mobile-logo">
-                <img src="https://raw.githubusercontent.com/Elanstech/eviaaesthetics/refs/heads/main/logo1.png" alt="Evia">
-                <span>Evia Aesthetics</span>
+    <!-- Modern Luxury Mobile Menu -->
+    <div class="mobile-backdrop" id="mobileBackdrop"></div>
+    <div class="luxury-mobile-menu" id="mobileMenu">
+        <div class="menu-container">
+            <div class="menu-header">
+                <div class="menu-logo">
+                    <img src="https://raw.githubusercontent.com/Elanstech/eviaaesthetics/refs/heads/main/logo1.png" alt="Evia">
+                    <span>Evia Aesthetics</span>
+                </div>
+                <button class="menu-close" id="mobileClose">
+                    <div class="close-icon">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </button>
             </div>
-            <button class="mobile-close" id="mobileClose">
-                <i class="ri-close-line"></i>
-            </button>
+            
+            <nav class="menu-navigation">
+                <div class="nav-item" data-delay="0">
+                    <a href="#home" class="nav-link">
+                        <span class="nav-number">01</span>
+                        <span class="nav-text">Home</span>
+                        <div class="nav-underline"></div>
+                    </a>
+                </div>
+                <div class="nav-item" data-delay="100">
+                    <a href="#services" class="nav-link">
+                        <span class="nav-number">02</span>
+                        <span class="nav-text">Services</span>
+                        <div class="nav-underline"></div>
+                    </a>
+                </div>
+                <div class="nav-item" data-delay="200">
+                    <a href="#about" class="nav-link">
+                        <span class="nav-number">03</span>
+                        <span class="nav-text">About Dr. Nano</span>
+                        <div class="nav-underline"></div>
+                    </a>
+                </div>
+                <div class="nav-item" data-delay="300">
+                    <a href="#results" class="nav-link">
+                        <span class="nav-number">04</span>
+                        <span class="nav-text">Results</span>
+                        <div class="nav-underline"></div>
+                    </a>
+                </div>
+                <div class="nav-item" data-delay="400">
+                    <a href="#contact" class="nav-link">
+                        <span class="nav-number">05</span>
+                        <span class="nav-text">Contact</span>
+                        <div class="nav-underline"></div>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="menu-footer">
+                <div class="menu-contact">
+                    <div class="contact-info">
+                        <span class="contact-label">Call Now</span>
+                        <span class="contact-number">(555) 123-4567</span>
+                    </div>
+                    <div class="contact-location">
+                        <span class="location-label">Manhattan</span>
+                        <span class="location-text">123 Park Avenue</span>
+                    </div>
+                </div>
+                <button class="menu-cta">
+                    <span>Book Consultation</span>
+                    <div class="cta-arrow">→</div>
+                </button>
+            </div>
         </div>
-        <nav class="mobile-nav">
-            <a href="#home" class="mobile-nav-link">Home</a>
-            <a href="#services" class="mobile-nav-link">Services</a>
-            <a href="#about" class="mobile-nav-link">About</a>
-            <a href="#results" class="mobile-nav-link">Results</a>
-            <a href="#contact" class="mobile-nav-link">Contact</a>
-        </nav>
-        <button class="mobile-cta">Book Consultation</button>
+        
+        <div class="menu-decoration">
+            <div class="decoration-orb orb-1"></div>
+            <div class="decoration-orb orb-2"></div>
+        </div>
     </div>
 
     <!-- Hero Section -->
