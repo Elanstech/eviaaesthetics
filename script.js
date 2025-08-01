@@ -5,6 +5,39 @@
 'use strict';
 
 // ========================================
+// GLOBAL VARIABLES & UTILITIES
+// ========================================
+
+const EviaUtils = {
+    debounce: (func, wait) => {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    },
+    
+    smoothScrollTo: (target, offset = 100) => {
+        const element = typeof target === 'string' ? document.querySelector(target) : target;
+        if (!element) return;
+        
+        const targetPosition = element.offsetTop - offset;
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+    },
+    
+    wait: (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+};
+
+// ========================================
 // LUXURY APPLICATION CLASS
 // ========================================
 
@@ -22,8 +55,7 @@ class EviaLuxuryApp {
     
     init() {
         this.bindEvents();
-        this.initComponents();
-        console.log('🌟 Evia Luxury Experience Initialized');
+        console.log('🌟 Evia Luxury Experience Initializing...');
     }
     
     bindEvents() {
@@ -36,75 +68,59 @@ class EviaLuxuryApp {
         
         // Window events
         window.addEventListener('load', () => this.onWindowLoad());
-        window.addEventListener('resize', this.debounce(() => this.onWindowResize(), 250));
+        window.addEventListener('resize', EviaUtils.debounce(() => this.onWindowResize(), 250));
         
         // Mouse tracking for magnetic effects
-        document.addEventListener('mousemove', (e) => this.trackMouse(e));
+        if (!this.isMobile) {
+            document.addEventListener('mousemove', (e) => this.trackMouse(e));
+        }
     }
     
     onDOMReady() {
-        this.components.preloader = new LuxuryPreloader();
-        this.components.header = new FloatingPillHeader();
-        this.components.mobileMenu = new LuxuryMobileMenu();
-        this.components.hero = new LuxuryHero();
-        this.components.beforeAfter = new BeforeAfterSlider();
-        this.components.contactForm = new ContactForm();
-        this.components.magneticEffects = new MagneticEffects();
-        
-        // Initialize AOS with modern configuration
+        try {
+            // Initialize components in order
+            this.components.preloader = new LuxuryPreloader();
+            this.components.header = new FloatingPillHeader();
+            this.components.mobileMenu = new LuxuryMobileMenu();
+            this.components.hero = new LuxuryHero();
+            this.components.beforeAfter = new BeforeAfterSlider();
+            this.components.contactForm = new ContactForm();
+            this.components.magneticEffects = new MagneticEffects();
+            
+            // Initialize AOS
+            this.initAOS();
+            
+            // Initialize modern intersection observers
+            this.initModernObservers();
+            
+            console.log('✅ All components initialized successfully');
+            
+        } catch (error) {
+            console.error('❌ Error initializing components:', error);
+        }
+    }
+    
+    initAOS() {
         if (typeof AOS !== 'undefined') {
             AOS.init({
                 duration: 800,
                 easing: 'ease-out-cubic',
                 once: true,
                 offset: 100,
-                delay: 100,
-                useClassNames: true,
-                disableMutationObserver: false,
-                debounceDelay: 50,
-                throttleDelay: 99
+                delay: 100
             });
         }
-        
-        // Initialize modern intersection observers for performance
-        this.initModernObservers();
     }
     
     initModernObservers() {
-        // Modern performance-optimized intersection observers
+        // Performance-optimized intersection observers
         const observerOptions = {
             root: null,
             rootMargin: '0px 0px -10% 0px',
             threshold: [0, 0.25, 0.5, 0.75, 1.0]
         };
         
-        // Lazy load images with fade-in effect
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.style.opacity = '0';
-                        img.style.transition = 'opacity 0.6s ease-out';
-                        
-                        img.onload = () => {
-                            img.style.opacity = '1';
-                            img.classList.add('loaded');
-                        };
-                        
-                        imageObserver.unobserve(img);
-                    }
-                }
-            });
-        }, observerOptions);
-        
-        // Observe all lazy images
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-        
-        // Animate elements on scroll with modern approach
+        // Animate elements on scroll
         const animationObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -118,11 +134,14 @@ class EviaLuxuryApp {
         }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
         
         // Apply to elements that need scroll animation
-        document.querySelectorAll('.service-card, .result-card, .contact-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            animationObserver.observe(el);
+        const elementsToAnimate = document.querySelectorAll('.service-card, .result-card, .contact-item, .credential-item, .review-card');
+        elementsToAnimate.forEach(el => {
+            if (el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                animationObserver.observe(el);
+            }
         });
     }
     
@@ -142,7 +161,7 @@ class EviaLuxuryApp {
         
         // Update components on resize
         Object.values(this.components).forEach(component => {
-            if (component.onResize) {
+            if (component && typeof component.onResize === 'function') {
                 component.onResize();
             }
         });
@@ -157,28 +176,9 @@ class EviaLuxuryApp {
         document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
     }
     
-    // Utility functions
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-    
+    // Public methods for external access
     smoothScrollTo(target, offset = 100) {
-        const element = typeof target === 'string' ? document.querySelector(target) : target;
-        if (!element) return;
-        
-        const targetPosition = element.offsetTop - offset;
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-        });
+        return EviaUtils.smoothScrollTo(target, offset);
     }
 }
 
@@ -1189,21 +1189,30 @@ class ContactForm {
 
 class MagneticEffects {
     constructor() {
-        this.magneticElements = document.querySelectorAll('.magnetic-button, .magnetic-card');
+        this.magneticElements = [];
         this.strength = 0.3;
+        this.isEnabled = !window.matchMedia('(max-width: 768px)').matches;
         
-        if (this.magneticElements.length > 0 && !app.isMobile) {
+        if (this.isEnabled) {
             this.init();
         }
     }
     
     init() {
-        this.magneticElements.forEach(element => {
-            this.addMagneticEffect(element);
-        });
+        // Wait a bit for DOM to be fully ready
+        setTimeout(() => {
+            this.magneticElements = document.querySelectorAll('.magnetic-button, .magnetic-card');
+            this.magneticElements.forEach(element => {
+                if (element) {
+                    this.addMagneticEffect(element);
+                }
+            });
+        }, 100);
     }
     
     addMagneticEffect(element) {
+        if (!element) return;
+        
         element.addEventListener('mouseenter', () => {
             element.style.transition = 'transform 0.1s ease-out';
         });
@@ -1227,10 +1236,14 @@ class MagneticEffects {
     
     onResize() {
         // Disable magnetic effects on mobile
-        if (app.isMobile) {
+        this.isEnabled = !window.matchMedia('(max-width: 768px)').matches;
+        
+        if (!this.isEnabled) {
             this.magneticElements.forEach(element => {
-                element.style.transform = '';
-                element.style.transition = '';
+                if (element) {
+                    element.style.transform = '';
+                    element.style.transition = '';
+                }
             });
         } else {
             this.init();
@@ -1254,22 +1267,33 @@ class SmoothScrolling {
             if (link && link.getAttribute('href') !== '#') {
                 e.preventDefault();
                 const target = link.getAttribute('href');
-                app.smoothScrollTo(target);
+                if (window.app) {
+                    window.app.smoothScrollTo(target);
+                } else {
+                    EviaUtils.smoothScrollTo(target);
+                }
             }
         });
         
         // Handle service buttons
-        const serviceButtons = document.querySelectorAll('.service-btn');
-        serviceButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                app.smoothScrollTo('#contact');
+        setTimeout(() => {
+            const serviceButtons = document.querySelectorAll('.service-btn');
+            serviceButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (window.app) {
+                        window.app.smoothScrollTo('#contact');
+                    } else {
+                        EviaUtils.smoothScrollTo('#contact');
+                    }
+                });
             });
-        });
+        }, 500);
     }
 }
 
 // ========================================
-// PERFORMANCE OPTIMIZATIONS
+// PERFORMANCE OPTIMIZER
 // ========================================
 
 class PerformanceOptimizer {
@@ -1284,22 +1308,26 @@ class PerformanceOptimizer {
     }
     
     optimizeImages() {
-        // Lazy load images
-        const images = document.querySelectorAll('img[data-src]');
+        // Lazy load images if not using data-src
+        const images = document.querySelectorAll('img:not([data-src])');
         
         if ('IntersectionObserver' in window) {
             const imageObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
+                        img.style.opacity = '1';
+                        img.classList.add('loaded');
                         imageObserver.unobserve(img);
                     }
                 });
             });
             
-            images.forEach(img => imageObserver.observe(img));
+            images.forEach(img => {
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 0.6s ease-out';
+                imageObserver.observe(img);
+            });
         }
     }
     
@@ -1309,7 +1337,7 @@ class PerformanceOptimizer {
             document.body.classList.add('reduced-motion');
             
             // Disable complex animations
-            const orbs = document.querySelectorAll('.orb');
+            const orbs = document.querySelectorAll('.orb, .decoration-orb');
             orbs.forEach(orb => {
                 orb.style.animation = 'none';
                 orb.style.opacity = '0.1';
@@ -1319,15 +1347,19 @@ class PerformanceOptimizer {
     
     optimizeAnimations() {
         // Use will-change for animated elements
-        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .logo-glow-circle');
+        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .logo-wrapper');
         animatedElements.forEach(element => {
-            element.style.willChange = 'transform';
+            if (element) {
+                element.style.willChange = 'transform';
+            }
         });
         
         // Remove will-change after animations complete
         setTimeout(() => {
             animatedElements.forEach(element => {
-                element.style.willChange = 'auto';
+                if (element) {
+                    element.style.willChange = 'auto';
+                }
             });
         }, 5000);
     }
@@ -1338,27 +1370,57 @@ class PerformanceOptimizer {
 // ========================================
 
 // Create global app instance
-const app = new EviaLuxuryApp();
+let app;
 
-// Initialize additional components
-document.addEventListener('DOMContentLoaded', () => {
-    new SmoothScrolling();
-    new PerformanceOptimizer();
-});
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    initializeApp();
+}
+
+function initializeApp() {
+    try {
+        // Create global app instance
+        app = new EviaLuxuryApp();
+        window.app = app; // Make globally accessible
+        
+        // Initialize additional components
+        new SmoothScrolling();
+        new PerformanceOptimizer();
+        
+        console.log('🎭 Evia Luxury Application Successfully Initialized');
+        
+    } catch (error) {
+        console.error('❌ Failed to initialize Evia Luxury App:', error);
+        
+        // Fallback initialization
+        setTimeout(() => {
+            try {
+                app = new EviaLuxuryApp();
+                window.app = app;
+                console.log('✅ Fallback initialization successful');
+            } catch (fallbackError) {
+                console.error('❌ Fallback initialization also failed:', fallbackError);
+            }
+        }, 1000);
+    }
+}
 
 // Debug helper in development
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     window.EviaDebug = {
-        app: () => app,
-        components: () => app.components,
-        version: '1.0.0 - Understated Luxury Edition'
+        app: () => window.app,
+        components: () => window.app ? window.app.components : {},
+        utils: () => EviaUtils,
+        version: '2.0.0 - Understated Luxury Edition'
     };
     
-    console.log('🎭 Evia Luxury Debug Mode Enabled');
-    console.log('✨ Understated Luxury Edition Loaded Successfully!');
+    console.log('🔧 Evia Luxury Debug Mode Enabled');
+    console.log('✨ Use window.EviaDebug to access debug tools');
 }
 
 // Export for potential module usage
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { EviaLuxuryApp, app };
+    module.exports = { EviaLuxuryApp, EviaUtils };
 }
