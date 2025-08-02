@@ -290,123 +290,29 @@ body {
     pointer-events: none;
 }
 
-/* Enhanced Logo Section - Restored with brand text */
+.header-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    object-position: center;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+    flex-shrink: 0;
+    /* Remove any extra spacing around the image */
+    border-radius: 8px;
+    /* Alternative: Use background approach for better control */
+}
+
+.header-logo:hover,
+.header-logo-alt:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 4px 8px rgba(255, 140, 0, 0.3));
+}
+
 .logo-section {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
     flex-shrink: 0;
-}
-
-.logo-frame {
-    position: relative;
-    width: 70px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition-medium);
-}
-
-.aluminum-rim {
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-hermes-border);
-    border-radius: 50%;
-    padding: 4px;
-    box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.logo-container {
-    position: relative;
-    width: 62px;
-    height: 62px;
-    background: var(--gradient-hermes-orange);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-shadow: 
-        inset 0 2px 4px rgba(0, 0, 0, 0.1),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.3),
-        0 6px 20px rgba(255, 140, 0, 0.4);
-    transition: all var(--transition-medium);
-}
-
-.brand-logo {
-    width: 38px;
-    height: 38px;
-    object-fit: contain;
-    filter: brightness(0) invert(1) drop-shadow(0 1px 2px rgba(0,0,0,0.1));
-    z-index: 3;
-    position: relative;
-    transition: all var(--transition-medium);
-}
-
-.logo-reflection {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--gradient-premium-shine);
-    opacity: 0.8;
-    border-radius: 50%;
-    animation: logo-premium-shine 4s ease-in-out infinite;
-}
-
-.premium-glow {
-    position: absolute;
-    inset: -12px;
-    background: radial-gradient(circle, rgba(255, 140, 0, 0.5) 0%, transparent 70%);
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity var(--transition-medium);
-    filter: blur(8px);
-}
-
-.logo-frame:hover .premium-glow {
-    opacity: 1;
-    animation: premium-glow-pulse 2s ease-in-out infinite;
-}
-
-.logo-frame:hover .logo-container {
-    transform: scale(1.08);
-    box-shadow: 
-        inset 0 2px 4px rgba(0, 0, 0, 0.15),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.4),
-        0 8px 30px rgba(255, 140, 0, 0.6);
-}
-
-.logo-frame:hover .brand-logo {
-    transform: scale(1.05);
-}
-
-.brand-identity {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-}
-
-.brand-title {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    letter-spacing: -0.02em;
-}
-
-.brand-subtitle {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: -2px;
 }
 
 /* Premium Navigation Menu */
