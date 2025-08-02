@@ -49,10 +49,10 @@
     --gradient-hermes-orange: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 50%, var(--hermes-orange-dark) 100%);
     --gradient-premium-shine: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.1) 100%);
     
-    /* Typography */
-    --font-display: 'Playfair Display', Georgia, serif;
+    /* Typography - Softer, more refined */
+    --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-serif-elegant: 'Cormorant Garamond', Georgia, serif;
+    --font-serif-elegant: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     
     /* Refined Spacing */
     --space-xs: 0.5rem;
@@ -159,11 +159,14 @@ body {
     justify-content: center;
     z-index: 9999;
     transition: all var(--transition-slow);
+    min-height: 100vh;
+    overflow: hidden;
 }
 
 .luxury-preloader.fade-out {
     opacity: 0;
     visibility: hidden;
+    transition: all 1.2s ease-out;
 }
 
 .preloader-container {
@@ -287,11 +290,11 @@ body {
     pointer-events: none;
 }
 
-/* Enhanced Logo Section */
+/* Enhanced Logo Section - Logo Only */
 .logo-section {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    justify-content: center;
     flex-shrink: 0;
 }
 
@@ -1172,12 +1175,13 @@ body {
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
-/* Multi-line Typography Headline */
+/* Multi-line Typography Headline - Softer Fonts */
 .hero-headline-new {
+    font-family: var(--font-primary);
     font-size: clamp(3.5rem, 6vw, 5.5rem);
-    font-weight: 700;
+    font-weight: 300;
     line-height: 1.1;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.01em;
     margin: 0;
     max-width: 700px;
     margin-left: auto;
@@ -1186,19 +1190,18 @@ body {
 
 .headline-line-1 {
     display: block;
-    font-family: var(--font-display);
-    font-weight: 700;
+    font-family: var(--font-primary);
+    font-weight: 200;
     color: var(--text-primary);
     margin-bottom: 0.2rem;
     text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8);
-    text-transform: uppercase;
 }
 
 .headline-gradient {
     display: block;
-    font-family: var(--font-serif-elegant);
-    font-weight: 600;
-    font-style: italic;
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-style: normal;
     background: linear-gradient(135deg, #FF8C00 0%, #FFA500 30%, #FF7700 70%, #FF6600 100%);
     background-size: 300% 300%;
     -webkit-background-clip: text;
@@ -1212,8 +1215,8 @@ body {
 
 .headline-line-3 {
     display: block;
-    font-family: var(--font-display);
-    font-weight: 500;
+    font-family: var(--font-primary);
+    font-weight: 200;
     color: var(--text-primary);
     text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8);
 }
@@ -1301,69 +1304,61 @@ body {
     animation: premium-glow-pulse 2s ease-in-out infinite;
 }
 
-/* Enhanced Scroll Indicator with Text */
-.scroll-indicator-new {
+/* Modern Sleek Scroll Indicator */
+.modern-scroll-indicator {
     position: absolute;
     bottom: 3rem;
     left: 50%;
     transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    z-index: 10;
     cursor: pointer;
-    color: var(--text-primary);
-    transition: all var(--transition-fast);
-    background: rgba(255, 255, 255, 0.08);
+}
+
+.scroll-pill {
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 2rem;
-    padding: 1.5rem 1rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    z-index: 10;
+    border-radius: 50px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all var(--transition-medium);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.scroll-indicator-new:hover {
-    color: var(--hermes-orange);
-    transform: translateX(-50%) translateY(-8px);
-    background: rgba(255, 140, 0, 0.08);
+.scroll-pill:hover {
+    background: rgba(255, 140, 0, 0.1);
     border-color: rgba(255, 140, 0, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(255, 140, 0, 0.2);
 }
 
-.scroll-text {
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
-}
-
-.scroll-line {
-    width: 3px;
-    height: 50px;
-    background: rgba(255, 140, 0, 0.3);
-    border-radius: var(--radius-full);
-    position: relative;
-    overflow: hidden;
-}
-
-.scroll-line::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 30px;
+.scroll-dot {
+    width: 8px;
+    height: 8px;
     background: var(--hermes-orange);
-    border-radius: var(--radius-full);
-    animation: scroll-flow 2s ease-in-out infinite;
-    box-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+    border-radius: 50%;
+    animation: scroll-pulse 2s ease-in-out infinite;
 }
 
-.scroll-indicator-new i {
-    font-size: 1.5rem;
-    animation: bounce-premium 2s ease-in-out infinite;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+.scroll-hint {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+}
+
+@keyframes scroll-pulse {
+    0%, 100% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
 }
 
 /* ========================================
@@ -2546,23 +2541,22 @@ body {
     }
 
     /* Scroll Indicator Mobile */
-    .scroll-indicator-new {
+    .modern-scroll-indicator {
         bottom: 2rem;
-        padding: 1rem 0.8rem;
-        border-radius: 1.5rem;
     }
 
-    .scroll-text {
+    .scroll-pill {
+        padding: 0.75rem 1.2rem;
+        border-radius: 40px;
+    }
+
+    .scroll-dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .scroll-hint {
         font-size: 0.8rem;
-    }
-
-    .scroll-line {
-        height: 40px;
-        width: 2px;
-    }
-
-    .scroll-indicator-new i {
-        font-size: 1.2rem;
     }
     
     /* Hide some decorative elements on small screens */
@@ -2732,23 +2726,23 @@ body {
         left: 5%;
     }
 
-    .scroll-indicator-new {
+    /* Modern Scroll Indicator Ultra-Small */
+    .modern-scroll-indicator {
         bottom: 1.5rem;
-        padding: 0.75rem 0.5rem;
-        border-radius: 1rem;
     }
 
-    .scroll-text {
+    .scroll-pill {
+        padding: 0.6rem 1rem;
+        border-radius: 30px;
+    }
+
+    .scroll-dot {
+        width: 5px;
+        height: 5px;
+    }
+
+    .scroll-hint {
         font-size: 0.7rem;
-    }
-
-    .scroll-line {
-        height: 30px;
-        width: 2px;
-    }
-
-    .scroll-indicator-new i {
-        font-size: 1rem;
     }
     
     .section-title {
