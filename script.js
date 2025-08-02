@@ -34,6 +34,17 @@ const EviaUtils = {
     
     wait: (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
+    },
+
+    // Utility for creating smooth animations
+    animate: (element, keyframes, options = {}) => {
+        if (!element) return;
+        return element.animate(keyframes, {
+            duration: 800,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            fill: 'forwards',
+            ...options
+        });
     }
 };
 
@@ -82,7 +93,7 @@ class EviaLuxuryApp {
             this.components.preloader = new LuxuryPreloader();
             this.components.header = new HermesLuxuryHeader();
             this.components.mobileMenu = new LuxuryMobileMenu();
-            this.components.hero = new LuxuryHero();
+            this.components.hero = new NewLuxuryHero(); // Updated hero class
             this.components.beforeAfter = new BeforeAfterSlider();
             this.components.contactForm = new ContactForm();
             this.components.magneticEffects = new MagneticEffects();
@@ -815,23 +826,25 @@ class LuxuryMobileMenu {
 }
 
 // ========================================
-// LUXURY HERO
+// NEW LUXURY HERO SECTION
 // ========================================
 
-class LuxuryHero {
+class NewLuxuryHero {
     constructor() {
         this.hero = document.querySelector('.luxury-hero');
         this.cyclingText = document.getElementById('cyclingText');
-        this.primaryCTA = document.getElementById('primaryCTA');
-        this.scrollIndicator = document.querySelector('.scroll-indicator');
+        this.primaryCTA = document.querySelector('.hero-cta-new');
+        this.scrollIndicator = document.querySelector('.scroll-indicator-new');
+        this.floatingStats = document.querySelectorAll('.floating-stat');
         
+        // Updated text options based on directive
         this.textOptions = [
-            'Beauty',
-            'Confidence',
-            'Radiance',
-            'Elegance',
-            'Transformation',
-            'Excellence'
+            'For Transformation',
+            'For Beauty',
+            'For Excellence',
+            'For Confidence',
+            'For Radiance',
+            'For Elegance'
         ];
         this.currentTextIndex = 0;
         
@@ -845,99 +858,136 @@ class LuxuryHero {
         this.initCTAButtons();
         this.initScrollIndicator();
         this.initFloatingOrbs();
+        this.initFloatingStats();
         this.initVideo();
+        this.initTypographyAnimations();
     }
     
     initTextCycling() {
         if (!this.cyclingText) return;
         
-        // Start cycling after a delay
+        // Start cycling after a delay to let initial load settle
         setTimeout(() => {
             this.startTextCycling();
-        }, 3000);
+        }, 4000);
     }
     
     startTextCycling() {
         setInterval(() => {
-            this.cyclingText.style.opacity = '0';
-            this.cyclingText.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
+            // Smooth fade out with scaling
+            EviaUtils.animate(this.cyclingText, [
+                { opacity: 1, transform: 'translateY(0) scale(1)' },
+                { opacity: 0, transform: 'translateY(20px) scale(0.95)' }
+            ], { duration: 600 }).then(() => {
+                // Change text
                 this.currentTextIndex = (this.currentTextIndex + 1) % this.textOptions.length;
                 this.cyclingText.textContent = this.textOptions[this.currentTextIndex];
-                this.cyclingText.style.opacity = '1';
-                this.cyclingText.style.transform = 'translateY(0)';
-            }, 500);
-        }, 4000);
+                
+                // Smooth fade in with scaling
+                EviaUtils.animate(this.cyclingText, [
+                    { opacity: 0, transform: 'translateY(-20px) scale(0.95)' },
+                    { opacity: 1, transform: 'translateY(0) scale(1)' }
+                ], { duration: 600 });
+            });
+        }, 4500);
     }
     
     initCTAButtons() {
         if (this.primaryCTA) {
+            // Navigate to contact on click
             this.primaryCTA.addEventListener('click', () => {
                 app.smoothScrollTo('#contact');
             });
             
-            // Enhanced ripple effect for new design
+            // Enhanced shimmer effect for new design
             this.primaryCTA.addEventListener('click', (e) => {
-                const ripple = this.primaryCTA.querySelector('.cta-ripple');
-                if (ripple) {
-                    const rect = this.primaryCTA.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    ripple.style.left = `${x}px`;
-                    ripple.style.top = `${y}px`;
-                    ripple.style.transform = 'scale(0)';
-                    ripple.style.opacity = '1';
-                    
-                    // Animate ripple with enhanced effect
-                    ripple.animate([
-                        { transform: 'scale(0)', opacity: 1 },
-                        { transform: 'scale(6)', opacity: 0 }
-                    ], {
-                        duration: 800,
-                        easing: 'ease-out'
-                    });
-                }
+                this.triggerCTARipple(e);
             });
 
-            // Add premium hover effect
+            // Premium hover effect with shimmer
             this.primaryCTA.addEventListener('mouseenter', () => {
-                this.addCTAShine();
+                this.addCTAShimmer();
+            });
+
+            // Enhanced hover animations
+            this.primaryCTA.addEventListener('mouseenter', () => {
+                this.triggerCTAHoverAnimation();
+            });
+
+            this.primaryCTA.addEventListener('mouseleave', () => {
+                this.resetCTAHoverAnimation();
             });
         }
     }
 
-    addCTAShine() {
-        // Add premium shine effect to CTA
-        const shine = document.createElement('div');
-        shine.style.cssText = `
+    triggerCTARipple(e) {
+        // Create ripple effect at click point
+        const rect = this.primaryCTA.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.8s ease;
+            left: ${x}px;
+            top: ${y}px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
             pointer-events: none;
-            border-radius: 3rem;
-            z-index: 1;
+            z-index: 10;
         `;
         
-        this.primaryCTA.style.position = 'relative';
-        this.primaryCTA.appendChild(shine);
+        this.primaryCTA.appendChild(ripple);
         
-        // Trigger shine animation
-        requestAnimationFrame(() => {
-            shine.style.left = '100%';
-        });
-        
-        // Remove shine element after animation
-        setTimeout(() => {
-            if (shine.parentNode) {
-                shine.parentNode.removeChild(shine);
+        // Animate ripple
+        EviaUtils.animate(ripple, [
+            { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
+            { transform: 'translate(-50%, -50%) scale(6)', opacity: 0 }
+        ], { duration: 800 }).then(() => {
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
             }
-        }, 800);
+        });
+    }
+
+    addCTAShimmer() {
+        const shimmer = this.primaryCTA.querySelector('.cta-shimmer');
+        if (shimmer) {
+            // Reset shimmer position
+            shimmer.style.left = '-100%';
+            shimmer.style.transition = 'none';
+            
+            // Force reflow
+            shimmer.offsetHeight;
+            
+            // Animate shimmer
+            shimmer.style.transition = 'left 0.8s ease';
+            shimmer.style.left = '100%';
+        }
+    }
+
+    triggerCTAHoverAnimation() {
+        // Enhanced hover state with multiple effects
+        const glow = this.primaryCTA.querySelector('.cta-glow');
+        if (glow) {
+            glow.style.opacity = '0.6';
+        }
+        
+        // Add subtle pulse to the button text
+        EviaUtils.animate(this.primaryCTA, [
+            { transform: 'translateY(-5px) scale(1.02)' }
+        ], { duration: 300 });
+    }
+
+    resetCTAHoverAnimation() {
+        const glow = this.primaryCTA.querySelector('.cta-glow');
+        if (glow) {
+            glow.style.opacity = '0';
+        }
     }
     
     initScrollIndicator() {
@@ -945,6 +995,34 @@ class LuxuryHero {
             this.scrollIndicator.addEventListener('click', () => {
                 app.smoothScrollTo('#services');
             });
+
+            // Enhanced hover effect for new design
+            this.scrollIndicator.addEventListener('mouseenter', () => {
+                this.animateScrollIndicator();
+            });
+        }
+    }
+
+    animateScrollIndicator() {
+        const scrollText = this.scrollIndicator.querySelector('.scroll-text');
+        const scrollLine = this.scrollIndicator.querySelector('.scroll-line');
+        const scrollIcon = this.scrollIndicator.querySelector('i');
+
+        // Animate text
+        if (scrollText) {
+            EviaUtils.animate(scrollText, [
+                { transform: 'translateY(0)' },
+                { transform: 'translateY(-3px)' }
+            ], { duration: 300 });
+        }
+
+        // Animate icon with bounce
+        if (scrollIcon) {
+            EviaUtils.animate(scrollIcon, [
+                { transform: 'translateY(0)' },
+                { transform: 'translateY(5px)' },
+                { transform: 'translateY(0)' }
+            ], { duration: 600 });
         }
     }
     
@@ -975,23 +1053,82 @@ class LuxuryHero {
             // Add subtle parallax to bubbles
             this.addParallaxToOrb(bubble, index * 0.5);
         });
+    }
 
-        // Initialize floating stats
-        const floatingStats = document.querySelectorAll('.floating-stat');
-        floatingStats.forEach((stat, index) => {
+    initFloatingStats() {
+        // Enhanced floating stats with hover effects
+        this.floatingStats.forEach((stat, index) => {
             const delay = index * 2;
             stat.style.animationDelay = `-${delay}s`;
             
             // Add parallax effect
             this.addParallaxToOrb(stat, index * 0.3);
+
+            // Enhanced hover interactions
+            stat.addEventListener('mouseenter', () => {
+                this.animateStatHover(stat);
+            });
+
+            stat.addEventListener('mouseleave', () => {
+                this.resetStatHover(stat);
+            });
+
+            // Add entrance animation with stagger
+            setTimeout(() => {
+                stat.style.opacity = '1';
+                stat.style.transform = 'translateY(0)';
+            }, index * 200);
         });
+    }
+
+    animateStatHover(stat) {
+        const statNumber = stat.querySelector('.stat-number');
+        const statLabel = stat.querySelector('.stat-label');
+
+        // Scale and glow effect
+        EviaUtils.animate(stat, [
+            { transform: 'translateY(0) scale(1)' },
+            { transform: 'translateY(-8px) scale(1.05)' }
+        ], { duration: 300 });
+
+        // Animate number with pulse
+        if (statNumber) {
+            EviaUtils.animate(statNumber, [
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.1)' },
+                { transform: 'scale(1)' }
+            ], { duration: 400 });
+        }
+
+        // Subtle label animation
+        if (statLabel) {
+            EviaUtils.animate(statLabel, [
+                { opacity: 0.8 },
+                { opacity: 1 }
+            ], { duration: 200 });
+        }
+    }
+
+    resetStatHover(stat) {
+        EviaUtils.animate(stat, [
+            { transform: 'translateY(-8px) scale(1.05)' },
+            { transform: 'translateY(0) scale(1)' }
+        ], { duration: 300 });
     }
     
     addParallaxToOrb(orb, index) {
+        let ticking = false;
+        
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.1 * (index + 1);
-            orb.style.transform = `translateY(${rate}px)`;
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const rate = scrolled * -0.1 * (index + 1);
+                    orb.style.transform = `translateY(${rate}px)`;
+                    ticking = false;
+                });
+                ticking = true;
+            }
         }, { passive: true });
     }
     
@@ -999,7 +1136,7 @@ class LuxuryHero {
         const video = document.querySelector('.hero-video');
         if (video) {
             video.addEventListener('loadeddata', () => {
-                video.style.opacity = '1';
+                video.style.opacity = '0.95'; // Slightly more transparent as per directive
             });
             
             // Ensure video plays
@@ -1023,6 +1160,76 @@ class LuxuryHero {
                 } else {
                     playVideo();
                 }
+            });
+        }
+    }
+
+    initTypographyAnimations() {
+        // Animate headline elements on load
+        const headlineElements = document.querySelectorAll('.headline-line-1, .headline-gradient, .headline-line-3');
+        const subheadline = document.querySelector('.hero-subheadline-new');
+        const badge = document.querySelector('.hero-badge-new');
+
+        // Stagger animation for headline elements
+        headlineElements.forEach((element, index) => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                EviaUtils.animate(element, [
+                    { opacity: 0, transform: 'translateY(30px)' },
+                    { opacity: 1, transform: 'translateY(0)' }
+                ], { duration: 800, delay: index * 200 });
+            }, 500); // Start after preloader
+        });
+
+        // Animate subheadline
+        if (subheadline) {
+            subheadline.style.opacity = '0';
+            subheadline.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                EviaUtils.animate(subheadline, [
+                    { opacity: 0, transform: 'translateY(20px)' },
+                    { opacity: 1, transform: 'translateY(0)' }
+                ], { duration: 600 });
+            }, 1200);
+        }
+
+        // Animate badge
+        if (badge) {
+            badge.style.opacity = '0';
+            badge.style.transform = 'translateY(-20px) scale(0.9)';
+            
+            setTimeout(() => {
+                EviaUtils.animate(badge, [
+                    { opacity: 0, transform: 'translateY(-20px) scale(0.9)' },
+                    { opacity: 1, transform: 'translateY(0) scale(1)' }
+                ], { duration: 600 });
+            }, 200);
+        }
+
+        // Animate CTA button
+        if (this.primaryCTA) {
+            this.primaryCTA.style.opacity = '0';
+            this.primaryCTA.style.transform = 'translateY(30px) scale(0.95)';
+            
+            setTimeout(() => {
+                EviaUtils.animate(this.primaryCTA, [
+                    { opacity: 0, transform: 'translateY(30px) scale(0.95)' },
+                    { opacity: 1, transform: 'translateY(0) scale(1)' }
+                ], { duration: 800 });
+            }, 1500);
+        }
+    }
+
+    // Add responsive behavior
+    onResize() {
+        // Adjust animations for mobile
+        if (window.innerWidth <= 768) {
+            // Reduce parallax effects on mobile
+            this.floatingStats.forEach(stat => {
+                stat.style.transform = 'translateY(0)';
             });
         }
     }
@@ -1550,7 +1757,7 @@ class PerformanceOptimizer {
     
     optimizeAnimations() {
         // Use will-change for animated elements
-        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .logo-container');
+        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .logo-container, .floating-stat');
         animatedElements.forEach(element => {
             if (element) {
                 element.style.willChange = 'transform';
@@ -1616,7 +1823,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         app: () => window.app,
         components: () => window.app ? window.app.components : {},
         utils: () => EviaUtils,
-        version: '2.0.0 - Hermès Luxury Edition'
+        version: '2.1.0 - New Hero Design Edition'
     };
     
     console.log('🔧 Evia Luxury Debug Mode Enabled');
