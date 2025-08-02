@@ -415,7 +415,7 @@ body {
     transition: all var(--transition-medium);
     position: relative;
     overflow: visible; /* Allow logo to extend beyond if needed */
-    height: 70px; /* Fixed header height - logo won't affect this */
+    height: 100px; /* Fixed header height - logo won't affect this */
 }
 
 .luxury-floating-header.scrolled .aluminum-container {
