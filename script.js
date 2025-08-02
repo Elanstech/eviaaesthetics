@@ -194,13 +194,13 @@ class EviaLuxuryApp {
 }
 
 // ========================================
-// LUXURY PRELOADER
+// UPDATED LUXURY PRELOADER
 // ========================================
 
 class LuxuryPreloader {
     constructor() {
         this.preloader = document.getElementById('preloader');
-        this.minDisplayTime = 4000; // Extended minimum time - 4 seconds
+        this.minDisplayTime = 3000; // 3 seconds minimum
         this.startTime = Date.now();
         this.logoLoaded = false;
         
@@ -213,7 +213,7 @@ class LuxuryPreloader {
         // Prevent scrolling during preload
         document.body.style.overflow = 'hidden';
         
-        // Add floating animation to logo
+        // Add floating animation to medspa icons
         this.addFloatingAnimation();
         
         // Check for logo loading
@@ -228,7 +228,7 @@ class LuxuryPreloader {
     }
     
     checkLogoLoading() {
-        const logoImage = this.preloader.querySelector('.floating-logo');
+        const logoImage = this.preloader.querySelector('.preloader-logo');
         if (logoImage) {
             if (logoImage.complete && logoImage.naturalHeight !== 0) {
                 this.logoLoaded = true;
@@ -246,11 +246,25 @@ class LuxuryPreloader {
     }
     
     addFloatingAnimation() {
-        const logoCircle = this.preloader.querySelector('.logo-glow-circle');
-        if (logoCircle) {
-            // Add subtle breathing effect
+        const medSpaIcons = this.preloader.querySelectorAll('.medspa-icon');
+        medSpaIcons.forEach((icon, index) => {
+            // Add randomized floating movement
             setInterval(() => {
-                logoCircle.style.transform = `translateY(${Math.sin(Date.now() * 0.001) * 10}px)`;
+                const time = Date.now() * 0.001;
+                const offset = index * 0.5;
+                const x = Math.sin(time + offset) * 15;
+                const y = Math.cos(time * 0.8 + offset) * 10;
+                icon.style.transform = `translate(${x}px, ${y}px) rotate(${Math.sin(time + offset) * 5}deg)`;
+            }, 50);
+        });
+        
+        // Add subtle animation to logo
+        const logo = this.preloader.querySelector('.preloader-logo');
+        if (logo) {
+            setInterval(() => {
+                const time = Date.now() * 0.0008;
+                const scale = 1 + Math.sin(time) * 0.02;
+                logo.style.transform = `scale(${scale})`;
             }, 16);
         }
     }
@@ -274,13 +288,41 @@ class LuxuryPreloader {
     fadeOut() {
         if (!this.preloader) return;
         
-        this.preloader.classList.add('fade-out');
+        // Add fade out animation to icons first
+        const medSpaIcons = this.preloader.querySelectorAll('.medspa-icon');
+        medSpaIcons.forEach((icon, index) => {
+            setTimeout(() => {
+                icon.style.opacity = '0';
+                icon.style.transform = 'scale(0.5) rotate(180deg)';
+            }, index * 50);
+        });
         
+        // Fade out logo and loading indicator
+        setTimeout(() => {
+            const logo = this.preloader.querySelector('.preloader-logo');
+            const loadingIndicator = this.preloader.querySelector('.loading-indicator');
+            
+            if (logo) {
+                logo.style.opacity = '0';
+                logo.style.transform = 'scale(0.8)';
+            }
+            
+            if (loadingIndicator) {
+                loadingIndicator.style.opacity = '0';
+            }
+        }, 400);
+        
+        // Fade out entire preloader
+        setTimeout(() => {
+            this.preloader.classList.add('fade-out');
+        }, 800);
+        
+        // Remove preloader from DOM
         setTimeout(() => {
             this.preloader.style.display = 'none';
             document.body.style.overflow = '';
             document.body.classList.add('preloader-complete');
-        }, 1200);
+        }, 2000);
     }
 }
 
@@ -303,7 +345,6 @@ class HermesLuxuryHeader {
     init() {
         this.bindEvents();
         this.initNavigationEffects();
-        this.initLogoAnimations();
         this.initPremiumBehavior();
     }
     
@@ -329,10 +370,9 @@ class HermesLuxuryHeader {
         }
         
         // Logo click to top with premium animation
-        const logoFrame = this.header.querySelector('.logo-frame');
-        if (logoFrame) {
-            logoFrame.addEventListener('click', () => {
-                this.triggerLogoAnimation();
+        const headerLogo = this.header.querySelector('.header-logo');
+        if (headerLogo) {
+            headerLogo.addEventListener('click', () => {
                 app.smoothScrollTo('#home', 0);
             });
         }
@@ -466,77 +506,6 @@ class HermesLuxuryHeader {
         setTimeout(() => {
             link.style.transform = '';
         }, 300);
-    }
-    
-    initLogoAnimations() {
-        const logoFrame = this.header.querySelector('.logo-frame');
-        const logoContainer = this.header.querySelector('.logo-container');
-        const premiumGlow = this.header.querySelector('.premium-glow');
-        
-        if (!logoFrame || !logoContainer) return;
-        
-        // Enhanced logo hover effects
-        logoFrame.addEventListener('mouseenter', () => {
-            this.triggerLogoAnimation();
-            if (premiumGlow) {
-                premiumGlow.style.opacity = '1';
-            }
-        });
-        
-        logoFrame.addEventListener('mouseleave', () => {
-            if (premiumGlow) {
-                premiumGlow.style.opacity = '0';
-            }
-        });
-        
-        // Periodic premium glow effect
-        setInterval(() => {
-            if (!logoFrame.matches(':hover')) {
-                this.triggerPeriodicGlow();
-            }
-        }, 8000);
-    }
-    
-    triggerLogoAnimation() {
-        const logoContainer = this.header.querySelector('.logo-container');
-        const logoReflection = this.header.querySelector('.logo-reflection');
-        const brandLogo = this.header.querySelector('.brand-logo');
-        
-        if (logoContainer) {
-            logoContainer.style.transform = 'scale(1.08) rotate(5deg)';
-            logoContainer.style.boxShadow = '0 8px 30px rgba(255, 140, 0, 0.6)';
-            
-            setTimeout(() => {
-                logoContainer.style.transform = '';
-                logoContainer.style.boxShadow = '';
-            }, 400);
-        }
-        
-        if (brandLogo) {
-            brandLogo.style.transform = 'scale(1.05)';
-            setTimeout(() => {
-                brandLogo.style.transform = '';
-            }, 400);
-        }
-        
-        if (logoReflection) {
-            logoReflection.style.animation = 'none';
-            logoReflection.offsetHeight; // Force reflow
-            logoReflection.style.animation = 'logo-premium-shine 1s ease-out';
-        }
-    }
-    
-    triggerPeriodicGlow() {
-        const premiumGlow = this.header.querySelector('.premium-glow');
-        if (premiumGlow) {
-            premiumGlow.style.opacity = '1';
-            premiumGlow.style.animation = 'premium-glow-pulse 2s ease-in-out';
-            
-            setTimeout(() => {
-                premiumGlow.style.opacity = '0';
-                premiumGlow.style.animation = '';
-            }, 2000);
-        }
     }
     
     initPremiumBehavior() {
@@ -1848,7 +1817,7 @@ class PerformanceOptimizer {
             document.body.classList.add('reduced-motion');
             
             // Disable complex animations
-            const orbs = document.querySelectorAll('.orb, .decoration-orb');
+            const orbs = document.querySelectorAll('.orb, .decoration-orb, .medspa-icon');
             orbs.forEach(orb => {
                 orb.style.animation = 'none';
                 orb.style.opacity = '0.1';
@@ -1858,7 +1827,7 @@ class PerformanceOptimizer {
     
     optimizeAnimations() {
         // Use will-change for animated elements
-        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .logo-container, .floating-stat');
+        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .floating-stat, .medspa-icon, .preloader-logo');
         animatedElements.forEach(element => {
             if (element) {
                 element.style.willChange = 'transform';
@@ -1924,7 +1893,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         app: () => window.app,
         components: () => window.app ? window.app.components : {},
         utils: () => EviaUtils,
-        version: '2.1.0 - New Hero Design Edition'
+        version: '2.2.0 - New Preloader Edition'
     };
     
     console.log('🔧 Evia Luxury Debug Mode Enabled');
