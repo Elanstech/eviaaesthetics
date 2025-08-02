@@ -200,8 +200,9 @@ class EviaLuxuryApp {
 class LuxuryPreloader {
     constructor() {
         this.preloader = document.getElementById('preloader');
-        this.minDisplayTime = 2500; // Minimum time in ms
+        this.minDisplayTime = 4000; // Extended minimum time - 4 seconds
         this.startTime = Date.now();
+        this.logoLoaded = false;
         
         if (this.preloader) {
             this.init();
@@ -215,11 +216,32 @@ class LuxuryPreloader {
         // Add floating animation to logo
         this.addFloatingAnimation();
         
+        // Check for logo loading
+        this.checkLogoLoading();
+        
         // Check if page is already loaded
         if (document.readyState === 'complete') {
             this.checkFadeOut();
         } else {
             window.addEventListener('load', () => this.checkFadeOut());
+        }
+    }
+    
+    checkLogoLoading() {
+        const logoImage = this.preloader.querySelector('.floating-logo');
+        if (logoImage) {
+            if (logoImage.complete && logoImage.naturalHeight !== 0) {
+                this.logoLoaded = true;
+            } else {
+                logoImage.addEventListener('load', () => {
+                    this.logoLoaded = true;
+                });
+                logoImage.addEventListener('error', () => {
+                    this.logoLoaded = true; // Continue even if logo fails to load
+                });
+            }
+        } else {
+            this.logoLoaded = true; // No logo found, continue
         }
     }
     
@@ -234,12 +256,19 @@ class LuxuryPreloader {
     }
     
     checkFadeOut() {
-        const timeElapsed = Date.now() - this.startTime;
-        const remainingTime = Math.max(0, this.minDisplayTime - timeElapsed);
+        const checkConditions = () => {
+            const timeElapsed = Date.now() - this.startTime;
+            const timeConditionMet = timeElapsed >= this.minDisplayTime;
+            
+            if (timeConditionMet && this.logoLoaded) {
+                this.fadeOut();
+            } else {
+                // Check again in 100ms
+                setTimeout(checkConditions, 100);
+            }
+        };
         
-        setTimeout(() => {
-            this.fadeOut();
-        }, remainingTime);
+        checkConditions();
     }
     
     fadeOut() {
@@ -251,7 +280,7 @@ class LuxuryPreloader {
             this.preloader.style.display = 'none';
             document.body.style.overflow = '';
             document.body.classList.add('preloader-complete');
-        }, 800);
+        }, 1200);
     }
 }
 
@@ -834,19 +863,20 @@ class NewLuxuryHero {
         this.hero = document.querySelector('.luxury-hero');
         this.cyclingText = document.getElementById('cyclingText');
         this.primaryCTA = document.querySelector('.hero-cta-new');
-        this.scrollIndicator = document.querySelector('.scroll-indicator-new');
+        this.scrollIndicator = document.querySelector('.modern-scroll-indicator');
         this.floatingStats = document.querySelectorAll('.floating-stat');
         
-        // Updated text options based on directive
+        // Updated text options for TypeJS-style animation
         this.textOptions = [
             'For Transformation',
             'For Beauty',
-            'For Excellence',
+            'For Excellence', 
             'For Confidence',
             'For Radiance',
             'For Elegance'
         ];
         this.currentTextIndex = 0;
+        this.typewriterActive = false;
         
         if (this.hero) {
             this.init();
@@ -854,7 +884,7 @@ class NewLuxuryHero {
     }
     
     init() {
-        this.initTextCycling();
+        this.initTypewriterEffect();
         this.initCTAButtons();
         this.initScrollIndicator();
         this.initFloatingOrbs();
@@ -863,33 +893,75 @@ class NewLuxuryHero {
         this.initTypographyAnimations();
     }
     
-    initTextCycling() {
+    initTypewriterEffect() {
         if (!this.cyclingText) return;
         
-        // Start cycling after a delay to let initial load settle
+        // Start typing effect after initial load
         setTimeout(() => {
-            this.startTextCycling();
-        }, 4000);
+            this.startTypewriterCycle();
+        }, 5000);
     }
     
-    startTextCycling() {
-        setInterval(() => {
-            // Smooth fade out with scaling
-            EviaUtils.animate(this.cyclingText, [
-                { opacity: 1, transform: 'translateY(0) scale(1)' },
-                { opacity: 0, transform: 'translateY(20px) scale(0.95)' }
-            ], { duration: 600 }).then(() => {
-                // Change text
-                this.currentTextIndex = (this.currentTextIndex + 1) % this.textOptions.length;
-                this.cyclingText.textContent = this.textOptions[this.currentTextIndex];
-                
-                // Smooth fade in with scaling
-                EviaUtils.animate(this.cyclingText, [
-                    { opacity: 0, transform: 'translateY(-20px) scale(0.95)' },
-                    { opacity: 1, transform: 'translateY(0) scale(1)' }
-                ], { duration: 600 });
+    startTypewriterCycle() {
+        const typeSpeed = 80;
+        const deleteSpeed = 50;
+        const pauseTime = 2000;
+        
+        const typeText = (text, callback) => {
+            if (this.typewriterActive) return;
+            this.typewriterActive = true;
+            
+            let charIndex = 0;
+            this.cyclingText.textContent = '';
+            
+            const type = () => {
+                if (charIndex < text.length) {
+                    this.cyclingText.textContent += text.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, typeSpeed);
+                } else {
+                    this.typewriterActive = false;
+                    if (callback) setTimeout(callback, pauseTime);
+                }
+            };
+            
+            type();
+        };
+        
+        const deleteText = (callback) => {
+            if (this.typewriterActive) return;
+            this.typewriterActive = true;
+            
+            const currentText = this.cyclingText.textContent;
+            let charIndex = currentText.length;
+            
+            const deleteChar = () => {
+                if (charIndex > 0) {
+                    this.cyclingText.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(deleteChar, deleteSpeed);
+                } else {
+                    this.typewriterActive = false;
+                    if (callback) setTimeout(callback, 300);
+                }
+            };
+            
+            deleteChar();
+        };
+        
+        const cycle = () => {
+            const currentText = this.textOptions[this.currentTextIndex];
+            
+            typeText(currentText, () => {
+                deleteText(() => {
+                    this.currentTextIndex = (this.currentTextIndex + 1) % this.textOptions.length;
+                    cycle();
+                });
             });
-        }, 4500);
+        };
+        
+        // Start the cycle
+        cycle();
     }
     
     initCTAButtons() {
@@ -996,33 +1068,62 @@ class NewLuxuryHero {
                 app.smoothScrollTo('#services');
             });
 
-            // Enhanced hover effect for new design
-            this.scrollIndicator.addEventListener('mouseenter', () => {
-                this.animateScrollIndicator();
-            });
+            // Enhanced hover effect for modern design
+            const scrollPill = this.scrollIndicator.querySelector('.scroll-pill');
+            const scrollDot = this.scrollIndicator.querySelector('.scroll-dot');
+            const scrollHint = this.scrollIndicator.querySelector('.scroll-hint');
+
+            if (scrollPill) {
+                scrollPill.addEventListener('mouseenter', () => {
+                    this.animateModernScrollIndicator();
+                });
+
+                scrollPill.addEventListener('mouseleave', () => {
+                    this.resetModernScrollIndicator();
+                });
+            }
         }
     }
 
-    animateScrollIndicator() {
-        const scrollText = this.scrollIndicator.querySelector('.scroll-text');
-        const scrollLine = this.scrollIndicator.querySelector('.scroll-line');
-        const scrollIcon = this.scrollIndicator.querySelector('i');
+    animateModernScrollIndicator() {
+        const scrollPill = this.scrollIndicator.querySelector('.scroll-pill');
+        const scrollDot = this.scrollIndicator.querySelector('.scroll-dot');
+        const scrollHint = this.scrollIndicator.querySelector('.scroll-hint');
 
-        // Animate text
-        if (scrollText) {
-            EviaUtils.animate(scrollText, [
-                { transform: 'translateY(0)' },
-                { transform: 'translateY(-3px)' }
+        // Animate the pill container
+        if (scrollPill) {
+            EviaUtils.animate(scrollPill, [
+                { transform: 'translateY(0) scale(1)' },
+                { transform: 'translateY(-8px) scale(1.05)' }
             ], { duration: 300 });
         }
 
-        // Animate icon with bounce
-        if (scrollIcon) {
-            EviaUtils.animate(scrollIcon, [
-                { transform: 'translateY(0)' },
-                { transform: 'translateY(5px)' },
-                { transform: 'translateY(0)' }
-            ], { duration: 600 });
+        // Animate the dot with pulse
+        if (scrollDot) {
+            EviaUtils.animate(scrollDot, [
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.5)' },
+                { transform: 'scale(1)' }
+            ], { duration: 500 });
+        }
+
+        // Animate the hint text
+        if (scrollHint) {
+            EviaUtils.animate(scrollHint, [
+                { opacity: 0.8 },
+                { opacity: 1 }
+            ], { duration: 200 });
+        }
+    }
+
+    resetModernScrollIndicator() {
+        const scrollPill = this.scrollIndicator.querySelector('.scroll-pill');
+        
+        if (scrollPill) {
+            EviaUtils.animate(scrollPill, [
+                { transform: 'translateY(-8px) scale(1.05)' },
+                { transform: 'translateY(0) scale(1)' }
+            ], { duration: 300 });
         }
     }
     
