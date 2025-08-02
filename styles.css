@@ -367,7 +367,7 @@ body {
     backdrop-filter: blur(40px) saturate(180%);
     border: 3px solid var(--brushed-silver);
     border-radius: 4rem;
-    padding: 1.25rem 3rem;
+    padding: 0.75rem 3rem;
     display: flex;
     align-items: center;
     gap: 4rem;
@@ -378,8 +378,8 @@ body {
         inset 0 -1px 0 rgba(0, 0, 0, 0.05);
     transition: all var(--transition-medium);
     position: relative;
-    overflow: hidden;
-    min-height: 60px; /* Changed from 80px to 60px */
+    overflow: visible; /* Allow logo to extend beyond if needed */
+    height: 70px; /* Fixed header height - logo won't affect this */
 }
 
 .luxury-floating-header.scrolled .aluminum-container {
@@ -411,12 +411,14 @@ body {
 .header-logo {
     width: 250px;
     height: 250px;
-    object-fit: contain;
+    object-fit: cover; /* Changed from contain to cover for full control */
     object-position: center;
     transition: all var(--transition-medium);
     cursor: pointer;
     flex-shrink: 0;
     border-radius: 8px;
+    position: relative;
+    z-index: 10; /* Ensure logo appears above other elements */
 }
 
 .header-logo:hover,
