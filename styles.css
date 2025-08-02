@@ -379,7 +379,7 @@ body {
     transition: all var(--transition-medium);
     position: relative;
     overflow: hidden;
-    min-height: 80px;
+    min-height: 60px; /* Changed from 80px to 60px */
 }
 
 .luxury-floating-header.scrolled .aluminum-container {
@@ -409,16 +409,14 @@ body {
 }
 
 .header-logo {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
     object-position: center;
     transition: all var(--transition-medium);
     cursor: pointer;
     flex-shrink: 0;
-    /* Remove any extra spacing around the image */
     border-radius: 8px;
-    /* Alternative: Use background approach for better control */
 }
 
 .header-logo:hover,
