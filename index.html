@@ -12,7 +12,7 @@
     <!-- Premium Fonts - Updated with Rounded Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Nunito:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Nunito:wght@200;300;400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
@@ -174,8 +174,8 @@
         </div>
     </div>
 
-    <!-- NEW REDESIGNED HERO SECTION -->
-    <section class="luxury-hero" id="home">
+    <!-- ENHANCED CINEMATIC HERO SECTION -->
+    <section class="cinematic-hero" id="home">
         <!-- Video Background with Enhanced Overlay -->
         <div class="video-container">
             <video class="hero-video" autoplay muted loop playsinline>
@@ -199,56 +199,87 @@
             <div class="aqua-bubble bubble-3"></div>
         </div>
         
-        <!-- Floating Side Statistics - Updated Design -->
-        <div class="hero-side-elements">
-            <div class="floating-stat stat-1">
-                <span class="stat-number">20+</span>
-                <span class="stat-label">Years of Aesthetic Mastery</span>
-            </div>
-            <div class="floating-stat stat-2">
-                <span class="stat-number">5★</span>
-                <span class="stat-label">Rated NYC's Most Trusted Med Spa</span>
-            </div>
-            <div class="floating-stat stat-3">
-                <span class="stat-number">1000+</span>
-                <span class="stat-label">Private Transformations</span>
-            </div>
-        </div>
-        
-        <!-- Redesigned Hero Content - Transparent Floating Layout -->
-        <div class="hero-content-new">
-            <!-- Manhattan Badge -->
-            <div class="hero-badge-new">
+        <!-- MAIN HERO CONTENT - VERTICAL STACK -->
+        <div class="hero-content-stack">
+            <!-- 1. TOP BADGE -->
+            <div class="hero-badge-premium" data-aos="fade-down" data-aos-delay="200">
                 <i class="ri-map-pin-2-fill"></i>
                 <span>Manhattan's Premier Boutique Med Spa</span>
             </div>
             
-            <!-- Multi-line Typography Headline -->
-            <h1 class="hero-headline-new">
-                <span class="headline-line-1">Where Manhattan Comes</span>
-                <span class="headline-gradient" id="cyclingText">For Transformation</span>
-                <span class="headline-line-3">Through Clinical Artistry</span>
-            </h1>
+            <!-- 2. HEADLINE (Two Lines) -->
+            <div class="hero-headline-stack" data-aos="fade-up" data-aos-delay="400">
+                <h1 class="headline-primary">The Art of Subtle Transformation</h1>
+                <h2 class="headline-secondary">Where science meets serenity</h2>
+            </div>
             
-            <!-- Refined Subheadline -->
-            <p class="hero-subheadline-new">
-                Precision injectables. Tailored rejuvenation. Beautiful results.
+            <!-- 3. SUBHEADLINE -->
+            <p class="hero-subheadline-elegant" data-aos="fade-up" data-aos-delay="600">
+                Tailored injectables. Timeless results. Trusted by over 1,000 New Yorkers.
             </p>
             
-            <!-- Premium CTA Button -->
-            <button class="hero-cta-new magnetic-button" id="primaryCTA">
-                <span>Reserve a Private Consultation</span>
+            <!-- 4. CTA BUTTON -->
+            <button class="hero-cta-signature" id="primaryCTA" data-aos="fade-up" data-aos-delay="800">
+                <span>Begin Your Signature Consultation</span>
                 <div class="cta-shimmer"></div>
                 <div class="cta-glow"></div>
             </button>
+            
+            <!-- 5. FLOATING STATS ROW -->
+            <div class="stats-row-container" data-aos="fade-up" data-aos-delay="1000">
+                <div class="stat-pill">
+                    <div class="stat-icon">
+                        <i class="ri-heart-pulse-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">1,000+</span>
+                        <span class="stat-label">Signature Transformations</span>
+                    </div>
+                </div>
+                
+                <div class="stat-pill">
+                    <div class="stat-icon">
+                        <i class="ri-award-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">Years of Expertise</span>
+                    </div>
+                </div>
+                
+                <div class="stat-pill">
+                    <div class="stat-icon">
+                        <i class="ri-user-heart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">Board-Certified</span>
+                        <span class="stat-label">Aesthetic Physician</span>
+                    </div>
+                </div>
+                
+                <div class="stat-pill">
+                    <div class="stat-icon">
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">5.0★</span>
+                        <span class="stat-label">Client Rating</span>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <!-- Modern Sleek Scroll Indicator -->
-        <div class="modern-scroll-indicator">
-            <div class="scroll-pill">
-                <div class="scroll-dot"></div>
-                <span class="scroll-hint">Scroll</span>
+        <!-- 6. HANDWRITTEN SIGNATURE -->
+        <div class="signature-wrapper" data-aos="fade-in" data-aos-delay="1200">
+            <span class="signature-text">Dr. Evia Alikaj Nano, MD</span>
+        </div>
+        
+        <!-- 7. SCROLL INDICATOR -->
+        <div class="scroll-indicator-elegant" data-aos="fade-up" data-aos-delay="1400">
+            <div class="scroll-icon">
+                <i class="ri-arrow-down-line"></i>
             </div>
+            <span class="scroll-text">Explore the Experience</span>
         </div>
     </section>
 
