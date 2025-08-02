@@ -1,5 +1,5 @@
 /* ========================================
-   EVIA AESTHETICS - UNDERSTATED LUXURY JS
+   EVIA AESTHETICS - ENHANCED HERO JS
    ======================================== */
 
 'use strict';
@@ -93,7 +93,7 @@ class EviaLuxuryApp {
             this.components.preloader = new LuxuryPreloader();
             this.components.header = new HermesLuxuryHeader();
             this.components.mobileMenu = new LuxuryMobileMenu();
-            this.components.hero = new NewLuxuryHero(); // Updated hero class
+            this.components.cinematicHero = new CinematicHero(); // New enhanced hero
             this.components.beforeAfter = new BeforeAfterSlider();
             this.components.contactForm = new ContactForm();
             this.components.magneticEffects = new MagneticEffects();
@@ -194,7 +194,7 @@ class EviaLuxuryApp {
 }
 
 // ========================================
-// UPDATED LUXURY PRELOADER
+// LUXURY PRELOADER CLASS
 // ========================================
 
 class LuxuryPreloader {
@@ -327,7 +327,7 @@ class LuxuryPreloader {
 }
 
 // ========================================
-// HERMÈS-INSPIRED LUXURY HEADER
+// HERMÈS-INSPIRED LUXURY HEADER CLASS
 // ========================================
 
 class HermesLuxuryHeader {
@@ -570,7 +570,7 @@ class HermesLuxuryHeader {
 }
 
 // ========================================
-// LUXURY MOBILE MENU
+// LUXURY MOBILE MENU CLASS
 // ========================================
 
 class LuxuryMobileMenu {
@@ -824,28 +824,16 @@ class LuxuryMobileMenu {
 }
 
 // ========================================
-// NEW LUXURY HERO SECTION
+// ENHANCED CINEMATIC HERO CLASS
 // ========================================
 
-class NewLuxuryHero {
+class CinematicHero {
     constructor() {
-        this.hero = document.querySelector('.luxury-hero');
-        this.cyclingText = document.getElementById('cyclingText');
-        this.primaryCTA = document.querySelector('.hero-cta-new');
-        this.scrollIndicator = document.querySelector('.modern-scroll-indicator');
-        this.floatingStats = document.querySelectorAll('.floating-stat');
-        
-        // Updated text options for TypeJS-style animation
-        this.textOptions = [
-            'For Transformation',
-            'For Beauty',
-            'For Excellence', 
-            'For Confidence',
-            'For Radiance',
-            'For Elegance'
-        ];
-        this.currentTextIndex = 0;
-        this.typewriterActive = false;
+        this.hero = document.querySelector('.cinematic-hero');
+        this.primaryCTA = document.querySelector('.hero-cta-signature');
+        this.scrollIndicator = document.querySelector('.scroll-indicator-elegant');
+        this.statPills = document.querySelectorAll('.stat-pill');
+        this.signature = document.querySelector('.signature-text');
         
         if (this.hero) {
             this.init();
@@ -853,84 +841,13 @@ class NewLuxuryHero {
     }
     
     init() {
-        this.initTypewriterEffect();
         this.initCTAButtons();
         this.initScrollIndicator();
         this.initFloatingOrbs();
-        this.initFloatingStats();
+        this.initStatPills();
         this.initVideo();
+        this.initSignatureAnimation();
         this.initTypographyAnimations();
-    }
-    
-    initTypewriterEffect() {
-        if (!this.cyclingText) return;
-        
-        // Start typing effect after initial load
-        setTimeout(() => {
-            this.startTypewriterCycle();
-        }, 5000);
-    }
-    
-    startTypewriterCycle() {
-        const typeSpeed = 80;
-        const deleteSpeed = 50;
-        const pauseTime = 2000;
-        
-        const typeText = (text, callback) => {
-            if (this.typewriterActive) return;
-            this.typewriterActive = true;
-            
-            let charIndex = 0;
-            this.cyclingText.textContent = '';
-            
-            const type = () => {
-                if (charIndex < text.length) {
-                    this.cyclingText.textContent += text.charAt(charIndex);
-                    charIndex++;
-                    setTimeout(type, typeSpeed);
-                } else {
-                    this.typewriterActive = false;
-                    if (callback) setTimeout(callback, pauseTime);
-                }
-            };
-            
-            type();
-        };
-        
-        const deleteText = (callback) => {
-            if (this.typewriterActive) return;
-            this.typewriterActive = true;
-            
-            const currentText = this.cyclingText.textContent;
-            let charIndex = currentText.length;
-            
-            const deleteChar = () => {
-                if (charIndex > 0) {
-                    this.cyclingText.textContent = currentText.substring(0, charIndex - 1);
-                    charIndex--;
-                    setTimeout(deleteChar, deleteSpeed);
-                } else {
-                    this.typewriterActive = false;
-                    if (callback) setTimeout(callback, 300);
-                }
-            };
-            
-            deleteChar();
-        };
-        
-        const cycle = () => {
-            const currentText = this.textOptions[this.currentTextIndex];
-            
-            typeText(currentText, () => {
-                deleteText(() => {
-                    this.currentTextIndex = (this.currentTextIndex + 1) % this.textOptions.length;
-                    cycle();
-                });
-            });
-        };
-        
-        // Start the cycle
-        cycle();
     }
     
     initCTAButtons() {
@@ -1038,60 +955,48 @@ class NewLuxuryHero {
             });
 
             // Enhanced hover effect for modern design
-            const scrollPill = this.scrollIndicator.querySelector('.scroll-pill');
-            const scrollDot = this.scrollIndicator.querySelector('.scroll-dot');
-            const scrollHint = this.scrollIndicator.querySelector('.scroll-hint');
+            const scrollIcon = this.scrollIndicator.querySelector('.scroll-icon');
 
-            if (scrollPill) {
-                scrollPill.addEventListener('mouseenter', () => {
-                    this.animateModernScrollIndicator();
+            if (this.scrollIndicator) {
+                this.scrollIndicator.addEventListener('mouseenter', () => {
+                    this.animateScrollIndicator();
                 });
 
-                scrollPill.addEventListener('mouseleave', () => {
-                    this.resetModernScrollIndicator();
+                this.scrollIndicator.addEventListener('mouseleave', () => {
+                    this.resetScrollIndicator();
                 });
             }
         }
     }
 
-    animateModernScrollIndicator() {
-        const scrollPill = this.scrollIndicator.querySelector('.scroll-pill');
-        const scrollDot = this.scrollIndicator.querySelector('.scroll-dot');
-        const scrollHint = this.scrollIndicator.querySelector('.scroll-hint');
+    animateScrollIndicator() {
+        const scrollIcon = this.scrollIndicator.querySelector('.scroll-icon');
+        const scrollText = this.scrollIndicator.querySelector('.scroll-text');
 
-        // Animate the pill container
-        if (scrollPill) {
-            EviaUtils.animate(scrollPill, [
-                { transform: 'translateY(0) scale(1)' },
-                { transform: 'translateY(-8px) scale(1.05)' }
+        // Animate the icon container
+        if (scrollIcon) {
+            EviaUtils.animate(scrollIcon, [
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.1)' }
             ], { duration: 300 });
         }
 
-        // Animate the dot with pulse
-        if (scrollDot) {
-            EviaUtils.animate(scrollDot, [
-                { transform: 'scale(1)' },
-                { transform: 'scale(1.5)' },
-                { transform: 'scale(1)' }
-            ], { duration: 500 });
-        }
-
-        // Animate the hint text
-        if (scrollHint) {
-            EviaUtils.animate(scrollHint, [
+        // Animate the text
+        if (scrollText) {
+            EviaUtils.animate(scrollText, [
                 { opacity: 0.8 },
                 { opacity: 1 }
             ], { duration: 200 });
         }
     }
 
-    resetModernScrollIndicator() {
-        const scrollPill = this.scrollIndicator.querySelector('.scroll-pill');
+    resetScrollIndicator() {
+        const scrollIcon = this.scrollIndicator.querySelector('.scroll-icon');
         
-        if (scrollPill) {
-            EviaUtils.animate(scrollPill, [
-                { transform: 'translateY(-8px) scale(1.05)' },
-                { transform: 'translateY(0) scale(1)' }
+        if (scrollIcon) {
+            EviaUtils.animate(scrollIcon, [
+                { transform: 'scale(1.1)' },
+                { transform: 'scale(1)' }
             ], { duration: 300 });
         }
     }
@@ -1125,62 +1030,60 @@ class NewLuxuryHero {
         });
     }
 
-    initFloatingStats() {
-        // Enhanced floating stats with hover effects
-        this.floatingStats.forEach((stat, index) => {
-            const delay = index * 2;
-            stat.style.animationDelay = `-${delay}s`;
+    initStatPills() {
+        // Enhanced stat pills with hover effects
+        this.statPills.forEach((pill, index) => {
+            // Add entrance animation with stagger
+            pill.style.opacity = '0';
+            pill.style.transform = 'translateY(30px)';
             
-            // Add parallax effect
-            this.addParallaxToOrb(stat, index * 0.3);
+            setTimeout(() => {
+                pill.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                pill.style.opacity = '1';
+                pill.style.transform = 'translateY(0)';
+            }, 1000 + (index * 150)); // Delay after hero content
 
             // Enhanced hover interactions
-            stat.addEventListener('mouseenter', () => {
-                this.animateStatHover(stat);
+            pill.addEventListener('mouseenter', () => {
+                this.animateStatPillHover(pill);
             });
 
-            stat.addEventListener('mouseleave', () => {
-                this.resetStatHover(stat);
+            pill.addEventListener('mouseleave', () => {
+                this.resetStatPillHover(pill);
             });
-
-            // Add entrance animation with stagger
-            setTimeout(() => {
-                stat.style.opacity = '1';
-                stat.style.transform = 'translateY(0)';
-            }, index * 200);
         });
     }
 
-    animateStatHover(stat) {
-        const statNumber = stat.querySelector('.stat-number');
-        const statLabel = stat.querySelector('.stat-label');
+    animateStatPillHover(pill) {
+        const statIcon = pill.querySelector('.stat-icon');
+        const statNumber = pill.querySelector('.stat-number');
 
         // Scale and glow effect
-        EviaUtils.animate(stat, [
+        EviaUtils.animate(pill, [
             { transform: 'translateY(0) scale(1)' },
             { transform: 'translateY(-8px) scale(1.05)' }
         ], { duration: 300 });
 
-        // Animate number with pulse
-        if (statNumber) {
-            EviaUtils.animate(statNumber, [
+        // Animate icon with pulse
+        if (statIcon) {
+            EviaUtils.animate(statIcon, [
                 { transform: 'scale(1)' },
                 { transform: 'scale(1.1)' },
                 { transform: 'scale(1)' }
             ], { duration: 400 });
         }
 
-        // Subtle label animation
-        if (statLabel) {
-            EviaUtils.animate(statLabel, [
-                { opacity: 0.8 },
-                { opacity: 1 }
+        // Subtle number animation
+        if (statNumber) {
+            EviaUtils.animate(statNumber, [
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.05)' }
             ], { duration: 200 });
         }
     }
 
-    resetStatHover(stat) {
-        EviaUtils.animate(stat, [
+    resetStatPillHover(pill) {
+        EviaUtils.animate(pill, [
             { transform: 'translateY(-8px) scale(1.05)' },
             { transform: 'translateY(0) scale(1)' }
         ], { duration: 300 });
@@ -1206,7 +1109,7 @@ class NewLuxuryHero {
         const video = document.querySelector('.hero-video');
         if (video) {
             video.addEventListener('loadeddata', () => {
-                video.style.opacity = '0.95'; // Slightly more transparent as per directive
+                video.style.opacity = '0.95';
             });
             
             // Ensure video plays
@@ -1234,50 +1137,64 @@ class NewLuxuryHero {
         }
     }
 
+    initSignatureAnimation() {
+        if (this.signature) {
+            // Enhanced signature animation
+            this.signature.style.opacity = '0';
+            this.signature.style.transform = 'translateX(30px)';
+            
+            // Trigger signature animation after other elements
+            setTimeout(() => {
+                EviaUtils.animate(this.signature, [
+                    { opacity: 0, transform: 'translateX(30px)' },
+                    { opacity: 1, transform: 'translateX(0)' }
+                ], { duration: 1200, easing: 'ease-out' });
+            }, 1800);
+
+            // Add subtle hover effect to signature
+            this.signature.addEventListener('mouseenter', () => {
+                EviaUtils.animate(this.signature, [
+                    { transform: 'translateX(0) scale(1)' },
+                    { transform: 'translateX(0) scale(1.05)' }
+                ], { duration: 300 });
+            });
+
+            this.signature.addEventListener('mouseleave', () => {
+                EviaUtils.animate(this.signature, [
+                    { transform: 'translateX(0) scale(1.05)' },
+                    { transform: 'translateX(0) scale(1)' }
+                ], { duration: 300 });
+            });
+        }
+    }
+
     initTypographyAnimations() {
-        // Animate headline elements on load
-        const headlineElements = document.querySelectorAll('.headline-line-1, .headline-gradient, .headline-line-3');
-        const subheadline = document.querySelector('.hero-subheadline-new');
-        const badge = document.querySelector('.hero-badge-new');
+        // Animate headline elements on load with improved timing
+        const badge = document.querySelector('.hero-badge-premium');
+        const headlinePrimary = document.querySelector('.headline-primary');
+        const headlineSecondary = document.querySelector('.headline-secondary');
+        const subheadline = document.querySelector('.hero-subheadline-elegant');
 
-        // Stagger animation for headline elements
-        headlineElements.forEach((element, index) => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            
-            setTimeout(() => {
-                EviaUtils.animate(element, [
-                    { opacity: 0, transform: 'translateY(30px)' },
-                    { opacity: 1, transform: 'translateY(0)' }
-                ], { duration: 800, delay: index * 200 });
-            }, 500); // Start after preloader
+        // Enhanced stagger animation for typography
+        const elements = [badge, headlinePrimary, headlineSecondary, subheadline];
+        
+        elements.forEach((element, index) => {
+            if (element) {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    EviaUtils.animate(element, [
+                        { opacity: 0, transform: 'translateY(30px)' },
+                        { opacity: 1, transform: 'translateY(0)' }
+                    ], { 
+                        duration: 800 + (index * 100), 
+                        delay: index * 200,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                    });
+                }, 500); // Start after preloader
+            }
         });
-
-        // Animate subheadline
-        if (subheadline) {
-            subheadline.style.opacity = '0';
-            subheadline.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                EviaUtils.animate(subheadline, [
-                    { opacity: 0, transform: 'translateY(20px)' },
-                    { opacity: 1, transform: 'translateY(0)' }
-                ], { duration: 600 });
-            }, 1200);
-        }
-
-        // Animate badge
-        if (badge) {
-            badge.style.opacity = '0';
-            badge.style.transform = 'translateY(-20px) scale(0.9)';
-            
-            setTimeout(() => {
-                EviaUtils.animate(badge, [
-                    { opacity: 0, transform: 'translateY(-20px) scale(0.9)' },
-                    { opacity: 1, transform: 'translateY(0) scale(1)' }
-                ], { duration: 600 });
-            }, 200);
-        }
 
         // Animate CTA button
         if (this.primaryCTA) {
@@ -1289,7 +1206,7 @@ class NewLuxuryHero {
                     { opacity: 0, transform: 'translateY(30px) scale(0.95)' },
                     { opacity: 1, transform: 'translateY(0) scale(1)' }
                 ], { duration: 800 });
-            }, 1500);
+            }, 1200);
         }
     }
 
@@ -1298,15 +1215,15 @@ class NewLuxuryHero {
         // Adjust animations for mobile
         if (window.innerWidth <= 768) {
             // Reduce parallax effects on mobile
-            this.floatingStats.forEach(stat => {
-                stat.style.transform = 'translateY(0)';
+            this.statPills.forEach(pill => {
+                pill.style.transform = 'translateY(0)';
             });
         }
     }
 }
 
 // ========================================
-// BEFORE/AFTER SLIDER
+// BEFORE/AFTER SLIDER CLASS
 // ========================================
 
 class BeforeAfterSlider {
@@ -1441,7 +1358,7 @@ class BeforeAfterSlider {
 }
 
 // ========================================
-// CONTACT FORM
+// CONTACT FORM CLASS
 // ========================================
 
 class ContactForm {
@@ -1664,7 +1581,7 @@ class ContactForm {
 }
 
 // ========================================
-// MAGNETIC EFFECTS
+// MAGNETIC EFFECTS CLASS
 // ========================================
 
 class MagneticEffects {
@@ -1732,7 +1649,7 @@ class MagneticEffects {
 }
 
 // ========================================
-// SMOOTH SCROLLING ENHANCEMENT
+// SMOOTH SCROLLING ENHANCEMENT CLASS
 // ========================================
 
 class SmoothScrolling {
@@ -1773,7 +1690,7 @@ class SmoothScrolling {
 }
 
 // ========================================
-// PERFORMANCE OPTIMIZER
+// PERFORMANCE OPTIMIZER CLASS
 // ========================================
 
 class PerformanceOptimizer {
@@ -1827,7 +1744,7 @@ class PerformanceOptimizer {
     
     optimizeAnimations() {
         // Use will-change for animated elements
-        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .floating-stat, .medspa-icon, .preloader-logo');
+        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .stat-pill, .medspa-icon, .preloader-logo');
         animatedElements.forEach(element => {
             if (element) {
                 element.style.willChange = 'transform';
@@ -1893,7 +1810,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         app: () => window.app,
         components: () => window.app ? window.app.components : {},
         utils: () => EviaUtils,
-        version: '2.2.0 - New Preloader Edition'
+        version: '3.0.0 - Enhanced Cinematic Hero Edition'
     };
     
     console.log('🔧 Evia Luxury Debug Mode Enabled');
