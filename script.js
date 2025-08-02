@@ -320,11 +320,13 @@ class HermesLuxuryHeader {
             const container = this.header.querySelector('.aluminum-container');
             if (container) {
                 if (this.isScrolled) {
-                    container.style.transform = 'scale(0.96) translateY(-2px)';
-                    container.style.borderColor = 'var(--luxury-orange)';
+                    container.style.transform = 'scale(0.94) translateY(-2px)';
+                    container.style.borderColor = '#FF8C00';
+                    container.style.borderWidth = '2px';
                 } else {
                     container.style.transform = 'scale(1) translateY(0)';
-                    container.style.borderColor = 'var(--aluminum-dark)';
+                    container.style.borderColor = '#C0C0C0';
+                    container.style.borderWidth = '3px';
                 }
             }
         }
@@ -458,10 +460,11 @@ class HermesLuxuryHeader {
     triggerLogoAnimation() {
         const logoContainer = this.header.querySelector('.logo-container');
         const logoReflection = this.header.querySelector('.logo-reflection');
+        const brandLogo = this.header.querySelector('.brand-logo');
         
         if (logoContainer) {
-            logoContainer.style.transform = 'scale(1.05) rotate(5deg)';
-            logoContainer.style.boxShadow = '0 6px 20px rgba(255, 158, 24, 0.5)';
+            logoContainer.style.transform = 'scale(1.08) rotate(5deg)';
+            logoContainer.style.boxShadow = '0 8px 30px rgba(255, 140, 0, 0.6)';
             
             setTimeout(() => {
                 logoContainer.style.transform = '';
@@ -469,10 +472,17 @@ class HermesLuxuryHeader {
             }, 400);
         }
         
+        if (brandLogo) {
+            brandLogo.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                brandLogo.style.transform = '';
+            }, 400);
+        }
+        
         if (logoReflection) {
             logoReflection.style.animation = 'none';
             logoReflection.offsetHeight; // Force reflow
-            logoReflection.style.animation = 'logo-shine 1s ease-out';
+            logoReflection.style.animation = 'logo-premium-shine 1s ease-out';
         }
     }
     
@@ -480,7 +490,7 @@ class HermesLuxuryHeader {
         const premiumGlow = this.header.querySelector('.premium-glow');
         if (premiumGlow) {
             premiumGlow.style.opacity = '1';
-            premiumGlow.style.animation = 'glow-pulse 2s ease-in-out';
+            premiumGlow.style.animation = 'premium-glow-pulse 2s ease-in-out';
             
             setTimeout(() => {
                 premiumGlow.style.opacity = '0';
@@ -497,8 +507,8 @@ class HermesLuxuryHeader {
         let floatOffset = 0;
         
         const animate = () => {
-            floatOffset += 0.008;
-            const yOffset = Math.sin(floatOffset) * 1.5;
+            floatOffset += 0.006;
+            const yOffset = Math.sin(floatOffset) * 1;
             
             if (!this.isScrolled) {
                 container.style.transform = `translateY(${yOffset}px)`;
@@ -867,7 +877,7 @@ class LuxuryHero {
                 app.smoothScrollTo('#contact');
             });
             
-            // Add ripple effect
+            // Enhanced ripple effect for new design
             this.primaryCTA.addEventListener('click', (e) => {
                 const ripple = this.primaryCTA.querySelector('.cta-ripple');
                 if (ripple) {
@@ -880,17 +890,54 @@ class LuxuryHero {
                     ripple.style.transform = 'scale(0)';
                     ripple.style.opacity = '1';
                     
-                    // Animate ripple
+                    // Animate ripple with enhanced effect
                     ripple.animate([
                         { transform: 'scale(0)', opacity: 1 },
-                        { transform: 'scale(4)', opacity: 0 }
+                        { transform: 'scale(6)', opacity: 0 }
                     ], {
-                        duration: 600,
+                        duration: 800,
                         easing: 'ease-out'
                     });
                 }
             });
+
+            // Add premium hover effect
+            this.primaryCTA.addEventListener('mouseenter', () => {
+                this.addCTAShine();
+            });
         }
+    }
+
+    addCTAShine() {
+        // Add premium shine effect to CTA
+        const shine = document.createElement('div');
+        shine.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.8s ease;
+            pointer-events: none;
+            border-radius: 3rem;
+            z-index: 1;
+        `;
+        
+        this.primaryCTA.style.position = 'relative';
+        this.primaryCTA.appendChild(shine);
+        
+        // Trigger shine animation
+        requestAnimationFrame(() => {
+            shine.style.left = '100%';
+        });
+        
+        // Remove shine element after animation
+        setTimeout(() => {
+            if (shine.parentNode) {
+                shine.parentNode.removeChild(shine);
+            }
+        }, 800);
     }
     
     initScrollIndicator() {
@@ -903,17 +950,40 @@ class LuxuryHero {
     
     initFloatingOrbs() {
         const orbs = document.querySelectorAll('.orb');
+        const bubbles = document.querySelectorAll('.aqua-bubble');
         
         orbs.forEach((orb, index) => {
             // Random initial positions and animations
-            const delay = index * 5;
-            const duration = 20 + (index * 5);
+            const delay = index * 8;
+            const duration = 25 + (index * 5);
             
             orb.style.animationDelay = `-${delay}s`;
             orb.style.animationDuration = `${duration}s`;
             
             // Add parallax effect
             this.addParallaxToOrb(orb, index);
+        });
+
+        // Initialize aqua bubbles
+        bubbles.forEach((bubble, index) => {
+            const delay = index * 6;
+            const duration = 20 + (index * 3);
+            
+            bubble.style.animationDelay = `-${delay}s`;
+            bubble.style.animationDuration = `${duration}s`;
+            
+            // Add subtle parallax to bubbles
+            this.addParallaxToOrb(bubble, index * 0.5);
+        });
+
+        // Initialize floating stats
+        const floatingStats = document.querySelectorAll('.floating-stat');
+        floatingStats.forEach((stat, index) => {
+            const delay = index * 2;
+            stat.style.animationDelay = `-${delay}s`;
+            
+            // Add parallax effect
+            this.addParallaxToOrb(stat, index * 0.3);
         });
     }
     
