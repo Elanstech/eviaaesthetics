@@ -1137,33 +1137,43 @@ class CinematicHero {
         }
     }
 
+    // UPDATED SIGNATURE ANIMATION METHOD
     initSignatureAnimation() {
-        if (this.signature) {
-            // Enhanced signature animation
-            this.signature.style.opacity = '0';
-            this.signature.style.transform = 'translateX(30px)';
+        const signatureText = document.querySelector('.signature-text');
+        const signatureContainer = document.querySelector('.signature-container');
+        
+        if (signatureText && signatureContainer) {
+            // Reset any existing styles
+            signatureText.style.width = '0';
+            signatureText.style.opacity = '0';
+            signatureText.style.borderRight = '2px solid var(--white)';
+            signatureText.style.overflow = 'hidden';
+            signatureText.style.whiteSpace = 'nowrap';
             
-            // Trigger signature animation after other elements
+            // Force animation restart
             setTimeout(() => {
-                EviaUtils.animate(this.signature, [
-                    { opacity: 0, transform: 'translateX(30px)' },
-                    { opacity: 1, transform: 'translateX(0)' }
-                ], { duration: 1200, easing: 'ease-out' });
-            }, 1800);
+                signatureText.style.animation = 'none';
+                signatureText.offsetHeight; // Force reflow
+                signatureText.style.animation = 'handwritingReveal 3s ease-in-out 1.5s forwards, blinkCursor 1s infinite 1.5s';
+            }, 100);
 
-            // Add subtle hover effect to signature
-            this.signature.addEventListener('mouseenter', () => {
-                EviaUtils.animate(this.signature, [
-                    { transform: 'translateX(0) scale(1)' },
-                    { transform: 'translateX(0) scale(1.05)' }
-                ], { duration: 300 });
+            // Add hover effect to signature
+            signatureContainer.addEventListener('mouseenter', () => {
+                if (signatureText.style.animationPlayState !== 'running') {
+                    EviaUtils.animate(signatureContainer, [
+                        { transform: 'scale(1)' },
+                        { transform: 'scale(1.05)' }
+                    ], { duration: 300 });
+                }
             });
 
-            this.signature.addEventListener('mouseleave', () => {
-                EviaUtils.animate(this.signature, [
-                    { transform: 'translateX(0) scale(1.05)' },
-                    { transform: 'translateX(0) scale(1)' }
-                ], { duration: 300 });
+            signatureContainer.addEventListener('mouseleave', () => {
+                if (signatureText.style.animationPlayState !== 'running') {
+                    EviaUtils.animate(signatureContainer, [
+                        { transform: 'scale(1.05)' },
+                        { transform: 'scale(1)' }
+                    ], { duration: 300 });
+                }
             });
         }
     }
@@ -1803,6 +1813,40 @@ function initializeApp() {
         }, 1000);
     }
 }
+
+// ========================================
+// SIGNATURE ANIMATION FORCE START
+// ========================================
+
+// Force signature animation on page load
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        const signatureText = document.querySelector('.signature-text');
+        if (signatureText) {
+            // Force animation start
+            signatureText.style.animation = 'none';
+            signatureText.offsetHeight; // Force reflow
+            signatureText.style.animation = 'handwritingReveal 3s ease-in-out 0.5s forwards, blinkCursor 1s infinite 0.5s';
+        }
+    }, 2000); // Start after preloader
+});
+
+// Force scroll indicator centering
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollIndicator = document.querySelector('.scroll-indicator-elegant');
+    if (scrollIndicator) {
+        // Force centering with JavaScript
+        scrollIndicator.style.position = 'absolute';
+        scrollIndicator.style.left = '50%';
+        scrollIndicator.style.transform = 'translateX(-50%)';
+        scrollIndicator.style.right = 'auto';
+        scrollIndicator.style.margin = '0 auto';
+        scrollIndicator.style.display = 'flex';
+        scrollIndicator.style.flexDirection = 'column';
+        scrollIndicator.style.alignItems = 'center';
+        scrollIndicator.style.justifyContent = 'center';
+    }
+});
 
 // Debug helper in development
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
