@@ -1537,12 +1537,17 @@ body {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* 6. HANDWRITTEN SIGNATURE - Enhanced Visibility */
+/* 6. HANDWRITTEN SIGNATURE with Writing Animation */
 .signature-wrapper {
     position: absolute;
     bottom: 6rem;
     right: 4rem;
     z-index: 10;
+}
+
+.signature-container {
+    position: relative;
+    display: inline-block;
 }
 
 .signature-text {
@@ -1551,14 +1556,32 @@ body {
     font-weight: 600;
     color: var(--white);
     opacity: 0;
-    animation: fadeInSignature 2s ease 1.2s forwards;
     text-shadow: 
         0 3px 8px rgba(0, 0, 0, 0.4),
         0 1px 4px rgba(0, 0, 0, 0.3);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    animation: handwritingReveal 3s ease-in-out 1.5s forwards;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--white);
+    animation: 
+        handwritingReveal 3s ease-in-out 1.5s forwards,
+        blinkCursor 1s infinite 1.5s;
 }
 
-/* 7. SCROLL INDICATOR - Centered */
+.signature-underline {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(90deg, var(--hermes-orange), var(--hermes-orange-light));
+    border-radius: 2px;
+    animation: drawUnderline 1.5s ease-out 4s forwards;
+    opacity: 0;
+}
+
+/* 7. SCROLL INDICATOR - Properly Centered */
 .scroll-indicator-elegant {
     position: absolute;
     bottom: 3rem;
@@ -1568,9 +1591,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: var(--space-sm);
     cursor: pointer;
     transition: all var(--transition-medium);
+    width: auto;
+    margin: 0;
 }
 
 .scroll-indicator-elegant:hover {
@@ -1646,6 +1672,49 @@ body {
     }
     75% {
         background-position: 50% 100%;
+    }
+}
+
+@keyframes handwritingReveal {
+    0% {
+        width: 0;
+        opacity: 0;
+        border-right-color: var(--white);
+    }
+    1% {
+        opacity: 1;
+        border-right-color: var(--white);
+    }
+    50% {
+        border-right-color: var(--white);
+    }
+    100% {
+        width: 100%;
+        opacity: 1;
+        border-right-color: transparent;
+    }
+}
+
+@keyframes blinkCursor {
+    0%, 50% {
+        border-right-color: var(--white);
+    }
+    51%, 100% {
+        border-right-color: transparent;
+    }
+}
+
+@keyframes drawUnderline {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        width: 100%;
+        opacity: 1;
     }
 }
 
@@ -1776,14 +1845,27 @@ body {
         right: auto;
         text-align: center;
         margin-top: var(--space-lg);
+        display: flex;
+        justify-content: center;
     }
 
     .signature-text {
         font-size: 1.4rem;
+        text-align: center;
+        display: inline-block;
     }
 
     .scroll-indicator-elegant {
         bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        margin: 0;
     }
 
     .scroll-icon {
@@ -1871,10 +1953,21 @@ body {
 
     .signature-text {
         font-size: 1.2rem;
+        text-align: center;
+        display: inline-block;
     }
 
     .scroll-indicator-elegant {
         bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        margin: 0;
     }
 
     .scroll-icon {
