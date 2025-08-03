@@ -1138,7 +1138,7 @@ body {
 }
 
 /* ========================================
-   ENHANCED CINEMATIC HERO SECTION
+   ENHANCED CINEMATIC HERO SECTION CSS
    ======================================== */
 
 /* ENHANCED CINEMATIC HERO SECTION */
@@ -1560,10 +1560,10 @@ body {
         0 3px 8px rgba(0, 0, 0, 0.4),
         0 1px 4px rgba(0, 0, 0, 0.3);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    animation: handwritingReveal 3s ease-in-out 1.5s forwards;
     overflow: hidden;
     white-space: nowrap;
     border-right: 2px solid var(--white);
+    width: 0;
     animation: 
         handwritingReveal 3s ease-in-out 1.5s forwards,
         blinkCursor 1s infinite 1.5s;
@@ -1577,16 +1577,17 @@ body {
     width: 0;
     background: linear-gradient(90deg, var(--hermes-orange), var(--hermes-orange-light));
     border-radius: 2px;
-    animation: drawUnderline 1.5s ease-out 4s forwards;
+    animation: drawUnderline 1.5s ease-out 4.5s forwards;
     opacity: 0;
 }
 
-/* 7. SCROLL INDICATOR - Properly Centered */
+/* 7. SCROLL INDICATOR - PROPERLY CENTERED */
 .scroll-indicator-elegant {
-    position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
+    position: absolute !important;
+    bottom: 3rem !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
     z-index: 10;
     display: flex;
     flex-direction: column;
@@ -1596,11 +1597,11 @@ body {
     cursor: pointer;
     transition: all var(--transition-medium);
     width: auto;
-    margin: 0;
+    margin: 0 auto;
 }
 
 .scroll-indicator-elegant:hover {
-    transform: translateX(-50%) translateY(-5px);
+    transform: translateX(-50%) translateY(-5px) !important;
 }
 
 .scroll-icon {
@@ -1718,17 +1719,6 @@ body {
     }
 }
 
-@keyframes fadeInSignature {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
 @keyframes scroll-bounce {
     0%, 100% {
         transform: translateY(0);
@@ -1840,9 +1830,9 @@ body {
 
     /* Signature repositions to bottom center on mobile */
     .signature-wrapper {
-        position: relative;
-        bottom: auto;
-        right: auto;
+        position: relative !important;
+        bottom: auto !important;
+        right: auto !important;
         text-align: center;
         margin-top: var(--space-lg);
         display: flex;
@@ -1856,16 +1846,16 @@ body {
     }
 
     .scroll-indicator-elegant {
-        bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        position: absolute;
+        bottom: 2rem !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        position: absolute !important;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         width: auto;
-        margin: 0;
+        margin: 0 auto;
     }
 
     .scroll-icon {
@@ -1958,16 +1948,16 @@ body {
     }
 
     .scroll-indicator-elegant {
-        bottom: 1.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        position: absolute;
+        bottom: 1.5rem !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        position: absolute !important;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         width: auto;
-        margin: 0;
+        margin: 0 auto;
     }
 
     .scroll-icon {
