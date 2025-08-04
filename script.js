@@ -1,5 +1,5 @@
 /* ========================================
-   EVIA AESTHETICS - ENHANCED HERO JS
+   EVIA AESTHETICS - ENHANCED HERO JS WITH SIGNATURE ANIMATION
    ======================================== */
 
 'use strict';
@@ -93,7 +93,7 @@ class EviaLuxuryApp {
             this.components.preloader = new LuxuryPreloader();
             this.components.header = new HermesLuxuryHeader();
             this.components.mobileMenu = new LuxuryMobileMenu();
-            this.components.cinematicHero = new CinematicHero(); // New enhanced hero
+            this.components.cinematicHero = new CinematicHero(); // Enhanced hero with signature
             this.components.beforeAfter = new BeforeAfterSlider();
             this.components.contactForm = new ContactForm();
             this.components.magneticEffects = new MagneticEffects();
@@ -824,7 +824,7 @@ class LuxuryMobileMenu {
 }
 
 // ========================================
-// ENHANCED CINEMATIC HERO CLASS
+// ENHANCED CINEMATIC HERO CLASS WITH SIGNATURE ANIMATION
 // ========================================
 
 class CinematicHero {
@@ -833,7 +833,6 @@ class CinematicHero {
         this.primaryCTA = document.querySelector('.hero-cta-signature');
         this.scrollIndicator = document.querySelector('.scroll-indicator-elegant');
         this.statPills = document.querySelectorAll('.stat-pill');
-        this.signature = document.querySelector('.signature-text');
         
         if (this.hero) {
             this.init();
@@ -846,7 +845,7 @@ class CinematicHero {
         this.initFloatingOrbs();
         this.initStatPills();
         this.initVideo();
-        this.initSignatureAnimation();
+        this.initSignatureAnimation(); // Enhanced signature animation
         this.initTypographyAnimations();
     }
     
@@ -1137,44 +1136,218 @@ class CinematicHero {
         }
     }
 
-    // UPDATED SIGNATURE ANIMATION METHOD
+    // ========================================
+    // ENHANCED SIGNATURE ANIMATION METHOD
+    // ========================================
     initSignatureAnimation() {
-        const signatureText = document.querySelector('.signature-text');
+        const signatureText = document.querySelector('.signature-text-animated');
         const signatureContainer = document.querySelector('.signature-container');
+        const writingIndicator = document.querySelector('.writing-indicator');
+        const underline = document.querySelector('.signature-underline-animated');
+        const sparkles = document.querySelectorAll('.sparkle');
         
-        if (signatureText && signatureContainer) {
-            // Reset any existing styles
-            signatureText.style.width = '0';
-            signatureText.style.opacity = '0';
-            signatureText.style.borderRight = '2px solid var(--white)';
-            signatureText.style.overflow = 'hidden';
-            signatureText.style.whiteSpace = 'nowrap';
+        if (!signatureText || !signatureContainer) return;
+        
+        // Enhanced signature animation controller
+        const signatureController = {
+            isAnimating: false,
+            hasAnimated: false,
             
-            // Force animation restart
-            setTimeout(() => {
-                signatureText.style.animation = 'none';
-                signatureText.offsetHeight; // Force reflow
-                signatureText.style.animation = 'handwritingReveal 3s ease-in-out 1.5s forwards, blinkCursor 1s infinite 1.5s';
-            }, 100);
-
-            // Add hover effect to signature
-            signatureContainer.addEventListener('mouseenter', () => {
-                if (signatureText.style.animationPlayState !== 'running') {
-                    EviaUtils.animate(signatureContainer, [
-                        { transform: 'scale(1)' },
-                        { transform: 'scale(1.05)' }
-                    ], { duration: 300 });
+            // Start the signature animation sequence
+            startAnimation() {
+                if (this.isAnimating || this.hasAnimated) return;
+                
+                this.isAnimating = true;
+                this.hasAnimated = true;
+                
+                console.log('🖋️ Starting signature animation sequence...');
+                
+                // Reset all elements
+                this.resetElements();
+                
+                // Start the writing sequence after a delay
+                setTimeout(() => {
+                    this.animateSignature();
+                }, 1000);
+            },
+            
+            // Reset all animation elements to initial state
+            resetElements() {
+                const chars = signatureText.querySelectorAll('.signature-char, .signature-comma');
+                chars.forEach(char => {
+                    char.style.opacity = '0';
+                    char.style.transform = 'translateY(20px) rotate(-5deg)';
+                    char.style.animation = 'none';
+                });
+                
+                if (underline) {
+                    underline.style.width = '0';
+                    underline.style.opacity = '0';
+                }
+                
+                if (writingIndicator) {
+                    writingIndicator.style.opacity = '0';
+                }
+                
+                sparkles.forEach(sparkle => {
+                    sparkle.style.opacity = '0';
+                });
+            },
+            
+            // Animate the signature with enhanced effects
+            animateSignature() {
+                const chars = signatureText.querySelectorAll('.signature-char, .signature-comma');
+                
+                // Show writing indicator first
+                if (writingIndicator) {
+                    setTimeout(() => {
+                        writingIndicator.style.animation = 'showPen 0.3s ease-out forwards, writingMotion 4s ease-in-out 0.2s forwards, hidePen 0.5s ease-out 2.7s forwards';
+                    }, 300);
+                }
+                
+                // Animate each character with staggered timing
+                chars.forEach((char, index) => {
+                    const delay = 500 + (index * 200); // 200ms between each character
+                    
+                    setTimeout(() => {
+                        char.style.animation = 'writeChar 0.6s ease-out forwards';
+                        
+                        // Add writing sound effect (optional)
+                        this.playWritingSound();
+                        
+                        // Add subtle shake to container for realism
+                        this.addWritingShake();
+                        
+                    }, delay);
+                });
+                
+                // Animate underline after all characters
+                const totalCharDelay = chars.length * 200 + 800;
+                setTimeout(() => {
+                    if (underline) {
+                        underline.style.animation = 'drawSignatureUnderline 1.5s ease-out forwards';
+                    }
+                    
+                    // Trigger sparkles
+                    this.triggerSparkles();
+                    
+                    // Animation complete
+                    setTimeout(() => {
+                        this.isAnimating = false;
+                        this.addHoverEffects();
+                        console.log('✨ Signature animation complete!');
+                    }, 1500);
+                    
+                }, totalCharDelay);
+            },
+            
+            // Add subtle container shake during writing
+            addWritingShake() {
+                if (!signatureContainer) return;
+                
+                signatureContainer.style.animation = 'none';
+                signatureContainer.offsetHeight; // Force reflow
+                signatureContainer.style.animation = 'writeShake 0.3s ease-out';
+            },
+            
+            // Trigger sparkle effects
+            triggerSparkles() {
+                sparkles.forEach((sparkle, index) => {
+                    setTimeout(() => {
+                        sparkle.style.animation = 'sparkleFloat 2s ease-out forwards';
+                    }, index * 500);
+                });
+            },
+            
+            // Add hover effects after animation
+            addHoverEffects() {
+                if (!signatureContainer) return;
+                
+                signatureContainer.addEventListener('mouseenter', () => {
+                    if (!this.isAnimating) {
+                        this.triggerHoverAnimation();
+                    }
+                });
+                
+                // Add click to replay animation
+                signatureContainer.addEventListener('click', () => {
+                    if (!this.isAnimating) {
+                        this.replayAnimation();
+                    }
+                });
+            },
+            
+            // Trigger hover animation
+            triggerHoverAnimation() {
+                const chars = signatureText.querySelectorAll('.signature-char, .signature-comma');
+                chars.forEach((char, index) => {
+                    setTimeout(() => {
+                        char.style.animation = 'signatureHover 0.6s ease-in-out';
+                    }, index * 50);
+                });
+            },
+            
+            // Replay the entire animation
+            replayAnimation() {
+                console.log('🔄 Replaying signature animation...');
+                this.hasAnimated = false;
+                this.startAnimation();
+            },
+            
+            // Optional: Play writing sound effect
+            playWritingSound() {
+                // You can add audio here if desired
+                // const audio = new Audio('path/to/writing-sound.mp3');
+                // audio.volume = 0.1;
+                // audio.play().catch(() => {}); // Ignore autoplay restrictions
+            }
+        };
+        
+        // Add writing shake animation to CSS dynamically
+        if (!document.querySelector('#signature-shake-style')) {
+            const style = document.createElement('style');
+            style.id = 'signature-shake-style';
+            style.textContent = `
+                @keyframes writeShake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-1px); }
+                    75% { transform: translateX(1px); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Start animation when page loads
+        setTimeout(() => {
+            signatureController.startAnimation();
+        }, 2000); // Start after preloader
+        
+        // Intersection Observer for scroll-triggered animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                    setTimeout(() => {
+                        signatureController.startAnimation();
+                    }, 500);
+                    observer.unobserve(entry.target);
                 }
             });
+        }, { threshold: 0.5 });
+        
+        if (signatureContainer) {
+            observer.observe(signatureContainer);
+        }
+        
+        // Store controller for external access
+        this.signatureController = signatureController;
+        
+        console.log('🎭 Enhanced signature animation initialized');
+    }
 
-            signatureContainer.addEventListener('mouseleave', () => {
-                if (signatureText.style.animationPlayState !== 'running') {
-                    EviaUtils.animate(signatureContainer, [
-                        { transform: 'scale(1.05)' },
-                        { transform: 'scale(1)' }
-                    ], { duration: 300 });
-                }
-            });
+    // Method to force restart animation (useful for testing)
+    restartSignatureAnimation() {
+        if (this.signatureController) {
+            this.signatureController.replayAnimation();
         }
     }
 
@@ -1815,20 +1988,18 @@ function initializeApp() {
 }
 
 // ========================================
-// SIGNATURE ANIMATION FORCE START
+// SIGNATURE ANIMATION FORCE START (Legacy Support)
 // ========================================
 
-// Force signature animation on page load
+// Force signature animation on page load (backup trigger)
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
-        const signatureText = document.querySelector('.signature-text');
-        if (signatureText) {
-            // Force animation start
-            signatureText.style.animation = 'none';
-            signatureText.offsetHeight; // Force reflow
-            signatureText.style.animation = 'handwritingReveal 3s ease-in-out 0.5s forwards, blinkCursor 1s infinite 0.5s';
+        const signatureText = document.querySelector('.signature-text-animated');
+        if (signatureText && window.app && window.app.components.cinematicHero) {
+            // Force animation start via hero component
+            window.app.components.cinematicHero.restartSignatureAnimation();
         }
-    }, 2000); // Start after preloader
+    }, 3000); // Start after preloader
 });
 
 // Force scroll indicator centering
@@ -1848,17 +2019,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// ========================================
+// ENHANCED DEBUG AND TESTING TOOLS
+// ========================================
+
 // Debug helper in development
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     window.EviaDebug = {
         app: () => window.app,
         components: () => window.app ? window.app.components : {},
         utils: () => EviaUtils,
-        version: '3.0.0 - Enhanced Cinematic Hero Edition'
+        restartSignature: () => {
+            if (window.app && window.app.components.cinematicHero) {
+                window.app.components.cinematicHero.restartSignatureAnimation();
+            }
+        },
+        version: '3.1.0 - Enhanced Signature Animation Edition'
     };
     
     console.log('🔧 Evia Luxury Debug Mode Enabled');
     console.log('✨ Use window.EviaDebug to access debug tools');
+    console.log('🖋️ Use EviaDebug.restartSignature() to replay signature animation');
 }
 
 // Export for potential module usage
