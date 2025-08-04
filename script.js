@@ -1,5 +1,6 @@
 /* ========================================
-   EVIA AESTHETICS - ENHANCED HERO JS WITH SIGNATURE ANIMATION
+   EVIA AESTHETICS - ENHANCED LUXURY EXPERIENCE
+   WITH SERVICES CAROUSEL
    ======================================== */
 
 'use strict';
@@ -94,6 +95,8 @@ class EviaLuxuryApp {
             this.components.header = new HermesLuxuryHeader();
             this.components.mobileMenu = new LuxuryMobileMenu();
             this.components.cinematicHero = new CinematicHero(); // Enhanced hero with signature
+            this.components.servicesCarousel = new LuxuryServicesCarousel(); // NEW: Services carousel
+            this.components.serviceAnimations = new ServiceCardAnimations(); // NEW: Service animations
             this.components.beforeAfter = new BeforeAfterSlider();
             this.components.contactForm = new ContactForm();
             this.components.magneticEffects = new MagneticEffects();
@@ -1406,6 +1409,653 @@ class CinematicHero {
 }
 
 // ========================================
+// ENHANCED SERVICES CAROUSEL CLASS
+// ========================================
+
+class LuxuryServicesCarousel {
+    constructor() {
+        this.carousel = document.getElementById('servicesCarousel');
+        this.track = document.getElementById('carouselTrack');
+        this.prevBtn = document.getElementById('prevBtn');
+        this.nextBtn = document.getElementById('nextBtn');
+        this.dotsContainer = document.getElementById('carouselDots');
+        this.navigation = document.querySelector('.carousel-navigation');
+        this.scrollHint = document.getElementById('scrollHint');
+        
+        this.currentIndex = 0;
+        this.totalSlides = 0;
+        this.cardWidth = 0;
+        this.gap = 32; // Default gap in pixels
+        this.isAutoPlaying = false;
+        this.hasAutoPlayed = false;
+        this.autoPlayInterval = null;
+        this.isDragging = false;
+        this.startPos = 0;
+        this.currentTranslate = 0;
+        this.prevTranslate = 0;
+        this.animationId = 0;
+        
+        // Responsive breakpoints
+        this.breakpoints = {
+            mobile: 480,
+            tablet: 768,
+            desktop: 1024
+        };
+        
+        if (this.carousel && this.track) {
+            this.init();
+        }
+    }
+    
+    init() {
+        this.calculateDimensions();
+        this.createDots();
+        this.bindEvents();
+        this.updateCardGap();
+        this.startAutoPlay();
+        
+        // Initialize with first slide
+        this.updateCarousel(false);
+        
+        console.log('🎠 Luxury Services Carousel Initialized');
+    }
+    
+    calculateDimensions() {
+        const cards = this.track.querySelectorAll('.service-card');
+        this.totalSlides = cards.length;
+        
+        if (cards.length > 0) {
+            const cardRect = cards[0].getBoundingClientRect();
+            this.cardWidth = cardRect.width;
+            
+            // Calculate gap from CSS
+            const trackStyles = window.getComputedStyle(this.track);
+            this.gap = parseInt(trackStyles.gap) || 32;
+        }
+        
+        // Update navigation visibility
+        this.updateNavigationVisibility();
+    }
+    
+    createDots() {
+        if (!this.dotsContainer) return;
+        
+        this.dotsContainer.innerHTML = '';
+        
+        for (let i = 0; i < this.totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot';
+            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+            dot.addEventListener('click', () => this.goToSlide(i));
+            
+            if (i === 0) dot.classList.add('active');
+            
+            this.dotsContainer.appendChild(dot);
+        }
+    }
+    
+    updateCardGap() {
+        // Dynamic gap adjustment based on screen size
+        const screenWidth = window.innerWidth;
+        
+        if (screenWidth <= this.breakpoints.mobile) {
+            this.gap = 16;
+            this.track.style.gap = '1rem';
+        } else if (screenWidth <= this.breakpoints.tablet) {
+            this.gap = 24;
+            this.track.style.gap = '1.5rem';
+        } else {
+            this.gap = 32;
+            this.track.style.gap = '2rem';
+        }
+    }
+    
+    bindEvents() {
+        // Navigation buttons
+        if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', () => this.previousSlide());
+        }
+        
+        if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', () => this.nextSlide());
+        }
+        
+        // Touch and mouse events for dragging
+        this.bindDragEvents();
+        
+        // Window resize
+        window.addEventListener('resize', EviaUtils.debounce(() => {
+            this.onResize();
+        }, 250));
+        
+        // Intersection Observer for scroll hint
+        this.observeScrollHint();
+        
+        // Service CTA buttons
+        this.bindServiceCTAs();
+        
+        // Keyboard navigation
+        this.bindKeyboardEvents();
+    }
+    
+    bindDragEvents() {
+        // Mouse events
+        this.track.addEventListener('mousedown', (e) => this.dragStart(e));
+        this.track.addEventListener('mousemove', (e) => this.dragMove(e));
+        this.track.addEventListener('mouseup', (e) => this.dragEnd(e));
+        this.track.addEventListener('mouseleave', (e) => this.dragEnd(e));
+        
+        // Touch events
+        this.track.addEventListener('touchstart', (e) => this.dragStart(e), { passive: false });
+        this.track.addEventListener('touchmove', (e) => this.dragMove(e), { passive: false });
+        this.track.addEventListener('touchend', (e) => this.dragEnd(e));
+        
+        // Prevent context menu on long press
+        this.track.addEventListener('contextmenu', (e) => {
+            if (this.isDragging) e.preventDefault();
+        });
+    }
+    
+    bindServiceCTAs() {
+        const serviceCTAs = this.track.querySelectorAll('.service-cta');
+        serviceCTAs.forEach(cta => {
+            cta.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleServiceBooking();
+            });
+        });
+    }
+    
+    bindKeyboardEvents() {
+        document.addEventListener('keydown', (e) => {
+            if (!this.isCarouselInView()) return;
+            
+            switch (e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.previousSlide();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.nextSlide();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    this.goToSlide(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    this.goToSlide(this.totalSlides - 1);
+                    break;
+            }
+        });
+    }
+    
+    isCarouselInView() {
+        const rect = this.carousel.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        return rect.top < windowHeight && rect.bottom > 0;
+    }
+    
+    dragStart(e) {
+        if (this.isAutoPlaying) return;
+        
+        this.isDragging = true;
+        this.track.classList.add('dragging');
+        
+        this.startPos = this.getPositionX(e);
+        this.animationId = requestAnimationFrame(() => this.animation());
+        
+        // Stop any ongoing transitions
+        this.track.style.transition = 'none';
+    }
+    
+    dragMove(e) {
+        if (!this.isDragging) return;
+        
+        e.preventDefault();
+        const currentPosition = this.getPositionX(e);
+        this.currentTranslate = this.prevTranslate + currentPosition - this.startPos;
+        
+        // Add resistance at boundaries
+        const maxTranslate = 0;
+        const minTranslate = -(this.cardWidth + this.gap) * (this.totalSlides - this.getVisibleCards());
+        
+        if (this.currentTranslate > maxTranslate) {
+            this.currentTranslate = maxTranslate + (this.currentTranslate - maxTranslate) * 0.3;
+        } else if (this.currentTranslate < minTranslate) {
+            this.currentTranslate = minTranslate + (this.currentTranslate - minTranslate) * 0.3;
+        }
+    }
+    
+    dragEnd(e) {
+        if (!this.isDragging) return;
+        
+        this.isDragging = false;
+        this.track.classList.remove('dragging');
+        cancelAnimationFrame(this.animationId);
+        
+        const movedBy = this.currentTranslate - this.prevTranslate;
+        const threshold = this.cardWidth * 0.2; // 20% of card width
+        
+        // Determine if we should snap to next/previous slide
+        if (Math.abs(movedBy) > threshold) {
+            if (movedBy < 0 && this.currentIndex < this.totalSlides - this.getVisibleCards()) {
+                this.nextSlide();
+            } else if (movedBy > 0 && this.currentIndex > 0) {
+                this.previousSlide();
+            } else {
+                this.updateCarousel();
+            }
+        } else {
+            this.updateCarousel();
+        }
+        
+        // Re-enable transitions
+        this.track.style.transition = '';
+    }
+    
+    getPositionX(e) {
+        return e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    }
+    
+    animation() {
+        if (this.isDragging) {
+            this.track.style.transform = `translateX(${this.currentTranslate}px)`;
+            requestAnimationFrame(() => this.animation());
+        }
+    }
+    
+    getVisibleCards() {
+        const screenWidth = window.innerWidth;
+        
+        if (screenWidth <= this.breakpoints.mobile) {
+            return 1;
+        } else if (screenWidth <= this.breakpoints.tablet) {
+            return 2;
+        } else if (screenWidth <= this.breakpoints.desktop) {
+            return 2.5;
+        } else {
+            return 3;
+        }
+    }
+    
+    startAutoPlay() {
+        if (this.hasAutoPlayed || this.totalSlides <= this.getVisibleCards()) return;
+        
+        this.isAutoPlaying = true;
+        this.track.classList.add('auto-playing');
+        this.hideScrollHint();
+        
+        const autoPlaySpeed = 3500; // 3.5 seconds per slide
+        let slideCount = 0;
+        const maxSlides = this.totalSlides - this.getVisibleCards() + 1;
+        
+        this.autoPlayInterval = setInterval(() => {
+            if (slideCount >= maxSlides - 1) {
+                // Auto play completed
+                this.stopAutoPlay();
+                return;
+            }
+            
+            this.nextSlide();
+            slideCount++;
+        }, autoPlaySpeed);
+        
+        console.log('🎬 Auto-play started');
+    }
+    
+    stopAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+        
+        this.isAutoPlaying = false;
+        this.hasAutoPlayed = true;
+        this.track.classList.remove('auto-playing');
+        
+        // Show navigation after auto-play
+        setTimeout(() => {
+            this.showNavigation();
+        }, 500);
+        
+        console.log('⏹️ Auto-play completed');
+    }
+    
+    nextSlide() {
+        const maxIndex = this.totalSlides - this.getVisibleCards();
+        if (this.currentIndex < maxIndex) {
+            this.currentIndex++;
+            this.updateCarousel();
+        }
+    }
+    
+    previousSlide() {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+            this.updateCarousel();
+        }
+    }
+    
+    goToSlide(index) {
+        const maxIndex = this.totalSlides - this.getVisibleCards();
+        this.currentIndex = Math.max(0, Math.min(index, maxIndex));
+        this.updateCarousel();
+        
+        // Stop auto-play if user manually navigates
+        if (this.isAutoPlaying) {
+            this.stopAutoPlay();
+        }
+    }
+    
+    updateCarousel(animate = true) {
+        if (!animate) {
+            this.track.style.transition = 'none';
+        }
+        
+        const translateX = -this.currentIndex * (this.cardWidth + this.gap);
+        this.track.style.transform = `translateX(${translateX}px)`;
+        this.prevTranslate = translateX;
+        this.currentTranslate = translateX;
+        
+        if (!animate) {
+            // Force reflow and re-enable transitions
+            this.track.offsetHeight;
+            this.track.style.transition = '';
+        }
+        
+        this.updateDots();
+        this.updateButtons();
+    }
+    
+    updateDots() {
+        if (!this.dotsContainer) return;
+        
+        const dots = this.dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === this.currentIndex);
+        });
+    }
+    
+    updateButtons() {
+        if (this.prevBtn) {
+            this.prevBtn.disabled = this.currentIndex === 0;
+        }
+        
+        if (this.nextBtn) {
+            const maxIndex = this.totalSlides - this.getVisibleCards();
+            this.nextBtn.disabled = this.currentIndex >= maxIndex;
+        }
+    }
+    
+    showNavigation() {
+        if (this.navigation) {
+            this.navigation.classList.add('visible');
+        }
+    }
+    
+    hideNavigation() {
+        if (this.navigation) {
+            this.navigation.classList.remove('visible');
+        }
+    }
+    
+    updateNavigationVisibility() {
+        const shouldShowNavigation = this.totalSlides > this.getVisibleCards();
+        
+        if (this.navigation) {
+            this.navigation.style.display = shouldShowNavigation ? 'flex' : 'none';
+        }
+    }
+    
+    hideScrollHint() {
+        if (this.scrollHint) {
+            this.scrollHint.classList.add('hidden');
+        }
+    }
+    
+    showScrollHint() {
+        if (this.scrollHint && !this.hasAutoPlayed) {
+            this.scrollHint.classList.remove('hidden');
+        }
+    }
+    
+    observeScrollHint() {
+        if (!this.scrollHint || !window.IntersectionObserver) return;
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !this.isAutoPlaying && !this.hasAutoPlayed) {
+                    this.showScrollHint();
+                } else {
+                    this.hideScrollHint();
+                }
+            });
+        }, {
+            threshold: 0.5,
+            rootMargin: '0px 0px -10% 0px'
+        });
+        
+        observer.observe(this.carousel);
+    }
+    
+    handleServiceBooking() {
+        // Smooth scroll to contact section
+        if (window.app && window.app.smoothScrollTo) {
+            window.app.smoothScrollTo('#contact');
+        } else {
+            // Fallback smooth scroll
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+        
+        // Add subtle click animation
+        this.addClickFeedback();
+    }
+    
+    addClickFeedback() {
+        // Create a brief visual feedback
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 158, 24, 0.9);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            animation: fadeInOut 1.5s ease-out forwards;
+        `;
+        feedback.textContent = 'Redirecting to booking...';
+        
+        document.body.appendChild(feedback);
+        
+        // Remove after animation
+        setTimeout(() => {
+            if (feedback.parentNode) {
+                feedback.parentNode.removeChild(feedback);
+            }
+        }, 1500);
+    }
+    
+    onResize() {
+        // Debounced resize handler
+        this.calculateDimensions();
+        this.updateCardGap();
+        this.updateNavigationVisibility();
+        
+        // Ensure current position is still valid
+        const maxIndex = this.totalSlides - this.getVisibleCards();
+        if (this.currentIndex > maxIndex) {
+            this.currentIndex = Math.max(0, maxIndex);
+        }
+        
+        this.updateCarousel(false);
+        
+        console.log('🔄 Carousel resized and recalculated');
+    }
+    
+    destroy() {
+        // Clean up event listeners and intervals
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+        }
+        
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+        }
+        
+        console.log('🗑️ Carousel destroyed');
+    }
+}
+
+// ========================================
+// ENHANCED SERVICE CARD ANIMATIONS
+// ========================================
+
+class ServiceCardAnimations {
+    constructor() {
+        this.cards = document.querySelectorAll('.service-card');
+        this.init();
+    }
+    
+    init() {
+        this.bindHoverEffects();
+        this.initScrollAnimations();
+    }
+    
+    bindHoverEffects() {
+        this.cards.forEach(card => {
+            const icon = card.querySelector('.service-icon');
+            const cta = card.querySelector('.service-cta');
+            
+            card.addEventListener('mouseenter', () => {
+                this.animateCardEnter(card, icon);
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                this.animateCardLeave(card, icon);
+            });
+            
+            if (cta) {
+                cta.addEventListener('click', (e) => {
+                    this.animateCTAClick(e, cta);
+                });
+            }
+        });
+    }
+    
+    animateCardEnter(card, icon) {
+        // Enhanced hover animation with stagger
+        const elements = {
+            image: card.querySelector('.card-image img'),
+            overlay: card.querySelector('.image-overlay'),
+            title: card.querySelector('.service-title'),
+            price: card.querySelector('.price-amount')
+        };
+        
+        // Icon animation
+        if (icon) {
+            icon.style.animation = 'none';
+            icon.offsetHeight; // Force reflow
+            icon.style.animation = 'icon-hover-pulse 0.6s ease-out';
+        }
+        
+        // Staggered content animation
+        Object.values(elements).forEach((el, index) => {
+            if (el) {
+                setTimeout(() => {
+                    el.style.transform = 'scale(1.02)';
+                    el.style.transition = 'transform 0.3s ease-out';
+                }, index * 50);
+            }
+        });
+    }
+    
+    animateCardLeave(card, icon) {
+        // Reset animations
+        const elements = card.querySelectorAll('.card-image img, .image-overlay, .service-title, .price-amount');
+        
+        elements.forEach(el => {
+            el.style.transform = '';
+            el.style.transition = '';
+        });
+        
+        if (icon) {
+            icon.style.animation = '';
+        }
+    }
+    
+    animateCTAClick(event, cta) {
+        // Create ripple effect
+        const rect = cta.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            left: ${x}px;
+            top: ${y}px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+            pointer-events: none;
+            z-index: 10;
+            animation: cta-ripple 0.8s ease-out forwards;
+        `;
+        
+        cta.appendChild(ripple);
+        
+        // Remove ripple after animation
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 800);
+    }
+    
+    initScrollAnimations() {
+        if (!window.IntersectionObserver) return;
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+        
+        this.cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
+            
+            observer.observe(card);
+        });
+    }
+}
+
+// ========================================
 // BEFORE/AFTER SLIDER CLASS
 // ========================================
 
@@ -1857,7 +2507,7 @@ class SmoothScrolling {
         
         // Handle service buttons
         setTimeout(() => {
-            const serviceButtons = document.querySelectorAll('.service-btn');
+            const serviceButtons = document.querySelectorAll('.service-btn, .service-cta');
             serviceButtons.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -1988,6 +2638,48 @@ function initializeApp() {
 }
 
 // ========================================
+// ADDITIONAL CSS KEYFRAMES (Dynamic Injection)
+// ========================================
+
+// Add CSS keyframes for services animations
+document.addEventListener('DOMContentLoaded', () => {
+    const additionalCSS = `
+        @keyframes icon-hover-pulse {
+            0% { transform: scale(1) rotateY(0deg); }
+            50% { transform: scale(1.1) rotateY(15deg); }
+            100% { transform: scale(1.15) rotateY(15deg); }
+        }
+
+        @keyframes cta-ripple {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(6);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        }
+
+        .service-card.animate-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    `;
+    
+    const style = document.createElement('style');
+    style.textContent = additionalCSS;
+    document.head.appendChild(style);
+});
+
+// ========================================
 // SIGNATURE ANIMATION FORCE START (Legacy Support)
 // ========================================
 
@@ -2034,15 +2726,199 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
                 window.app.components.cinematicHero.restartSignatureAnimation();
             }
         },
-        version: '3.1.0 - Enhanced Signature Animation Edition'
+        restartCarousel: () => {
+            if (window.app && window.app.components.servicesCarousel) {
+                window.app.components.servicesCarousel.onResize();
+            }
+        },
+        version: '4.0.0 - Enhanced Services Carousel Edition'
     };
     
     console.log('🔧 Evia Luxury Debug Mode Enabled');
     console.log('✨ Use window.EviaDebug to access debug tools');
     console.log('🖋️ Use EviaDebug.restartSignature() to replay signature animation');
+    console.log('🎠 Use EviaDebug.restartCarousel() to reset carousel');
 }
+
+// ========================================
+// UTILITY FUNCTIONS FOR EXTERNAL ACCESS
+// ========================================
+
+// Enhanced touch detection for better mobile experience
+const isTouchDevice = () => {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+};
+
+// Smooth scroll utility (standalone version)
+const smoothScrollTo = (target, offset = 100) => {
+    const element = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!element) return;
+    
+    const targetPosition = element.offsetTop - offset;
+    window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+    });
+};
+
+// ========================================
+// GLOBAL EVENT LISTENERS & POLYFILLS
+// ========================================
+
+// Handle service navigation from any CTA
+document.addEventListener('click', (e) => {
+    const serviceBtn = e.target.closest('.service-btn, .service-cta');
+    if (serviceBtn) {
+        e.preventDefault();
+        
+        // Add click animation
+        serviceBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            serviceBtn.style.transform = '';
+        }, 150);
+        
+        // Navigate to contact
+        if (window.app && window.app.smoothScrollTo) {
+            window.app.smoothScrollTo('#contact');
+        } else {
+            smoothScrollTo('#contact');
+        }
+    }
+});
+
+// Enhanced keyboard navigation
+document.addEventListener('keydown', (e) => {
+    // Global keyboard shortcuts
+    if (e.ctrlKey || e.metaKey) {
+        switch (e.key) {
+            case 'h':
+                e.preventDefault();
+                if (window.app) window.app.smoothScrollTo('#home', 0);
+                break;
+            case 's':
+                e.preventDefault();
+                if (window.app) window.app.smoothScrollTo('#services');
+                break;
+            case 'c':
+                e.preventDefault();
+                if (window.app) window.app.smoothScrollTo('#contact');
+                break;
+        }
+    }
+});
+
+// Performance monitoring
+if ('performance' in window && 'mark' in performance) {
+    performance.mark('evia-app-start');
+    
+    window.addEventListener('load', () => {
+        performance.mark('evia-app-loaded');
+        performance.measure('evia-app-load-time', 'evia-app-start', 'evia-app-loaded');
+        
+        const loadTime = performance.getEntriesByName('evia-app-load-time')[0];
+        console.log(`⚡ Evia App loaded in ${Math.round(loadTime.duration)}ms`);
+    });
+}
+
+// ========================================
+// BROWSER COMPATIBILITY & FALLBACKS
+// ========================================
+
+// IntersectionObserver polyfill fallback
+if (!window.IntersectionObserver) {
+    console.warn('IntersectionObserver not supported, loading polyfill behavior');
+    
+    // Simple fallback for scroll animations
+    window.addEventListener('scroll', EviaUtils.debounce(() => {
+        const elements = document.querySelectorAll('[data-aos], .service-card');
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.8) {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                el.classList.add('animate-in');
+            }
+        });
+    }, 100));
+}
+
+// RequestAnimationFrame polyfill
+if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = (callback) => {
+        return setTimeout(callback, 1000 / 60);
+    };
+    
+    window.cancelAnimationFrame = (id) => {
+        clearTimeout(id);
+    };
+}
+
+// ========================================
+// ERROR HANDLING & RECOVERY
+// ========================================
+
+// Global error handler
+window.addEventListener('error', (e) => {
+    console.error('Evia App Error:', e.error);
+    
+    // Attempt recovery for specific errors
+    if (e.error && e.error.message.includes('carousel')) {
+        console.log('🔄 Attempting carousel recovery...');
+        setTimeout(() => {
+            if (window.app && window.app.components.servicesCarousel) {
+                window.app.components.servicesCarousel.onResize();
+            }
+        }, 1000);
+    }
+});
+
+// Unhandled promise rejection handler
+window.addEventListener('unhandledrejection', (e) => {
+    console.warn('Unhandled promise rejection:', e.reason);
+    e.preventDefault(); // Prevent console errors in production
+});
+
+// ========================================
+// SERVICE WORKER REGISTRATION (Optional)
+// ========================================
+
+// Register service worker for better performance (if available)
+if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('🔧 ServiceWorker registered successfully');
+            })
+            .catch(error => {
+                console.log('ServiceWorker registration failed (this is normal if no sw.js exists)');
+            });
+    });
+}
+
+// ========================================
+// FINAL INITIALIZATION CONFIRMATION
+// ========================================
+
+// Confirm all systems are ready
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const components = window.app ? Object.keys(window.app.components) : [];
+        console.log(`🎯 Evia Luxury Systems Status:`);
+        console.log(`   📱 Mobile: ${window.innerWidth <= 768 ? 'Yes' : 'No'}`);
+        console.log(`   🎠 Carousel: ${components.includes('servicesCarousel') ? '✅' : '❌'}`);
+        console.log(`   🖋️ Signature: ${components.includes('cinematicHero') ? '✅' : '❌'}`);
+        console.log(`   🧲 Magnetic: ${components.includes('magneticEffects') ? '✅' : '❌'}`);
+        console.log(`   📝 Forms: ${components.includes('contactForm') ? '✅' : '❌'}`);
+        console.log(`   🎭 Total Components: ${components.length}`);
+    }, 2000);
+});
 
 // Export for potential module usage
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { EviaLuxuryApp, EviaUtils };
+    module.exports = { 
+        EviaLuxuryApp, 
+        EviaUtils, 
+        LuxuryServicesCarousel, 
+        ServiceCardAnimations 
+    };
 }
