@@ -1138,7 +1138,7 @@ body {
 }
 
 /* ========================================
-   ENHANCED CINEMATIC HERO SECTION CSS
+   ENHANCED CINEMATIC HERO SECTION CSS - MOBILE FIXED
    ======================================== */
 
 /* ENHANCED CINEMATIC HERO SECTION */
@@ -1297,6 +1297,7 @@ body {
     align-items: center;
     gap: var(--space-2xl);
     margin-top: 2vh;
+    width: 100%;
 }
 
 /* 1. TOP BADGE - Enhanced Visibility */
@@ -1339,6 +1340,7 @@ body {
 .hero-headline-stack {
     text-align: center;
     max-width: 700px;
+    width: 100%;
 }
 
 .headline-primary {
@@ -1538,7 +1540,7 @@ body {
 }
 
 /* ========================================
-   ENHANCED SIGNATURE ANIMATION STYLES
+   ENHANCED SIGNATURE ANIMATION STYLES - MOBILE FIXED
    ======================================== */
 
 /* 6. HANDWRITTEN SIGNATURE with Enhanced Writing Animation */
@@ -1743,6 +1745,115 @@ body {
 }
 
 /* ========================================
+   HEADER FIXES - MOBILE MENU POSITIONING
+   ======================================== */
+
+/* Fixed Header Layout */
+.luxury-floating-header {
+    position: fixed;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    transition: all var(--transition-medium);
+    width: min(95vw, 1400px);
+}
+
+.aluminum-container {
+    background: var(--gradient-hermes-main);
+    backdrop-filter: blur(40px) saturate(180%);
+    border: 3px solid var(--brushed-silver);
+    border-radius: 4rem;
+    padding: 0.75rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Changed to space-between for proper mobile layout */
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.08),
+        0 8px 32px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    transition: all var(--transition-medium);
+    position: relative;
+    overflow: visible;
+    height: 100px;
+    width: 100%; /* Ensure full width */
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    order: 1; /* Logo first */
+}
+
+.header-logo {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+    transition: all var(--transition-medium);
+    cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 8px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Navigation Menu - Hidden on mobile */
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    order: 2; /* Navigation in middle */
+}
+
+/* Premium CTA Button */
+.premium-cta {
+    background: var(--gradient-hermes-orange);
+    color: var(--white);
+    border: none;
+    padding: 1.1rem 2.5rem;
+    border-radius: 3rem;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-medium);
+    flex-shrink: 0;
+    box-shadow: 
+        0 8px 24px rgba(255, 140, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    order: 3; /* CTA button third */
+}
+
+/* Mobile Toggle - Positioned on far right */
+.aluminum-mobile-toggle {
+    display: none;
+    background: var(--gradient-hermes-main);
+    border: 2px solid var(--brushed-silver);
+    border-radius: 1.25rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    flex-shrink: 0;
+    order: 4; /* Mobile toggle last (far right) */
+    margin-left: auto; /* Push to far right */
+}
+
+/* ========================================
    HERO ANIMATIONS
    ======================================== */
 
@@ -1920,13 +2031,14 @@ body {
 }
 
 /* ========================================
-   HERO MEDIA QUERIES
+   MOBILE RESPONSIVE FIXES
    ======================================== */
 
 @media (max-width: 1024px) {
     .hero-content-stack {
         gap: var(--space-xl);
         margin-top: 3vh;
+        padding: 0 var(--space-lg);
     }
     
     .stats-row-container {
@@ -1942,17 +2054,33 @@ body {
     .signature-text-animated {
         font-size: 1.5rem;
     }
+    
+    /* Header adjustments */
+    .aluminum-container {
+        padding: 1.1rem 2.5rem;
+        gap: 2rem;
+    }
+    
+    .header-logo {
+        width: 200px;
+        height: 200px;
+    }
 }
 
 @media (max-width: 768px) {
     .cinematic-hero {
-        padding: 120px 0 var(--space-2xl);
+        padding: 100px 0 var(--space-2xl);
+        min-height: 100vh;
+        overflow-x: hidden; /* Prevent horizontal scroll */
     }
 
     .hero-content-stack {
-        padding: 0 var(--space-lg);
+        padding: 0 var(--space-md);
         margin-top: 2vh;
         gap: var(--space-lg);
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .hero-badge-premium {
@@ -1977,6 +2105,7 @@ body {
     .hero-subheadline-elegant {
         font-size: clamp(0.85rem, 1.5vw, 1rem);
         margin-bottom: var(--space-xl);
+        padding: 0 var(--space-sm);
     }
 
     .hero-cta-signature {
@@ -1990,11 +2119,15 @@ body {
         grid-template-columns: 1fr;
         gap: var(--space-sm);
         margin-bottom: var(--space-lg);
+        width: 100%;
+        max-width: 100%;
     }
 
     .stat-pill {
         padding: 0.8rem 1.2rem;
         border-radius: 1.5rem;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .stat-icon {
@@ -2011,21 +2144,27 @@ body {
         font-size: 0.7rem;
     }
 
-    /* Signature repositions to bottom center on mobile */
+    /* SIGNATURE MOBILE FIX - Centered and not interfering */
     .signature-wrapper {
-        position: relative !important;
+        position: static !important; /* Remove absolute positioning */
         bottom: auto !important;
         right: auto !important;
         text-align: center;
-        margin-top: var(--space-lg);
+        margin: var(--space-lg) auto 0;
         display: flex;
         justify-content: center;
         background: rgba(0, 0, 0, 0.05);
+        width: fit-content;
+        max-width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5;
     }
 
     .signature-text-animated {
         font-size: 1.4rem;
         text-align: center;
+        white-space: nowrap;
     }
     
     .writing-indicator {
@@ -2064,12 +2203,57 @@ body {
     .orb-4 {
         display: none;
     }
+    
+    /* HEADER MOBILE FIXES */
+    .luxury-floating-header {
+        top: 1rem;
+        left: 1rem;
+        right: 1rem;
+        transform: none;
+        width: auto;
+    }
+    
+    .aluminum-container {
+        min-width: auto;
+        width: 100%;
+        padding: 1rem 1.5rem;
+        gap: var(--space-md);
+        border-radius: 2.5rem;
+        min-height: 70px;
+        justify-content: space-between; /* Maintain space-between */
+    }
+    
+    .header-logo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .nav-menu {
+        display: none; /* Hide navigation menu on mobile */
+    }
+    
+    .premium-cta {
+        display: none; /* Hide premium CTA on mobile */
+    }
+    
+    .aluminum-mobile-toggle {
+        display: block; /* Show mobile toggle */
+        margin-left: auto; /* Ensure it stays on the right */
+        order: 2; /* Put it after logo */
+    }
+    
+    /* Ensure logo and toggle are properly spaced */
+    .logo-section {
+        order: 1;
+        margin-right: auto; /* Push logo to left */
+    }
 }
 
 @media (max-width: 480px) {
     .hero-content-stack {
-        padding: 0 var(--space-md);
+        padding: 0 1rem;
         gap: var(--space-md);
+        margin-top: 1vh;
     }
 
     .hero-badge-premium {
@@ -2130,7 +2314,6 @@ body {
 
     .signature-text-animated {
         font-size: 1.2rem;
-        text-align: center;
     }
     
     .signature-sparkles {
@@ -2139,15 +2322,6 @@ body {
 
     .scroll-indicator-elegant {
         bottom: 1.5rem !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        position: absolute !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: auto;
-        margin: 0 auto;
     }
 
     .scroll-icon {
@@ -2158,6 +2332,25 @@ body {
 
     .scroll-text {
         font-size: 0.7rem;
+    }
+    
+    /* Header extra small mobile fixes */
+    .luxury-floating-header {
+        top: 0.5rem;
+        left: 0.5rem;
+        right: 0.5rem;
+    }
+    
+    .aluminum-container {
+        padding: 0.8rem 1.2rem;
+        gap: var(--space-sm);
+        border-radius: 2rem;
+        min-height: 60px;
+    }
+    
+    .header-logo {
+        width: 50px;
+        height: 50px;
     }
 }
 
