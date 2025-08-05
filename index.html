@@ -315,143 +315,366 @@
     </div>
 </section>
 
-    <!-- Services Section -->
-    <section class="services-section" id="services">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge" data-aos="fade-up">
-                    <i class="ri-sparkling-2-fill"></i>
-                    <span>Premium Services</span>
+    <!-- ULTRA-LUXURY SERVICES CAROUSEL SECTION -->
+<section class="services-section" id="services">
+    <div class="services-container">
+        <!-- Premium Section Header -->
+        <div class="services-header" data-aos="fade-up">
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                <span class="badge-text">Signature Treatments</span>
+                <span class="badge-dot"></span>
+            </div>
+            <h2 class="services-title">
+                <span class="title-line-1">Where Science</span>
+                <span class="title-line-2">Meets <em>Serenity</em></span>
+            </h2>
+            <p class="services-subtitle">
+                Each treatment is a masterpiece of precision and luxury
+            </p>
+        </div>
+
+        <!-- Services Carousel Container -->
+        <div class="services-carousel-wrapper">
+            <!-- Navigation Arrows -->
+            <button class="carousel-nav carousel-nav-prev" id="prevBtn" aria-label="Previous">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            
+            <button class="carousel-nav carousel-nav-next" id="nextBtn" aria-label="Next">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <!-- Main Carousel -->
+            <div class="services-carousel" id="servicesCarousel">
+                <div class="carousel-track" id="carouselTrack">
+                    
+                    <!-- Service Card 1: Botox & Fillers -->
+                    <div class="service-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="service-number">01</div>
+                                <div class="service-badge-luxury">Most Popular</div>
+                            </div>
+                            
+                            <div class="card-image">
+                                <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&h=400&fit=crop" alt="Botox & Fillers">
+                                <div class="image-overlay"></div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="service-icon-wrapper">
+                                    <div class="icon-bg"></div>
+                                    <i class="ri-syringe-line"></i>
+                                </div>
+                                
+                                <h3 class="service-title">Botox & Fillers</h3>
+                                <p class="service-tagline">Refined • Natural • Timeless</p>
+                                <p class="service-description">
+                                    Precision-placed injectables that enhance your natural features with subtle sophistication
+                                </p>
+                                
+                                <div class="service-features">
+                                    <div class="feature-item">
+                                        <i class="ri-time-line"></i>
+                                        <span>30-45 min</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-shield-check-line"></i>
+                                        <span>FDA Approved</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="price-section">
+                                    <span class="price-label">Starting from</span>
+                                    <span class="price-amount">$12<span class="price-unit">/unit</span></span>
+                                </div>
+                                
+                                <button class="service-cta">
+                                    <span>Book Consultation</span>
+                                    <div class="cta-arrow">→</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 2: Weight Management -->
+                    <div class="service-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="service-number">02</div>
+                                <div class="service-badge-new">New Program</div>
+                            </div>
+                            
+                            <div class="card-image">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop" alt="Weight Management">
+                                <div class="image-overlay"></div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="service-icon-wrapper">
+                                    <div class="icon-bg"></div>
+                                    <i class="ri-hearts-line"></i>
+                                </div>
+                                
+                                <h3 class="service-title">Weight Management</h3>
+                                <p class="service-tagline">Sustainable • Holistic • Transformative</p>
+                                <p class="service-description">
+                                    Medical weight management programs tailored to your lifestyle for lasting results
+                                </p>
+                                
+                                <div class="service-features">
+                                    <div class="feature-item">
+                                        <i class="ri-calendar-check-line"></i>
+                                        <span>12 Week Plan</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-user-heart-line"></i>
+                                        <span>Personalized</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="price-section">
+                                    <span class="price-label">Custom</span>
+                                    <span class="price-amount">Consultation</span>
+                                </div>
+                                
+                                <button class="service-cta">
+                                    <span>Book Consultation</span>
+                                    <div class="cta-arrow">→</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 3: IV Therapy -->
+                    <div class="service-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="service-number">03</div>
+                                <div class="service-badge-premium">Premium</div>
+                            </div>
+                            
+                            <div class="card-image">
+                                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop" alt="IV Therapy">
+                                <div class="image-overlay"></div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="service-icon-wrapper">
+                                    <div class="icon-bg"></div>
+                                    <i class="ri-drop-line"></i>
+                                </div>
+                                
+                                <h3 class="service-title">IV Therapy</h3>
+                                <p class="service-tagline">Revitalize • Restore • Rejuvenate</p>
+                                <p class="service-description">
+                                    Luxury vitamin infusions designed to optimize your health and natural glow
+                                </p>
+                                
+                                <div class="service-features">
+                                    <div class="feature-item">
+                                        <i class="ri-timer-line"></i>
+                                        <span>45-60 min</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-sparkles-line"></i>
+                                        <span>Instant Results</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="price-section">
+                                    <span class="price-label">Starting from</span>
+                                    <span class="price-amount">$150</span>
+                                </div>
+                                
+                                <button class="service-cta">
+                                    <span>Book Consultation</span>
+                                    <div class="cta-arrow">→</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 4: Microneedling -->
+                    <div class="service-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="service-number">04</div>
+                            </div>
+                            
+                            <div class="card-image">
+                                <img src="https://images.unsplash.com/photo-1616391182219-e080b4d1043a?w=600&h=400&fit=crop" alt="Microneedling">
+                                <div class="image-overlay"></div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="service-icon-wrapper">
+                                    <div class="icon-bg"></div>
+                                    <i class="ri-sparkling-line"></i>
+                                </div>
+                                
+                                <h3 class="service-title">Microneedling</h3>
+                                <p class="service-tagline">Renew • Repair • Radiate</p>
+                                <p class="service-description">
+                                    Advanced collagen induction therapy for smoother skin and luminous complexion
+                                </p>
+                                
+                                <div class="service-features">
+                                    <div class="feature-item">
+                                        <i class="ri-refresh-line"></i>
+                                        <span>3-6 Sessions</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-star-line"></i>
+                                        <span>Top Rated</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="price-section">
+                                    <span class="price-label">Starting from</span>
+                                    <span class="price-amount">$300</span>
+                                </div>
+                                
+                                <button class="service-cta">
+                                    <span>Book Consultation</span>
+                                    <div class="cta-arrow">→</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 5: PRP Therapy -->
+                    <div class="service-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="service-number">05</div>
+                                <div class="service-badge-natural">100% Natural</div>
+                            </div>
+                            
+                            <div class="card-image">
+                                <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&h=400&fit=crop" alt="PRP Therapy">
+                                <div class="image-overlay"></div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="service-icon-wrapper">
+                                    <div class="icon-bg"></div>
+                                    <i class="ri-plant-line"></i>
+                                </div>
+                                
+                                <h3 class="service-title">PRP Therapy</h3>
+                                <p class="service-tagline">Natural • Regenerative • Powerful</p>
+                                <p class="service-description">
+                                    Harness your body's natural healing power for facial rejuvenation and restoration
+                                </p>
+                                
+                                <div class="service-features">
+                                    <div class="feature-item">
+                                        <i class="ri-leaf-line"></i>
+                                        <span>Organic</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-pulse-line"></i>
+                                        <span>Biocompatible</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="price-section">
+                                    <span class="price-label">Starting from</span>
+                                    <span class="price-amount">$400</span>
+                                </div>
+                                
+                                <button class="service-cta">
+                                    <span>Book Consultation</span>
+                                    <div class="cta-arrow">→</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 6: Chemical Peels -->
+                    <div class="service-card">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="service-number">06</div>
+                            </div>
+                            
+                            <div class="card-image">
+                                <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600&h=400&fit=crop" alt="Chemical Peels">
+                                <div class="image-overlay"></div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="service-icon-wrapper">
+                                    <div class="icon-bg"></div>
+                                    <i class="ri-contrast-drop-line"></i>
+                                </div>
+                                
+                                <h3 class="service-title">Chemical Peels</h3>
+                                <p class="service-tagline">Reveal • Refine • Perfect</p>
+                                <p class="service-description">
+                                    Medical-grade peels that reveal your skin's natural radiance with precision
+                                </p>
+                                
+                                <div class="service-features">
+                                    <div class="feature-item">
+                                        <i class="ri-magic-line"></i>
+                                        <span>Instant Glow</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-verified-badge-line"></i>
+                                        <span>Medical Grade</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="price-section">
+                                    <span class="price-label">Starting from</span>
+                                    <span class="price-amount">$200</span>
+                                </div>
+                                
+                                <button class="service-cta">
+                                    <span>Book Consultation</span>
+                                    <div class="cta-arrow">→</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">
-                    Exquisite Treatments for
-                    <span class="gradient-text">Natural Beauty</span>
-                </h2>
-                <p class="section-description" data-aos="fade-up" data-aos-delay="200">
-                    Discover our curated collection of advanced aesthetic treatments, 
-                    each designed to enhance your natural radiance with subtle sophistication.
-                </p>
             </div>
 
-            <div class="services-grid">
-                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=300&fit=crop" alt="Botox & Fillers">
-                        <div class="service-badge">Most Popular</div>
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon pulse-icon">
-                            <i class="ri-syringe-line"></i>
-                        </div>
-                        <h3>Botox & Fillers</h3>
-                        <p class="service-tagline">Refined. Natural. Timeless.</p>
-                        <p class="service-description">Precision-placed injectables that enhance your natural features with subtle sophistication and lasting results.</p>
-                        <div class="service-price">Starting from <span>$12/unit</span></div>
-                        <button class="service-btn magnetic-button">
-                            <span>Learn More</span>
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
-                    </div>
-                </div>
+            <!-- Carousel Dots Navigation -->
+            <div class="carousel-dots" id="carouselDots"></div>
 
-                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Weight Management">
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon pulse-icon">
-                            <i class="ri-hearts-line"></i>
-                        </div>
-                        <h3>Weight Management</h3>
-                        <p class="service-tagline">Sustainable. Holistic. Transformative.</p>
-                        <p class="service-description">Medical weight management programs tailored to your lifestyle, ensuring lasting results and improved wellness.</p>
-                        <div class="service-price">Custom <span>Consultation</span></div>
-                        <button class="service-btn magnetic-button">
-                            <span>Learn More</span>
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop" alt="IV Therapy">
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon pulse-icon">
-                            <i class="ri-drop-line"></i>
-                        </div>
-                        <h3>IV Therapy</h3>
-                        <p class="service-tagline">Revitalize. Restore. Rejuvenate.</p>
-                        <p class="service-description">Luxury vitamin infusions designed to optimize your health, energy, and natural glow from within.</p>
-                        <div class="service-price">Starting from <span>$150</span></div>
-                        <button class="service-btn magnetic-button">
-                            <span>Learn More</span>
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1616391182219-e080b4d1043a?w=400&h=300&fit=crop" alt="Microneedling">
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon pulse-icon">
-                            <i class="ri-sparkling-line"></i>
-                        </div>
-                        <h3>Microneedling</h3>
-                        <p class="service-tagline">Renew. Repair. Radiate.</p>
-                        <p class="service-description">Advanced collagen induction therapy for smoother skin texture and a naturally luminous complexion.</p>
-                        <div class="service-price">Starting from <span>$300</span></div>
-                        <button class="service-btn magnetic-button">
-                            <span>Learn More</span>
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=300&fit=crop" alt="PRP Therapy">
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon pulse-icon">
-                            <i class="ri-plant-line"></i>
-                        </div>
-                        <h3>PRP Therapy</h3>
-                        <p class="service-tagline">Natural. Regenerative. Powerful.</p>
-                        <p class="service-description">Harness your body's natural healing power for facial rejuvenation and hair restoration treatments.</p>
-                        <div class="service-price">Starting from <span>$400</span></div>
-                        <button class="service-btn magnetic-button">
-                            <span>Learn More</span>
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="service-card magnetic-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-image">
-                        <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=300&fit=crop" alt="Chemical Peels">
-                    </div>
-                    <div class="service-content">
-                        <div class="service-icon pulse-icon">
-                            <i class="ri-contrast-drop-line"></i>
-                        </div>
-                        <h3>Chemical Peels</h3>
-                        <p class="service-tagline">Reveal. Refine. Perfect.</p>
-                        <p class="service-description">Medical-grade peels that reveal your skin's natural radiance while addressing specific concerns with precision.</p>
-                        <div class="service-price">Starting from <span>$200</span></div>
-                        <button class="service-btn magnetic-button">
-                            <span>Learn More</span>
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
-                    </div>
-                </div>
+            <!-- Scroll Hint (for mobile) -->
+            <div class="scroll-hint" id="scrollHint">
+                <i class="ri-arrow-left-right-line"></i>
+                <span>Swipe to explore</span>
             </div>
         </div>
-    </section>
 
+        <!-- Navigation Controls -->
+        <div class="carousel-navigation">
+            <div class="nav-counter">
+                <span class="current-slide" id="currentSlide">01</span>
+                <span class="separator">—</span>
+                <span class="total-slides" id="totalSlides">06</span>
+            </div>
+        </div>
+    </div>
+</section>
+    
     <!-- About Section -->
     <section class="about-section" id="about">
         <div class="container">
