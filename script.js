@@ -1,28 +1,64 @@
 /* ========================================
-   EVIA AESTHETICS - ENHANCED LUXURY EXPERIENCE
-   WITH SERVICES CAROUSEL
+   EVIA AESTHETICS - OPTIMIZED LUXURY EXPERIENCE
+   PERFORMANCE ENHANCED & MOBILE OPTIMIZED
    ======================================== */
 
 'use strict';
 
-// ========================================
-// GLOBAL VARIABLES & UTILITIES
-// ========================================
+/* ========================================
+   GLOBAL UTILITIES & CONFIGURATION
+   ======================================== */
+
+const EviaConfig = {
+    breakpoints: {
+        mobile: 480,
+        tablet: 768,
+        desktop: 1024,
+        large: 1200
+    },
+    
+    animations: {
+        duration: {
+            fast: 300,
+            medium: 600,
+            slow: 1000
+        },
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    },
+    
+    carousel: {
+        autoPlayDuration: 4000,
+        transitionDuration: 800
+    }
+};
 
 const EviaUtils = {
-    debounce: (func, wait) => {
+    debounce(func, wait, immediate) {
         let timeout;
         return function executedFunction(...args) {
             const later = () => {
                 clearTimeout(timeout);
-                func(...args);
+                if (!immediate) func(...args);
             };
+            const callNow = immediate && !timeout;
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
+            if (callNow) func(...args);
         };
     },
     
-    smoothScrollTo: (target, offset = 100) => {
+    throttle(func, limit) {
+        let inThrottle;
+        return function(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    },
+    
+    smoothScrollTo(target, offset = 100) {
         const element = typeof target === 'string' ? document.querySelector(target) : target;
         if (!element) return;
         
@@ -33,85 +69,140 @@ const EviaUtils = {
         });
     },
     
-    wait: (ms) => {
-        return new Promise(resolve => setTimeout(resolve, ms));
+    animate(element, keyframes, options = {}) {
+        if (!element) return Promise.resolve();
+        
+        const defaultOptions = {
+            duration: EviaConfig.animations.duration.medium,
+            easing: EviaConfig.animations.easing,
+            fill: 'forwards'
+        };
+        
+        return element.animate(keyframes, { ...defaultOptions, ...options });
     },
-
-    // Utility for creating smooth animations
-    animate: (element, keyframes, options = {}) => {
-        if (!element) return;
-        return element.animate(keyframes, {
-            duration: 800,
-            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            fill: 'forwards',
-            ...options
-        });
+    
+    isMobile() {
+        return window.innerWidth <= EviaConfig.breakpoints.tablet;
+    },
+    
+    isTouch() {
+        return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    },
+    
+    wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 };
 
-// ========================================
-// LUXURY APPLICATION CLASS
-// ========================================
+/* ========================================
+   MAIN APPLICATION CLASS
+   ======================================== */
 
 class EviaLuxuryApp {
     constructor() {
         this.isLoaded = false;
-        this.isMobile = window.innerWidth <= 768;
-        this.scrollY = 0;
-        this.mouseX = 0;
-        this.mouseY = 0;
-        this.components = {};
+        this.components = new Map();
+        this.observerInstances = new Map();
         
         this.init();
     }
     
     init() {
-        this.bindEvents();
-        console.log('🌟 Evia Luxury Experience Initializing...');
-    }
-    
-    bindEvents() {
-        // Wait for DOM ready
+        this.bindGlobalEvents();
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.onDOMReady());
         } else {
             this.onDOMReady();
         }
-        
-        // Window events
+    }
+    
+    bindGlobalEvents() {
         window.addEventListener('load', () => this.onWindowLoad());
         window.addEventListener('resize', EviaUtils.debounce(() => this.onWindowResize(), 250));
         
-        // Mouse tracking for magnetic effects
-        if (!this.isMobile) {
-            document.addEventListener('mousemove', (e) => this.trackMouse(e));
-        }
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', (e) => this.handleGlobalKeyboard(e));
+        
+        // Global click handlers
+        document.addEventListener('click', (e) => this.handleGlobalClicks(e));
     }
     
     onDOMReady() {
         try {
-            // Initialize components in order
-            this.components.preloader = new LuxuryPreloader();
-            this.components.header = new HermesLuxuryHeader();
-            this.components.mobileMenu = new LuxuryMobileMenu();
-            this.components.cinematicHero = new CinematicHero(); // Enhanced hero with signature
-            this.components.servicesCarousel = new LuxuryServicesCarousel(); // NEW: Services carousel
-            this.components.serviceAnimations = new ServiceCardAnimations(); // NEW: Service animations
-            this.components.beforeAfter = new BeforeAfterSlider();
-            this.components.contactForm = new ContactForm();
-            this.components.magneticEffects = new MagneticEffects();
-            
-            // Initialize AOS
+            this.initializeComponents();
+            this.initializeObservers();
             this.initAOS();
             
-            // Initialize modern intersection observers
-            this.initModernObservers();
-            
-            console.log('✅ All components initialized successfully');
-            
+            console.log('✅ Evia Luxury App initialized successfully');
         } catch (error) {
-            console.error('❌ Error initializing components:', error);
+            console.error('❌ Error initializing app:', error);
+            this.handleInitializationError(error);
         }
+    }
+    
+    initializeComponents() {
+        const componentDefinitions = [
+            { name: 'preloader', class: LuxuryPreloader },
+            { name: 'header', class: HermesLuxuryHeader },
+            { name: 'mobileMenu', class: LuxuryMobileMenu },
+            { name: 'hero', class: CinematicHero },
+            { name: 'servicesCarousel', class: LuxuryServicesCarousel },
+            { name: 'beforeAfter', class: BeforeAfterSlider },
+            { name: 'contactForm', class: ContactForm },
+            { name: 'magneticEffects', class: MagneticEffects }
+        ];
+        
+        componentDefinitions.forEach(({ name, class: ComponentClass }) => {
+            try {
+                this.components.set(name, new ComponentClass());
+            } catch (error) {
+                console.warn(`⚠️ Failed to initialize ${name}:`, error);
+            }
+        });
+    }
+    
+    initializeObservers() {
+        this.initScrollObserver();
+        this.initVisibilityObserver();
+    }
+    
+    initScrollObserver() {
+        const animateElements = document.querySelectorAll('[data-animate], .service-card, .result-card, .contact-item');
+        
+        if (!animateElements.length) return;
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -5% 0px'
+        });
+        
+        animateElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            observer.observe(el);
+        });
+        
+        this.observerInstances.set('scroll', observer);
+    }
+    
+    initVisibilityObserver() {
+        // Page visibility API for performance optimization
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.pauseAnimations();
+            } else {
+                this.resumeAnimations();
+            }
+        });
     }
     
     initAOS() {
@@ -121,91 +212,138 @@ class EviaLuxuryApp {
                 easing: 'ease-out-cubic',
                 once: true,
                 offset: 100,
-                delay: 100
+                delay: 100,
+                disable: EviaUtils.isMobile() ? 'mobile' : false
             });
         }
-    }
-    
-    initModernObservers() {
-        // Performance-optimized intersection observers
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px 0px -10% 0px',
-            threshold: [0, 0.25, 0.5, 0.75, 1.0]
-        };
-        
-        // Animate elements on scroll
-        const animationObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const element = entry.target;
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                    element.classList.add('animate-in');
-                    animationObserver.unobserve(element);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
-        
-        // Apply to elements that need scroll animation
-        const elementsToAnimate = document.querySelectorAll('.service-card, .result-card, .contact-item, .credential-item, .review-card');
-        elementsToAnimate.forEach(el => {
-            if (el) {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                animationObserver.observe(el);
-            }
-        });
     }
     
     onWindowLoad() {
         this.isLoaded = true;
         document.body.classList.add('loaded');
         
-        if (this.components.preloader) {
-            this.components.preloader.fadeOut();
-        }
+        // Start signature animation after everything loads
+        this.startSignatureAnimation();
         
-        console.log('✨ Evia Luxury Experience Fully Loaded');
+        console.log('✨ Evia Luxury Experience fully loaded');
     }
     
     onWindowResize() {
-        this.isMobile = window.innerWidth <= 768;
-        
         // Update components on resize
-        Object.values(this.components).forEach(component => {
+        this.components.forEach((component, name) => {
             if (component && typeof component.onResize === 'function') {
                 component.onResize();
             }
         });
     }
     
-    trackMouse(e) {
-        this.mouseX = e.clientX;
-        this.mouseY = e.clientY;
+    handleGlobalKeyboard(e) {
+        // Global keyboard shortcuts
+        if (e.ctrlKey || e.metaKey) {
+            switch (e.key) {
+                case 'h':
+                    e.preventDefault();
+                    this.smoothScrollTo('#home', 0);
+                    break;
+                case 's':
+                    e.preventDefault();
+                    this.smoothScrollTo('#services');
+                    break;
+                case 'c':
+                    e.preventDefault();
+                    this.smoothScrollTo('#contact');
+                    break;
+            }
+        }
         
-        // Update CSS custom properties for magnetic effects
-        document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
-        document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+        // Escape key handling
+        if (e.key === 'Escape') {
+            const mobileMenu = this.components.get('mobileMenu');
+            if (mobileMenu && mobileMenu.isOpen) {
+                mobileMenu.closeMenu();
+            }
+        }
     }
     
-    // Public methods for external access
+    handleGlobalClicks(e) {
+        // Handle service CTAs
+        if (e.target.closest('.service-cta, .service-btn')) {
+            e.preventDefault();
+            this.smoothScrollTo('#contact');
+            return;
+        }
+        
+        // Handle anchor links
+        const link = e.target.closest('a[href^="#"]');
+        if (link && link.getAttribute('href') !== '#') {
+            e.preventDefault();
+            const target = link.getAttribute('href');
+            this.smoothScrollTo(target);
+        }
+    }
+    
+    startSignatureAnimation() {
+        const hero = this.components.get('hero');
+        if (hero && hero.startSignatureAnimation) {
+            setTimeout(() => {
+                hero.startSignatureAnimation();
+            }, 2000);
+        }
+    }
+    
+    pauseAnimations() {
+        // Pause resource-intensive animations when page is hidden
+        document.body.classList.add('animations-paused');
+    }
+    
+    resumeAnimations() {
+        document.body.classList.remove('animations-paused');
+    }
+    
+    handleInitializationError(error) {
+        // Graceful fallback for initialization errors
+        console.error('App initialization failed, attempting recovery...', error);
+        
+        setTimeout(() => {
+            try {
+                this.initializeComponents();
+                console.log('✅ Recovery successful');
+            } catch (recoveryError) {
+                console.error('❌ Recovery failed:', recoveryError);
+            }
+        }, 1000);
+    }
+    
+    // Public API
     smoothScrollTo(target, offset = 100) {
         return EviaUtils.smoothScrollTo(target, offset);
     }
+    
+    getComponent(name) {
+        return this.components.get(name);
+    }
+    
+    destroy() {
+        // Cleanup method
+        this.observerInstances.forEach(observer => observer.disconnect());
+        this.components.forEach(component => {
+            if (component && typeof component.destroy === 'function') {
+                component.destroy();
+            }
+        });
+    }
 }
 
-// ========================================
-// LUXURY PRELOADER CLASS
-// ========================================
+/* ========================================
+   PRELOADER COMPONENT
+   ======================================== */
 
 class LuxuryPreloader {
     constructor() {
         this.preloader = document.getElementById('preloader');
-        this.minDisplayTime = 3000; // 3 seconds minimum
+        this.minDisplayTime = 2500;
         this.startTime = Date.now();
-        this.logoLoaded = false;
+        this.isReady = false;
         
         if (this.preloader) {
             this.init();
@@ -213,125 +351,130 @@ class LuxuryPreloader {
     }
     
     init() {
-        // Prevent scrolling during preload
         document.body.style.overflow = 'hidden';
-        
-        // Add floating animation to medspa icons
-        this.addFloatingAnimation();
-        
-        // Check for logo loading
-        this.checkLogoLoading();
-        
-        // Check if page is already loaded
-        if (document.readyState === 'complete') {
-            this.checkFadeOut();
-        } else {
-            window.addEventListener('load', () => this.checkFadeOut());
-        }
+        this.startAnimations();
+        this.checkReadyState();
     }
     
-    checkLogoLoading() {
-        const logoImage = this.preloader.querySelector('.preloader-logo');
-        if (logoImage) {
-            if (logoImage.complete && logoImage.naturalHeight !== 0) {
-                this.logoLoaded = true;
-            } else {
-                logoImage.addEventListener('load', () => {
-                    this.logoLoaded = true;
-                });
-                logoImage.addEventListener('error', () => {
-                    this.logoLoaded = true; // Continue even if logo fails to load
-                });
-            }
-        } else {
-            this.logoLoaded = true; // No logo found, continue
-        }
-    }
-    
-    addFloatingAnimation() {
-        const medSpaIcons = this.preloader.querySelectorAll('.medspa-icon');
-        medSpaIcons.forEach((icon, index) => {
-            // Add randomized floating movement
-            setInterval(() => {
-                const time = Date.now() * 0.001;
-                const offset = index * 0.5;
-                const x = Math.sin(time + offset) * 15;
-                const y = Math.cos(time * 0.8 + offset) * 10;
-                icon.style.transform = `translate(${x}px, ${y}px) rotate(${Math.sin(time + offset) * 5}deg)`;
-            }, 50);
+    startAnimations() {
+        // Enhanced floating animations for icons
+        const icons = this.preloader.querySelectorAll('.medspa-icon');
+        icons.forEach((icon, index) => {
+            this.animateIcon(icon, index);
         });
         
-        // Add subtle animation to logo
+        // Logo pulse animation
         const logo = this.preloader.querySelector('.preloader-logo');
         if (logo) {
-            setInterval(() => {
-                const time = Date.now() * 0.0008;
-                const scale = 1 + Math.sin(time) * 0.02;
-                logo.style.transform = `scale(${scale})`;
-            }, 16);
+            this.animateLogo(logo);
         }
     }
     
-    checkFadeOut() {
-        const checkConditions = () => {
-            const timeElapsed = Date.now() - this.startTime;
-            const timeConditionMet = timeElapsed >= this.minDisplayTime;
+    animateIcon(icon, index) {
+        const baseDelay = index * 200;
+        const duration = 4000 + (index * 300);
+        
+        const animate = () => {
+            const time = Date.now() * 0.001;
+            const offset = index * 0.7;
+            const x = Math.sin(time + offset) * 20;
+            const y = Math.cos(time * 0.8 + offset) * 15;
+            const rotation = Math.sin(time + offset) * 10;
             
-            if (timeConditionMet && this.logoLoaded) {
-                this.fadeOut();
-            } else {
-                // Check again in 100ms
-                setTimeout(checkConditions, 100);
+            icon.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+            
+            if (!this.isReady) {
+                requestAnimationFrame(animate);
             }
         };
         
-        checkConditions();
+        setTimeout(animate, baseDelay);
     }
     
-    fadeOut() {
-        if (!this.preloader) return;
+    animateLogo(logo) {
+        const animate = () => {
+            const time = Date.now() * 0.0008;
+            const scale = 1 + Math.sin(time) * 0.02;
+            logo.style.transform = `scale(${scale})`;
+            
+            if (!this.isReady) {
+                requestAnimationFrame(animate);
+            }
+        };
         
-        // Add fade out animation to icons first
-        const medSpaIcons = this.preloader.querySelectorAll('.medspa-icon');
-        medSpaIcons.forEach((icon, index) => {
+        animate();
+    }
+    
+    checkReadyState() {
+        const checkInterval = setInterval(() => {
+            const timeElapsed = Date.now() - this.startTime;
+            const timeReady = timeElapsed >= this.minDisplayTime;
+            const pageReady = document.readyState === 'complete';
+            
+            if (timeReady && pageReady) {
+                clearInterval(checkInterval);
+                this.fadeOut();
+            }
+        }, 100);
+        
+        // Fallback timeout
+        setTimeout(() => {
+            clearInterval(checkInterval);
+            this.fadeOut();
+        }, 5000);
+    }
+    
+    async fadeOut() {
+        this.isReady = true;
+        
+        // Staggered fade out of icons
+        const icons = this.preloader.querySelectorAll('.medspa-icon');
+        icons.forEach((icon, index) => {
             setTimeout(() => {
-                icon.style.opacity = '0';
-                icon.style.transform = 'scale(0.5) rotate(180deg)';
+                EviaUtils.animate(icon, [
+                    { opacity: 1, transform: 'scale(1) rotate(0deg)' },
+                    { opacity: 0, transform: 'scale(0.5) rotate(180deg)' }
+                ], { duration: 400 });
             }, index * 50);
         });
         
         // Fade out logo and loading indicator
-        setTimeout(() => {
-            const logo = this.preloader.querySelector('.preloader-logo');
-            const loadingIndicator = this.preloader.querySelector('.loading-indicator');
-            
-            if (logo) {
-                logo.style.opacity = '0';
-                logo.style.transform = 'scale(0.8)';
-            }
-            
-            if (loadingIndicator) {
-                loadingIndicator.style.opacity = '0';
-            }
-        }, 400);
+        await EviaUtils.wait(300);
+        
+        const logo = this.preloader.querySelector('.preloader-logo');
+        const loadingIndicator = this.preloader.querySelector('.loading-indicator');
+        
+        if (logo) {
+            EviaUtils.animate(logo, [
+                { opacity: 1, transform: 'scale(1)' },
+                { opacity: 0, transform: 'scale(0.8)' }
+            ]);
+        }
+        
+        if (loadingIndicator) {
+            EviaUtils.animate(loadingIndicator, [
+                { opacity: 1 },
+                { opacity: 0 }
+            ]);
+        }
         
         // Fade out entire preloader
-        setTimeout(() => {
-            this.preloader.classList.add('fade-out');
-        }, 800);
+        await EviaUtils.wait(500);
         
-        // Remove preloader from DOM
+        this.preloader.classList.add('fade-out');
+        
+        // Remove from DOM
         setTimeout(() => {
             this.preloader.style.display = 'none';
             document.body.style.overflow = '';
             document.body.classList.add('preloader-complete');
-        }, 2000);
+        }, 1200);
     }
 }
 
-// ========================================
-// HERMÈS-INSPIRED LUXURY HEADER CLASS
-// ========================================
+/* ========================================
+   HEADER COMPONENT
+   ======================================== */
 
 class HermesLuxuryHeader {
     constructor() {
@@ -347,32 +490,28 @@ class HermesLuxuryHeader {
     
     init() {
         this.bindEvents();
-        this.initNavigationEffects();
-        this.initPremiumBehavior();
+        this.initNavigation();
+        this.startHeaderAnimations();
     }
     
     bindEvents() {
-        // Optimized scroll handler with RAF
+        // Optimized scroll handler
         window.addEventListener('scroll', () => {
             if (!this.ticking) {
-                requestAnimationFrame(() => {
-                    this.handleScroll();
-                    this.ticking = false;
-                });
+                requestAnimationFrame(() => this.handleScroll());
                 this.ticking = true;
             }
         }, { passive: true });
         
-        // Premium CTA button smooth scroll
+        // Header CTA
         const headerCTA = document.getElementById('headerCTA');
         if (headerCTA) {
-            headerCTA.addEventListener('click', (e) => {
-                e.preventDefault();
+            headerCTA.addEventListener('click', () => {
                 app.smoothScrollTo('#contact');
             });
         }
         
-        // Logo click to top with premium animation
+        // Logo click
         const headerLogo = this.header.querySelector('.header-logo');
         if (headerLogo) {
             headerLogo.addEventListener('click', () => {
@@ -394,30 +533,16 @@ class HermesLuxuryHeader {
         const scrollY = window.pageYOffset;
         const shouldTransform = scrollY > 100;
         
-        // Update scrolled state with premium transitions
         if (shouldTransform !== this.isScrolled) {
             this.isScrolled = shouldTransform;
             this.header.classList.toggle('scrolled', this.isScrolled);
-            
-            // Add premium floating animation on scroll
-            const container = this.header.querySelector('.aluminum-container');
-            if (container) {
-                if (this.isScrolled) {
-                    container.style.transform = 'scale(0.94) translateY(-2px)';
-                    container.style.borderColor = '#FF8C00';
-                    container.style.borderWidth = '2px';
-                } else {
-                    container.style.transform = 'scale(1) translateY(0)';
-                    container.style.borderColor = '#C0C0C0';
-                    container.style.borderWidth = '3px';
-                }
-            }
         }
         
         this.lastScrollY = scrollY;
+        this.ticking = false;
     }
     
-    initNavigationEffects() {
+    initNavigation() {
         const navLinks = document.querySelectorAll('.nav-link');
         
         navLinks.forEach(link => {
@@ -437,12 +562,12 @@ class HermesLuxuryHeader {
             }
         });
         
-        // Update active link on scroll
-        this.updateActiveNavigation();
+        this.initActiveNavigation();
     }
     
     addNavLinkShine(link) {
-        // Add premium shine effect on hover
+        if (EviaUtils.isMobile()) return;
+        
         const shine = document.createElement('div');
         shine.style.cssText = `
             position: absolute;
@@ -454,17 +579,16 @@ class HermesLuxuryHeader {
             transition: left 0.6s ease;
             pointer-events: none;
             border-radius: 1.5rem;
+            z-index: 0;
         `;
         
         link.style.position = 'relative';
         link.appendChild(shine);
         
-        // Trigger shine animation
         requestAnimationFrame(() => {
             shine.style.left = '100%';
         });
         
-        // Remove shine element after animation
         setTimeout(() => {
             if (shine.parentNode) {
                 shine.parentNode.removeChild(shine);
@@ -472,19 +596,18 @@ class HermesLuxuryHeader {
         }, 600);
     }
     
-    updateActiveNavigation() {
+    initActiveNavigation() {
         const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-link');
         
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
                     const id = entry.target.getAttribute('id');
                     this.updateActiveLink(`#${id}`);
                 }
             });
-        }, { 
-            threshold: [0.3, 0.5, 0.7],
+        }, {
+            threshold: [0.3, 0.7],
             rootMargin: '-20% 0px -20% 0px'
         });
         
@@ -498,29 +621,21 @@ class HermesLuxuryHeader {
             link.classList.remove('active');
             if (link.getAttribute('href') === href) {
                 link.classList.add('active');
-                this.addActiveAnimation(link);
             }
         });
     }
     
-    addActiveAnimation(link) {
-        // Add premium active state animation
-        link.style.transform = 'scale(1.05)';
-        setTimeout(() => {
-            link.style.transform = '';
-        }, 300);
-    }
-    
-    initPremiumBehavior() {
+    startHeaderAnimations() {
         const container = this.header.querySelector('.aluminum-container');
-        if (!container) return;
+        if (!container || EviaUtils.isMobile()) return;
         
-        // Add subtle floating animation to the entire header
         let floatOffset = 0;
         
         const animate = () => {
-            floatOffset += 0.006;
-            const yOffset = Math.sin(floatOffset) * 1;
+            if (document.hidden) return;
+            
+            floatOffset += 0.005;
+            const yOffset = Math.sin(floatOffset) * 0.5;
             
             if (!this.isScrolled) {
                 container.style.transform = `translateY(${yOffset}px)`;
@@ -530,23 +645,6 @@ class HermesLuxuryHeader {
         };
         
         animate();
-        
-        // Premium CTA button effects
-        const premiumCTA = this.header.querySelector('.premium-cta');
-        if (premiumCTA) {
-            premiumCTA.addEventListener('mouseenter', () => {
-                this.triggerCTAShine();
-            });
-        }
-    }
-    
-    triggerCTAShine() {
-        const ctaShine = this.header.querySelector('.cta-shine');
-        if (ctaShine) {
-            ctaShine.style.left = '-100%';
-            ctaShine.offsetHeight; // Force reflow
-            ctaShine.style.left = '100%';
-        }
     }
     
     toggleMobileMenu() {
@@ -554,16 +652,15 @@ class HermesLuxuryHeader {
         if (toggle) {
             toggle.classList.toggle('active');
             
-            // Trigger mobile menu component
-            if (app.components.mobileMenu) {
-                app.components.mobileMenu.toggleMenu();
+            const mobileMenu = app.getComponent('mobileMenu');
+            if (mobileMenu) {
+                mobileMenu.toggleMenu();
             }
         }
     }
     
     onResize() {
-        // Handle responsive behavior
-        if (window.innerWidth > 768) {
+        if (window.innerWidth > EviaConfig.breakpoints.tablet) {
             const toggle = document.getElementById('mobileToggle');
             if (toggle) {
                 toggle.classList.remove('active');
@@ -572,9 +669,9 @@ class HermesLuxuryHeader {
     }
 }
 
-// ========================================
-// LUXURY MOBILE MENU CLASS
-// ========================================
+/* ========================================
+   MOBILE MENU COMPONENT
+   ======================================== */
 
 class LuxuryMobileMenu {
     constructor() {
@@ -593,11 +690,11 @@ class LuxuryMobileMenu {
     
     init() {
         this.bindEvents();
-        this.initAnimationStates();
+        this.prepareAnimations();
     }
     
     bindEvents() {
-        // Close button with modern animation
+        // Close button
         if (this.close) {
             this.close.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -605,14 +702,14 @@ class LuxuryMobileMenu {
             });
         }
         
-        // Backdrop click to close
+        // Backdrop click
         if (this.backdrop) {
             this.backdrop.addEventListener('click', () => {
                 this.closeMenu();
             });
         }
         
-        // Navigation links with smooth transitions
+        // Navigation links
         this.navItems.forEach((item, index) => {
             const link = item.querySelector('.nav-link');
             if (link) {
@@ -624,14 +721,18 @@ class LuxuryMobileMenu {
                     }
                 });
                 
-                // Add hover sound effect (optional)
+                // Hover effects
                 link.addEventListener('mouseenter', () => {
                     this.playHoverEffect(item);
+                });
+                
+                link.addEventListener('mouseleave', () => {
+                    this.resetHoverEffect(item);
                 });
             }
         });
         
-        // Menu CTA button
+        // Menu CTA
         const menuCTA = document.querySelector('.menu-cta');
         if (menuCTA) {
             menuCTA.addEventListener('click', (e) => {
@@ -640,23 +741,15 @@ class LuxuryMobileMenu {
             });
         }
         
-        // Keyboard accessibility
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.isOpen) {
-                this.closeMenu();
-            }
-        });
-        
-        // Handle window resize
-        window.addEventListener('resize', this.debounce(() => {
-            if (this.isOpen && window.innerWidth > 768) {
+        // Window resize
+        window.addEventListener('resize', EviaUtils.debounce(() => {
+            if (this.isOpen && window.innerWidth > EviaConfig.breakpoints.tablet) {
                 this.closeMenu();
             }
         }, 250));
     }
     
-    initAnimationStates() {
-        // Set initial states for animations
+    prepareAnimations() {
         this.navItems.forEach((item, index) => {
             item.style.opacity = '0';
             item.style.transform = 'translateX(50px)';
@@ -690,16 +783,13 @@ class LuxuryMobileMenu {
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
         
-        // Show backdrop
+        // Show backdrop and menu
         this.backdrop.classList.add('active');
-        
-        // Show menu container
         this.menu.classList.add('active');
         
-        // Wait for menu to slide in, then animate content
-        await this.wait(200);
+        await EviaUtils.wait(200);
         
-        // Animate navigation items with stagger
+        // Animate navigation items
         this.navItems.forEach((item, index) => {
             setTimeout(() => {
                 item.style.opacity = '1';
@@ -731,7 +821,7 @@ class LuxuryMobileMenu {
             toggle.classList.remove('active');
         }
         
-        // Reverse animate navigation items
+        // Reverse animate items
         const reverseItems = Array.from(this.navItems).reverse();
         reverseItems.forEach((item, index) => {
             setTimeout(() => {
@@ -747,13 +837,10 @@ class LuxuryMobileMenu {
             menuFooter.style.transform = 'translateY(30px)';
         }
         
-        // Wait for content animation, then hide menu
-        await this.wait(400);
+        await EviaUtils.wait(400);
         
-        // Hide menu container
+        // Hide menu and backdrop
         this.menu.classList.remove('active');
-        
-        // Hide backdrop
         this.backdrop.classList.remove('active');
         
         // Restore body scroll
@@ -766,76 +853,46 @@ class LuxuryMobileMenu {
         // Highlight selected item
         if (itemIndex >= 0 && this.navItems[itemIndex]) {
             this.navItems[itemIndex].style.background = 'rgba(255, 158, 24, 0.1)';
-            this.navItems[itemIndex].style.transform = 'translateX(0) scale(1.02)';
         }
         
-        // Close menu
         await this.closeMenu();
         
-        // Navigate after menu closes
         setTimeout(() => {
             app.smoothScrollTo(href);
         }, 300);
     }
     
     playHoverEffect(item) {
-        // Subtle hover animation
         const underline = item.querySelector('.nav-underline');
         if (underline) {
             underline.style.width = 'calc(100% - 2rem)';
         }
-        
-        // Optional: Add subtle scaling
-        item.style.transform = 'translateX(0) scale(1.02)';
-        
-        // Reset on mouse leave
-        const link = item.querySelector('.nav-link');
-        const resetHover = () => {
-            if (underline) {
-                underline.style.width = '0';
-            }
-            item.style.transform = 'translateX(0) scale(1)';
-            link.removeEventListener('mouseleave', resetHover);
-        };
-        
-        link.addEventListener('mouseleave', resetHover);
     }
     
-    // Utility methods
-    wait(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
+    resetHoverEffect(item) {
+        const underline = item.querySelector('.nav-underline');
+        if (underline) {
+            underline.style.width = '0';
+        }
     }
     
     onResize() {
-        // Handle responsive behavior
-        if (this.isOpen && window.innerWidth > 768) {
+        if (this.isOpen && window.innerWidth > EviaConfig.breakpoints.tablet) {
             this.closeMenu();
         }
     }
 }
 
-// ========================================
-// ENHANCED CINEMATIC HERO CLASS WITH SIGNATURE ANIMATION
-// ========================================
+/* ========================================
+   CINEMATIC HERO COMPONENT
+   ======================================== */
 
 class CinematicHero {
     constructor() {
         this.hero = document.querySelector('.cinematic-hero');
         this.primaryCTA = document.querySelector('.hero-cta-signature');
-        this.scrollIndicator = document.querySelector('.scroll-indicator-elegant');
-        this.statPills = document.querySelectorAll('.stat-pill');
+        this.signatureContainer = document.querySelector('.signature-container');
+        this.hasAnimatedSignature = false;
         
         if (this.hero) {
             this.init();
@@ -845,43 +902,31 @@ class CinematicHero {
     init() {
         this.initCTAButtons();
         this.initScrollIndicator();
-        this.initFloatingOrbs();
+        this.initFloatingElements();
         this.initStatPills();
         this.initVideo();
-        this.initSignatureAnimation(); // Enhanced signature animation
-        this.initTypographyAnimations();
+        this.prepareSignatureAnimation();
     }
     
     initCTAButtons() {
         if (this.primaryCTA) {
-            // Navigate to contact on click
             this.primaryCTA.addEventListener('click', () => {
                 app.smoothScrollTo('#contact');
             });
             
-            // Enhanced shimmer effect for new design
             this.primaryCTA.addEventListener('click', (e) => {
                 this.triggerCTARipple(e);
             });
-
-            // Premium hover effect with shimmer
+            
             this.primaryCTA.addEventListener('mouseenter', () => {
                 this.addCTAShimmer();
             });
-
-            // Enhanced hover animations
-            this.primaryCTA.addEventListener('mouseenter', () => {
-                this.triggerCTAHoverAnimation();
-            });
-
-            this.primaryCTA.addEventListener('mouseleave', () => {
-                this.resetCTAHoverAnimation();
-            });
         }
     }
-
+    
     triggerCTARipple(e) {
-        // Create ripple effect at click point
+        if (EviaUtils.isMobile()) return;
+        
         const rect = this.primaryCTA.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -903,7 +948,6 @@ class CinematicHero {
         
         this.primaryCTA.appendChild(ripple);
         
-        // Animate ripple
         EviaUtils.animate(ripple, [
             { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
             { transform: 'translate(-50%, -50%) scale(6)', opacity: 0 }
@@ -913,129 +957,61 @@ class CinematicHero {
             }
         });
     }
-
+    
     addCTAShimmer() {
         const shimmer = this.primaryCTA.querySelector('.cta-shimmer');
         if (shimmer) {
-            // Reset shimmer position
             shimmer.style.left = '-100%';
             shimmer.style.transition = 'none';
-            
-            // Force reflow
-            shimmer.offsetHeight;
-            
-            // Animate shimmer
+            shimmer.offsetHeight; // Force reflow
             shimmer.style.transition = 'left 0.8s ease';
             shimmer.style.left = '100%';
         }
     }
-
-    triggerCTAHoverAnimation() {
-        // Enhanced hover state with multiple effects
-        const glow = this.primaryCTA.querySelector('.cta-glow');
-        if (glow) {
-            glow.style.opacity = '0.6';
-        }
-        
-        // Add subtle pulse to the button text
-        EviaUtils.animate(this.primaryCTA, [
-            { transform: 'translateY(-5px) scale(1.02)' }
-        ], { duration: 300 });
-    }
-
-    resetCTAHoverAnimation() {
-        const glow = this.primaryCTA.querySelector('.cta-glow');
-        if (glow) {
-            glow.style.opacity = '0';
-        }
-    }
     
     initScrollIndicator() {
-        if (this.scrollIndicator) {
-            this.scrollIndicator.addEventListener('click', () => {
+        const scrollIndicator = document.querySelector('.scroll-indicator-elegant');
+        if (scrollIndicator) {
+            scrollIndicator.addEventListener('click', () => {
                 app.smoothScrollTo('#services');
             });
-
-            // Enhanced hover effect for modern design
-            const scrollIcon = this.scrollIndicator.querySelector('.scroll-icon');
-
-            if (this.scrollIndicator) {
-                this.scrollIndicator.addEventListener('mouseenter', () => {
-                    this.animateScrollIndicator();
-                });
-
-                this.scrollIndicator.addEventListener('mouseleave', () => {
-                    this.resetScrollIndicator();
-                });
-            }
-        }
-    }
-
-    animateScrollIndicator() {
-        const scrollIcon = this.scrollIndicator.querySelector('.scroll-icon');
-        const scrollText = this.scrollIndicator.querySelector('.scroll-text');
-
-        // Animate the icon container
-        if (scrollIcon) {
-            EviaUtils.animate(scrollIcon, [
-                { transform: 'scale(1)' },
-                { transform: 'scale(1.1)' }
-            ], { duration: 300 });
-        }
-
-        // Animate the text
-        if (scrollText) {
-            EviaUtils.animate(scrollText, [
-                { opacity: 0.8 },
-                { opacity: 1 }
-            ], { duration: 200 });
-        }
-    }
-
-    resetScrollIndicator() {
-        const scrollIcon = this.scrollIndicator.querySelector('.scroll-icon');
-        
-        if (scrollIcon) {
-            EviaUtils.animate(scrollIcon, [
-                { transform: 'scale(1.1)' },
-                { transform: 'scale(1)' }
-            ], { duration: 300 });
         }
     }
     
-    initFloatingOrbs() {
+    initFloatingElements() {
+        if (EviaUtils.isMobile()) return;
+        
         const orbs = document.querySelectorAll('.orb');
         const bubbles = document.querySelectorAll('.aqua-bubble');
         
-        orbs.forEach((orb, index) => {
-            // Random initial positions and animations
-            const delay = index * 8;
-            const duration = 25 + (index * 5);
-            
-            orb.style.animationDelay = `-${delay}s`;
-            orb.style.animationDuration = `${duration}s`;
-            
-            // Add parallax effect
-            this.addParallaxToOrb(orb, index);
-        });
-
-        // Initialize aqua bubbles
-        bubbles.forEach((bubble, index) => {
-            const delay = index * 6;
-            const duration = 20 + (index * 3);
-            
-            bubble.style.animationDelay = `-${delay}s`;
-            bubble.style.animationDuration = `${duration}s`;
-            
-            // Add subtle parallax to bubbles
-            this.addParallaxToOrb(bubble, index * 0.5);
+        [...orbs, ...bubbles].forEach((element, index) => {
+            this.addParallaxEffect(element, index * 0.3);
         });
     }
-
+    
+    addParallaxEffect(element, multiplier) {
+        let ticking = false;
+        
+        const updateParallax = () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.1 * (multiplier + 1);
+            element.style.transform = `translateY(${rate}px)`;
+            ticking = false;
+        };
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }, { passive: true });
+    }
+    
     initStatPills() {
-        // Enhanced stat pills with hover effects
-        this.statPills.forEach((pill, index) => {
-            // Add entrance animation with stagger
+        const statPills = document.querySelectorAll('.stat-pill');
+        
+        statPills.forEach((pill, index) => {
+            // Entrance animation
             pill.style.opacity = '0';
             pill.style.transform = 'translateY(30px)';
             
@@ -1043,47 +1019,28 @@ class CinematicHero {
                 pill.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
                 pill.style.opacity = '1';
                 pill.style.transform = 'translateY(0)';
-            }, 1000 + (index * 150)); // Delay after hero content
-
-            // Enhanced hover interactions
+            }, 1500 + (index * 150));
+            
+            // Hover effects
             pill.addEventListener('mouseenter', () => {
                 this.animateStatPillHover(pill);
             });
-
+            
             pill.addEventListener('mouseleave', () => {
                 this.resetStatPillHover(pill);
             });
         });
     }
-
+    
     animateStatPillHover(pill) {
-        const statIcon = pill.querySelector('.stat-icon');
-        const statNumber = pill.querySelector('.stat-number');
-
-        // Scale and glow effect
+        if (EviaUtils.isMobile()) return;
+        
         EviaUtils.animate(pill, [
             { transform: 'translateY(0) scale(1)' },
             { transform: 'translateY(-8px) scale(1.05)' }
         ], { duration: 300 });
-
-        // Animate icon with pulse
-        if (statIcon) {
-            EviaUtils.animate(statIcon, [
-                { transform: 'scale(1)' },
-                { transform: 'scale(1.1)' },
-                { transform: 'scale(1)' }
-            ], { duration: 400 });
-        }
-
-        // Subtle number animation
-        if (statNumber) {
-            EviaUtils.animate(statNumber, [
-                { transform: 'scale(1)' },
-                { transform: 'scale(1.05)' }
-            ], { duration: 200 });
-        }
     }
-
+    
     resetStatPillHover(pill) {
         EviaUtils.animate(pill, [
             { transform: 'translateY(-8px) scale(1.05)' },
@@ -1091,326 +1048,180 @@ class CinematicHero {
         ], { duration: 300 });
     }
     
-    addParallaxToOrb(orb, index) {
-        let ticking = false;
-        
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    const scrolled = window.pageYOffset;
-                    const rate = scrolled * -0.1 * (index + 1);
-                    orb.style.transform = `translateY(${rate}px)`;
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
-    }
-    
     initVideo() {
         const video = document.querySelector('.hero-video');
-        if (video) {
-            video.addEventListener('loadeddata', () => {
-                video.style.opacity = '0.95';
-            });
-            
-            // Ensure video plays
-            const playVideo = () => {
-                if (video.paused) {
-                    video.play().catch(() => {
-                        console.warn('Video autoplay prevented');
-                    });
-                }
-            };
-            
-            // Try to play on various events
-            ['loadeddata', 'canplay'].forEach(event => {
-                video.addEventListener(event, playVideo);
-            });
-            
-            // Page visibility API
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    video.pause();
-                } else {
-                    playVideo();
-                }
-            });
-        }
-    }
-
-    // ========================================
-    // ENHANCED SIGNATURE ANIMATION METHOD
-    // ========================================
-    initSignatureAnimation() {
-        const signatureText = document.querySelector('.signature-text-animated');
-        const signatureContainer = document.querySelector('.signature-container');
-        const writingIndicator = document.querySelector('.writing-indicator');
-        const underline = document.querySelector('.signature-underline-animated');
-        const sparkles = document.querySelectorAll('.sparkle');
+        if (!video) return;
         
-        if (!signatureText || !signatureContainer) return;
+        video.addEventListener('loadeddata', () => {
+            video.style.opacity = '0.6';
+        });
         
-        // Enhanced signature animation controller
-        const signatureController = {
-            isAnimating: false,
-            hasAnimated: false,
-            
-            // Start the signature animation sequence
-            startAnimation() {
-                if (this.isAnimating || this.hasAnimated) return;
-                
-                this.isAnimating = true;
-                this.hasAnimated = true;
-                
-                console.log('🖋️ Starting signature animation sequence...');
-                
-                // Reset all elements
-                this.resetElements();
-                
-                // Start the writing sequence after a delay
-                setTimeout(() => {
-                    this.animateSignature();
-                }, 1000);
-            },
-            
-            // Reset all animation elements to initial state
-            resetElements() {
-                const chars = signatureText.querySelectorAll('.signature-char, .signature-comma');
-                chars.forEach(char => {
-                    char.style.opacity = '0';
-                    char.style.transform = 'translateY(20px) rotate(-5deg)';
-                    char.style.animation = 'none';
+        const playVideo = () => {
+            if (video.paused) {
+                video.play().catch(() => {
+                    console.warn('Video autoplay prevented');
                 });
-                
-                if (underline) {
-                    underline.style.width = '0';
-                    underline.style.opacity = '0';
-                }
-                
-                if (writingIndicator) {
-                    writingIndicator.style.opacity = '0';
-                }
-                
-                sparkles.forEach(sparkle => {
-                    sparkle.style.opacity = '0';
-                });
-            },
-            
-            // Animate the signature with enhanced effects
-            animateSignature() {
-                const chars = signatureText.querySelectorAll('.signature-char, .signature-comma');
-                
-                // Show writing indicator first
-                if (writingIndicator) {
-                    setTimeout(() => {
-                        writingIndicator.style.animation = 'showPen 0.3s ease-out forwards, writingMotion 4s ease-in-out 0.2s forwards, hidePen 0.5s ease-out 2.7s forwards';
-                    }, 300);
-                }
-                
-                // Animate each character with staggered timing
-                chars.forEach((char, index) => {
-                    const delay = 500 + (index * 200); // 200ms between each character
-                    
-                    setTimeout(() => {
-                        char.style.animation = 'writeChar 0.6s ease-out forwards';
-                        
-                        // Add writing sound effect (optional)
-                        this.playWritingSound();
-                        
-                        // Add subtle shake to container for realism
-                        this.addWritingShake();
-                        
-                    }, delay);
-                });
-                
-                // Animate underline after all characters
-                const totalCharDelay = chars.length * 200 + 800;
-                setTimeout(() => {
-                    if (underline) {
-                        underline.style.animation = 'drawSignatureUnderline 1.5s ease-out forwards';
-                    }
-                    
-                    // Trigger sparkles
-                    this.triggerSparkles();
-                    
-                    // Animation complete
-                    setTimeout(() => {
-                        this.isAnimating = false;
-                        this.addHoverEffects();
-                        console.log('✨ Signature animation complete!');
-                    }, 1500);
-                    
-                }, totalCharDelay);
-            },
-            
-            // Add subtle container shake during writing
-            addWritingShake() {
-                if (!signatureContainer) return;
-                
-                signatureContainer.style.animation = 'none';
-                signatureContainer.offsetHeight; // Force reflow
-                signatureContainer.style.animation = 'writeShake 0.3s ease-out';
-            },
-            
-            // Trigger sparkle effects
-            triggerSparkles() {
-                sparkles.forEach((sparkle, index) => {
-                    setTimeout(() => {
-                        sparkle.style.animation = 'sparkleFloat 2s ease-out forwards';
-                    }, index * 500);
-                });
-            },
-            
-            // Add hover effects after animation
-            addHoverEffects() {
-                if (!signatureContainer) return;
-                
-                signatureContainer.addEventListener('mouseenter', () => {
-                    if (!this.isAnimating) {
-                        this.triggerHoverAnimation();
-                    }
-                });
-                
-                // Add click to replay animation
-                signatureContainer.addEventListener('click', () => {
-                    if (!this.isAnimating) {
-                        this.replayAnimation();
-                    }
-                });
-            },
-            
-            // Trigger hover animation
-            triggerHoverAnimation() {
-                const chars = signatureText.querySelectorAll('.signature-char, .signature-comma');
-                chars.forEach((char, index) => {
-                    setTimeout(() => {
-                        char.style.animation = 'signatureHover 0.6s ease-in-out';
-                    }, index * 50);
-                });
-            },
-            
-            // Replay the entire animation
-            replayAnimation() {
-                console.log('🔄 Replaying signature animation...');
-                this.hasAnimated = false;
-                this.startAnimation();
-            },
-            
-            // Optional: Play writing sound effect
-            playWritingSound() {
-                // You can add audio here if desired
-                // const audio = new Audio('path/to/writing-sound.mp3');
-                // audio.volume = 0.1;
-                // audio.play().catch(() => {}); // Ignore autoplay restrictions
             }
         };
         
-        // Add writing shake animation to CSS dynamically
-        if (!document.querySelector('#signature-shake-style')) {
-            const style = document.createElement('style');
-            style.id = 'signature-shake-style';
-            style.textContent = `
-                @keyframes writeShake {
-                    0%, 100% { transform: translateX(0); }
-                    25% { transform: translateX(-1px); }
-                    75% { transform: translateX(1px); }
-                }
-            `;
-            document.head.appendChild(style);
-        }
+        ['loadeddata', 'canplay'].forEach(event => {
+            video.addEventListener(event, playVideo);
+        });
         
-        // Start animation when page loads
-        setTimeout(() => {
-            signatureController.startAnimation();
-        }, 2000); // Start after preloader
-        
-        // Intersection Observer for scroll-triggered animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-                    setTimeout(() => {
-                        signatureController.startAnimation();
-                    }, 500);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        if (signatureContainer) {
-            observer.observe(signatureContainer);
-        }
-        
-        // Store controller for external access
-        this.signatureController = signatureController;
-        
-        console.log('🎭 Enhanced signature animation initialized');
-    }
-
-    // Method to force restart animation (useful for testing)
-    restartSignatureAnimation() {
-        if (this.signatureController) {
-            this.signatureController.replayAnimation();
-        }
-    }
-
-    initTypographyAnimations() {
-        // Animate headline elements on load with improved timing
-        const badge = document.querySelector('.hero-badge-premium');
-        const headlinePrimary = document.querySelector('.headline-primary');
-        const headlineSecondary = document.querySelector('.headline-secondary');
-        const subheadline = document.querySelector('.hero-subheadline-elegant');
-
-        // Enhanced stagger animation for typography
-        const elements = [badge, headlinePrimary, headlineSecondary, subheadline];
-        
-        elements.forEach((element, index) => {
-            if (element) {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(30px)';
-                
-                setTimeout(() => {
-                    EviaUtils.animate(element, [
-                        { opacity: 0, transform: 'translateY(30px)' },
-                        { opacity: 1, transform: 'translateY(0)' }
-                    ], { 
-                        duration: 800 + (index * 100), 
-                        delay: index * 200,
-                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-                    });
-                }, 500); // Start after preloader
+        // Pause/resume based on page visibility
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                video.pause();
+            } else {
+                playVideo();
             }
         });
-
-        // Animate CTA button
-        if (this.primaryCTA) {
-            this.primaryCTA.style.opacity = '0';
-            this.primaryCTA.style.transform = 'translateY(30px) scale(0.95)';
+    }
+    
+    prepareSignatureAnimation() {
+        if (!this.signatureContainer) return;
+        
+        const chars = this.signatureContainer.querySelectorAll('.signature-char, .signature-comma');
+        const underline = this.signatureContainer.querySelector('.signature-underline-animated');
+        const writingIndicator = this.signatureContainer.querySelector('.writing-indicator');
+        const sparkles = this.signatureContainer.querySelectorAll('.sparkle');
+        
+        // Reset all elements
+        chars.forEach(char => {
+            char.style.opacity = '0';
+            char.style.transform = 'translateY(20px) rotate(-5deg)';
+        });
+        
+        if (underline) {
+            underline.style.width = '0';
+            underline.style.opacity = '0';
+        }
+        
+        if (writingIndicator) {
+            writingIndicator.style.opacity = '0';
+        }
+        
+        sparkles.forEach(sparkle => {
+            sparkle.style.opacity = '0';
+        });
+    }
+    
+    startSignatureAnimation() {
+        if (this.hasAnimatedSignature || !this.signatureContainer) return;
+        
+        this.hasAnimatedSignature = true;
+        
+        const chars = this.signatureContainer.querySelectorAll('.signature-char, .signature-comma');
+        const underline = this.signatureContainer.querySelector('.signature-underline-animated');
+        const writingIndicator = this.signatureContainer.querySelector('.writing-indicator');
+        const sparkles = this.signatureContainer.querySelectorAll('.sparkle');
+        
+        // Show writing indicator
+        if (writingIndicator) {
+            setTimeout(() => {
+                writingIndicator.style.opacity = '1';
+                writingIndicator.style.transform = 'scale(1)';
+                writingIndicator.style.transition = 'all 0.3s ease-out';
+            }, 300);
+        }
+        
+        // Animate each character
+        chars.forEach((char, index) => {
+            const delay = 500 + (index * 200);
             
             setTimeout(() => {
-                EviaUtils.animate(this.primaryCTA, [
-                    { opacity: 0, transform: 'translateY(30px) scale(0.95)' },
-                    { opacity: 1, transform: 'translateY(0) scale(1)' }
-                ], { duration: 800 });
-            }, 1200);
-        }
+                char.style.transition = 'all 0.6s ease-out';
+                char.style.opacity = '1';
+                char.style.transform = 'translateY(0) rotate(0deg)';
+                
+                // Add subtle shake effect
+                this.addWritingShake();
+            }, delay);
+        });
+        
+        // Animate underline
+        const totalDelay = chars.length * 200 + 800;
+        setTimeout(() => {
+            if (underline) {
+                underline.style.transition = 'all 1.5s ease-out';
+                underline.style.width = '100%';
+                underline.style.opacity = '1';
+            }
+            
+            // Hide writing indicator
+            if (writingIndicator) {
+                writingIndicator.style.opacity = '0';
+                writingIndicator.style.transform = 'scale(0.8)';
+            }
+            
+            // Trigger sparkles
+            sparkles.forEach((sparkle, index) => {
+                setTimeout(() => {
+                    sparkle.style.transition = 'all 2s ease-out';
+                    sparkle.style.opacity = '1';
+                    sparkle.style.transform = 'scale(1) rotate(360deg)';
+                    
+                    setTimeout(() => {
+                        sparkle.style.opacity = '0';
+                    }, 1500);
+                }, index * 500);
+            });
+        }, totalDelay);
+        
+        // Add hover effects after animation
+        setTimeout(() => {
+            this.addSignatureHoverEffects();
+        }, totalDelay + 2000);
     }
-
-    // Add responsive behavior
+    
+    addWritingShake() {
+        if (!this.signatureContainer) return;
+        
+        this.signatureContainer.style.animation = 'writeShake 0.3s ease-out';
+        setTimeout(() => {
+            this.signatureContainer.style.animation = '';
+        }, 300);
+    }
+    
+    addSignatureHoverEffects() {
+        if (!this.signatureContainer || EviaUtils.isMobile()) return;
+        
+        this.signatureContainer.addEventListener('mouseenter', () => {
+            const chars = this.signatureContainer.querySelectorAll('.signature-char, .signature-comma');
+            chars.forEach((char, index) => {
+                setTimeout(() => {
+                    char.style.animation = 'signatureHover 0.6s ease-in-out';
+                }, index * 50);
+            });
+        });
+        
+        this.signatureContainer.addEventListener('click', () => {
+            this.replaySignatureAnimation();
+        });
+    }
+    
+    replaySignatureAnimation() {
+        this.hasAnimatedSignature = false;
+        this.prepareSignatureAnimation();
+        setTimeout(() => {
+            this.startSignatureAnimation();
+        }, 100);
+    }
+    
     onResize() {
-        // Adjust animations for mobile
-        if (window.innerWidth <= 768) {
-            // Reduce parallax effects on mobile
-            this.statPills.forEach(pill => {
+        // Adjust for mobile
+        if (EviaUtils.isMobile()) {
+            const statPills = document.querySelectorAll('.stat-pill');
+            statPills.forEach(pill => {
                 pill.style.transform = 'translateY(0)';
             });
         }
     }
 }
 
-// ========================================
-// ENHANCED SERVICES CAROUSEL CLASS
-// ========================================
+/* ========================================
+   SERVICES CAROUSEL COMPONENT
+   ======================================== */
 
 class LuxuryServicesCarousel {
     constructor() {
@@ -1419,13 +1230,10 @@ class LuxuryServicesCarousel {
         this.prevBtn = document.getElementById('prevBtn');
         this.nextBtn = document.getElementById('nextBtn');
         this.dotsContainer = document.getElementById('carouselDots');
-        this.navigation = document.querySelector('.carousel-navigation');
         this.scrollHint = document.getElementById('scrollHint');
         
         this.currentIndex = 0;
         this.totalSlides = 0;
-        this.cardWidth = 0;
-        this.gap = 32; // Default gap in pixels
         this.isAutoPlaying = false;
         this.hasAutoPlayed = false;
         this.autoPlayInterval = null;
@@ -1433,14 +1241,8 @@ class LuxuryServicesCarousel {
         this.startPos = 0;
         this.currentTranslate = 0;
         this.prevTranslate = 0;
-        this.animationId = 0;
-        
-        // Responsive breakpoints
-        this.breakpoints = {
-            mobile: 480,
-            tablet: 768,
-            desktop: 1024
-        };
+        this.cardWidth = 0;
+        this.gap = 32;
         
         if (this.carousel && this.track) {
             this.init();
@@ -1451,13 +1253,15 @@ class LuxuryServicesCarousel {
         this.calculateDimensions();
         this.createDots();
         this.bindEvents();
-        this.updateCardGap();
-        this.startAutoPlay();
-        
-        // Initialize with first slide
+        this.initializeCards();
         this.updateCarousel(false);
         
-        console.log('🎠 Luxury Services Carousel Initialized');
+        // Start autoplay on desktop
+        if (!EviaUtils.isMobile()) {
+            this.startAutoPlay();
+        }
+        
+        console.log('🎠 Services Carousel initialized');
     }
     
     calculateDimensions() {
@@ -1468,12 +1272,11 @@ class LuxuryServicesCarousel {
             const cardRect = cards[0].getBoundingClientRect();
             this.cardWidth = cardRect.width;
             
-            // Calculate gap from CSS
+            // Get gap from CSS
             const trackStyles = window.getComputedStyle(this.track);
             this.gap = parseInt(trackStyles.gap) || 32;
         }
         
-        // Update navigation visibility
         this.updateNavigationVisibility();
     }
     
@@ -1494,22 +1297,6 @@ class LuxuryServicesCarousel {
         }
     }
     
-    updateCardGap() {
-        // Dynamic gap adjustment based on screen size
-        const screenWidth = window.innerWidth;
-        
-        if (screenWidth <= this.breakpoints.mobile) {
-            this.gap = 16;
-            this.track.style.gap = '1rem';
-        } else if (screenWidth <= this.breakpoints.tablet) {
-            this.gap = 24;
-            this.track.style.gap = '1.5rem';
-        } else {
-            this.gap = 32;
-            this.track.style.gap = '2rem';
-        }
-    }
-    
     bindEvents() {
         // Navigation buttons
         if (this.prevBtn) {
@@ -1520,22 +1307,19 @@ class LuxuryServicesCarousel {
             this.nextBtn.addEventListener('click', () => this.nextSlide());
         }
         
-        // Touch and mouse events for dragging
+        // Touch and drag events
         this.bindDragEvents();
+        
+        // Service CTAs
+        this.bindServiceCTAs();
         
         // Window resize
         window.addEventListener('resize', EviaUtils.debounce(() => {
             this.onResize();
         }, 250));
         
-        // Intersection Observer for scroll hint
+        // Intersection observer for scroll hint
         this.observeScrollHint();
-        
-        // Service CTA buttons
-        this.bindServiceCTAs();
-        
-        // Keyboard navigation
-        this.bindKeyboardEvents();
     }
     
     bindDragEvents() {
@@ -1545,73 +1329,53 @@ class LuxuryServicesCarousel {
         this.track.addEventListener('mouseup', (e) => this.dragEnd(e));
         this.track.addEventListener('mouseleave', (e) => this.dragEnd(e));
         
-        // Touch events
+        // Touch events - Enhanced for mobile
         this.track.addEventListener('touchstart', (e) => this.dragStart(e), { passive: false });
         this.track.addEventListener('touchmove', (e) => this.dragMove(e), { passive: false });
         this.track.addEventListener('touchend', (e) => this.dragEnd(e));
         
-        // Prevent context menu on long press
+        // Prevent context menu
         this.track.addEventListener('contextmenu', (e) => {
             if (this.isDragging) e.preventDefault();
         });
+        
+        // Enhanced mobile scroll handling
+        if (EviaUtils.isMobile()) {
+            this.track.addEventListener('scroll', EviaUtils.throttle(() => {
+                this.handleMobileScroll();
+            }, 100), { passive: true });
+        }
     }
     
-    bindServiceCTAs() {
-        const serviceCTAs = this.track.querySelectorAll('.service-cta');
-        serviceCTAs.forEach(cta => {
-            cta.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleServiceBooking();
-            });
-        });
-    }
-    
-    bindKeyboardEvents() {
-        document.addEventListener('keydown', (e) => {
-            if (!this.isCarouselInView()) return;
-            
-            switch (e.key) {
-                case 'ArrowLeft':
-                    e.preventDefault();
-                    this.previousSlide();
-                    break;
-                case 'ArrowRight':
-                    e.preventDefault();
-                    this.nextSlide();
-                    break;
-                case 'Home':
-                    e.preventDefault();
-                    this.goToSlide(0);
-                    break;
-                case 'End':
-                    e.preventDefault();
-                    this.goToSlide(this.totalSlides - 1);
-                    break;
-            }
-        });
-    }
-    
-    isCarouselInView() {
-        const rect = this.carousel.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        return rect.top < windowHeight && rect.bottom > 0;
+    handleMobileScroll() {
+        if (!EviaUtils.isMobile()) return;
+        
+        const scrollLeft = this.track.scrollLeft;
+        const cardWidth = this.cardWidth + this.gap;
+        const newIndex = Math.round(scrollLeft / cardWidth);
+        
+        if (newIndex !== this.currentIndex && newIndex >= 0 && newIndex < this.totalSlides) {
+            this.currentIndex = newIndex;
+            this.updateDots();
+            this.updateCounter();
+        }
     }
     
     dragStart(e) {
-        if (this.isAutoPlaying) return;
+        if (this.isAutoPlaying || EviaUtils.isMobile()) return;
         
         this.isDragging = true;
         this.track.classList.add('dragging');
-        
         this.startPos = this.getPositionX(e);
-        this.animationId = requestAnimationFrame(() => this.animation());
-        
-        // Stop any ongoing transitions
         this.track.style.transition = 'none';
+        
+        if (e.type === 'mousedown') {
+            e.preventDefault();
+        }
     }
     
     dragMove(e) {
-        if (!this.isDragging) return;
+        if (!this.isDragging || EviaUtils.isMobile()) return;
         
         e.preventDefault();
         const currentPosition = this.getPositionX(e);
@@ -1626,19 +1390,19 @@ class LuxuryServicesCarousel {
         } else if (this.currentTranslate < minTranslate) {
             this.currentTranslate = minTranslate + (this.currentTranslate - minTranslate) * 0.3;
         }
+        
+        this.track.style.transform = `translateX(${this.currentTranslate}px)`;
     }
     
     dragEnd(e) {
-        if (!this.isDragging) return;
+        if (!this.isDragging || EviaUtils.isMobile()) return;
         
         this.isDragging = false;
         this.track.classList.remove('dragging');
-        cancelAnimationFrame(this.animationId);
         
         const movedBy = this.currentTranslate - this.prevTranslate;
-        const threshold = this.cardWidth * 0.2; // 20% of card width
+        const threshold = this.cardWidth * 0.2;
         
-        // Determine if we should snap to next/previous slide
         if (Math.abs(movedBy) > threshold) {
             if (movedBy < 0 && this.currentIndex < this.totalSlides - this.getVisibleCards()) {
                 this.nextSlide();
@@ -1651,7 +1415,6 @@ class LuxuryServicesCarousel {
             this.updateCarousel();
         }
         
-        // Re-enable transitions
         this.track.style.transition = '';
     }
     
@@ -1659,22 +1422,15 @@ class LuxuryServicesCarousel {
         return e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
     }
     
-    animation() {
-        if (this.isDragging) {
-            this.track.style.transform = `translateX(${this.currentTranslate}px)`;
-            requestAnimationFrame(() => this.animation());
-        }
-    }
-    
     getVisibleCards() {
         const screenWidth = window.innerWidth;
         
-        if (screenWidth <= this.breakpoints.mobile) {
+        if (screenWidth <= EviaConfig.breakpoints.mobile) {
             return 1;
-        } else if (screenWidth <= this.breakpoints.tablet) {
+        } else if (screenWidth <= EviaConfig.breakpoints.tablet) {
+            return 1.5;
+        } else if (screenWidth <= EviaConfig.breakpoints.desktop) {
             return 2;
-        } else if (screenWidth <= this.breakpoints.desktop) {
-            return 2.5;
         } else {
             return 3;
         }
@@ -1684,25 +1440,22 @@ class LuxuryServicesCarousel {
         if (this.hasAutoPlayed || this.totalSlides <= this.getVisibleCards()) return;
         
         this.isAutoPlaying = true;
-        this.track.classList.add('auto-playing');
         this.hideScrollHint();
         
-        const autoPlaySpeed = 3500; // 3.5 seconds per slide
         let slideCount = 0;
-        const maxSlides = this.totalSlides - this.getVisibleCards() + 1;
+        const maxSlides = this.totalSlides - this.getVisibleCards();
         
         this.autoPlayInterval = setInterval(() => {
-            if (slideCount >= maxSlides - 1) {
-                // Auto play completed
+            if (slideCount >= maxSlides) {
                 this.stopAutoPlay();
                 return;
             }
             
             this.nextSlide();
             slideCount++;
-        }, autoPlaySpeed);
+        }, EviaConfig.carousel.autoPlayDuration);
         
-        console.log('🎬 Auto-play started');
+        console.log('🎬 Carousel auto-play started');
     }
     
     stopAutoPlay() {
@@ -1713,14 +1466,12 @@ class LuxuryServicesCarousel {
         
         this.isAutoPlaying = false;
         this.hasAutoPlayed = true;
-        this.track.classList.remove('auto-playing');
         
-        // Show navigation after auto-play
         setTimeout(() => {
             this.showNavigation();
         }, 500);
         
-        console.log('⏹️ Auto-play completed');
+        console.log('⏹️ Carousel auto-play completed');
     }
     
     nextSlide() {
@@ -1743,7 +1494,6 @@ class LuxuryServicesCarousel {
         this.currentIndex = Math.max(0, Math.min(index, maxIndex));
         this.updateCarousel();
         
-        // Stop auto-play if user manually navigates
         if (this.isAutoPlaying) {
             this.stopAutoPlay();
         }
@@ -1754,19 +1504,29 @@ class LuxuryServicesCarousel {
             this.track.style.transition = 'none';
         }
         
-        const translateX = -this.currentIndex * (this.cardWidth + this.gap);
-        this.track.style.transform = `translateX(${translateX}px)`;
-        this.prevTranslate = translateX;
-        this.currentTranslate = translateX;
+        if (EviaUtils.isMobile()) {
+            // Use scroll for mobile
+            const scrollLeft = this.currentIndex * (this.cardWidth + this.gap);
+            this.track.scrollTo({
+                left: scrollLeft,
+                behavior: animate ? 'smooth' : 'auto'
+            });
+        } else {
+            // Use transform for desktop
+            const translateX = -this.currentIndex * (this.cardWidth + this.gap);
+            this.track.style.transform = `translateX(${translateX}px)`;
+            this.prevTranslate = translateX;
+            this.currentTranslate = translateX;
+        }
         
         if (!animate) {
-            // Force reflow and re-enable transitions
-            this.track.offsetHeight;
+            this.track.offsetHeight; // Force reflow
             this.track.style.transition = '';
         }
         
         this.updateDots();
         this.updateButtons();
+        this.updateCounter();
     }
     
     updateDots() {
@@ -1789,23 +1549,165 @@ class LuxuryServicesCarousel {
         }
     }
     
+    updateCounter() {
+        const currentSlide = document.getElementById('currentSlide');
+        const totalSlides = document.getElementById('totalSlides');
+        
+        if (currentSlide) {
+            currentSlide.textContent = String(this.currentIndex + 1).padStart(2, '0');
+        }
+        
+        if (totalSlides) {
+            totalSlides.textContent = String(this.totalSlides).padStart(2, '0');
+        }
+    }
+    
+    initializeCards() {
+        const cards = this.track.querySelectorAll('.service-card');
+        
+        cards.forEach((card, index) => {
+            // Add scroll snap for mobile
+            if (EviaUtils.isMobile()) {
+                card.style.scrollSnapAlign = 'start';
+            }
+            
+            // Bind hover effects
+            this.bindCardHoverEffects(card);
+            
+            // Intersection observer for animations
+            this.observeCard(card, index);
+        });
+    }
+    
+    bindCardHoverEffects(card) {
+        if (EviaUtils.isMobile()) return;
+        
+        const icon = card.querySelector('.service-icon-wrapper i');
+        
+        card.addEventListener('mouseenter', () => {
+            if (icon) {
+                icon.style.animation = 'icon-hover-pulse 0.6s ease-out';
+            }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            if (icon) {
+                icon.style.animation = '';
+            }
+        });
+    }
+    
+    observeCard(card, index) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        card.classList.add('animate-in');
+                    }, index * 100);
+                    observer.unobserve(card);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+        
+        observer.observe(card);
+    }
+    
+    bindServiceCTAs() {
+        const serviceCTAs = this.track.querySelectorAll('.service-cta');
+        serviceCTAs.forEach(cta => {
+            cta.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.handleServiceBooking(cta);
+            });
+        });
+    }
+    
+    handleServiceBooking(cta) {
+        // Add click animation
+        const arrow = cta.querySelector('.cta-arrow');
+        if (arrow) {
+            arrow.style.transform = 'translateX(10px)';
+            setTimeout(() => {
+                arrow.style.transform = '';
+            }, 300);
+        }
+        
+        // Navigate to contact
+        setTimeout(() => {
+            app.smoothScrollTo('#contact');
+        }, 200);
+        
+        // Show feedback
+        this.showBookingFeedback();
+    }
+    
+    showBookingFeedback() {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 158, 24, 0.95);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        `;
+        feedback.textContent = 'Redirecting to consultation...';
+        
+        document.body.appendChild(feedback);
+        
+        EviaUtils.animate(feedback, [
+            { opacity: 0, transform: 'translate(-50%, -50%) scale(0.8)' },
+            { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }
+        ], { duration: 300 });
+        
+        setTimeout(() => {
+            EviaUtils.animate(feedback, [
+                { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
+                { opacity: 0, transform: 'translate(-50%, -50%) scale(0.8)' }
+            ], { duration: 300 }).then(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            });
+        }, 1500);
+    }
+    
     showNavigation() {
-        if (this.navigation) {
-            this.navigation.classList.add('visible');
+        const navigation = document.querySelector('.carousel-navigation');
+        if (navigation) {
+            navigation.classList.add('visible');
         }
     }
     
     hideNavigation() {
-        if (this.navigation) {
-            this.navigation.classList.remove('visible');
+        const navigation = document.querySelector('.carousel-navigation');
+        if (navigation) {
+            navigation.classList.remove('visible');
         }
     }
     
     updateNavigationVisibility() {
-        const shouldShowNavigation = this.totalSlides > this.getVisibleCards();
+        const shouldShow = this.totalSlides > this.getVisibleCards();
         
-        if (this.navigation) {
-            this.navigation.style.display = shouldShowNavigation ? 'flex' : 'none';
+        if (this.prevBtn) this.prevBtn.style.display = shouldShow ? 'flex' : 'none';
+        if (this.nextBtn) this.nextBtn.style.display = shouldShow ? 'flex' : 'none';
+        
+        const navigation = document.querySelector('.carousel-navigation');
+        if (navigation) {
+            navigation.style.display = shouldShow ? 'flex' : 'none';
         }
     }
     
@@ -1816,7 +1718,7 @@ class LuxuryServicesCarousel {
     }
     
     showScrollHint() {
-        if (this.scrollHint && !this.hasAutoPlayed) {
+        if (this.scrollHint && !this.hasAutoPlayed && EviaUtils.isMobile()) {
             this.scrollHint.classList.remove('hidden');
         }
     }
@@ -1826,7 +1728,7 @@ class LuxuryServicesCarousel {
         
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && !this.isAutoPlaying && !this.hasAutoPlayed) {
+                if (entry.isIntersecting && EviaUtils.isMobile()) {
                     this.showScrollHint();
                 } else {
                     this.hideScrollHint();
@@ -1840,63 +1742,11 @@ class LuxuryServicesCarousel {
         observer.observe(this.carousel);
     }
     
-    handleServiceBooking() {
-        // Smooth scroll to contact section
-        if (window.app && window.app.smoothScrollTo) {
-            window.app.smoothScrollTo('#contact');
-        } else {
-            // Fallback smooth scroll
-            const contactSection = document.getElementById('contact');
-            if (contactSection) {
-                contactSection.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-        
-        // Add subtle click animation
-        this.addClickFeedback();
-    }
-    
-    addClickFeedback() {
-        // Create a brief visual feedback
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 158, 24, 0.9);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 2rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            z-index: 10000;
-            pointer-events: none;
-            opacity: 0;
-            animation: fadeInOut 1.5s ease-out forwards;
-        `;
-        feedback.textContent = 'Redirecting to booking...';
-        
-        document.body.appendChild(feedback);
-        
-        // Remove after animation
-        setTimeout(() => {
-            if (feedback.parentNode) {
-                feedback.parentNode.removeChild(feedback);
-            }
-        }, 1500);
-    }
-    
     onResize() {
-        // Debounced resize handler
         this.calculateDimensions();
-        this.updateCardGap();
         this.updateNavigationVisibility();
         
-        // Ensure current position is still valid
+        // Ensure current position is valid
         const maxIndex = this.totalSlides - this.getVisibleCards();
         if (this.currentIndex > maxIndex) {
             this.currentIndex = Math.max(0, maxIndex);
@@ -1904,160 +1754,39 @@ class LuxuryServicesCarousel {
         
         this.updateCarousel(false);
         
-        console.log('🔄 Carousel resized and recalculated');
+        // Handle mobile/desktop transition
+        if (EviaUtils.isMobile()) {
+            if (this.isAutoPlaying) {
+                this.stopAutoPlay();
+            }
+            
+            // Enable scroll snap
+            this.track.style.scrollSnapType = 'x mandatory';
+            this.track.style.overflowX = 'auto';
+        } else {
+            this.track.style.scrollSnapType = 'none';
+            this.track.style.overflowX = 'hidden';
+            
+            if (!this.hasAutoPlayed && !this.isAutoPlaying) {
+                this.startAutoPlay();
+            }
+        }
+        
+        console.log('🔄 Carousel resized and reconfigured');
     }
     
     destroy() {
-        // Clean up event listeners and intervals
         if (this.autoPlayInterval) {
             clearInterval(this.autoPlayInterval);
-        }
-        
-        if (this.animationId) {
-            cancelAnimationFrame(this.animationId);
         }
         
         console.log('🗑️ Carousel destroyed');
     }
 }
 
-// ========================================
-// ENHANCED SERVICE CARD ANIMATIONS
-// ========================================
-
-class ServiceCardAnimations {
-    constructor() {
-        this.cards = document.querySelectorAll('.service-card');
-        this.init();
-    }
-    
-    init() {
-        this.bindHoverEffects();
-        this.initScrollAnimations();
-    }
-    
-    bindHoverEffects() {
-        this.cards.forEach(card => {
-            const icon = card.querySelector('.service-icon');
-            const cta = card.querySelector('.service-cta');
-            
-            card.addEventListener('mouseenter', () => {
-                this.animateCardEnter(card, icon);
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                this.animateCardLeave(card, icon);
-            });
-            
-            if (cta) {
-                cta.addEventListener('click', (e) => {
-                    this.animateCTAClick(e, cta);
-                });
-            }
-        });
-    }
-    
-    animateCardEnter(card, icon) {
-        // Enhanced hover animation with stagger
-        const elements = {
-            image: card.querySelector('.card-image img'),
-            overlay: card.querySelector('.image-overlay'),
-            title: card.querySelector('.service-title'),
-            price: card.querySelector('.price-amount')
-        };
-        
-        // Icon animation
-        if (icon) {
-            icon.style.animation = 'none';
-            icon.offsetHeight; // Force reflow
-            icon.style.animation = 'icon-hover-pulse 0.6s ease-out';
-        }
-        
-        // Staggered content animation
-        Object.values(elements).forEach((el, index) => {
-            if (el) {
-                setTimeout(() => {
-                    el.style.transform = 'scale(1.02)';
-                    el.style.transition = 'transform 0.3s ease-out';
-                }, index * 50);
-            }
-        });
-    }
-    
-    animateCardLeave(card, icon) {
-        // Reset animations
-        const elements = card.querySelectorAll('.card-image img, .image-overlay, .service-title, .price-amount');
-        
-        elements.forEach(el => {
-            el.style.transform = '';
-            el.style.transition = '';
-        });
-        
-        if (icon) {
-            icon.style.animation = '';
-        }
-    }
-    
-    animateCTAClick(event, cta) {
-        // Create ripple effect
-        const rect = cta.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        
-        const ripple = document.createElement('div');
-        ripple.style.cssText = `
-            position: absolute;
-            left: ${x}px;
-            top: ${y}px;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 1;
-            pointer-events: none;
-            z-index: 10;
-            animation: cta-ripple 0.8s ease-out forwards;
-        `;
-        
-        cta.appendChild(ripple);
-        
-        // Remove ripple after animation
-        setTimeout(() => {
-            if (ripple.parentNode) {
-                ripple.parentNode.removeChild(ripple);
-            }
-        }, 800);
-    }
-    
-    initScrollAnimations() {
-        if (!window.IntersectionObserver) return;
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -10% 0px'
-        });
-        
-        this.cards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
-            
-            observer.observe(card);
-        });
-    }
-}
-
-// ========================================
-// BEFORE/AFTER SLIDER CLASS
-// ========================================
+/* ========================================
+   BEFORE/AFTER SLIDER COMPONENT
+   ======================================== */
 
 class BeforeAfterSlider {
     constructor() {
@@ -2076,7 +1805,7 @@ class BeforeAfterSlider {
         const handle = slider.querySelector('.slider-handle');
         const afterImage = slider.querySelector('.after-image');
         let isDragging = false;
-        let currentX = 50; // Start at middle
+        let currentX = 50;
         
         if (!handle || !afterImage) return;
         
@@ -2135,27 +1864,27 @@ class BeforeAfterSlider {
         });
         
         // Auto-demo animation
+        this.startAutoDemo(slider, handle, afterImage, currentX);
+    }
+    
+    startAutoDemo(slider, handle, afterImage, currentX) {
         let autoSlideInterval;
-        const startAutoSlide = () => {
-            autoSlideInterval = setInterval(() => {
-                if (!isDragging) {
-                    const targetX = currentX === 50 ? (Math.random() > 0.5 ? 20 : 80) : 50;
-                    this.animateSliderTo(slider, currentX, targetX, (progress) => {
-                        currentX = progress;
-                        handle.style.left = `${progress}%`;
-                        afterImage.style.clipPath = `inset(0 ${100 - progress}% 0 0)`;
-                    });
-                }
-            }, 5000);
-        };
         
-        // Start auto-slide when visible
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    startAutoSlide();
+                    autoSlideInterval = setInterval(() => {
+                        const targetX = currentX === 50 ? (Math.random() > 0.5 ? 20 : 80) : 50;
+                        this.animateSliderTo(targetX, (progress) => {
+                            currentX = progress;
+                            handle.style.left = `${progress}%`;
+                            afterImage.style.clipPath = `inset(0 ${100 - progress}% 0 0)`;
+                        });
+                    }, 4000);
                 } else {
-                    clearInterval(autoSlideInterval);
+                    if (autoSlideInterval) {
+                        clearInterval(autoSlideInterval);
+                    }
                 }
             });
         }, { threshold: 0.5 });
@@ -2163,15 +1892,14 @@ class BeforeAfterSlider {
         observer.observe(slider);
     }
     
-    animateSliderTo(slider, fromX, toX, updateCallback) {
-        const duration = 2000;
+    animateSliderTo(toX, updateCallback) {
+        const duration = 1500;
         const startTime = Date.now();
+        let fromX = 50;
         
         const animate = () => {
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            
-            // Smooth easing function
             const easedProgress = this.easeInOutCubic(progress);
             const currentValue = fromX + (toX - fromX) * easedProgress;
             
@@ -2190,9 +1918,9 @@ class BeforeAfterSlider {
     }
 }
 
-// ========================================
-// CONTACT FORM CLASS
-// ========================================
+/* ========================================
+   CONTACT FORM COMPONENT
+   ======================================== */
 
 class ContactForm {
     constructor() {
@@ -2211,7 +1939,6 @@ class ContactForm {
     bindEvents() {
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
         
-        // Form field animations
         const formFields = this.form.querySelectorAll('input, select, textarea');
         formFields.forEach(field => {
             field.addEventListener('focus', () => this.onFieldFocus(field));
@@ -2236,18 +1963,30 @@ class ContactForm {
     }
     
     initFormAnimations() {
-        // Add subtle entrance animations to form fields
         const formGroups = this.form.querySelectorAll('.form-group');
-        formGroups.forEach((group, index) => {
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const groups = entry.target.querySelectorAll('.form-group');
+                    groups.forEach((group, index) => {
+                        setTimeout(() => {
+                            group.style.opacity = '1';
+                            group.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        formGroups.forEach(group => {
             group.style.opacity = '0';
             group.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                group.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                group.style.opacity = '1';
-                group.style.transform = 'translateY(0)';
-            }, index * 100);
+            group.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         });
+        
+        observer.observe(this.form);
     }
     
     validateField(field) {
@@ -2298,7 +2037,6 @@ class ContactForm {
         
         field.parentNode.appendChild(errorDiv);
         
-        // Animate in
         setTimeout(() => {
             errorDiv.style.opacity = '1';
             errorDiv.style.transform = 'translateY(0)';
@@ -2319,7 +2057,6 @@ class ContactForm {
     handleSubmit(e) {
         e.preventDefault();
         
-        // Validate all fields
         const formFields = this.form.querySelectorAll('input, select, textarea');
         let isValid = true;
         
@@ -2334,7 +2071,6 @@ class ContactForm {
             return;
         }
         
-        // Get form data
         const formData = new FormData(this.form);
         const data = Object.fromEntries(formData);
         
@@ -2345,19 +2081,18 @@ class ContactForm {
         const submitBtn = this.form.querySelector('button[type="submit"]');
         const originalHTML = submitBtn.innerHTML;
         
-        // Show loading state
+        // Loading state
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span>Sending...</span>';
         submitBtn.style.opacity = '0.7';
         
-        // Simulate API call
+        // Simulate submission
         setTimeout(() => {
             submitBtn.innerHTML = '<span>Message Sent!</span>';
             submitBtn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
             
             this.showNotification('Thank you! We\'ll be in touch within 24 hours.', 'success');
             
-            // Reset form
             setTimeout(() => {
                 this.form.reset();
                 submitBtn.disabled = false;
@@ -2398,13 +2133,11 @@ class ContactForm {
         
         document.body.appendChild(notification);
         
-        // Animate in
         requestAnimationFrame(() => {
             notification.style.transform = 'translateX(0)';
             notification.style.opacity = '1';
         });
         
-        // Auto remove
         setTimeout(() => {
             notification.style.transform = 'translateX(400px)';
             notification.style.opacity = '0';
@@ -2413,15 +2146,15 @@ class ContactForm {
     }
 }
 
-// ========================================
-// MAGNETIC EFFECTS CLASS
-// ========================================
+/* ========================================
+   MAGNETIC EFFECTS COMPONENT
+   ======================================== */
 
 class MagneticEffects {
     constructor() {
         this.magneticElements = [];
         this.strength = 0.3;
-        this.isEnabled = !window.matchMedia('(max-width: 768px)').matches;
+        this.isEnabled = !EviaUtils.isMobile();
         
         if (this.isEnabled) {
             this.init();
@@ -2429,19 +2162,16 @@ class MagneticEffects {
     }
     
     init() {
-        // Wait a bit for DOM to be fully ready
         setTimeout(() => {
             this.magneticElements = document.querySelectorAll('.magnetic-button, .magnetic-card');
             this.magneticElements.forEach(element => {
-                if (element) {
-                    this.addMagneticEffect(element);
-                }
+                this.addMagneticEffect(element);
             });
         }, 100);
     }
     
     addMagneticEffect(element) {
-        if (!element) return;
+        if (!element || EviaUtils.isMobile()) return;
         
         element.addEventListener('mouseenter', () => {
             element.style.transition = 'transform 0.1s ease-out';
@@ -2465,8 +2195,7 @@ class MagneticEffects {
     }
     
     onResize() {
-        // Disable magnetic effects on mobile
-        this.isEnabled = !window.matchMedia('(max-width: 768px)').matches;
+        this.isEnabled = !EviaUtils.isMobile();
         
         if (!this.isEnabled) {
             this.magneticElements.forEach(element => {
@@ -2481,196 +2210,56 @@ class MagneticEffects {
     }
 }
 
-// ========================================
-// SMOOTH SCROLLING ENHANCEMENT CLASS
-// ========================================
+/* ========================================
+   APPLICATION INITIALIZATION
+   ======================================== */
 
-class SmoothScrolling {
-    constructor() {
-        this.init();
-    }
-    
-    init() {
-        // Handle all anchor links
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a[href^="#"]');
-            if (link && link.getAttribute('href') !== '#') {
-                e.preventDefault();
-                const target = link.getAttribute('href');
-                if (window.app) {
-                    window.app.smoothScrollTo(target);
-                } else {
-                    EviaUtils.smoothScrollTo(target);
-                }
-            }
-        });
-        
-        // Handle service buttons
-        setTimeout(() => {
-            const serviceButtons = document.querySelectorAll('.service-btn, .service-cta');
-            serviceButtons.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (window.app) {
-                        window.app.smoothScrollTo('#contact');
-                    } else {
-                        EviaUtils.smoothScrollTo('#contact');
-                    }
-                });
-            });
-        }, 500);
-    }
-}
-
-// ========================================
-// PERFORMANCE OPTIMIZER CLASS
-// ========================================
-
-class PerformanceOptimizer {
-    constructor() {
-        this.init();
-    }
-    
-    init() {
-        this.optimizeImages();
-        this.handleReducedMotion();
-        this.optimizeAnimations();
-    }
-    
-    optimizeImages() {
-        // Lazy load images if not using data-src
-        const images = document.querySelectorAll('img:not([data-src])');
-        
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.style.opacity = '1';
-                        img.classList.add('loaded');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
-            
-            images.forEach(img => {
-                img.style.opacity = '0';
-                img.style.transition = 'opacity 0.6s ease-out';
-                imageObserver.observe(img);
-            });
-        }
-    }
-    
-    handleReducedMotion() {
-        // Respect user's motion preferences
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.body.classList.add('reduced-motion');
-            
-            // Disable complex animations
-            const orbs = document.querySelectorAll('.orb, .decoration-orb, .medspa-icon');
-            orbs.forEach(orb => {
-                orb.style.animation = 'none';
-                orb.style.opacity = '0.1';
-            });
-        }
-    }
-    
-    optimizeAnimations() {
-        // Use will-change for animated elements
-        const animatedElements = document.querySelectorAll('.orb, .floating-credential, .stat-pill, .medspa-icon, .preloader-logo');
-        animatedElements.forEach(element => {
-            if (element) {
-                element.style.willChange = 'transform';
-            }
-        });
-        
-        // Remove will-change after animations complete
-        setTimeout(() => {
-            animatedElements.forEach(element => {
-                if (element) {
-                    element.style.willChange = 'auto';
-                }
-            });
-        }, 5000);
-    }
-}
-
-// ========================================
-// INITIALIZE APPLICATION
-// ========================================
-
-// Create global app instance
+// Global app instance
 let app;
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeApp);
-} else {
-    initializeApp();
-}
-
-function initializeApp() {
-    try {
-        // Create global app instance
-        app = new EviaLuxuryApp();
-        window.app = app; // Make globally accessible
-        
-        // Initialize additional components
-        new SmoothScrolling();
-        new PerformanceOptimizer();
-        
-        console.log('🎭 Evia Luxury Application Successfully Initialized');
-        
-    } catch (error) {
-        console.error('❌ Failed to initialize Evia Luxury App:', error);
-        
-        // Fallback initialization
-        setTimeout(() => {
-            try {
-                app = new EviaLuxuryApp();
-                window.app = app;
-                console.log('✅ Fallback initialization successful');
-            } catch (fallbackError) {
-                console.error('❌ Fallback initialization also failed:', fallbackError);
-            }
-        }, 1000);
-    }
-}
-
-// ========================================
-// ADDITIONAL CSS KEYFRAMES (Dynamic Injection)
-// ========================================
-
-// Add CSS keyframes for services animations
+// CSS injection for dynamic animations
 document.addEventListener('DOMContentLoaded', () => {
     const additionalCSS = `
-        @keyframes icon-hover-pulse {
-            0% { transform: scale(1) rotateY(0deg); }
-            50% { transform: scale(1.1) rotateY(15deg); }
-            100% { transform: scale(1.15) rotateY(15deg); }
-        }
-
-        @keyframes cta-ripple {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(6);
-                opacity: 0;
-            }
-        }
-
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-            20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-        }
-
-        .service-card.animate-in {
+        .animate-in {
             opacity: 1 !important;
             transform: translateY(0) !important;
+        }
+        
+        .animations-paused * {
+            animation-play-state: paused !important;
+        }
+        
+        @keyframes writeShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-1px); }
+            75% { transform: translateX(1px); }
+        }
+        
+        @keyframes signatureHover {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .carousel-track.dragging {
+            cursor: grabbing;
+        }
+        
+        @media (max-width: ${EviaConfig.breakpoints.tablet}px) {
+            .carousel-track {
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+            
+            .carousel-track::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .service-card {
+                scroll-snap-align: start;
+                flex-shrink: 0;
+            }
         }
     `;
     
@@ -2679,238 +2268,58 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(style);
 });
 
-// ========================================
-// SIGNATURE ANIMATION FORCE START (Legacy Support)
-// ========================================
-
-// Force signature animation on page load (backup trigger)
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
-        const signatureText = document.querySelector('.signature-text-animated');
-        if (signatureText && window.app && window.app.components.cinematicHero) {
-            // Force animation start via hero component
-            window.app.components.cinematicHero.restartSignatureAnimation();
-        }
-    }, 3000); // Start after preloader
-});
-
-// Force scroll indicator centering
-document.addEventListener('DOMContentLoaded', function() {
-    const scrollIndicator = document.querySelector('.scroll-indicator-elegant');
-    if (scrollIndicator) {
-        // Force centering with JavaScript
-        scrollIndicator.style.position = 'absolute';
-        scrollIndicator.style.left = '50%';
-        scrollIndicator.style.transform = 'translateX(-50%)';
-        scrollIndicator.style.right = 'auto';
-        scrollIndicator.style.margin = '0 auto';
-        scrollIndicator.style.display = 'flex';
-        scrollIndicator.style.flexDirection = 'column';
-        scrollIndicator.style.alignItems = 'center';
-        scrollIndicator.style.justifyContent = 'center';
-    }
-});
-
-// ========================================
-// ENHANCED DEBUG AND TESTING TOOLS
-// ========================================
-
-// Debug helper in development
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    window.EviaDebug = {
-        app: () => window.app,
-        components: () => window.app ? window.app.components : {},
-        utils: () => EviaUtils,
-        restartSignature: () => {
-            if (window.app && window.app.components.cinematicHero) {
-                window.app.components.cinematicHero.restartSignatureAnimation();
-            }
-        },
-        restartCarousel: () => {
-            if (window.app && window.app.components.servicesCarousel) {
-                window.app.components.servicesCarousel.onResize();
-            }
-        },
-        version: '4.0.0 - Enhanced Services Carousel Edition'
-    };
-    
-    console.log('🔧 Evia Luxury Debug Mode Enabled');
-    console.log('✨ Use window.EviaDebug to access debug tools');
-    console.log('🖋️ Use EviaDebug.restartSignature() to replay signature animation');
-    console.log('🎠 Use EviaDebug.restartCarousel() to reset carousel');
-}
-
-// ========================================
-// UTILITY FUNCTIONS FOR EXTERNAL ACCESS
-// ========================================
-
-// Enhanced touch detection for better mobile experience
-const isTouchDevice = () => {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-};
-
-// Smooth scroll utility (standalone version)
-const smoothScrollTo = (target, offset = 100) => {
-    const element = typeof target === 'string' ? document.querySelector(target) : target;
-    if (!element) return;
-    
-    const targetPosition = element.offsetTop - offset;
-    window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-    });
-};
-
-// ========================================
-// GLOBAL EVENT LISTENERS & POLYFILLS
-// ========================================
-
-// Handle service navigation from any CTA
-document.addEventListener('click', (e) => {
-    const serviceBtn = e.target.closest('.service-btn, .service-cta');
-    if (serviceBtn) {
-        e.preventDefault();
+// Initialize application
+function initializeApp() {
+    try {
+        app = new EviaLuxuryApp();
+        window.app = app; // Global access
         
-        // Add click animation
-        serviceBtn.style.transform = 'scale(0.95)';
+        console.log('🎭 Evia Luxury Application initialized successfully');
+        
+        // Performance monitoring
+        if ('performance' in window && 'mark' in performance) {
+            performance.mark('evia-app-ready');
+            
+            window.addEventListener('load', () => {
+                performance.mark('evia-app-loaded');
+                performance.measure('evia-app-load-time', 'evia-app-ready', 'evia-app-loaded');
+                
+                const loadTime = performance.getEntriesByName('evia-app-load-time')[0];
+                console.log(`⚡ Evia App fully loaded in ${Math.round(loadTime.duration)}ms`);
+            });
+        }
+        
+    } catch (error) {
+        console.error('❌ Failed to initialize Evia App:', error);
+        
+        // Fallback initialization
         setTimeout(() => {
-            serviceBtn.style.transform = '';
-        }, 150);
-        
-        // Navigate to contact
-        if (window.app && window.app.smoothScrollTo) {
-            window.app.smoothScrollTo('#contact');
-        } else {
-            smoothScrollTo('#contact');
-        }
-    }
-});
-
-// Enhanced keyboard navigation
-document.addEventListener('keydown', (e) => {
-    // Global keyboard shortcuts
-    if (e.ctrlKey || e.metaKey) {
-        switch (e.key) {
-            case 'h':
-                e.preventDefault();
-                if (window.app) window.app.smoothScrollTo('#home', 0);
-                break;
-            case 's':
-                e.preventDefault();
-                if (window.app) window.app.smoothScrollTo('#services');
-                break;
-            case 'c':
-                e.preventDefault();
-                if (window.app) window.app.smoothScrollTo('#contact');
-                break;
-        }
-    }
-});
-
-// Performance monitoring
-if ('performance' in window && 'mark' in performance) {
-    performance.mark('evia-app-start');
-    
-    window.addEventListener('load', () => {
-        performance.mark('evia-app-loaded');
-        performance.measure('evia-app-load-time', 'evia-app-start', 'evia-app-loaded');
-        
-        const loadTime = performance.getEntriesByName('evia-app-load-time')[0];
-        console.log(`⚡ Evia App loaded in ${Math.round(loadTime.duration)}ms`);
-    });
-}
-
-// ========================================
-// BROWSER COMPATIBILITY & FALLBACKS
-// ========================================
-
-// IntersectionObserver polyfill fallback
-if (!window.IntersectionObserver) {
-    console.warn('IntersectionObserver not supported, loading polyfill behavior');
-    
-    // Simple fallback for scroll animations
-    window.addEventListener('scroll', EviaUtils.debounce(() => {
-        const elements = document.querySelectorAll('[data-aos], .service-card');
-        elements.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.8) {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-                el.classList.add('animate-in');
-            }
-        });
-    }, 100));
-}
-
-// RequestAnimationFrame polyfill
-if (!window.requestAnimationFrame) {
-    window.requestAnimationFrame = (callback) => {
-        return setTimeout(callback, 1000 / 60);
-    };
-    
-    window.cancelAnimationFrame = (id) => {
-        clearTimeout(id);
-    };
-}
-
-// ========================================
-// ERROR HANDLING & RECOVERY
-// ========================================
-
-// Global error handler
-window.addEventListener('error', (e) => {
-    console.error('Evia App Error:', e.error);
-    
-    // Attempt recovery for specific errors
-    if (e.error && e.error.message.includes('carousel')) {
-        console.log('🔄 Attempting carousel recovery...');
-        setTimeout(() => {
-            if (window.app && window.app.components.servicesCarousel) {
-                window.app.components.servicesCarousel.onResize();
+            try {
+                app = new EviaLuxuryApp();
+                window.app = app;
+                console.log('✅ Fallback initialization successful');
+            } catch (fallbackError) {
+                console.error('❌ Fallback initialization failed:', fallbackError);
             }
         }, 1000);
     }
-});
-
-// Unhandled promise rejection handler
-window.addEventListener('unhandledrejection', (e) => {
-    console.warn('Unhandled promise rejection:', e.reason);
-    e.preventDefault(); // Prevent console errors in production
-});
-
-// ========================================
-// SERVICE WORKER REGISTRATION (Optional)
-// ========================================
-
-// Register service worker for better performance (if available)
-if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('🔧 ServiceWorker registered successfully');
-            })
-            .catch(error => {
-                console.log('ServiceWorker registration failed (this is normal if no sw.js exists)');
-            });
-    });
 }
 
-// ========================================
-// FINAL INITIALIZATION CONFIRMATION
-// ========================================
+// Start initialization
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    initializeApp();
+}
 
-// Confirm all systems are ready
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        const components = window.app ? Object.keys(window.app.components) : [];
-        console.log(`🎯 Evia Luxury Systems Status:`);
-        console.log(`   📱 Mobile: ${window.innerWidth <= 768 ? 'Yes' : 'No'}`);
-        console.log(`   🎠 Carousel: ${components.includes('servicesCarousel') ? '✅' : '❌'}`);
-        console.log(`   🖋️ Signature: ${components.includes('cinematicHero') ? '✅' : '❌'}`);
-        console.log(`   🧲 Magnetic: ${components.includes('magneticEffects') ? '✅' : '❌'}`);
-        console.log(`   📝 Forms: ${components.includes('contactForm') ? '✅' : '❌'}`);
-        console.log(`   🎭 Total Components: ${components.length}`);
-    }, 2000);
+// Global error handling
+window.addEventListener('error', (e) => {
+    console.error('Global error:', e.error);
+});
+
+window.addEventListener('unhandledrejection', (e) => {
+    console.warn('Unhandled promise rejection:', e.reason);
+    e.preventDefault();
 });
 
 // Export for potential module usage
@@ -2918,7 +2327,7 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = { 
         EviaLuxuryApp, 
         EviaUtils, 
-        LuxuryServicesCarousel, 
-        ServiceCardAnimations 
+        LuxuryServicesCarousel,
+        EviaConfig
     };
 }
