@@ -1590,7 +1590,7 @@ body {
 }
 
 /* ========================================
-   HERO MEDIA QUERIES
+   MOBILE RESPONSIVE FIXES
    ======================================== */
 
 @media (max-width: 1024px) {
@@ -1615,43 +1615,48 @@ body {
 }
 
 @media (max-width: 768px) {
-    /* Extended hero section height on mobile */
+    /* Perfect vertical centering for mobile */
     .cinematic-hero {
-        min-height: 120vh; /* Extended height to accommodate signature */
-        padding: 120px 0 var(--space-5xl); /* More bottom padding */
+        min-height: 100vh;
+        min-height: 100svh; /* Small viewport height for better mobile support */
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
-    /* Reorder content stack for mobile */
     .hero-content-stack {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: var(--space-xl);
+        justify-content: center;
+        gap: clamp(1rem, 3vw, 1.5rem);
         position: relative;
         z-index: 10;
+        width: 100%;
         max-width: 100%;
         margin: 0 auto;
-        padding: 0 var(--space-lg);
-        margin-top: 2vh;
+        padding: 2rem 1.5rem;
+        min-height: calc(100vh - 120px); /* Account for header */
+        min-height: calc(100svh - 120px); /* Small viewport height */
     }
     
-    /* Move signature between CTA and stats */
+    /* Move signature into content flow */
     .signature-wrapper {
         position: relative !important;
         bottom: auto !important;
         right: auto !important;
         left: auto !important;
         top: auto !important;
-        order: 5; /* Position after CTA button */
+        order: 5;
         text-align: center;
-        margin: var(--space-xl) 0;
+        margin: var(--space-lg) 0;
         display: flex;
         justify-content: center;
         width: 100%;
         z-index: 10;
     }
     
-    /* Ensure signature container is centered */
     .signature-container {
         display: flex;
         justify-content: center;
@@ -1667,15 +1672,15 @@ body {
         white-space: nowrap;
     }
     
-    /* Reorder elements properly */
+    /* Element order */
     .hero-badge-premium { order: 1; }
     .hero-headline-stack { order: 2; }
     .hero-subheadline-elegant { order: 3; }
-    .hero-cta-signature { order: 4; margin-bottom: var(--space-lg); }
+    .hero-cta-signature { order: 4; margin-bottom: var(--space-md); }
     .signature-wrapper { order: 5; }
-    .stats-row-container { order: 6; margin-top: var(--space-xl); }
+    .stats-row-container { order: 6; margin-top: var(--space-lg); }
     
-    /* Move scroll indicator way down */
+    /* Scroll indicator positioning */
     .scroll-indicator-elegant {
         bottom: 2rem !important;
         left: 50% !important;
@@ -1685,6 +1690,7 @@ body {
         order: 7;
     }
 
+    /* Mobile element adjustments */
     .hero-badge-premium {
         padding: 0.5rem 1.2rem;
         font-size: 0.8rem;
@@ -1763,18 +1769,24 @@ body {
 }
 
 @media (max-width: 480px) {
+    /* Mobile optimizations */
     .cinematic-hero {
-        min-height: 125vh; /* Even more height for smaller screens */
-        padding: 100px 0 var(--space-4xl);
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: 0;
+        padding-top: env(safe-area-inset-top, 0);
+        padding-bottom: env(safe-area-inset-bottom, 0);
     }
     
     .hero-content-stack {
-        padding: 0 var(--space-md);
-        gap: var(--space-lg);
+        padding: 1.5rem 1rem;
+        gap: clamp(0.8rem, 2.5vw, 1.2rem);
+        min-height: calc(100vh - 100px);
+        min-height: calc(100svh - 100px);
     }
     
     .signature-wrapper {
-        margin: var(--space-lg) 0;
+        margin: var(--space-md) 0;
     }
     
     .signature-text-animated {
@@ -1850,6 +1862,36 @@ body {
     .scroll-text { 
         font-size: 0.7rem; 
     }
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .orb,
+    .aqua-bubble,
+    .signature-char,
+    .signature-sparkles,
+    .scroll-icon {
+        animation: none !important;
+    }
+    
+    .headline-secondary {
+        animation: none !important;
+    }
+}
+
+/* GPU acceleration */
+.orb,
+.aqua-bubble,
+.hero-cta-signature,
+.stat-pill,
+.signature-container {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
 /* ========================================
