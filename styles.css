@@ -1623,8 +1623,11 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+        text-align: center;
+        width: 100%;
+        overflow-x: hidden;
     }
-    
+   
     .hero-content-stack {
         display: flex;
         flex-direction: column;
@@ -1634,11 +1637,13 @@ body {
         position: relative;
         z-index: 10;
         width: 100%;
-        max-width: 100%;
+        max-width: 100vw;
         margin: 0 auto;
-        padding: 2rem 1.5rem;
+        padding: 2rem 1rem;
         min-height: calc(100vh - 120px); /* Account for header */
         min-height: calc(100svh - 120px); /* Small viewport height */
+        text-align: center;
+        box-sizing: border-box;
     }
     
     /* Move signature into content flow */
@@ -1650,11 +1655,14 @@ body {
         top: auto !important;
         order: 5;
         text-align: center;
-        margin: var(--space-lg) 0;
+        margin: var(--space-xl) 0;
         display: flex;
         justify-content: center;
+        align-items: center;
         width: 100%;
         z-index: 10;
+        padding: 0 1rem;
+        box-sizing: border-box;
     }
     
     .signature-container {
@@ -1663,6 +1671,8 @@ body {
         align-items: center;
         width: 100%;
         text-align: center;
+        max-width: 100%;
+        overflow: visible;
     }
     
     .signature-text-animated {
@@ -1670,15 +1680,50 @@ body {
         text-align: center;
         display: inline-block;
         white-space: nowrap;
+        width: auto;
+        max-width: 100%;
     }
     
-    /* Element order */
-    .hero-badge-premium { order: 1; }
-    .hero-headline-stack { order: 2; }
-    .hero-subheadline-elegant { order: 3; }
-    .hero-cta-signature { order: 4; margin-bottom: var(--space-md); }
-    .signature-wrapper { order: 5; }
-    .stats-row-container { order: 6; margin-top: var(--space-lg); }
+    /* Element order - signature between CTA and stats */
+    .hero-badge-premium { 
+        order: 1; 
+        text-align: center;
+        align-self: center;
+    }
+   
+   .hero-headline-stack { 
+        order: 2; 
+        text-align: center;
+        width: 100%;
+    }
+    
+   .hero-subheadline-elegant { 
+        order: 3; 
+        text-align: center;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+    
+   .hero-cta-signature { 
+        order: 4; 
+        margin-bottom: var(--space-lg);
+        align-self: center;
+    }
+    
+   .signature-wrapper { 
+        order: 5; 
+        margin: var(--space-xl) 0;
+    }
+    
+   .stats-row-container { 
+        order: 6; 
+        margin-top: var(--space-lg);
+        width: 100%;
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
     
     /* Scroll indicator positioning */
     .scroll-indicator-elegant {
@@ -1688,6 +1733,14 @@ body {
         position: absolute !important;
         z-index: 10;
         order: 7;
+        align-self: center;
+    }
+    
+    .hero-content-stack > * {
+        align-self: center;
+        text-align: center;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     /* Mobile element adjustments */
