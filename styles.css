@@ -964,7 +964,6 @@ body {
 /* ========================================
    HERO SECTION
    ======================================== */
-
 /* ========================================
    HERO SECTION BASE STYLES
    ======================================== */
@@ -1116,7 +1115,7 @@ body {
 }
 
 /* ========================================
-   HERO CONTENT STACK
+   HERO CONTENT STACK - DESKTOP & MOBILE
    ======================================== */
 
 .hero-content-stack {
@@ -1157,6 +1156,7 @@ body {
         0 4px 16px rgba(255, 140, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
     transition: all var(--transition-medium);
+    order: 1;
 }
 
 .hero-badge-premium:hover {
@@ -1179,6 +1179,7 @@ body {
 .hero-headline-stack {
     text-align: center;
     max-width: 700px;
+    order: 2;
 }
 
 .headline-primary {
@@ -1221,11 +1222,12 @@ body {
     line-height: 1.7;
     color: var(--white);
     max-width: 600px;
-    margin: 0 auto var(--space-2xl);
+    margin: 0 auto;
     text-shadow: 
         0 2px 8px rgba(0, 0, 0, 0.4),
         0 1px 4px rgba(0, 0, 0, 0.3);
     letter-spacing: 0.01em;
+    order: 3;
 }
 
 /* ========================================
@@ -1255,7 +1257,7 @@ body {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(20px);
-    margin-bottom: var(--space-2xl);
+    order: 4;
 }
 
 .hero-cta-signature:hover {
@@ -1302,19 +1304,35 @@ body {
 }
 
 /* ========================================
-   SIGNATURE SECTION - DESKTOP POSITION
+   SIGNATURE SECTION - POSITIONED IN FLOW
    ======================================== */
 
 .signature-wrapper {
-    position: absolute;
-    bottom: 6rem;
-    right: 4rem;
+    /* REMOVED ABSOLUTE POSITIONING COMPLETELY */
+    position: relative !important;
+    bottom: auto !important;
+    right: auto !important;
+    left: auto !important;
+    top: auto !important;
+    
+    /* POSITIONED IN CONTENT FLOW */
+    order: 5;
     z-index: 10;
+    text-align: center;
+    width: 100%;
+    margin: var(--space-xl) 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .signature-container {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    text-align: center;
 }
 
 .signature-text-animated {
@@ -1326,6 +1344,9 @@ body {
         0 3px 8px rgba(0, 0, 0, 0.4),
         0 1px 4px rgba(0, 0, 0, 0.3);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .signature-char,
@@ -1385,7 +1406,7 @@ body {
     gap: var(--space-lg);
     max-width: 900px;
     width: 100%;
-    margin-bottom: var(--space-xl);
+    order: 6;
 }
 
 .stat-pill {
@@ -1475,6 +1496,7 @@ body {
     transition: all var(--transition-medium);
     width: auto;
     margin: 0 auto;
+    order: 7;
 }
 
 .scroll-indicator-elegant:hover {
@@ -1605,8 +1627,7 @@ body {
     }
     
     .signature-wrapper {
-        bottom: 4rem;
-        right: 2rem;
+        margin: var(--space-xl) 0;
     }
     
     .signature-text-animated { 
@@ -1621,8 +1642,8 @@ body {
 @media (max-width: 768px) {
     /* EXTENDED MOBILE HERO SECTION */
     .cinematic-hero {
-        min-height: 120vh; /* Extended height for mobile */
-        min-height: 120svh;
+        min-height: 100vh;
+        min-height: 100svh;
         padding: 0;
         display: flex;
         align-items: center;
@@ -1638,32 +1659,32 @@ body {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: clamp(1.5rem, 4vw, 2rem); /* Increased spacing */
+        gap: clamp(1.5rem, 4vw, 2rem);
         position: relative;
         z-index: 10;
         width: 100%;
         max-width: 100vw;
         margin: 0 auto;
-        padding: 3rem 1.5rem; /* Increased padding */
-        min-height: calc(120vh - 140px); /* Extended content area */
-        min-height: calc(120svh - 140px);
+        padding: 2rem 1.5rem;
+        min-height: calc(100vh - 140px);
+        min-height: calc(100svh - 140px);
         text-align: center;
         box-sizing: border-box;
     }
     
-    /* SIGNATURE REPOSITIONED IN CONTENT FLOW */
+    /* SIGNATURE PERFECTLY POSITIONED IN FLOW */
     .signature-wrapper {
-        /* Remove absolute positioning completely */
+        /* Ensure it stays in the content flow */
         position: relative !important;
         bottom: auto !important;
         right: auto !important;
         left: auto !important;
         top: auto !important;
         
-        /* Set as flex item with specific order */
+        /* Perfect positioning as flex item */
         order: 5;
         text-align: center;
-        margin: var(--space-2xl) 0; /* Increased margin */
+        margin: var(--space-xl) 0;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1684,7 +1705,7 @@ body {
     }
     
     .signature-text-animated {
-        font-size: 1.6rem; /* Slightly larger for mobile */
+        font-size: 1.6rem;
         text-align: center;
         display: inline-block;
         white-space: nowrap;
@@ -1692,57 +1713,54 @@ body {
         max-width: 100%;
     }
     
-    /* CONTENT ORDER: PERFECTLY CENTERED FLOW */
+    /* CONTENT ORDER ENFORCEMENT */
     .hero-badge-premium { 
         order: 1;
-        text-align: center;
         align-self: center;
-        margin-bottom: var(--space-md);
+        margin-bottom: 0;
     }
    
     .hero-headline-stack { 
         order: 2;
-        text-align: center;
         width: 100%;
-        margin-bottom: var(--space-lg);
+        margin-bottom: 0;
     }
     
     .hero-subheadline-elegant { 
         order: 3;
-        text-align: center;
         width: 100%;
         max-width: 100%;
         padding: 0 1rem;
         box-sizing: border-box;
-        margin-bottom: var(--space-xl);
+        margin: 0;
     }
     
     .hero-cta-signature { 
         order: 4;
-        margin-bottom: var(--space-2xl); /* Increased space before signature */
+        margin: 0;
         align-self: center;
     }
     
     /* SIGNATURE BETWEEN CTA AND STATS */
     .signature-wrapper { 
         order: 5;
-        margin: var(--space-2xl) 0; /* More space around signature */
+        margin: var(--space-xl) 0;
     }
     
     .stats-row-container { 
         order: 6;
-        margin-top: var(--space-2xl); /* More space after signature */
         width: 100%;
         padding: 0 1rem;
         box-sizing: border-box;
+        margin: 0;
     }
     
     /* SCROLL INDICATOR AT BOTTOM */
     .scroll-indicator-elegant {
+        position: absolute !important;
         bottom: 2rem !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        position: absolute !important;
         z-index: 10;
         order: 7;
         align-self: center;
@@ -1778,21 +1796,17 @@ body {
 
     .hero-subheadline-elegant {
         font-size: clamp(0.9rem, 1.8vw, 1.1rem);
-        margin-bottom: 0;
     }
 
     .hero-cta-signature {
         padding: 1.1rem 2.2rem;
         font-size: 0.9rem;
         letter-spacing: 0.4px;
-        margin-bottom: 0;
     }
     
     .stats-row-container {
         grid-template-columns: 1fr;
         gap: var(--space-md);
-        margin-bottom: 0;
-        margin-top: 0;
     }
 
     .stat-pill {
@@ -1842,8 +1856,8 @@ body {
 @media (max-width: 480px) {
     /* EXTENDED SMALL MOBILE HERO */
     .cinematic-hero {
-        min-height: 110vh; /* Slightly reduced for smaller screens */
-        min-height: 110svh;
+        min-height: 100vh;
+        min-height: 100svh;
         padding: 0;
         padding-top: env(safe-area-inset-top, 0);
         padding-bottom: env(safe-area-inset-bottom, 0);
@@ -1853,10 +1867,10 @@ body {
     }
     
     .hero-content-stack {
-        padding: 2.5rem 1rem;
+        padding: 1.5rem 1rem;
         gap: clamp(1.2rem, 3vw, 1.8rem);
-        min-height: calc(110vh - 120px);
-        min-height: calc(110svh - 120px);
+        min-height: calc(100vh - 120px);
+        min-height: calc(100svh - 120px);
         text-align: center;
         width: 100%;
         max-width: 100vw;
@@ -1866,7 +1880,7 @@ body {
     }
     
     .signature-wrapper {
-        margin: var(--space-xl) 0;
+        margin: var(--space-lg) 0;
         padding: 0 1rem;
         width: 100%;
         text-align: center;
