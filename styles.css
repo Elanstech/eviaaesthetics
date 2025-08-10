@@ -1672,45 +1672,9 @@ body {
         box-sizing: border-box;
     }
     
-    /* SIGNATURE PERFECTLY POSITIONED IN FLOW */
+    /* HIDE SIGNATURE COMPLETELY ON MOBILE */
     .signature-wrapper {
-        /* Ensure it stays in the content flow */
-        position: relative !important;
-        bottom: auto !important;
-        right: auto !important;
-        left: auto !important;
-        top: auto !important;
-        
-        /* Perfect positioning as flex item */
-        order: 5;
-        text-align: center;
-        margin: var(--space-xl) 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        z-index: 10;
-        padding: 0 1rem;
-        box-sizing: border-box;
-    }
-    
-    .signature-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        text-align: center;
-        max-width: 100%;
-        overflow: visible;
-    }
-    
-    .signature-text-animated {
-        font-size: 1.6rem;
-        text-align: center;
-        display: inline-block;
-        white-space: nowrap;
-        width: auto;
-        max-width: 100%;
+        display: none !important;
     }
     
     /* CONTENT ORDER ENFORCEMENT */
@@ -1741,14 +1705,8 @@ body {
         align-self: center;
     }
     
-    /* SIGNATURE BETWEEN CTA AND STATS */
-    .signature-wrapper { 
-        order: 5;
-        margin: var(--space-xl) 0;
-    }
-    
     .stats-row-container { 
-        order: 6;
+        order: 5;
         width: 100%;
         padding: 0 1rem;
         box-sizing: border-box;
@@ -1762,7 +1720,7 @@ body {
         left: 50% !important;
         transform: translateX(-50%) !important;
         z-index: 10;
-        order: 7;
+        order: 6;
         align-self: center;
     }
     
@@ -1879,34 +1837,15 @@ body {
         justify-content: center;
     }
     
+    /* HIDE SIGNATURE ON SMALL MOBILE TOO */
     .signature-wrapper {
-        margin: var(--space-lg) 0;
-        padding: 0 1rem;
-        width: 100%;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-    }
-    
-    .signature-container {
-        width: 100%;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .signature-text-animated {
-        font-size: 1.4rem;
-        text-align: center;
-        white-space: nowrap;
+        display: none !important;
     }
     
     .scroll-indicator-elegant {
         bottom: 1.5rem !important;
         align-self: center;
+        order: 5;
     }
     
     /* SMALL MOBILE ELEMENT ADJUSTMENTS */
@@ -1981,7 +1920,6 @@ body {
     .hero-headline-stack,
     .hero-subheadline-elegant,
     .hero-cta-signature,
-    .signature-wrapper,
     .stats-row-container {
         align-self: center;
         text-align: center;
