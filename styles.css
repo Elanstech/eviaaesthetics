@@ -1302,6 +1302,80 @@ body {
 }
 
 /* ========================================
+   SIGNATURE SECTION - DESKTOP POSITION
+   ======================================== */
+
+.signature-wrapper {
+    position: absolute;
+    bottom: 6rem;
+    right: 4rem;
+    z-index: 10;
+}
+
+.signature-container {
+    position: relative;
+    display: inline-block;
+}
+
+.signature-text-animated {
+    font-family: var(--font-dancing);
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--white);
+    text-shadow: 
+        0 3px 8px rgba(0, 0, 0, 0.4),
+        0 1px 4px rgba(0, 0, 0, 0.3);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.signature-char,
+.signature-comma {
+    opacity: 0;
+    transform: translateY(20px) rotate(-5deg);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.signature-underline-animated {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(90deg, var(--hermes-orange), var(--hermes-orange-light));
+    border-radius: 2px;
+    opacity: 0;
+    transition: all 1.5s ease-out;
+}
+
+.writing-indicator {
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    color: var(--hermes-orange);
+    font-size: 1.2rem;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.signature-sparkles {
+    position: absolute;
+    inset: -20px;
+    pointer-events: none;
+}
+
+.sparkle {
+    position: absolute;
+    font-size: 1rem;
+    opacity: 0;
+    transition: all 2s ease-out;
+}
+
+.sparkle-1 { top: -10px; left: 20%; }
+.sparkle-2 { top: 50%; right: 10%; }
+.sparkle-3 { bottom: -10px; left: 60%; }
+
+/* ========================================
    STATS ROW
    ======================================== */
 
@@ -1380,80 +1454,6 @@ body {
     opacity: 0.9;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-
-/* ========================================
-   SIGNATURE SECTION
-   ======================================== */
-
-.signature-wrapper {
-    position: absolute;
-    bottom: 6rem;
-    right: 4rem;
-    z-index: 10;
-}
-
-.signature-container {
-    position: relative;
-    display: inline-block;
-}
-
-.signature-text-animated {
-    font-family: var(--font-dancing);
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--white);
-    text-shadow: 
-        0 3px 8px rgba(0, 0, 0, 0.4),
-        0 1px 4px rgba(0, 0, 0, 0.3);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.signature-char,
-.signature-comma {
-    opacity: 0;
-    transform: translateY(20px) rotate(-5deg);
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.signature-underline-animated {
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    height: 2px;
-    width: 0;
-    background: linear-gradient(90deg, var(--hermes-orange), var(--hermes-orange-light));
-    border-radius: 2px;
-    opacity: 0;
-    transition: all 1.5s ease-out;
-}
-
-.writing-indicator {
-    position: absolute;
-    top: -30px;
-    right: -20px;
-    color: var(--hermes-orange);
-    font-size: 1.2rem;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.3s ease;
-}
-
-.signature-sparkles {
-    position: absolute;
-    inset: -20px;
-    pointer-events: none;
-}
-
-.sparkle {
-    position: absolute;
-    font-size: 1rem;
-    opacity: 0;
-    transition: all 2s ease-out;
-}
-
-.sparkle-1 { top: -10px; left: 20%; }
-.sparkle-2 { top: 50%; right: 10%; }
-.sparkle-3 { bottom: -10px; left: 60%; }
 
 /* ========================================
    SCROLL INDICATOR
@@ -1590,7 +1590,7 @@ body {
 }
 
 /* ========================================
-   MOBILE RESPONSIVE FIXES
+   TABLET RESPONSIVE (1024px and below)
    ======================================== */
 
 @media (max-width: 1024px) {
@@ -1614,11 +1614,15 @@ body {
     }
 }
 
+/* ========================================
+   MOBILE RESPONSIVE (768px and below)
+   ======================================== */
+
 @media (max-width: 768px) {
-    /* Perfect vertical centering for mobile */
+    /* EXTENDED MOBILE HERO SECTION */
     .cinematic-hero {
-        min-height: 100vh;
-        min-height: 100svh; /* Small viewport height for better mobile support */
+        min-height: 120vh; /* Extended height for mobile */
+        min-height: 120svh;
         padding: 0;
         display: flex;
         align-items: center;
@@ -1628,34 +1632,38 @@ body {
         overflow-x: hidden;
     }
    
+    /* PERFECTLY CENTERED CONTENT STACK */
     .hero-content-stack {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: clamp(1rem, 3vw, 1.5rem);
+        gap: clamp(1.5rem, 4vw, 2rem); /* Increased spacing */
         position: relative;
         z-index: 10;
         width: 100%;
         max-width: 100vw;
         margin: 0 auto;
-        padding: 2rem 1rem;
-        min-height: calc(100vh - 120px); /* Account for header */
-        min-height: calc(100svh - 120px); /* Small viewport height */
+        padding: 3rem 1.5rem; /* Increased padding */
+        min-height: calc(120vh - 140px); /* Extended content area */
+        min-height: calc(120svh - 140px);
         text-align: center;
         box-sizing: border-box;
     }
     
-    /* Move signature into content flow */
+    /* SIGNATURE REPOSITIONED IN CONTENT FLOW */
     .signature-wrapper {
+        /* Remove absolute positioning completely */
         position: relative !important;
         bottom: auto !important;
         right: auto !important;
         left: auto !important;
         top: auto !important;
+        
+        /* Set as flex item with specific order */
         order: 5;
         text-align: center;
-        margin: var(--space-xl) 0;
+        margin: var(--space-2xl) 0; /* Increased margin */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1676,7 +1684,7 @@ body {
     }
     
     .signature-text-animated {
-        font-size: 1.4rem;
+        font-size: 1.6rem; /* Slightly larger for mobile */
         text-align: center;
         display: inline-block;
         white-space: nowrap;
@@ -1684,48 +1692,52 @@ body {
         max-width: 100%;
     }
     
-    /* Element order - signature between CTA and stats */
+    /* CONTENT ORDER: PERFECTLY CENTERED FLOW */
     .hero-badge-premium { 
-        order: 1; 
+        order: 1;
         text-align: center;
         align-self: center;
+        margin-bottom: var(--space-md);
     }
    
-   .hero-headline-stack { 
-        order: 2; 
+    .hero-headline-stack { 
+        order: 2;
         text-align: center;
         width: 100%;
+        margin-bottom: var(--space-lg);
     }
     
-   .hero-subheadline-elegant { 
-        order: 3; 
+    .hero-subheadline-elegant { 
+        order: 3;
         text-align: center;
         width: 100%;
         max-width: 100%;
         padding: 0 1rem;
         box-sizing: border-box;
+        margin-bottom: var(--space-xl);
     }
     
-   .hero-cta-signature { 
-        order: 4; 
-        margin-bottom: var(--space-lg);
+    .hero-cta-signature { 
+        order: 4;
+        margin-bottom: var(--space-2xl); /* Increased space before signature */
         align-self: center;
     }
     
-   .signature-wrapper { 
-        order: 5; 
-        margin: var(--space-xl) 0;
+    /* SIGNATURE BETWEEN CTA AND STATS */
+    .signature-wrapper { 
+        order: 5;
+        margin: var(--space-2xl) 0; /* More space around signature */
     }
     
-   .stats-row-container { 
-        order: 6; 
-        margin-top: var(--space-lg);
+    .stats-row-container { 
+        order: 6;
+        margin-top: var(--space-2xl); /* More space after signature */
         width: 100%;
         padding: 0 1rem;
         box-sizing: border-box;
     }
     
-    /* Scroll indicator positioning */
+    /* SCROLL INDICATOR AT BOTTOM */
     .scroll-indicator-elegant {
         bottom: 2rem !important;
         left: 50% !important;
@@ -1736,6 +1748,7 @@ body {
         align-self: center;
     }
     
+    /* ENSURE ALL ELEMENTS ARE CENTERED */
     .hero-content-stack > * {
         align-self: center;
         text-align: center;
@@ -1743,74 +1756,75 @@ body {
         box-sizing: border-box;
     }
 
-    /* Mobile element adjustments */
+    /* MOBILE ELEMENT ADJUSTMENTS */
     .hero-badge-premium {
-        padding: 0.5rem 1.2rem;
-        font-size: 0.8rem;
-        gap: 0.4rem;
+        padding: 0.6rem 1.3rem;
+        font-size: 0.85rem;
+        gap: 0.5rem;
     }
 
     .hero-badge-premium i { 
-        font-size: 0.9rem; 
+        font-size: 0.95rem; 
     }
 
     .headline-primary {
-        font-size: clamp(2rem, 8vw, 3rem);
-        margin-bottom: var(--space-md);
+        font-size: clamp(2.2rem, 8vw, 3.2rem);
+        margin-bottom: var(--space-lg);
     }
 
     .headline-secondary { 
-        font-size: clamp(1.5rem, 6vw, 2.2rem); 
+        font-size: clamp(1.7rem, 6vw, 2.4rem); 
     }
 
     .hero-subheadline-elegant {
-        font-size: clamp(0.85rem, 1.5vw, 1rem);
-        margin-bottom: var(--space-xl);
+        font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+        margin-bottom: 0;
     }
 
     .hero-cta-signature {
-        padding: 1rem 2rem;
-        font-size: 0.85rem;
-        letter-spacing: 0.3px;
-        margin-bottom: var(--space-xl);
+        padding: 1.1rem 2.2rem;
+        font-size: 0.9rem;
+        letter-spacing: 0.4px;
+        margin-bottom: 0;
     }
     
     .stats-row-container {
         grid-template-columns: 1fr;
-        gap: var(--space-sm);
-        margin-bottom: var(--space-lg);
+        gap: var(--space-md);
+        margin-bottom: 0;
+        margin-top: 0;
     }
 
     .stat-pill {
-        padding: 0.8rem 1.2rem;
-        border-radius: 1.5rem;
+        padding: 0.9rem 1.3rem;
+        border-radius: 1.6rem;
     }
 
     .stat-icon {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
     }
 
     .stat-number { 
-        font-size: 1rem; 
+        font-size: 1.05rem; 
     }
     
     .stat-label { 
-        font-size: 0.7rem; 
+        font-size: 0.75rem; 
     }
 
     .scroll-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
+        width: 42px;
+        height: 42px;
+        font-size: 1.05rem;
     }
 
     .scroll-text { 
-        font-size: 0.75rem; 
+        font-size: 0.8rem; 
     }
     
-    /* Hide some decorative elements on mobile */
+    /* HIDE DECORATIVE ELEMENTS ON MOBILE */
     .aqua-elements { 
         display: none; 
     }
@@ -1821,76 +1835,108 @@ body {
     }
 }
 
+/* ========================================
+   SMALL MOBILE (480px and below)
+   ======================================== */
+
 @media (max-width: 480px) {
-    /* Mobile optimizations */
+    /* EXTENDED SMALL MOBILE HERO */
     .cinematic-hero {
-        min-height: 100vh;
-        min-height: 100svh;
+        min-height: 110vh; /* Slightly reduced for smaller screens */
+        min-height: 110svh;
         padding: 0;
         padding-top: env(safe-area-inset-top, 0);
         padding-bottom: env(safe-area-inset-bottom, 0);
+        text-align: center;
+        width: 100%;
+        overflow-x: hidden;
     }
     
     .hero-content-stack {
-        padding: 1.5rem 1rem;
-        gap: clamp(0.8rem, 2.5vw, 1.2rem);
-        min-height: calc(100vh - 100px);
-        min-height: calc(100svh - 100px);
+        padding: 2.5rem 1rem;
+        gap: clamp(1.2rem, 3vw, 1.8rem);
+        min-height: calc(110vh - 120px);
+        min-height: calc(110svh - 120px);
+        text-align: center;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
     }
     
     .signature-wrapper {
-        margin: var(--space-md) 0;
+        margin: var(--space-xl) 0;
+        padding: 0 1rem;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+    
+    .signature-container {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
     .signature-text-animated {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
+        text-align: center;
+        white-space: nowrap;
     }
     
     .scroll-indicator-elegant {
         bottom: 1.5rem !important;
+        align-self: center;
     }
-
+    
+    /* SMALL MOBILE ELEMENT ADJUSTMENTS */
     .hero-badge-premium {
-        padding: 0.4rem 1rem;
-        font-size: 0.75rem;
-        gap: 0.3rem;
+        padding: 0.5rem 1.1rem;
+        font-size: 0.8rem;
+        gap: 0.4rem;
     }
 
     .hero-badge-premium i { 
-        font-size: 0.8rem; 
+        font-size: 0.85rem; 
     }
 
     .headline-primary { 
-        font-size: clamp(1.8rem, 9vw, 2.5rem); 
+        font-size: clamp(2rem, 9vw, 2.8rem); 
     }
     
     .headline-secondary { 
-        font-size: clamp(1.3rem, 7vw, 1.8rem); 
+        font-size: clamp(1.5rem, 7vw, 2rem); 
     }
 
     .hero-subheadline-elegant {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         padding: 0;
     }
 
     .hero-cta-signature {
-        padding: 0.9rem 1.8rem;
-        font-size: 0.8rem;
-        letter-spacing: 0.2px;
+        padding: 1rem 2rem;
+        font-size: 0.85rem;
+        letter-spacing: 0.3px;
     }
 
     .stat-pill {
-        padding: 0.7rem 1rem;
-        border-radius: 1.2rem;
+        padding: 0.8rem 1.1rem;
+        border-radius: 1.4rem;
         flex-direction: column;
         text-align: center;
         gap: var(--space-xs);
     }
 
     .stat-icon {
-        width: 32px;
-        height: 32px;
-        font-size: 0.9rem;
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
     }
 
     .stat-content { 
@@ -1898,22 +1944,36 @@ body {
     }
     
     .stat-number { 
-        font-size: 0.9rem; 
+        font-size: 1rem; 
     }
     
     .stat-label { 
-        font-size: 0.65rem; 
+        font-size: 0.7rem; 
         text-align: center; 
     }
 
     .scroll-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 0.9rem;
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
     }
 
     .scroll-text { 
-        font-size: 0.7rem; 
+        font-size: 0.75rem; 
+    }
+    
+    /* ENSURE ALL ELEMENTS ARE PROPERLY CENTERED */
+    .hero-badge-premium,
+    .hero-headline-stack,
+    .hero-subheadline-elegant,
+    .hero-cta-signature,
+    .signature-wrapper,
+    .stats-row-container {
+        align-self: center;
+        text-align: center;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
 }
 
