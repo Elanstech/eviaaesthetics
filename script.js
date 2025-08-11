@@ -1,6 +1,7 @@
 /* ========================================
    EVIA AESTHETICS - OPTIMIZED LUXURY EXPERIENCE
    PERFORMANCE ENHANCED & MOBILE OPTIMIZED
+   WITH ENHANCED HEADER & MOBILE MENU
    ======================================== */
 
 'use strict';
@@ -23,7 +24,8 @@ const EviaConfig = {
             medium: 600,
             slow: 1000
         },
-        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        bounce: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
     },
     
     carousel: {
@@ -144,8 +146,8 @@ class EviaLuxuryApp {
     initializeComponents() {
         const componentDefinitions = [
             { name: 'preloader', class: LuxuryPreloader },
-            { name: 'header', class: HermesLuxuryHeader },
-            { name: 'mobileMenu', class: LuxuryMobileMenu },
+            { name: 'header', class: EnhancedHermesLuxuryHeader },
+            { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: LuxuryServicesCarousel },
             { name: 'beforeAfter', class: BeforeAfterSlider },
@@ -256,7 +258,7 @@ class EviaLuxuryApp {
             }
         }
         
-        // Escape key handling
+        // Escape key handling for mobile menu
         if (e.key === 'Escape') {
             const mobileMenu = this.components.get('mobileMenu');
             if (mobileMenu && mobileMenu.isOpen) {
@@ -473,10 +475,10 @@ class LuxuryPreloader {
 }
 
 /* ========================================
-   HEADER COMPONENT
+   ENHANCED HEADER COMPONENT
    ======================================== */
 
-class HermesLuxuryHeader {
+class EnhancedHermesLuxuryHeader {
     constructor() {
         this.header = document.getElementById('header');
         this.lastScrollY = 0;
@@ -492,6 +494,7 @@ class HermesLuxuryHeader {
         this.bindEvents();
         this.initNavigation();
         this.startHeaderAnimations();
+        console.log('✨ Enhanced Header initialized');
     }
     
     bindEvents() {
@@ -508,6 +511,10 @@ class HermesLuxuryHeader {
         if (headerCTA) {
             headerCTA.addEventListener('click', () => {
                 app.smoothScrollTo('#contact');
+            });
+            
+            headerCTA.addEventListener('mouseenter', () => {
+                this.addCTAShimmer(headerCTA);
             });
         }
         
@@ -596,6 +603,17 @@ class HermesLuxuryHeader {
         }, 600);
     }
     
+    addCTAShimmer(cta) {
+        const shimmer = cta.querySelector('.cta-shine');
+        if (shimmer) {
+            shimmer.style.left = '-100%';
+            shimmer.style.transition = 'none';
+            shimmer.offsetHeight; // Force reflow
+            shimmer.style.transition = 'left 0.8s ease';
+            shimmer.style.left = '100%';
+        }
+    }
+    
     initActiveNavigation() {
         const sections = document.querySelectorAll('section[id]');
         
@@ -652,9 +670,26 @@ class HermesLuxuryHeader {
         if (toggle) {
             toggle.classList.toggle('active');
             
+            // Enhanced toggle animation
+            if (toggle.classList.contains('active')) {
+                EviaUtils.animate(toggle, [
+                    { transform: 'scale(1) rotate(0deg)' },
+                    { transform: 'scale(1.1) rotate(180deg)' }
+                ], { duration: 400, easing: EviaConfig.animations.bounce });
+            } else {
+                EviaUtils.animate(toggle, [
+                    { transform: 'scale(1.1) rotate(180deg)' },
+                    { transform: 'scale(1) rotate(360deg)' }
+                ], { duration: 400, easing: EviaConfig.animations.bounce });
+            }
+            
             const mobileMenu = app.getComponent('mobileMenu');
             if (mobileMenu) {
-                mobileMenu.toggleMenu();
+                if (toggle.classList.contains('active')) {
+                    mobileMenu.openMenu();
+                } else {
+                    mobileMenu.closeMenu();
+                }
             }
         }
     }
@@ -670,10 +705,10 @@ class HermesLuxuryHeader {
 }
 
 /* ========================================
-   MOBILE MENU COMPONENT
+   ULTRA-LUXURY MOBILE MENU COMPONENT
    ======================================== */
 
-class LuxuryMobileMenu {
+class UltraLuxuryMobileMenu {
     constructor() {
         this.toggle = document.getElementById('mobileToggle');
         this.menu = document.getElementById('mobileMenu');
@@ -691,14 +726,19 @@ class LuxuryMobileMenu {
     init() {
         this.bindEvents();
         this.prepareAnimations();
+        console.log('🎭 Ultra-Luxury Mobile Menu initialized');
     }
     
     bindEvents() {
-        // Close button
+        // Close button with enhanced animation
         if (this.close) {
             this.close.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.closeMenu();
+            });
+            
+            this.close.addEventListener('mouseenter', () => {
+                this.addCloseHoverEffect();
             });
         }
         
@@ -709,7 +749,7 @@ class LuxuryMobileMenu {
             });
         }
         
-        // Navigation links
+        // Enhanced navigation links
         this.navItems.forEach((item, index) => {
             const link = item.querySelector('.nav-link');
             if (link) {
@@ -721,25 +761,37 @@ class LuxuryMobileMenu {
                     }
                 });
                 
-                // Hover effects
+                // Advanced hover effects
                 link.addEventListener('mouseenter', () => {
-                    this.playHoverEffect(item);
+                    this.playNavHoverEffect(item);
                 });
                 
                 link.addEventListener('mouseleave', () => {
-                    this.resetHoverEffect(item);
+                    this.resetNavHoverEffect(item);
                 });
             }
         });
         
-        // Menu CTA
+        // Enhanced menu CTA
         const menuCTA = document.querySelector('.menu-cta');
         if (menuCTA) {
             menuCTA.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.navigateAndClose('#contact');
+                this.handleCTAClick();
+            });
+            
+            menuCTA.addEventListener('mouseenter', () => {
+                this.addCTAGlow(menuCTA);
             });
         }
+        
+        // Social links with micro-interactions
+        const socialLinks = document.querySelectorAll('.social-link');
+        socialLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                this.addSocialHoverEffect(link);
+            });
+        });
         
         // Window resize
         window.addEventListener('resize', EviaUtils.debounce(() => {
@@ -747,30 +799,28 @@ class LuxuryMobileMenu {
                 this.closeMenu();
             }
         }, 250));
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+                this.closeMenu();
+            }
+        });
     }
     
     prepareAnimations() {
+        // Set initial states for animations
         this.navItems.forEach((item, index) => {
             item.style.opacity = '0';
-            item.style.transform = 'translateX(50px)';
-            item.style.transition = `all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
+            item.style.transform = 'translateX(50px) scale(0.9)';
+            item.style.transition = `all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) ${index * 0.1}s`;
         });
         
         const menuFooter = document.querySelector('.menu-footer');
         if (menuFooter) {
             menuFooter.style.opacity = '0';
-            menuFooter.style.transform = 'translateY(30px)';
-            menuFooter.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s';
-        }
-    }
-    
-    toggleMenu() {
-        if (this.animationInProgress) return;
-        
-        if (this.isOpen) {
-            this.closeMenu();
-        } else {
-            this.openMenu();
+            menuFooter.style.transform = 'translateY(30px) scale(0.95)';
+            menuFooter.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s';
         }
     }
     
@@ -783,30 +833,53 @@ class LuxuryMobileMenu {
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
         
-        // Show backdrop and menu
+        // Enhanced backdrop animation
         this.backdrop.classList.add('active');
+        EviaUtils.animate(this.backdrop, [
+            { opacity: 0 },
+            { opacity: 1 }
+        ], { duration: 600 });
+        
+        // Enhanced menu slide-in
         this.menu.classList.add('active');
+        EviaUtils.animate(this.menu, [
+            { transform: 'translateX(100%) scale(0.9)', opacity: 0 },
+            { transform: 'translateX(0) scale(1)', opacity: 1 }
+        ], { duration: 800, easing: EviaConfig.animations.bounce });
         
         await EviaUtils.wait(200);
         
-        // Animate navigation items
+        // Staggered navigation items animation
         this.navItems.forEach((item, index) => {
             setTimeout(() => {
                 item.style.opacity = '1';
-                item.style.transform = 'translateX(0)';
+                item.style.transform = 'translateX(0) scale(1)';
+                
+                // Add micro-bounce effect
+                setTimeout(() => {
+                    EviaUtils.animate(item, [
+                        { transform: 'scale(1)' },
+                        { transform: 'scale(1.02)' },
+                        { transform: 'scale(1)' }
+                    ], { duration: 300 });
+                }, 200);
             }, index * 100);
         });
         
-        // Animate footer
+        // Animate footer with enhanced effect
         const menuFooter = document.querySelector('.menu-footer');
         if (menuFooter) {
             setTimeout(() => {
                 menuFooter.style.opacity = '1';
-                menuFooter.style.transform = 'translateY(0)';
+                menuFooter.style.transform = 'translateY(0) scale(1)';
             }, 600);
         }
         
+        // Add floating animation to decorative elements
+        this.startDecorationAnimations();
+        
         this.animationInProgress = false;
+        console.log('🌟 Mobile menu opened with luxury animations');
     }
     
     async closeMenu() {
@@ -821,38 +894,55 @@ class LuxuryMobileMenu {
             toggle.classList.remove('active');
         }
         
-        // Reverse animate items
+        // Reverse animate footer
+        const menuFooter = document.querySelector('.menu-footer');
+        if (menuFooter) {
+            menuFooter.style.opacity = '0';
+            menuFooter.style.transform = 'translateY(30px) scale(0.95)';
+        }
+        
+        // Reverse animate navigation items
         const reverseItems = Array.from(this.navItems).reverse();
         reverseItems.forEach((item, index) => {
             setTimeout(() => {
                 item.style.opacity = '0';
-                item.style.transform = 'translateX(50px)';
+                item.style.transform = 'translateX(50px) scale(0.9)';
             }, index * 50);
         });
         
-        // Hide footer
-        const menuFooter = document.querySelector('.menu-footer');
-        if (menuFooter) {
-            menuFooter.style.opacity = '0';
-            menuFooter.style.transform = 'translateY(30px)';
-        }
-        
         await EviaUtils.wait(400);
         
-        // Hide menu and backdrop
-        this.menu.classList.remove('active');
-        this.backdrop.classList.remove('active');
+        // Enhanced menu slide-out
+        EviaUtils.animate(this.menu, [
+            { transform: 'translateX(0) scale(1)', opacity: 1 },
+            { transform: 'translateX(100%) scale(0.9)', opacity: 0 }
+        ], { duration: 600, easing: EviaConfig.animations.bounce });
         
-        // Restore body scroll
-        document.body.style.overflow = '';
+        // Fade backdrop
+        EviaUtils.animate(this.backdrop, [
+            { opacity: 1 },
+            { opacity: 0 }
+        ], { duration: 400 });
+        
+        setTimeout(() => {
+            this.menu.classList.remove('active');
+            this.backdrop.classList.remove('active');
+            document.body.style.overflow = '';
+        }, 600);
         
         this.animationInProgress = false;
+        console.log('✨ Mobile menu closed');
     }
     
     async navigateAndClose(href, itemIndex = 0) {
-        // Highlight selected item
+        // Highlight selected item with premium effect
         if (itemIndex >= 0 && this.navItems[itemIndex]) {
-            this.navItems[itemIndex].style.background = 'rgba(255, 158, 24, 0.1)';
+            const item = this.navItems[itemIndex];
+            EviaUtils.animate(item, [
+                { background: 'transparent', transform: 'scale(1)' },
+                { background: 'rgba(255, 140, 0, 0.15)', transform: 'scale(1.05)' },
+                { background: 'transparent', transform: 'scale(1)' }
+            ], { duration: 600 });
         }
         
         await this.closeMenu();
@@ -862,18 +952,128 @@ class LuxuryMobileMenu {
         }, 300);
     }
     
-    playHoverEffect(item) {
-        const underline = item.querySelector('.nav-underline');
-        if (underline) {
-            underline.style.width = 'calc(100% - 2rem)';
+    playNavHoverEffect(item) {
+        const icon = item.querySelector('.nav-icon');
+        const arrow = item.querySelector('.nav-arrow');
+        
+        if (icon) {
+            EviaUtils.animate(icon, [
+                { transform: 'scale(1) rotate(0deg)' },
+                { transform: 'scale(1.1) rotate(5deg)' }
+            ], { duration: 300 });
+        }
+        
+        if (arrow) {
+            EviaUtils.animate(arrow, [
+                { transform: 'translateX(0)' },
+                { transform: 'translateX(5px)' }
+            ], { duration: 300 });
         }
     }
     
-    resetHoverEffect(item) {
-        const underline = item.querySelector('.nav-underline');
-        if (underline) {
-            underline.style.width = '0';
+    resetNavHoverEffect(item) {
+        const icon = item.querySelector('.nav-icon');
+        const arrow = item.querySelector('.nav-arrow');
+        
+        if (icon) {
+            EviaUtils.animate(icon, [
+                { transform: 'scale(1.1) rotate(5deg)' },
+                { transform: 'scale(1) rotate(0deg)' }
+            ], { duration: 300 });
         }
+        
+        if (arrow) {
+            EviaUtils.animate(arrow, [
+                { transform: 'translateX(5px)' },
+                { transform: 'translateX(0)' }
+            ], { duration: 300 });
+        }
+    }
+    
+    addCloseHoverEffect() {
+        const closeIcon = this.close.querySelector('.close-icon');
+        if (closeIcon) {
+            EviaUtils.animate(closeIcon, [
+                { transform: 'scale(1) rotate(0deg)' },
+                { transform: 'scale(1.1) rotate(90deg)' }
+            ], { duration: 300 });
+        }
+    }
+    
+    addCTAGlow(cta) {
+        const glow = cta.querySelector('.cta-glow');
+        if (glow) {
+            glow.style.opacity = '0.6';
+            setTimeout(() => {
+                glow.style.opacity = '0';
+            }, 1000);
+        }
+    }
+    
+    addSocialHoverEffect(link) {
+        EviaUtils.animate(link, [
+            { transform: 'scale(1) rotate(0deg)' },
+            { transform: 'scale(1.1) rotate(5deg)' }
+        ], { duration: 300 });
+    }
+    
+    handleCTAClick() {
+        this.navigateAndClose('#contact');
+        
+        // Add success feedback
+        this.showSuccessFeedback();
+    }
+    
+    showSuccessFeedback() {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #FF8C00, #FFB84D);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.4);
+        `;
+        feedback.textContent = 'Redirecting to consultation...';
+        
+        document.body.appendChild(feedback);
+        
+        EviaUtils.animate(feedback, [
+            { opacity: 0, transform: 'translate(-50%, -50%) scale(0.8)' },
+            { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }
+        ], { duration: 300 });
+        
+        setTimeout(() => {
+            EviaUtils.animate(feedback, [
+                { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
+                { opacity: 0, transform: 'translate(-50%, -50%) scale(0.8)' }
+            ], { duration: 300 }).then(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            });
+        }, 2000);
+    }
+    
+    startDecorationAnimations() {
+        const orbs = document.querySelectorAll('.decoration-orb');
+        orbs.forEach((orb, index) => {
+            orb.style.animation = `float-gentle ${20 + index * 5}s ease-in-out infinite`;
+        });
+        
+        const dots = document.querySelectorAll('.grid-dot');
+        dots.forEach((dot, index) => {
+            dot.style.animation = `pulse-dot 3s ease-in-out infinite ${index * 0.5}s`;
+        });
     }
     
     onResize() {
@@ -2244,6 +2444,17 @@ document.addEventListener('DOMContentLoaded', () => {
             cursor: grabbing;
         }
         
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(2deg); }
+            66% { transform: translateY(-10px) rotate(-1deg); }
+        }
+        
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
         @media (max-width: ${EviaConfig.breakpoints.tablet}px) {
             .carousel-track {
                 scroll-snap-type: x mandatory;
@@ -2328,6 +2539,8 @@ if (typeof module !== 'undefined' && module.exports) {
         EviaLuxuryApp, 
         EviaUtils, 
         LuxuryServicesCarousel,
-        EviaConfig
+        EviaConfig,
+        EnhancedHermesLuxuryHeader,
+        UltraLuxuryMobileMenu
     };
 }
