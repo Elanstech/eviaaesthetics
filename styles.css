@@ -362,6 +362,15 @@ body {
     z-index: 10;
 }
 
+/* Logo Display Control */
+.desktop-logo {
+    display: block;
+}
+
+.mobile-logo {
+    display: none;
+}
+
 .header-logo:hover {
     transform: scale(1.05);
     filter: drop-shadow(0 4px 8px rgba(255, 140, 0, 0.3));
