@@ -362,12 +362,11 @@ body {
     z-index: 10;
 }
 
-/* Logo Display Control */
-.desktop-logo {
+.header-logo.desktop-logo {
     display: block;
 }
 
-.mobile-logo {
+.header-logo.mobile-logo {
     display: none;
 }
 
@@ -637,6 +636,14 @@ body {
     .logo-section {
         position: relative;
         z-index: 10;
+    }
+    .header-logo.desktop-logo {
+        display: none !important;
+     
+    }
+    
+    .header-logo.mobile-logo {
+        display: block !important;
     }
     
     .header-logo {
