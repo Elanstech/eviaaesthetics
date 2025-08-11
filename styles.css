@@ -1,6 +1,6 @@
-   ========================================
+/* ========================================
    EVIA AESTHETICS - OPTIMIZED LUXURY STYLES
-   ========================================
+   ======================================== */
 
 /* ========================================
    CSS CUSTOM PROPERTIES & BASE STYLES
@@ -964,18 +964,25 @@ body {
 /* ========================================
    HERO SECTION
    ======================================== */
+/* ========================================
+   HERO SECTION BASE STYLES
+   ======================================== */
+
 .cinematic-hero {
     position: relative;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 140px 0 var(--space-4xl);
+    padding: 120px 0 var(--space-4xl); /* Reduced top padding since we're using margin-top on content stack */
     overflow: hidden;
     background: var(--cream-primary);
 }
 
-/* Video Background */
+/* ========================================
+   VIDEO BACKGROUND
+   ======================================== */
+
 .video-container {
     position: absolute;
     top: 0;
@@ -992,7 +999,6 @@ body {
     opacity: 0.6;
 }
 
-/* ENHANCED Video Overlay for Better Text Visibility */
 .video-overlay {
     position: absolute;
     top: 0;
@@ -1007,7 +1013,10 @@ body {
     z-index: 2;
 }
 
-/* Floating Organic Shapes */
+/* ========================================
+   FLOATING DECORATIVE ELEMENTS
+   ======================================== */
+
 .floating-orbs {
     position: absolute;
     top: 0;
@@ -1062,7 +1071,6 @@ body {
     background: radial-gradient(circle, rgba(255, 248, 240, 0.12) 0%, transparent 70%);
 }
 
-/* Floating Aqua Elements */
 .aqua-elements {
     position: absolute;
     top: 0;
@@ -1082,31 +1090,34 @@ body {
     animation: bubble-float 20s ease-in-out infinite;
 }
 
-.bubble-1 {
-    width: 80px;
-    height: 80px;
-    top: 15%;
-    left: 15%;
-    animation-delay: -5s;
+.bubble-1 { 
+    width: 80px; 
+    height: 80px; 
+    top: 15%; 
+    left: 15%; 
+    animation-delay: -5s; 
 }
 
-.bubble-2 {
-    width: 60px;
-    height: 60px;
-    top: 70%;
-    right: 20%;
-    animation-delay: -12s;
+.bubble-2 { 
+    width: 60px; 
+    height: 60px; 
+    top: 70%; 
+    right: 20%; 
+    animation-delay: -12s; 
 }
 
-.bubble-3 {
-    width: 40px;
-    height: 40px;
-    top: 40%;
-    left: 85%;
-    animation-delay: -18s;
+.bubble-3 { 
+    width: 40px; 
+    height: 40px; 
+    top: 40%; 
+    left: 85%; 
+    animation-delay: -18s; 
 }
 
-/* MAIN HERO CONTENT - VERTICAL STACK (DESKTOP FROM OLD CODE) */
+/* ========================================
+   HERO CONTENT STACK - DESKTOP & MOBILE
+   ======================================== */
+
 .hero-content-stack {
     position: relative;
     z-index: 10;
@@ -1118,10 +1129,13 @@ body {
     flex-direction: column;
     align-items: center;
     gap: var(--space-2xl);
-    margin-top: 2vh;
+    margin-top: 8vh; /* Increased to ensure header clearance */
 }
 
-/* 1. TOP BADGE - Enhanced Visibility */
+/* ========================================
+   HERO BADGE
+   ======================================== */
+
 .hero-badge-premium {
     display: inline-flex;
     align-items: center;
@@ -1158,7 +1172,10 @@ body {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-/* 2. HEADLINE STACK - Enhanced Visibility */
+/* ========================================
+   HERO HEADLINES
+   ======================================== */
+
 .hero-headline-stack {
     text-align: center;
     max-width: 700px;
@@ -1198,7 +1215,6 @@ body {
     text-shadow: none;
 }
 
-/* 3. SUBHEADLINE - Enhanced Visibility */
 .hero-subheadline-elegant {
     font-family: var(--font-inter);
     font-size: clamp(0.9rem, 1.8vw, 1.2rem);
@@ -1206,7 +1222,7 @@ body {
     line-height: 1.7;
     color: var(--white);
     max-width: 600px;
-    margin: 0 auto var(--space-2xl);
+    margin: 0 auto;
     text-shadow: 
         0 2px 8px rgba(0, 0, 0, 0.4),
         0 1px 4px rgba(0, 0, 0, 0.3);
@@ -1214,7 +1230,10 @@ body {
     order: 3;
 }
 
-/* 4. CTA BUTTON - Enhanced Visibility */
+/* ========================================
+   HERO CTA BUTTON
+   ======================================== */
+
 .hero-cta-signature {
     position: relative;
     background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 50%, var(--hermes-orange-dark) 100%);
@@ -1238,7 +1257,6 @@ body {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(20px);
-    margin-bottom: var(--space-2xl);
     order: 4;
 }
 
@@ -1252,7 +1270,6 @@ body {
     letter-spacing: 1px;
 }
 
-/* CTA Effects */
 .cta-shimmer {
     position: absolute;
     top: 0;
@@ -1266,8 +1283,8 @@ body {
     z-index: 1;
 }
 
-.hero-cta-signature:hover .cta-shimmer {
-    left: 100%;
+.hero-cta-signature:hover .cta-shimmer { 
+    left: 100%; 
 }
 
 .cta-glow {
@@ -1286,15 +1303,110 @@ body {
     animation: premium-glow-pulse 2s ease-in-out infinite;
 }
 
-/* 5. STATS ROW */
+/* ========================================
+   SIGNATURE SECTION - POSITIONED IN FLOW
+   ======================================== */
+
+.signature-wrapper {
+    /* REMOVED ABSOLUTE POSITIONING COMPLETELY */
+    position: relative !important;
+    bottom: auto !important;
+    right: auto !important;
+    left: auto !important;
+    top: auto !important;
+    
+    /* POSITIONED IN CONTENT FLOW */
+    order: 5;
+    z-index: 10;
+    text-align: center;
+    width: 100%;
+    margin: var(--space-xl) 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signature-container {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    text-align: center;
+}
+
+.signature-text-animated {
+    font-family: var(--font-dancing);
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--white);
+    text-shadow: 
+        0 3px 8px rgba(0, 0, 0, 0.4),
+        0 1px 4px rgba(0, 0, 0, 0.3);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.signature-char,
+.signature-comma {
+    opacity: 0;
+    transform: translateY(20px) rotate(-5deg);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.signature-underline-animated {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(90deg, var(--hermes-orange), var(--hermes-orange-light));
+    border-radius: 2px;
+    opacity: 0;
+    transition: all 1.5s ease-out;
+}
+
+.writing-indicator {
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    color: var(--hermes-orange);
+    font-size: 1.2rem;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.signature-sparkles {
+    position: absolute;
+    inset: -20px;
+    pointer-events: none;
+}
+
+.sparkle {
+    position: absolute;
+    font-size: 1rem;
+    opacity: 0;
+    transition: all 2s ease-out;
+}
+
+.sparkle-1 { top: -10px; left: 20%; }
+.sparkle-2 { top: 50%; right: 10%; }
+.sparkle-3 { bottom: -10px; left: 60%; }
+
+/* ========================================
+   STATS ROW
+   ======================================== */
+
 .stats-row-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--space-lg);
     max-width: 900px;
     width: 100%;
-    margin-bottom: var(--space-xl);
-    order: 5;
+    order: 6;
 }
 
 .stat-pill {
@@ -1365,85 +1477,7 @@ body {
 }
 
 /* ========================================
-   6. HANDWRITTEN SIGNATURE WITH WRITING ANIMATION (DESKTOP FROM OLD CODE)
-   ======================================== */
-
-.signature-wrapper {
-    position: absolute;
-    bottom: 6rem;
-    right: 4rem;
-    z-index: 10;
-    order: 6;
-}
-
-.signature-container {
-    position: relative;
-    display: inline-block;
-}
-
-.signature-text-animated {
-    font-family: var(--font-dancing);
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--white);
-    text-shadow: 
-        0 3px 8px rgba(0, 0, 0, 0.4),
-        0 1px 4px rgba(0, 0, 0, 0.3);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    text-align: center;
-    display: inline-block;
-    white-space: nowrap;
-}
-
-.signature-char,
-.signature-comma {
-    opacity: 0;
-    transform: translateY(20px) rotate(-5deg);
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.signature-underline-animated {
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    height: 2px;
-    width: 0;
-    background: linear-gradient(90deg, var(--hermes-orange), var(--hermes-orange-light));
-    border-radius: 2px;
-    opacity: 0;
-    transition: all 1.5s ease-out;
-}
-
-.writing-indicator {
-    position: absolute;
-    top: -30px;
-    right: -20px;
-    color: var(--hermes-orange);
-    font-size: 1.2rem;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.3s ease;
-}
-
-.signature-sparkles {
-    position: absolute;
-    inset: -20px;
-    pointer-events: none;
-}
-
-.sparkle {
-    position: absolute;
-    font-size: 1rem;
-    opacity: 0;
-    transition: all 2s ease-out;
-}
-
-.sparkle-1 { top: -10px; left: 20%; }
-.sparkle-2 { top: 50%; right: 10%; }
-.sparkle-3 { bottom: -10px; left: 60%; }
-
-/* ========================================
-   7. SCROLL INDICATOR - PROPERLY CENTERED (DESKTOP FROM OLD CODE)
+   SCROLL INDICATOR
    ======================================== */
 
 .scroll-indicator-elegant {
@@ -1504,64 +1538,32 @@ body {
    ======================================== */
 
 @keyframes float-organic {
-    0%, 100% {
-        transform: translateX(0px) translateY(0px) rotate(0deg);
-    }
-    25% {
-        transform: translateX(30px) translateY(-40px) rotate(5deg);
-    }
-    50% {
-        transform: translateX(-20px) translateY(-20px) rotate(-3deg);
-    }
-    75% {
-        transform: translateX(40px) translateY(30px) rotate(7deg);
-    }
+    0%, 100% { transform: translateX(0px) translateY(0px) rotate(0deg); }
+    25% { transform: translateX(30px) translateY(-40px) rotate(5deg); }
+    50% { transform: translateX(-20px) translateY(-20px) rotate(-3deg); }
+    75% { transform: translateX(40px) translateY(30px) rotate(7deg); }
 }
 
 @keyframes bubble-float {
-    0%, 100% {
-        transform: translateY(0px) scale(1);
-        opacity: 0.7;
-    }
-    50% {
-        transform: translateY(-30px) scale(1.1);
-        opacity: 1;
-    }
+    0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+    50% { transform: translateY(-30px) scale(1.1); opacity: 1; }
 }
 
 @keyframes gradient-shimmer {
-    0%, 100% {
-        background-position: 0% 50%;
-    }
-    25% {
-        background-position: 50% 0%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    75% {
-        background-position: 50% 100%;
-    }
+    0%, 100% { background-position: 0% 50%; }
+    25% { background-position: 50% 0%; }
+    50% { background-position: 100% 50%; }
+    75% { background-position: 50% 100%; }
 }
 
 @keyframes scroll-bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-8px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
 }
 
 @keyframes premium-glow-pulse {
-    0%, 100% {
-        opacity: 0.5;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.1);
-    }
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
 }
 
 @keyframes writeChar {
@@ -1610,7 +1612,7 @@ body {
 }
 
 /* ========================================
-   TABLET RESPONSIVE (1024px and below) - KEEPING FROM NEW CODE
+   TABLET RESPONSIVE (1024px and below)
    ======================================== */
 
 @media (max-width: 1024px) {
@@ -1625,8 +1627,7 @@ body {
     }
     
     .signature-wrapper {
-        bottom: 4rem;
-        right: 2rem;
+        margin: var(--space-xl) 0;
     }
     
     .signature-text-animated { 
@@ -1635,7 +1636,7 @@ body {
 }
 
 /* ========================================
-   MOBILE RESPONSIVE (768px and below) - KEEPING MOBILE STYLES FROM NEW CODE
+   MOBILE RESPONSIVE (768px and below)
    ======================================== */
 
 @media (max-width: 768px) {
@@ -1807,7 +1808,7 @@ body {
 }
 
 /* ========================================
-   SMALL MOBILE (480px and below) - KEEPING FROM NEW CODE
+   SMALL MOBILE (480px and below)
    ======================================== */
 
 @media (max-width: 480px) {
