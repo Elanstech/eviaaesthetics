@@ -964,17 +964,13 @@ body {
 /* ========================================
    HERO SECTION
    ======================================== */
-/* ========================================
-   HERO SECTION BASE STYLES
-   ======================================== */
-
 .cinematic-hero {
     position: relative;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 120px 0 var(--space-4xl); /* Reduced top padding since we're using margin-top on content stack */
+    padding: 120px 0 var(--space-4xl);
     overflow: hidden;
     background: var(--cream-primary);
 }
@@ -1115,21 +1111,22 @@ body {
 }
 
 /* ========================================
-   HERO CONTENT STACK - DESKTOP & MOBILE
+   HERO CONTENT STACK - DESKTOP CENTERED
    ======================================== */
 
 .hero-content-stack {
     position: relative;
     z-index: 10;
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 0 var(--space-xl);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: var(--space-2xl);
-    margin-top: 8vh; /* Increased to ensure header clearance */
+    min-height: 80vh;
 }
 
 /* ========================================
@@ -1178,13 +1175,13 @@ body {
 
 .hero-headline-stack {
     text-align: center;
-    max-width: 700px;
+    max-width: 800px;
     order: 2;
 }
 
 .headline-primary {
     font-family: var(--font-playfair);
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 700;
     line-height: 1.15;
     letter-spacing: -0.01em;
@@ -1199,7 +1196,7 @@ body {
 
 .headline-secondary {
     font-family: var(--font-cormorant);
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 600;
     font-style: italic;
     line-height: 1.2;
@@ -1217,11 +1214,11 @@ body {
 
 .hero-subheadline-elegant {
     font-family: var(--font-inter);
-    font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
     font-weight: 500;
     line-height: 1.7;
     color: var(--white);
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
     text-shadow: 
         0 2px 8px rgba(0, 0, 0, 0.4),
@@ -1304,23 +1301,100 @@ body {
 }
 
 /* ========================================
-   SIGNATURE SECTION - POSITIONED IN FLOW
+   STATS ROW
+   ======================================== */
+
+.stats-row-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+    max-width: 1000px;
+    width: 100%;
+    order: 5;
+}
+
+.stat-pill {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 2rem;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    transition: all var(--transition-medium);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.stat-pill:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 140, 0, 0.4);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 140, 0, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hermes-orange);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    box-shadow: 
+        0 4px 12px rgba(255, 140, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.stat-number {
+    font-family: var(--font-inter);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+    font-family: var(--font-inter);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.2;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   SIGNATURE SECTION - DESKTOP BOTTOM RIGHT
    ======================================== */
 
 .signature-wrapper {
-    /* REMOVED ABSOLUTE POSITIONING COMPLETELY */
-    position: relative !important;
-    bottom: auto !important;
-    right: auto !important;
+    /* DESKTOP: Positioned at bottom right */
+    position: absolute !important;
+    bottom: 6rem !important;
+    right: 8rem !important;
     left: auto !important;
     top: auto !important;
-    
-    /* POSITIONED IN CONTENT FLOW */
-    order: 5;
-    z-index: 10;
+    z-index: 15;
     text-align: center;
-    width: 100%;
-    margin: var(--space-xl) 0;
+    width: auto;
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1397,86 +1471,6 @@ body {
 .sparkle-3 { bottom: -10px; left: 60%; }
 
 /* ========================================
-   STATS ROW
-   ======================================== */
-
-.stats-row-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-lg);
-    max-width: 900px;
-    width: 100%;
-    order: 6;
-}
-
-.stat-pill {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 2rem;
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    transition: all var(--transition-medium);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-}
-
-.stat-pill:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 140, 0, 0.4);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-.stat-icon {
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 140, 0, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--hermes-orange);
-    font-size: 1.2rem;
-    flex-shrink: 0;
-    box-shadow: 
-        0 4px 12px rgba(255, 140, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.stat-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-}
-
-.stat-number {
-    font-family: var(--font-inter);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1;
-    margin-bottom: 0.25rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.stat-label {
-    font-family: var(--font-inter);
-    font-size: 0.75rem;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.9);
-    line-height: 1.2;
-    opacity: 0.9;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* ========================================
    SCROLL INDICATOR
    ======================================== */
 
@@ -1496,7 +1490,6 @@ body {
     transition: all var(--transition-medium);
     width: auto;
     margin: 0 auto;
-    order: 7;
 }
 
 .scroll-indicator-elegant:hover {
@@ -1618,7 +1611,8 @@ body {
 @media (max-width: 1024px) {
     .hero-content-stack {
         gap: var(--space-xl);
-        margin-top: 6vh; /* Adjusted for tablet header clearance */
+        min-height: 75vh;
+        max-width: 800px;
     }
     
     .stats-row-container {
@@ -1627,7 +1621,8 @@ body {
     }
     
     .signature-wrapper {
-        margin: var(--space-xl) 0;
+        bottom: 4rem !important;
+        right: 4rem !important;
     }
     
     .signature-text-animated { 
@@ -1665,7 +1660,7 @@ body {
         width: 100%;
         max-width: 100vw;
         margin: 0 auto;
-        padding: 8rem 1.5rem 2rem 1.5rem; /* Extra top padding to clear mobile header */
+        padding: 8rem 1.5rem 2rem 1.5rem;
         min-height: calc(110vh - 140px);
         min-height: calc(110svh - 140px);
         text-align: center;
@@ -1825,7 +1820,7 @@ body {
     }
     
     .hero-content-stack {
-        padding: 7rem 1rem 1.5rem 1rem; /* Extra top padding to clear mobile header */
+        padding: 7rem 1rem 1.5rem 1rem;
         gap: clamp(1.2rem, 3vw, 1.8rem);
         min-height: calc(105vh - 120px);
         min-height: calc(105svh - 120px);
