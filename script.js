@@ -486,6 +486,7 @@ class EnhancedHermesLuxuryHeader {
         this.lastScrollY = 0;
         this.ticking = false;
         this.isScrolled = false;
+        this.isMobileMode = false;
         
         if (this.header) {
             this.init();
@@ -496,11 +497,11 @@ class EnhancedHermesLuxuryHeader {
         this.bindEvents();
         this.initNavigation();
         this.startHeaderAnimations();
-        console.log('✨ Enhanced Header initialized');
+        console.log('✨ Enhanced Header with Mobile Mode initialized');
     }
     
     bindEvents() {
-        // Optimized scroll handler
+        // Optimized scroll handler with mobile mode functionality
         window.addEventListener('scroll', () => {
             if (!this.ticking) {
                 requestAnimationFrame(() => this.handleScroll());
@@ -540,11 +541,46 @@ class EnhancedHermesLuxuryHeader {
     
     handleScroll() {
         const scrollY = window.pageYOffset;
-        const shouldTransform = scrollY > 100;
+        const scrollDirection = scrollY > this.lastScrollY ? 'down' : 'up';
+        const scrollThreshold = 100;
+        const returnThreshold = 50; // Hysteresis to prevent jitter
         
-        if (shouldTransform !== this.isScrolled) {
-            this.isScrolled = shouldTransform;
-            this.header.classList.toggle('scrolled', this.isScrolled);
+        // Only apply mobile mode on desktop (not on actual mobile devices)
+        if (window.innerWidth > 900) {
+            if (scrollDirection === 'down' && scrollY > scrollThreshold) {
+                // Scrolling down past threshold - switch to mobile mode
+                if (!this.header.classList.contains('mobile-mode')) {
+                    this.header.classList.add('mobile-mode');
+                    this.header.classList.remove('scrolled');
+                    this.isMobileMode = true;
+                    console.log('Header switched to mobile mode');
+                }
+            } else if (scrollDirection === 'up' && scrollY < returnThreshold) {
+                // Scrolling up and near top - switch back to desktop mode
+                if (this.header.classList.contains('mobile-mode')) {
+                    this.header.classList.remove('mobile-mode');
+                    this.isMobileMode = false;
+                    console.log('Header switched back to desktop mode');
+                }
+            }
+            
+            // Handle normal scrolled state for desktop mode (when not in mobile mode)
+            if (!this.header.classList.contains('mobile-mode')) {
+                const shouldTransform = scrollY > scrollThreshold;
+                if (shouldTransform !== this.isScrolled) {
+                    this.isScrolled = shouldTransform;
+                    this.header.classList.toggle('scrolled', this.isScrolled);
+                }
+            }
+        } else {
+            // On actual mobile devices, remove mobile-mode class and use normal behavior
+            this.header.classList.remove('mobile-mode');
+            this.isMobileMode = false;
+            const shouldTransform = scrollY > scrollThreshold;
+            if (shouldTransform !== this.isScrolled) {
+                this.isScrolled = shouldTransform;
+                this.header.classList.toggle('scrolled', this.isScrolled);
+            }
         }
         
         this.lastScrollY = scrollY;
@@ -657,7 +693,8 @@ class EnhancedHermesLuxuryHeader {
             floatOffset += 0.005;
             const yOffset = Math.sin(floatOffset) * 0.5;
             
-            if (!this.isScrolled) {
+            // Only apply floating animation in desktop mode (not mobile mode)
+            if (!this.isScrolled && !this.isMobileMode) {
                 container.style.transform = `translateY(${yOffset}px)`;
             }
             
@@ -697,10 +734,23 @@ class EnhancedHermesLuxuryHeader {
     }
     
     onResize() {
-        if (window.innerWidth > EviaConfig.breakpoints.tablet) {
+        if (window.innerWidth <= 900) {
+            // On actual mobile, remove mobile-mode class and mobile toggle active state
+            this.header.classList.remove('mobile-mode');
+            this.isMobileMode = false;
             const toggle = document.getElementById('mobileToggle');
             if (toggle) {
                 toggle.classList.remove('active');
+            }
+        } else {
+            // On desktop, check current scroll position to determine if mobile mode should be active
+            const scrollY = window.pageYOffset;
+            if (scrollY > 100) {
+                this.header.classList.add('mobile-mode');
+                this.isMobileMode = true;
+            } else {
+                this.header.classList.remove('mobile-mode');
+                this.isMobileMode = false;
             }
         }
     }
