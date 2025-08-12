@@ -2,6 +2,7 @@
    EVIA AESTHETICS - OPTIMIZED LUXURY EXPERIENCE
    PERFORMANCE ENHANCED & MOBILE OPTIMIZED
    WITH ENHANCED HEADER & MOBILE MENU
+   + LUXURY FLOATING ACTION BUTTONS
    ======================================== */
 
 'use strict';
@@ -152,7 +153,8 @@ class EviaLuxuryApp {
             { name: 'servicesCarousel', class: LuxuryServicesCarousel },
             { name: 'beforeAfter', class: BeforeAfterSlider },
             { name: 'contactForm', class: ContactForm },
-            { name: 'magneticEffects', class: MagneticEffects }
+            { name: 'magneticEffects', class: MagneticEffects },
+            { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
         
         componentDefinitions.forEach(({ name, class: ComponentClass }) => {
@@ -2411,6 +2413,379 @@ class MagneticEffects {
 }
 
 /* ========================================
+   LUXURY FLOATING ACTION BUTTONS COMPONENT
+   ======================================== */
+
+class LuxuryFloatingButtons {
+    constructor() {
+        this.callBtn = document.getElementById('luxuryCallBtn');
+        this.topBtn = document.getElementById('luxuryTopBtn');
+        this.isVisible = false;
+        this.scrollThreshold = 300;
+        this.lastScrollY = 0;
+        this.ticking = false;
+        
+        if (this.callBtn && this.topBtn) {
+            this.init();
+        }
+    }
+    
+    init() {
+        this.bindEvents();
+        this.showButtonsWithDelay();
+        console.log('✨ Luxury Floating Buttons initialized');
+    }
+    
+    bindEvents() {
+        // Scroll handler for back to top visibility
+        window.addEventListener('scroll', () => {
+            if (!this.ticking) {
+                requestAnimationFrame(() => this.handleScroll());
+                this.ticking = true;
+            }
+        }, { passive: true });
+        
+        // Call button functionality
+        if (this.callBtn) {
+            this.callBtn.addEventListener('click', (e) => this.handleCallClick(e));
+            this.callBtn.addEventListener('mouseenter', () => this.addRippleEffect(this.callBtn));
+        }
+        
+        // Back to top button functionality
+        if (this.topBtn) {
+            this.topBtn.addEventListener('click', (e) => this.handleTopClick(e));
+            this.topBtn.addEventListener('mouseenter', () => this.addRippleEffect(this.topBtn));
+        }
+        
+        // Window load event to show buttons
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                this.showButtons();
+            }, 2000);
+        });
+        
+        // Page visibility API
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && !this.isVisible) {
+                this.showButtons();
+            }
+        });
+    }
+    
+    handleScroll() {
+        const scrollY = window.pageYOffset;
+        const shouldShowTop = scrollY > this.scrollThreshold;
+        
+        // Always show call button, conditionally show top button
+        if (shouldShowTop && !this.topBtn.classList.contains('show')) {
+            this.showTopButton();
+        } else if (!shouldShowTop && this.topBtn.classList.contains('show')) {
+            this.hideTopButton();
+        }
+        
+        this.lastScrollY = scrollY;
+        this.ticking = false;
+    }
+    
+    showButtonsWithDelay() {
+        // Show call button first
+        setTimeout(() => {
+            this.showCallButton();
+        }, 3000);
+        
+        // Show top button if needed
+        setTimeout(() => {
+            if (window.pageYOffset > this.scrollThreshold) {
+                this.showTopButton();
+            }
+        }, 3500);
+    }
+    
+    showButtons() {
+        this.showCallButton();
+        
+        if (window.pageYOffset > this.scrollThreshold) {
+            this.showTopButton();
+        }
+        
+        this.isVisible = true;
+    }
+    
+    showCallButton() {
+        if (this.callBtn && !this.callBtn.classList.contains('show')) {
+            this.callBtn.style.animation = 'fab-entrance 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+            this.callBtn.classList.add('show');
+            
+            // Add subtle bounce after entrance
+            setTimeout(() => {
+                this.addBounceEffect(this.callBtn);
+            }, 800);
+        }
+    }
+    
+    showTopButton() {
+        if (this.topBtn && !this.topBtn.classList.contains('show')) {
+            this.topBtn.style.animation = 'fab-entrance 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+            this.topBtn.classList.add('show');
+            
+            // Add subtle bounce after entrance
+            setTimeout(() => {
+                this.addBounceEffect(this.topBtn);
+            }, 800);
+        }
+    }
+    
+    hideTopButton() {
+        if (this.topBtn && this.topBtn.classList.contains('show')) {
+            this.topBtn.classList.remove('show');
+        }
+    }
+    
+    handleCallClick(e) {
+        e.preventDefault();
+        
+        // Add ripple effect
+        this.triggerRipple(this.callBtn, e);
+        
+        // Add click feedback
+        this.addClickFeedback(this.callBtn);
+        
+        // Make the call
+        const phoneNumber = '2016394983'; // Remove formatting for tel: link
+        const telLink = `tel:${phoneNumber}`;
+        
+        // Show calling feedback
+        this.showCallingFeedback();
+        
+        // Attempt to make the call
+        window.location.href = telLink;
+        
+        // Analytics tracking (if you have analytics)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'phone_call', {
+                event_category: 'engagement',
+                event_label: 'floating_call_button'
+            });
+        }
+        
+        console.log('📞 Call button clicked - initiating call');
+    }
+    
+    handleTopClick(e) {
+        e.preventDefault();
+        
+        // Add ripple effect
+        this.triggerRipple(this.topBtn, e);
+        
+        // Add click feedback
+        this.addClickFeedback(this.topBtn);
+        
+        // Smooth scroll to top
+        this.scrollToTop();
+        
+        // Analytics tracking (if you have analytics)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'scroll_to_top', {
+                event_category: 'navigation',
+                event_label: 'floating_top_button'
+            });
+        }
+        
+        console.log('⬆️ Back to top button clicked');
+    }
+    
+    scrollToTop() {
+        const startPosition = window.pageYOffset;
+        const startTime = performance.now();
+        const duration = 1200; // Smooth scroll duration
+        
+        const easeOutCubic = (t) => {
+            return 1 - Math.pow(1 - t, 3);
+        };
+        
+        const scroll = (currentTime) => {
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            const easedProgress = easeOutCubic(progress);
+            
+            window.scrollTo(0, startPosition * (1 - easedProgress));
+            
+            if (progress < 1) {
+                requestAnimationFrame(scroll);
+            } else {
+                // Scroll complete callback
+                this.onScrollComplete();
+            }
+        };
+        
+        requestAnimationFrame(scroll);
+    }
+    
+    onScrollComplete() {
+        // Add success feedback
+        this.addSuccessFeedback(this.topBtn);
+        
+        // Hide top button since we're at the top
+        setTimeout(() => {
+            this.hideTopButton();
+        }, 1000);
+    }
+    
+    triggerRipple(button, event) {
+        const ripple = button.querySelector('.fab-ripple');
+        if (!ripple) return;
+        
+        const rect = button.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        button.classList.add('ripple-active');
+        
+        setTimeout(() => {
+            button.classList.remove('ripple-active');
+        }, 600);
+    }
+    
+    addRippleEffect(button) {
+        const ripple = button.querySelector('.fab-ripple');
+        if (ripple) {
+            ripple.style.left = '50%';
+            ripple.style.top = '50%';
+            button.classList.add('ripple-active');
+            
+            setTimeout(() => {
+                button.classList.remove('ripple-active');
+            }, 600);
+        }
+    }
+    
+    addClickFeedback(button) {
+        button.style.transform = 'translateY(-4px) scale(0.95)';
+        
+        setTimeout(() => {
+            button.style.transform = '';
+        }, 150);
+    }
+    
+    addBounceEffect(button) {
+        button.style.animation = 'none';
+        button.offsetHeight; // Force reflow
+        button.style.animation = 'arrow-bounce 0.6s ease-out';
+        
+        setTimeout(() => {
+            button.style.animation = '';
+        }, 600);
+    }
+    
+    addSuccessFeedback(button) {
+        const icon = button.querySelector('.fab-icon i');
+        if (icon) {
+            const originalClass = icon.className;
+            icon.className = 'ri-check-line';
+            
+            setTimeout(() => {
+                icon.className = originalClass;
+            }, 2000);
+        }
+    }
+    
+    showCallingFeedback() {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-family: var(--font-inter);
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        `;
+        
+        feedback.innerHTML = `
+            <i class="ri-phone-line" style="font-size: 1.1rem;"></i>
+            <span>Connecting call...</span>
+        `;
+        
+        document.body.appendChild(feedback);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        // Animate out
+        setTimeout(() => {
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 400);
+        }, 2500);
+    }
+    
+    // Public methods for external control
+    show() {
+        this.showButtons();
+    }
+    
+    hide() {
+        if (this.callBtn) {
+            this.callBtn.classList.remove('show');
+        }
+        if (this.topBtn) {
+            this.topBtn.classList.remove('show');
+        }
+        this.isVisible = false;
+    }
+    
+    toggle() {
+        if (this.isVisible) {
+            this.hide();
+        } else {
+            this.show();
+        }
+    }
+    
+    destroy() {
+        // Cleanup event listeners
+        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('load', this.showButtons);
+        
+        if (this.callBtn) {
+            this.callBtn.removeEventListener('click', this.handleCallClick);
+            this.callBtn.removeEventListener('mouseenter', this.addRippleEffect);
+        }
+        
+        if (this.topBtn) {
+            this.topBtn.removeEventListener('click', this.handleTopClick);
+            this.topBtn.removeEventListener('mouseenter', this.addRippleEffect);
+        }
+        
+        console.log('🗑️ Luxury Floating Buttons destroyed');
+    }
+}
+
+/* ========================================
    APPLICATION INITIALIZATION
    ======================================== */
 
@@ -2453,6 +2828,44 @@ document.addEventListener('DOMContentLoaded', () => {
         @keyframes pulse-dot {
             0%, 100% { opacity: 0.3; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        @keyframes fab-entrance {
+            0% {
+                transform: translateY(100px) scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-10px) scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes phone-ring {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30% { transform: rotate(-15deg); }
+            20%, 40% { transform: rotate(15deg); }
+            50%, 90% { transform: rotate(0deg); }
+        }
+        
+        @keyframes arrow-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        
+        @keyframes fab-glow-pulse {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scale(1); 
+            }
+            50% { 
+                opacity: 0.6; 
+                transform: scale(1.05); 
+            }
         }
         
         @media (max-width: ${EviaConfig.breakpoints.tablet}px) {
@@ -2533,6 +2946,28 @@ window.addEventListener('unhandledrejection', (e) => {
     e.preventDefault();
 });
 
+// Utility functions for external control of floating buttons
+window.showFloatingButtons = () => {
+    const floatingButtons = app ? app.getComponent('floatingButtons') : window.luxuryFloatingButtons;
+    if (floatingButtons) {
+        floatingButtons.show();
+    }
+};
+
+window.hideFloatingButtons = () => {
+    const floatingButtons = app ? app.getComponent('floatingButtons') : window.luxuryFloatingButtons;
+    if (floatingButtons) {
+        floatingButtons.hide();
+    }
+};
+
+window.toggleFloatingButtons = () => {
+    const floatingButtons = app ? app.getComponent('floatingButtons') : window.luxuryFloatingButtons;
+    if (floatingButtons) {
+        floatingButtons.toggle();
+    }
+};
+
 // Export for potential module usage
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { 
@@ -2541,6 +2976,7 @@ if (typeof module !== 'undefined' && module.exports) {
         LuxuryServicesCarousel,
         EviaConfig,
         EnhancedHermesLuxuryHeader,
-        UltraLuxuryMobileMenu
+        UltraLuxuryMobileMenu,
+        LuxuryFloatingButtons
     };
 }
