@@ -6401,6 +6401,7 @@ body.menu-open {
 /* Call Button Specific */
 .luxury-fab-call {
     animation-delay: 0.2s;
+    /* Desktop: Left side, Mobile: Left side (icon only) */
 }
 
 .luxury-fab-call .fab-icon i {
@@ -6410,6 +6411,7 @@ body.menu-open {
 /* Back to Top Button Specific */
 .luxury-fab-top {
     animation-delay: 0.4s;
+    /* Desktop: Right side, Mobile: Right side (icon only) */
 }
 
 .luxury-fab-top .fab-content {
@@ -6429,27 +6431,96 @@ body.menu-open {
    ======================================== */
 
 @media (max-width: 768px) {
-    /* Mobile: Stack vertically on the left */
+    /* Mobile: Call button left, Top button right - Icon only */
     .luxury-floating-actions {
         bottom: 2rem;
-        left: 1rem;
-        right: auto;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-        width: auto;
+        left: 1.5rem;
+        right: 1.5rem;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
     }
     
-    /* Smaller, more compact buttons */
+    /* Hide text on mobile - Icon only buttons */
+    .fab-text {
+        display: none;
+    }
+    
+    /* Compact circular buttons */
     .luxury-fab {
-        min-width: auto;
-        max-width: 160px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        min-width: 56px;
+        max-width: 56px;
+        box-shadow: 
+            0 6px 24px rgba(0, 0, 0, 0.1),
+            0 3px 12px rgba(255, 158, 24, 0.15);
+    }
+    
+    .luxury-fab:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.15),
+            0 4px 16px rgba(255, 158, 24, 0.2);
     }
     
     .fab-content {
-        padding: 0.75rem 1rem;
-        gap: 0.625rem;
-        min-height: 48px;
+        padding: 0;
+        justify-content: center;
+        min-height: 56px;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .fab-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        margin: 0;
+    }
+    
+    /* Circular background for mobile */
+    .fab-background {
+        border-radius: 50%;
+    }
+    
+    .fab-glow {
+        border-radius: 50%;
+    }
+    
+    .fab-shine {
+        border-radius: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .luxury-floating-actions {
+        bottom: 1.5rem;
+        left: 1rem;
+        right: 1rem;
+    }
+    
+    /* Smaller circular buttons for small phones */
+    .luxury-fab {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        max-width: 52px;
+        box-shadow: 
+            0 5px 20px rgba(0, 0, 0, 0.08),
+            0 2px 10px rgba(255, 158, 24, 0.12);
+    }
+    
+    .luxury-fab:hover {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 
+            0 6px 24px rgba(0, 0, 0, 0.12),
+            0 3px 12px rgba(255, 158, 24, 0.18);
+    }
+    
+    .fab-content {
+        min-height: 52px;
     }
     
     .fab-icon {
@@ -6457,96 +6528,42 @@ body.menu-open {
         height: 36px;
         font-size: 1rem;
     }
-    
-    .fab-label {
-        font-size: 0.8rem;
-    }
-    
-    .fab-number {
-        font-size: 0.7rem;
-    }
-    
-    .luxury-fab-top .fab-content {
-        padding: 0.75rem;
-    }
-    
-    .luxury-fab-top .fab-text {
-        margin-left: 0.4rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .luxury-floating-actions {
-        bottom: 1.5rem;
-        left: 0.75rem;
-        gap: 0.625rem;
-    }
-    
-    /* Even more compact for small phones */
-    .luxury-fab {
-        max-width: 140px;
-    }
-    
-    .fab-content {
-        padding: 0.625rem 0.875rem;
-        gap: 0.5rem;
-        min-height: 44px;
-    }
-    
-    .fab-icon {
-        width: 32px;
-        height: 32px;
-        font-size: 0.9rem;
-    }
-    
-    .fab-label {
-        font-size: 0.75rem;
-        font-weight: 500;
-    }
-    
-    .fab-number {
-        font-size: 0.65rem;
-    }
-    
-    .luxury-fab-top .fab-content {
-        padding: 0.625rem;
-    }
-    
-    .luxury-fab-top .fab-text {
-        margin-left: 0.3rem;
-    }
 }
 
 /* Ultra-small screens */
 @media (max-width: 360px) {
     .luxury-floating-actions {
         bottom: 1rem;
-        left: 0.5rem;
-        gap: 0.5rem;
+        left: 0.75rem;
+        right: 0.75rem;
     }
     
+    /* Even smaller for very small screens */
     .luxury-fab {
-        max-width: 120px;
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        max-width: 48px;
+        box-shadow: 
+            0 4px 16px rgba(0, 0, 0, 0.06),
+            0 2px 8px rgba(255, 158, 24, 0.1);
+    }
+    
+    .luxury-fab:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 
+            0 5px 20px rgba(0, 0, 0, 0.1),
+            0 2px 10px rgba(255, 158, 24, 0.15);
     }
     
     .fab-content {
-        padding: 0.5rem 0.75rem;
-        gap: 0.4rem;
-        min-height: 40px;
+        min-height: 48px;
     }
     
     .fab-icon {
-        width: 28px;
-        height: 28px;
-        font-size: 0.85rem;
-    }
-    
-    .fab-label {
-        font-size: 0.7rem;
-    }
-    
-    .fab-number {
-        font-size: 0.6rem;
+        width: 32px;
+        height: 32px;
+        font-size: 0.95rem;
     }
 }
 
@@ -6636,8 +6653,9 @@ body.menu-open {
 
 /* Touch optimization */
 @media (hover: none) and (pointer: coarse) {
+    /* Desktop touch devices */
     .luxury-fab {
-        min-height: 48px;
+        min-height: 56px;
     }
     
     .fab-content {
@@ -6645,8 +6663,75 @@ body.menu-open {
     }
     
     .fab-icon {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    /* Mobile touch: circular icon-only buttons */
+    @media (max-width: 768px) {
+        .fab-text {
+            display: none;
+        }
+        
+        .luxury-fab {
+            width: 56px;
+            height: 56px;
+            min-width: 56px;
+            max-width: 56px;
+            border-radius: 50%;
+        }
+        
+        .fab-content {
+            padding: 0;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .fab-background,
+        .fab-glow,
+        .fab-shine {
+            border-radius: 50%;
+        }
+        
+        /* Smaller sizes for smaller screens */
+        @media (max-width: 480px) {
+            .luxury-fab {
+                width: 52px;
+                height: 52px;
+                min-width: 52px;
+                max-width: 52px;
+            }
+            
+            .fab-content {
+                min-height: 52px;
+            }
+            
+            .fab-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .luxury-fab {
+                width: 48px;
+                height: 48px;
+                min-width: 48px;
+                max-width: 48px;
+            }
+            
+            .fab-content {
+                min-height: 48px;
+            }
+            
+            .fab-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 0.95rem;
+            }
+        }
     }
     
     /* Remove hover effects on touch devices */
