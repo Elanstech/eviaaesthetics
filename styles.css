@@ -3725,12 +3725,12 @@ body.menu-open {
 .luxury-about-section {
     position: relative;
     padding: 120px 0;
-    background: var(--gradient-cream);
+    background: linear-gradient(135deg, #FFFCF8 0%, #FFF8F0 100%);
     overflow: hidden;
     min-height: 100vh;
 }
 
-.about-background {
+.luxury-about-section .about-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -3739,7 +3739,7 @@ body.menu-open {
     z-index: 1;
 }
 
-.floating-elements {
+.luxury-about-section .floating-elements {
     position: absolute;
     top: 0;
     left: 0;
@@ -3747,16 +3747,16 @@ body.menu-open {
     height: 100%;
 }
 
-.element {
+.luxury-about-section .element {
     position: absolute;
-    background: var(--gradient-hermes);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
     border-radius: 50%;
     opacity: 0.08;
     filter: blur(60px);
-    animation: float-gentle 20s ease-in-out infinite;
+    animation: about-float-gentle 20s ease-in-out infinite;
 }
 
-.element-1 {
+.luxury-about-section .element-1 {
     width: 300px;
     height: 300px;
     top: 10%;
@@ -3764,7 +3764,7 @@ body.menu-open {
     animation-delay: 0s;
 }
 
-.element-2 {
+.luxury-about-section .element-2 {
     width: 200px;
     height: 200px;
     top: 60%;
@@ -3772,7 +3772,7 @@ body.menu-open {
     animation-delay: -7s;
 }
 
-.element-3 {
+.luxury-about-section .element-3 {
     width: 150px;
     height: 150px;
     top: 30%;
@@ -3780,7 +3780,7 @@ body.menu-open {
     animation-delay: -14s;
 }
 
-.element-4 {
+.luxury-about-section .element-4 {
     width: 250px;
     height: 250px;
     bottom: 10%;
@@ -3788,7 +3788,7 @@ body.menu-open {
     animation-delay: -21s;
 }
 
-.gradient-overlay {
+.luxury-about-section .gradient-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -3799,7 +3799,7 @@ body.menu-open {
         radial-gradient(circle at 80% 80%, rgba(42, 27, 10, 0.03) 0%, transparent 50%);
 }
 
-.about-container {
+.luxury-about-section .about-container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 40px;
@@ -3811,53 +3811,53 @@ body.menu-open {
    SECTION HEADER
    ======================================== */
 
-.about-header {
+.luxury-about-section .about-header {
     text-align: center;
     margin-bottom: 80px;
 }
 
-.header-badge {
+.luxury-about-section .header-badge {
     display: inline-flex;
     align-items: center;
     gap: 12px;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 140, 0, 0.2);
-    border-radius: var(--radius-full);
+    border-radius: 9999px;
     padding: 16px 32px;
     margin-bottom: 32px;
-    transition: all var(--transition-medium);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.header-badge:hover {
+.luxury-about-section .header-badge:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: var(--shadow-premium);
+    box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15);
     border-color: rgba(255, 140, 0, 0.4);
 }
 
-.badge-icon {
+.luxury-about-section .badge-icon {
     width: 36px;
     height: 36px;
-    background: var(--gradient-hermes);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--white);
+    color: #FFFFFF;
     font-size: 18px;
 }
 
-.badge-text {
-    font-family: var(--font-primary);
+.luxury-about-section .badge-text {
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 600;
-    color: var(--hermes-orange);
+    color: #FF8C00;
     text-transform: uppercase;
     letter-spacing: 1.5px;
 }
 
-.about-title {
-    font-family: var(--font-display);
+.luxury-about-section .about-title {
+    font-family: 'Playfair Display', serif;
     font-size: clamp(3rem, 6vw, 5rem);
     font-weight: 600;
     line-height: 1.1;
@@ -3865,29 +3865,29 @@ body.menu-open {
     text-align: center;
 }
 
-.title-line-1 {
+.luxury-about-section .title-line-1 {
     display: block;
-    color: var(--text-primary);
+    color: #2A1B0A;
     letter-spacing: -1px;
 }
 
-.title-line-2 {
+.luxury-about-section .title-line-2 {
     display: block;
-    background: var(--gradient-hermes);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradient-flow 4s ease-in-out infinite;
+    animation: about-gradient-flow 4s ease-in-out infinite;
     font-style: italic;
     margin-top: 8px;
 }
 
-.about-subtitle {
-    font-family: var(--font-elegant);
+.luxury-about-section .about-subtitle {
+    font-family: 'Crimson Text', serif;
     font-size: 20px;
     font-weight: 400;
-    color: var(--text-secondary);
+    color: #6B5B47;
     line-height: 1.6;
     max-width: 600px;
     margin: 0 auto;
@@ -3898,7 +3898,7 @@ body.menu-open {
    MAIN CONTENT GRID
    ======================================== */
 
-.about-content-grid {
+.luxury-about-section .about-content-grid {
     display: grid;
     grid-template-columns: 500px 1fr;
     gap: 80px;
@@ -3910,133 +3910,133 @@ body.menu-open {
    DOCTOR PROFILE CARD
    ======================================== */
 
-.doctor-profile-card {
+.luxury-about-section .doctor-profile-card {
     position: relative;
     height: fit-content;
     top: 40px;
 }
 
-.profile-image-container {
+.luxury-about-section .profile-image-container {
     position: relative;
     width: 100%;
     height: 600px;
 }
 
-.image-frame {
+.luxury-about-section .image-frame {
     position: relative;
     width: 100%;
     height: 100%;
-    border-radius: var(--radius-xl);
+    border-radius: 40px;
     overflow: hidden;
-    background: var(--white);
-    box-shadow: var(--shadow-luxury);
-    transition: all var(--transition-slow);
+    background: #FFFFFF;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.image-frame:hover {
+.luxury-about-section .image-frame:hover {
     transform: translateY(-8px) rotate(1deg);
-    box-shadow: var(--shadow-premium);
+    box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15);
 }
 
-.doctor-image {
+.luxury-about-section .doctor-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transition: transform var(--transition-slow);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.image-frame:hover .doctor-image {
+.luxury-about-section .image-frame:hover .doctor-image {
     transform: scale(1.05);
 }
 
-.image-glow {
+.luxury-about-section .image-glow {
     position: absolute;
     inset: -20px;
-    background: var(--gradient-hermes);
-    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
+    border-radius: 40px;
     opacity: 0;
     filter: blur(40px);
-    transition: opacity var(--transition-slow);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     z-index: -1;
 }
 
-.image-frame:hover .image-glow {
+.luxury-about-section .image-frame:hover .image-glow {
     opacity: 0.4;
 }
 
 /* Floating Credentials */
-.floating-credential {
+.luxury-about-section .floating-credential {
     position: absolute;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(30px);
     border: 1px solid rgba(255, 140, 0, 0.2);
-    border-radius: var(--radius-md);
+    border-radius: 24px;
     padding: 16px 20px;
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow: var(--shadow-soft);
-    transition: all var(--transition-medium);
-    animation: float-gentle 6s ease-in-out infinite;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: about-float-gentle 6s ease-in-out infinite;
 }
 
-.floating-credential:hover {
+.luxury-about-section .floating-credential:hover {
     transform: translateY(-5px) scale(1.05);
-    box-shadow: var(--shadow-premium);
+    box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15);
     border-color: rgba(255, 140, 0, 0.4);
 }
 
-.credential-1 {
+.luxury-about-section .credential-1 {
     top: 60px;
     right: -60px;
     animation-delay: 0s;
 }
 
-.credential-2 {
+.luxury-about-section .credential-2 {
     bottom: 120px;
     left: -70px;
     animation-delay: -2s;
 }
 
-.credential-3 {
+.luxury-about-section .credential-3 {
     top: 200px;
     right: -50px;
     animation-delay: -4s;
 }
 
-.credential-icon {
+.luxury-about-section .credential-icon {
     width: 40px;
     height: 40px;
-    background: var(--gradient-hermes);
-    border-radius: var(--radius-xs);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--white);
+    color: #FFFFFF;
     font-size: 16px;
     flex-shrink: 0;
 }
 
-.credential-text {
+.luxury-about-section .credential-text {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.credential-title {
-    font-family: var(--font-primary);
+.luxury-about-section .credential-title {
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #2A1B0A;
     line-height: 1.2;
 }
 
-.credential-subtitle {
-    font-family: var(--font-primary);
+.luxury-about-section .credential-subtitle {
+    font-family: 'Inter', sans-serif;
     font-size: 12px;
     font-weight: 400;
-    color: var(--text-muted);
+    color: #9B8A75;
     line-height: 1.2;
 }
 
@@ -4044,54 +4044,54 @@ body.menu-open {
    CONTENT AREA
    ======================================== */
 
-.about-content-area {
+.luxury-about-section .about-content-area {
     display: flex;
     flex-direction: column;
     gap: 48px;
 }
 
 /* Doctor Introduction */
-.doctor-intro {
+.luxury-about-section .doctor-intro {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(30px);
     border: 1px solid rgba(255, 140, 0, 0.1);
-    border-radius: var(--radius-lg);
+    border-radius: 32px;
     padding: 40px;
-    box-shadow: var(--shadow-soft);
-    transition: all var(--transition-medium);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.doctor-intro:hover {
+.luxury-about-section .doctor-intro:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-luxury);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
     border-color: rgba(255, 140, 0, 0.2);
 }
 
-.intro-header {
+.luxury-about-section .intro-header {
     margin-bottom: 32px;
 }
 
-.doctor-name {
-    font-family: var(--font-display);
+.luxury-about-section .doctor-name {
+    font-family: 'Playfair Display', serif;
     font-size: 28px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #2A1B0A;
     margin-bottom: 16px;
     line-height: 1.2;
 }
 
-.specialty-tags {
+.luxury-about-section .specialty-tags {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
 }
 
-.specialty-tag {
+.luxury-about-section .specialty-tag {
     background: rgba(255, 140, 0, 0.1);
-    color: var(--hermes-orange);
+    color: #FF8C00;
     padding: 8px 16px;
-    border-radius: var(--radius-full);
-    font-family: var(--font-primary);
+    border-radius: 9999px;
+    font-family: 'Inter', sans-serif;
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
@@ -4100,196 +4100,196 @@ body.menu-open {
 }
 
 /* Signature Quote */
-.signature-quote {
+.luxury-about-section .signature-quote {
     position: relative;
     padding-left: 60px;
 }
 
-.quote-icon {
+.luxury-about-section .quote-icon {
     position: absolute;
     top: 0;
     left: 0;
     width: 40px;
     height: 40px;
-    background: var(--gradient-hermes);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--white);
+    color: #FFFFFF;
     font-size: 20px;
 }
 
-.signature-quote blockquote {
-    font-family: var(--font-elegant);
+.luxury-about-section .signature-quote blockquote {
+    font-family: 'Crimson Text', serif;
     font-size: 18px;
     font-weight: 400;
     font-style: italic;
     line-height: 1.7;
-    color: var(--text-primary);
+    color: #2A1B0A;
     margin-bottom: 24px;
     position: relative;
 }
 
-.quote-signature {
+.luxury-about-section .quote-signature {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.signature-name {
-    font-family: var(--font-primary);
+.luxury-about-section .signature-name {
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 700;
-    color: var(--hermes-orange);
+    color: #FF8C00;
 }
 
-.signature-title {
-    font-family: var(--font-primary);
+.luxury-about-section .signature-title {
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: var(--text-muted);
+    color: #9B8A75;
 }
 
 /* Experience & Philosophy */
-.experience-philosophy {
+.luxury-about-section .experience-philosophy {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 32px;
 }
 
-.philosophy-card {
+.luxury-about-section .philosophy-card {
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 140, 0, 0.1);
-    border-radius: var(--radius-md);
+    border-radius: 24px;
     padding: 32px;
-    transition: all var(--transition-medium);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.philosophy-card:hover {
+.luxury-about-section .philosophy-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-soft);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
     border-color: rgba(255, 140, 0, 0.2);
 }
 
-.card-header {
+.luxury-about-section .card-header {
     display: flex;
     align-items: center;
     gap: 16px;
     margin-bottom: 20px;
 }
 
-.card-icon {
+.luxury-about-section .card-icon {
     width: 48px;
     height: 48px;
-    background: var(--gradient-hermes);
-    border-radius: var(--radius-xs);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--white);
+    color: #FFFFFF;
     font-size: 20px;
     flex-shrink: 0;
 }
 
-.philosophy-card h4 {
-    font-family: var(--font-modern);
+.luxury-about-section .philosophy-card h4 {
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 20px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #2A1B0A;
     line-height: 1.2;
 }
 
-.philosophy-card p {
-    font-family: var(--font-primary);
+.luxury-about-section .philosophy-card p {
+    font-family: 'Inter', sans-serif;
     font-size: 15px;
     font-weight: 400;
     line-height: 1.6;
-    color: var(--text-secondary);
+    color: #6B5B47;
 }
 
 /* Services Overview */
-.services-overview {
+.luxury-about-section .services-overview {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(30px);
     border: 1px solid rgba(255, 140, 0, 0.15);
-    border-radius: var(--radius-lg);
+    border-radius: 32px;
     padding: 40px;
-    box-shadow: var(--shadow-soft);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
-.services-title {
-    font-family: var(--font-modern);
+.luxury-about-section .services-title {
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 24px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #2A1B0A;
     margin-bottom: 32px;
     text-align: center;
 }
 
-.services-grid {
+.luxury-about-section .services-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
 }
 
-.service-item {
+.luxury-about-section .service-item {
     display: flex;
     align-items: flex-start;
     gap: 16px;
     padding: 20px;
     background: rgba(255, 255, 255, 0.6);
-    border-radius: var(--radius-sm);
+    border-radius: 16px;
     border: 1px solid rgba(255, 140, 0, 0.1);
-    transition: all var(--transition-fast);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.service-item:hover {
+.luxury-about-section .service-item:hover {
     transform: translateX(8px);
     border-color: rgba(255, 140, 0, 0.3);
-    box-shadow: var(--shadow-soft);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
-.service-icon {
+.luxury-about-section .service-icon {
     width: 40px;
     height: 40px;
     background: rgba(255, 140, 0, 0.1);
-    border-radius: var(--radius-xs);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--hermes-orange);
+    color: #FF8C00;
     font-size: 18px;
     flex-shrink: 0;
-    transition: all var(--transition-fast);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.service-item:hover .service-icon {
-    background: var(--gradient-hermes);
-    color: var(--white);
+.luxury-about-section .service-item:hover .service-icon {
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
+    color: #FFFFFF;
     transform: scale(1.1);
 }
 
-.service-content h5 {
-    font-family: var(--font-primary);
+.luxury-about-section .service-content h5 {
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #2A1B0A;
     margin-bottom: 8px;
     line-height: 1.2;
 }
 
-.service-content p {
-    font-family: var(--font-primary);
+.luxury-about-section .service-content p {
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 1.5;
-    color: var(--text-secondary);
+    color: #6B5B47;
 }
 
 /* About CTA */
-.about-cta {
+.luxury-about-section .about-cta {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -4297,14 +4297,14 @@ body.menu-open {
     text-align: center;
 }
 
-.luxury-cta-button {
+.luxury-about-section .luxury-cta-button {
     position: relative;
-    background: var(--gradient-hermes);
-    color: var(--white);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
+    color: #FFFFFF;
     border: none;
-    border-radius: var(--radius-full);
+    border-radius: 9999px;
     padding: 20px 40px;
-    font-family: var(--font-primary);
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
@@ -4312,18 +4312,18 @@ body.menu-open {
     align-items: center;
     gap: 12px;
     overflow: hidden;
-    transition: all var(--transition-medium);
-    box-shadow: var(--shadow-premium);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.luxury-cta-button:hover {
+.luxury-about-section .luxury-cta-button:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: var(--shadow-glow);
+    box-shadow: 0 0 40px rgba(255, 140, 0, 0.3);
 }
 
-.cta-shimmer {
+.luxury-about-section .cta-shimmer {
     position: absolute;
     top: 0;
     left: -100%;
@@ -4333,129 +4333,129 @@ body.menu-open {
     transition: left 0.8s ease;
 }
 
-.luxury-cta-button:hover .cta-shimmer {
+.luxury-about-section .luxury-cta-button:hover .cta-shimmer {
     left: 100%;
 }
 
-.cta-icon {
+.luxury-about-section .cta-icon {
     font-size: 18px;
-    transition: transform var(--transition-fast);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.luxury-cta-button:hover .cta-icon {
+.luxury-about-section .luxury-cta-button:hover .cta-icon {
     transform: scale(1.2);
 }
 
-.contact-methods {
+.luxury-about-section .contact-methods {
     display: flex;
     gap: 32px;
 }
 
-.contact-method {
+.luxury-about-section .contact-method {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--font-primary);
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-muted);
+    color: #9B8A75;
 }
 
-.contact-method i {
+.luxury-about-section .contact-method i {
     font-size: 16px;
-    color: var(--hermes-orange);
+    color: #FF8C00;
 }
 
 /* ========================================
    AWARDS SECTION
    ======================================== */
 
-.awards-section {
+.luxury-about-section .awards-section {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(30px);
     border: 1px solid rgba(255, 140, 0, 0.1);
-    border-radius: var(--radius-xl);
+    border-radius: 40px;
     padding: 60px;
     text-align: center;
-    box-shadow: var(--shadow-soft);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
-.awards-header {
+.luxury-about-section .awards-header {
     margin-bottom: 48px;
 }
 
-.awards-header h4 {
-    font-family: var(--font-modern);
+.luxury-about-section .awards-header h4 {
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 28px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #2A1B0A;
     margin-bottom: 16px;
 }
 
-.awards-header p {
-    font-family: var(--font-primary);
+.luxury-about-section .awards-header p {
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: var(--text-secondary);
+    color: #6B5B47;
     line-height: 1.6;
 }
 
-.awards-grid {
+.luxury-about-section .awards-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 32px;
 }
 
-.award-item {
+.luxury-about-section .award-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 32px 24px;
     background: rgba(255, 255, 255, 0.8);
-    border-radius: var(--radius-md);
+    border-radius: 24px;
     border: 1px solid rgba(255, 140, 0, 0.1);
-    transition: all var(--transition-medium);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.award-item:hover {
+.luxury-about-section .award-item:hover {
     transform: translateY(-8px);
-    box-shadow: var(--shadow-soft);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
     border-color: rgba(255, 140, 0, 0.3);
 }
 
-.award-icon {
+.luxury-about-section .award-icon {
     width: 60px;
     height: 60px;
-    background: var(--gradient-hermes);
-    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--white);
+    color: #FFFFFF;
     font-size: 24px;
     margin-bottom: 20px;
-    transition: transform var(--transition-fast);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.award-item:hover .award-icon {
+.luxury-about-section .award-item:hover .award-icon {
     transform: scale(1.1) rotate(5deg);
 }
 
-.award-content h5 {
-    font-family: var(--font-primary);
+.luxury-about-section .award-content h5 {
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #2A1B0A;
     margin-bottom: 8px;
     line-height: 1.2;
 }
 
-.award-content p {
-    font-family: var(--font-primary);
+.luxury-about-section .award-content p {
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: var(--text-secondary);
+    color: #6B5B47;
     line-height: 1.4;
 }
 
@@ -4463,7 +4463,7 @@ body.menu-open {
    ANIMATIONS
    ======================================== */
 
-@keyframes float-gentle {
+@keyframes about-float-gentle {
     0%, 100% {
         transform: translateY(0px) translateX(0px) rotate(0deg);
     }
@@ -4478,7 +4478,7 @@ body.menu-open {
     }
 }
 
-@keyframes gradient-flow {
+@keyframes about-gradient-flow {
     0%, 100% {
         background-position: 0% 50%;
     }
@@ -4498,22 +4498,22 @@ body.menu-open {
    ======================================== */
 
 @media (max-width: 1400px) {
-    .about-container {
+    .luxury-about-section .about-container {
         padding: 0 30px;
     }
     
-    .about-content-grid {
+    .luxury-about-section .about-content-grid {
         gap: 60px;
     }
 }
 
 @media (max-width: 1200px) {
-    .about-content-grid {
+    .luxury-about-section .about-content-grid {
         grid-template-columns: 400px 1fr;
         gap: 50px;
     }
     
-    .floating-credential {
+    .luxury-about-section .floating-credential {
         position: relative !important;
         top: auto !important;
         bottom: auto !important;
@@ -4523,36 +4523,36 @@ body.menu-open {
         animation: none;
     }
     
-    .profile-image-container {
+    .luxury-about-section .profile-image-container {
         height: 500px;
     }
 }
 
 @media (max-width: 1024px) {
-    .about-content-grid {
+    .luxury-about-section .about-content-grid {
         grid-template-columns: 1fr;
         gap: 60px;
         text-align: center;
     }
     
-    .doctor-profile-card {
+    .luxury-about-section .doctor-profile-card {
         order: 2;
         top: 0;
     }
     
-    .about-content-area {
+    .luxury-about-section .about-content-area {
         order: 1;
     }
     
-    .awards-grid {
+    .luxury-about-section .awards-grid {
         grid-template-columns: repeat(2, 1fr);
     }
     
-    .services-grid {
+    .luxury-about-section .services-grid {
         grid-template-columns: 1fr;
     }
     
-    .experience-philosophy {
+    .luxury-about-section .experience-philosophy {
         grid-template-columns: 1fr;
     }
 }
@@ -4562,73 +4562,73 @@ body.menu-open {
         padding: 80px 0;
     }
     
-    .about-container {
+    .luxury-about-section .about-container {
         padding: 0 20px;
     }
     
-    .about-content-grid {
+    .luxury-about-section .about-content-grid {
         gap: 40px;
     }
     
-    .about-title {
+    .luxury-about-section .about-title {
         font-size: clamp(2rem, 8vw, 3.5rem);
     }
     
-    .profile-image-container {
+    .luxury-about-section .profile-image-container {
         height: 400px;
     }
     
-    .doctor-intro,
-    .services-overview,
-    .awards-section {
+    .luxury-about-section .doctor-intro,
+    .luxury-about-section .services-overview,
+    .luxury-about-section .awards-section {
         padding: 32px 24px;
     }
     
-    .philosophy-card {
+    .luxury-about-section .philosophy-card {
         padding: 24px;
     }
     
-    .awards-grid {
+    .luxury-about-section .awards-grid {
         grid-template-columns: 1fr;
         gap: 24px;
     }
     
-    .contact-methods {
+    .luxury-about-section .contact-methods {
         flex-direction: column;
         gap: 16px;
     }
 }
 
 @media (max-width: 480px) {
-    .about-container {
+    .luxury-about-section .about-container {
         padding: 0 16px;
     }
     
-    .header-badge {
+    .luxury-about-section .header-badge {
         padding: 12px 24px;
     }
     
-    .badge-icon {
+    .luxury-about-section .badge-icon {
         width: 32px;
         height: 32px;
         font-size: 16px;
     }
     
-    .badge-text {
+    .luxury-about-section .badge-text {
         font-size: 12px;
     }
     
-    .about-subtitle {
+    .luxury-about-section .about-subtitle {
         font-size: 16px;
     }
     
-    .doctor-intro,
-    .services-overview,
-    .awards-section {
+    .luxury-about-section .doctor-intro,
+    .luxury-about-section .services-overview,
+    .luxury-about-section .awards-section {
         padding: 24px 20px;
     }
     
-    .luxury-cta-button {
+    .luxury-about-section .luxury-cta-button {
         padding: 16px 32px;
         font-size: 14px;
     }
@@ -4638,12 +4638,12 @@ body.menu-open {
    PERFORMANCE OPTIMIZATIONS
    ======================================== */
 
-.element,
-.floating-credential,
-.image-frame,
-.philosophy-card,
-.service-item,
-.award-item {
+.luxury-about-section .element,
+.luxury-about-section .floating-credential,
+.luxury-about-section .image-frame,
+.luxury-about-section .philosophy-card,
+.luxury-about-section .service-item,
+.luxury-about-section .award-item {
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -4651,16 +4651,16 @@ body.menu-open {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    .luxury-about-section *,
+    .luxury-about-section *::before,
+    .luxury-about-section *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
     
-    .element,
-    .floating-credential {
+    .luxury-about-section .element,
+    .luxury-about-section .floating-credential {
         animation: none !important;
     }
 }
