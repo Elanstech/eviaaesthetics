@@ -5051,6 +5051,734 @@ body.menu-open {
 }
 
 /* ========================================
+   LUXURY INSTAGRAM FEED SECTION
+   ======================================== */
+
+.luxury-instagram-section {
+    position: relative;
+    padding: 120px 0;
+    background: linear-gradient(135deg, #FFF8F0 0%, #FFFCF8 50%, #F8F4EC 100%);
+    overflow: hidden;
+}
+
+.luxury-instagram-section .instagram-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.luxury-instagram-section .floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.luxury-instagram-section .element {
+    position: absolute;
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF8C00 100%);
+    border-radius: 50%;
+    opacity: 0.06;
+    filter: blur(60px);
+    animation: instagram-float-gentle 25s ease-in-out infinite;
+}
+
+.luxury-instagram-section .element-1 {
+    width: 250px;
+    height: 250px;
+    top: 15%;
+    left: -8%;
+    animation-delay: 0s;
+}
+
+.luxury-instagram-section .element-2 {
+    width: 180px;
+    height: 180px;
+    top: 60%;
+    right: -5%;
+    animation-delay: -10s;
+}
+
+.luxury-instagram-section .element-3 {
+    width: 200px;
+    height: 200px;
+    bottom: 20%;
+    left: 70%;
+    animation-delay: -20s;
+}
+
+.luxury-instagram-section .gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 140, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(42, 27, 10, 0.04) 0%, transparent 50%);
+}
+
+.luxury-instagram-section .instagram-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Instagram Header */
+.luxury-instagram-section .instagram-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.luxury-instagram-section .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    border-radius: 9999px;
+    padding: 16px 32px;
+    margin-bottom: 32px;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.luxury-instagram-section .header-badge:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15);
+    border-color: rgba(255, 140, 0, 0.4);
+}
+
+.luxury-instagram-section .badge-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #E1306C 0%, #FD1D1D 25%, #F77737 50%, #FCAF45 75%, #FFDC80 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+.luxury-instagram-section .badge-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #FF8C00;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.luxury-instagram-section .instagram-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.luxury-instagram-section .title-line-1 {
+    display: block;
+    color: #2A1B0A;
+    letter-spacing: -1px;
+}
+
+.luxury-instagram-section .title-line-2 {
+    display: block;
+    background: linear-gradient(135deg, #E1306C 0%, #FD1D1D 25%, #F77737 50%, #FCAF45 75%, #FFDC80 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: instagram-gradient-flow 4s ease-in-out infinite;
+    font-style: italic;
+    margin-top: 8px;
+}
+
+.luxury-instagram-section .instagram-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #6B5B47;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Instagram Widget Container */
+.luxury-instagram-section .instagram-widget-container {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 140, 0, 0.15);
+    border-radius: 40px;
+    padding: 60px 40px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
+    margin-bottom: 40px;
+}
+
+.luxury-instagram-section .widget-frame {
+    position: relative;
+    margin-bottom: 40px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* Instagram CTA Button */
+.luxury-instagram-section .instagram-cta {
+    text-align: center;
+}
+
+.luxury-instagram-section .instagram-follow-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #E1306C 0%, #FD1D1D 25%, #F77737 50%, #FCAF45 75%, #FFDC80 100%);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 20px 40px;
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 20px 60px rgba(225, 48, 108, 0.3);
+    text-transform: uppercase;
+}
+
+.luxury-instagram-section .instagram-follow-btn:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 30px 80px rgba(225, 48, 108, 0.4);
+}
+
+.luxury-instagram-section .btn-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.luxury-instagram-section .btn-content i {
+    font-size: 20px;
+}
+
+.luxury-instagram-section .btn-glow {
+    position: absolute;
+    inset: -6px;
+    background: linear-gradient(135deg, #E1306C 0%, #FD1D1D 25%, #F77737 50%, #FCAF45 75%, #FFDC80 100%);
+    border-radius: 50px;
+    opacity: 0;
+    filter: blur(20px);
+    transition: opacity 0.6s ease;
+    z-index: -1;
+}
+
+.luxury-instagram-section .instagram-follow-btn:hover .btn-glow {
+    opacity: 0.7;
+    animation: instagram-glow-pulse 2s ease-in-out infinite;
+}
+
+.luxury-instagram-section .btn-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.8s ease;
+    border-radius: 50px;
+    z-index: 1;
+}
+
+.luxury-instagram-section .instagram-follow-btn:hover .btn-shimmer {
+    left: 100%;
+}
+
+/* ========================================
+   LUXURY GOOGLE REVIEWS SECTION
+   ======================================== */
+
+.luxury-reviews-section {
+    position: relative;
+    padding: 120px 0;
+    background: linear-gradient(135deg, #FFFCF8 0%, #FFF8F0 50%, #F8F4EC 100%);
+    overflow: hidden;
+}
+
+.luxury-reviews-section .reviews-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.luxury-reviews-section .floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.luxury-reviews-section .element {
+    position: absolute;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+    border-radius: 50%;
+    opacity: 0.05;
+    filter: blur(60px);
+    animation: reviews-float-gentle 30s ease-in-out infinite;
+}
+
+.luxury-reviews-section .element-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    right: -10%;
+    animation-delay: 0s;
+}
+
+.luxury-reviews-section .element-2 {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: -8%;
+    animation-delay: -8s;
+}
+
+.luxury-reviews-section .element-3 {
+    width: 150px;
+    height: 150px;
+    bottom: 30%;
+    right: 70%;
+    animation-delay: -16s;
+}
+
+.luxury-reviews-section .element-4 {
+    width: 250px;
+    height: 250px;
+    bottom: 10%;
+    left: 80%;
+    animation-delay: -24s;
+}
+
+.luxury-reviews-section .gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(255, 140, 0, 0.04) 0%, transparent 50%);
+}
+
+.luxury-reviews-section .reviews-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Reviews Header */
+.luxury-reviews-section .reviews-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.luxury-reviews-section .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 9999px;
+    padding: 16px 32px;
+    margin-bottom: 32px;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.luxury-reviews-section .header-badge:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2);
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+.luxury-reviews-section .badge-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+.luxury-reviews-section .badge-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #FF8C00;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.luxury-reviews-section .reviews-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.luxury-reviews-section .title-line-1 {
+    display: block;
+    color: #2A1B0A;
+    letter-spacing: -1px;
+}
+
+.luxury-reviews-section .title-line-2 {
+    display: block;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: reviews-gradient-flow 4s ease-in-out infinite;
+    font-style: italic;
+    margin-top: 8px;
+}
+
+.luxury-reviews-section .reviews-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #6B5B47;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Reviews Widget Container */
+.luxury-reviews-section .reviews-widget-container {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 140, 0, 0.15);
+    border-radius: 40px;
+    padding: 60px 40px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08);
+}
+
+.luxury-reviews-section .widget-frame {
+    position: relative;
+    margin-bottom: 50px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* Review Stats */
+.luxury-reviews-section .review-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 40px;
+}
+
+.luxury-reviews-section .stat-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+}
+
+.luxury-reviews-section .stat-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15);
+    border-color: rgba(255, 140, 0, 0.3);
+}
+
+.luxury-reviews-section .stat-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 24px;
+    margin: 0 auto 20px auto;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.luxury-reviews-section .stat-card:hover .stat-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.luxury-reviews-section .stat-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.luxury-reviews-section .stat-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #2A1B0A;
+    line-height: 1;
+}
+
+.luxury-reviews-section .stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B5B47;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes instagram-float-gentle {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-25px) translateX(15px) rotate(2deg);
+    }
+    50% {
+        transform: translateY(-15px) translateX(-10px) rotate(-1deg);
+    }
+    75% {
+        transform: translateY(-20px) translateX(12px) rotate(1.5deg);
+    }
+}
+
+@keyframes reviews-float-gentle {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    20% {
+        transform: translateY(-20px) translateX(10px) rotate(1deg);
+    }
+    40% {
+        transform: translateY(-10px) translateX(-8px) rotate(-0.5deg);
+    }
+    60% {
+        transform: translateY(-15px) translateX(12px) rotate(1.2deg);
+    }
+    80% {
+        transform: translateY(-8px) translateX(-5px) rotate(-0.8deg);
+    }
+}
+
+@keyframes instagram-gradient-flow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 50% 0%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    75% {
+        background-position: 50% 100%;
+    }
+}
+
+@keyframes reviews-gradient-flow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 50% 0%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    75% {
+        background-position: 50% 100%;
+    }
+}
+
+@keyframes instagram-glow-pulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1200px) {
+    .luxury-instagram-section .instagram-container,
+    .luxury-reviews-section .reviews-container {
+        padding: 0 30px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .luxury-reviews-section .review-stats {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .luxury-reviews-section .stat-card {
+        padding: 24px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .luxury-instagram-section,
+    .luxury-reviews-section {
+        padding: 80px 0;
+    }
+    
+    .luxury-instagram-section .instagram-container,
+    .luxury-reviews-section .reviews-container {
+        padding: 0 20px;
+    }
+    
+    .luxury-instagram-section .instagram-header,
+    .luxury-reviews-section .reviews-header {
+        margin-bottom: 50px;
+    }
+    
+    .luxury-instagram-section .instagram-title,
+    .luxury-reviews-section .reviews-title {
+        font-size: clamp(2.2rem, 8vw, 3.5rem);
+    }
+    
+    .luxury-instagram-section .instagram-widget-container,
+    .luxury-reviews-section .reviews-widget-container {
+        padding: 40px 24px;
+        border-radius: 24px;
+    }
+    
+    .luxury-instagram-section .instagram-follow-btn {
+        padding: 16px 32px;
+        font-size: 14px;
+    }
+    
+    .luxury-reviews-section .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .luxury-reviews-section .stat-number {
+        font-size: 24px;
+    }
+    
+    /* Hide some floating elements on mobile for better performance */
+    .luxury-instagram-section .element-3,
+    .luxury-reviews-section .element-3,
+    .luxury-reviews-section .element-4 {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .luxury-instagram-section .instagram-container,
+    .luxury-reviews-section .reviews-container {
+        padding: 0 16px;
+    }
+    
+    .luxury-instagram-section .header-badge,
+    .luxury-reviews-section .header-badge {
+        padding: 12px 24px;
+        gap: 10px;
+    }
+    
+    .luxury-instagram-section .badge-icon,
+    .luxury-reviews-section .badge-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+    
+    .luxury-instagram-section .badge-text,
+    .luxury-reviews-section .badge-text {
+        font-size: 12px;
+    }
+    
+    .luxury-instagram-section .instagram-widget-container,
+    .luxury-reviews-section .reviews-widget-container {
+        padding: 28px 20px;
+        border-radius: 20px;
+    }
+    
+    .luxury-instagram-section .instagram-follow-btn {
+        padding: 14px 28px;
+        font-size: 13px;
+    }
+    
+    .luxury-reviews-section .stat-card {
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+.luxury-instagram-section .element,
+.luxury-reviews-section .element,
+.luxury-instagram-section .instagram-follow-btn,
+.luxury-reviews-section .stat-card {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .luxury-instagram-section .element,
+    .luxury-reviews-section .element,
+    .luxury-instagram-section .btn-glow {
+        animation: none !important;
+    }
+    
+    .luxury-instagram-section .instagram-follow-btn:hover,
+    .luxury-reviews-section .stat-card:hover {
+        transform: none !important;
+    }
+}
+
+/* ========================================
    RESULTS SECTION
    ======================================== */
 
