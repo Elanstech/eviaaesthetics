@@ -590,7 +590,7 @@ body {
 }
 
 /* ========================================
-   MOBILE MODE FOR DESKTOP HEADER
+   CLEAN MOBILE MODE FOR DESKTOP & TABLETS
    ======================================== */
 
 .luxury-floating-header.mobile-mode {
@@ -607,11 +607,12 @@ body {
 }
 
 .luxury-floating-header.mobile-mode .aluminum-container {
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(30px) saturate(180%) !important;
-    border: 1px solid rgba(255, 140, 0, 0.2) !important;
+    /* CLEAN LOOK - NO WHITE BAR */
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border: none !important;
     border-radius: 0 !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: none !important;
     padding: 1rem 2rem !important;
     width: 100% !important;
     height: auto !important;
@@ -660,10 +661,10 @@ body {
 }
 
 /* ========================================
-   MOBILE RESPONSIVE DESIGN
+   TABLET RESPONSIVE DESIGN (1024px and below)
    ======================================== */
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     .luxury-floating-header {
         top: 0;
         left: 0;
@@ -678,7 +679,7 @@ body {
     }
     
     .aluminum-container {
-        background: none !important;
+        background: transparent !important;
         backdrop-filter: none !important;
         border: none !important;
         border-radius: 0 !important;
@@ -693,7 +694,7 @@ body {
     }
     
     .luxury-floating-header.scrolled .aluminum-container {
-        background: none !important;
+        background: transparent !important;
         transform: none !important;
         box-shadow: none !important;
         border: none !important;
@@ -739,6 +740,30 @@ body {
     .nav-menu,
     .premium-cta {
         display: none !important;
+    }
+}
+
+/* ========================================
+   MOBILE RESPONSIVE DESIGN (768px and below)
+   ======================================== */
+
+@media (max-width: 768px) {
+    .luxury-floating-header {
+        padding: env(safe-area-inset-top, 0) 0 0 0;
+    }
+    
+    .aluminum-container {
+        padding: 1.2rem 1rem 0.8rem 1rem;
+    }
+    
+    .header-logo.mobile-logo {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .aluminum-mobile-toggle {
+        width: 50px;
+        height: 50px;
     }
 }
 
