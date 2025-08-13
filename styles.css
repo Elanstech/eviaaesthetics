@@ -2039,6 +2039,32 @@ body.menu-open {
 }
 
 /* ========================================
+   TABLET RESPONSIVE (1180px and below) - SIGNATURE & SCROLL FIXES
+   ======================================== */
+
+@media (max-width: 1180px) {
+    /* HIDE SIGNATURE COMPLETELY ON TABLETS */
+    .signature-wrapper {
+        display: none !important;
+    }
+    
+    /* MOVE SCROLL INDICATOR DOWN */
+    .scroll-indicator-elegant {
+        bottom: 1.5rem !important;
+    }
+    
+    .hero-content-stack {
+        gap: var(--space-xl);
+        min-height: 75vh;
+        max-width: 800px;
+    }
+    
+    .stats-row-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
+    }
+
+/* ========================================
    MOBILE RESPONSIVE (768px and below)
    ======================================== */
 
