@@ -58,16 +58,16 @@
     --font-dancing: 'Dancing Script', cursive;
     --font-inter: 'Inter', sans-serif;
     
-    /* Refined Spacing */
-    --space-xs: 0.5rem;
-    --space-sm: 0.75rem;
-    --space-md: 1rem;
-    --space-lg: 1.5rem;
-    --space-xl: 2rem;
-    --space-2xl: 3rem;
-    --space-3xl: 4rem;
-    --space-4xl: 6rem;
-    --space-5xl: 8rem;
+    /* Refined Spacing - Responsive */
+    --space-xs: clamp(0.25rem, 1vw, 0.5rem);
+    --space-sm: clamp(0.5rem, 1.5vw, 0.75rem);
+    --space-md: clamp(0.75rem, 2vw, 1rem);
+    --space-lg: clamp(1rem, 2.5vw, 1.5rem);
+    --space-xl: clamp(1.5rem, 3vw, 2rem);
+    --space-2xl: clamp(2rem, 4vw, 3rem);
+    --space-3xl: clamp(2.5rem, 5vw, 4rem);
+    --space-4xl: clamp(3rem, 6vw, 6rem);
+    --space-5xl: clamp(4rem, 8vw, 8rem);
     
     /* Border Radius */
     --radius-sm: 0.75rem;
@@ -113,6 +113,7 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: 100px;
     overflow-x: hidden;
+    font-size: 16px;
 }
 
 body {
@@ -124,6 +125,7 @@ body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-width: 320px;
 }
 
 ::selection {
@@ -152,7 +154,7 @@ body {
 }
 
 /* ========================================
-   PRELOADER SECTION
+   PRELOADER SECTION - OPTIMIZED SCALING
    ======================================== */
 
 .luxury-preloader {
@@ -199,7 +201,7 @@ body {
 
 .medspa-icon {
     position: absolute;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
     opacity: 0.15;
     animation: float-medspa 8s ease-in-out infinite;
     transition: all 0.3s ease;
@@ -228,8 +230,8 @@ body {
 }
 
 .preloader-logo {
-    width: 350px;
-    height: 350px;
+    width: clamp(200px, 40vw, 350px);
+    height: clamp(200px, 40vw, 350px);
     object-fit: contain;
     animation: logo-gentle-pulse 3s ease-in-out infinite;
     filter: drop-shadow(0 4px 20px rgba(255, 158, 24, 0.3));
@@ -278,19 +280,8 @@ body {
     60% { transform: translateY(-5px); opacity: 0.8; }
 }
 
-/* Preloader Media Queries */
-@media (max-width: 768px) {
-    .preloader-logo { width: 250px; height: 250px; }
-    .medspa-icon { font-size: 2.5rem; }
-}
-
-@media (max-width: 480px) {
-    .preloader-logo { width: 200px; height: 200px; }
-    .medspa-icon { font-size: 1.5rem; }
-}
-
 /* ========================================
-   HEADER & MOBILE MENU - COMPLETE SECTION
+   HEADER & MOBILE MENU - OPTIMIZED SCALING
    ======================================== */
 
 .luxury-floating-header {
@@ -320,7 +311,7 @@ body {
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: visible;
-    height: 100px;
+    height: clamp(80px, 10vh, 100px);
     min-height: 80px;
 }
 
@@ -336,8 +327,8 @@ body {
 }
 
 .header-logo {
-    width: 250px;
-    height: 250px;
+    width: clamp(180px, 20vw, 250px);
+    height: clamp(180px, 20vw, 250px);
     object-fit: cover;
     object-position: center;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -386,7 +377,7 @@ body {
     text-decoration: none;
     color: var(--text-primary);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
     transition: all var(--transition-fast);
     padding: 1rem 1.75rem;
     border-radius: 2.5rem;
@@ -431,10 +422,10 @@ body {
     background: var(--gradient-hermes-orange);
     color: var(--white);
     border: none;
-    padding: 1.1rem 2.5rem;
+    padding: clamp(0.8rem, 1.5vw, 1.1rem) clamp(1.5rem, 3vw, 2.5rem);
     border-radius: 3rem;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -490,8 +481,8 @@ body {
 
 .aluminum-mobile-toggle {
     display: none;
-    width: 60px;
-    height: 60px;
+    width: clamp(45px, 8vw, 60px);
+    height: clamp(45px, 8vw, 60px);
     background: linear-gradient(135deg, #F8F8F8 0%, #E8E8E8 50%, #D8D8D8 100%);
     border: 2px solid rgba(255, 140, 0, 0.3);
     border-radius: 50%;
@@ -627,8 +618,8 @@ body {
 
 .luxury-floating-header.mobile-mode .header-logo.scrolled-logo {
     display: block !important;
-    width: 50px !important;
-    height: 50px !important;
+    width: clamp(40px, 7vw, 50px) !important;
+    height: clamp(40px, 7vw, 50px) !important;
     border-radius: 50% !important;
     border: 2px solid rgba(255, 140, 0, 0.3) !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
@@ -646,8 +637,8 @@ body {
 /* Mobile toggle shows in mobile mode */
 .luxury-floating-header.mobile-mode .aluminum-mobile-toggle {
     display: flex !important;
-    width: 50px !important;
-    height: 50px !important;
+    width: clamp(40px, 7vw, 50px) !important;
+    height: clamp(40px, 7vw, 50px) !important;
 }
 
 /* Hide nav menu and CTA in mobile mode */
@@ -657,7 +648,7 @@ body {
 }
 
 /* ========================================
-   MOBILE HEADER MODE (1440px and below - 14inch screens and smaller)
+   MOBILE HEADER MODE - RESPONSIVE BREAKPOINTS
    ======================================== */
 
 @media (max-width: 1440px) {
@@ -680,7 +671,7 @@ body {
         border: none !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-        padding: 1.5rem 1.5rem 1rem 1.5rem;
+        padding: clamp(0.75rem, 2vw, 1.5rem) clamp(1rem, 3vw, 1.5rem);
         width: 100%;
         height: auto;
         min-height: auto;
@@ -715,8 +706,8 @@ body {
     
     .header-logo.mobile-logo {
         display: block !important;
-        width: 60px;
-        height: 60px;
+        width: clamp(45px, 8vw, 60px);
+        height: clamp(45px, 8vw, 60px);
         border-radius: 50%;
         border: 2px solid rgba(255, 140, 0, 0.3);
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
@@ -743,60 +734,44 @@ body {
     }
 }
 
-/* ========================================
-   MOBILE RESPONSIVE DESIGN (768px and below)
-   ======================================== */
-
 @media (max-width: 768px) {
     .luxury-floating-header {
         padding: env(safe-area-inset-top, 0) 0 0 0;
     }
     
     .aluminum-container {
-        padding: 1.2rem 1rem 0.8rem 1rem;
+        padding: clamp(0.6rem, 2vw, 1.2rem) clamp(0.75rem, 2.5vw, 1rem);
     }
     
     .header-logo.mobile-logo {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .header-logo.scrolled-logo {
-        display: none !important;
-    }
-    
-    .header-logo.scrolled-logo {
-        display: none !important;
+        width: clamp(40px, 10vw, 50px);
+        height: clamp(40px, 10vw, 50px);
     }
     
     .aluminum-mobile-toggle {
-        width: 50px;
-        height: 50px;
+        width: clamp(40px, 10vw, 50px);
+        height: clamp(40px, 10vw, 50px);
     }
 }
 
 @media (max-width: 480px) {
-    .luxury-floating-header {
-        padding: env(safe-area-inset-top, 0) 0 0 0;
-    }
-    
     .aluminum-container {
-        padding: 1.2rem 1rem 0.8rem 1rem;
+        padding: clamp(0.5rem, 2vw, 1rem) clamp(0.5rem, 2vw, 1rem);
     }
     
     .header-logo.mobile-logo {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
     }
     
     .aluminum-mobile-toggle {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
     }
 }
 
 /* ========================================
-   ULTRA-MODERN MOBILE MENU BACKDROP
+   MOBILE MENU BACKDROP
    ======================================== */
 
 .mobile-backdrop {
@@ -823,7 +798,7 @@ body {
 }
 
 /* ========================================
-   LUXURY MOBILE MENU
+   LUXURY MOBILE MENU - OPTIMIZED SCALING
    ======================================== */
 
 .luxury-mobile-menu {
@@ -858,7 +833,7 @@ body {
     height: 100dvh;
     display: flex;
     flex-direction: column;
-    padding: var(--space-xl);
+    padding: clamp(1rem, 3vw, 2rem);
     position: relative;
     z-index: 2;
     overflow-y: auto;
@@ -872,23 +847,20 @@ body {
     display: none;
 }
 
-/* ========================================
-   MENU HEADER
-   ======================================== */
-
+/* Menu Header */
 .menu-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: var(--space-3xl);
-    padding-bottom: var(--space-xl);
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+    padding-bottom: clamp(1rem, 3vw, 1.5rem);
     border-bottom: 1px solid rgba(255, 140, 0, 0.15);
     position: relative;
 }
 
 .menu-close {
-    width: 50px;
-    height: 50px;
+    width: clamp(40px, 8vw, 50px);
+    height: clamp(40px, 8vw, 50px);
     background: rgba(255, 140, 0, 0.1);
     border: 2px solid rgba(255, 140, 0, 0.2);
     border-radius: 50%;
@@ -955,16 +927,13 @@ body {
     width: 18px;
 }
 
-/* ========================================
-   NAVIGATION
-   ======================================== */
-
+/* Navigation */
 .menu-navigation {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-2xl);
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
+    margin-bottom: clamp(1.5rem, 4vw, 2rem);
 }
 
 .nav-item {
@@ -987,11 +956,11 @@ body {
 .nav-item .nav-link {
     display: flex;
     align-items: center;
-    gap: var(--space-lg);
+    gap: clamp(0.75rem, 2vw, 1rem);
     text-decoration: none;
     color: var(--text-primary);
-    padding: var(--space-lg);
-    border-radius: var(--space-lg);
+    padding: clamp(0.75rem, 2vw, 1rem);
+    border-radius: var(--radius-lg);
     transition: all 0.4s var(--ease-luxury);
     position: relative;
     overflow: hidden;
@@ -1006,7 +975,7 @@ body {
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.08), rgba(255, 140, 0, 0.04));
     opacity: 0;
     transition: opacity 0.3s ease;
-    border-radius: var(--space-lg);
+    border-radius: var(--radius-lg);
 }
 
 .nav-item .nav-link:hover::before {
@@ -1020,15 +989,15 @@ body {
 }
 
 .nav-icon {
-    width: 45px;
-    height: 45px;
+    width: clamp(35px, 7vw, 45px);
+    height: clamp(35px, 7vw, 45px);
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(255, 140, 0, 0.1));
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--hermes-orange);
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 140, 0, 0.2);
 }
@@ -1047,8 +1016,8 @@ body {
 }
 
 .nav-number {
-    font-family: var(--font-oswald);
-    font-size: 0.75rem;
+    font-family: var(--font-inter);
+    font-size: clamp(0.65rem, 1.5vw, 0.75rem);
     font-weight: 300;
     color: var(--hermes-orange);
     opacity: 0.8;
@@ -1056,8 +1025,8 @@ body {
 }
 
 .nav-text {
-    font-family: var(--font-space);
-    font-size: 1.1rem;
+    font-family: var(--font-inter);
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
     font-weight: 600;
     color: var(--text-primary);
     line-height: 1.2;
@@ -1065,7 +1034,7 @@ body {
 
 .nav-subtitle {
     font-family: var(--font-inter);
-    font-size: 0.8rem;
+    font-size: clamp(0.7rem, 1.8vw, 0.8rem);
     font-weight: 400;
     color: var(--text-secondary);
     opacity: 0.8;
@@ -1073,7 +1042,7 @@ body {
 
 .nav-arrow {
     color: var(--text-muted);
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
     transition: all 0.3s ease;
     opacity: 0.6;
 }
@@ -1084,13 +1053,10 @@ body {
     opacity: 1;
 }
 
-/* ========================================
-   MENU FOOTER
-   ======================================== */
-
+/* Menu Footer */
 .menu-footer {
     border-top: 1px solid rgba(255, 140, 0, 0.15);
-    padding-top: var(--space-xl);
+    padding-top: clamp(1rem, 3vw, 1.5rem);
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.8s var(--ease-luxury) 0.6s;
@@ -1103,19 +1069,21 @@ body {
 
 .contact-cards {
     display: flex;
-    gap: var(--space-md);
-    margin-bottom: var(--space-xl);
+    gap: clamp(0.5rem, 2vw, 1rem);
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
+    flex-wrap: wrap;
 }
 
 .contact-card {
     flex: 1;
+    min-width: 140px;
     background: rgba(255, 255, 255, 0.6);
     border: 1px solid rgba(255, 140, 0, 0.15);
-    border-radius: var(--space-md);
-    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    padding: clamp(0.75rem, 2vw, 1rem);
     display: flex;
     align-items: center;
-    gap: var(--space-md);
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
     transition: all 0.3s ease;
 }
 
@@ -1126,15 +1094,16 @@ body {
 }
 
 .contact-icon {
-    width: 35px;
-    height: 35px;
+    width: clamp(28px, 6vw, 35px);
+    height: clamp(28px, 6vw, 35px);
     background: var(--gradient-hermes-orange);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--white);
-    font-size: 1rem;
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    flex-shrink: 0;
 }
 
 .contact-details {
@@ -1145,7 +1114,7 @@ body {
 
 .contact-label {
     font-family: var(--font-inter);
-    font-size: 0.7rem;
+    font-size: clamp(0.6rem, 1.5vw, 0.7rem);
     font-weight: 500;
     color: var(--text-muted);
     text-transform: uppercase;
@@ -1153,8 +1122,8 @@ body {
 }
 
 .contact-value {
-    font-family: var(--font-space);
-    font-size: 0.9rem;
+    font-family: var(--font-inter);
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
     font-weight: 600;
     color: var(--text-primary);
 }
@@ -1164,20 +1133,20 @@ body {
     background: var(--gradient-hermes-orange);
     color: var(--white);
     border: none;
-    padding: var(--space-lg) var(--space-xl);
-    border-radius: var(--space-lg);
-    font-family: var(--font-space);
+    padding: clamp(0.875rem, 2.5vw, 1.125rem) clamp(1.25rem, 3vw, 1.5rem);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-inter);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-md);
+    gap: clamp(0.5rem, 2vw, 0.75rem);
     transition: all 0.4s var(--ease-bounce);
     position: relative;
     overflow: hidden;
-    margin-bottom: var(--space-xl);
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
     box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3);
 }
 
@@ -1190,7 +1159,7 @@ body {
     position: absolute;
     inset: -2px;
     background: var(--gradient-hermes-orange);
-    border-radius: var(--space-lg);
+    border-radius: var(--radius-lg);
     opacity: 0;
     filter: blur(8px);
     transition: opacity 0.3s ease;
@@ -1202,7 +1171,7 @@ body {
 }
 
 .cta-icon {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
     transition: transform 0.3s ease;
 }
 
@@ -1216,24 +1185,24 @@ body {
 
 .social-label {
     font-family: var(--font-inter);
-    font-size: 0.8rem;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
     font-weight: 500;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
     display: block;
-    margin-bottom: var(--space-md);
+    margin-bottom: clamp(0.5rem, 1.5vw, 0.75rem);
 }
 
 .social-links {
     display: flex;
     justify-content: center;
-    gap: var(--space-md);
+    gap: clamp(0.5rem, 2vw, 0.75rem);
 }
 
 .social-link {
-    width: 45px;
-    height: 45px;
+    width: clamp(38px, 8vw, 45px);
+    height: clamp(38px, 8vw, 45px);
     background: rgba(255, 140, 0, 0.1);
     border: 1px solid rgba(255, 140, 0, 0.2);
     border-radius: 12px;
@@ -1243,7 +1212,7 @@ body {
     color: var(--hermes-orange);
     text-decoration: none;
     transition: all 0.4s var(--ease-bounce);
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
 }
 
 .social-link:hover {
@@ -1253,10 +1222,7 @@ body {
     box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
 }
 
-/* ========================================
-   MENU DECORATIONS
-   ======================================== */
-
+/* Menu Decorations */
 .menu-decoration {
     position: absolute;
     top: 0;
@@ -1276,16 +1242,16 @@ body {
 }
 
 .orb-1 {
-    width: 180px;
-    height: 180px;
+    width: clamp(120px, 25vw, 180px);
+    height: clamp(120px, 25vw, 180px);
     top: 15%;
     right: -60px;
     animation: float-gentle 20s ease-in-out infinite;
 }
 
 .orb-2 {
-    width: 120px;
-    height: 120px;
+    width: clamp(80px, 20vw, 120px);
+    height: clamp(80px, 20vw, 120px);
     bottom: 25%;
     left: -40px;
     animation: float-gentle 25s ease-in-out infinite reverse;
@@ -1318,10 +1284,7 @@ body {
 .grid-dot:nth-child(5) { animation-delay: 2s; }
 .grid-dot:nth-child(6) { animation-delay: 2.5s; }
 
-/* ========================================
-   ANIMATIONS
-   ======================================== */
-
+/* Animations */
 @keyframes premium-sweep {
     0%, 100% { left: -100%; opacity: 0; }
     50% { left: 100%; opacity: 0.3; }
@@ -1343,10 +1306,7 @@ body {
     50% { opacity: 1; transform: scale(1.2); }
 }
 
-/* ========================================
-   BODY SCROLL LOCK
-   ======================================== */
-
+/* Body scroll lock */
 body.menu-open {
     overflow: hidden !important;
     position: fixed !important;
@@ -1355,7 +1315,7 @@ body.menu-open {
 }
 
 /* ========================================
-   HERO SECTION - ENHANCED MOBILE SPACING
+   HERO SECTION - OPTIMIZED SCALING
    ======================================== */
 .cinematic-hero {
     position: relative;
@@ -1363,15 +1323,12 @@ body.menu-open {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 120px 0 var(--space-4xl);
+    padding: clamp(80px, 10vh, 120px) 0 clamp(60px, 8vh, 100px);
     overflow: hidden;
     background: var(--cream-primary);
 }
 
-/* ========================================
-   VIDEO BACKGROUND
-   ======================================== */
-
+/* Video Background */
 .video-container {
     position: absolute;
     top: 0;
@@ -1402,10 +1359,7 @@ body.menu-open {
     z-index: 2;
 }
 
-/* ========================================
-   FLOATING DECORATIVE ELEMENTS
-   ======================================== */
-
+/* Floating Decorative Elements */
 .floating-orbs {
     position: absolute;
     top: 0;
@@ -1426,16 +1380,16 @@ body.menu-open {
 }
 
 .orb-1 {
-    width: 400px;
-    height: 400px;
+    width: clamp(200px, 30vw, 400px);
+    height: clamp(200px, 30vw, 400px);
     top: -10%;
     left: -10%;
     background: radial-gradient(circle, rgba(255, 140, 0, 0.12) 0%, rgba(255, 158, 24, 0.04) 70%, transparent 100%);
 }
 
 .orb-2 {
-    width: 300px;
-    height: 300px;
+    width: clamp(150px, 25vw, 300px);
+    height: clamp(150px, 25vw, 300px);
     top: 50%;
     right: -15%;
     animation-delay: -8s;
@@ -1443,8 +1397,8 @@ body.menu-open {
 }
 
 .orb-3 {
-    width: 200px;
-    height: 200px;
+    width: clamp(100px, 20vw, 200px);
+    height: clamp(100px, 20vw, 200px);
     bottom: 10%;
     left: 60%;
     animation-delay: -15s;
@@ -1452,8 +1406,8 @@ body.menu-open {
 }
 
 .orb-4 {
-    width: 150px;
-    height: 150px;
+    width: clamp(75px, 15vw, 150px);
+    height: clamp(75px, 15vw, 150px);
     top: 20%;
     right: 25%;
     animation-delay: -20s;
@@ -1480,65 +1434,59 @@ body.menu-open {
 }
 
 .bubble-1 { 
-    width: 80px; 
-    height: 80px; 
+    width: clamp(50px, 10vw, 80px); 
+    height: clamp(50px, 10vw, 80px); 
     top: 15%; 
     left: 15%; 
     animation-delay: -5s; 
 }
 
 .bubble-2 { 
-    width: 60px; 
-    height: 60px; 
+    width: clamp(40px, 8vw, 60px); 
+    height: clamp(40px, 8vw, 60px); 
     top: 70%; 
     right: 20%; 
     animation-delay: -12s; 
 }
 
 .bubble-3 { 
-    width: 40px; 
-    height: 40px; 
+    width: clamp(30px, 6vw, 40px); 
+    height: clamp(30px, 6vw, 40px); 
     top: 40%; 
     left: 85%; 
     animation-delay: -18s; 
 }
 
-/* ========================================
-   HERO CONTENT STACK - DESKTOP CENTERED
-   ======================================== */
-
+/* Hero Content Stack */
 .hero-content-stack {
     position: relative;
     z-index: 10;
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 var(--space-xl);
+    padding: 0 clamp(1rem, 3vw, 2rem);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-2xl);
-    min-height: 80vh;
+    gap: clamp(1.5rem, 4vw, 2rem);
+    min-height: 70vh;
 }
 
-/* ========================================
-   HERO BADGE
-   ======================================== */
-
+/* Hero Badge */
 .hero-badge-premium {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     background: rgba(255, 255, 255, 0.95);
     color: var(--hermes-orange);
-    padding: 0.6rem 1.4rem;
+    padding: clamp(0.5rem, 1.5vw, 0.6rem) clamp(1rem, 2.5vw, 1.4rem);
     border-radius: var(--radius-full);
     font-family: var(--font-inter);
-    font-size: 0.9rem;
+    font-size: clamp(0.75rem, 1.5vw, 0.9rem);
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: clamp(0.5px, 0.1vw, 1px);
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 140, 0, 0.3);
     box-shadow: 
@@ -1547,7 +1495,7 @@ body.menu-open {
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
     transition: all var(--transition-medium);
     order: 1;
-    margin-top: 2rem;
+    margin-top: clamp(1rem, 2vw, 2rem);
 }
 
 .hero-badge-premium:hover {
@@ -1559,14 +1507,11 @@ body.menu-open {
 }
 
 .hero-badge-premium i {
-    font-size: 1rem;
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-/* ========================================
-   HERO HEADLINES
-   ======================================== */
-
+/* Hero Headlines */
 .hero-headline-stack {
     text-align: center;
     max-width: 800px;
@@ -1575,12 +1520,12 @@ body.menu-open {
 
 .headline-primary {
     font-family: var(--font-playfair);
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(1.8rem, 5vw, 4.5rem);
     font-weight: 700;
     line-height: 1.15;
     letter-spacing: -0.01em;
     color: var(--white);
-    margin-bottom: var(--space-lg);
+    margin-bottom: clamp(0.75rem, 2vw, 1rem);
     text-shadow: 
         0 4px 12px rgba(0, 0, 0, 0.4),
         0 2px 6px rgba(0, 0, 0, 0.3),
@@ -1590,7 +1535,7 @@ body.menu-open {
 
 .headline-secondary {
     font-family: var(--font-cormorant);
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.5rem, 4vw, 3.5rem);
     font-weight: 600;
     font-style: italic;
     line-height: 1.2;
@@ -1608,7 +1553,7 @@ body.menu-open {
 
 .hero-subheadline-elegant {
     font-family: var(--font-inter);
-    font-size: clamp(1rem, 1.8vw, 1.3rem);
+    font-size: clamp(0.85rem, 1.8vw, 1.3rem);
     font-weight: 500;
     line-height: 1.7;
     color: var(--white);
@@ -1621,19 +1566,16 @@ body.menu-open {
     order: 3;
 }
 
-/* ========================================
-   HERO CTA BUTTON
-   ======================================== */
-
+/* Hero CTA Button */
 .hero-cta-signature {
     position: relative;
     background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 50%, var(--hermes-orange-dark) 100%);
     color: var(--white);
     border: none;
-    padding: 1.25rem 3rem;
+    padding: clamp(0.875rem, 2vw, 1.25rem) clamp(1.75rem, 4vw, 3rem);
     border-radius: 3rem;
     font-family: var(--font-inter);
-    font-size: 0.95rem;
+    font-size: clamp(0.8rem, 1.5vw, 0.95rem);
     font-weight: 800;
     cursor: pointer;
     overflow: hidden;
@@ -1644,7 +1586,7 @@ body.menu-open {
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         inset 0 -1px 0 rgba(0, 0, 0, 0.1);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: clamp(0.3px, 0.1vw, 0.5px);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(20px);
@@ -1658,7 +1600,7 @@ body.menu-open {
         0 12px 32px rgba(255, 140, 0, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
     border-color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 1px;
+    letter-spacing: clamp(0.5px, 0.15vw, 1px);
 }
 
 .cta-shimmer {
@@ -1694,14 +1636,11 @@ body.menu-open {
     animation: premium-glow-pulse 2s ease-in-out infinite;
 }
 
-/* ========================================
-   STATS ROW
-   ======================================== */
-
+/* Stats Row */
 .stats-row-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-lg);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: clamp(0.75rem, 2vw, 1rem);
     max-width: 1000px;
     width: 100%;
     order: 5;
@@ -1712,10 +1651,10 @@ body.menu-open {
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 2rem;
-    padding: 1rem 1.5rem;
+    padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.5rem);
     display: flex;
     align-items: center;
-    gap: var(--space-md);
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
     transition: all var(--transition-medium);
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.1),
@@ -1732,15 +1671,15 @@ body.menu-open {
 }
 
 .stat-icon {
-    width: 40px;
-    height: 40px;
+    width: clamp(32px, 6vw, 40px);
+    height: clamp(32px, 6vw, 40px);
     background: rgba(255, 140, 0, 0.2);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--hermes-orange);
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
     flex-shrink: 0;
     box-shadow: 
         0 4px 12px rgba(255, 140, 0, 0.3),
@@ -1756,7 +1695,7 @@ body.menu-open {
 
 .stat-number {
     font-family: var(--font-inter);
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
     font-weight: 700;
     color: var(--white);
     line-height: 1;
@@ -1766,7 +1705,7 @@ body.menu-open {
 
 .stat-label {
     font-family: var(--font-inter);
-    font-size: 0.75rem;
+    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
     font-weight: 400;
     color: rgba(255, 255, 255, 0.9);
     line-height: 1.2;
@@ -1774,14 +1713,11 @@ body.menu-open {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* ========================================
-   SIGNATURE SECTION - DESKTOP BOTTOM RIGHT
-   ======================================== */
-
+/* Signature Section - Desktop Bottom Right */
 .signature-wrapper {
     position: absolute !important;
-    bottom: 6rem !important;
-    right: 8rem !important;
+    bottom: clamp(3rem, 8vw, 6rem) !important;
+    right: clamp(2rem, 6vw, 8rem) !important;
     left: auto !important;
     top: auto !important;
     z-index: 15;
@@ -1804,7 +1740,7 @@ body.menu-open {
 
 .signature-text-animated {
     font-family: var(--font-dancing);
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
     font-weight: 600;
     color: var(--white);
     text-shadow: 
@@ -1840,7 +1776,7 @@ body.menu-open {
     top: -30px;
     right: -20px;
     color: var(--hermes-orange);
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
     opacity: 0;
     transform: scale(0.8);
     transition: all 0.3s ease;
@@ -1854,7 +1790,7 @@ body.menu-open {
 
 .sparkle {
     position: absolute;
-    font-size: 1rem;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
     opacity: 0;
     transition: all 2s ease-out;
 }
@@ -1863,13 +1799,10 @@ body.menu-open {
 .sparkle-2 { top: 50%; right: 10%; }
 .sparkle-3 { bottom: -10px; left: 60%; }
 
-/* ========================================
-   SCROLL INDICATOR
-   ======================================== */
-
+/* Scroll Indicator */
 .scroll-indicator-elegant {
     position: absolute !important;
-    bottom: 3rem !important;
+    bottom: clamp(1.5rem, 4vw, 3rem) !important;
     left: 50% !important;
     right: auto !important;
     transform: translateX(-50%) !important;
@@ -1878,7 +1811,7 @@ body.menu-open {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-sm);
+    gap: clamp(0.5rem, 1vw, 0.75rem);
     cursor: pointer;
     transition: all var(--transition-medium);
     width: auto;
@@ -1890,8 +1823,8 @@ body.menu-open {
 }
 
 .scroll-icon {
-    width: 44px;
-    height: 44px;
+    width: clamp(36px, 7vw, 44px);
+    height: clamp(36px, 7vw, 44px);
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 255, 255, 0.3);
@@ -1900,7 +1833,7 @@ body.menu-open {
     align-items: center;
     justify-content: center;
     color: var(--white);
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
     animation: scroll-bounce 2s ease-in-out infinite;
     box-shadow: 
         0 6px 20px rgba(0, 0, 0, 0.15),
@@ -1910,7 +1843,7 @@ body.menu-open {
 
 .scroll-text {
     font-family: var(--font-inter);
-    font-size: 0.85rem;
+    font-size: clamp(0.7rem, 1.5vw, 0.85rem);
     font-weight: 500;
     color: var(--white);
     text-transform: lowercase;
@@ -1919,46 +1852,35 @@ body.menu-open {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* ========================================
-   TABLET RESPONSIVE (1024px and below) - MOBILE HEADER ADJUSTMENT
-   ======================================== */
-
+/* Tablet Responsive */
 @media (max-width: 1024px) {
     .hero-content-stack {
-        gap: var(--space-xl);
-        min-height: 75vh;
-        max-width: 800px;
-        padding: 4rem var(--space-xl) var(--space-4xl); /* Reduced top padding for mobile header */
+        gap: clamp(1rem, 3vw, 1.5rem);
+        min-height: 70vh;
+        max-width: 700px;
+        padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 1.5rem);
     }
     
     .stats-row-container {
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-md);
+        gap: clamp(0.75rem, 2vw, 1rem);
     }
   
     .scroll-indicator-elegant {
-        bottom: 1rem !important;
+        bottom: clamp(0.75rem, 2vw, 1rem) !important;
     }
     
     .signature-wrapper {
-        bottom: 4rem !important;
-        right: 4rem !important;
-    }
-    
-    .signature-text-animated { 
-        font-size: 1.5rem; 
+        bottom: clamp(2rem, 5vw, 4rem) !important;
+        right: clamp(2rem, 5vw, 4rem) !important;
     }
 }
 
-/* ========================================
-   MOBILE RESPONSIVE (768px and below) - ENHANCED SPACING
-   ======================================== */
-
+/* Mobile Responsive - Optimized Hero */
 @media (max-width: 768px) {
-    /* EXTENDED MOBILE HERO SECTION WITH MORE SPACE */
     .cinematic-hero {
-        min-height: 120vh; /* Increased from 110vh */
-        min-height: 120svh; /* Increased from 110svh */
+        min-height: 100vh;
+        min-height: 100svh;
         padding: 0;
         display: flex;
         align-items: center;
@@ -1968,36 +1890,42 @@ body.menu-open {
         overflow-x: hidden;
     }
    
-    /* PERFECTLY CENTERED CONTENT STACK - ADJUSTED FOR MOBILE HEADER */
     .hero-content-stack {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: clamp(2rem, 5vw, 2.5rem); /* Increased gap */
+        gap: clamp(1rem, 3vw, 1.5rem);
         position: relative;
         z-index: 10;
         width: 100%;
         max-width: 100vw;
         margin: 0 auto;
-        padding: 4rem 1.5rem 4rem 1.5rem; /* Reduced top padding for mobile header */
-        min-height: calc(120vh - 140px); /* Adjusted for new height */
-        min-height: calc(120svh - 140px); /* Adjusted for new height */
+        padding: clamp(3rem, 8vw, 4rem) clamp(1rem, 4vw, 1.5rem);
+        min-height: 90vh;
+        min-height: 90svh;
         text-align: center;
         box-sizing: border-box;
     }
     
-    /* HIDE SIGNATURE COMPLETELY ON MOBILE */
+    /* Hide signature on mobile */
     .signature-wrapper {
         display: none !important;
     }
     
-    /* CONTENT ORDER ENFORCEMENT */
+    /* Content order enforcement */
     .hero-badge-premium { 
         order: 1;
         align-self: center;
         margin-bottom: 0;
-        margin-top: 0.5rem; /* Small top margin for mobile positioning */
+        margin-top: 0;
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        gap: 0.4rem;
+    }
+
+    .hero-badge-premium i { 
+        font-size: 0.85rem; 
     }
    
     .hero-headline-stack { 
@@ -2005,108 +1933,79 @@ body.menu-open {
         width: 100%;
         margin-bottom: 0;
     }
+
+    .headline-primary {
+        font-size: clamp(1.75rem, 7vw, 2.5rem);
+        margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
+    }
+
+    .headline-secondary { 
+        font-size: clamp(1.25rem, 5vw, 2rem); 
+    }
     
     .hero-subheadline-elegant { 
         order: 3;
         width: 100%;
         max-width: 100%;
-        padding: 0 1rem;
+        padding: 0 clamp(0.5rem, 2vw, 1rem);
         box-sizing: border-box;
         margin: 0;
+        font-size: clamp(0.8rem, 2vw, 0.95rem);
     }
     
     .hero-cta-signature { 
         order: 4;
         margin: 0;
         align-self: center;
+        padding: 0.875rem 1.75rem;
+        font-size: 0.8rem;
+        letter-spacing: 0.3px;
     }
     
     .stats-row-container { 
         order: 5;
         width: 100%;
-        padding: 0 1rem;
+        padding: 0 clamp(0.5rem, 2vw, 1rem);
         box-sizing: border-box;
         margin: 0;
-    }
-    
-    /* SCROLL INDICATOR MOVED FURTHER DOWN */
-    .scroll-indicator-elegant {
-        bottom: 2rem !important; /* Moved down from 0.75rem */
-    }
-    
-    /* ENSURE ALL ELEMENTS ARE CENTERED */
-    .hero-content-stack > * {
-        align-self: center;
-        text-align: center;
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-
-    /* MOBILE ELEMENT ADJUSTMENTS */
-    .hero-badge-premium {
-        padding: 0.6rem 1.3rem;
-        font-size: 0.85rem;
-        gap: 0.5rem;
-    }
-
-    .hero-badge-premium i { 
-        font-size: 0.95rem; 
-    }
-
-    .headline-primary {
-        font-size: clamp(2.2rem, 8vw, 3.2rem);
-        margin-bottom: var(--space-lg);
-    }
-
-    .headline-secondary { 
-        font-size: clamp(1.7rem, 6vw, 2.4rem); 
-    }
-
-    .hero-subheadline-elegant {
-        font-size: clamp(0.9rem, 1.8vw, 1.1rem);
-    }
-
-    .hero-cta-signature {
-        padding: 1.1rem 2.2rem;
-        font-size: 0.9rem;
-        letter-spacing: 0.4px;
-    }
-    
-    .stats-row-container {
         grid-template-columns: 1fr;
-        gap: var(--space-md);
+        gap: clamp(0.75rem, 2vw, 1rem);
     }
 
     .stat-pill {
-        padding: 0.9rem 1.3rem;
-        border-radius: 1.6rem;
+        padding: 0.75rem 1rem;
+        border-radius: 1.5rem;
     }
 
     .stat-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 1.1rem;
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
     }
 
     .stat-number { 
-        font-size: 1.05rem; 
+        font-size: 0.95rem; 
     }
     
     .stat-label { 
-        font-size: 0.75rem; 
+        font-size: 0.7rem; 
+    }
+    
+    .scroll-indicator-elegant {
+        bottom: clamp(1rem, 3vw, 1.5rem) !important;
     }
 
     .scroll-icon {
-        width: 42px;
-        height: 42px;
-        font-size: 1.05rem;
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
     }
 
     .scroll-text { 
-        font-size: 0.8rem; 
+        font-size: 0.75rem; 
     }
     
-    /* HIDE DECORATIVE ELEMENTS ON MOBILE */
+    /* Hide decorative elements on mobile */
     .aqua-elements { 
         display: none; 
     }
@@ -2117,88 +2016,64 @@ body.menu-open {
     }
 }
 
-/* ========================================
-   SMALL MOBILE (480px and below) - EXTRA SPACING
-   ======================================== */
-
+/* Small Mobile */
 @media (max-width: 480px) {
-    /* EXTENDED SMALL MOBILE HERO WITH MORE SPACE */
     .cinematic-hero {
-        min-height: 115vh; /* Increased from 105vh */
-        min-height: 115svh; /* Increased from 105svh */
+        min-height: 100vh;
+        min-height: 100svh;
         padding: 0;
         padding-top: env(safe-area-inset-top, 0);
         padding-bottom: env(safe-area-inset-bottom, 0);
-        text-align: center;
-        width: 100%;
-        overflow-x: hidden;
     }
     
     .hero-content-stack {
-        padding: 4rem 1rem 3rem 1rem; /* Reduced top padding for mobile header */
-        gap: clamp(1.8rem, 4vw, 2.2rem); /* Increased gap */
-        min-height: calc(115vh - 140px); /* Adjusted for new height */
-        min-height: calc(115svh - 140px); /* Adjusted for new height */
-        text-align: center;
-        width: 100%;
-        max-width: 100vw;
-        box-sizing: border-box;
-        align-items: center;
-        justify-content: center;
+        padding: clamp(2.5rem, 6vw, 3rem) clamp(0.75rem, 3vw, 1rem);
+        gap: clamp(0.875rem, 3vw, 1.25rem);
+        min-height: 95vh;
+        min-height: 95svh;
     }
     
-    /* HIDE SIGNATURE ON SMALL MOBILE TOO */
-    .signature-wrapper {
-        display: none !important;
-    }
-    
-    /* SCROLL INDICATOR MOVED DOWN MORE */
-    .scroll-indicator-elegant {
-        bottom: 1.5rem !important; /* Moved down from 0.5rem */
-    }
-    
-    /* SMALL MOBILE ELEMENT ADJUSTMENTS */
     .hero-badge-premium {
-        padding: 0.5rem 1.1rem;
-        font-size: 0.8rem;
-        gap: 0.4rem;
+        padding: 0.4rem 0.9rem;
+        font-size: 0.7rem;
+        gap: 0.35rem;
     }
 
     .hero-badge-premium i { 
-        font-size: 0.85rem; 
+        font-size: 0.75rem; 
     }
 
     .headline-primary { 
-        font-size: clamp(2rem, 9vw, 2.8rem); 
+        font-size: clamp(1.5rem, 8vw, 2rem); 
     }
     
     .headline-secondary { 
-        font-size: clamp(1.5rem, 7vw, 2rem); 
+        font-size: clamp(1.1rem, 6vw, 1.6rem); 
     }
 
     .hero-subheadline-elegant {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         padding: 0;
     }
 
     .hero-cta-signature {
-        padding: 1rem 2rem;
-        font-size: 0.85rem;
-        letter-spacing: 0.3px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.2px;
     }
 
     .stat-pill {
-        padding: 0.8rem 1.1rem;
-        border-radius: 1.4rem;
+        padding: 0.65rem 0.85rem;
+        border-radius: 1.25rem;
         flex-direction: column;
         text-align: center;
-        gap: var(--space-xs);
+        gap: 0.4rem;
     }
 
     .stat-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 1rem;
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
     }
 
     .stat-content { 
@@ -2206,140 +2081,52 @@ body.menu-open {
     }
     
     .stat-number { 
-        font-size: 1rem; 
+        font-size: 0.85rem; 
     }
     
     .stat-label { 
-        font-size: 0.7rem; 
+        font-size: 0.65rem; 
         text-align: center; 
     }
 
     .scroll-icon {
-        width: 38px;
-        height: 38px;
-        font-size: 1rem;
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
     }
 
     .scroll-text { 
-        font-size: 0.75rem; 
-    }
-    
-    /* ENSURE ALL ELEMENTS ARE PROPERLY CENTERED */
-    .hero-badge-premium,
-    .hero-headline-stack,
-    .hero-subheadline-elegant,
-    .hero-cta-signature,
-    .stats-row-container {
-        align-self: center;
-        text-align: center;
-        width: 100%;
-        max-width: 100vw;
-        box-sizing: border-box;
+        font-size: 0.7rem; 
     }
 }
 
-/* ========================================
-   IPHONE PRO MAX AND LARGER PHONES (430px and below)
-   ======================================== */
-
-@media (max-width: 430px) {
-    .cinematic-hero {
-        min-height: 118vh; /* Extra height for Pro Max */
-        min-height: 118svh;
-    }
-    
+/* Extra small phones */
+@media (max-width: 360px) {
     .hero-content-stack {
-        padding: 4.5rem 0.875rem 3.5rem 0.875rem; /* Reduced top padding for mobile header */
-        gap: clamp(2rem, 5vw, 2.5rem); /* More generous gap */
-        min-height: calc(118vh - 150px);
-        min-height: calc(118svh - 150px);
+        padding: clamp(2rem, 5vw, 2.5rem) clamp(0.5rem, 2vw, 0.75rem);
+        gap: clamp(0.75rem, 2.5vw, 1rem);
     }
     
-    /* Move scroll indicator even further down */
-    .scroll-indicator-elegant {
-        bottom: 2.5rem !important;
-    }
-    
-    /* Ensure proper spacing between elements */
     .hero-badge-premium {
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem; /* Consistent small top margin */
+        padding: 0.35rem 0.8rem;
+        font-size: 0.65rem;
     }
     
-    .hero-headline-stack {
-        margin-bottom: 0.5rem;
+    .headline-primary { 
+        font-size: clamp(1.4rem, 7vw, 1.8rem); 
     }
     
-    .hero-subheadline-elegant {
-        margin-bottom: 0.5rem;
-        padding: 0 0.5rem;
+    .headline-secondary { 
+        font-size: clamp(1rem, 5vw, 1.4rem); 
     }
     
     .hero-cta-signature {
-        margin-bottom: 0.5rem;
+        padding: 0.7rem 1.4rem;
+        font-size: 0.7rem;
     }
 }
 
-/* ========================================
-   SMALLER IPHONES (390px and below) - Regular iPhone 14, 13, 12, etc.
-   ======================================== */
-
-@media (max-width: 390px) {
-    .cinematic-hero {
-        min-height: 120vh; /* Extra height for smaller phones */
-        min-height: 120svh;
-    }
-    
-    .hero-content-stack {
-        padding: 4rem 0.75rem 5rem 0.75rem; /* Increased bottom padding */
-        gap: clamp(1.8rem, 5vw, 2.2rem);
-        min-height: calc(120vh - 160px);
-        min-height: calc(120svh - 160px);
-    }
-    
-    /* Move scroll indicator down more for smaller phones */
-    .scroll-indicator-elegant {
-        bottom: 3rem !important;
-    }
-}
-
-/* ========================================
-   VERY SMALL PHONES (360px and below) - iPhone SE, small Androids
-   ======================================== */
-
-@media (max-width: 360px) {
-    .cinematic-hero {
-        min-height: 122vh; /* Even more height for very small phones */
-        min-height: 122svh;
-    }
-    
-    .hero-content-stack {
-        padding: 3.5rem 0.625rem 6rem 0.625rem; /* Extra bottom padding */
-        gap: clamp(1.6rem, 5vw, 2rem);
-        min-height: calc(122vh - 170px);
-        min-height: calc(122svh - 170px);
-    }
-    
-    /* Move scroll indicator down even more */
-    .scroll-indicator-elegant {
-        bottom: 3.5rem !important;
-    }
-    
-    /* Adjust elements for very small screens */
-    .hero-badge-premium {
-        padding: 0.4rem 1rem;
-        font-size: 0.75rem;
-    }
-    
-    .stat-pill {
-        padding: 0.7rem 1rem;
-    }
-}
-
-/* ========================================
-   HERO ANIMATIONS
-   ======================================== */
-
+/* Hero Animations */
 @keyframes float-organic {
     0%, 100% { transform: translateX(0px) translateY(0px) rotate(0deg); }
     25% { transform: translateX(30px) translateY(-40px) rotate(5deg); }
@@ -2414,103 +2201,44 @@ body.menu-open {
     75% { transform: translateX(1px); }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* [Continue with the rest of the CSS file - services, about, results, products, footer sections with the same optimized scaling approach] */
 
 /* ========================================
-   SERVICES SECTION
+   The rest of your CSS sections continue here
+   with the same optimized scaling approach...
+   ======================================== */
+
+/* Continue with all other sections from the original CSS file, 
+   applying the same optimization principles:
+   - Use clamp() for responsive sizing
+   - Optimize padding and spacing
+   - Ensure proper mobile scaling
+   - Fix overflow issues
+   - Add appropriate media queries
+*/
+
+/* For brevity, I'm showing the pattern. Apply the same approach to:
+   - Services Section
+   - About Section  
+   - Instagram Section
+   - Reviews Section
+   - Results Section
+   - Products Section
+   - Contact Section
+   - Footer Section
+   - Floating Action Buttons
+*/
+
+/* ========================================
+   SERVICES SECTION - OPTIMIZED SCALING
    ======================================== */
 
 /* Import Premium Fonts for Services */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200;300;400;500;600;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
-/* ========================================
-   SERVICES SECTION BASE STYLES
-   ======================================== */
-
 .services-section {
     position: relative;
-    padding: 120px 0;
+    padding: clamp(60px, 10vw, 120px) 0;
     background: linear-gradient(135deg, #FFFCF8 0%, #FFF8F0 50%, #F8F4EC 100%);
     overflow: hidden;
 }
@@ -2528,17 +2256,14 @@ body.menu-open {
 .services-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 clamp(1rem, 3vw, 20px);
     position: relative;
 }
 
-/* ========================================
-   SERVICES HEADER
-   ======================================== */
-
+/* Services Header */
 .services-header {
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: clamp(40px, 8vw, 80px);
     position: relative;
     z-index: 10;
 }
@@ -2546,8 +2271,8 @@ body.menu-open {
 .header-badge {
     display: inline-flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 32px;
+    gap: clamp(8px, 2vw, 16px);
+    margin-bottom: clamp(20px, 4vw, 32px);
     opacity: 0;
     animation: fadeInUp 1s ease-out forwards;
 }
@@ -2562,9 +2287,9 @@ body.menu-open {
 
 .badge-text {
     font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
+    font-size: clamp(10px, 1.5vw, 12px);
     font-weight: 600;
-    letter-spacing: 3px;
+    letter-spacing: clamp(2px, 0.3vw, 3px);
     text-transform: uppercase;
     color: #FF8C00;
     background: linear-gradient(90deg, #FF8C00, #FFB84D, #FF8C00);
@@ -2576,11 +2301,11 @@ body.menu-open {
 
 .services-title {
     font-family: 'Oswald', sans-serif;
-    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
     font-weight: 200;
     line-height: 0.95;
     letter-spacing: -2px;
-    margin-bottom: 24px;
+    margin-bottom: clamp(16px, 3vw, 24px);
     opacity: 0;
     animation: fadeInUp 1s ease-out 0.2s forwards;
 }
@@ -2596,7 +2321,7 @@ body.menu-open {
     display: block;
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.15em;
-    letter-spacing: 8px;
+    letter-spacing: clamp(4px, 0.8vw, 8px);
     background: linear-gradient(135deg, #FF8C00 0%, #FFA500 25%, #FF7700 50%, #FF6600 75%, #FF8C00 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
@@ -2614,7 +2339,7 @@ body.menu-open {
 
 .services-subtitle {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px;
+    font-size: clamp(14px, 2.5vw, 18px);
     font-weight: 300;
     color: #6B5B47;
     letter-spacing: 0.5px;
@@ -2622,28 +2347,25 @@ body.menu-open {
     animation: fadeInUp 1s ease-out 0.4s forwards;
 }
 
-/* ========================================
-   SERVICES CAROUSEL WRAPPER
-   ======================================== */
-
+/* Services Carousel Wrapper */
 .services-carousel-wrapper {
     position: relative;
-    margin: 0 -20px;
-    padding: 20px;
+    margin: 0 clamp(-10px, -2vw, -20px);
+    padding: clamp(10px, 2vw, 20px);
 }
 
 .services-carousel {
     position: relative;
     overflow: hidden;
-    border-radius: 40px;
-    padding: 20px 60px;
+    border-radius: clamp(20px, 4vw, 40px);
+    padding: clamp(10px, 2vw, 20px) clamp(30px, 5vw, 60px);
 }
 
 .carousel-track {
     display: flex;
-    gap: 32px;
+    gap: clamp(16px, 3vw, 32px);
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 20px 0;
+    padding: clamp(10px, 2vw, 20px) 0;
     width: 100%;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -2658,15 +2380,12 @@ body.menu-open {
     transition: none;
 }
 
-/* ========================================
-   SERVICE CARDS - ENHANCED
-   ======================================== */
-
+/* Service Cards */
 .service-card {
     flex: 0 0 calc(33.333% - 22px);
-    min-width: 380px;
+    min-width: clamp(280px, 35vw, 380px);
     position: relative;
-    border-radius: 32px;
+    border-radius: clamp(20px, 4vw, 32px);
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -2686,7 +2405,7 @@ body.menu-open {
     position: absolute;
     inset: -2px;
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.3), rgba(255, 184, 77, 0.3), rgba(255, 140, 0, 0.3));
-    border-radius: 32px;
+    border-radius: clamp(20px, 4vw, 32px);
     opacity: 0;
     filter: blur(20px);
     transition: opacity 0.6s ease;
@@ -2703,7 +2422,7 @@ body.menu-open {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
     backdrop-filter: blur(40px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 32px;
+    border-radius: clamp(20px, 4vw, 32px);
     overflow: hidden;
     height: 100%;
     box-shadow: 
@@ -2722,12 +2441,9 @@ body.menu-open {
     border-color: rgba(255, 140, 0, 0.3);
 }
 
-/* ========================================
-   CARD HEADER
-   ======================================== */
-
+/* Card Header */
 .card-header {
-    padding: 24px 28px 16px;
+    padding: clamp(16px, 3vw, 24px) clamp(20px, 4vw, 28px) clamp(12px, 2vw, 16px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2735,7 +2451,7 @@ body.menu-open {
 
 .service-number {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
+    font-size: clamp(32px, 6vw, 42px);
     line-height: 1;
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(255, 140, 0, 0.05));
     -webkit-background-clip: text;
@@ -2748,11 +2464,11 @@ body.menu-open {
 .service-badge-premium,
 .service-badge-natural {
     font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
+    font-size: clamp(9px, 1.2vw, 10px);
     font-weight: 700;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    padding: 6px 12px;
+    padding: clamp(4px, 0.8vw, 6px) clamp(8px, 1.5vw, 12px);
     border-radius: 20px;
     backdrop-filter: blur(10px);
     animation: badgeFloat 3s ease-in-out infinite;
@@ -2782,13 +2498,10 @@ body.menu-open {
     box-shadow: 0 4px 12px rgba(52, 211, 153, 0.4);
 }
 
-/* ========================================
-   CARD IMAGE
-   ======================================== */
-
+/* Card Image */
 .card-image {
     position: relative;
-    height: 200px;
+    height: clamp(160px, 25vw, 200px);
     overflow: hidden;
     margin: 0 2px;
 }
@@ -2816,24 +2529,18 @@ body.menu-open {
     opacity: 1; 
 }
 
-/* ========================================
-   CARD BODY
-   ======================================== */
-
+/* Card Body */
 .card-body {
-    padding: 32px 28px;
+    padding: clamp(20px, 4vw, 32px) clamp(20px, 4vw, 28px);
     text-align: center;
 }
 
-/* ========================================
-   SERVICE ICON
-   ======================================== */
-
+/* Service Icon */
 .service-icon-wrapper {
     position: relative;
-    width: 80px;
-    height: 80px;
-    margin: -60px auto 24px;
+    width: clamp(60px, 12vw, 80px);
+    height: clamp(60px, 12vw, 80px);
+    margin: clamp(-40px, -8vw, -60px) auto clamp(16px, 3vw, 24px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2843,7 +2550,7 @@ body.menu-open {
     position: absolute;
     inset: 0;
     background: linear-gradient(135deg, #FFF8F0, #FFFFFF);
-    border-radius: 24px;
+    border-radius: clamp(16px, 3vw, 24px);
     box-shadow: 
         0 10px 30px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -2861,7 +2568,7 @@ body.menu-open {
 .service-icon-wrapper i {
     position: relative;
     z-index: 2;
-    font-size: 32px;
+    font-size: clamp(24px, 5vw, 32px);
     background: linear-gradient(135deg, #FF8C00, #FF6600);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -2875,13 +2582,10 @@ body.menu-open {
     filter: drop-shadow(0 4px 8px rgba(255, 140, 0, 0.3));
 }
 
-/* ========================================
-   SERVICE CONTENT TYPOGRAPHY
-   ======================================== */
-
+/* Service Content Typography */
 .service-title {
     font-family: 'Poppins', sans-serif;
-    font-size: 26px;
+    font-size: clamp(20px, 4vw, 26px);
     font-weight: 700;
     letter-spacing: -0.5px;
     color: #2A1B0A;
@@ -2891,35 +2595,32 @@ body.menu-open {
 
 .service-tagline {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
+    font-size: clamp(11px, 2vw, 13px);
     font-weight: 400;
     letter-spacing: 2px;
     color: #FF8C00;
-    margin-bottom: 16px;
+    margin-bottom: clamp(12px, 2vw, 16px);
     text-transform: uppercase;
     opacity: 0.8;
 }
 
 .service-description {
     font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
+    font-size: clamp(12px, 2.5vw, 14px);
     font-weight: 400;
     line-height: 1.6;
     color: #6B5B47;
-    margin-bottom: 24px;
+    margin-bottom: clamp(16px, 3vw, 24px);
     min-height: 44px;
 }
 
-/* ========================================
-   SERVICE FEATURES
-   ======================================== */
-
+/* Service Features */
 .service-features {
     display: flex;
     justify-content: center;
-    gap: 24px;
-    margin-bottom: 24px;
-    padding: 16px;
+    gap: clamp(12px, 3vw, 24px);
+    margin-bottom: clamp(16px, 3vw, 24px);
+    padding: clamp(12px, 2vw, 16px);
     background: rgba(255, 248, 240, 0.5);
     border-radius: 16px;
     backdrop-filter: blur(10px);
@@ -2930,23 +2631,20 @@ body.menu-open {
     align-items: center;
     gap: 6px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
+    font-size: clamp(10px, 2vw, 12px);
     font-weight: 600;
     color: #6B5B47;
 }
 
 .feature-item i {
-    font-size: 14px;
+    font-size: clamp(12px, 2.5vw, 14px);
     color: #FF8C00;
 }
 
-/* ========================================
-   PRICE SECTION
-   ======================================== */
-
+/* Price Section */
 .price-section {
-    margin-bottom: 24px;
-    padding: 20px;
+    margin-bottom: clamp(16px, 3vw, 24px);
+    padding: clamp(14px, 3vw, 20px);
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.05), rgba(255, 184, 77, 0.05));
     border-radius: 20px;
     border: 1px solid rgba(255, 140, 0, 0.1);
@@ -2955,7 +2653,7 @@ body.menu-open {
 .price-label {
     display: block;
     font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
+    font-size: clamp(10px, 1.8vw, 11px);
     font-weight: 600;
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -2966,7 +2664,7 @@ body.menu-open {
 .price-amount {
     display: block;
     font-family: 'Oswald', sans-serif;
-    font-size: 36px;
+    font-size: clamp(28px, 5vw, 36px);
     font-weight: 300;
     letter-spacing: -1px;
     background: linear-gradient(135deg, #FF8C00, #FF6600);
@@ -2975,23 +2673,20 @@ body.menu-open {
 }
 
 .price-unit {
-    font-size: 18px;
+    font-size: clamp(14px, 2.5vw, 18px);
     opacity: 0.7;
 }
 
-/* ========================================
-   SERVICE CTA BUTTON - ENHANCED
-   ======================================== */
-
+/* Service CTA Button */
 .service-cta {
     width: 100%;
-    padding: 18px 32px;
+    padding: clamp(14px, 3vw, 18px) clamp(24px, 5vw, 32px);
     background: linear-gradient(135deg, #2A1B0A, #442C15);
     color: #FFF;
     border: none;
     border-radius: 24px;
     font-family: 'Poppins', sans-serif;
-    font-size: 14px;
+    font-size: clamp(12px, 2.5vw, 14px);
     font-weight: 600;
     letter-spacing: 0.5px;
     cursor: pointer;
@@ -3031,7 +2726,7 @@ body.menu-open {
 }
 
 .cta-arrow {
-    font-size: 20px;
+    font-size: clamp(16px, 3vw, 20px);
     transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
@@ -3058,16 +2753,13 @@ body.menu-open {
     opacity: 1;
 }
 
-/* ========================================
-   CAROUSEL NAVIGATION ARROWS
-   ======================================== */
-
+/* Carousel Navigation Arrows */
 .carousel-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 56px;
-    height: 56px;
+    width: clamp(40px, 8vw, 56px);
+    height: clamp(40px, 8vw, 56px);
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 140, 0, 0.2);
@@ -3083,11 +2775,11 @@ body.menu-open {
 }
 
 .carousel-nav-prev { 
-    left: 20px; 
+    left: clamp(10px, 2vw, 20px); 
 }
 
 .carousel-nav-next { 
-    right: 20px; 
+    right: clamp(10px, 2vw, 20px); 
 }
 
 .carousel-nav:hover {
@@ -3110,10 +2802,7 @@ body.menu-open {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-/* ========================================
-   ENHANCED MOBILE PROGRESS BAR
-   ======================================== */
-
+/* Mobile Progress Bar */
 .mobile-progress-bar {
     display: none;
     position: relative;
@@ -3121,7 +2810,7 @@ body.menu-open {
     height: 4px;
     background: rgba(255, 140, 0, 0.1);
     border-radius: 4px;
-    margin: 24px 0 16px 0;
+    margin: clamp(16px, 3vw, 24px) 0 clamp(12px, 2vw, 16px) 0;
     overflow: hidden;
 }
 
@@ -3151,7 +2840,7 @@ body.menu-open {
     gap: 8px;
     margin-top: 12px;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
+    font-size: clamp(12px, 2.5vw, 14px);
 }
 
 .current-indicator {
@@ -3164,15 +2853,12 @@ body.menu-open {
     opacity: 0.7;
 }
 
-/* ========================================
-   CAROUSEL DOTS - ENHANCED
-   ======================================== */
-
+/* Carousel Dots */
 .carousel-dots {
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin-top: 48px;
+    gap: clamp(8px, 2vw, 12px);
+    margin-top: clamp(32px, 6vw, 48px);
 }
 
 .carousel-dot {
@@ -3192,7 +2878,7 @@ body.menu-open {
 }
 
 .carousel-dot.active {
-    width: 32px;
+    width: clamp(24px, 5vw, 32px);
     background: linear-gradient(90deg, #FF8C00, #FFA500);
     border-radius: 20px;
 }
@@ -3206,17 +2892,14 @@ body.menu-open {
     animation: dotPulse 2s ease-in-out infinite;
 }
 
-/* ========================================
-   ENHANCED SCROLL HINT
-   ======================================== */
-
+/* Scroll Hint */
 .scroll-hint {
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-top: 32px;
+    margin-top: clamp(24px, 5vw, 32px);
     opacity: 0;
     animation: fadeInUp 1s ease-out 1s forwards;
 }
@@ -3226,7 +2909,7 @@ body.menu-open {
     align-items: center;
     gap: 8px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
+    font-size: clamp(11px, 2vw, 13px);
     font-weight: 500;
     color: #9B8A75;
     padding: 8px 16px;
@@ -3237,7 +2920,7 @@ body.menu-open {
 }
 
 .scroll-hint-content i {
-    font-size: 18px;
+    font-size: clamp(14px, 3vw, 18px);
     color: #FF8C00;
     animation: scrollHintBounce 2s ease-in-out infinite;
 }
@@ -3259,23 +2942,20 @@ body.menu-open {
 .scroll-hint-dots span:nth-child(2) { animation-delay: 0.2s; }
 .scroll-hint-dots span:nth-child(3) { animation-delay: 0.4s; }
 
-/* ========================================
-   NAVIGATION COUNTER - ENHANCED
-   ======================================== */
-
+/* Navigation Counter */
 .carousel-navigation {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 24px;
-    margin-top: 48px;
+    gap: clamp(16px, 3vw, 24px);
+    margin-top: clamp(32px, 6vw, 48px);
 }
 
 .nav-counter {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 12px 24px;
+    gap: clamp(12px, 2vw, 16px);
+    padding: clamp(10px, 2vw, 12px) clamp(20px, 4vw, 24px);
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     border-radius: 30px;
@@ -3284,7 +2964,7 @@ body.menu-open {
 
 .current-slide {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
+    font-size: clamp(20px, 4vw, 24px);
     color: #FF8C00;
 }
 
@@ -3295,18 +2975,18 @@ body.menu-open {
 
 .total-slides {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
+    font-size: clamp(20px, 4vw, 24px);
     color: #9B8A75;
 }
 
 .nav-controls {
     display: flex;
-    gap: 12px;
+    gap: clamp(8px, 2vw, 12px);
 }
 
 .nav-control-btn {
-    width: 40px;
-    height: 40px;
+    width: clamp(32px, 6vw, 40px);
+    height: clamp(32px, 6vw, 40px);
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(255, 140, 0, 0.2);
     border-radius: 50%;
@@ -3316,7 +2996,7 @@ body.menu-open {
     cursor: pointer;
     color: #FF8C00;
     transition: all 0.3s ease;
-    font-size: 16px;
+    font-size: clamp(14px, 2.5vw, 16px);
 }
 
 .nav-control-btn:hover {
@@ -3325,10 +3005,7 @@ body.menu-open {
     transform: scale(1.1);
 }
 
-/* ========================================
-   SERVICES ANIMATIONS
-   ======================================== */
-
+/* Services Animations */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -3388,24 +3065,20 @@ body.menu-open {
     100% { transform: scale(1.15) rotateY(15deg); }
 }
 
-/* ========================================
-   MOBILE RESPONSIVE DESIGN - ENHANCED
-   ======================================== */
-
+/* Mobile Responsive - Services */
 @media (max-width: 1200px) {
     .service-card {
         flex: 0 0 calc(50% - 16px);
-        min-width: 340px;
+        min-width: clamp(300px, 40vw, 340px);
     }
 }
 
-/* Enhanced mobile carousel - perfect single card view */
 @media (max-width: 900px) {
     .services-carousel {
-        padding: 20px 0;
+        padding: clamp(15px, 3vw, 20px) 0;
         border-radius: 0;
         overflow: hidden;
-        margin: 0 -20px;
+        margin: 0 clamp(-10px, -2vw, -20px);
     }
     
     .carousel-track {
@@ -3417,7 +3090,7 @@ body.menu-open {
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         -ms-overflow-style: none;
-        padding: 20px 20px 30px 20px;
+        padding: clamp(15px, 3vw, 20px) clamp(15px, 3vw, 20px) clamp(20px, 4vw, 30px) clamp(15px, 3vw, 20px);
         width: 100%;
         scroll-behavior: smooth;
         touch-action: pan-x;
@@ -3430,13 +3103,13 @@ body.menu-open {
     }
     
     .service-card {
-        flex: 0 0 calc(100vw - 40px);
-        min-width: calc(100vw - 40px);
-        max-width: calc(100vw - 40px);
-        width: calc(100vw - 40px);
+        flex: 0 0 calc(90vw - 30px);
+        min-width: calc(90vw - 30px);
+        max-width: calc(90vw - 30px);
+        width: calc(90vw - 30px);
         scroll-snap-align: center;
         scroll-snap-stop: always;
-        margin-right: 20px;
+        margin-right: clamp(15px, 3vw, 20px);
         flex-shrink: 0;
         transition: transform 0.3s ease;
     }
@@ -3456,12 +3129,12 @@ body.menu-open {
     .card-content {
         width: 100%;
         height: auto;
-        min-height: 600px;
-        border-radius: 24px;
+        min-height: clamp(500px, 80vh, 600px);
+        border-radius: clamp(18px, 4vw, 24px);
     }
     
     .card-body {
-        padding: 24px 20px 32px 20px;
+        padding: clamp(18px, 4vw, 24px) clamp(16px, 3vw, 20px) clamp(24px, 5vw, 32px) clamp(16px, 3vw, 20px);
     }
     
     /* Hide navigation arrows on mobile */
@@ -3477,7 +3150,7 @@ body.menu-open {
     /* Show scroll hint on mobile */
     .scroll-hint {
         display: flex !important;
-        margin-top: 24px;
+        margin-top: clamp(18px, 4vw, 24px);
         justify-content: center;
         align-items: center;
         opacity: 1;
@@ -3486,8 +3159,8 @@ body.menu-open {
     /* Adjust service features for mobile */
     .service-features {
         flex-direction: column;
-        gap: 12px;
-        padding: 12px;
+        gap: clamp(8px, 2vw, 12px);
+        padding: clamp(10px, 2vw, 12px);
     }
     
     .feature-item {
@@ -3496,8 +3169,8 @@ body.menu-open {
     
     /* Enhanced carousel dots for mobile */
     .carousel-dots {
-        margin-top: 20px;
-        gap: 8px;
+        margin-top: clamp(15px, 3vw, 20px);
+        gap: clamp(6px, 1.5vw, 8px);
     }
     
     .carousel-dot {
@@ -3506,13 +3179,13 @@ body.menu-open {
     }
     
     .carousel-dot.active {
-        width: 24px;
+        width: clamp(20px, 4vw, 24px);
     }
 }
 
 @media (max-width: 768px) {
     .services-section {
-        padding: 80px 0;
+        padding: clamp(50px, 10vw, 80px) 0;
         overflow-x: hidden;
     }
     
@@ -3529,236 +3202,236 @@ body.menu-open {
     }
     
     .services-header { 
-        margin-bottom: 48px; 
-        padding: 0 20px;
+        margin-bottom: clamp(32px, 6vw, 48px); 
+        padding: 0 clamp(15px, 3vw, 20px);
     }
     
     .services-title { 
-        font-size: clamp(2.5rem, 9vw, 4rem); 
+        font-size: clamp(2rem, 8vw, 3rem); 
     }
     
     .title-line-2 { 
-        letter-spacing: 4px; 
+        letter-spacing: clamp(2px, 0.5vw, 4px); 
     }
     
     .carousel-track {
-        padding: 20px 15px 30px 15px;
+        padding: clamp(15px, 3vw, 20px) clamp(12px, 2.5vw, 15px) clamp(20px, 4vw, 30px) clamp(12px, 2.5vw, 15px);
     }
     
     .service-card {
-        flex: 0 0 calc(100vw - 30px);
-        min-width: calc(100vw - 30px);
-        max-width: calc(100vw - 30px);
-        width: calc(100vw - 30px);
-        margin-right: 15px;
+        flex: 0 0 calc(92vw - 25px);
+        min-width: calc(92vw - 25px);
+        max-width: calc(92vw - 25px);
+        width: calc(92vw - 25px);
+        margin-right: clamp(12px, 2.5vw, 15px);
     }
     
     .card-image {
-        height: 180px;
+        height: clamp(150px, 30vw, 180px);
     }
     
     .service-icon-wrapper {
-        width: 70px;
-        height: 70px;
-        margin: -50px auto 20px;
+        width: clamp(55px, 12vw, 70px);
+        height: clamp(55px, 12vw, 70px);
+        margin: clamp(-35px, -7vw, -50px) auto clamp(15px, 3vw, 20px);
     }
     
     .service-icon-wrapper i {
-        font-size: 28px;
+        font-size: clamp(22px, 5vw, 28px);
     }
     
     .service-title {
-        font-size: 22px;
+        font-size: clamp(18px, 4vw, 22px);
         margin-bottom: 6px;
     }
     
     .service-tagline {
-        font-size: 12px;
-        margin-bottom: 14px;
+        font-size: clamp(10px, 2vw, 12px);
+        margin-bottom: clamp(10px, 2vw, 14px);
     }
     
     .service-description {
-        font-size: 13px;
+        font-size: clamp(11px, 2.5vw, 13px);
         line-height: 1.5;
-        margin-bottom: 20px;
+        margin-bottom: clamp(14px, 3vw, 20px);
         min-height: 40px;
     }
     
     .price-section {
-        margin-bottom: 20px;
-        padding: 16px;
+        margin-bottom: clamp(14px, 3vw, 20px);
+        padding: clamp(12px, 2.5vw, 16px);
     }
     
     .price-amount {
-        font-size: 28px;
+        font-size: clamp(24px, 5vw, 28px);
     }
     
     .service-cta {
-        padding: 16px 24px;
-        font-size: 13px;
+        padding: clamp(12px, 3vw, 16px) clamp(20px, 4vw, 24px);
+        font-size: clamp(11px, 2.5vw, 13px);
         margin-top: 4px;
     }
     
     .carousel-navigation {
-        margin-top: 32px;
-        padding: 0 20px;
+        margin-top: clamp(24px, 5vw, 32px);
+        padding: 0 clamp(15px, 3vw, 20px);
     }
     
     .nav-counter {
-        padding: 10px 20px;
-        gap: 12px;
+        padding: clamp(8px, 2vw, 10px) clamp(16px, 3vw, 20px);
+        gap: clamp(10px, 2vw, 12px);
     }
     
     .current-slide,
     .total-slides {
-        font-size: 20px;
+        font-size: clamp(16px, 3.5vw, 20px);
     }
     
     .nav-controls {
-        gap: 8px;
+        gap: clamp(6px, 1.5vw, 8px);
     }
     
     .nav-control-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 14px;
+        width: clamp(30px, 6vw, 36px);
+        height: clamp(30px, 6vw, 36px);
+        font-size: clamp(12px, 2.5vw, 14px);
     }
 }
 
 @media (max-width: 480px) {
     .services-container { 
-        padding: 0 10px; 
+        padding: 0 clamp(8px, 2vw, 10px); 
     }
     
     .services-title { 
-        font-size: clamp(2rem, 10vw, 3rem); 
+        font-size: clamp(1.75rem, 9vw, 2.5rem); 
         letter-spacing: -1px; 
     }
     
     .title-line-2 { 
-        letter-spacing: 2px; 
+        letter-spacing: clamp(1px, 0.3vw, 2px); 
         font-size: 1.1em; 
     }
     
     .services-carousel {
-        margin: 0 -10px;
-        padding: 15px 10px;
-        border-radius: 20px;
+        margin: 0 clamp(-8px, -2vw, -10px);
+        padding: clamp(10px, 2vw, 15px) clamp(8px, 2vw, 10px);
+        border-radius: clamp(15px, 3vw, 20px);
     }
     
     .carousel-track {
-        padding: 15px 5px 25px 5px;
+        padding: clamp(10px, 2vw, 15px) clamp(5px, 1vw, 5px) clamp(15px, 3vw, 25px) clamp(5px, 1vw, 5px);
     }
     
     .service-card {
-        flex: 0 0 calc(100vw - 20px);
-        min-width: calc(100vw - 20px);
-        max-width: calc(100vw - 20px);
-        width: calc(100vw - 20px);
-        margin-right: 10px;
+        flex: 0 0 calc(94vw - 15px);
+        min-width: calc(94vw - 15px);
+        max-width: calc(94vw - 15px);
+        width: calc(94vw - 15px);
+        margin-right: clamp(8px, 2vw, 10px);
     }
     
     .card-content {
-        min-height: 550px;
-        border-radius: 20px;
+        min-height: clamp(450px, 75vh, 550px);
+        border-radius: clamp(16px, 3vw, 20px);
     }
     
     .card-header {
-        padding: 20px 24px 14px;
+        padding: clamp(14px, 3vw, 20px) clamp(18px, 4vw, 24px) clamp(10px, 2vw, 14px);
     }
     
     .service-number {
-        font-size: 36px;
+        font-size: clamp(28px, 6vw, 36px);
     }
     
     .service-badge-luxury,
     .service-badge-new,
     .service-badge-premium,
     .service-badge-natural {
-        font-size: 9px;
-        padding: 5px 10px;
+        font-size: clamp(8px, 1.5vw, 9px);
+        padding: clamp(4px, 0.8vw, 5px) clamp(8px, 1.5vw, 10px);
     }
     
     .card-image {
-        height: 160px;
+        height: clamp(140px, 28vw, 160px);
     }
     
     .card-body {
-        padding: 20px 16px 28px 16px;
+        padding: clamp(16px, 3vw, 20px) clamp(14px, 3vw, 16px) clamp(20px, 4vw, 28px) clamp(14px, 3vw, 16px);
     }
     
     .service-icon-wrapper {
-        width: 65px;
-        height: 65px;
-        margin: -45px auto 18px;
+        width: clamp(50px, 11vw, 65px);
+        height: clamp(50px, 11vw, 65px);
+        margin: clamp(-30px, -6vw, -45px) auto clamp(14px, 3vw, 18px);
     }
     
     .service-icon-wrapper i {
-        font-size: 26px;
+        font-size: clamp(20px, 4.5vw, 26px);
     }
     
     .service-title {
-        font-size: 20px;
+        font-size: clamp(16px, 3.5vw, 20px);
         margin-bottom: 5px;
     }
     
     .service-tagline {
-        font-size: 11px;
-        margin-bottom: 12px;
+        font-size: clamp(9px, 2vw, 11px);
+        margin-bottom: clamp(8px, 2vw, 12px);
         letter-spacing: 1.5px;
     }
     
     .service-description {
-        font-size: 12px;
-        margin-bottom: 18px;
+        font-size: clamp(10px, 2.2vw, 12px);
+        margin-bottom: clamp(12px, 2.5vw, 18px);
         min-height: 36px;
     }
     
     .service-features {
-        padding: 10px;
-        gap: 10px;
-        margin-bottom: 18px;
+        padding: clamp(8px, 2vw, 10px);
+        gap: clamp(8px, 2vw, 10px);
+        margin-bottom: clamp(12px, 2.5vw, 18px);
     }
     
     .feature-item {
-        font-size: 11px;
+        font-size: clamp(9px, 2vw, 11px);
     }
     
     .feature-item i {
-        font-size: 12px;
+        font-size: clamp(10px, 2vw, 12px);
     }
     
     .price-section {
-        padding: 14px;
-        margin-bottom: 18px;
+        padding: clamp(10px, 2vw, 14px);
+        margin-bottom: clamp(12px, 2.5vw, 18px);
     }
     
     .price-label {
-        font-size: 10px;
+        font-size: clamp(9px, 1.8vw, 10px);
         margin-bottom: 6px;
     }
     
     .price-amount {
-        font-size: 26px;
+        font-size: clamp(22px, 5vw, 26px);
     }
     
     .price-unit {
-        font-size: 16px;
+        font-size: clamp(12px, 2.5vw, 16px);
     }
     
     .service-cta {
-        padding: 14px 20px;
-        font-size: 12px;
-        gap: 10px;
+        padding: clamp(10px, 2.5vw, 14px) clamp(16px, 3.5vw, 20px);
+        font-size: clamp(10px, 2.2vw, 12px);
+        gap: clamp(8px, 2vw, 10px);
     }
     
     .cta-arrow {
-        font-size: 18px;
+        font-size: clamp(14px, 3vw, 18px);
     }
     
     .carousel-dots {
-        margin-top: 16px;
-        gap: 6px;
+        margin-top: clamp(12px, 2.5vw, 16px);
+        gap: clamp(5px, 1vw, 6px);
     }
     
     .carousel-dot {
@@ -3767,54 +3440,51 @@ body.menu-open {
     }
     
     .carousel-dot.active {
-        width: 20px;
+        width: clamp(16px, 3.5vw, 20px);
     }
     
     .carousel-navigation {
-        margin-top: 24px;
+        margin-top: clamp(18px, 4vw, 24px);
         flex-direction: column;
-        gap: 16px;
+        gap: clamp(12px, 2.5vw, 16px);
     }
     
     .nav-counter {
-        padding: 8px 16px;
-        gap: 10px;
+        padding: clamp(6px, 1.5vw, 8px) clamp(12px, 2.5vw, 16px);
+        gap: clamp(8px, 2vw, 10px);
     }
     
     .current-slide,
     .total-slides {
-        font-size: 18px;
+        font-size: clamp(14px, 3vw, 18px);
     }
     
     .nav-control-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 12px;
+        width: clamp(28px, 6vw, 32px);
+        height: clamp(28px, 6vw, 32px);
+        font-size: clamp(10px, 2vw, 12px);
     }
 }
 
-/* ========================================
-   ULTRA SMALL SCREENS
-   ======================================== */
-
+/* Ultra small screens */
 @media (max-width: 320px) {
     .service-card {
-        flex: 0 0 calc(100vw - 10px);
-        min-width: calc(100vw - 10px);
-        max-width: calc(100vw - 10px);
-        width: calc(100vw - 10px);
+        flex: 0 0 calc(95vw - 10px);
+        min-width: calc(95vw - 10px);
+        max-width: calc(95vw - 10px);
+        width: calc(95vw - 10px);
     }
     
     .carousel-track {
-        padding: 10px 5px 20px 5px;
+        padding: clamp(8px, 2vw, 10px) clamp(5px, 1vw, 5px) clamp(15px, 3vw, 20px) clamp(5px, 1vw, 5px);
     }
     
     .card-content {
-        min-height: 500px;
+        min-height: clamp(420px, 70vh, 500px);
     }
     
     .card-body {
-        padding: 16px 12px 24px 12px;
+        padding: clamp(12px, 3vw, 16px) clamp(10px, 2.5vw, 12px) clamp(18px, 4vw, 24px) clamp(10px, 2.5vw, 12px);
     }
 }
 
