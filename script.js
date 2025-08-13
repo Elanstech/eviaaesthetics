@@ -151,7 +151,7 @@ class EviaLuxuryApp {
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: LuxuryServicesCarousel },
-            { name: 'beforeAfter', class: BeforeAfterSlider },
+            { name: 'PremiumResultsGallery', class: PremiumResultsGallery },
             { name: 'contactForm', class: ContactForm },
             { name: 'magneticEffects', class: MagneticEffects },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
@@ -2037,111 +2037,122 @@ class LuxuryServicesCarousel {
 }
 
 /* ========================================
-   BEFORE/AFTER SLIDER COMPONENT
+   PremiumResultsGallery
    ======================================== */
 
-class BeforeAfterSlider {
+class PremiumResultsGallery {
     constructor() {
-        this.sliders = document.querySelectorAll('.before-after-slider');
+        this.resultCards = document.querySelectorAll('.result-card');
+        this.bookingCTA = document.getElementById('resultsBookingCTA');
         
-        if (this.sliders.length > 0) {
+        if (this.resultCards.length > 0) {
             this.init();
         }
     }
     
     init() {
-        this.sliders.forEach(slider => this.initSlider(slider));
+        this.initBeforeAfterSliders();
+        this.bindEvents();
+        this.initIntersectionObserver();
+        console.log('✨ Premium Results Gallery initialized');
     }
     
-    initSlider(slider) {
-        const handle = slider.querySelector('.slider-handle');
-        const afterImage = slider.querySelector('.after-image');
-        let isDragging = false;
-        let currentX = 50;
-        
-        if (!handle || !afterImage) return;
-        
-        // Set initial position
-        handle.style.left = '50%';
-        afterImage.style.clipPath = 'inset(0 50% 0 0)';
-        
-        const updateSlider = (clientX) => {
-            const rect = slider.getBoundingClientRect();
-            const x = clientX - rect.left;
-            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    initBeforeAfterSliders() {
+        this.resultCards.forEach(card => {
+            const container = card.querySelector('.before-after-container');
+            const afterWrapper = card.querySelector('.after-wrapper');
+            const sliderButton = card.querySelector('.slider-button');
             
-            currentX = percentage;
-            handle.style.left = `${percentage}%`;
-            afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-        };
-        
-        // Mouse events
-        handle.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            e.preventDefault();
+            if (!container || !afterWrapper || !sliderButton) return;
             
-            const mouseMoveHandler = (e) => {
-                if (isDragging) updateSlider(e.clientX);
+            let isDragging = false;
+            let currentX = 50; // Start at 50%
+            
+            // Set initial position
+            afterWrapper.style.clipPath = 'inset(0 50% 0 0)';
+            
+            const updateSlider = (clientX) => {
+                const rect = container.getBoundingClientRect();
+                const x = clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                
+                currentX = percentage;
+                afterWrapper.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+                sliderButton.parentElement.style.left = `${percentage}%`;
             };
             
-            const mouseUpHandler = () => {
-                isDragging = false;
-                document.removeEventListener('mousemove', mouseMoveHandler);
-                document.removeEventListener('mouseup', mouseUpHandler);
-            };
-            
-            document.addEventListener('mousemove', mouseMoveHandler);
-            document.addEventListener('mouseup', mouseUpHandler);
-        });
-        
-        // Touch events
-        handle.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            e.preventDefault();
-            
-            const touchMoveHandler = (e) => {
-                if (isDragging && e.touches[0]) {
-                    updateSlider(e.touches[0].clientX);
-                }
-            };
-            
-            const touchEndHandler = () => {
-                isDragging = false;
-                document.removeEventListener('touchmove', touchMoveHandler);
-                document.removeEventListener('touchend', touchEndHandler);
-            };
-            
-            document.addEventListener('touchmove', touchMoveHandler, { passive: false });
-            document.addEventListener('touchend', touchEndHandler);
-        });
-        
-        // Auto-demo animation
-        this.startAutoDemo(slider, handle, afterImage, currentX);
-    }
-    
-    startAutoDemo(slider, handle, afterImage, currentX) {
-        let autoSlideInterval;
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    autoSlideInterval = setInterval(() => {
-                        const targetX = currentX === 50 ? (Math.random() > 0.5 ? 20 : 80) : 50;
-                        this.animateSliderTo(targetX, (progress) => {
-                            currentX = progress;
-                            handle.style.left = `${progress}%`;
-                            afterImage.style.clipPath = `inset(0 ${100 - progress}% 0 0)`;
-                        });
-                    }, 4000);
-                } else {
-                    if (autoSlideInterval) {
-                        clearInterval(autoSlideInterval);
+            // Mouse events
+            sliderButton.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                e.preventDefault();
+                container.style.cursor = 'ew-resize';
+                
+                const mouseMoveHandler = (e) => {
+                    if (isDragging) {
+                        updateSlider(e.clientX);
                     }
+                };
+                
+                const mouseUpHandler = () => {
+                    isDragging = false;
+                    container.style.cursor = 'ew-resize';
+                    document.removeEventListener('mousemove', mouseMoveHandler);
+                    document.removeEventListener('mouseup', mouseUpHandler);
+                };
+                
+                document.addEventListener('mousemove', mouseMoveHandler);
+                document.addEventListener('mouseup', mouseUpHandler);
+            });
+            
+            // Touch events for mobile
+            sliderButton.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                e.preventDefault();
+                
+                const touchMoveHandler = (e) => {
+                    if (isDragging && e.touches[0]) {
+                        updateSlider(e.touches[0].clientX);
+                    }
+                };
+                
+                const touchEndHandler = () => {
+                    isDragging = false;
+                    document.removeEventListener('touchmove', touchMoveHandler);
+                    document.removeEventListener('touchend', touchEndHandler);
+                };
+                
+                document.addEventListener('touchmove', touchMoveHandler, { passive: false });
+                document.addEventListener('touchend', touchEndHandler);
+            });
+            
+            // Auto-demo animation on hover
+            card.addEventListener('mouseenter', () => {
+                if (!isDragging) {
+                    this.startAutoDemo(afterWrapper, sliderButton, currentX);
                 }
             });
-        }, { threshold: 0.5 });
-        
-        observer.observe(slider);
+            
+            card.addEventListener('mouseleave', () => {
+                if (!isDragging) {
+                    this.resetSlider(afterWrapper, sliderButton);
+                }
+            });
+        });
+    }
+    
+    startAutoDemo(afterWrapper, sliderButton, currentX) {
+        const targetX = currentX === 50 ? (Math.random() > 0.5 ? 20 : 80) : 50;
+        this.animateSliderTo(targetX, (progress) => {
+            afterWrapper.style.clipPath = `inset(0 ${100 - progress}% 0 0)`;
+            sliderButton.parentElement.style.left = `${progress}%`;
+        });
+    }
+    
+    resetSlider(afterWrapper, sliderButton) {
+        this.animateSliderTo(50, (progress) => {
+            afterWrapper.style.clipPath = `inset(0 ${100 - progress}% 0 0)`;
+            sliderButton.parentElement.style.left = `${progress}%`;
+        });
     }
     
     animateSliderTo(toX, updateCallback) {
@@ -2168,6 +2179,231 @@ class BeforeAfterSlider {
     easeInOutCubic(t) {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
+    
+    bindEvents() {
+        // Booking CTA
+        if (this.bookingCTA) {
+            this.bookingCTA.addEventListener('click', () => {
+                this.handleBookingClick();
+            });
+            
+            this.bookingCTA.addEventListener('mouseenter', () => {
+                this.addShimmerEffect();
+            });
+        }
+        
+        // Card hover effects
+        this.resultCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                this.addCardHoverEffect(card);
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                this.removeCardHoverEffect(card);
+            });
+        });
+    }
+    
+    addShimmerEffect() {
+        const shimmer = this.bookingCTA.querySelector('.cta-shimmer');
+        if (shimmer) {
+            shimmer.style.left = '-100%';
+            shimmer.style.transition = 'none';
+            shimmer.offsetHeight; // Force reflow
+            shimmer.style.transition = 'left 0.8s ease';
+            shimmer.style.left = '100%';
+        }
+    }
+    
+    addCardHoverEffect(card) {
+        const sliderButton = card.querySelector('.slider-button');
+        if (sliderButton) {
+            sliderButton.style.animation = 'gentle-pulse 2s ease-in-out infinite';
+        }
+    }
+    
+    removeCardHoverEffect(card) {
+        const sliderButton = card.querySelector('.slider-button');
+        if (sliderButton) {
+            sliderButton.style.animation = '';
+        }
+    }
+    
+    handleBookingClick() {
+        // Add ripple effect
+        this.addRippleEffect();
+        
+        // Navigate to contact section or show booking modal
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            setTimeout(() => {
+                contactSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 200);
+        }
+        
+        // Show feedback
+        this.showBookingFeedback();
+    }
+    
+    addRippleEffect() {
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+            pointer-events: none;
+            z-index: 10;
+        `;
+        
+        this.bookingCTA.appendChild(ripple);
+        
+        requestAnimationFrame(() => {
+            ripple.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
+            ripple.style.transform = 'translate(-50%, -50%) scale(6)';
+            ripple.style.opacity = '0';
+        });
+        
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 600);
+    }
+    
+    showBookingFeedback() {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 140, 0, 0.95);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        `;
+        
+        feedback.innerHTML = `
+            <i class="ri-calendar-check-line" style="font-size: 1.1rem;"></i>
+            <span>Redirecting to consultation booking...</span>
+        `;
+        
+        document.body.appendChild(feedback);
+        
+        requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        setTimeout(() => {
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 400);
+        }, 2000);
+    }
+    
+    initIntersectionObserver() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    
+                    // Stagger animation for cards
+                    const cards = entry.target.querySelectorAll('.result-card');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0) scale(1)';
+                        }, index * 100);
+                    });
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        const gallery = document.querySelector('.results-gallery');
+        if (gallery) {
+            // Set initial state
+            const cards = gallery.querySelectorAll('.result-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px) scale(0.95)';
+                card.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            });
+            
+            observer.observe(gallery);
+        }
+    }
+}
+
+// Additional CSS for animations
+const additionalCSS = `
+    @keyframes gentle-pulse {
+        0%, 100% { 
+            transform: scale(1); 
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(255, 140, 0, 0.2);
+        }
+        50% { 
+            transform: scale(1.05); 
+            box-shadow: 0 12px 32px rgba(255, 140, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+    }
+    
+    .premium-results-section .result-card.animate-in {
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) !important;
+    }
+`;
+
+// Inject additional CSS
+const styleSheet = document.createElement('style');
+styleSheet.textContent = additionalCSS;
+document.head.appendChild(styleSheet);
+
+// Initialize the gallery when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    new PremiumResultsGallery();
+});
+
+// Initialize immediately if DOM is already loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        new PremiumResultsGallery();
+    });
+} else {
+    new PremiumResultsGallery();
 }
 
 /* ========================================
