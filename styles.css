@@ -1355,9 +1355,6 @@ body.menu-open {
 }
 
 /* ========================================
-   HERO SECTION
-   ======================================== */
-/* ========================================
    HERO SECTION - ENHANCED MOBILE SPACING
    ======================================== */
 .cinematic-hero {
@@ -2000,7 +1997,7 @@ body.menu-open {
         order: 1;
         align-self: center;
         margin-bottom: 0;
-        margin-top: 0; /* Remove extra top margin on mobile */
+        margin-top: 0.5rem; /* Small top margin for mobile positioning */
     }
    
     .hero-headline-stack { 
@@ -2266,6 +2263,7 @@ body.menu-open {
     /* Ensure proper spacing between elements */
     .hero-badge-premium {
         margin-bottom: 0.5rem;
+        margin-top: 0.5rem; /* Consistent small top margin */
     }
     
     .hero-headline-stack {
