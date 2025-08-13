@@ -370,6 +370,10 @@ body {
     display: none;
 }
 
+.header-logo.scrolled-logo {
+    display: none;
+}
+
 .header-logo:hover {
     transform: scale(1.05);
     filter: drop-shadow(0 4px 8px rgba(255, 140, 0, 0.3));
@@ -626,12 +630,16 @@ body {
     display: none !important;
 }
 
-/* Logo changes in mobile mode */
+/* Logo changes in mobile mode - DESKTOP SCROLLED STATE */
 .luxury-floating-header.mobile-mode .header-logo.desktop-logo {
     display: none !important;
 }
 
 .luxury-floating-header.mobile-mode .header-logo.mobile-logo {
+    display: none !important;
+}
+
+.luxury-floating-header.mobile-mode .header-logo.scrolled-logo {
     display: block !important;
     width: 50px !important;
     height: 50px !important;
@@ -639,9 +647,11 @@ body {
     border: 2px solid rgba(255, 140, 0, 0.3) !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
     background: rgba(255, 255, 255, 0.9) !important;
+    object-fit: cover !important;
+    object-position: center !important;
 }
 
-.luxury-floating-header.mobile-mode .header-logo.mobile-logo:hover {
+.luxury-floating-header.mobile-mode .header-logo.scrolled-logo:hover {
     transform: scale(1.1) rotate(-5deg) !important;
     border-color: rgba(255, 140, 0, 0.6) !important;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
@@ -713,6 +723,10 @@ body {
         display: none !important;
     }
     
+    .header-logo.scrolled-logo {
+        display: none !important;
+    }
+    
     .header-logo.mobile-logo {
         display: block !important;
         width: 60px;
@@ -759,6 +773,14 @@ body {
     .header-logo.mobile-logo {
         width: 50px;
         height: 50px;
+    }
+    
+    .header-logo.scrolled-logo {
+        display: none !important;
+    }
+    
+    .header-logo.scrolled-logo {
+        display: none !important;
     }
     
     .aluminum-mobile-toggle {
