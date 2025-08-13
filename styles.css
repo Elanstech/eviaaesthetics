@@ -2415,36 +2415,6 @@ body.menu-open {
 }
 
 /* ========================================
-   PERFORMANCE OPTIMIZATIONS
-   ======================================== */
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .orb,
-    .aqua-bubble,
-    .signature-char,
-    .signature-sparkles,
-    .scroll-icon {
-        animation: none !important;
-    }
-    
-    .headline-secondary {
-        animation: none !important;
-    }
-}
-
-/* GPU acceleration */
-.orb,
-.aqua-bubble,
-.hero-cta-signature,
-.stat-pill,
-.signature-container {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: transform;
-}
-
-/* ========================================
    SERVICES SECTION
    ======================================== */
 
@@ -3766,85 +3736,6 @@ body.menu-open {
 }
 
 /* ========================================
-   PERFORMANCE OPTIMIZATIONS
-   ======================================== */
-
-/* GPU acceleration for smooth animations */
-.service-card,
-.card-content,
-.service-icon-wrapper,
-.service-cta,
-.carousel-nav,
-.progress-fill {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: transform;
-}
-
-/* Reduce motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-    .service-card,
-    .card-glow,
-    .service-icon-wrapper i,
-    .cta-arrow,
-    .carousel-nav {
-        animation: none !important;
-        transition: none !important;
-    }
-    
-    .carousel-track {
-        scroll-behavior: auto;
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .service-card {
-        border: 2px solid currentColor;
-    }
-    
-    .service-cta {
-        border: 1px solid currentColor;
-    }
-}
-
-/* Print styles */
-@media print {
-    .carousel-nav,
-    .carousel-dots,
-    .scroll-hint,
-    .mobile-progress-bar,
-    .nav-controls {
-        display: none !important;
-    }
-    
-    .service-card {
-        break-inside: avoid;
-        page-break-inside: avoid;
-    }
-}
-
-/* ========================================
-   OVERFLOW PREVENTION
-   ======================================== */
-
-@media (max-width: 900px) {
-    body {
-        overflow-x: hidden;
-    }
-    
-    .services-section {
-        overflow-x: hidden;
-        width: 100%;
-    }
-    
-    .services-container {
-        width: 100%;
-        overflow: hidden;
-    }
-}
-
-/* ========================================
    ABOUT SECTION
    ======================================== */
 
@@ -5144,39 +5035,6 @@ body.menu-open {
 }
 
 /* ========================================
-   PERFORMANCE OPTIMIZATIONS
-   ======================================== */
-
-.luxury-about-section .element,
-.luxury-about-section .floating-credential,
-.luxury-about-section .image-frame,
-.luxury-about-section .philosophy-card,
-.luxury-about-section .service-item,
-.luxury-about-section .award-item {
-    will-change: transform;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-}
-
-/* Touch optimization for mobile */
-@media (hover: none) and (pointer: coarse) {
-    .luxury-about-section .floating-credential:hover,
-    .luxury-about-section .philosophy-card:hover,
-    .luxury-about-section .service-item:hover,
-    .luxury-about-section .award-item:hover {
-        transform: none;
-    }
-    
-    .luxury-about-section .luxury-cta-button:hover {
-        transform: none;
-    }
-    
-    .luxury-about-section .image-frame:hover {
-        transform: none;
-    }
-}
-
-/* ========================================
    LUXURY INSTAGRAM FEED SECTION
    ======================================== */
 
@@ -5878,33 +5736,6 @@ body.menu-open {
 }
 
 /* ========================================
-   PERFORMANCE OPTIMIZATIONS
-   ======================================== */
-
-.luxury-instagram-section .element,
-.luxury-reviews-section .element,
-.luxury-instagram-section .instagram-follow-btn,
-.luxury-reviews-section .stat-card {
-    will-change: transform;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .luxury-instagram-section .element,
-    .luxury-reviews-section .element,
-    .luxury-instagram-section .btn-glow {
-        animation: none !important;
-    }
-    
-    .luxury-instagram-section .instagram-follow-btn:hover,
-    .luxury-reviews-section .stat-card:hover {
-        transform: none !important;
-    }
-}
-
-/* ========================================
    RESULTS SECTION
    ======================================== */
 
@@ -5916,6 +5747,48 @@ body.menu-open {
 .section-header {
     text-align: center;
     margin-bottom: var(--space-4xl);
+}
+
+.section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--hermes-orange);
+    padding: 0.6rem 1.4rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-inter);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 140, 0, 0.3);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        0 4px 16px rgba(255, 140, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: all var(--transition-medium);
+    margin-bottom: var(--space-xl);
+}
+
+.section-title {
+    font-family: var(--font-playfair);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text-primary);
+    margin-bottom: var(--space-lg);
+}
+
+.section-description {
+    font-family: var(--font-inter);
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .results-gallery {
@@ -6046,6 +5919,11 @@ body.menu-open {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-4xl);
     align-items: start;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
 }
 
 .contact-details {
@@ -6527,7 +6405,6 @@ body.menu-open {
 /* Call Button Specific */
 .luxury-fab-call {
     animation-delay: 0.2s;
-    /* Desktop: Left side, Mobile: Left side (icon only) */
 }
 
 .luxury-fab-call .fab-icon i {
@@ -6537,7 +6414,6 @@ body.menu-open {
 /* Back to Top Button Specific */
 .luxury-fab-top {
     animation-delay: 0.4s;
-    /* Desktop: Right side, Mobile: Right side (icon only) */
 }
 
 .luxury-fab-top .fab-content {
@@ -6751,166 +6627,15 @@ body.menu-open {
     outline-offset: 2px;
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .luxury-fab,
-    .fab-icon i,
-    .fab-glow,
-    .fab-shine {
-        animation: none !important;
-        transition: none !important;
-    }
-    
-    .luxury-fab:hover {
-        transform: none !important;
-    }
-}
-
-/* High contrast mode */
-@media (prefers-contrast: high) {
-    .luxury-fab {
-        border: 2px solid currentColor;
-    }
-    
-    .fab-background {
-        border-width: 2px;
-    }
-}
-
-/* Touch optimization */
-@media (hover: none) and (pointer: coarse) {
-    /* Desktop touch devices */
-    .luxury-fab {
-        min-height: 56px;
-    }
-    
-    .fab-content {
-        padding: 0.75rem 1rem;
-    }
-    
-    .fab-icon {
-        width: 40px;
-        height: 40px;
-    }
-    
-    /* Mobile touch: circular icon-only buttons */
-    @media (max-width: 768px) {
-        .fab-text {
-            display: none;
-        }
-        
-        .luxury-fab {
-            width: 56px;
-            height: 56px;
-            min-width: 56px;
-            max-width: 56px;
-            border-radius: 50%;
-        }
-        
-        .fab-content {
-            padding: 0;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .fab-background,
-        .fab-glow,
-        .fab-shine {
-            border-radius: 50%;
-        }
-        
-        /* Smaller sizes for smaller screens */
-        @media (max-width: 480px) {
-            .luxury-fab {
-                width: 52px;
-                height: 52px;
-                min-width: 52px;
-                max-width: 52px;
-            }
-            
-            .fab-content {
-                min-height: 52px;
-            }
-            
-            .fab-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-        }
-        
-        @media (max-width: 360px) {
-            .luxury-fab {
-                width: 48px;
-                height: 48px;
-                min-width: 48px;
-                max-width: 48px;
-            }
-            
-            .fab-content {
-                min-height: 48px;
-            }
-            
-            .fab-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 0.95rem;
-            }
-        }
-    }
-    
-    /* Remove hover effects on touch devices */
-    .luxury-fab:hover {
-        transform: none;
-        box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.08),
-            0 4px 16px rgba(255, 158, 24, 0.1);
-    }
-    
-    .luxury-fab:hover .fab-background {
-        background: rgba(255, 255, 255, 0.95);
-        border-color: rgba(255, 158, 24, 0.15);
-    }
-    
-    .luxury-fab:hover .fab-icon {
-        transform: none;
-    }
-    
-    .luxury-fab:hover .fab-glow {
-        opacity: 0;
-    }
-}
-
-/* GPU acceleration */
-.luxury-fab,
-.fab-background,
-.fab-glow,
-.fab-shine,
-.fab-ripple {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-}
-
-/* Print styles */
-@media print {
-    .luxury-floating-actions {
-        display: none !important;
-    }
-}
-
-/* Loading state - initially hidden */
-.luxury-fab:not(.show) {
-    pointer-events: none;
-}
-
-/* Ensure proper stacking */
-.luxury-fab-call {
-    z-index: 1001;
-}
-
-.luxury-fab-top {
-    z-index: 1002;
+.nav-link:focus,
+.premium-cta:focus,
+.hero-cta-signature:focus,
+.aluminum-mobile-toggle:focus,
+.menu-close:focus,
+.primary-cta:focus,
+.service-cta:focus {
+    outline: 2px solid var(--luxury-orange);
+    outline-offset: 2px;
 }
 
 /* ========================================
@@ -7000,62 +6725,31 @@ body.menu-open {
 }
 
 /* ========================================
-   ACCESSIBILITY & MODERN FEATURES
+   ADDITIONAL SERVICE ANIMATIONS
    ======================================== */
 
-/* Modern focus indicators */
-.nav-link:focus,
-.premium-cta:focus,
-.hero-cta-signature:focus,
-.aluminum-mobile-toggle:focus,
-.menu-close:focus,
-.primary-cta:focus,
-.service-cta:focus {
-    outline: 2px solid var(--luxury-orange);
-    outline-offset: 2px;
+.service-card.animate-in {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .aluminum-container {
-        border: 2px solid var(--text-primary);
-    }
-    
-    .nav-link,
-    .premium-cta {
-        border: 1px solid currentColor;
-    }
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+/* GPU acceleration for smooth animations */
+.service-card,
+.card-content,
+.service-icon-wrapper,
+.service-cta,
+.carousel-nav,
+.progress-fill {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    
-    .orb,
-    .floating-credential,
-    .aqua-bubble,
-    .medspa-icon,
-    .decoration-orb {
-        animation: none !important;
-    }
-    
-    .scroll-icon {
-        animation: none !important;
-    }
-    
-    .signature-char,
-    .signature-sparkles {
-        animation: none !important;
-    }
-}
-
-/* Performance optimizations */
+/* GPU acceleration */
 .orb,
 .floating-credential,
 .decoration-orb,
@@ -7083,53 +6777,13 @@ body.menu-open {
     transform: translateZ(0);
 }
 
-/* ========================================
-   ADDITIONAL SERVICE ANIMATIONS
-   ======================================== */
-
-.service-card.animate-in {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-}
-
-/* Signature animation keyframes */
-@keyframes writeChar {
-    0% { opacity: 0; transform: translateY(20px) rotate(-5deg); }
-    100% { opacity: 1; transform: translateY(0) rotate(0deg); }
-}
-
-@keyframes drawSignatureUnderline {
-    0% { width: 0; opacity: 0; }
-    50% { opacity: 1; }
-    100% { width: 100%; opacity: 1; }
-}
-
-@keyframes showPen {
-    0% { opacity: 0; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1); }
-}
-
-@keyframes writingMotion {
-    0%, 100% { transform: translateX(0) translateY(0); }
-    25% { transform: translateX(2px) translateY(-1px); }
-    50% { transform: translateX(-1px) translateY(1px); }
-    75% { transform: translateX(1px) translateY(-1px); }
-}
-
-@keyframes hidePen {
-    0% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(0.8); }
-}
-
-@keyframes sparkleFloat {
-    0% { opacity: 0; transform: scale(0) rotate(0deg); }
-    50% { opacity: 1; transform: scale(1) rotate(180deg); }
-    100% { opacity: 0; transform: scale(0) rotate(360deg); }
-}
-
-@keyframes signatureHover {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+.luxury-fab,
+.fab-background,
+.fab-glow,
+.fab-shine,
+.fab-ripple {
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 /* ========================================
@@ -7189,7 +6843,7 @@ body.menu-open {
     overflow-x: hidden;
 }
 
-/* Final performance optimizations */
+/* GPU acceleration */
 img {
     image-rendering: optimizeQuality;
     image-rendering: -webkit-optimize-contrast;
@@ -7197,29 +6851,4 @@ img {
 
 video {
     image-rendering: optimizeSpeed;
-}
-
-/* Print styles */
-@media print {
-    .luxury-preloader,
-    .luxury-floating-header,
-    .luxury-mobile-menu,
-    .mobile-backdrop,
-    .floating-orbs,
-    .aqua-elements,
-    .scroll-indicator-elegant {
-        display: none !important;
-    }
-    
-    body {
-        background: white !important;
-        color: black !important;
-    }
-    
-    .hero-content-stack,
-    .services-container,
-    .about-layout,
-    .contact-layout {
-        page-break-inside: avoid;
-    }
 }
