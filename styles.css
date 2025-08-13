@@ -2013,6 +2013,10 @@ body.menu-open {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--space-md);
     }
+  
+   .scroll-indicator-elegant {
+        bottom: 1rem !important;
+    }
     
     .signature-wrapper {
         bottom: 4rem !important;
@@ -2104,13 +2108,7 @@ body.menu-open {
     
     /* SCROLL INDICATOR AT BOTTOM */
     .scroll-indicator-elegant {
-        position: absolute !important;
-        bottom: 2rem !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        z-index: 10;
-        order: 6;
-        align-self: center;
+        bottom: 0.75rem !important;
     }
     
     /* ENSURE ALL ELEMENTS ARE CENTERED */
@@ -2231,10 +2229,8 @@ body.menu-open {
         display: none !important;
     }
     
-    .scroll-indicator-elegant {
-        bottom: 1.5rem !important;
-        align-self: center;
-        order: 5;
+   .scroll-indicator-elegant {
+        bottom: 0.5rem !important;
     }
     
     /* SMALL MOBILE ELEMENT ADJUSTMENTS */
