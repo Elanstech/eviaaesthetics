@@ -290,7 +290,7 @@ body {
 }
 
 /* ========================================
-   HEADER & MOBILE MENU - FIXED DESIGN
+   HEADER & MOBILE MENU - COMPLETE SECTION
    ======================================== */
 
 .luxury-floating-header {
@@ -671,10 +671,10 @@ body {
 }
 
 /* ========================================
-   TABLET RESPONSIVE DESIGN (1024px and below)
+   MOBILE HEADER MODE (1440px and below - 14inch screens and smaller)
    ======================================== */
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .luxury-floating-header {
         top: 0;
         left: 0;
