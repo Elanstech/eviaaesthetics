@@ -2281,6 +2281,62 @@ body.menu-open {
 }
 
 /* ========================================
+   SMALLER IPHONES (390px and below) - Regular iPhone 14, 13, 12, etc.
+   ======================================== */
+
+@media (max-width: 390px) {
+    .cinematic-hero {
+        min-height: 120vh; /* Extra height for smaller phones */
+        min-height: 120svh;
+    }
+    
+    .hero-content-stack {
+        padding: 4rem 0.75rem 5rem 0.75rem; /* Increased bottom padding */
+        gap: clamp(1.8rem, 5vw, 2.2rem);
+        min-height: calc(120vh - 160px);
+        min-height: calc(120svh - 160px);
+    }
+    
+    /* Move scroll indicator down more for smaller phones */
+    .scroll-indicator-elegant {
+        bottom: 3rem !important;
+    }
+}
+
+/* ========================================
+   VERY SMALL PHONES (360px and below) - iPhone SE, small Androids
+   ======================================== */
+
+@media (max-width: 360px) {
+    .cinematic-hero {
+        min-height: 122vh; /* Even more height for very small phones */
+        min-height: 122svh;
+    }
+    
+    .hero-content-stack {
+        padding: 3.5rem 0.625rem 6rem 0.625rem; /* Extra bottom padding */
+        gap: clamp(1.6rem, 5vw, 2rem);
+        min-height: calc(122vh - 170px);
+        min-height: calc(122svh - 170px);
+    }
+    
+    /* Move scroll indicator down even more */
+    .scroll-indicator-elegant {
+        bottom: 3.5rem !important;
+    }
+    
+    /* Adjust elements for very small screens */
+    .hero-badge-premium {
+        padding: 0.4rem 1rem;
+        font-size: 0.75rem;
+    }
+    
+    .stat-pill {
+        padding: 0.7rem 1rem;
+    }
+}
+
+/* ========================================
    HERO ANIMATIONS
    ======================================== */
 
