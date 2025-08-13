@@ -2410,544 +2410,228 @@ if (document.readyState === 'loading') {
    CONTACT FORM COMPONENT
    ======================================== */
 
-class ContactSection {
+class ContactForm {
     constructor() {
-        this.phoneNumber = '2016394983'; // Phone number without formatting
-        this.address = '65 W 36th St, 10th Floor, New York, NY 10018';
-        this.email = 'info@eviaesthetics.com'; // Replace with actual email
-        this.whatsappNumber = '12016394983'; // WhatsApp with country code
+        this.form = document.getElementById('contactForm');
         
-        this.init();
+        if (this.form) {
+            this.init();
+        }
     }
     
     init() {
         this.bindEvents();
-        this.updateOfficeStatus();
-        this.initFloatingAnimations();
-        
-        // Update status every minute
-        setInterval(() => {
-            this.updateOfficeStatus();
-        }, 60000);
-        
-        console.log('✨ Contact Section initialized');
+        this.initFormAnimations();
     }
     
     bindEvents() {
-        // Call button
-        const callBtn = document.getElementById('callBtn');
-        if (callBtn) {
-            callBtn.addEventListener('click', () => this.handleCall());
-        }
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
         
-        // Text button
-        const textBtn = document.getElementById('textBtn');
-        if (textBtn) {
-            textBtn.addEventListener('click', () => this.handleText());
-        }
-        
-        // WhatsApp button
-        const whatsappBtn = document.getElementById('whatsappBtn');
-        if (whatsappBtn) {
-            whatsappBtn.addEventListener('click', () => this.handleWhatsApp());
-        }
-        
-        // Email button
-        const emailBtn = document.getElementById('emailBtn');
-        if (emailBtn) {
-            emailBtn.addEventListener('click', () => this.handleEmail());
-        }
-        
-        // Schedule online button (shows coming soon modal)
-        const scheduleBtn = document.getElementById('scheduleBtn');
-        if (scheduleBtn) {
-            scheduleBtn.addEventListener('click', () => this.showComingSoonModal());
-        }
-        
-        // Get directions button
-        const directionsBtn = document.getElementById('getDirectionsBtn');
-        if (directionsBtn) {
-            directionsBtn.addEventListener('click', () => this.handleDirections());
-        }
-        
-        // Modal events
-        this.bindModalEvents();
-        
-        // Add hover effects
-        this.addHoverEffects();
-    }
-    
-    bindModalEvents() {
-        const modal = document.getElementById('comingSoonModal');
-        const modalClose = document.getElementById('modalClose');
-        const modalBackdrop = document.getElementById('modalBackdrop');
-        const callFromModal = document.getElementById('callFromModal');
-        const whatsappFromModal = document.getElementById('whatsappFromModal');
-        
-        if (modalClose) {
-            modalClose.addEventListener('click', () => this.hideComingSoonModal());
-        }
-        
-        if (modalBackdrop) {
-            modalBackdrop.addEventListener('click', () => this.hideComingSoonModal());
-        }
-        
-        if (callFromModal) {
-            callFromModal.addEventListener('click', () => {
-                this.hideComingSoonModal();
-                setTimeout(() => this.handleCall(), 300);
-            });
-        }
-        
-        if (whatsappFromModal) {
-            whatsappFromModal.addEventListener('click', () => {
-                this.hideComingSoonModal();
-                setTimeout(() => this.handleWhatsApp(), 300);
-            });
-        }
-        
-        // Close modal on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
-                this.hideComingSoonModal();
-            }
+        const formFields = this.form.querySelectorAll('input, select, textarea');
+        formFields.forEach(field => {
+            field.addEventListener('focus', () => this.onFieldFocus(field));
+            field.addEventListener('blur', () => this.onFieldBlur(field));
+            field.addEventListener('input', () => this.onFieldInput(field));
         });
     }
     
-    handleCall() {
-        // Create call link
-        const telLink = `tel:${this.phoneNumber}`;
-        
-        // Show feedback
-        this.showNotification('Initiating call...', 'info');
-        
-        // Attempt to make the call
-        window.location.href = telLink;
-        
-        // Add analytics if available
-        this.trackEvent('phone_call', 'contact_section');
-        
-        console.log('📞 Call initiated');
+    onFieldFocus(field) {
+        field.style.transform = 'translateY(-2px)';
+        field.style.boxShadow = '0 8px 25px rgba(255, 158, 24, 0.15)';
     }
     
-    handleText() {
-        // Create SMS link
-        const smsLink = `sms:${this.phoneNumber}`;
-        
-        // Show feedback
-        this.showNotification('Opening text messages...', 'info');
-        
-        // Open SMS
-        window.location.href = smsLink;
-        
-        // Add analytics if available
-        this.trackEvent('text_message', 'contact_section');
-        
-        console.log('💬 Text message initiated');
+    onFieldBlur(field) {
+        field.style.transform = 'translateY(0)';
+        field.style.boxShadow = '';
+        this.validateField(field);
     }
     
-    handleWhatsApp() {
-        // Create WhatsApp message
-        const message = 'Hi! I would like to schedule a consultation at Evia Aesthetics.';
-        const whatsappLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(message)}`;
-        
-        // Show feedback
-        this.showNotification('Opening WhatsApp...', 'success');
-        
-        // Open WhatsApp
-        window.open(whatsappLink, '_blank');
-        
-        // Add analytics if available
-        this.trackEvent('whatsapp_message', 'contact_section');
-        
-        console.log('📱 WhatsApp message initiated');
+    onFieldInput(field) {
+        this.clearFieldError(field);
     }
     
-    handleEmail() {
-        // Create email
-        const subject = 'Consultation Inquiry - Evia Aesthetics';
-        const body = 'Hello,\n\nI would like to schedule a consultation for aesthetic treatments. Please let me know your availability.\n\nThank you!';
-        const mailtoLink = `mailto:${this.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    initFormAnimations() {
+        const formGroups = this.form.querySelectorAll('.form-group');
         
-        // Show feedback
-        this.showNotification('Opening email client...', 'info');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const groups = entry.target.querySelectorAll('.form-group');
+                    groups.forEach((group, index) => {
+                        setTimeout(() => {
+                            group.style.opacity = '1';
+                            group.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
         
-        // Open email client
-        window.location.href = mailtoLink;
+        formGroups.forEach(group => {
+            group.style.opacity = '0';
+            group.style.transform = 'translateY(20px)';
+            group.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        });
         
-        // Add analytics if available
-        this.trackEvent('email_contact', 'contact_section');
-        
-        console.log('📧 Email initiated');
+        observer.observe(this.form);
     }
     
-    handleDirections() {
-        // Create Google Maps link
-        const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(this.address)}`;
+    validateField(field) {
+        const value = field.value.trim();
+        const isRequired = field.hasAttribute('required');
         
-        // Show feedback
-        this.showNotification('Opening directions...', 'info');
-        
-        // Open Google Maps
-        window.open(mapsLink, '_blank');
-        
-        // Add analytics if available
-        this.trackEvent('get_directions', 'contact_section');
-        
-        console.log('🗺️ Directions opened');
-    }
-    
-    showComingSoonModal() {
-        const modal = document.getElementById('comingSoonModal');
-        if (modal) {
-            modal.classList.add('show');
-            
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
-            
-            // Add analytics if available
-            this.trackEvent('schedule_online_clicked', 'contact_section');
-            
-            console.log('📅 Coming Soon modal shown');
+        if (isRequired && !value) {
+            this.showFieldError(field, 'This field is required');
+            return false;
         }
-    }
-    
-    hideComingSoonModal() {
-        const modal = document.getElementById('comingSoonModal');
-        if (modal) {
-            modal.classList.remove('show');
-            
-            // Restore body scroll
-            document.body.style.overflow = '';
-            
-            console.log('📅 Coming Soon modal hidden');
-        }
-    }
-    
-    updateOfficeStatus() {
-        const statusDot = document.getElementById('statusDot');
-        const statusText = document.getElementById('statusText');
         
-        if (!statusDot || !statusText) return;
-        
-        const now = new Date();
-        const day = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
-        const hour = now.getHours();
-        const minute = now.getMinutes();
-        const currentTime = hour * 60 + minute; // Convert to minutes
-        
-        let isOpen = false;
-        let statusMessage = '';
-        
-        // Office hours:
-        // Monday-Friday: 9:00 AM - 7:00 PM (540-1140 minutes)
-        // Saturday: 10:00 AM - 6:00 PM (600-1080 minutes)
-        // Sunday: Closed
-        
-        if (day >= 1 && day <= 5) { // Monday-Friday
-            if (currentTime >= 540 && currentTime < 1140) {
-                isOpen = true;
-                statusMessage = 'Open Now';
-            } else if (currentTime < 540) {
-                const openTime = Math.floor((540 - currentTime) / 60);
-                const openMinutes = (540 - currentTime) % 60;
-                statusMessage = openTime > 0 ? `Opens in ${openTime}h ${openMinutes}m` : `Opens in ${openMinutes}m`;
-            } else {
-                statusMessage = 'Closed - Opens Tomorrow 9:00 AM';
+        if (field.type === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                this.showFieldError(field, 'Please enter a valid email address');
+                return false;
             }
-        } else if (day === 6) { // Saturday
-            if (currentTime >= 600 && currentTime < 1080) {
-                isOpen = true;
-                statusMessage = 'Open Now';
-            } else if (currentTime < 600) {
-                const openTime = Math.floor((600 - currentTime) / 60);
-                const openMinutes = (600 - currentTime) % 60;
-                statusMessage = openTime > 0 ? `Opens in ${openTime}h ${openMinutes}m` : `Opens in ${openMinutes}m`;
-            } else {
-                statusMessage = 'Closed - Opens Monday 9:00 AM';
-            }
-        } else { // Sunday
-            statusMessage = 'Closed - Opens Monday 9:00 AM';
         }
         
-        // Update status indicator
-        statusText.textContent = statusMessage;
+        if (field.type === 'tel' && value) {
+            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+            if (!phoneRegex.test(value.replace(/\D/g, ''))) {
+                this.showFieldError(field, 'Please enter a valid phone number');
+                return false;
+            }
+        }
         
-        if (isOpen) {
-            statusDot.style.background = '#10B981'; // Green
-            statusText.style.color = '#10B981';
-            statusDot.parentElement.style.background = 'rgba(16, 185, 129, 0.1)';
-            statusDot.parentElement.style.borderColor = 'rgba(16, 185, 129, 0.2)';
-        } else {
-            statusDot.style.background = '#EF4444'; // Red
-            statusText.style.color = '#EF4444';
-            statusDot.parentElement.style.background = 'rgba(239, 68, 68, 0.1)';
-            statusDot.parentElement.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+        this.clearFieldError(field);
+        return true;
+    }
+    
+    showFieldError(field, message) {
+        this.clearFieldError(field);
+        
+        field.style.borderColor = '#EF4444';
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.style.cssText = `
+            color: #EF4444;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        `;
+        errorDiv.textContent = message;
+        
+        field.parentNode.appendChild(errorDiv);
+        
+        setTimeout(() => {
+            errorDiv.style.opacity = '1';
+            errorDiv.style.transform = 'translateY(0)';
+        }, 10);
+    }
+    
+    clearFieldError(field) {
+        field.style.borderColor = '';
+        
+        const errorDiv = field.parentNode.querySelector('.field-error');
+        if (errorDiv) {
+            errorDiv.style.opacity = '0';
+            errorDiv.style.transform = 'translateY(-10px)';
+            setTimeout(() => errorDiv.remove(), 300);
         }
     }
     
-    showNotification(message, type = 'info') {
-        // Create notification element
+    handleSubmit(e) {
+        e.preventDefault();
+        
+        const formFields = this.form.querySelectorAll('input, select, textarea');
+        let isValid = true;
+        
+        formFields.forEach(field => {
+            if (!this.validateField(field)) {
+                isValid = false;
+            }
+        });
+        
+        if (!isValid) {
+            this.showNotification('Please correct the errors above', 'error');
+            return;
+        }
+        
+        const formData = new FormData(this.form);
+        const data = Object.fromEntries(formData);
+        
+        this.submitForm(data);
+    }
+    
+    submitForm(data) {
+        const submitBtn = this.form.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn.innerHTML;
+        
+        // Loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Sending...</span>';
+        submitBtn.style.opacity = '0.7';
+        
+        // Simulate submission
+        setTimeout(() => {
+            submitBtn.innerHTML = '<span>Message Sent!</span>';
+            submitBtn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
+            
+            this.showNotification('Thank you! We\'ll be in touch within 24 hours.', 'success');
+            
+            setTimeout(() => {
+                this.form.reset();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalHTML;
+                submitBtn.style.opacity = '';
+                submitBtn.style.background = '';
+            }, 3000);
+            
+            console.log('Contact form submitted:', data);
+        }, 2000);
+    }
+    
+    showNotification(message, type = 'success') {
         const notification = document.createElement('div');
-        notification.className = `contact-notification notification-${type}`;
-        
-        // Set styles
+        notification.className = `notification notification-${type}`;
         notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${this.getNotificationColor(type)};
+            background: ${type === 'success' ? '#10B981' : '#EF4444'};
             color: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             z-index: 10000;
             transform: translateX(400px);
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            max-width: 300px;
         `;
-        
-        // Add icon and message
         notification.innerHTML = `
-            <i class="${this.getNotificationIcon(type)}" style="font-size: 16px;"></i>
-            <span>${message}</span>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <i class="ri-${type === 'success' ? 'check-line' : 'error-warning-line'}" style="font-size: 1.2rem;"></i>
+                <span>${message}</span>
+            </div>
         `;
         
-        // Add to document
         document.body.appendChild(notification);
         
-        // Animate in
         requestAnimationFrame(() => {
             notification.style.transform = 'translateX(0)';
             notification.style.opacity = '1';
         });
         
-        // Remove after delay
         setTimeout(() => {
             notification.style.transform = 'translateX(400px)';
             notification.style.opacity = '0';
-            
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 400);
-        }, 3000);
+            setTimeout(() => notification.remove(), 400);
+        }, 4000);
     }
-    
-    getNotificationColor(type) {
-        switch (type) {
-            case 'success':
-                return 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
-            case 'error':
-                return 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)';
-            case 'warning':
-                return 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)';
-            default:
-                return 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)';
-        }
-    }
-    
-    getNotificationIcon(type) {
-        switch (type) {
-            case 'success':
-                return 'ri-check-line';
-            case 'error':
-                return 'ri-error-warning-line';
-            case 'warning':
-                return 'ri-alert-line';
-            default:
-                return 'ri-information-line';
-        }
-    }
-    
-    addHoverEffects() {
-        // Add ripple effect to buttons
-        const buttons = document.querySelectorAll('.phone-btn, .direction-btn, .quick-contact-btn, .social-btn');
-        
-        buttons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                this.createRipple(e, button);
-            });
-        });
-    }
-    
-    createRipple(event, element) {
-        const rect = element.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        
-        const ripple = document.createElement('div');
-        ripple.style.cssText = `
-            position: absolute;
-            left: ${x}px;
-            top: ${y}px;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 1;
-            pointer-events: none;
-            z-index: 10;
-        `;
-        
-        element.style.position = 'relative';
-        element.appendChild(ripple);
-        
-        // Animate ripple
-        requestAnimationFrame(() => {
-            ripple.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
-            ripple.style.transform = 'translate(-50%, -50%) scale(6)';
-            ripple.style.opacity = '0';
-        });
-        
-        // Remove ripple
-        setTimeout(() => {
-            if (ripple.parentNode) {
-                ripple.parentNode.removeChild(ripple);
-            }
-        }, 600);
-    }
-    
-    initFloatingAnimations() {
-        // Add subtle floating animations to info items
-        const infoItems = document.querySelectorAll('.info-item');
-        
-        infoItems.forEach((item, index) => {
-            // Add slight delay to create staggered effect
-            item.style.animationDelay = `${index * 0.2}s`;
-            
-            // Add hover animations
-            item.addEventListener('mouseenter', () => {
-                const icon = item.querySelector('.info-icon');
-                if (icon) {
-                    icon.style.transform = 'scale(1.05) rotate(5deg)';
-                }
-            });
-            
-            item.addEventListener('mouseleave', () => {
-                const icon = item.querySelector('.info-icon');
-                if (icon) {
-                    icon.style.transform = 'scale(1) rotate(0deg)';
-                }
-            });
-        });
-        
-        // Add floating animation to trust indicators
-        const trustItems = document.querySelectorAll('.trust-item');
-        trustItems.forEach((item, index) => {
-            item.style.animationDelay = `${index * 0.1}s`;
-        });
-    }
-    
-    trackEvent(eventName, category) {
-        // Analytics tracking - replace with your analytics service
-        if (typeof gtag !== 'undefined') {
-            gtag('event', eventName, {
-                event_category: category,
-                event_label: 'contact_section'
-            });
-        }
-        
-        // Or use other analytics services
-        if (typeof fbq !== 'undefined') {
-            fbq('track', 'Contact');
-        }
-        
-        console.log(`📊 Event tracked: ${eventName} in ${category}`);
-    }
-    
-    // Public method to update phone number if needed
-    updatePhoneNumber(newNumber) {
-        this.phoneNumber = newNumber;
-        console.log(`📞 Phone number updated to: ${newNumber}`);
-    }
-    
-    // Public method to update email if needed
-    updateEmail(newEmail) {
-        this.email = newEmail;
-        console.log(`📧 Email updated to: ${newEmail}`);
-    }
-    
-    // Public method to manually trigger status update
-    refreshStatus() {
-        this.updateOfficeStatus();
-        console.log('🔄 Office status refreshed');
-    }
-}
-
-// Initialize contact section when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.contactSection = new ContactSection();
-});
-
-// Also initialize if DOM is already loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        window.contactSection = new ContactSection();
-    });
-} else {
-    window.contactSection = new ContactSection();
-}
-
-// Utility functions for external use
-window.ContactUtils = {
-    // Show coming soon modal programmatically
-    showComingSoon() {
-        if (window.contactSection) {
-            window.contactSection.showComingSoonModal();
-        }
-    },
-    
-    // Hide coming soon modal programmatically
-    hideComingSoon() {
-        if (window.contactSection) {
-            window.contactSection.hideComingSoonModal();
-        }
-    },
-    
-    // Trigger call programmatically
-    makeCall() {
-        if (window.contactSection) {
-            window.contactSection.handleCall();
-        }
-    },
-    
-    // Trigger WhatsApp programmatically
-    openWhatsApp() {
-        if (window.contactSection) {
-            window.contactSection.handleWhatsApp();
-        }
-    },
-    
-    // Show notification programmatically
-    showNotification(message, type = 'info') {
-        if (window.contactSection) {
-            window.contactSection.showNotification(message, type);
-        }
-    },
-    
-    // Update office status programmatically
-    updateStatus() {
-        if (window.contactSection) {
-            window.contactSection.refreshStatus();
-        }
-    }
-};
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { ContactSection, ContactUtils };
 }
 
 /* ========================================
