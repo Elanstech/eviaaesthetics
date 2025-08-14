@@ -151,7 +151,7 @@ class EviaLuxuryApp {
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: LuxuryServicesCarousel },
-            { name: 'PremiumResultsGallery', class: PremiumResultsGallery },
+            { name: 'ModernTransformationsGallery', class: ModernTransformationsGallery },
             { name: 'contactForm', class: ContactForm },
             { name: 'magneticEffects', class: MagneticEffects },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
@@ -2037,248 +2037,274 @@ class LuxuryServicesCarousel {
 }
 
 /* ========================================
-   PremiumResultsGallery
+   ModernTransformationsGallery
    ======================================== */
 
-class PremiumResultsGallery {
+class ModernTransformationsGallery {
     constructor() {
-        this.resultCards = document.querySelectorAll('.result-card');
-        this.bookingCTA = document.getElementById('resultsBookingCTA');
-        
-        if (this.resultCards.length > 0) {
+        this.gallery = document.querySelector('.modern-transformations-section');
+        this.filterButtons = document.querySelectorAll('.filter-btn');
+        this.resultItems = document.querySelectorAll('.result-item');
+        this.comparisonContainers = document.querySelectorAll('.comparison-container');
+        this.ctaButton = document.getElementById('modernResultsCTA');
+        this.activeFilter = 'all';
+
+        if (this.gallery) {
             this.init();
         }
     }
-    
+
     init() {
-        this.initBeforeAfterSliders();
-        this.bindEvents();
+        this.initImageComparisons();
+        this.initFilterSystem();
+        this.initCTAButton();
         this.initIntersectionObserver();
-        console.log('✨ Premium Results Gallery initialized');
+        console.log('✨ Modern Transformations Gallery initialized');
     }
-    
-    initBeforeAfterSliders() {
-        this.resultCards.forEach(card => {
-            const container = card.querySelector('.before-after-container');
-            const afterWrapper = card.querySelector('.after-wrapper');
-            const sliderButton = card.querySelector('.slider-button');
-            
-            if (!container || !afterWrapper || !sliderButton) return;
-            
-            let isDragging = false;
-            let currentX = 50; // Start at 50%
-            
-            // Set initial position
-            afterWrapper.style.clipPath = 'inset(0 50% 0 0)';
-            
-            const updateSlider = (clientX) => {
+
+    initImageComparisons() {
+        this.comparisonContainers.forEach(container => {
+            this.setupImageComparison(container);
+        });
+    }
+
+    setupImageComparison(container) {
+        const afterImage = container.querySelector('.after-image');
+        const sliderHandle = container.querySelector('.slider-handle');
+        let isDragging = false;
+        let currentPosition = 50; // Start at 50%
+
+        if (!afterImage || !sliderHandle) return;
+
+        // Set initial position
+        this.updateImageReveal(afterImage, sliderHandle, currentPosition);
+
+        // Mouse events
+        sliderHandle.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            e.preventDefault();
+            document.body.style.cursor = 'ew-resize';
+            container.style.userSelect = 'none';
+
+            const handleMouseMove = (e) => {
+                if (!isDragging) return;
                 const rect = container.getBoundingClientRect();
-                const x = clientX - rect.left;
+                const x = e.clientX - rect.left;
                 const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-                
-                currentX = percentage;
-                afterWrapper.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-                sliderButton.parentElement.style.left = `${percentage}%`;
+                currentPosition = percentage;
+                this.updateImageReveal(afterImage, sliderHandle, percentage);
             };
-            
-            // Mouse events
-            sliderButton.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                e.preventDefault();
-                container.style.cursor = 'ew-resize';
-                
-                const mouseMoveHandler = (e) => {
-                    if (isDragging) {
-                        updateSlider(e.clientX);
-                    }
-                };
-                
-                const mouseUpHandler = () => {
-                    isDragging = false;
-                    container.style.cursor = 'ew-resize';
-                    document.removeEventListener('mousemove', mouseMoveHandler);
-                    document.removeEventListener('mouseup', mouseUpHandler);
-                };
-                
-                document.addEventListener('mousemove', mouseMoveHandler);
-                document.addEventListener('mouseup', mouseUpHandler);
-            });
-            
-            // Touch events for mobile
-            sliderButton.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                e.preventDefault();
-                
-                const touchMoveHandler = (e) => {
-                    if (isDragging && e.touches[0]) {
-                        updateSlider(e.touches[0].clientX);
-                    }
-                };
-                
-                const touchEndHandler = () => {
-                    isDragging = false;
-                    document.removeEventListener('touchmove', touchMoveHandler);
-                    document.removeEventListener('touchend', touchEndHandler);
-                };
-                
-                document.addEventListener('touchmove', touchMoveHandler, { passive: false });
-                document.addEventListener('touchend', touchEndHandler);
-            });
-            
-            // Auto-demo animation on hover
-            card.addEventListener('mouseenter', () => {
+
+            const handleMouseUp = () => {
+                isDragging = false;
+                document.body.style.cursor = '';
+                container.style.userSelect = '';
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', handleMouseUp);
+            };
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        });
+
+        // Touch events for mobile
+        sliderHandle.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            e.preventDefault();
+
+            const handleTouchMove = (e) => {
+                if (!isDragging || !e.touches[0]) return;
+                const rect = container.getBoundingClientRect();
+                const x = e.touches[0].clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                currentPosition = percentage;
+                this.updateImageReveal(afterImage, sliderHandle, percentage);
+            };
+
+            const handleTouchEnd = () => {
+                isDragging = false;
+                document.removeEventListener('touchmove', handleTouchMove);
+                document.removeEventListener('touchend', handleTouchEnd);
+            };
+
+            document.addEventListener('touchmove', handleTouchMove, { passive: false });
+            document.addEventListener('touchend', handleTouchEnd);
+        });
+
+        // Auto-demo on hover (desktop only)
+        if (!this.isMobile()) {
+            container.addEventListener('mouseenter', () => {
                 if (!isDragging) {
-                    this.startAutoDemo(afterWrapper, sliderButton, currentX);
+                    this.startAutoDemo(afterImage, sliderHandle, currentPosition);
                 }
             });
-            
-            card.addEventListener('mouseleave', () => {
+
+            container.addEventListener('mouseleave', () => {
                 if (!isDragging) {
-                    this.resetSlider(afterWrapper, sliderButton);
+                    this.resetToCenter(afterImage, sliderHandle);
+                    currentPosition = 50;
                 }
             });
+        }
+
+        // Click anywhere on container to move slider
+        container.addEventListener('click', (e) => {
+            if (e.target.closest('.slider-handle')) return;
+            
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            currentPosition = percentage;
+            
+            this.animateImageReveal(afterImage, sliderHandle, percentage);
         });
     }
-    
-    startAutoDemo(afterWrapper, sliderButton, currentX) {
-        const targetX = currentX === 50 ? (Math.random() > 0.5 ? 20 : 80) : 50;
-        this.animateSliderTo(targetX, (progress) => {
-            afterWrapper.style.clipPath = `inset(0 ${100 - progress}% 0 0)`;
-            sliderButton.parentElement.style.left = `${progress}%`;
-        });
+
+    updateImageReveal(afterImage, sliderHandle, percentage) {
+        afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        sliderHandle.parentElement.style.left = `${percentage}%`;
     }
-    
-    resetSlider(afterWrapper, sliderButton) {
-        this.animateSliderTo(50, (progress) => {
-            afterWrapper.style.clipPath = `inset(0 ${100 - progress}% 0 0)`;
-            sliderButton.parentElement.style.left = `${progress}%`;
-        });
-    }
-    
-    animateSliderTo(toX, updateCallback) {
-        const duration = 1500;
-        const startTime = Date.now();
-        let fromX = 50;
-        
-        const animate = () => {
-            const elapsed = Date.now() - startTime;
+
+    animateImageReveal(afterImage, sliderHandle, targetPercentage) {
+        const currentPercentage = parseFloat(sliderHandle.parentElement.style.left) || 50;
+        const duration = 600;
+        const startTime = performance.now();
+
+        const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
             const easedProgress = this.easeInOutCubic(progress);
-            const currentValue = fromX + (toX - fromX) * easedProgress;
-            
-            updateCallback(currentValue);
-            
+            const currentValue = currentPercentage + (targetPercentage - currentPercentage) * easedProgress;
+
+            this.updateImageReveal(afterImage, sliderHandle, currentValue);
+
             if (progress < 1) {
                 requestAnimationFrame(animate);
             }
         };
-        
-        animate();
+
+        requestAnimationFrame(animate);
     }
-    
+
+    startAutoDemo(afterImage, sliderHandle, currentPosition) {
+        const targetPosition = currentPosition > 50 ? 20 : 80;
+        this.animateImageReveal(afterImage, sliderHandle, targetPosition);
+    }
+
+    resetToCenter(afterImage, sliderHandle) {
+        this.animateImageReveal(afterImage, sliderHandle, 50);
+    }
+
     easeInOutCubic(t) {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
-    
-    bindEvents() {
-        // Booking CTA
-        if (this.bookingCTA) {
-            this.bookingCTA.addEventListener('click', () => {
-                this.handleBookingClick();
-            });
-            
-            this.bookingCTA.addEventListener('mouseenter', () => {
-                this.addShimmerEffect();
-            });
-        }
-        
-        // Card hover effects
-        this.resultCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                this.addCardHoverEffect(card);
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                this.removeCardHoverEffect(card);
+
+    initFilterSystem() {
+        this.filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.getAttribute('data-filter');
+                this.setActiveFilter(filter);
+                this.filterResults(filter);
             });
         });
     }
-    
-    addShimmerEffect() {
-        const shimmer = this.bookingCTA.querySelector('.cta-shimmer');
-        if (shimmer) {
-            shimmer.style.left = '-100%';
-            shimmer.style.transition = 'none';
-            shimmer.offsetHeight; // Force reflow
-            shimmer.style.transition = 'left 0.8s ease';
-            shimmer.style.left = '100%';
-        }
-    }
-    
-    addCardHoverEffect(card) {
-        const sliderButton = card.querySelector('.slider-button');
-        if (sliderButton) {
-            sliderButton.style.animation = 'gentle-pulse 2s ease-in-out infinite';
-        }
-    }
-    
-    removeCardHoverEffect(card) {
-        const sliderButton = card.querySelector('.slider-button');
-        if (sliderButton) {
-            sliderButton.style.animation = '';
-        }
-    }
-    
-    handleBookingClick() {
-        // Add ripple effect
-        this.addRippleEffect();
+
+    setActiveFilter(filter) {
+        this.activeFilter = filter;
         
-        // Navigate to contact section or show booking modal
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            setTimeout(() => {
+        this.filterButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        const activeButton = document.querySelector(`[data-filter="${filter}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+    }
+
+    filterResults(filter) {
+        this.resultItems.forEach((item, index) => {
+            const category = item.getAttribute('data-category');
+            const shouldShow = filter === 'all' || category === filter;
+
+            if (shouldShow) {
+                setTimeout(() => {
+                    item.classList.remove('filtered-out');
+                }, index * 50);
+            } else {
+                item.classList.add('filtered-out');
+            }
+        });
+
+        // Update grid layout after filtering
+        setTimeout(() => {
+            this.updateGridLayout();
+        }, 300);
+    }
+
+    updateGridLayout() {
+        const visibleItems = Array.from(this.resultItems).filter(item => 
+            !item.classList.contains('filtered-out')
+        );
+
+        // Add stagger animation to visible items
+        visibleItems.forEach((item, index) => {
+            item.style.transitionDelay = `${index * 100}ms`;
+        });
+
+        // Remove delays after animation
+        setTimeout(() => {
+            visibleItems.forEach(item => {
+                item.style.transitionDelay = '';
+            });
+        }, visibleItems.length * 100 + 500);
+    }
+
+    initCTAButton() {
+        if (this.ctaButton) {
+            this.ctaButton.addEventListener('click', () => {
+                this.handleCTAClick();
+            });
+
+            this.ctaButton.addEventListener('mouseenter', () => {
+                this.addCTAEffect();
+            });
+        }
+    }
+
+    handleCTAClick() {
+        // Add click animation
+        this.ctaButton.style.transform = 'translateY(-2px) scale(0.98)';
+        
+        setTimeout(() => {
+            this.ctaButton.style.transform = '';
+        }, 150);
+
+        // Navigate to contact section
+        setTimeout(() => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
                 contactSection.scrollIntoView({ 
                     behavior: 'smooth',
                     block: 'start'
                 });
-            }, 200);
-        }
-        
+            }
+        }, 200);
+
         // Show feedback
         this.showBookingFeedback();
     }
-    
-    addRippleEffect() {
-        const ripple = document.createElement('div');
-        ripple.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 1;
-            pointer-events: none;
-            z-index: 10;
-        `;
-        
-        this.bookingCTA.appendChild(ripple);
-        
-        requestAnimationFrame(() => {
-            ripple.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
-            ripple.style.transform = 'translate(-50%, -50%) scale(6)';
-            ripple.style.opacity = '0';
-        });
-        
-        setTimeout(() => {
-            if (ripple.parentNode) {
-                ripple.parentNode.removeChild(ripple);
-            }
-        }, 600);
+
+    addCTAEffect() {
+        const glow = this.ctaButton.querySelector('.button-glow');
+        if (glow) {
+            glow.style.opacity = '0.4';
+            setTimeout(() => {
+                glow.style.opacity = '0';
+            }, 1000);
+        }
     }
-    
+
     showBookingFeedback() {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
@@ -2286,25 +2312,25 @@ class PremiumResultsGallery {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 140, 0, 0.95);
+            background: rgba(255, 107, 0, 0.95);
             color: white;
-            padding: 1rem 2rem;
-            border-radius: 2rem;
+            padding: 16px 24px;
+            border-radius: 20px;
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
+            font-size: 14px;
             font-weight: 600;
             z-index: 10000;
             pointer-events: none;
             opacity: 0;
             backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(255, 107, 0, 0.4);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         `;
         
         feedback.innerHTML = `
-            <i class="ri-calendar-check-line" style="font-size: 1.1rem;"></i>
+            <i class="ri-calendar-check-line" style="font-size: 16px;"></i>
             <span>Redirecting to consultation booking...</span>
         `;
         
@@ -2318,92 +2344,75 @@ class PremiumResultsGallery {
         
         setTimeout(() => {
             feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
             
             setTimeout(() => {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
             }, 400);
-        }, 2000);
+        }, 2500);
     }
-    
+
     initIntersectionObserver() {
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -10% 0px'
         };
-        
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate-in');
                     
-                    // Stagger animation for cards
-                    const cards = entry.target.querySelectorAll('.result-card');
-                    cards.forEach((card, index) => {
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0) scale(1)';
-                        }, index * 100);
-                    });
+                    // Stagger animation for result items
+                    if (entry.target.classList.contains('results-grid')) {
+                        const items = entry.target.querySelectorAll('.result-item');
+                        items.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                    }
                     
                     observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
-        
-        const gallery = document.querySelector('.results-gallery');
-        if (gallery) {
-            // Set initial state
-            const cards = gallery.querySelectorAll('.result-card');
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px) scale(0.95)';
-                card.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            });
-            
-            observer.observe(gallery);
-        }
+
+        // Observe main elements
+        const elementsToObserve = [
+            this.gallery.querySelector('.transformations-header'),
+            this.gallery.querySelector('.filter-navigation'),
+            this.gallery.querySelector('.results-grid'),
+            this.gallery.querySelector('.modern-cta')
+        ].filter(Boolean);
+
+        elementsToObserve.forEach(element => {
+            observer.observe(element);
+        });
     }
-}
 
-// Additional CSS for animations
-const additionalCSS = `
-    @keyframes gentle-pulse {
-        0%, 100% { 
-            transform: scale(1); 
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(255, 140, 0, 0.2);
-        }
-        50% { 
-            transform: scale(1.05); 
-            box-shadow: 0 12px 32px rgba(255, 140, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
+    isMobile() {
+        return window.innerWidth <= 768;
     }
-    
-    .premium-results-section .result-card.animate-in {
-        opacity: 1 !important;
-        transform: translateY(0) scale(1) !important;
+
+    onResize() {
+        // Reset any active comparisons on resize
+        this.comparisonContainers.forEach(container => {
+            const afterImage = container.querySelector('.after-image');
+            const sliderHandle = container.querySelector('.slider-handle');
+            if (afterImage && sliderHandle) {
+                this.updateImageReveal(afterImage, sliderHandle, 50);
+            }
+        });
     }
-`;
 
-// Inject additional CSS
-const styleSheet = document.createElement('style');
-styleSheet.textContent = additionalCSS;
-document.head.appendChild(styleSheet);
-
-// Initialize the gallery when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    new PremiumResultsGallery();
-});
-
-// Initialize immediately if DOM is already loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        new PremiumResultsGallery();
-    });
-} else {
-    new PremiumResultsGallery();
+    destroy() {
+        // Cleanup event listeners if needed
+        console.log('🗑️ Modern Transformations Gallery destroyed');
+    }
 }
 
 /* ========================================
