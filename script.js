@@ -152,7 +152,7 @@ class EviaLuxuryApp {
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: LuxuryServicesCarousel },
             { name: 'ModernTransformationsGallery', class: ModernTransformationsGallery },
-            { name: 'contactForm', class: ContactForm },
+            { name: 'LuxuryContactSection', class: LuxuryContactSection },
             { name: 'magneticEffects', class: MagneticEffects },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
@@ -2419,228 +2419,877 @@ class ModernTransformationsGallery {
    CONTACT FORM COMPONENT
    ======================================== */
 
-class ContactForm {
+class LuxuryContactSection {
     constructor() {
-        this.form = document.getElementById('contactForm');
+        this.isInitialized = false;
+        this.formLoaded = false;
+        this.observers = new Map();
         
-        if (this.form) {
-            this.init();
-        }
+        this.init();
     }
     
     init() {
-        this.bindEvents();
-        this.initFormAnimations();
+        if (this.isInitialized) return;
+        
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.onDOMReady());
+        } else {
+            this.onDOMReady();
+        }
     }
     
+    onDOMReady() {
+        try {
+            this.initializeElements();
+            this.bindEvents();
+            this.initializeAnimations();
+            this.handleElfsightForm();
+            this.initializeObservers();
+            
+            this.isInitialized = true;
+            console.log('✨ Luxury Contact Section initialized successfully');
+        } catch (error) {
+            console.error('❌ Error initializing contact section:', error);
+        }
+    }
+    
+    /**
+     * Initialize DOM elements
+     */
+    initializeElements() {
+        this.elements = {
+            section: document.querySelector('.luxury-contact-section'),
+            viewMapBtn: document.querySelector('.view-map-btn'),
+            callBtns: document.querySelectorAll('.call-btn, .method-action[data-action="call"], .emergency-cta'),
+            emailBtns: document.querySelectorAll('.email-btn, .method-action[data-action="email"]'),
+            methodCards: document.querySelectorAll('.method-card'),
+            socialLinks: document.querySelectorAll('.social-link'),
+            formLoading: document.getElementById('formLoading'),
+            elfsightForm: document.getElementById('elfsightForm'),
+            particles: document.querySelectorAll('.particle'),
+            floatingElements: document.querySelectorAll('.floating-element')
+        };
+        
+        // Validate required elements
+        if (!this.elements.section) {
+            throw new Error('Contact section not found');
+        }
+    }
+    
+    /**
+     * Bind event listeners
+     */
     bindEvents() {
-        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        // Map view button
+        if (this.elements.viewMapBtn) {
+            this.elements.viewMapBtn.addEventListener('click', () => this.openMap());
+        }
         
-        const formFields = this.form.querySelectorAll('input, select, textarea');
-        formFields.forEach(field => {
-            field.addEventListener('focus', () => this.onFieldFocus(field));
-            field.addEventListener('blur', () => this.onFieldBlur(field));
-            field.addEventListener('input', () => this.onFieldInput(field));
+        // Call buttons
+        this.elements.callBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleCall(e));
         });
-    }
-    
-    onFieldFocus(field) {
-        field.style.transform = 'translateY(-2px)';
-        field.style.boxShadow = '0 8px 25px rgba(255, 158, 24, 0.15)';
-    }
-    
-    onFieldBlur(field) {
-        field.style.transform = 'translateY(0)';
-        field.style.boxShadow = '';
-        this.validateField(field);
-    }
-    
-    onFieldInput(field) {
-        this.clearFieldError(field);
-    }
-    
-    initFormAnimations() {
-        const formGroups = this.form.querySelectorAll('.form-group');
         
-        const observer = new IntersectionObserver((entries) => {
+        // Email buttons
+        this.elements.emailBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleEmail(e));
+        });
+        
+        // Method cards hover effects
+        this.elements.methodCards.forEach(card => {
+            card.addEventListener('mouseenter', () => this.onMethodCardHover(card));
+            card.addEventListener('mouseleave', () => this.onMethodCardLeave(card));
+        });
+        
+        // Social links
+        this.elements.socialLinks.forEach(link => {
+            link.addEventListener('click', (e) => this.handleSocialClick(e, link));
+        });
+        
+        // Window events
+        window.addEventListener('resize', this.debounce(() => this.onWindowResize(), 250));
+        window.addEventListener('scroll', this.throttle(() => this.onWindowScroll(), 100));
+    }
+    
+    /**
+     * Initialize animations and effects
+     */
+    initializeAnimations() {
+        this.startParticleAnimations();
+        this.initializeFloatingElements();
+        this.initializeHoverEffects();
+    }
+    
+    /**
+     * Handle Elfsight form loading
+     */
+    handleElfsightForm() {
+        // Show loading state initially
+        this.showFormLoading();
+        
+        // Check for Elfsight script
+        this.waitForElfsight();
+        
+        // Fallback timeout
+        setTimeout(() => {
+            if (!this.formLoaded) {
+                this.onFormLoadTimeout();
+            }
+        }, 10000); // 10 second timeout
+    }
+    
+    /**
+     * Wait for Elfsight to load
+     */
+    waitForElfsight() {
+        const checkElfsight = () => {
+            // Check if Elfsight is available
+            if (window.ElfsightInstagram || document.querySelector('.elfsight-app-db15691a-379c-4773-8900-983e7e393d0f iframe')) {
+                this.onFormLoaded();
+                return;
+            }
+            
+            // Check if the widget container has content
+            const widgetContainer = document.querySelector('.elfsight-app-db15691a-379c-4773-8900-983e7e393d0f');
+            if (widgetContainer && (widgetContainer.children.length > 0 || widgetContainer.innerHTML.trim() !== '')) {
+                setTimeout(() => this.onFormLoaded(), 1000);
+                return;
+            }
+            
+            // Continue checking
+            setTimeout(checkElfsight, 500);
+        };
+        
+        // Start checking after a short delay
+        setTimeout(checkElfsight, 1000);
+    }
+    
+    /**
+     * Form loading complete
+     */
+    onFormLoaded() {
+        if (this.formLoaded) return;
+        
+        this.formLoaded = true;
+        this.hideFormLoading();
+        
+        // Add custom styling to form
+        setTimeout(() => {
+            this.styleElfsightForm();
+        }, 500);
+        
+        console.log('✅ Contact form loaded successfully');
+    }
+    
+    /**
+     * Form loading timeout
+     */
+    onFormLoadTimeout() {
+        console.warn('⚠️ Form loading timeout - showing fallback');
+        this.showFormFallback();
+    }
+    
+    /**
+     * Show form loading state
+     */
+    showFormLoading() {
+        if (this.elements.formLoading) {
+            this.elements.formLoading.style.display = 'flex';
+        }
+        if (this.elements.elfsightForm) {
+            this.elements.elfsightForm.style.opacity = '0';
+        }
+    }
+    
+    /**
+     * Hide form loading state
+     */
+    hideFormLoading() {
+        if (this.elements.formLoading) {
+            this.elements.formLoading.style.opacity = '0';
+            this.elements.formLoading.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                this.elements.formLoading.style.display = 'none';
+            }, 300);
+        }
+        
+        if (this.elements.elfsightForm) {
+            this.elements.elfsightForm.style.opacity = '1';
+            this.elements.elfsightForm.style.transform = 'scale(1)';
+        }
+    }
+    
+    /**
+     * Show form fallback
+     */
+    showFormFallback() {
+        if (this.elements.formLoading) {
+            this.elements.formLoading.innerHTML = `
+                <div class="fallback-content">
+                    <div class="fallback-icon">
+                        <i class="ri-phone-line"></i>
+                    </div>
+                    <h4>Unable to load form</h4>
+                    <p>Please call us directly to schedule your consultation</p>
+                    <button class="fallback-call-btn" onclick="window.location.href='tel:2016394983'">
+                        <i class="ri-phone-line"></i>
+                        <span>Call (201) 639-4983</span>
+                    </button>
+                </div>
+            `;
+        }
+    }
+    
+    /**
+     * Style Elfsight form
+     */
+    styleElfsightForm() {
+        const formIframe = document.querySelector('.elfsight-app-db15691a-379c-4773-8900-983e7e393d0f iframe');
+        if (formIframe) {
+            formIframe.style.borderRadius = '20px';
+            formIframe.style.border = '1px solid rgba(255, 140, 0, 0.1)';
+            formIframe.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+        }
+    }
+    
+    /**
+     * Initialize intersection observers
+     */
+    initializeObservers() {
+        // Scroll-triggered animations
+        const animateOnScroll = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const groups = entry.target.querySelectorAll('.form-group');
-                    groups.forEach((group, index) => {
-                        setTimeout(() => {
-                            group.style.opacity = '1';
-                            group.style.transform = 'translateY(0)';
-                        }, index * 100);
-                    });
-                    observer.unobserve(entry.target);
+                    entry.target.classList.add('animate-in');
+                    
+                    // Trigger specific animations
+                    if (entry.target.classList.contains('contact-header')) {
+                        this.animateHeader();
+                    } else if (entry.target.classList.contains('contact-info')) {
+                        this.animateContactInfo();
+                    } else if (entry.target.classList.contains('contact-form-side')) {
+                        this.animateFormSide();
+                    }
                 }
             });
-        }, { threshold: 0.3 });
-        
-        formGroups.forEach(group => {
-            group.style.opacity = '0';
-            group.style.transform = 'translateY(20px)';
-            group.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         });
         
-        observer.observe(this.form);
-    }
-    
-    validateField(field) {
-        const value = field.value.trim();
-        const isRequired = field.hasAttribute('required');
+        // Observe elements
+        const elementsToObserve = [
+            '.contact-header',
+            '.contact-info',
+            '.contact-form-side',
+            '.emergency-contact'
+        ];
         
-        if (isRequired && !value) {
-            this.showFieldError(field, 'This field is required');
-            return false;
-        }
-        
-        if (field.type === 'email' && value) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(value)) {
-                this.showFieldError(field, 'Please enter a valid email address');
-                return false;
-            }
-        }
-        
-        if (field.type === 'tel' && value) {
-            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-            if (!phoneRegex.test(value.replace(/\D/g, ''))) {
-                this.showFieldError(field, 'Please enter a valid phone number');
-                return false;
-            }
-        }
-        
-        this.clearFieldError(field);
-        return true;
-    }
-    
-    showFieldError(field, message) {
-        this.clearFieldError(field);
-        
-        field.style.borderColor = '#EF4444';
-        
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'field-error';
-        errorDiv.style.cssText = `
-            color: #EF4444;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-        `;
-        errorDiv.textContent = message;
-        
-        field.parentNode.appendChild(errorDiv);
-        
-        setTimeout(() => {
-            errorDiv.style.opacity = '1';
-            errorDiv.style.transform = 'translateY(0)';
-        }, 10);
-    }
-    
-    clearFieldError(field) {
-        field.style.borderColor = '';
-        
-        const errorDiv = field.parentNode.querySelector('.field-error');
-        if (errorDiv) {
-            errorDiv.style.opacity = '0';
-            errorDiv.style.transform = 'translateY(-10px)';
-            setTimeout(() => errorDiv.remove(), 300);
-        }
-    }
-    
-    handleSubmit(e) {
-        e.preventDefault();
-        
-        const formFields = this.form.querySelectorAll('input, select, textarea');
-        let isValid = true;
-        
-        formFields.forEach(field => {
-            if (!this.validateField(field)) {
-                isValid = false;
+        elementsToObserve.forEach(selector => {
+            const element = document.querySelector(selector);
+            if (element) {
+                animateOnScroll.observe(element);
             }
         });
         
-        if (!isValid) {
-            this.showNotification('Please correct the errors above', 'error');
-            return;
-        }
-        
-        const formData = new FormData(this.form);
-        const data = Object.fromEntries(formData);
-        
-        this.submitForm(data);
+        this.observers.set('scroll', animateOnScroll);
     }
     
-    submitForm(data) {
-        const submitBtn = this.form.querySelector('button[type="submit"]');
-        const originalHTML = submitBtn.innerHTML;
+    /**
+     * Animate header entrance
+     */
+    animateHeader() {
+        const badge = document.querySelector('.section-badge');
+        const title = document.querySelector('.section-title');
+        const description = document.querySelector('.section-description');
         
-        // Loading state
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>Sending...</span>';
-        submitBtn.style.opacity = '0.7';
+        if (badge) {
+            badge.style.animation = 'slideInDown 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+        }
         
-        // Simulate submission
-        setTimeout(() => {
-            submitBtn.innerHTML = '<span>Message Sent!</span>';
-            submitBtn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
-            
-            this.showNotification('Thank you! We\'ll be in touch within 24 hours.', 'success');
-            
+        if (title) {
             setTimeout(() => {
-                this.form.reset();
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalHTML;
-                submitBtn.style.opacity = '';
-                submitBtn.style.background = '';
-            }, 3000);
-            
-            console.log('Contact form submitted:', data);
-        }, 2000);
+                title.style.animation = 'slideInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+            }, 200);
+        }
+        
+        if (description) {
+            setTimeout(() => {
+                description.style.animation = 'fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+            }, 400);
+        }
     }
     
-    showNotification(message, type = 'success') {
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${type === 'success' ? '#10B981' : '#EF4444'};
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            z-index: 10000;
-            transform: translateX(400px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        `;
-        notification.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <i class="ri-${type === 'success' ? 'check-line' : 'error-warning-line'}" style="font-size: 1.2rem;"></i>
-                <span>${message}</span>
+    /**
+     * Animate contact info cards
+     */
+    animateContactInfo() {
+        const cards = document.querySelectorAll('.location-card, .method-card, .appointment-notice');
+        
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.animation = `slideInLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+            }, index * 100);
+        });
+    }
+    
+    /**
+     * Animate form side
+     */
+    animateFormSide() {
+        const formContainer = document.querySelector('.form-container');
+        
+        if (formContainer) {
+            formContainer.style.animation = 'slideInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+        }
+    }
+    
+    /**
+     * Handle map opening
+     */
+    openMap() {
+        const address = '65 W 36th St, 10th Floor, New York, NY 10018';
+        const encodedAddress = encodeURIComponent(address);
+        
+        // Try Google Maps first, fallback to Apple Maps on iOS
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        
+        let mapUrl;
+        if (isIOS) {
+            mapUrl = `maps://maps.google.com/maps?q=${encodedAddress}`;
+        } else {
+            mapUrl = `https://maps.google.com/maps?q=${encodedAddress}`;
+        }
+        
+        // Add click animation
+        this.addClickFeedback(this.elements.viewMapBtn);
+        
+        // Open map
+        setTimeout(() => {
+            window.open(mapUrl, '_blank');
+        }, 150);
+        
+        // Analytics tracking
+        this.trackEvent('map_view', 'contact', 'location_click');
+    }
+    
+    /**
+     * Handle phone calls
+     */
+    handleCall(event) {
+        event.preventDefault();
+        
+        const phoneNumber = '2016394983';
+        const telLink = `tel:${phoneNumber}`;
+        
+        // Add click animation
+        this.addClickFeedback(event.currentTarget);
+        
+        // Show calling feedback
+        this.showCallingFeedback();
+        
+        // Make call
+        setTimeout(() => {
+            window.location.href = telLink;
+        }, 300);
+        
+        // Analytics tracking
+        this.trackEvent('phone_call', 'contact', 'call_button_click');
+    }
+    
+    /**
+     * Handle email
+     */
+    handleEmail(event) {
+        event.preventDefault();
+        
+        const email = 'info@eviaesthetics.com';
+        const subject = 'Consultation Request - Eviaesthetics';
+        const body = 'Hello,\n\nI would like to schedule a consultation for aesthetic treatments.\n\nThank you!';
+        
+        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        
+        // Add click animation
+        this.addClickFeedback(event.currentTarget);
+        
+        // Open email client
+        setTimeout(() => {
+            window.location.href = mailtoLink;
+        }, 150);
+        
+        // Analytics tracking
+        this.trackEvent('email_click', 'contact', 'email_button_click');
+    }
+    
+    /**
+     * Handle social link clicks
+     */
+    handleSocialClick(event, link) {
+        const platform = link.classList.contains('instagram') ? 'instagram' : 
+                        link.classList.contains('facebook') ? 'facebook' : 'unknown';
+        
+        // Add click animation
+        this.addClickFeedback(link);
+        
+        // Analytics tracking
+        this.trackEvent('social_click', 'contact', platform);
+    }
+    
+    /**
+     * Method card hover effects
+     */
+    onMethodCardHover(card) {
+        const icon = card.querySelector('.method-icon');
+        const action = card.querySelector('.method-action');
+        
+        if (icon) {
+            icon.style.transform = 'scale(1.1) rotate(5deg)';
+        }
+        
+        if (action) {
+            action.style.transform = 'scale(1.1)';
+        }
+    }
+    
+    onMethodCardLeave(card) {
+        const icon = card.querySelector('.method-icon');
+        const action = card.querySelector('.method-action');
+        
+        if (icon) {
+            icon.style.transform = 'scale(1) rotate(0deg)';
+        }
+        
+        if (action) {
+            action.style.transform = 'scale(1)';
+        }
+    }
+    
+    /**
+     * Start particle animations
+     */
+    startParticleAnimations() {
+        this.elements.particles.forEach((particle, index) => {
+            // Random delay for natural effect
+            const delay = Math.random() * 10000;
+            particle.style.animationDelay = `-${delay}ms`;
+            
+            // Vary animation duration for diversity
+            const duration = 20000 + (Math.random() * 10000);
+            particle.style.animationDuration = `${duration}ms`;
+        });
+    }
+    
+    /**
+     * Initialize floating elements
+     */
+    initializeFloatingElements() {
+        this.elements.floatingElements.forEach((element, index) => {
+            // Random delays and durations for natural movement
+            const delay = Math.random() * 30000;
+            const duration = 25000 + (Math.random() * 15000);
+            
+            element.style.animationDelay = `-${delay}ms`;
+            element.style.animationDuration = `${duration}ms`;
+        });
+    }
+    
+    /**
+     * Initialize hover effects
+     */
+    initializeHoverEffects() {
+        // Add magnetic effect to buttons
+        const magneticButtons = document.querySelectorAll('.view-map-btn, .method-action, .emergency-cta');
+        
+        magneticButtons.forEach(button => {
+            this.addMagneticEffect(button);
+        });
+    }
+    
+    /**
+     * Add magnetic effect to element
+     */
+    addMagneticEffect(element) {
+        if (this.isMobile()) return;
+        
+        element.addEventListener('mouseenter', () => {
+            element.style.transition = 'transform 0.1s ease-out';
+        });
+        
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            const moveX = x * 0.3;
+            const moveY = y * 0.3;
+            
+            element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.transition = 'transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            element.style.transform = 'translate(0px, 0px)';
+        });
+    }
+    
+    /**
+     * Add click feedback animation
+     */
+    addClickFeedback(element) {
+        if (!element) return;
+        
+        element.style.transform = 'scale(0.95)';
+        element.style.transition = 'transform 0.1s ease-out';
+        
+        setTimeout(() => {
+            element.style.transform = '';
+            element.style.transition = '';
+        }, 150);
+    }
+    
+    /**
+     * Show calling feedback
+     */
+    showCallingFeedback() {
+        const feedback = document.createElement('div');
+        feedback.className = 'call-feedback';
+        feedback.innerHTML = `
+            <div class="feedback-content">
+                <div class="feedback-icon">
+                    <i class="ri-phone-line"></i>
+                </div>
+                <div class="feedback-text">
+                    <h4>Initiating Call...</h4>
+                    <p>Please wait while we connect you</p>
+                </div>
             </div>
         `;
         
-        document.body.appendChild(notification);
-        
-        requestAnimationFrame(() => {
-            notification.style.transform = 'translateX(0)';
-            notification.style.opacity = '1';
+        // Styles
+        Object.assign(feedback.style, {
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%) scale(0.8)',
+            background: 'rgba(255, 140, 0, 0.95)',
+            color: 'white',
+            padding: '24px',
+            borderRadius: '20px',
+            boxShadow: '0 20px 60px rgba(255, 140, 0, 0.4)',
+            zIndex: '10000',
+            opacity: '0',
+            transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)'
         });
         
+        document.body.appendChild(feedback);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        // Remove after delay
         setTimeout(() => {
-            notification.style.transform = 'translateX(400px)';
-            notification.style.opacity = '0';
-            setTimeout(() => notification.remove(), 400);
-        }, 4000);
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 300);
+        }, 2500);
     }
+    
+    /**
+     * Window resize handler
+     */
+    onWindowResize() {
+        // Recalculate animations if needed
+        if (this.isMobile()) {
+            // Disable magnetic effects on mobile
+            this.disableMagneticEffects();
+        } else {
+            // Re-enable magnetic effects on desktop
+            this.initializeHoverEffects();
+        }
+    }
+    
+    /**
+     * Window scroll handler
+     */
+    onWindowScroll() {
+        // Parallax effect for floating elements
+        if (!this.isMobile()) {
+            this.updateParallax();
+        }
+    }
+    
+    /**
+     * Update parallax effects
+     */
+    updateParallax() {
+        const scrolled = window.pageYOffset;
+        const sectionRect = this.elements.section?.getBoundingClientRect();
+        
+        if (!sectionRect) return;
+        
+        // Only apply parallax when section is in view
+        if (sectionRect.bottom >= 0 && sectionRect.top <= window.innerHeight) {
+            this.elements.floatingElements.forEach((element, index) => {
+                const speed = 0.1 + (index * 0.05);
+                const yPos = scrolled * speed;
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+        }
+    }
+    
+    /**
+     * Disable magnetic effects
+     */
+    disableMagneticEffects() {
+        const magneticElements = document.querySelectorAll('.view-map-btn, .method-action, .emergency-cta');
+        magneticElements.forEach(element => {
+            element.style.transform = '';
+            element.style.transition = '';
+        });
+    }
+    
+    /**
+     * Track events (Analytics)
+     */
+    trackEvent(action, category, label) {
+        // Google Analytics 4
+        if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                event_category: category,
+                event_label: label,
+                value: 1
+            });
+        }
+        
+        // Facebook Pixel
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'Contact', {
+                action: action,
+                category: category
+            });
+        }
+        
+        console.log(`📊 Event tracked: ${action} - ${category} - ${label}`);
+    }
+    
+    /**
+     * Check if mobile device
+     */
+    isMobile() {
+        return window.innerWidth <= 768 || 'ontouchstart' in window;
+    }
+    
+    /**
+     * Debounce utility
+     */
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+    
+    /**
+     * Throttle utility
+     */
+    throttle(func, limit) {
+        let inThrottle;
+        return function executedFunction(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+    
+    /**
+     * Cleanup method
+     */
+    destroy() {
+        // Clear observers
+        this.observers.forEach(observer => observer.disconnect());
+        this.observers.clear();
+        
+        // Remove event listeners
+        window.removeEventListener('resize', this.onWindowResize);
+        window.removeEventListener('scroll', this.onWindowScroll);
+        
+        console.log('🗑️ Contact section destroyed');
+    }
+}
+
+/**
+ * Additional CSS animations for JavaScript-triggered effects
+ */
+const additionalStyles = `
+    <style>
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .call-feedback .feedback-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .call-feedback .feedback-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            animation: emergencyPulse 1.5s ease-in-out infinite;
+        }
+        
+        .call-feedback .feedback-text h4 {
+            margin: 0 0 4px 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .call-feedback .feedback-text p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .fallback-content {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .fallback-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-hermes-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin: 0 auto 20px;
+        }
+        
+        .fallback-content h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .fallback-content p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .fallback-call-btn {
+            background: var(--gradient-hermes-orange);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .fallback-call-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
+        }
+    </style>
+`;
+
+// Inject additional styles
+document.head.insertAdjacentHTML('beforeend', additionalStyles);
+
+// Initialize contact section when DOM is ready
+let contactSection;
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        contactSection = new LuxuryContactSection();
+    });
+} else {
+    contactSection = new LuxuryContactSection();
 }
 
 /* ========================================
