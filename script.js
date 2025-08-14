@@ -135,7 +135,7 @@ class EviaLuxuryApp {
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: LuxuryServicesCarousel },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
-            { name: 'productsSection', class: LuxuryProductsSection },
+            { name: 'LuxuryProductsSection', class: LuxuryProductsSection },
             { name: 'contactSection', class: LuxuryContactSection },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
@@ -1545,58 +1545,317 @@ class ModernTransformationsGallery {
 /* ========================================
    LUXURY PRODUCTS SECTION
    ======================================== */
-
 class LuxuryProductsSection {
     constructor() {
-        this.section = document.querySelector('.modern-products-section');
+        this.section = document.querySelector('.apple-products-section');
         this.productCards = document.querySelectorAll('.product-card');
-        this.catalogButton = document.getElementById('fullCatalogBtn');
         this.productCTAs = document.querySelectorAll('.product-cta');
+        this.catalogButton = document.getElementById('viewCatalogBtn');
+        this.scrollElements = document.querySelectorAll('[data-scroll-reveal]');
         
-        if (this.section) {
-            this.init();
-        }
+        this.isInitialized = false;
+        this.observers = new Map();
+        
+        this.init();
     }
     
     init() {
-        this.initProductCards();
-        this.initCatalogButton();
-        this.initAnimations();
-        this.bindEvents();
-        console.log('✨ Luxury Products Section initialized');
+        if (this.isInitialized) return;
+        
+        try {
+            this.setupScrollReveal();
+            this.bindProductInteractions();
+            this.bindCTAEvents();
+            this.initializePerformanceOptimizations();
+            
+            this.isInitialized = true;
+            console.log('✨ Luxury Products Section initialized');
+        } catch (error) {
+            console.error('❌ Error initializing products section:', error);
+        }
     }
     
-    initProductCards() {
+    /**
+     * Setup scroll reveal animations using Intersection Observer
+     */
+    setupScrollReveal() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.revealElement(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        this.scrollElements.forEach(element => {
+            observer.observe(element);
+        });
+        
+        this.observers.set('scrollReveal', observer);
+    }
+    
+    /**
+     * Reveal element with smooth animation
+     */
+    revealElement(element) {
+        element.classList.add('reveal');
+        
+        // Special handling for products grid
+        if (element.classList.contains('products-grid')) {
+            this.animateProductCards();
+        }
+    }
+    
+    /**
+     * Animate product cards with staggered delay
+     */
+    animateProductCards() {
         this.productCards.forEach((card, index) => {
-            // Add entrance animation delay
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            
-            // Setup product CTA
-            const cta = card.querySelector('.product-cta');
-            if (cta) {
-                cta.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.handleProductCTA(cta);
-                });
-                
-                // Add ripple effect on click
-                cta.addEventListener('click', (e) => {
-                    this.createRipple(e, cta);
-                });
-            }
-            
-            // Add hover effects
-            this.addProductHoverEffects(card);
-            
-            // Setup intersection observer for animations
-            this.observeProduct(card, index);
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
         });
     }
     
+    /**
+     * Bind product card interactions
+     */
+    bindProductInteractions() {
+        this.productCards.forEach(card => {
+            this.setupCardHoverEffects(card);
+            this.setupCardClickEffects(card);
+            this.setupMobileInteractions(card);
+        });
+    }
+    
+    /**
+     * Setup hover effects for product cards
+     */
+    setupCardHoverEffects(card) {
+        if (this.isMobile()) return;
+        
+        const image = card.querySelector('.product-image');
+        const glow = card.querySelector('.image-glow');
+        
+        card.addEventListener('mouseenter', () => {
+            this.onCardHover(card, image, glow);
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            this.onCardLeave(card, image, glow);
+        });
+        
+        // 3D tilt effect
+        card.addEventListener('mousemove', (e) => {
+            this.handleCardTilt(card, e);
+        });
+    }
+    
+    /**
+     * Handle card hover state
+     */
+    onCardHover(card, image, glow) {
+        if (image) {
+            image.style.transform = 'scale(1.05) translateY(-5px)';
+        }
+        
+        if (glow) {
+            glow.style.opacity = '1';
+        }
+        
+        // Add subtle card animation
+        this.addCardFloatEffect(card);
+    }
+    
+    /**
+     * Handle card leave state
+     */
+    onCardLeave(card, image, glow) {
+        if (image) {
+            image.style.transform = 'scale(1) translateY(0)';
+        }
+        
+        if (glow) {
+            glow.style.opacity = '0';
+        }
+        
+        // Reset card transform
+        card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+    }
+    
+    /**
+     * Add floating effect to card
+     */
+    addCardFloatEffect(card) {
+        let startTime = null;
+        const duration = 2000;
+        
+        const animate = (currentTime) => {
+            if (!startTime) startTime = currentTime;
+            const elapsed = currentTime - startTime;
+            const progress = (elapsed % duration) / duration;
+            
+            const yOffset = Math.sin(progress * Math.PI * 2) * 2;
+            const currentTransform = card.style.transform || '';
+            
+            if (currentTransform.includes('translateY(-8px)')) {
+                card.style.transform = currentTransform.replace(
+                    'translateY(-8px)', 
+                    `translateY(${-8 + yOffset}px)`
+                );
+            }
+            
+            if (card.matches(':hover')) {
+                requestAnimationFrame(animate);
+            }
+        };
+        
+        requestAnimationFrame(animate);
+    }
+    
+    /**
+     * Handle 3D tilt effect on mouse move
+     */
+    handleCardTilt(card, event) {
+        if (this.isMobile()) return;
+        
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / centerY * -5;
+        const rotateY = (x - centerX) / centerX * 5;
+        
+        card.style.transform = `translateY(-8px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+    
+    /**
+     * Setup click effects for cards
+     */
+    setupCardClickEffects(card) {
+        card.addEventListener('click', (e) => {
+            // Don't trigger if clicking on CTA button
+            if (e.target.closest('.product-cta')) return;
+            
+            this.handleCardClick(card, e);
+        });
+    }
+    
+    /**
+     * Handle card click with ripple effect
+     */
+    handleCardClick(card, event) {
+        this.createRippleEffect(card, event);
+        
+        // Optional: Focus on product or show details
+        const productName = card.querySelector('.product-name')?.textContent;
+        if (productName) {
+            this.showProductFeedback(productName);
+        }
+    }
+    
+    /**
+     * Create ripple effect on click
+     */
+    createRippleEffect(element, event) {
+        const ripple = document.createElement('div');
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+        
+        ripple.style.cssText = `
+            position: absolute;
+            left: ${x}px;
+            top: ${y}px;
+            width: ${size}px;
+            height: ${size}px;
+            background: rgba(255, 107, 0, 0.1);
+            border-radius: 50%;
+            transform: scale(0);
+            opacity: 1;
+            pointer-events: none;
+            transition: all 0.6s ease-out;
+            z-index: 1000;
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(ripple);
+        
+        requestAnimationFrame(() => {
+            ripple.style.transform = 'scale(2)';
+            ripple.style.opacity = '0';
+        });
+        
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 600);
+    }
+    
+    /**
+     * Setup mobile-specific interactions
+     */
+    setupMobileInteractions(card) {
+        if (!this.isMobile()) return;
+        
+        // Add touch feedback
+        card.addEventListener('touchstart', () => {
+            card.style.transform = 'scale(0.98)';
+        });
+        
+        card.addEventListener('touchend', () => {
+            card.style.transform = '';
+        });
+    }
+    
+    /**
+     * Bind CTA button events
+     */
+    bindCTAEvents() {
+        // Product CTAs
+        this.productCTAs.forEach(cta => {
+            cta.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.handleProductCTA(cta);
+            });
+            
+            cta.addEventListener('mouseenter', () => {
+                this.addCTAShineEffect(cta);
+            });
+        });
+        
+        // Catalog button
+        if (this.catalogButton) {
+            this.catalogButton.addEventListener('click', () => {
+                this.handleCatalogClick();
+            });
+            
+            this.catalogButton.addEventListener('mouseenter', () => {
+                this.addButtonGlowEffect(this.catalogButton);
+            });
+        }
+    }
+    
+    /**
+     * Handle product CTA click
+     */
     handleProductCTA(cta) {
         const productCard = cta.closest('.product-card');
         const productName = productCard.querySelector('.product-name')?.textContent || 'Product';
+        const productUrl = cta.getAttribute('data-url') || 'https://us.alumiermd.com/products?code=54T7P4HH';
         
         // Add click animation
         cta.style.transform = 'translateY(-1px) scale(0.98)';
@@ -1604,11 +1863,8 @@ class LuxuryProductsSection {
             cta.style.transform = '';
         }, 150);
         
-        // Get product URL
-        const productUrl = cta.getAttribute('data-url') || 'https://us.alumiermd.com/products?code=54T7P4HH';
-        
         // Show loading feedback
-        this.showProductFeedback(productName);
+        this.showProductLoadingFeedback(productName);
         
         // Open product page
         setTimeout(() => {
@@ -1619,156 +1875,9 @@ class LuxuryProductsSection {
         this.trackProductClick(productName);
     }
     
-    addProductHoverEffects(card) {
-        if (EviaUtils.isMobile()) return;
-        
-        const image = card.querySelector('.product-image');
-        const overlay = card.querySelector('.image-overlay');
-        
-        card.addEventListener('mouseenter', () => {
-            // Subtle scale effect on image
-            if (image) {
-                image.style.transform = 'scale(1.05)';
-            }
-            
-            // Show overlay with delay
-            if (overlay) {
-                setTimeout(() => {
-                    overlay.style.opacity = '1';
-                }, 100);
-            }
-            
-            // Add glow effect
-            this.addCardGlow(card);
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            // Reset image
-            if (image) {
-                image.style.transform = 'scale(1)';
-            }
-            
-            // Hide overlay
-            if (overlay) {
-                overlay.style.opacity = '0';
-            }
-            
-            // Remove glow
-            this.removeCardGlow(card);
-        });
-    }
-    
-    addCardGlow(card) {
-        const existingGlow = card.querySelector('.dynamic-glow');
-        if (existingGlow) return;
-        
-        const glow = document.createElement('div');
-        glow.className = 'dynamic-glow';
-        glow.style.cssText = `
-            position: absolute;
-            inset: -4px;
-            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 165, 0, 0.1));
-            border-radius: 32px;
-            opacity: 0;
-            filter: blur(8px);
-            transition: opacity 0.3s ease;
-            z-index: -1;
-            pointer-events: none;
-        `;
-        
-        card.style.position = 'relative';
-        card.appendChild(glow);
-        
-        requestAnimationFrame(() => {
-            glow.style.opacity = '1';
-        });
-    }
-    
-    removeCardGlow(card) {
-        const glow = card.querySelector('.dynamic-glow');
-        if (glow) {
-            glow.style.opacity = '0';
-            setTimeout(() => {
-                if (glow.parentNode) {
-                    glow.parentNode.removeChild(glow);
-                }
-            }, 300);
-        }
-    }
-    
-    createRipple(event, button) {
-        const existingRipple = button.querySelector('.cta-ripple');
-        if (existingRipple) {
-            existingRipple.remove();
-        }
-        
-        const ripple = document.createElement('div');
-        ripple.className = 'cta-ripple';
-        
-        const rect = button.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        
-        ripple.style.cssText = `
-            position: absolute;
-            left: ${x}px;
-            top: ${y}px;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 1;
-            pointer-events: none;
-            transition: all 0.5s ease;
-        `;
-        
-        button.appendChild(ripple);
-        
-        requestAnimationFrame(() => {
-            ripple.style.transform = 'translate(-50%, -50%) scale(8)';
-            ripple.style.opacity = '0';
-        });
-        
-        setTimeout(() => {
-            if (ripple.parentNode) {
-                ripple.parentNode.removeChild(ripple);
-            }
-        }, 500);
-    }
-    
-    observeProduct(card, index) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        card.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 100);
-                    observer.unobserve(card);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -10% 0px'
-        });
-        
-        observer.observe(card);
-    }
-    
-    initCatalogButton() {
-        if (this.catalogButton) {
-            this.catalogButton.addEventListener('click', () => {
-                this.handleCatalogClick();
-            });
-            
-            this.catalogButton.addEventListener('mouseenter', () => {
-                this.addCatalogButtonGlow();
-            });
-        }
-    }
-    
+    /**
+     * Handle catalog button click
+     */
     handleCatalogClick() {
         // Add click animation
         this.catalogButton.style.transform = 'translateY(-2px) scale(0.98)';
@@ -1778,7 +1887,7 @@ class LuxuryProductsSection {
         }, 150);
         
         // Show loading feedback
-        this.showCatalogFeedback();
+        this.showCatalogLoadingFeedback();
         
         // Open catalog
         setTimeout(() => {
@@ -1789,8 +1898,43 @@ class LuxuryProductsSection {
         this.trackCatalogClick();
     }
     
-    addCatalogButtonGlow() {
-        const glow = this.catalogButton.querySelector('.btn-glow');
+    /**
+     * Add shine effect to CTA button
+     */
+    addCTAShineEffect(cta) {
+        const shine = document.createElement('div');
+        shine.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+            border-radius: inherit;
+            z-index: 1;
+        `;
+        
+        cta.style.position = 'relative';
+        cta.appendChild(shine);
+        
+        requestAnimationFrame(() => {
+            shine.style.left = '100%';
+        });
+        
+        setTimeout(() => {
+            if (shine.parentNode) {
+                shine.parentNode.removeChild(shine);
+            }
+        }, 600);
+    }
+    
+    /**
+     * Add glow effect to button
+     */
+    addButtonGlowEffect(button) {
+        const glow = button.querySelector('.btn-glow');
         if (glow) {
             glow.style.opacity = '0.4';
             setTimeout(() => {
@@ -1799,155 +1943,205 @@ class LuxuryProductsSection {
         }
     }
     
+    /**
+     * Show product loading feedback
+     */
+    showProductLoadingFeedback(productName) {
+        const feedback = this.createFeedbackElement(
+            `Opening ${productName}...`,
+            'rgba(255, 107, 0, 0.95)',
+            '🛍️'
+        );
+        
+        this.showFeedback(feedback, 2000);
+    }
+    
+    /**
+     * Show catalog loading feedback
+     */
+    showCatalogLoadingFeedback() {
+        const feedback = this.createFeedbackElement(
+            'Opening full product catalog...',
+            'rgba(16, 185, 129, 0.95)',
+            '📋'
+        );
+        
+        this.showFeedback(feedback, 2500);
+    }
+    
+    /**
+     * Show product click feedback
+     */
     showProductFeedback(productName) {
+        const feedback = this.createFeedbackElement(
+            `Viewing ${productName}`,
+            'rgba(139, 92, 246, 0.95)',
+            '👁️'
+        );
+        
+        this.showFeedback(feedback, 1500);
+    }
+    
+    /**
+     * Create feedback element
+     */
+    createFeedbackElement(message, backgroundColor, icon) {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 140, 0, 0.95);
+            background: ${backgroundColor};
             color: white;
             padding: 16px 24px;
             border-radius: 16px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 14px;
             font-weight: 600;
             z-index: 10000;
             pointer-events: none;
             opacity: 0;
             backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             gap: 8px;
             max-width: 300px;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         `;
         
         feedback.innerHTML = `
-            <i class="ri-external-link-line" style="font-size: 16px;"></i>
-            <span>Opening ${productName}...</span>
+            <span style="font-size: 16px;">${icon}</span>
+            <span>${message}</span>
         `;
         
+        return feedback;
+    }
+    
+    /**
+     * Show feedback with animation
+     */
+    showFeedback(feedback, duration = 2000) {
         document.body.appendChild(feedback);
         
-        EviaUtils.animate(feedback, [
-            { opacity: 0, transform: 'translate(-50%, -50%) scale(0.8)' },
-            { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }
-        ], { duration: 300 });
+        // Fade in
+        requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
         
+        // Fade out
         setTimeout(() => {
-            EviaUtils.animate(feedback, [
-                { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
-                { opacity: 0, transform: 'translate(-50%, -50%) scale(0.8)' }
-            ], { duration: 300 }).then(() => {
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            
+            setTimeout(() => {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
-            });
-        }, 2000);
+            }, 400);
+        }, duration);
     }
     
-    showCatalogFeedback() {
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(16, 185, 129, 0.95);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 16px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 10000;
-            pointer-events: none;
-            opacity: 0;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        `;
+    /**
+     * Initialize performance optimizations
+     */
+    initializePerformanceOptimizations() {
+        // Add will-change for animated elements
+        this.productCards.forEach(card => {
+            card.style.willChange = 'transform, box-shadow';
+        });
         
-        feedback.innerHTML = `
-            <i class="ri-shopping-bag-line" style="font-size: 16px;"></i>
-            <span>Opening full product catalog...</span>
-        `;
+        // Debounce resize events
+        window.addEventListener('resize', this.debounce(() => {
+            this.handleResize();
+        }, 250));
         
-        document.body.appendChild(feedback);
-        
-        EviaUtils.animate(feedback, [
-            { opacity: 0, transform: 'translate(-50%, -50%) scale(0.8)' },
-            { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }
-        ], { duration: 300 });
-        
-        setTimeout(() => {
-            EviaUtils.animate(feedback, [
-                { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
-                { opacity: 0, transform: 'translate(-50%, -50%) scale(0.8)' }
-            ], { duration: 300 }).then(() => {
-                if (feedback.parentNode) {
-                    feedback.parentNode.removeChild(feedback);
-                }
-            });
-        }, 2000);
+        // Optimize scroll events
+        this.addScrollOptimizations();
     }
     
-    initAnimations() {
-        // Animate section header
-        const header = this.section.querySelector('.products-header');
-        if (header) {
-            this.observeElement(header, () => {
-                const badge = header.querySelector('.header-badge');
-                const title = header.querySelector('.products-title');
-                const subtitle = header.querySelector('.products-subtitle');
-                
-                if (badge) {
-                    badge.style.animation = 'slideInDown 0.6s ease-out forwards';
-                }
-                
-                if (title) {
-                    setTimeout(() => {
-                        title.style.animation = 'slideInUp 0.6s ease-out forwards';
-                    }, 200);
-                }
-                
-                if (subtitle) {
-                    setTimeout(() => {
-                        subtitle.style.animation = 'fadeInUp 0.6s ease-out forwards';
-                    }, 400);
-                }
-            });
+    /**
+     * Add scroll optimizations
+     */
+    addScrollOptimizations() {
+        let ticking = false;
+        
+        const handleScroll = () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    this.onScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+        
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+    
+    /**
+     * Handle scroll events
+     */
+    onScroll() {
+        // Add scroll-based animations or effects here
+        const scrollY = window.pageYOffset;
+        const sectionTop = this.section.offsetTop;
+        const sectionHeight = this.section.offsetHeight;
+        
+        // Check if section is in viewport
+        if (scrollY > sectionTop - window.innerHeight && 
+            scrollY < sectionTop + sectionHeight) {
+            // Section is visible
+            this.onSectionVisible();
         }
     }
     
-    observeElement(element, callback) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    callback();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -10% 0px'
+    /**
+     * Handle when section becomes visible
+     */
+    onSectionVisible() {
+        // Add any scroll-based effects here
+    }
+    
+    /**
+     * Handle window resize
+     */
+    handleResize() {
+        // Update mobile state
+        if (this.isMobile()) {
+            this.optimizeForMobile();
+        } else {
+            this.optimizeForDesktop();
+        }
+    }
+    
+    /**
+     * Optimize for mobile devices
+     */
+    optimizeForMobile() {
+        this.productCards.forEach(card => {
+            // Remove hover effects on mobile
+            card.style.transform = '';
+            card.style.willChange = 'auto';
         });
-        
-        observer.observe(element);
     }
     
-    bindEvents() {
-        // Handle window resize
-        window.addEventListener('resize', EviaUtils.debounce(() => {
-            this.onResize();
-        }, 250));
+    /**
+     * Optimize for desktop
+     */
+    optimizeForDesktop() {
+        this.productCards.forEach(card => {
+            card.style.willChange = 'transform, box-shadow';
+        });
     }
     
+    /**
+     * Track product click analytics
+     */
     trackProductClick(productName) {
         // Google Analytics 4
         if (typeof gtag !== 'undefined') {
@@ -1961,6 +2155,9 @@ class LuxuryProductsSection {
         console.log(`📊 Product clicked: ${productName}`);
     }
     
+    /**
+     * Track catalog click analytics
+     */
     trackCatalogClick() {
         // Google Analytics 4
         if (typeof gtag !== 'undefined') {
@@ -1974,24 +2171,110 @@ class LuxuryProductsSection {
         console.log('📊 Full catalog opened');
     }
     
-    onResize() {
-        // Handle responsive adjustments if needed
-        if (EviaUtils.isMobile()) {
-            // Remove hover effects on mobile
-            this.productCards.forEach(card => {
-                const glow = card.querySelector('.dynamic-glow');
-                if (glow) {
-                    glow.remove();
-                }
-            });
-        }
+    /**
+     * Utility: Check if mobile device
+     */
+    isMobile() {
+        return window.innerWidth <= 768 || 
+               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
     
+    /**
+     * Utility: Debounce function
+     */
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+    
+    /**
+     * Utility: Throttle function
+     */
+    throttle(func, limit) {
+        let inThrottle;
+        return function(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+    
+    /**
+     * Public API: Refresh section
+     */
+    refresh() {
+        this.destroy();
+        this.init();
+    }
+    
+    /**
+     * Public API: Destroy section
+     */
     destroy() {
-        // Cleanup if needed
+        // Clean up observers
+        this.observers.forEach(observer => {
+            observer.disconnect();
+        });
+        this.observers.clear();
+        
+        // Remove event listeners
+        this.productCards.forEach(card => {
+            card.replaceWith(card.cloneNode(true));
+        });
+        
+        // Reset initialization state
+        this.isInitialized = false;
+        
         console.log('🗑️ Products section destroyed');
     }
 }
+
+/**
+ * Auto-initialize when DOM is ready
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if products section exists
+    if (document.querySelector('.apple-products-section')) {
+        const productsSection = new LuxuryProductsSection();
+        
+        // Make it globally accessible for manual control
+        window.LuxuryProductsSection = productsSection;
+        
+        console.log('🚀 Luxury Products Section ready');
+    }
+});
+
+/**
+ * Handle page visibility for performance
+ */
+document.addEventListener('visibilitychange', () => {
+    if (window.LuxuryProductsSection) {
+        if (document.hidden) {
+            // Pause animations when page is hidden
+            document.querySelector('.apple-products-section')?.style.setProperty('animation-play-state', 'paused');
+        } else {
+            // Resume animations when page is visible
+            document.querySelector('.apple-products-section')?.style.setProperty('animation-play-state', 'running');
+        }
+    }
+});
+
+/**
+ * Export for module systems
+ */
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = LuxuryProductsSection;
+}
+
 
 /* ========================================
    CONTACT SECTION COMPONENT
