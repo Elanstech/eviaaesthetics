@@ -228,8 +228,8 @@ body {
 }
 
 .preloader-logo {
-    width: clamp(180px, 35vw, 300px);
-    height: clamp(180px, 35vw, 300px);
+    width: clamp(300px, 35vw, 300px);
+    height: clamp(300px, 35vw, 300px);
     object-fit: contain;
     animation: logo-gentle-pulse 3s ease-in-out infinite;
     filter: drop-shadow(0 4px 20px rgba(255, 158, 24, 0.3));
