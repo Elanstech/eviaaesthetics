@@ -133,7 +133,7 @@ class EviaLuxuryApp {
             { name: 'header', class: EnhancedLuxuryHeader },
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
-            { name: 'servicesCarousel', class: LuxuryServicesCarousel },
+            { name: 'servicesCarousel', class: EnhancedServicesCarousel },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'LuxuryProductsSection', class: LuxuryProductsSection },
             { name: 'contactSection', class: LuxuryContactSection },
@@ -3603,7 +3603,7 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = { 
         EviaLuxuryApp, 
         EviaUtils, 
-        LuxuryServicesCarousel,
+        EnhancedServicesCarousel,
         LuxuryProductsSection,
         EviaConfig
     };
