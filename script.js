@@ -134,7 +134,7 @@ class EviaLuxuryApp {
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
-            { name: 'about', class: ModernAboutSection },
+            { name: 'about', class: EnhancedAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'LuxuryProductsSection', class: LuxuryProductsSection },
             { name: 'contactSection', class: LuxuryContactSection },
@@ -1708,9 +1708,9 @@ if (typeof module !== 'undefined' && module.exports) {
 /* ========================================
    MODERN TRANSFORMATIONS GALLERY
    ======================================== */
-class ModernAboutSection {
+class EnhancedAboutSection {
     constructor() {
-        this.section = document.querySelector('.modern-about-section');
+        this.section = document.querySelector('.enhanced-about-section');
         this.isInitialized = false;
         this.observers = new Map();
         this.animations = new Map();
@@ -1735,9 +1735,9 @@ class ModernAboutSection {
             this.setupResponsiveBehavior();
             
             this.isInitialized = true;
-            console.log('✨ Modern About Section initialized');
+            console.log('✨ Enhanced About Section initialized');
         } catch (error) {
-            console.error('❌ Error initializing Modern About Section:', error);
+            console.error('❌ Error initializing Enhanced About Section:', error);
         }
     }
 
@@ -1757,11 +1757,11 @@ class ModernAboutSection {
             rootMargin: '0px 0px -10% 0px'
         });
 
-        // Expertise items observer
-        const expertiseObserver = new IntersectionObserver((entries) => {
+        // Credentials observer
+        const credentialsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    this.animateExpertiseItems();
+                    this.animateCredentials();
                 }
             });
         }, {
@@ -1769,11 +1769,11 @@ class ModernAboutSection {
             rootMargin: '0px 0px -5% 0px'
         });
 
-        // Certifications observer
-        const certificationsObserver = new IntersectionObserver((entries) => {
+        // Services observer
+        const servicesObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    this.animateCertifications(entry.target);
+                    this.animateServices(entry.target);
                 }
             });
         }, {
@@ -1782,76 +1782,83 @@ class ModernAboutSection {
         });
 
         // Observe elements
-        const elementsToObserve = this.section.querySelectorAll('[data-scroll-reveal]');
-        elementsToObserve.forEach(element => {
-            mainObserver.observe(element);
-        });
+        const mainContent = this.section.querySelector('.about-main-content');
+        const credentialsContainer = this.section.querySelector('.floating-credentials');
+        const servicesShowcase = this.section.querySelector('.services-showcase');
+        const awardsSection = this.section.querySelector('.awards-section');
 
-        const expertiseGrid = this.section.querySelector('.expertise-grid');
-        const certificationsSection = this.section.querySelector('.certifications-section');
-
-        if (expertiseGrid) expertiseObserver.observe(expertiseGrid);
-        if (certificationsSection) certificationsObserver.observe(certificationsSection);
+        if (mainContent) mainObserver.observe(mainContent);
+        if (credentialsContainer) credentialsObserver.observe(credentialsContainer);
+        if (servicesShowcase) servicesObserver.observe(servicesShowcase);
+        if (awardsSection) servicesObserver.observe(awardsSection);
 
         // Store observers for cleanup
         this.observers.set('main', mainObserver);
-        this.observers.set('expertise', expertiseObserver);
-        this.observers.set('certifications', certificationsObserver);
+        this.observers.set('credentials', credentialsObserver);
+        this.observers.set('services', servicesObserver);
     }
 
     /**
      * Bind event listeners
      */
     bindEvents() {
-        // Learn More button
-        const learnMoreBtn = this.section.querySelector('#learnMoreBtn');
-        if (learnMoreBtn) {
-            learnMoreBtn.addEventListener('click', this.handleLearnMoreClick.bind(this));
-            learnMoreBtn.addEventListener('mouseenter', this.addButtonGlow.bind(this, learnMoreBtn));
+        // Consultation button
+        const consultationBtn = this.section.querySelector('#consultationBtn');
+        if (consultationBtn) {
+            consultationBtn.addEventListener('click', this.handleConsultationClick.bind(this));
+            consultationBtn.addEventListener('mouseenter', this.addButtonGlow.bind(this, consultationBtn));
         }
 
-        // Schedule Consultation button
-        const scheduleBtn = this.section.querySelector('#scheduleConsultationBtn');
-        if (scheduleBtn) {
-            scheduleBtn.addEventListener('click', this.handleScheduleClick.bind(this));
+        // Contact options
+        const callOption = this.section.querySelector('#callOption');
+        const messageOption = this.section.querySelector('#messageOption');
+
+        if (callOption) {
+            callOption.addEventListener('click', this.handleCallClick.bind(this));
         }
 
-        // Call Directly button
-        const callBtn = this.section.querySelector('#callDirectlyBtn');
-        if (callBtn) {
-            callBtn.addEventListener('click', this.handleCallClick.bind(this));
+        if (messageOption) {
+            messageOption.addEventListener('click', this.handleMessageClick.bind(this));
         }
 
-        // Achievement badges
-        const achievementBadges = this.section.querySelectorAll('.achievement-badge');
-        achievementBadges.forEach(badge => {
-            badge.addEventListener('click', this.handleBadgeClick.bind(this, badge));
-        });
-
-        // Expertise items
-        const expertiseItems = this.section.querySelectorAll('.expertise-item');
-        expertiseItems.forEach(item => {
-            item.addEventListener('mouseenter', this.handleExpertiseHover.bind(this, item));
-            item.addEventListener('mouseleave', this.handleExpertiseLeave.bind(this, item));
-            item.addEventListener('click', this.handleExpertiseClick.bind(this, item));
-        });
-
-        // Certification items
-        const certItems = this.section.querySelectorAll('.cert-item');
-        certItems.forEach(item => {
-            item.addEventListener('click', this.handleCertificationClick.bind(this, item));
-        });
-
-        // Image interactions
+        // Image interaction
         const doctorImage = this.section.querySelector('.doctor-image');
         if (doctorImage) {
             doctorImage.addEventListener('mouseenter', this.handleImageHover.bind(this));
             doctorImage.addEventListener('mouseleave', this.handleImageLeave.bind(this));
         }
 
+        // Philosophy and service cards
+        this.setupCardInteractions();
+
         // Global events
         window.addEventListener('resize', this.throttledResize);
         window.addEventListener('scroll', this.debouncedScroll, { passive: true });
+    }
+
+    /**
+     * Setup card interactions
+     */
+    setupCardInteractions() {
+        // Philosophy cards
+        const philosophyCards = this.section.querySelectorAll('.philosophy-card');
+        philosophyCards.forEach(card => {
+            card.addEventListener('mouseenter', () => this.animateCardHover(card));
+            card.addEventListener('mouseleave', () => this.resetCardAnimation(card));
+        });
+
+        // Service items
+        const serviceItems = this.section.querySelectorAll('.service-item');
+        serviceItems.forEach(item => {
+            item.addEventListener('mouseenter', () => this.animateServiceHover(item));
+            item.addEventListener('mouseleave', () => this.resetServiceAnimation(item));
+        });
+
+        // Award items
+        const awardItems = this.section.querySelectorAll('.award-item');
+        awardItems.forEach(item => {
+            item.addEventListener('mouseenter', () => this.animateAwardHover(item));
+        });
     }
 
     /**
@@ -1860,36 +1867,18 @@ class ModernAboutSection {
     initializeAnimations() {
         // Set initial states for animated elements
         const animatedElements = this.section.querySelectorAll([
-            '.about-header',
-            '.about-content-layout',
-            '.certifications-section'
+            '.doctor-introduction',
+            '.philosophy-card',
+            '.service-item',
+            '.award-item',
+            '.stat-card'
         ].join(','));
 
-        animatedElements.forEach(element => {
+        animatedElements.forEach((element, index) => {
             element.style.opacity = '0';
             element.style.transform = 'translateY(30px)';
-        });
-
-        // Trigger animations after a short delay
-        setTimeout(() => {
-            this.revealElements();
-        }, 300);
-    }
-
-    /**
-     * Reveal elements with staggered animation
-     */
-    revealElements() {
-        const elements = [
-            this.section.querySelector('.about-header'),
-            this.section.querySelector('.about-content-layout'),
-            this.section.querySelector('.certifications-section')
-        ].filter(Boolean);
-
-        elements.forEach((element, index) => {
-            setTimeout(() => {
-                element.classList.add('reveal');
-            }, index * 200);
+            element.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            element.style.transitionDelay = `${index * 100}ms`;
         });
     }
 
@@ -1897,45 +1886,58 @@ class ModernAboutSection {
      * Animate main content entrance
      */
     animateMainContent(target) {
-        target.classList.add('reveal');
-        
-        // Animate expertise items if they're in the target
-        const expertiseItems = target.querySelectorAll('.expertise-item');
-        if (expertiseItems.length > 0) {
-            this.animateExpertiseItems();
-        }
+        const elements = target.querySelectorAll([
+            '.doctor-introduction',
+            '.philosophy-card',
+            '.stat-card'
+        ].join(','));
+
+        elements.forEach((element, index) => {
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, index * 150);
+        });
     }
 
     /**
-     * Animate expertise items
+     * Animate floating credentials
      */
-    animateExpertiseItems() {
-        const expertiseItems = this.section.querySelectorAll('.expertise-item');
+    animateCredentials() {
+        const credentials = this.section.querySelectorAll('.credential-card');
         
-        expertiseItems.forEach((item, index) => {
+        credentials.forEach((credential, index) => {
             setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
+                credential.style.opacity = '1';
+                credential.style.transform = 'translateY(0) scale(1)';
                 
                 // Add subtle bounce effect
                 setTimeout(() => {
-                    item.style.transform = 'translateY(-2px)';
+                    credential.style.transform = 'translateY(-4px) scale(1.02)';
                     setTimeout(() => {
-                        item.style.transform = 'translateY(0)';
-                    }, 150);
-                }, 200);
-            }, index * 100);
+                        credential.style.transform = 'translateY(0) scale(1)';
+                    }, 200);
+                }, 300);
+            }, index * 200);
         });
     }
 
     /**
-     * Animate certifications
+     * Animate services showcase
      */
-    animateCertifications(target) {
-        target.classList.add('reveal');
+    animateServices(target) {
+        const serviceItems = target.querySelectorAll('.service-item');
+        const awardItems = document.querySelectorAll('.award-item');
         
-        const certItems = target.querySelectorAll('.cert-item');
-        certItems.forEach((item, index) => {
+        serviceItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+
+        // Animate awards if they exist
+        awardItems.forEach((item, index) => {
             setTimeout(() => {
                 item.style.opacity = '1';
                 item.style.transform = 'translateY(0)';
@@ -1944,9 +1946,9 @@ class ModernAboutSection {
     }
 
     /**
-     * Handle Learn More button click
+     * Handle consultation button click
      */
-    handleLearnMoreClick(event) {
+    handleConsultationClick(event) {
         event.preventDefault();
         
         const button = event.currentTarget;
@@ -1960,32 +1962,20 @@ class ModernAboutSection {
             button.style.transform = '';
         }, 150);
 
-        // Show detailed information or navigate
-        this.showDoctorDetails();
+        // Show booking feedback
+        this.showBookingFeedback();
 
-        // Track interaction
-        this.trackEvent('learn_more_click', 'about_section', 'doctor_info');
-    }
-
-    /**
-     * Handle Schedule Consultation click
-     */
-    handleScheduleClick(event) {
-        event.preventDefault();
-        
-        // Add click feedback
-        this.addClickFeedback(event.currentTarget);
-        
         // Navigate to contact section
         setTimeout(() => {
             this.scrollToContact();
-        }, 200);
+        }, 300);
 
-        this.trackEvent('schedule_consultation', 'about_section', 'cta_button');
+        // Track interaction
+        this.trackEvent('consultation_request', 'about_section', 'button_click');
     }
 
     /**
-     * Handle Call button click
+     * Handle call option click
      */
     handleCallClick(event) {
         event.preventDefault();
@@ -2003,78 +1993,24 @@ class ModernAboutSection {
             window.location.href = telLink;
         }, 300);
 
-        this.trackEvent('phone_call', 'about_section', 'call_button');
+        this.trackEvent('phone_call', 'about_section', 'call_option');
     }
 
     /**
-     * Handle achievement badge click
+     * Handle message option click
      */
-    handleBadgeClick(badge) {
-        // Add click animation
-        badge.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            badge.style.transform = '';
-        }, 150);
-
-        // Show badge details
-        const badgeText = badge.querySelector('span').textContent;
-        this.showBadgeDetails(badgeText);
-
-        this.trackEvent('badge_click', 'about_section', badgeText);
-    }
-
-    /**
-     * Handle expertise item hover
-     */
-    handleExpertiseHover(item) {
-        const icon = item.querySelector('.expertise-icon');
-        if (icon) {
-            icon.style.transform = 'scale(1.1) rotate(-3deg)';
-        }
-    }
-
-    /**
-     * Handle expertise item leave
-     */
-    handleExpertiseLeave(item) {
-        const icon = item.querySelector('.expertise-icon');
-        if (icon) {
-            icon.style.transform = '';
-        }
-    }
-
-    /**
-     * Handle expertise item click
-     */
-    handleExpertiseClick(item) {
-        const expertiseType = item.getAttribute('data-expertise');
+    handleMessageClick(event) {
+        event.preventDefault();
         
-        // Add click animation
-        item.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-            item.style.transform = '';
-        }, 150);
-
-        // Navigate to services or show more info
-        this.showExpertiseDetails(expertiseType);
-
-        this.trackEvent('expertise_click', 'about_section', expertiseType);
-    }
-
-    /**
-     * Handle certification click
-     */
-    handleCertificationClick(item) {
-        const certType = item.getAttribute('data-cert');
+        // Add click feedback
+        this.addClickFeedback(event.currentTarget);
         
-        // Add click animation
-        item.style.transform = 'scale(0.95)';
+        // Navigate to contact form
         setTimeout(() => {
-            item.style.transform = '';
-        }, 150);
+            this.scrollToContact();
+        }, 200);
 
-        this.showCertificationDetails(certType);
-        this.trackEvent('certification_click', 'about_section', certType);
+        this.trackEvent('message_request', 'about_section', 'message_option');
     }
 
     /**
@@ -2083,7 +2019,7 @@ class ModernAboutSection {
     handleImageHover() {
         const imageFrame = this.section.querySelector('.image-frame');
         if (imageFrame) {
-            imageFrame.style.transform = 'scale(1.02) rotate(-1deg)';
+            imageFrame.style.transform = 'translateY(-12px) rotate(-2deg) scale(1.02)';
         }
     }
 
@@ -2098,86 +2034,52 @@ class ModernAboutSection {
     }
 
     /**
-     * Show doctor details
+     * Animate card hover
      */
-    showDoctorDetails() {
-        // Create and show modal or expand content
-        this.showInfoModal(
-            'Dr. Evia Alikaj Nano',
-            'Learn more about Dr. Nano\'s background, education, and approach to aesthetic medicine.',
-            [
-                'Board-certified medical doctor with 20+ years of experience',
-                'Specialized training in aesthetic medicine and facial rejuvenation',
-                'Expert in advanced injection techniques and non-surgical procedures',
-                'Personalized approach to natural-looking results',
-                'Continuous education in latest aesthetic innovations'
-            ]
-        );
-    }
-
-    /**
-     * Show expertise details
-     */
-    showExpertiseDetails(expertiseType) {
-        const expertiseInfo = {
-            'injectables': {
-                title: 'Advanced Injectables',
-                description: 'Expert precision with Botox, dermal fillers, and advanced injection techniques.',
-                services: ['Botox', 'Dermal Fillers', 'Lip Enhancement', 'Facial Contouring']
-            },
-            'rejuvenation': {
-                title: 'Skin Rejuvenation',
-                description: 'Revolutionary treatments for skin texture, tone, and overall radiance.',
-                services: ['Chemical Peels', 'Microneedling', 'PRP Therapy', 'Laser Treatments']
-            },
-            'wellness': {
-                title: 'IV Therapy & Wellness',
-                description: 'Comprehensive wellness approach with customized IV therapy and weight management.',
-                services: ['IV Vitamin Therapy', 'Weight Management', 'Wellness Programs', 'Nutritional Support']
-            },
-            'restoration': {
-                title: 'Hair Restoration',
-                description: 'Advanced hair restoration techniques for natural, lasting results.',
-                services: ['Mesotherapy', 'PRP Hair Treatment', 'Follicle Recovery', 'Hair Growth Therapy']
-            }
-        };
-
-        const info = expertiseInfo[expertiseType];
-        if (info) {
-            this.showInfoModal(info.title, info.description, info.services);
+    animateCardHover(card) {
+        const icon = card.querySelector('.card-icon');
+        if (icon) {
+            icon.style.transform = 'scale(1.1) rotate(5deg)';
         }
     }
 
     /**
-     * Show badge details
+     * Reset card animation
      */
-    showBadgeDetails(badgeText) {
-        const badgeInfo = {
-            'Board Certified': 'Dr. Nano is board-certified with rigorous medical training and ongoing education.',
-            '20+ Years': 'Over two decades of experience in aesthetic medicine and patient care.',
-            '5.0★ Rating': 'Consistently rated 5 stars by patients for exceptional care and results.'
-        };
-
-        const info = badgeInfo[badgeText];
-        if (info) {
-            this.showSimpleToast(info);
+    resetCardAnimation(card) {
+        const icon = card.querySelector('.card-icon');
+        if (icon) {
+            icon.style.transform = '';
         }
     }
 
     /**
-     * Show certification details
+     * Animate service hover
      */
-    showCertificationDetails(certType) {
-        const certInfo = {
-            'board': 'Board-certified medical doctor with specialized training in aesthetic medicine.',
-            'alumier': 'Authorized AlumierMD partner offering professional-grade skincare solutions.',
-            'pistor': 'Certified in the Pistor Method for advanced mesotherapy techniques.',
-            'location': 'Conveniently located in the heart of Manhattan for easy access.'
-        };
+    animateServiceHover(item) {
+        const icon = item.querySelector('.service-icon');
+        if (icon) {
+            icon.style.transform = 'scale(1.2) rotate(-5deg)';
+        }
+    }
 
-        const info = certInfo[certType];
-        if (info) {
-            this.showSimpleToast(info);
+    /**
+     * Reset service animation
+     */
+    resetServiceAnimation(item) {
+        const icon = item.querySelector('.service-icon');
+        if (icon) {
+            icon.style.transform = '';
+        }
+    }
+
+    /**
+     * Animate award hover
+     */
+    animateAwardHover(item) {
+        const icon = item.querySelector('.award-icon');
+        if (icon) {
+            icon.style.transform = 'scale(1.15) rotate(10deg)';
         }
     }
 
@@ -2185,39 +2087,20 @@ class ModernAboutSection {
      * Create ripple effect
      */
     createRippleEffect(button, event) {
-        const ripple = document.createElement('div');
+        const ripple = button.querySelector('.btn-ripple');
+        if (!ripple) return;
+
         const rect = button.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = event.clientX - rect.left - size / 2;
-        const y = event.clientY - rect.top - size / 2;
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
 
-        ripple.style.cssText = `
-            position: absolute;
-            left: ${x}px;
-            top: ${y}px;
-            width: ${size}px;
-            height: ${size}px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: scale(0);
-            opacity: 1;
-            pointer-events: none;
-            transition: all 0.6s ease-out;
-            z-index: 1000;
-        `;
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
 
-        button.style.position = 'relative';
-        button.appendChild(ripple);
-
-        requestAnimationFrame(() => {
-            ripple.style.transform = 'scale(2)';
-            ripple.style.opacity = '0';
-        });
+        button.classList.add('ripple-active');
 
         setTimeout(() => {
-            if (ripple.parentNode) {
-                ripple.parentNode.removeChild(ripple);
-            }
+            button.classList.remove('ripple-active');
         }, 600);
     }
 
@@ -2227,7 +2110,7 @@ class ModernAboutSection {
     addButtonGlow(button) {
         const glow = button.querySelector('.btn-glow');
         if (glow) {
-            glow.style.opacity = '0.4';
+            glow.style.opacity = '0.8';
             setTimeout(() => {
                 glow.style.opacity = '0';
             }, 1000);
@@ -2245,6 +2128,19 @@ class ModernAboutSection {
             element.style.transform = '';
             element.style.transition = '';
         }, 150);
+    }
+
+    /**
+     * Show booking feedback
+     */
+    showBookingFeedback() {
+        const feedback = this.createFeedbackElement(
+            'Redirecting to consultation booking...',
+            'rgba(255, 140, 0, 0.95)',
+            'ri-calendar-check-line'
+        );
+
+        this.showFeedback(feedback, 2500);
     }
 
     /**
@@ -2327,115 +2223,6 @@ class ModernAboutSection {
     }
 
     /**
-     * Show info modal
-     */
-    showInfoModal(title, description, items) {
-        const modal = document.createElement('div');
-        modal.style.cssText = `
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(20px);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        `;
-
-        const content = document.createElement('div');
-        content.style.cssText = `
-            background: white;
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        `;
-
-        const itemsList = items.map(item => `<li style="margin-bottom: 8px;">${item}</li>`).join('');
-
-        content.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="color: #1d1d1f; font-size: 24px; font-weight: 600; margin: 0;">${title}</h3>
-                <button style="background: none; border: none; font-size: 24px; cursor: pointer; color: #86868b;" onclick="this.closest('.modal-overlay').remove()">×</button>
-            </div>
-            <p style="color: #6e6e73; font-size: 16px; line-height: 1.6; margin-bottom: 24px;">${description}</p>
-            <ul style="color: #1d1d1f; font-size: 14px; line-height: 1.5; padding-left: 20px; margin: 0;">
-                ${itemsList}
-            </ul>
-        `;
-
-        modal.className = 'modal-overlay';
-        modal.appendChild(content);
-        document.body.appendChild(modal);
-
-        requestAnimationFrame(() => {
-            modal.style.opacity = '1';
-            content.style.transform = 'scale(1)';
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.remove();
-            }
-        });
-    }
-
-    /**
-     * Show simple toast notification
-     */
-    showSimpleToast(message) {
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(29, 29, 31, 0.95);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 16px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 10000;
-            pointer-events: none;
-            opacity: 0;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            max-width: 350px;
-            text-align: center;
-            transition: all 0.3s ease;
-        `;
-
-        toast.textContent = message;
-        document.body.appendChild(toast);
-
-        requestAnimationFrame(() => {
-            toast.style.opacity = '1';
-            toast.style.transform = 'translateX(-50%) translateY(-10px)';
-        });
-
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            toast.style.transform = 'translateX(-50%) translateY(10px)';
-            
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
-            }, 300);
-        }, 3000);
-    }
-
-    /**
      * Scroll to contact section
      */
     scrollToContact() {
@@ -2477,15 +2264,15 @@ class ModernAboutSection {
      */
     optimizeForMobile() {
         // Reduce animation complexity on mobile
-        const achievementBadges = this.section.querySelectorAll('.achievement-badge');
-        achievementBadges.forEach(badge => {
-            badge.style.animation = 'none';
-            badge.style.position = 'static';
+        const credentialCards = this.section.querySelectorAll('.credential-card');
+        credentialCards.forEach(card => {
+            card.style.animation = 'none';
+            card.style.position = 'static';
         });
 
         // Simplify hover effects
-        const cards = this.section.querySelectorAll('.profile-card, .doctor-intro-card, .expertise-card');
-        cards.forEach(card => {
+        const philosophyCards = this.section.querySelectorAll('.philosophy-card');
+        philosophyCards.forEach(card => {
             card.addEventListener('touchstart', () => {
                 card.style.transform = 'scale(0.98)';
             });
@@ -2500,9 +2287,9 @@ class ModernAboutSection {
      */
     optimizeForTablet() {
         // Medium complexity animations
-        const achievementBadges = this.section.querySelectorAll('.achievement-badge');
-        achievementBadges.forEach(badge => {
-            badge.style.animation = 'achievementFloat 6s ease-in-out infinite';
+        const credentialCards = this.section.querySelectorAll('.credential-card');
+        credentialCards.forEach(card => {
+            card.style.animation = 'credentialFloat 6s ease-in-out infinite';
         });
     }
 
@@ -2511,10 +2298,10 @@ class ModernAboutSection {
      */
     optimizeForDesktop() {
         // Full animation complexity
-        const achievementBadges = this.section.querySelectorAll('.achievement-badge');
-        achievementBadges.forEach((badge, index) => {
-            badge.style.animation = `achievementFloat 6s ease-in-out infinite`;
-            badge.style.animationDelay = `${index * -2}s`;
+        const credentialCards = this.section.querySelectorAll('.credential-card');
+        credentialCards.forEach((card, index) => {
+            card.style.animation = `credentialFloat 6s ease-in-out infinite`;
+            card.style.animationDelay = `${index * -2}s`;
         });
     }
 
@@ -2609,7 +2396,7 @@ class ModernAboutSection {
         this.animations.clear();
 
         this.isInitialized = false;
-        console.log('🗑️ Modern About Section destroyed');
+        console.log('🗑️ Enhanced About Section destroyed');
     }
 
     /**
@@ -2637,13 +2424,13 @@ class ModernAboutSection {
  */
 document.addEventListener('DOMContentLoaded', () => {
     // Check if about section exists
-    if (document.querySelector('.modern-about-section')) {
-        const modernAboutSection = new ModernAboutSection();
+    if (document.querySelector('.enhanced-about-section')) {
+        const aboutSection = new EnhancedAboutSection();
         
         // Make it globally accessible for manual control
-        window.ModernAboutSection = modernAboutSection;
+        window.EnhancedAboutSection = aboutSection;
         
-        console.log('🚀 Modern About Section ready');
+        console.log('🚀 Enhanced About Section ready');
     }
 });
 
@@ -2651,16 +2438,16 @@ document.addEventListener('DOMContentLoaded', () => {
  * Handle page visibility for performance
  */
 document.addEventListener('visibilitychange', () => {
-    if (window.ModernAboutSection) {
+    if (window.EnhancedAboutSection) {
         if (document.hidden) {
             // Pause animations when page is hidden
-            const section = document.querySelector('.modern-about-section');
+            const section = document.querySelector('.enhanced-about-section');
             if (section) {
                 section.style.animationPlayState = 'paused';
             }
         } else {
             // Resume animations when page is visible
-            const section = document.querySelector('.modern-about-section');
+            const section = document.querySelector('.enhanced-about-section');
             if (section) {
                 section.style.animationPlayState = 'running';
             }
@@ -2672,7 +2459,7 @@ document.addEventListener('visibilitychange', () => {
  * Export for module systems
  */
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ModernAboutSection;
+    module.exports = EnhancedAboutSection;
 }
 
 /* ========================================
@@ -4575,7 +4362,7 @@ if (typeof module !== 'undefined' && module.exports) {
         EviaLuxuryApp, 
         EviaUtils, 
         EnhancedServicesCarousel,
-        ModernAboutSection,
+        EnhancedAboutSection,
         LuxuryProductsSection,
         EviaConfig
     };
