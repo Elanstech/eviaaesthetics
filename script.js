@@ -134,7 +134,6 @@ class EviaLuxuryApp {
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
-            { name: 'about', class: EnhancedAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'LuxuryProductsSection', class: LuxuryProductsSection },
             { name: 'contactSection', class: LuxuryContactSection },
@@ -3606,7 +3605,6 @@ if (typeof module !== 'undefined' && module.exports) {
         EviaLuxuryApp, 
         EviaUtils, 
         EnhancedServicesCarousel,
-        EnhancedAboutSection,
         LuxuryProductsSection,
         EviaConfig
     };
