@@ -1642,14 +1642,17 @@ body.menu-open {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.signature-wrapper {
+/* ========================================
+   LUXURY SIGNATURE CARD
+   ======================================== */
+
+.luxury-signature-wrapper {
     position: absolute !important;
-    bottom: clamp(3rem, 7vw, 5rem) !important;
-    right: clamp(2rem, 5vw, 6rem) !important;
+    bottom: clamp(2.5rem, 6vw, 4.5rem) !important;
+    right: clamp(1.5rem, 4vw, 3.5rem) !important;
     left: auto !important;
     top: auto !important;
     z-index: 15;
-    text-align: center;
     width: auto;
     margin: 0;
     display: flex;
@@ -1657,75 +1660,278 @@ body.menu-open {
     align-items: center;
 }
 
-.signature-container {
+.signature-card {
     position: relative;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: auto;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+    padding: clamp(1.2rem, 2.5vw, 1.8rem) clamp(1.5rem, 3vw, 2.2rem);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.1),
+        0 8px 32px rgba(255, 140, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    min-width: 280px;
+    max-width: 320px;
+}
+
+.signature-card:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.15),
+        0 12px 40px rgba(255, 140, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 140, 0, 0.2);
+}
+
+.signature-frame {
+    position: relative;
+}
+
+.signature-glass-bg {
+    position: absolute;
+    inset: -8px;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 140, 0, 0.05) 50%, 
+        rgba(255, 255, 255, 0.08) 100%);
+    border-radius: 20px;
+    opacity: 0.6;
+    filter: blur(1px);
+}
+
+.signature-content {
+    position: relative;
+    z-index: 2;
+}
+
+.signature-label {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
     text-align: center;
 }
 
-.signature-text-animated {
-    font-family: var(--font-dancing);
-    font-size: clamp(1rem, 2.5vw, 1.6rem);
+.signature-text {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.signature-svg {
+    width: 100%;
+    height: 60px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#signaturePath {
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    opacity: 0;
+}
+
+.signature-text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+.signature-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
     font-weight: 600;
-    color: var(--white);
+    font-style: italic;
+    color: #FFFFFF;
     text-shadow: 
-        0 3px 8px rgba(0, 0, 0, 0.4),
-        0 1px 4px rgba(0, 0, 0, 0.3);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    text-align: center;
-    display: inline-block;
-    white-space: nowrap;
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        0 1px 4px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.5px;
 }
 
-.signature-char,
-.signature-comma {
-    opacity: 0;
-    transform: translateY(20px) rotate(-5deg);
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.signature-title {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(0.8rem, 1.6vw, 1rem);
+    font-weight: 700;
+    color: #FFB84D;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.signature-underline-animated {
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    height: 2px;
+.signature-underline {
     width: 0;
-    background: linear-gradient(90deg, var(--hermes-orange), var(--hermes-orange-light));
+    height: 2px;
+    background: linear-gradient(90deg, #FF8C00 0%, #FFB84D 50%, #FF6600 100%);
     border-radius: 2px;
+    margin: 0 auto;
     opacity: 0;
-    transition: all 1.5s ease-out;
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4);
 }
 
-.writing-indicator {
+/* Luxury Pen Indicator */
+.luxury-pen-indicator {
     position: absolute;
-    top: -30px;
-    right: -20px;
-    color: var(--hermes-orange);
-    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    top: -15px;
+    right: 20px;
+    width: 40px;
+    height: 8px;
     opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.3s ease;
+    transform: rotate(25deg);
+    transition: all 0.6s ease;
 }
 
-.signature-sparkles {
+.pen-body {
+    width: 28px;
+    height: 6px;
+    background: linear-gradient(90deg, #2A1B0A 0%, #442C15 50%, #6B5B47 100%);
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.pen-body::before {
+    content: '';
     position: absolute;
-    inset: -20px;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 2px;
+    background: #FFD700;
+    border-radius: 1px;
+    box-shadow: 0 0 4px rgba(255, 215, 0, 0.6);
+}
+
+.pen-tip {
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid #1a1a1a;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+}
+
+.pen-glow {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3));
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.luxury-pen-indicator:hover .pen-glow {
+    opacity: 1;
+}
+
+/* Premium Sparkle Effects */
+.luxury-sparkles {
+    position: absolute;
+    inset: 0;
     pointer-events: none;
 }
 
-.sparkle {
+.sparkle-dot {
     position: absolute;
-    font-size: clamp(0.7rem, 1.4vw, 0.9rem);
+    width: 4px;
+    height: 4px;
+    background: #FFD700;
+    border-radius: 50%;
     opacity: 0;
-    transition: all 2s ease-out;
+    box-shadow: 
+        0 0 8px rgba(255, 215, 0, 0.8),
+        0 0 4px rgba(255, 140, 0, 0.6);
+    animation: sparkleFloat 3s ease-in-out infinite;
 }
 
-.sparkle-1 { top: -10px; left: 20%; }
-.sparkle-2 { top: 50%; right: 10%; }
-.sparkle-3 { bottom: -10px; left: 60%; }
+.sparkle-1 {
+    top: 15%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.sparkle-2 {
+    top: 25%;
+    right: 15%;
+    animation-delay: -1s;
+}
+
+.sparkle-3 {
+    bottom: 20%;
+    left: 15%;
+    animation-delay: -2s;
+}
+
+.sparkle-4 {
+    bottom: 30%;
+    right: 25%;
+    animation-delay: -1.5s;
+}
+
+/* Card Reflection Effect */
+.signature-reflection {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.08) 0%, 
+        transparent 100%);
+    border-radius: 24px 24px 0 0;
+    pointer-events: none;
+}
+
+/* Animation States */
+.luxury-signature-wrapper.animate {
+    animation: signatureCardEntrance 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.luxury-signature-wrapper.animate .signature-svg {
+    opacity: 1;
+}
+
+.luxury-signature-wrapper.animate #signaturePath {
+    animation: drawSignature 2.5s ease-out 0.5s forwards;
+}
+
+.luxury-signature-wrapper.animate .signature-text-overlay {
+    animation: fadeInText 0.8s ease-out 2.5s forwards;
+}
+
+.luxury-signature-wrapper.animate .signature-underline {
+    animation: drawUnderline 1s ease-out 3s forwards;
+}
+
+.luxury-signature-wrapper.animate .luxury-pen-indicator {
+    animation: showPen 0.6s ease-out 0.3s forwards, hidePen 0.6s ease-out 3.5s forwards;
+}
+
+.luxury-signature-wrapper.animate .sparkle-dot {
+    animation: sparkleSequence 0.8s ease-out 3.2s forwards, sparkleFloat 3s ease-in-out 4s infinite;
+}
+
+/* ========================================
+   SCROLL INDICATOR
+   ======================================== */
 
 .scroll-indicator-elegant {
     position: absolute !important;
@@ -1779,6 +1985,174 @@ body.menu-open {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* ========================================
+   HERO ANIMATIONS
+   ======================================== */
+
+@keyframes float-organic {
+    0%, 100% { 
+        transform: translate(0px, 0px) rotate(0deg); 
+    }
+    25% { 
+        transform: translate(-30px, -20px) rotate(1deg); 
+    }
+    50% { 
+        transform: translate(20px, -30px) rotate(-1deg); 
+    }
+    75% { 
+        transform: translate(-20px, 20px) rotate(1deg); 
+    }
+}
+
+@keyframes bubble-float {
+    0%, 100% { 
+        transform: translateY(0px) scale(1); 
+        opacity: 0.8; 
+    }
+    50% { 
+        transform: translateY(-20px) scale(1.1); 
+        opacity: 1; 
+    }
+}
+
+@keyframes gradient-shimmer {
+    0%, 100% { 
+        background-position: 0% 50%; 
+    }
+    25% { 
+        background-position: 100% 0%; 
+    }
+    50% { 
+        background-position: 200% 50%; 
+    }
+    75% { 
+        background-position: 100% 100%; 
+    }
+}
+
+@keyframes premium-glow-pulse {
+    0%, 100% { 
+        opacity: 0.6; 
+        filter: blur(12px); 
+    }
+    50% { 
+        opacity: 0.8; 
+        filter: blur(16px); 
+    }
+}
+
+@keyframes scroll-bounce {
+    0%, 100% { 
+        transform: translateY(0); 
+    }
+    50% { 
+        transform: translateY(-8px); 
+    }
+}
+
+/* Signature Animations */
+@keyframes signatureCardEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes drawSignature {
+    0% {
+        stroke-dashoffset: 800;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInText {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes drawUnderline {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        width: 80%;
+        opacity: 1;
+    }
+}
+
+@keyframes showPen {
+    0% {
+        opacity: 0;
+        transform: rotate(25deg) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(25deg) translateY(0);
+    }
+}
+
+@keyframes hidePen {
+    0% {
+        opacity: 1;
+        transform: rotate(25deg) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: rotate(25deg) translateY(-10px);
+    }
+}
+
+@keyframes sparkleSequence {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+}
+
+@keyframes sparkleFloat {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(1) translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1) translateY(-2px);
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
 /* Tablet Responsive */
 @media (max-width: 1024px) {
     .hero-content-stack {
@@ -1797,7 +2171,7 @@ body.menu-open {
         bottom: clamp(0.7rem, 1.8vw, 1rem) !important;
     }
     
-    .signature-wrapper {
+    .luxury-signature-wrapper {
         bottom: clamp(2rem, 4.5vw, 3.5rem) !important;
         right: clamp(2rem, 4.5vw, 3.5rem) !important;
     }
@@ -1835,7 +2209,7 @@ body.menu-open {
         box-sizing: border-box;
     }
     
-    .signature-wrapper {
+    .luxury-signature-wrapper {
         display: none !important;
     }
     
