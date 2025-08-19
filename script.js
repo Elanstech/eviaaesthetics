@@ -134,6 +134,7 @@ class EviaLuxuryApp {
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
+            { name: 'about', class: PremiumAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'LuxuryProductsSection', class: LuxuryProductsSection },
             { name: 'contactSection', class: LuxuryContactSection },
@@ -1702,6 +1703,863 @@ document.addEventListener('visibilitychange', () => {
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = EnhancedServicesCarousel;
+}
+
+class PremiumAboutSection {
+    constructor() {
+        this.section = document.querySelector('.premium-about-redesign');
+        this.modal = document.getElementById('premiumLearnMoreModal');
+        this.learnMoreBtn = document.getElementById('premiumLearnMoreBtn');
+        this.contactBtn = document.getElementById('premiumContactBtn');
+        this.modalClose = document.getElementById('premiumModalClose');
+        this.modalBackdrop = null;
+        
+        this.revealElements = [];
+        this.isInitialized = false;
+        this.observers = new Map();
+        
+        if (this.section) {
+            this.init();
+        }
+    }
+    
+    init() {
+        if (this.isInitialized) return;
+        
+        try {
+            this.setupRevealElements();
+            this.bindEvents();
+            this.initIntersectionObserver();
+            this.initPerformanceOptimizations();
+            
+            this.isInitialized = true;
+            console.log('✨ Premium About Section initialized');
+        } catch (error) {
+            console.error('❌ Error initializing Premium About Section:', error);
+        }
+    }
+    
+    /**
+     * Setup elements for reveal animations
+     */
+    setupRevealElements() {
+        this.revealElements = this.section.querySelectorAll('[data-premium-reveal]');
+        
+        // Set initial states
+        this.revealElements.forEach(element => {
+            const delay = element.getAttribute('data-delay') || 0;
+            element.style.transitionDelay = `${delay}ms`;
+        });
+    }
+    
+    /**
+     * Bind all event listeners
+     */
+    bindEvents() {
+        // Learn More Button
+        if (this.learnMoreBtn) {
+            this.learnMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.openModal();
+            });
+            
+            this.learnMoreBtn.addEventListener('mouseenter', () => {
+                this.addButtonRipple(this.learnMoreBtn);
+            });
+        }
+        
+        // Contact Button
+        if (this.contactBtn) {
+            this.contactBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleContactClick();
+            });
+            
+            this.contactBtn.addEventListener('mouseenter', () => {
+                this.addButtonGlow(this.contactBtn);
+            });
+        }
+        
+        // Modal Close
+        if (this.modalClose) {
+            this.modalClose.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeModal();
+            });
+        }
+        
+        // Close modal on backdrop click
+        if (this.modal) {
+            this.modalBackdrop = this.modal.querySelector('.premium-modal-backdrop');
+            if (this.modalBackdrop) {
+                this.modalBackdrop.addEventListener('click', () => {
+                    this.closeModal();
+                });
+            }
+        }
+        
+        // Escape key to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modal && this.modal.classList.contains('premium-modal-active')) {
+                this.closeModal();
+            }
+        });
+        
+        // Achievement pill interactions
+        this.bindAchievementPills();
+        
+        // Expertise card interactions
+        this.bindExpertiseCards();
+        
+        // Certification item interactions
+        this.bindCertificationItems();
+    }
+    
+    /**
+     * Initialize Intersection Observer for reveal animations
+     */
+    initIntersectionObserver() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.revealElement(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        this.revealElements.forEach(element => {
+            observer.observe(element);
+        });
+        
+        this.observers.set('reveal', observer);
+    }
+    
+    /**
+     * Reveal element with smooth animation
+     */
+    revealElement(element) {
+        element.classList.add('premium-reveal');
+        
+        // Special handling for different element types
+        if (element.classList.contains('premium-content-grid')) {
+            this.animateGridElements(element);
+        } else if (element.classList.contains('premium-certifications-strip')) {
+            this.animateCertifications(element);
+        }
+    }
+    
+    /**
+     * Animate grid elements with staggered delay
+     */
+    animateGridElements(grid) {
+        const cards = grid.querySelectorAll('.premium-profile-card, .premium-philosophy-card, .premium-expertise-showcase, .premium-cta-section');
+        
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.transform = 'translateY(0)';
+                card.style.opacity = '1';
+            }, index * 100);
+        });
+    }
+    
+    /**
+     * Animate certification items
+     */
+    animateCertifications(strip) {
+        const items = strip.querySelectorAll('.premium-cert-item');
+        
+        items.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0) scale(1)';
+            }, index * 150);
+        });
+    }
+    
+    /**
+     * Open learn more modal
+     */
+    openModal() {
+        if (!this.modal) return;
+        
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+        
+        // Add active class
+        this.modal.classList.add('premium-modal-active');
+        
+        // Focus trap for accessibility
+        this.trapFocus();
+        
+        // Analytics tracking
+        this.trackEvent('learn_more_opened', 'about', 'modal_interaction');
+        
+        // Add entrance animation to modal content
+        const modalContainer = this.modal.querySelector('.premium-modal-container');
+        if (modalContainer) {
+            modalContainer.style.animation = 'premiumModalEntrance 0.5s ease-out forwards';
+        }
+    }
+    
+    /**
+     * Close learn more modal
+     */
+    closeModal() {
+        if (!this.modal) return;
+        
+        const modalContainer = this.modal.querySelector('.premium-modal-container');
+        
+        if (modalContainer) {
+            modalContainer.style.animation = 'premiumModalExit 0.4s ease-in forwards';
+        }
+        
+        setTimeout(() => {
+            this.modal.classList.remove('premium-modal-active');
+            document.body.style.overflow = '';
+            
+            if (modalContainer) {
+                modalContainer.style.animation = '';
+            }
+        }, 400);
+    }
+    
+    /**
+     * Handle contact button click
+     */
+    handleContactClick() {
+        // Add click feedback
+        this.addClickFeedback(this.contactBtn);
+        
+        // Show loading state
+        this.showContactFeedback();
+        
+        // Scroll to contact section
+        setTimeout(() => {
+            this.scrollToContact();
+        }, 300);
+        
+        // Track analytics
+        this.trackEvent('contact_from_about', 'about', 'cta_click');
+    }
+    
+    /**
+     * Scroll to contact section
+     */
+    scrollToContact() {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+    
+    /**
+     * Show contact feedback
+     */
+    showContactFeedback() {
+        const feedback = this.createFeedbackElement(
+            'Redirecting to contact...',
+            'rgba(255, 140, 0, 0.95)',
+            'ri-calendar-check-line'
+        );
+        
+        this.showFeedback(feedback, 2000);
+    }
+    
+    /**
+     * Bind achievement pill interactions
+     */
+    bindAchievementPills() {
+        const pills = this.section.querySelectorAll('.premium-achievement-pill');
+        
+        pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                this.handleAchievementClick(pill);
+            });
+            
+            pill.addEventListener('mouseenter', () => {
+                this.addPillGlow(pill);
+            });
+        });
+    }
+    
+    /**
+     * Handle achievement pill click
+     */
+    handleAchievementClick(pill) {
+        const achievementText = pill.textContent.trim();
+        
+        // Add ripple effect
+        this.addRippleEffect(pill);
+        
+        // Show achievement details
+        this.showAchievementDetails(achievementText);
+        
+        // Track analytics
+        this.trackEvent('achievement_clicked', 'about', achievementText);
+    }
+    
+    /**
+     * Show achievement details
+     */
+    showAchievementDetails(achievement) {
+        const feedback = this.createFeedbackElement(
+            `${achievement} - Excellence in aesthetic medicine`,
+            'rgba(16, 185, 129, 0.95)',
+            'ri-award-line'
+        );
+        
+        this.showFeedback(feedback, 3000);
+    }
+    
+    /**
+     * Bind expertise card interactions
+     */
+    bindExpertiseCards() {
+        const cards = this.section.querySelectorAll('.premium-expertise-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                this.handleExpertiseClick(card);
+            });
+            
+            card.addEventListener('mouseenter', () => {
+                this.addCardParallax(card);
+            });
+        });
+    }
+    
+    /**
+     * Handle expertise card click
+     */
+    handleExpertiseClick(card) {
+        const expertise = card.getAttribute('data-expertise');
+        const title = card.querySelector('h4')?.textContent;
+        
+        // Add click animation
+        this.addClickFeedback(card);
+        
+        // Show expertise info
+        this.showExpertiseInfo(title);
+        
+        // Track analytics
+        this.trackEvent('expertise_clicked', 'about', expertise);
+    }
+    
+    /**
+     * Show expertise information
+     */
+    showExpertiseInfo(title) {
+        const feedback = this.createFeedbackElement(
+            `Learn more about ${title}`,
+            'rgba(139, 92, 246, 0.95)',
+            'ri-information-line'
+        );
+        
+        this.showFeedback(feedback, 2500);
+    }
+    
+    /**
+     * Bind certification item interactions
+     */
+    bindCertificationItems() {
+        const items = this.section.querySelectorAll('.premium-cert-item');
+        
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                this.handleCertificationClick(item);
+            });
+        });
+    }
+    
+    /**
+     * Handle certification click
+     */
+    handleCertificationClick(item) {
+        const title = item.querySelector('.premium-cert-title')?.textContent;
+        const subtitle = item.querySelector('.premium-cert-subtitle')?.textContent;
+        
+        // Add click animation
+        this.addClickFeedback(item);
+        
+        // Show certification info
+        this.showCertificationInfo(title, subtitle);
+        
+        // Track analytics
+        this.trackEvent('certification_clicked', 'about', title);
+    }
+    
+    /**
+     * Show certification information
+     */
+    showCertificationInfo(title, subtitle) {
+        const feedback = this.createFeedbackElement(
+            `${title} - ${subtitle}`,
+            'rgba(255, 140, 0, 0.95)',
+            'ri-medal-line'
+        );
+        
+        this.showFeedback(feedback, 2500);
+    }
+    
+    /**
+     * Add button ripple effect
+     */
+    addButtonRipple(button) {
+        if (this.isMobile()) return;
+        
+        const shine = button.querySelector('.premium-btn-shine');
+        if (shine) {
+            shine.style.left = '-100%';
+            shine.style.transition = 'left 0.8s ease';
+            
+            setTimeout(() => {
+                shine.style.left = '100%';
+            }, 50);
+        }
+    }
+    
+    /**
+     * Add button glow effect
+     */
+    addButtonGlow(button) {
+        const glow = button.querySelector('.premium-contact-bg, .premium-btn-glow');
+        if (glow) {
+            glow.style.opacity = '0.1';
+            setTimeout(() => {
+                glow.style.opacity = '';
+            }, 1000);
+        }
+    }
+    
+    /**
+     * Add pill glow effect
+     */
+    addPillGlow(pill) {
+        pill.style.boxShadow = '0 8px 32px rgba(255, 140, 0, 0.3)';
+        setTimeout(() => {
+            pill.style.boxShadow = '';
+        }, 1000);
+    }
+    
+    /**
+     * Add card parallax effect
+     */
+    addCardParallax(card) {
+        if (this.isMobile()) return;
+        
+        const icon = card.querySelector('.premium-expertise-icon');
+        if (icon) {
+            icon.style.transform = 'scale(1.1) translateY(-2px)';
+            setTimeout(() => {
+                icon.style.transform = '';
+            }, 300);
+        }
+    }
+    
+    /**
+     * Add ripple effect to element
+     */
+    addRippleEffect(element) {
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 140, 0, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+            pointer-events: none;
+            transition: all 0.6s ease-out;
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(ripple);
+        
+        requestAnimationFrame(() => {
+            ripple.style.transform = 'translate(-50%, -50%) scale(6)';
+            ripple.style.opacity = '0';
+        });
+        
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 600);
+    }
+    
+    /**
+     * Add click feedback animation
+     */
+    addClickFeedback(element) {
+        element.style.transform = 'scale(0.98)';
+        element.style.transition = 'transform 0.1s ease-out';
+        
+        setTimeout(() => {
+            element.style.transform = '';
+            element.style.transition = '';
+        }, 150);
+    }
+    
+    /**
+     * Create feedback element
+     */
+    createFeedbackElement(message, backgroundColor, iconClass) {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: ${backgroundColor};
+            color: white;
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 300px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        `;
+        
+        feedback.innerHTML = `
+            <i class="${iconClass}" style="font-size: 16px;"></i>
+            <span>${message}</span>
+        `;
+        
+        return feedback;
+    }
+    
+    /**
+     * Show feedback with animation
+     */
+    showFeedback(feedback, duration = 2000) {
+        document.body.appendChild(feedback);
+        
+        // Fade in
+        requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        // Fade out
+        setTimeout(() => {
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 400);
+        }, duration);
+    }
+    
+    /**
+     * Focus trap for modal accessibility
+     */
+    trapFocus() {
+        if (!this.modal) return;
+        
+        const focusableElements = this.modal.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        // Focus first element
+        if (firstElement) {
+            firstElement.focus();
+        }
+        
+        // Handle tab navigation
+        this.modal.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        e.preventDefault();
+                        lastElement?.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        e.preventDefault();
+                        firstElement?.focus();
+                    }
+                }
+            }
+        });
+    }
+    
+    /**
+     * Initialize performance optimizations
+     */
+    initPerformanceOptimizations() {
+        // Add will-change for animated elements
+        const animatedElements = this.section.querySelectorAll(
+            '.premium-profile-card, .premium-philosophy-card, .premium-expertise-card, .premium-learn-more-btn'
+        );
+        
+        animatedElements.forEach(element => {
+            element.style.willChange = 'transform, box-shadow';
+        });
+        
+        // Optimize scroll events
+        this.addScrollOptimizations();
+    }
+    
+    /**
+     * Add scroll optimizations
+     */
+    addScrollOptimizations() {
+        let ticking = false;
+        
+        const handleScroll = () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    this.onScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+        
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+    
+    /**
+     * Handle scroll events
+     */
+    onScroll() {
+        // Add parallax effect to floating elements
+        if (!this.isMobile()) {
+            this.updateFloatingElements();
+        }
+    }
+    
+    /**
+     * Update floating elements with parallax
+     */
+    updateFloatingElements() {
+        const scrollY = window.pageYOffset;
+        const elements = this.section.querySelectorAll('.premium-float-element');
+        
+        elements.forEach((element, index) => {
+            const speed = 0.5 + (index * 0.1);
+            const yPos = -(scrollY * speed);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
+    }
+    
+    /**
+     * Track analytics events
+     */
+    trackEvent(action, category, label) {
+        // Google Analytics 4
+        if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                event_category: category,
+                event_label: label,
+                value: 1
+            });
+        }
+        
+        console.log(`📊 Event tracked: ${action} - ${category} - ${label}`);
+    }
+    
+    /**
+     * Check if mobile device
+     */
+    isMobile() {
+        return window.innerWidth <= 768 || 
+               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+    
+    /**
+     * Handle window resize
+     */
+    onResize() {
+        // Update mobile state and optimize accordingly
+        if (this.isMobile()) {
+            this.optimizeForMobile();
+        } else {
+            this.optimizeForDesktop();
+        }
+    }
+    
+    /**
+     * Optimize for mobile devices
+     */
+    optimizeForMobile() {
+        // Disable expensive animations on mobile
+        const cards = this.section.querySelectorAll('.premium-expertise-card, .premium-cert-item');
+        cards.forEach(card => {
+            card.style.willChange = 'auto';
+        });
+    }
+    
+    /**
+     * Optimize for desktop
+     */
+    optimizeForDesktop() {
+        // Enable full animations on desktop
+        const cards = this.section.querySelectorAll('.premium-expertise-card, .premium-cert-item');
+        cards.forEach(card => {
+            card.style.willChange = 'transform, box-shadow';
+        });
+    }
+    
+    /**
+     * Public API: Refresh section
+     */
+    refresh() {
+        this.destroy();
+        this.init();
+    }
+    
+    /**
+     * Public API: Open modal programmatically
+     */
+    openLearnMoreModal() {
+        this.openModal();
+    }
+    
+    /**
+     * Public API: Close modal programmatically
+     */
+    closeLearnMoreModal() {
+        this.closeModal();
+    }
+    
+    /**
+     * Destroy the component
+     */
+    destroy() {
+        // Clean up observers
+        this.observers.forEach(observer => {
+            observer.disconnect();
+        });
+        this.observers.clear();
+        
+        // Remove event listeners
+        if (this.learnMoreBtn) {
+            this.learnMoreBtn.replaceWith(this.learnMoreBtn.cloneNode(true));
+        }
+        
+        if (this.contactBtn) {
+            this.contactBtn.replaceWith(this.contactBtn.cloneNode(true));
+        }
+        
+        if (this.modalClose) {
+            this.modalClose.replaceWith(this.modalClose.cloneNode(true));
+        }
+        
+        // Reset initialization state
+        this.isInitialized = false;
+        
+        console.log('🗑️ Premium About Section destroyed');
+    }
+}
+
+/**
+ * Auto-initialize when DOM is ready
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if about section exists
+    if (document.querySelector('.premium-about-redesign')) {
+        const premiumAboutSection = new PremiumAboutSection();
+        
+        // Make it globally accessible for manual control
+        window.PremiumAboutSection = premiumAboutSection;
+        
+        console.log('🚀 Premium About Section ready');
+    }
+});
+
+/**
+ * Handle page visibility for performance
+ */
+document.addEventListener('visibilitychange', () => {
+    if (window.PremiumAboutSection) {
+        if (document.hidden) {
+            // Pause animations when page is hidden
+            document.querySelector('.premium-about-redesign')?.style.setProperty('animation-play-state', 'paused');
+        } else {
+            // Resume animations when page is visible
+            document.querySelector('.premium-about-redesign')?.style.setProperty('animation-play-state', 'running');
+        }
+    }
+});
+
+/**
+ * Handle window resize
+ */
+window.addEventListener('resize', () => {
+    if (window.PremiumAboutSection) {
+        window.PremiumAboutSection.onResize();
+    }
+});
+
+/**
+ * Add CSS animations dynamically
+ */
+const addDynamicCSS = () => {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes premiumModalEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes premiumModalExit {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+};
+
+// Add dynamic CSS when script loads
+addDynamicCSS();
+
+/**
+ * Export for module systems
+ */
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = PremiumAboutSection;
 }
 
 
@@ -3605,6 +4463,7 @@ if (typeof module !== 'undefined' && module.exports) {
         EviaLuxuryApp, 
         EviaUtils, 
         EnhancedServicesCarousel,
+        PremiumAboutSection,
         LuxuryProductsSection,
         EviaConfig
     };
