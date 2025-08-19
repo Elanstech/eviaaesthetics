@@ -373,40 +373,72 @@
             </div>
         </div>
         
-        <!-- 6. HANDWRITTEN SIGNATURE -->
-        <div class="signature-wrapper" data-aos="fade-in" data-aos-delay="1200">
-            <div class="signature-container">
-                <!-- Signature with individual character animation -->
-                <div class="signature-text-animated" id="signatureText">
-                    <span class="signature-char" data-char="E">E</span>
-                    <span class="signature-char" data-char="v">v</span>
-                    <span class="signature-char" data-char="i">i</span>
-                    <span class="signature-char" data-char="a">a</span>
-                    <span class="signature-space"> </span>
-                    <span class="signature-char" data-char="N">N</span>
-                    <span class="signature-char" data-char="a">a</span>
-                    <span class="signature-char" data-char="n">n</span>
-                    <span class="signature-char" data-char="o">o</span>
-                    <span class="signature-comma">,</span>
-                    <span class="signature-space"> </span>
-                    <span class="signature-char signature-md" data-char="M">M</span>
-                    <span class="signature-char signature-md" data-char="D">D</span>
+        <!-- 6. LUXURY SIGNATURE CARD -->
+        <div class="luxury-signature-wrapper" data-aos="fade-in" data-aos-delay="1200">
+            <div class="signature-card">
+                <!-- Premium signature frame -->
+                <div class="signature-frame">
+                    <!-- Glass background with subtle gradient -->
+                    <div class="signature-glass-bg"></div>
+                    
+                    <!-- Signature content -->
+                    <div class="signature-content">
+                        <!-- Title label -->
+                        <div class="signature-label">Personally crafted by</div>
+                        
+                        <!-- Main signature text with path animation -->
+                        <div class="signature-text" id="luxurySignatureText">
+                            <svg class="signature-svg" viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Signature path that will be drawn -->
+                                <path id="signaturePath" d="M20,50 Q30,30 45,35 T65,40 Q70,30 75,40 T85,45 
+                                         M95,30 Q105,20 115,30 T130,35 Q135,25 140,35 T150,40
+                                         M160,35 Q170,25 180,30 T195,35 Q200,25 205,35 T215,40
+                                         M225,30 Q235,20 245,30 Q250,20 255,30 Q260,20 265,30" 
+                                      stroke="url(#signatureGradient)" 
+                                      stroke-width="2.5" 
+                                      fill="none" 
+                                      stroke-linecap="round" 
+                                      stroke-linejoin="round"/>
+                                
+                                <!-- Gradient definition -->
+                                <defs>
+                                    <linearGradient id="signatureGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#FF8C00;stop-opacity:0.8" />
+                                        <stop offset="50%" style="stop-color:#FFB84D;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#FF6600;stop-opacity:0.9" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            
+                            <!-- Text overlay that appears after path -->
+                            <div class="signature-text-overlay">
+                                <span class="signature-name">Evia Nano</span>
+                                <span class="signature-title">MD</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Elegant underline with animation -->
+                        <div class="signature-underline"></div>
+                    </div>
+                    
+                    <!-- Floating luxury pen indicator -->
+                    <div class="luxury-pen-indicator">
+                        <div class="pen-body"></div>
+                        <div class="pen-tip"></div>
+                        <div class="pen-glow"></div>
+                    </div>
+                    
+                    <!-- Premium sparkle effects -->
+                    <div class="luxury-sparkles">
+                        <div class="sparkle-dot sparkle-1"></div>
+                        <div class="sparkle-dot sparkle-2"></div>
+                        <div class="sparkle-dot sparkle-3"></div>
+                        <div class="sparkle-dot sparkle-4"></div>
+                    </div>
                 </div>
                 
-                <!-- Animated underline that draws after text -->
-                <div class="signature-underline-animated"></div>
-                
-                <!-- Elegant pen/writing indicator -->
-                <div class="writing-indicator">
-                    <i class="ri-quill-pen-line"></i>
-                </div>
-                
-                <!-- Floating sparkles that appear during writing -->
-                <div class="signature-sparkles">
-                    <div class="sparkle sparkle-1">✨</div>
-                    <div class="sparkle sparkle-2">✨</div>
-                    <div class="sparkle sparkle-3">✨</div>
-                </div>
+                <!-- Card reflection effect -->
+                <div class="signature-reflection"></div>
             </div>
         </div>
         
@@ -831,7 +863,7 @@
             </h2>
             
             <p class="premium-about-subtitle">
-                Dr. Evia Alikaj Nano combines two decades of medical expertise with an unwavering commitment to aesthetic perfection, delivering transformative results in the heart of Manhattan.
+                Evia A Nano combines two decades of medical expertise with an unwavering commitment to aesthetic perfection, delivering transformative results in the heart of Manhattan.
             </p>
         </header>
 
