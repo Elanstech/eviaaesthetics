@@ -702,6 +702,10 @@ class UltraLuxuryMobileMenu {
    CINEMATIC HERO COMPONENT
    ======================================== */
 
+/* ========================================
+   CINEMATIC HERO COMPONENT
+   ======================================== */
+
 class CinematicHero {
     constructor() {
         this.hero = document.querySelector('.cinematic-hero');
@@ -784,6 +788,15 @@ class CinematicHero {
     }
     
     prepareSignatureAnimation() {
+        // Check for new luxury signature wrapper first
+        const signatureWrapper = document.querySelector('.luxury-signature-wrapper');
+        if (signatureWrapper) {
+            // New signature style - no preparation needed as CSS handles it
+            console.log('✨ Luxury signature wrapper detected');
+            return;
+        }
+        
+        // Fallback to original signature container
         if (!this.signatureContainer) return;
         
         const chars = this.signatureContainer.querySelectorAll('.signature-char, .signature-comma');
@@ -809,6 +822,35 @@ class CinematicHero {
     }
     
     startSignatureAnimation() {
+        // Check for new luxury signature wrapper first
+        const signatureWrapper = document.querySelector('.luxury-signature-wrapper');
+        if (signatureWrapper && !this.hasAnimatedSignature) {
+            this.hasAnimatedSignature = true;
+            
+            // Add animation class to trigger all animations
+            signatureWrapper.classList.add('animate');
+            
+            // Optional: Add some interactive effects
+            const signatureCard = signatureWrapper.querySelector('.signature-card');
+            if (signatureCard) {
+                // Add hover interaction
+                signatureCard.addEventListener('mouseenter', () => {
+                    if (!EviaUtils.isMobile()) {
+                        this.addSignatureHoverEffect(signatureCard);
+                    }
+                });
+                
+                // Add click interaction for mobile-like behavior
+                signatureCard.addEventListener('click', () => {
+                    this.addSignatureClickEffect(signatureCard);
+                });
+            }
+            
+            console.log('✨ Luxury signature animation started');
+            return;
+        }
+        
+        // Fallback to original signature container logic
         if (this.hasAnimatedSignature || !this.signatureContainer) return;
         
         this.hasAnimatedSignature = true;
@@ -861,6 +903,37 @@ class CinematicHero {
                 }, index * 500);
             });
         }, totalDelay);
+        
+        console.log('✨ Original signature animation started');
+    }
+    
+    addSignatureHoverEffect(card) {
+        const sparkles = card.querySelectorAll('.sparkle-dot');
+        sparkles.forEach((sparkle, index) => {
+            setTimeout(() => {
+                sparkle.style.animation = 'sparkleFloat 1s ease-in-out';
+            }, index * 100);
+        });
+        
+        // Reset after animation
+        setTimeout(() => {
+            sparkles.forEach(sparkle => {
+                sparkle.style.animation = 'sparkleFloat 3s ease-in-out infinite';
+            });
+        }, 1000);
+    }
+    
+    addSignatureClickEffect(card) {
+        // Add subtle scale effect
+        card.style.transform = 'translateY(-3px) scale(1.05)';
+        
+        // Reset after short delay
+        setTimeout(() => {
+            card.style.transform = '';
+        }, 200);
+        
+        // Trigger sparkle effect
+        this.addSignatureHoverEffect(card);
     }
 }
 
