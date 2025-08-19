@@ -8449,6 +8449,238 @@ body.menu-open {
 }
 
 /* ========================================
+   TARGETED HORIZONTAL OVERFLOW FIXES
+   ======================================== */
+/* Fix specific containers that might be too wide */
+.aluminum-container {
+    max-width: min(95vw, 1400px);
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Fix navigation arrows that extend beyond viewport */
+@media (min-width: 1025px) {
+    .carousel-nav-prev {
+        left: max(-26px, -5vw);
+    }
+    
+    .carousel-nav-next {
+        right: max(-26px, -5vw);
+    }
+}
+
+/* Ensure floating elements stay within bounds */
+.floating-orbs,
+.aqua-elements,
+.floating-elements,
+.contact-particles,
+.premium-ambient-bg,
+.ambient-background,
+.glass-background {
+    left: 0;
+    right: 0;
+    overflow: hidden;
+}
+
+/* Fix specific orbs that might extend beyond viewport */
+.orb-1,
+.premium-orb-1,
+.ambient-orb.orb-1,
+.glass-orb-1 {
+    left: max(-15%, -200px);
+}
+
+.orb-2,
+.premium-orb-2,
+.ambient-orb.orb-2,
+.glass-orb-2 {
+    right: max(-20%, -200px);
+}
+
+.orb-3,
+.premium-orb-3,
+.ambient-orb.orb-3,
+.glass-orb-3 {
+    left: max(60%, calc(100vw - 250px));
+}
+
+/* Fix signature card positioning on smaller screens */
+.luxury-signature-wrapper {
+    right: clamp(1.5rem, 4vw, 3.5rem);
+    max-width: calc(100vw - 3rem);
+}
+
+/* Fix mobile menu width */
+.luxury-mobile-menu {
+    width: min(420px, calc(100vw - 20px));
+    right: -100%;
+}
+
+/* Fix stats row container */
+.stats-row-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* Fix hero content on mobile */
+@media (max-width: 768px) {
+    .hero-content-stack {
+        width: 100%;
+        max-width: 100vw;
+        padding-left: clamp(1rem, 3.5vw, 1.5rem);
+        padding-right: clamp(1rem, 3.5vw, 1.5rem);
+        box-sizing: border-box;
+    }
+    
+    .stats-row-container {
+        padding-left: clamp(0.5rem, 1.8vw, 1rem);
+        padding-right: clamp(0.5rem, 1.8vw, 1rem);
+    }
+    
+    /* Hide signature card on mobile to prevent overflow */
+    .luxury-signature-wrapper {
+        display: none;
+    }
+}
+
+/* Fix carousel on mobile - preserve horizontal scroll but contain it */
+@media (max-width: 1024px) {
+    .services-carousel {
+        overflow: hidden; /* Hide parent overflow */
+        margin: 0 -16px; /* Negative margin to offset padding */
+    }
+    
+    .carousel-track {
+        /* Keep horizontal scroll for carousel functionality */
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0 16px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .carousel-track::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Fix grid layouts that might be too wide */
+.results-grid {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 clamp(10px, 2vw, 20px);
+}
+
+/* Fix contact layout */
+@media (max-width: 1024px) {
+    .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+/* Fix premium content grid */
+@media (max-width: 1200px) {
+    .premium-content-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+}
+
+/* Fix floating buttons container */
+.luxury-floating-actions {
+    left: 2rem;
+    right: 2rem;
+    max-width: calc(100vw - 4rem);
+}
+
+@media (max-width: 480px) {
+    .luxury-floating-actions {
+        left: 1rem;
+        right: 1rem;
+        max-width: calc(100vw - 2rem);
+    }
+}
+
+/* Fix elements that might extend on very small screens */
+@media (max-width: 360px) {
+    /* Hide decorative elements that might cause overflow */
+    .aqua-bubble.bubble-3,
+    .orb-4,
+    .premium-element-3 {
+        display: none;
+    }
+    
+    .aluminum-container {
+        padding-left: clamp(0.5rem, 2vw, 1rem);
+        padding-right: clamp(0.5rem, 2vw, 1rem);
+    }
+}
+
+/* Fix text that might be too wide */
+.headline-primary,
+.headline-secondary,
+.hero-subheadline-elegant {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Fix any images or videos that might overflow */
+img,
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fix section padding to prevent overflow */
+section {
+    box-sizing: border-box;
+}
+
+/* Specific fixes for elements with absolute positioning */
+.hero-badge-premium,
+.scroll-indicator-elegant {
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: calc(100vw - 2rem);
+}
+
+/* Container safety measures */
+.container,
+.services-container,
+.products-container,
+.contact-container,
+.transformations-container,
+.premium-about-container,
+.instagram-container,
+.reviews-container {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Fix header in mobile mode */
+@media (max-width: 1440px) {
+    .luxury-floating-header {
+        width: 100%;
+        left: 0;
+        right: 0;
+        transform: none;
+    }
+    
+    .aluminum-container {
+        width: 100%;
+        max-width: 100vw;
+        margin: 0 auto;
+    }
+}
+
+/* ========================================
    FINAL RESPONSIVE UTILITIES
    ======================================== */
 
