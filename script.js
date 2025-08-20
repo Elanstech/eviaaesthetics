@@ -949,6 +949,7 @@ class EnhancedServicesCarousel {
         this.nextBtn = document.getElementById('nextBtn');
         this.dotsContainer = document.getElementById('carouselDots');
         this.autoplayBtn = document.getElementById('autoplayBtn');
+        this.learnMoreBtn = document.getElementById('learnMoreBtn');
         
         // Progress indicators
         this.progressFill = document.getElementById('progressFill');
@@ -968,9 +969,15 @@ class EnhancedServicesCarousel {
         this.cardWidth = 0;
         this.gap = 24;
         this.isTransitioning = false;
+        
+        // Improved touch handling
         this.touchStartX = 0;
+        this.touchStartY = 0;
         this.touchEndX = 0;
+        this.touchEndY = 0;
         this.isDragging = false;
+        this.isHorizontalScroll = false;
+        this.touchThreshold = 15; // Minimum movement to determine direction
         this.hasUserInteracted = false;
         
         // Throttle and debounce utilities
@@ -1028,7 +1035,7 @@ class EnhancedServicesCarousel {
     }
     
     /* ========================================
-       EVENT BINDING
+       EVENT BINDING - IMPROVED MOBILE
        ======================================== */
     
     bindEvents() {
@@ -1057,6 +1064,14 @@ class EnhancedServicesCarousel {
             });
         }
         
+        // Learn More button
+        if (this.learnMoreBtn) {
+            this.learnMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleLearnMoreClick();
+            });
+        }
+        
         // Service CTA buttons
         this.bindServiceCTAs();
         
@@ -1068,55 +1083,159 @@ class EnhancedServicesCarousel {
             }, 250);
         });
         
-        // Mobile touch events
+        // Mobile touch events - IMPROVED
         if (this.isMobile) {
             this.bindMobileTouchEvents();
         }
     }
     
+    /* ========================================
+       IMPROVED MOBILE TOUCH EVENTS
+       ======================================== */
+    
     bindMobileTouchEvents() {
-        // Prevent default touch behavior on track for horizontal scrolling
+        // More precise touch handling
         this.track.addEventListener('touchstart', (e) => {
             this.touchStartX = e.touches[0].clientX;
-            this.isDragging = true;
+            this.touchStartY = e.touches[0].clientY;
+            this.isDragging = false;
+            this.isHorizontalScroll = false;
+            
+            // Don't prevent default on touch start - allow natural behavior initially
         }, { passive: true });
         
         this.track.addEventListener('touchmove', (e) => {
-            if (!this.isDragging) return;
+            if (!e.touches[0]) return;
             
             const touchCurrentX = e.touches[0].clientX;
+            const touchCurrentY = e.touches[0].clientY;
             const diffX = Math.abs(touchCurrentX - this.touchStartX);
+            const diffY = Math.abs(touchCurrentY - this.touchStartY);
             
-            // If horizontal movement is detected, prevent vertical scrolling
-            if (diffX > 10) {
+            // Only determine scroll direction after threshold is met
+            if (!this.isDragging && (diffX > this.touchThreshold || diffY > this.touchThreshold)) {
+                this.isDragging = true;
+                
+                // Determine if this is primarily horizontal or vertical movement
+                if (diffX > diffY && diffX > this.touchThreshold) {
+                    this.isHorizontalScroll = true;
+                    this.track.classList.add('scrolling-horizontal');
+                    // Only prevent default for clear horizontal intent
+                    e.preventDefault();
+                } else {
+                    this.isHorizontalScroll = false;
+                    this.track.classList.remove('scrolling-horizontal');
+                    // Allow vertical scrolling to pass through
+                }
+            }
+            
+            // Only prevent default if we're clearly scrolling horizontally
+            if (this.isDragging && this.isHorizontalScroll) {
                 e.preventDefault();
             }
         }, { passive: false });
         
         this.track.addEventListener('touchend', (e) => {
+            if (!e.changedTouches[0]) return;
+            
             this.touchEndX = e.changedTouches[0].clientX;
-            this.handleTouchEnd();
+            this.touchEndY = e.changedTouches[0].clientY;
+            
+            // Only handle touch end if we were horizontally scrolling
+            if (this.isDragging && this.isHorizontalScroll) {
+                this.handleTouchEnd();
+                this.handleUserInteraction();
+            }
+            
+            // Reset state
             this.isDragging = false;
+            this.isHorizontalScroll = false;
+            this.track.classList.remove('scrolling-horizontal');
         }, { passive: true });
         
-        // Handle scroll events on mobile
-        this.track.addEventListener('scroll', () => {
-            clearTimeout(this.scrollTimeout);
-            this.scrollTimeout = setTimeout(() => {
-                this.updateMobileProgress();
-            }, 16); // ~60fps
-        }, { passive: true });
+        // Handle scroll events on mobile - improved throttling
+        this.track.addEventListener('scroll', this.throttle(() => {
+            this.updateMobileProgress();
+        }, 16), { passive: true }); // ~60fps
     }
     
-    bindServiceCTAs() {
-        const serviceCTAs = this.track.querySelectorAll('.service-cta');
-        serviceCTAs.forEach(cta => {
-            cta.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.handleServiceBooking(cta);
-            });
+    /* ========================================
+       LEARN MORE FUNCTIONALITY
+       ======================================== */
+    
+    handleLearnMoreClick() {
+        // Add click animation
+        this.learnMoreBtn.style.transform = 'translateY(-2px) scale(0.98)';
+        
+        // Show feedback
+        this.showLearnMoreFeedback();
+        
+        // Reset animation
+        setTimeout(() => {
+            this.learnMoreBtn.style.transform = '';
+        }, 150);
+        
+        // Redirect to services page
+        setTimeout(() => {
+            window.location.href = 'services.html';
+        }, 800);
+        
+        // Track analytics
+        this.trackEvent('learn_more_clicked', 'services', 'detailed_services_page');
+    }
+    
+    showLearnMoreFeedback() {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            padding: 20px 32px;
+            border-radius: 24px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 280px;
+            justify-content: center;
+        `;
+        
+        feedback.innerHTML = `
+            <i class="ri-information-line" style="font-size: 18px;"></i>
+            <span>Loading detailed services...</span>
+        `;
+        
+        document.body.appendChild(feedback);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
+        
+        // Animate out
+        setTimeout(() => {
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 500);
+        }, 2500);
     }
     
     /* ========================================
@@ -1201,11 +1320,11 @@ class EnhancedServicesCarousel {
     
     handleTouchEnd() {
         const diffX = this.touchStartX - this.touchEndX;
+        const diffY = Math.abs(this.touchStartY - this.touchEndY);
         const threshold = 50;
         
-        if (Math.abs(diffX) > threshold) {
-            this.handleUserInteraction();
-            
+        // Only handle if horizontal movement is significant and greater than vertical
+        if (Math.abs(diffX) > threshold && Math.abs(diffX) > diffY) {
             if (diffX > 0) {
                 // Swipe left - next slide
                 this.scrollToNextCard();
@@ -1220,7 +1339,7 @@ class EnhancedServicesCarousel {
         const cards = this.track.querySelectorAll('.service-card');
         const currentScroll = this.track.scrollLeft;
         const cardWidth = cards[0]?.offsetWidth || 300;
-        const gap = 16;
+        const gap = parseInt(window.getComputedStyle(this.track).gap) || 16;
         
         const nextScroll = currentScroll + cardWidth + gap;
         this.track.scrollTo({
@@ -1233,7 +1352,7 @@ class EnhancedServicesCarousel {
         const cards = this.track.querySelectorAll('.service-card');
         const currentScroll = this.track.scrollLeft;
         const cardWidth = cards[0]?.offsetWidth || 300;
-        const gap = 16;
+        const gap = parseInt(window.getComputedStyle(this.track).gap) || 16;
         
         const prevScroll = Math.max(0, currentScroll - cardWidth - gap);
         this.track.scrollTo({
@@ -1255,7 +1374,7 @@ class EnhancedServicesCarousel {
         
         // Update slide counter
         const cardWidth = this.track.querySelector('.service-card')?.offsetWidth || 300;
-        const gap = 16;
+        const gap = parseInt(window.getComputedStyle(this.track).gap) || 16;
         const currentSlideIndex = Math.round(scrollLeft / (cardWidth + gap));
         
         if (this.currentSlide) {
@@ -1404,91 +1523,19 @@ class EnhancedServicesCarousel {
     }
     
     /* ========================================
-       CARD INITIALIZATION & ANIMATIONS
-       ======================================== */
-    
-    initializeCards() {
-        const cards = this.track.querySelectorAll('.service-card');
-        
-        cards.forEach((card, index) => {
-            // Set scroll snap alignment for mobile
-            if (this.isMobile) {
-                card.style.scrollSnapAlign = 'center';
-            }
-            
-            // Initialize card animations
-            this.setupCardAnimations(card, index);
-        });
-    }
-    
-    setupCardAnimations(card, index) {
-        // Add entrance animation delay
-        card.style.setProperty('--animation-delay', `${index * 100}ms`);
-        
-        // Setup hover effects
-        this.setupCardHoverEffects(card);
-    }
-    
-    setupCardHoverEffects(card) {
-        if (this.isMobile) return;
-        
-        card.addEventListener('mouseenter', () => {
-            this.onCardHover(card);
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            this.onCardLeave(card);
-        });
-    }
-    
-    onCardHover(card) {
-        // Add subtle floating animation
-        card.style.animationName = 'cardFloat';
-        card.style.animationDuration = '3s';
-        card.style.animationIterationCount = 'infinite';
-        card.style.animationTimingFunction = 'ease-in-out';
-    }
-    
-    onCardLeave(card) {
-        // Remove floating animation
-        card.style.animationName = '';
-    }
-    
-    /* ========================================
-       INTERSECTION OBSERVER
-       ======================================== */
-    
-    setupIntersectionObserver() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.onSectionVisible();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -10% 0px'
-        });
-        
-        if (this.carousel) {
-            observer.observe(this.carousel);
-        }
-    }
-    
-    onSectionVisible() {
-        // Trigger card entrance animations
-        const cards = this.track.querySelectorAll('.service-card');
-        cards.forEach((card, index) => {
-            setTimeout(() => {
-                card.classList.add('animate-in');
-            }, index * 100);
-        });
-    }
-    
-    /* ========================================
        SERVICE BOOKING FUNCTIONALITY
        ======================================== */
+    
+    bindServiceCTAs() {
+        const serviceCTAs = this.track.querySelectorAll('.service-cta');
+        serviceCTAs.forEach(cta => {
+            cta.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.handleServiceBooking(cta);
+            });
+        });
+    }
     
     handleServiceBooking(cta) {
         const serviceType = cta.getAttribute('data-service');
@@ -1600,6 +1647,134 @@ class EnhancedServicesCarousel {
         console.log(`📊 Service booking clicked: ${serviceType}`);
     }
     
+    trackEvent(action, category, label) {
+        // Google Analytics 4
+        if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                event_category: category,
+                event_label: label,
+                value: 1
+            });
+        }
+        
+        console.log(`📊 Event tracked: ${action} - ${category} - ${label}`);
+    }
+    
+    /* ========================================
+       CARD INITIALIZATION & ANIMATIONS
+       ======================================== */
+    
+    initializeCards() {
+        const cards = this.track.querySelectorAll('.service-card');
+        
+        cards.forEach((card, index) => {
+            // Set scroll snap alignment for mobile
+            if (this.isMobile) {
+                card.style.scrollSnapAlign = 'center';
+            }
+            
+            // Initialize card animations
+            this.setupCardAnimations(card, index);
+        });
+    }
+    
+    setupCardAnimations(card, index) {
+        // Add entrance animation delay
+        card.style.setProperty('--animation-delay', `${index * 100}ms`);
+        
+        // Setup hover effects for desktop only
+        if (!this.isMobile) {
+            this.setupCardHoverEffects(card);
+        }
+    }
+    
+    setupCardHoverEffects(card) {
+        card.addEventListener('mouseenter', () => {
+            this.onCardHover(card);
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            this.onCardLeave(card);
+        });
+        
+        // 3D tilt effect
+        card.addEventListener('mousemove', (e) => {
+            this.handleCardTilt(card, e);
+        });
+    }
+    
+    onCardHover(card) {
+        // Add subtle floating animation
+        card.style.animationName = 'cardFloat';
+        card.style.animationDuration = '3s';
+        card.style.animationIterationCount = 'infinite';
+        card.style.animationTimingFunction = 'ease-in-out';
+    }
+    
+    onCardLeave(card) {
+        // Remove floating animation
+        card.style.animationName = '';
+    }
+    
+    /* ========================================
+       INTERSECTION OBSERVER
+       ======================================== */
+    
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.onSectionVisible();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+        
+        if (this.carousel) {
+            observer.observe(this.carousel);
+        }
+    }
+    
+    onSectionVisible() {
+        // Trigger card entrance animations
+        const cards = this.track.querySelectorAll('.service-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('animate-in');
+            }, index * 100);
+        });
+    }
+    
+    /* ========================================
+       UTILITY METHODS
+       ======================================== */
+    
+    throttle(func, limit) {
+        let inThrottle;
+        return function(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+    
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+    
     /* ========================================
        RESIZE HANDLING
        ======================================== */
@@ -1647,33 +1822,11 @@ class EnhancedServicesCarousel {
         if (this.isDesktop) {
             this.createDots();
         }
-    }
-    
-    /* ========================================
-       UTILITY METHODS
-       ======================================== */
-    
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-    
-    throttle(func, limit) {
-        let inThrottle;
-        return function(...args) {
-            if (!inThrottle) {
-                func.apply(this, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        };
+        
+        // Re-setup touch events
+        if (this.isMobile) {
+            this.bindMobileTouchEvents();
+        }
     }
     
     /* ========================================
@@ -1722,27 +1875,6 @@ class EnhancedServicesCarousel {
 }
 
 /* ========================================
-   ENHANCED CARD FLOATING ANIMATION
-   ======================================== */
-
-// Add CSS animation for card floating effect
-const cardFloatCSS = `
-@keyframes cardFloat {
-    0%, 100% {
-        transform: translateY(-8px) scale(1.02);
-    }
-    50% {
-        transform: translateY(-12px) scale(1.02);
-    }
-}
-`;
-
-// Inject the CSS
-const style = document.createElement('style');
-style.textContent = cardFloatCSS;
-document.head.appendChild(style);
-
-/* ========================================
    INITIALIZATION
    ======================================== */
 
@@ -1771,12 +1903,37 @@ document.addEventListener('visibilitychange', () => {
 });
 
 /* ========================================
+   ENHANCED CARD FLOATING ANIMATION
+   ======================================== */
+
+// Add CSS animation for card floating effect
+const cardFloatCSS = `
+@keyframes cardFloat {
+    0%, 100% {
+        transform: translateY(-8px) scale(1.02);
+    }
+    50% {
+        transform: translateY(-12px) scale(1.02);
+    }
+}
+`;
+
+// Inject the CSS
+const style = document.createElement('style');
+style.textContent = cardFloatCSS;
+document.head.appendChild(style);
+
+/* ========================================
    EXPORT FOR MODULE SYSTEMS
    ======================================== */
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = EnhancedServicesCarousel;
 }
+
+/* ========================================
+   ABOUT SERVICES
+   ======================================== */
 
 class PremiumAboutSection {
     constructor() {
