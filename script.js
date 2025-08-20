@@ -1,7 +1,6 @@
 /* ========================================
-   EVIA AESTHETICS - REFINED LUXURY EXPERIENCE
-   OPTIMIZED & ORGANIZED JAVASCRIPT
-   WITH PRODUCTS SECTION FUNCTIONALITY
+   EVIA AESTHETICS - COMPLETE LUXURY EXPERIENCE
+   ORGANIZED JAVASCRIPT WITH SIGNATURE ANIMATION
    ======================================== */
 
 'use strict';
@@ -91,7 +90,7 @@ const EviaUtils = {
 };
 
 /* ========================================
-   MAIN APPLICATION CLASS
+   MAIN APPLICATION
    ======================================== */
 
 class EviaLuxuryApp {
@@ -202,7 +201,6 @@ class EviaLuxuryApp {
         }
     }
     
-    // Public API
     smoothScrollTo(target, offset = 100) {
         return EviaUtils.smoothScrollTo(target, offset);
     }
@@ -213,7 +211,7 @@ class EviaLuxuryApp {
 }
 
 /* ========================================
-   PRELOADER COMPONENT
+   PRELOADER
    ======================================== */
 
 class LuxuryPreloader {
@@ -330,7 +328,7 @@ class LuxuryPreloader {
 }
 
 /* ========================================
-   ENHANCED HEADER COMPONENT
+   HEADER
    ======================================== */
 
 class EnhancedLuxuryHeader {
@@ -557,7 +555,7 @@ class EnhancedLuxuryHeader {
 }
 
 /* ========================================
-   ULTRA-LUXURY MOBILE MENU COMPONENT
+   MOBILE MENU
    ======================================== */
 
 class UltraLuxuryMobileMenu {
@@ -699,18 +697,534 @@ class UltraLuxuryMobileMenu {
 }
 
 /* ========================================
-   CINEMATIC HERO COMPONENT
+   HERO
    ======================================== */
 
-/* ========================================
-   CINEMATIC HERO COMPONENT
-   ======================================== */
+class ModernSignatureAnimation {
+    constructor() {
+        this.signatureWrapper = document.querySelector('.modern-signature-wrapper');
+        this.signatureCard = document.querySelector('.signature-card');
+        this.letterContainers = document.querySelectorAll('.letter-container');
+        this.underline = document.querySelector('.signature-underline');
+        this.particles = document.querySelectorAll('.particle');
+        this.luxuryBadge = document.querySelector('.luxury-badge');
+        
+        this.isAnimating = false;
+        this.isDesktop = window.innerWidth > 1024;
+        this.animationStarted = false;
+        this.animationQueue = [];
+        
+        this.config = {
+            initialDelay: 2000,
+            letterDelay: 150,
+            lineDelay: 300,
+            underlineDelay: 500,
+            particleDelay: 200,
+            badgeDelay: 100
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        if (!this.isDesktop || !this.signatureWrapper) {
+            console.log('📱 Signature disabled on mobile/tablet');
+            return;
+        }
+        
+        this.setupEventListeners();
+        this.prepareAnimation();
+        this.startAnimationSequence();
+        
+        console.log('✨ Modern Signature Animation initialized');
+    }
+    
+    setupEventListeners() {
+        if (this.signatureCard) {
+            this.signatureCard.addEventListener('mouseenter', () => {
+                this.onHover();
+            });
+            
+            this.signatureCard.addEventListener('mouseleave', () => {
+                this.onLeave();
+            });
+            
+            this.signatureCard.addEventListener('click', () => {
+                this.onClick();
+            });
+        }
+        
+        window.addEventListener('resize', EviaUtils.debounce(() => {
+            this.handleResize();
+        }, 250));
+        
+        this.setupIntersectionObserver();
+    }
+    
+    prepareAnimation() {
+        this.letterContainers.forEach((container, index) => {
+            const trace = container.querySelector('.letter-trace');
+            const letter = container.querySelector('.letter');
+            
+            if (trace && letter) {
+                const letterText = letter.textContent;
+                trace.textContent = letterText;
+                trace.setAttribute('data-letter', letterText);
+                
+                trace.style.opacity = '0';
+                trace.style.transform = 'scale(0.8) rotateY(-90deg)';
+                letter.style.color = 'transparent';
+            }
+        });
+        
+        if (this.underline) {
+            const underlineTrace = this.underline.querySelector('.underline-trace');
+            if (underlineTrace) {
+                underlineTrace.style.left = '-100%';
+            }
+        }
+        
+        this.particles.forEach(particle => {
+            particle.style.opacity = '0';
+        });
+        
+        if (this.luxuryBadge) {
+            this.luxuryBadge.style.transform = 'scale(0.8) rotate(-180deg)';
+            this.luxuryBadge.style.opacity = '0.7';
+        }
+    }
+    
+    startAnimationSequence() {
+        if (this.animationStarted) return;
+        
+        setTimeout(() => {
+            this.showSignatureCard();
+            
+            setTimeout(() => {
+                this.animateSignature();
+            }, 800);
+        }, this.config.initialDelay);
+        
+        this.animationStarted = true;
+    }
+    
+    showSignatureCard() {
+        if (!this.signatureWrapper) return;
+        
+        this.signatureWrapper.classList.add('signature-active');
+        
+        setTimeout(() => {
+            this.animateBadgeEntrance();
+        }, this.config.badgeDelay);
+    }
+    
+    animateBadgeEntrance() {
+        if (!this.luxuryBadge) return;
+        
+        this.luxuryBadge.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        this.luxuryBadge.style.transform = 'scale(1) rotate(0deg)';
+        this.luxuryBadge.style.opacity = '1';
+        
+        setTimeout(() => {
+            this.luxuryBadge.style.transform = 'scale(1.05) rotate(3deg)';
+            setTimeout(() => {
+                this.luxuryBadge.style.transform = 'scale(1) rotate(0deg)';
+            }, 200);
+        }, 600);
+    }
+    
+    async animateSignature() {
+        if (this.isAnimating) return;
+        this.isAnimating = true;
+        
+        try {
+            const lines = this.getLettersByLine();
+            
+            for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+                await this.animateLine(lines[lineIndex], lineIndex);
+                
+                if (lineIndex < lines.length - 1) {
+                    await EviaUtils.wait(this.config.lineDelay);
+                }
+            }
+            
+            await EviaUtils.wait(this.config.underlineDelay);
+            await this.animateUnderline();
+            
+            await EviaUtils.wait(this.config.particleDelay);
+            this.animateParticles();
+            
+            this.onAnimationComplete();
+            
+        } catch (error) {
+            console.error('Error in signature animation:', error);
+        } finally {
+            this.isAnimating = false;
+        }
+    }
+    
+    getLettersByLine() {
+        const lines = [];
+        const line1 = document.querySelectorAll('.signature-line-1 .letter-container');
+        const line2 = document.querySelectorAll('.signature-line-2 .letter-container');
+        const line3 = document.querySelectorAll('.signature-line-3 .letter-container');
+        
+        if (line1.length) lines.push(Array.from(line1));
+        if (line2.length) lines.push(Array.from(line2));
+        if (line3.length) lines.push(Array.from(line3));
+        
+        return lines;
+    }
+    
+    async animateLine(letters, lineIndex) {
+        const promises = letters.map((container, letterIndex) => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    this.animateLetter(container);
+                    resolve();
+                }, letterIndex * this.config.letterDelay);
+            });
+        });
+        
+        await Promise.all(promises);
+        this.addLineCompletionEffect(lineIndex);
+    }
+    
+    animateLetter(container) {
+        const trace = container.querySelector('.letter-trace');
+        const letter = container.querySelector('.letter');
+        
+        if (!trace || !letter) return;
+        
+        container.classList.add('traced');
+        
+        trace.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        trace.style.opacity = '1';
+        trace.style.transform = 'scale(1) rotateY(0deg)';
+        
+        setTimeout(() => {
+            trace.style.transform = 'scale(1.1) rotateY(0deg)';
+            setTimeout(() => {
+                trace.style.transform = 'scale(1) rotateY(0deg)';
+            }, 150);
+        }, 400);
+        
+        this.createLetterSparkle(container);
+    }
+    
+    createLetterSparkle(container) {
+        const sparkle = document.createElement('div');
+        sparkle.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #FFD700 0%, #FF8C00 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+            pointer-events: none;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        `;
+        
+        container.appendChild(sparkle);
+        
+        requestAnimationFrame(() => {
+            sparkle.style.transition = 'all 0.6s ease-out';
+            sparkle.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            sparkle.style.opacity = '0';
+        });
+        
+        setTimeout(() => {
+            if (sparkle.parentNode) {
+                sparkle.parentNode.removeChild(sparkle);
+            }
+        }, 600);
+    }
+    
+    addLineCompletionEffect(lineIndex) {
+        const line = document.querySelector(`.signature-line-${lineIndex + 1}`);
+        if (!line) return;
+        
+        const glow = document.createElement('div');
+        glow.style.cssText = `
+            position: absolute;
+            top: -10px;
+            left: -20px;
+            right: -20px;
+            bottom: -10px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 215, 0, 0.3) 20%, 
+                rgba(255, 140, 0, 0.2) 50%, 
+                rgba(255, 215, 0, 0.3) 80%, 
+                transparent 100%);
+            border-radius: 20px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        `;
+        
+        line.style.position = 'relative';
+        line.appendChild(glow);
+        
+        requestAnimationFrame(() => {
+            glow.style.transition = 'opacity 0.8s ease-out';
+            glow.style.opacity = '1';
+        });
+        
+        setTimeout(() => {
+            glow.style.opacity = '0';
+            setTimeout(() => {
+                if (glow.parentNode) {
+                    glow.parentNode.removeChild(glow);
+                }
+            }, 800);
+        }, 1200);
+    }
+    
+    async animateUnderline() {
+        if (!this.underline) return;
+        
+        const underlineTrace = this.underline.querySelector('.underline-trace');
+        if (!underlineTrace) return;
+        
+        this.underline.classList.add('traced');
+        
+        return new Promise(resolve => {
+            underlineTrace.style.transition = 'left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            underlineTrace.style.left = '100%';
+            
+            setTimeout(resolve, 1200);
+        });
+    }
+    
+    animateParticles() {
+        this.particles.forEach((particle, index) => {
+            setTimeout(() => {
+                particle.style.transition = 'opacity 0.8s ease-out';
+                particle.style.opacity = '1';
+                particle.style.animationPlayState = 'running';
+            }, index * 100);
+        });
+    }
+    
+    onAnimationComplete() {
+        if (this.signatureCard) {
+            this.signatureCard.classList.add('animation-complete');
+        }
+        
+        this.enableInteractions();
+        
+        console.log('✅ Signature animation completed');
+    }
+    
+    enableInteractions() {
+        if (!this.signatureCard) return;
+        
+        this.signatureCard.style.cursor = 'pointer';
+        
+        this.signatureCard.addEventListener('mouseenter', () => {
+            if (!this.signatureCard.classList.contains('interaction-active')) {
+                this.previewHoverEffect();
+            }
+        });
+    }
+    
+    previewHoverEffect() {
+        const cardGlow = this.signatureCard.querySelector('.card-glow');
+        if (cardGlow) {
+            cardGlow.style.opacity = '0.5';
+            setTimeout(() => {
+                cardGlow.style.opacity = '0';
+            }, 1000);
+        }
+    }
+    
+    onHover() {
+        if (!this.signatureCard || this.isAnimating) return;
+        
+        this.signatureCard.classList.add('interaction-active');
+        
+        this.letterContainers.forEach((container, index) => {
+            setTimeout(() => {
+                const trace = container.querySelector('.letter-trace');
+                if (trace) {
+                    trace.style.filter = 'drop-shadow(0 4px 12px rgba(255, 140, 0, 0.8)) saturate(1.3)';
+                    trace.style.transform = 'scale(1.05) rotateY(0deg)';
+                }
+            }, index * 50);
+        });
+        
+        this.particles.forEach(particle => {
+            particle.style.animationDuration = '4s';
+            particle.style.opacity = '1';
+        });
+    }
+    
+    onLeave() {
+        if (!this.signatureCard) return;
+        
+        this.signatureCard.classList.remove('interaction-active');
+        
+        this.letterContainers.forEach(container => {
+            const trace = container.querySelector('.letter-trace');
+            if (trace) {
+                trace.style.filter = 'drop-shadow(0 2px 8px rgba(255, 140, 0, 0.4)) saturate(1)';
+                trace.style.transform = 'scale(1) rotateY(0deg)';
+            }
+        });
+        
+        this.particles.forEach(particle => {
+            particle.style.animationDuration = '8s';
+        });
+    }
+    
+    onClick() {
+        if (this.isAnimating) return;
+        
+        this.createClickEffect();
+        
+        setTimeout(() => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }, 300);
+        
+        this.trackSignatureClick();
+    }
+    
+    createClickEffect() {
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+            pointer-events: none;
+            z-index: 100;
+        `;
+        
+        this.signatureCard.appendChild(ripple);
+        
+        requestAnimationFrame(() => {
+            ripple.style.transition = 'all 0.8s ease-out';
+            ripple.style.transform = 'translate(-50%, -50%) scale(20)';
+            ripple.style.opacity = '0';
+        });
+        
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 800);
+        
+        this.signatureCard.style.transform = 'translateY(-6px) scale(0.98)';
+        setTimeout(() => {
+            this.signatureCard.style.transform = '';
+        }, 200);
+    }
+    
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+                    if (this.animationStarted && !this.isAnimating) {
+                        setTimeout(() => {
+                            this.restartAnimation();
+                        }, 1000);
+                    }
+                }
+            });
+        }, {
+            threshold: [0.1, 0.5],
+            rootMargin: '0px 0px -10% 0px'
+        });
+        
+        if (this.signatureWrapper) {
+            observer.observe(this.signatureWrapper);
+        }
+    }
+    
+    restartAnimation() {
+        this.prepareAnimation();
+        
+        setTimeout(() => {
+            this.animateSignature();
+        }, 500);
+    }
+    
+    handleResize() {
+        const wasDesktop = this.isDesktop;
+        this.isDesktop = window.innerWidth > 1024;
+        
+        if (wasDesktop && !this.isDesktop) {
+            if (this.signatureWrapper) {
+                this.signatureWrapper.style.display = 'none';
+            }
+        }
+        
+        if (!wasDesktop && this.isDesktop) {
+            if (this.signatureWrapper) {
+                this.signatureWrapper.style.display = 'block';
+                this.restartAnimation();
+            }
+        }
+    }
+    
+    trackSignatureClick() {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'signature_click', {
+                event_category: 'engagement',
+                event_label: 'hero_signature',
+                value: 1
+            });
+        }
+        
+        console.log('📊 Signature click tracked');
+    }
+    
+    start() {
+        if (!this.animationStarted) {
+            this.startAnimationSequence();
+        }
+    }
+    
+    restart() {
+        this.animationStarted = false;
+        this.restartAnimation();
+    }
+    
+    destroy() {
+        if (this.signatureCard) {
+            this.signatureCard.removeEventListener('mouseenter', this.onHover);
+            this.signatureCard.removeEventListener('mouseleave', this.onLeave);
+            this.signatureCard.removeEventListener('click', this.onClick);
+        }
+        
+        window.removeEventListener('resize', this.handleResize);
+        
+        console.log('🗑️ Modern Signature Animation destroyed');
+    }
+}
 
 class CinematicHero {
     constructor() {
         this.hero = document.querySelector('.cinematic-hero');
         this.primaryCTA = document.querySelector('.hero-cta-signature');
         this.signatureContainer = document.querySelector('.signature-container');
+        this.signatureAnimation = null;
         this.hasAnimatedSignature = false;
         
         if (this.hero) {
@@ -723,7 +1237,7 @@ class CinematicHero {
         this.initScrollIndicator();
         this.initStatPills();
         this.initVideo();
-        this.prepareSignatureAnimation();
+        this.initSignatureAnimation();
     }
     
     initCTAButtons() {
@@ -787,70 +1301,41 @@ class CinematicHero {
         });
     }
     
-    prepareSignatureAnimation() {
-        // Check for new luxury signature wrapper first
-        const signatureWrapper = document.querySelector('.luxury-signature-wrapper');
-        if (signatureWrapper) {
-            // New signature style - no preparation needed as CSS handles it
-            console.log('✨ Luxury signature wrapper detected');
-            return;
+    initSignatureAnimation() {
+        if (window.innerWidth > 1024) {
+            this.signatureAnimation = new ModernSignatureAnimation();
         }
-        
-        // Fallback to original signature container
-        if (!this.signatureContainer) return;
-        
-        const chars = this.signatureContainer.querySelectorAll('.signature-char, .signature-comma');
-        const underline = this.signatureContainer.querySelector('.signature-underline-animated');
-        const writingIndicator = this.signatureContainer.querySelector('.writing-indicator');
-        const sparkles = this.signatureContainer.querySelectorAll('.sparkle');
-        
-        chars.forEach(char => {
-            char.style.opacity = '0';
-            char.style.transform = 'translateY(20px) rotate(-5deg)';
-        });
-        
-        if (underline) {
-            underline.style.width = '0';
-            underline.style.opacity = '0';
-        }
-        
-        if (writingIndicator) writingIndicator.style.opacity = '0';
-        
-        sparkles.forEach(sparkle => {
-            sparkle.style.opacity = '0';
-        });
     }
     
     startSignatureAnimation() {
-        // Check for new luxury signature wrapper first
-        const signatureWrapper = document.querySelector('.luxury-signature-wrapper');
+        const signatureWrapper = document.querySelector('.luxury-signature-wrapper, .modern-signature-wrapper');
         if (signatureWrapper && !this.hasAnimatedSignature) {
             this.hasAnimatedSignature = true;
             
-            // Add animation class to trigger all animations
             signatureWrapper.classList.add('animate');
             
-            // Optional: Add some interactive effects
             const signatureCard = signatureWrapper.querySelector('.signature-card');
             if (signatureCard) {
-                // Add hover interaction
                 signatureCard.addEventListener('mouseenter', () => {
                     if (!EviaUtils.isMobile()) {
                         this.addSignatureHoverEffect(signatureCard);
                     }
                 });
                 
-                // Add click interaction for mobile-like behavior
                 signatureCard.addEventListener('click', () => {
                     this.addSignatureClickEffect(signatureCard);
                 });
             }
             
-            console.log('✨ Luxury signature animation started');
+            console.log('✨ Signature animation started');
             return;
         }
         
-        // Fallback to original signature container logic
+        if (this.signatureAnimation && !this.hasAnimatedSignature) {
+            this.signatureAnimation.start();
+            this.hasAnimatedSignature = true;
+        }
+        
         if (this.hasAnimatedSignature || !this.signatureContainer) return;
         
         this.hasAnimatedSignature = true;
@@ -915,7 +1400,6 @@ class CinematicHero {
             }, index * 100);
         });
         
-        // Reset after animation
         setTimeout(() => {
             sparkles.forEach(sparkle => {
                 sparkle.style.animation = 'sparkleFloat 3s ease-in-out infinite';
@@ -924,21 +1408,18 @@ class CinematicHero {
     }
     
     addSignatureClickEffect(card) {
-        // Add subtle scale effect
         card.style.transform = 'translateY(-3px) scale(1.05)';
         
-        // Reset after short delay
         setTimeout(() => {
             card.style.transform = '';
         }, 200);
         
-        // Trigger sparkle effect
         this.addSignatureHoverEffect(card);
     }
 }
 
 /* ========================================
-   SERVICES CAROUSEL COMPONENT
+   SERVICES
    ======================================== */
 
 class EnhancedServicesCarousel {
@@ -951,14 +1432,12 @@ class EnhancedServicesCarousel {
         this.autoplayBtn = document.getElementById('autoplayBtn');
         this.learnMoreBtn = document.getElementById('learnMoreBtn');
         
-        // Progress indicators
         this.progressFill = document.getElementById('progressFill');
         this.currentSlide = document.getElementById('currentSlide');
         this.totalSlides = document.getElementById('totalSlides');
         this.currentCounter = document.getElementById('currentCounter');
         this.totalCounter = document.getElementById('totalCounter');
         
-        // State management
         this.currentIndex = 0;
         this.totalCards = 0;
         this.isAutoPlaying = true;
@@ -970,17 +1449,15 @@ class EnhancedServicesCarousel {
         this.gap = 24;
         this.isTransitioning = false;
         
-        // Improved touch handling
         this.touchStartX = 0;
         this.touchStartY = 0;
         this.touchEndX = 0;
         this.touchEndY = 0;
         this.isDragging = false;
         this.isHorizontalScroll = false;
-        this.touchThreshold = 15; // Minimum movement to determine direction
+        this.touchThreshold = 15;
         this.hasUserInteracted = false;
         
-        // Throttle and debounce utilities
         this.resizeTimeout = null;
         this.scrollTimeout = null;
         
@@ -1007,15 +1484,10 @@ class EnhancedServicesCarousel {
         console.log('✨ Enhanced Services Carousel initialized');
     }
     
-    /* ========================================
-       DEVICE DETECTION & SETUP
-       ======================================== */
-    
     detectDeviceType() {
         this.isMobile = window.innerWidth <= 1024;
         this.isDesktop = !this.isMobile;
         
-        // Update body class for CSS targeting
         document.body.classList.toggle('carousel-mobile', this.isMobile);
         document.body.classList.toggle('carousel-desktop', this.isDesktop);
     }
@@ -1034,12 +1506,7 @@ class EnhancedServicesCarousel {
         this.updateNavigationVisibility();
     }
     
-    /* ========================================
-       EVENT BINDING - IMPROVED MOBILE
-       ======================================== */
-    
     bindEvents() {
-        // Navigation buttons
         if (this.prevBtn) {
             this.prevBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1056,7 +1523,6 @@ class EnhancedServicesCarousel {
             });
         }
         
-        // Autoplay control
         if (this.autoplayBtn) {
             this.autoplayBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1064,7 +1530,6 @@ class EnhancedServicesCarousel {
             });
         }
         
-        // Learn More button
         if (this.learnMoreBtn) {
             this.learnMoreBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1072,10 +1537,8 @@ class EnhancedServicesCarousel {
             });
         }
         
-        // Service CTA buttons
         this.bindServiceCTAs();
         
-        // Resize handling with debounce
         window.addEventListener('resize', () => {
             clearTimeout(this.resizeTimeout);
             this.resizeTimeout = setTimeout(() => {
@@ -1083,25 +1546,17 @@ class EnhancedServicesCarousel {
             }, 250);
         });
         
-        // Mobile touch events - IMPROVED
         if (this.isMobile) {
             this.bindMobileTouchEvents();
         }
     }
     
-    /* ========================================
-       IMPROVED MOBILE TOUCH EVENTS
-       ======================================== */
-    
     bindMobileTouchEvents() {
-        // More precise touch handling
         this.track.addEventListener('touchstart', (e) => {
             this.touchStartX = e.touches[0].clientX;
             this.touchStartY = e.touches[0].clientY;
             this.isDragging = false;
             this.isHorizontalScroll = false;
-            
-            // Don't prevent default on touch start - allow natural behavior initially
         }, { passive: true });
         
         this.track.addEventListener('touchmove', (e) => {
@@ -1112,24 +1567,19 @@ class EnhancedServicesCarousel {
             const diffX = Math.abs(touchCurrentX - this.touchStartX);
             const diffY = Math.abs(touchCurrentY - this.touchStartY);
             
-            // Only determine scroll direction after threshold is met
             if (!this.isDragging && (diffX > this.touchThreshold || diffY > this.touchThreshold)) {
                 this.isDragging = true;
                 
-                // Determine if this is primarily horizontal or vertical movement
                 if (diffX > diffY && diffX > this.touchThreshold) {
                     this.isHorizontalScroll = true;
                     this.track.classList.add('scrolling-horizontal');
-                    // Only prevent default for clear horizontal intent
                     e.preventDefault();
                 } else {
                     this.isHorizontalScroll = false;
                     this.track.classList.remove('scrolling-horizontal');
-                    // Allow vertical scrolling to pass through
                 }
             }
             
-            // Only prevent default if we're clearly scrolling horizontally
             if (this.isDragging && this.isHorizontalScroll) {
                 e.preventDefault();
             }
@@ -1141,46 +1591,34 @@ class EnhancedServicesCarousel {
             this.touchEndX = e.changedTouches[0].clientX;
             this.touchEndY = e.changedTouches[0].clientY;
             
-            // Only handle touch end if we were horizontally scrolling
             if (this.isDragging && this.isHorizontalScroll) {
                 this.handleTouchEnd();
                 this.handleUserInteraction();
             }
             
-            // Reset state
             this.isDragging = false;
             this.isHorizontalScroll = false;
             this.track.classList.remove('scrolling-horizontal');
         }, { passive: true });
         
-        // Handle scroll events on mobile - improved throttling
         this.track.addEventListener('scroll', this.throttle(() => {
             this.updateMobileProgress();
-        }, 16), { passive: true }); // ~60fps
+        }, 16), { passive: true });
     }
     
-    /* ========================================
-       LEARN MORE FUNCTIONALITY
-       ======================================== */
-    
     handleLearnMoreClick() {
-        // Add click animation
         this.learnMoreBtn.style.transform = 'translateY(-2px) scale(0.98)';
         
-        // Show feedback
         this.showLearnMoreFeedback();
         
-        // Reset animation
         setTimeout(() => {
             this.learnMoreBtn.style.transform = '';
         }, 150);
         
-        // Redirect to services page
         setTimeout(() => {
             window.location.href = 'services.html';
         }, 800);
         
-        // Track analytics
         this.trackEvent('learn_more_clicked', 'services', 'detailed_services_page');
     }
     
@@ -1218,14 +1656,12 @@ class EnhancedServicesCarousel {
         
         document.body.appendChild(feedback);
         
-        // Animate in
         requestAnimationFrame(() => {
             feedback.style.transition = 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
-        // Animate out
         setTimeout(() => {
             feedback.style.opacity = '0';
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
@@ -1238,10 +1674,6 @@ class EnhancedServicesCarousel {
         }, 2500);
     }
     
-    /* ========================================
-       DESKTOP CAROUSEL FUNCTIONALITY
-       ======================================== */
-    
     nextSlide() {
         if (this.isTransitioning || this.isMobile) return;
         
@@ -1250,7 +1682,6 @@ class EnhancedServicesCarousel {
             this.currentIndex++;
             this.updateCarousel();
         } else if (this.isAutoPlaying) {
-            // Loop back to start for autoplay
             this.currentIndex = 0;
             this.updateCarousel();
         }
@@ -1285,7 +1716,6 @@ class EnhancedServicesCarousel {
         this.updateAllIndicators();
         this.updateNavigationState();
         
-        // Reset transition flag
         setTimeout(() => {
             this.isTransitioning = false;
         }, 800);
@@ -1304,17 +1734,11 @@ class EnhancedServicesCarousel {
         return 3;
     }
     
-    /* ========================================
-       MOBILE SCROLLING FUNCTIONALITY
-       ======================================== */
-    
     setupMobileScrolling() {
-        // Enable smooth scrolling
         this.track.style.scrollBehavior = 'smooth';
         this.track.style.overflowX = 'auto';
         this.track.style.scrollSnapType = 'x mandatory';
         
-        // Set initial mobile progress
         this.updateMobileProgress();
     }
     
@@ -1323,13 +1747,10 @@ class EnhancedServicesCarousel {
         const diffY = Math.abs(this.touchStartY - this.touchEndY);
         const threshold = 50;
         
-        // Only handle if horizontal movement is significant and greater than vertical
         if (Math.abs(diffX) > threshold && Math.abs(diffX) > diffY) {
             if (diffX > 0) {
-                // Swipe left - next slide
                 this.scrollToNextCard();
             } else {
-                // Swipe right - previous slide
                 this.scrollToPreviousCard();
             }
         }
@@ -1372,7 +1793,6 @@ class EnhancedServicesCarousel {
             this.progressFill.style.width = `${Math.min(100, Math.max(0, progress))}%`;
         }
         
-        // Update slide counter
         const cardWidth = this.track.querySelector('.service-card')?.offsetWidth || 300;
         const gap = parseInt(window.getComputedStyle(this.track).gap) || 16;
         const currentSlideIndex = Math.round(scrollLeft / (cardWidth + gap));
@@ -1381,10 +1801,6 @@ class EnhancedServicesCarousel {
             this.currentSlide.textContent = Math.min(this.totalCards, Math.max(1, currentSlideIndex + 1));
         }
     }
-    
-    /* ========================================
-       DOTS NAVIGATION
-       ======================================== */
     
     createDots() {
         if (!this.dotsContainer || this.isMobile) return;
@@ -1411,10 +1827,6 @@ class EnhancedServicesCarousel {
             dot.classList.toggle('active', index === this.currentIndex);
         });
     }
-    
-    /* ========================================
-       AUTOPLAY FUNCTIONALITY
-       ======================================== */
     
     startAutoPlay() {
         if (this.isMobile || this.hasUserInteracted) return;
@@ -1465,10 +1877,6 @@ class EnhancedServicesCarousel {
         }
     }
     
-    /* ========================================
-       INDICATOR UPDATES
-       ======================================== */
-    
     updateAllIndicators() {
         this.updateDots();
         this.updateCounters();
@@ -1480,7 +1888,6 @@ class EnhancedServicesCarousel {
     }
     
     updateCounters() {
-        // Desktop counter
         if (this.currentCounter && this.isDesktop) {
             this.currentCounter.textContent = String(this.currentIndex + 1).padStart(2, '0');
         }
@@ -1489,7 +1896,6 @@ class EnhancedServicesCarousel {
             this.totalCounter.textContent = String(this.totalCards).padStart(2, '0');
         }
         
-        // Mobile counter
         if (this.totalSlides) {
             this.totalSlides.textContent = this.totalCards;
         }
@@ -1512,19 +1918,13 @@ class EnhancedServicesCarousel {
     updateNavigationVisibility() {
         const shouldShowDesktopNav = this.isDesktop && this.totalCards > this.getVisibleCards();
         
-        // Desktop navigation
         if (this.prevBtn) this.prevBtn.style.display = shouldShowDesktopNav ? 'flex' : 'none';
         if (this.nextBtn) this.nextBtn.style.display = shouldShowDesktopNav ? 'flex' : 'none';
         
-        // Desktop dots
         if (this.dotsContainer) {
             this.dotsContainer.style.display = shouldShowDesktopNav ? 'flex' : 'none';
         }
     }
-    
-    /* ========================================
-       SERVICE BOOKING FUNCTIONALITY
-       ======================================== */
     
     bindServiceCTAs() {
         const serviceCTAs = this.track.querySelectorAll('.service-cta');
@@ -1540,24 +1940,19 @@ class EnhancedServicesCarousel {
     handleServiceBooking(cta) {
         const serviceType = cta.getAttribute('data-service');
         
-        // Add ripple effect
         this.addRippleEffect(cta);
         
-        // Add click feedback
         cta.style.transform = 'translateY(-1px) scale(0.98)';
         setTimeout(() => {
             cta.style.transform = '';
         }, 150);
         
-        // Show booking feedback
         this.showBookingFeedback(serviceType);
         
-        // Navigate to contact section
         setTimeout(() => {
             this.scrollToContact();
         }, 300);
         
-        // Track analytics
         this.trackServiceClick(serviceType);
     }
     
@@ -1604,14 +1999,12 @@ class EnhancedServicesCarousel {
         
         document.body.appendChild(feedback);
         
-        // Animate in
         requestAnimationFrame(() => {
             feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
-        // Animate out
         setTimeout(() => {
             feedback.style.opacity = '0';
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
@@ -1635,7 +2028,6 @@ class EnhancedServicesCarousel {
     }
     
     trackServiceClick(serviceType) {
-        // Google Analytics 4
         if (typeof gtag !== 'undefined') {
             gtag('event', 'service_booking_click', {
                 event_category: 'services',
@@ -1648,7 +2040,6 @@ class EnhancedServicesCarousel {
     }
     
     trackEvent(action, category, label) {
-        // Google Analytics 4
         if (typeof gtag !== 'undefined') {
             gtag('event', action, {
                 event_category: category,
@@ -1660,29 +2051,21 @@ class EnhancedServicesCarousel {
         console.log(`📊 Event tracked: ${action} - ${category} - ${label}`);
     }
     
-    /* ========================================
-       CARD INITIALIZATION & ANIMATIONS
-       ======================================== */
-    
     initializeCards() {
         const cards = this.track.querySelectorAll('.service-card');
         
         cards.forEach((card, index) => {
-            // Set scroll snap alignment for mobile
             if (this.isMobile) {
                 card.style.scrollSnapAlign = 'center';
             }
             
-            // Initialize card animations
             this.setupCardAnimations(card, index);
         });
     }
     
     setupCardAnimations(card, index) {
-        // Add entrance animation delay
         card.style.setProperty('--animation-delay', `${index * 100}ms`);
         
-        // Setup hover effects for desktop only
         if (!this.isMobile) {
             this.setupCardHoverEffects(card);
         }
@@ -1697,14 +2080,12 @@ class EnhancedServicesCarousel {
             this.onCardLeave(card);
         });
         
-        // 3D tilt effect
         card.addEventListener('mousemove', (e) => {
             this.handleCardTilt(card, e);
         });
     }
     
     onCardHover(card) {
-        // Add subtle floating animation
         card.style.animationName = 'cardFloat';
         card.style.animationDuration = '3s';
         card.style.animationIterationCount = 'infinite';
@@ -1712,13 +2093,8 @@ class EnhancedServicesCarousel {
     }
     
     onCardLeave(card) {
-        // Remove floating animation
         card.style.animationName = '';
     }
-    
-    /* ========================================
-       INTERSECTION OBSERVER
-       ======================================== */
     
     setupIntersectionObserver() {
         const observer = new IntersectionObserver((entries) => {
@@ -1739,7 +2115,6 @@ class EnhancedServicesCarousel {
     }
     
     onSectionVisible() {
-        // Trigger card entrance animations
         const cards = this.track.querySelectorAll('.service-card');
         cards.forEach((card, index) => {
             setTimeout(() => {
@@ -1747,10 +2122,6 @@ class EnhancedServicesCarousel {
             }, index * 100);
         });
     }
-    
-    /* ========================================
-       UTILITY METHODS
-       ======================================== */
     
     throttle(func, limit) {
         let inThrottle;
@@ -1775,15 +2146,10 @@ class EnhancedServicesCarousel {
         };
     }
     
-    /* ========================================
-       RESIZE HANDLING
-       ======================================== */
-    
     onResize() {
         const wasDesktop = this.isDesktop;
         this.detectDeviceType();
         
-        // If device type changed
         if (wasDesktop !== this.isDesktop) {
             this.handleDeviceTypeChange();
         }
@@ -1792,14 +2158,12 @@ class EnhancedServicesCarousel {
         this.updateNavigationVisibility();
         
         if (this.isDesktop) {
-            // Reset desktop carousel
             const maxIndex = this.getMaxIndex();
             if (this.currentIndex > maxIndex) {
                 this.currentIndex = Math.max(0, maxIndex);
             }
             this.updateCarousel();
         } else {
-            // Reset mobile scrolling
             this.setupMobileScrolling();
             this.updateMobileProgress();
         }
@@ -1808,32 +2172,23 @@ class EnhancedServicesCarousel {
     }
     
     handleDeviceTypeChange() {
-        // Stop autoplay when switching to mobile
         if (this.isMobile && this.isAutoPlaying) {
             this.stopAutoPlay();
         }
         
-        // Reset transforms
         if (this.isMobile) {
             this.track.style.transform = '';
         }
         
-        // Recreate dots if needed
         if (this.isDesktop) {
             this.createDots();
         }
         
-        // Re-setup touch events
         if (this.isMobile) {
             this.bindMobileTouchEvents();
         }
     }
     
-    /* ========================================
-       PUBLIC API
-       ======================================== */
-    
-    // Public methods for external control
     pause() {
         this.stopAutoPlay();
     }
@@ -1853,12 +2208,10 @@ class EnhancedServicesCarousel {
     }
     
     destroy() {
-        // Clean up intervals
         if (this.autoPlayInterval) {
             clearInterval(this.autoPlayInterval);
         }
         
-        // Clean up timeouts
         if (this.resizeTimeout) {
             clearTimeout(this.resizeTimeout);
         }
@@ -1867,7 +2220,6 @@ class EnhancedServicesCarousel {
             clearTimeout(this.scrollTimeout);
         }
         
-        // Remove event listeners
         window.removeEventListener('resize', this.onResize);
         
         console.log('🗑️ Enhanced Services Carousel destroyed');
@@ -1875,64 +2227,7 @@ class EnhancedServicesCarousel {
 }
 
 /* ========================================
-   INITIALIZATION
-   ======================================== */
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    const servicesCarousel = new EnhancedServicesCarousel();
-    
-    // Make it globally accessible for debugging/external control
-    window.servicesCarousel = servicesCarousel;
-    
-    console.log('🚀 Enhanced Services Carousel ready');
-});
-
-// Handle page visibility for performance
-document.addEventListener('visibilitychange', () => {
-    if (window.servicesCarousel) {
-        if (document.hidden) {
-            window.servicesCarousel.pause();
-        } else if (!window.servicesCarousel.hasUserInteracted) {
-            // Only resume if user hasn't interacted
-            setTimeout(() => {
-                window.servicesCarousel.play();
-            }, 1000);
-        }
-    }
-});
-
-/* ========================================
-   ENHANCED CARD FLOATING ANIMATION
-   ======================================== */
-
-// Add CSS animation for card floating effect
-const cardFloatCSS = `
-@keyframes cardFloat {
-    0%, 100% {
-        transform: translateY(-8px) scale(1.02);
-    }
-    50% {
-        transform: translateY(-12px) scale(1.02);
-    }
-}
-`;
-
-// Inject the CSS
-const style = document.createElement('style');
-style.textContent = cardFloatCSS;
-document.head.appendChild(style);
-
-/* ========================================
-   EXPORT FOR MODULE SYSTEMS
-   ======================================== */
-
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EnhancedServicesCarousel;
-}
-
-/* ========================================
-   ABOUT SERVICES
+   ABOUT
    ======================================== */
 
 class PremiumAboutSection {
@@ -1969,24 +2264,16 @@ class PremiumAboutSection {
         }
     }
     
-    /**
-     * Setup elements for reveal animations
-     */
     setupRevealElements() {
         this.revealElements = this.section.querySelectorAll('[data-premium-reveal]');
         
-        // Set initial states
         this.revealElements.forEach(element => {
             const delay = element.getAttribute('data-delay') || 0;
             element.style.transitionDelay = `${delay}ms`;
         });
     }
     
-    /**
-     * Bind all event listeners
-     */
     bindEvents() {
-        // Learn More Button
         if (this.learnMoreBtn) {
             this.learnMoreBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1998,7 +2285,6 @@ class PremiumAboutSection {
             });
         }
         
-        // Contact Button
         if (this.contactBtn) {
             this.contactBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -2010,7 +2296,6 @@ class PremiumAboutSection {
             });
         }
         
-        // Modal Close
         if (this.modalClose) {
             this.modalClose.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -2018,7 +2303,6 @@ class PremiumAboutSection {
             });
         }
         
-        // Close modal on backdrop click
         if (this.modal) {
             this.modalBackdrop = this.modal.querySelector('.premium-modal-backdrop');
             if (this.modalBackdrop) {
@@ -2028,26 +2312,17 @@ class PremiumAboutSection {
             }
         }
         
-        // Escape key to close modal
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.modal && this.modal.classList.contains('premium-modal-active')) {
                 this.closeModal();
             }
         });
         
-        // Achievement pill interactions
         this.bindAchievementPills();
-        
-        // Expertise card interactions
         this.bindExpertiseCards();
-        
-        // Certification item interactions
         this.bindCertificationItems();
     }
     
-    /**
-     * Initialize Intersection Observer for reveal animations
-     */
     initIntersectionObserver() {
         const observerOptions = {
             threshold: 0.1,
@@ -2070,13 +2345,9 @@ class PremiumAboutSection {
         this.observers.set('reveal', observer);
     }
     
-    /**
-     * Reveal element with smooth animation
-     */
     revealElement(element) {
         element.classList.add('premium-reveal');
         
-        // Special handling for different element types
         if (element.classList.contains('premium-content-grid')) {
             this.animateGridElements(element);
         } else if (element.classList.contains('premium-certifications-strip')) {
@@ -2084,9 +2355,6 @@ class PremiumAboutSection {
         }
     }
     
-    /**
-     * Animate grid elements with staggered delay
-     */
     animateGridElements(grid) {
         const cards = grid.querySelectorAll('.premium-profile-card, .premium-philosophy-card, .premium-expertise-showcase, .premium-cta-section');
         
@@ -2098,9 +2366,6 @@ class PremiumAboutSection {
         });
     }
     
-    /**
-     * Animate certification items
-     */
     animateCertifications(strip) {
         const items = strip.querySelectorAll('.premium-cert-item');
         
@@ -2112,34 +2377,23 @@ class PremiumAboutSection {
         });
     }
     
-    /**
-     * Open learn more modal
-     */
     openModal() {
         if (!this.modal) return;
         
-        // Prevent body scroll
         document.body.style.overflow = 'hidden';
         
-        // Add active class
         this.modal.classList.add('premium-modal-active');
         
-        // Focus trap for accessibility
         this.trapFocus();
         
-        // Analytics tracking
         this.trackEvent('learn_more_opened', 'about', 'modal_interaction');
         
-        // Add entrance animation to modal content
         const modalContainer = this.modal.querySelector('.premium-modal-container');
         if (modalContainer) {
             modalContainer.style.animation = 'premiumModalEntrance 0.5s ease-out forwards';
         }
     }
     
-    /**
-     * Close learn more modal
-     */
     closeModal() {
         if (!this.modal) return;
         
@@ -2159,28 +2413,18 @@ class PremiumAboutSection {
         }, 400);
     }
     
-    /**
-     * Handle contact button click
-     */
     handleContactClick() {
-        // Add click feedback
         this.addClickFeedback(this.contactBtn);
         
-        // Show loading state
         this.showContactFeedback();
         
-        // Scroll to contact section
         setTimeout(() => {
             this.scrollToContact();
         }, 300);
         
-        // Track analytics
         this.trackEvent('contact_from_about', 'about', 'cta_click');
     }
     
-    /**
-     * Scroll to contact section
-     */
     scrollToContact() {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
@@ -2191,9 +2435,6 @@ class PremiumAboutSection {
         }
     }
     
-    /**
-     * Show contact feedback
-     */
     showContactFeedback() {
         const feedback = this.createFeedbackElement(
             'Redirecting to contact...',
@@ -2204,9 +2445,6 @@ class PremiumAboutSection {
         this.showFeedback(feedback, 2000);
     }
     
-    /**
-     * Bind achievement pill interactions
-     */
     bindAchievementPills() {
         const pills = this.section.querySelectorAll('.premium-achievement-pill');
         
@@ -2221,25 +2459,16 @@ class PremiumAboutSection {
         });
     }
     
-    /**
-     * Handle achievement pill click
-     */
     handleAchievementClick(pill) {
         const achievementText = pill.textContent.trim();
         
-        // Add ripple effect
         this.addRippleEffect(pill);
         
-        // Show achievement details
         this.showAchievementDetails(achievementText);
         
-        // Track analytics
         this.trackEvent('achievement_clicked', 'about', achievementText);
     }
     
-    /**
-     * Show achievement details
-     */
     showAchievementDetails(achievement) {
         const feedback = this.createFeedbackElement(
             `${achievement} - Excellence in aesthetic medicine`,
@@ -2250,9 +2479,6 @@ class PremiumAboutSection {
         this.showFeedback(feedback, 3000);
     }
     
-    /**
-     * Bind expertise card interactions
-     */
     bindExpertiseCards() {
         const cards = this.section.querySelectorAll('.premium-expertise-card');
         
@@ -2267,26 +2493,17 @@ class PremiumAboutSection {
         });
     }
     
-    /**
-     * Handle expertise card click
-     */
     handleExpertiseClick(card) {
         const expertise = card.getAttribute('data-expertise');
         const title = card.querySelector('h4')?.textContent;
         
-        // Add click animation
         this.addClickFeedback(card);
         
-        // Show expertise info
         this.showExpertiseInfo(title);
         
-        // Track analytics
         this.trackEvent('expertise_clicked', 'about', expertise);
     }
     
-    /**
-     * Show expertise information
-     */
     showExpertiseInfo(title) {
         const feedback = this.createFeedbackElement(
             `Learn more about ${title}`,
@@ -2297,9 +2514,6 @@ class PremiumAboutSection {
         this.showFeedback(feedback, 2500);
     }
     
-    /**
-     * Bind certification item interactions
-     */
     bindCertificationItems() {
         const items = this.section.querySelectorAll('.premium-cert-item');
         
@@ -2310,26 +2524,17 @@ class PremiumAboutSection {
         });
     }
     
-    /**
-     * Handle certification click
-     */
     handleCertificationClick(item) {
         const title = item.querySelector('.premium-cert-title')?.textContent;
         const subtitle = item.querySelector('.premium-cert-subtitle')?.textContent;
         
-        // Add click animation
         this.addClickFeedback(item);
         
-        // Show certification info
         this.showCertificationInfo(title, subtitle);
         
-        // Track analytics
         this.trackEvent('certification_clicked', 'about', title);
     }
     
-    /**
-     * Show certification information
-     */
     showCertificationInfo(title, subtitle) {
         const feedback = this.createFeedbackElement(
             `${title} - ${subtitle}`,
@@ -2340,9 +2545,6 @@ class PremiumAboutSection {
         this.showFeedback(feedback, 2500);
     }
     
-    /**
-     * Add button ripple effect
-     */
     addButtonRipple(button) {
         if (this.isMobile()) return;
         
@@ -2357,9 +2559,6 @@ class PremiumAboutSection {
         }
     }
     
-    /**
-     * Add button glow effect
-     */
     addButtonGlow(button) {
         const glow = button.querySelector('.premium-contact-bg, .premium-btn-glow');
         if (glow) {
@@ -2370,9 +2569,6 @@ class PremiumAboutSection {
         }
     }
     
-    /**
-     * Add pill glow effect
-     */
     addPillGlow(pill) {
         pill.style.boxShadow = '0 8px 32px rgba(255, 140, 0, 0.3)';
         setTimeout(() => {
@@ -2380,9 +2576,6 @@ class PremiumAboutSection {
         }, 1000);
     }
     
-    /**
-     * Add card parallax effect
-     */
     addCardParallax(card) {
         if (this.isMobile()) return;
         
@@ -2395,9 +2588,6 @@ class PremiumAboutSection {
         }
     }
     
-    /**
-     * Add ripple effect to element
-     */
     addRippleEffect(element) {
         const ripple = document.createElement('div');
         ripple.style.cssText = `
@@ -2429,9 +2619,6 @@ class PremiumAboutSection {
         }, 600);
     }
     
-    /**
-     * Add click feedback animation
-     */
     addClickFeedback(element) {
         element.style.transform = 'scale(0.98)';
         element.style.transition = 'transform 0.1s ease-out';
@@ -2442,9 +2629,6 @@ class PremiumAboutSection {
         }, 150);
     }
     
-    /**
-     * Create feedback element
-     */
     createFeedbackElement(message, backgroundColor, iconClass) {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
@@ -2480,20 +2664,15 @@ class PremiumAboutSection {
         return feedback;
     }
     
-    /**
-     * Show feedback with animation
-     */
     showFeedback(feedback, duration = 2000) {
         document.body.appendChild(feedback);
         
-        // Fade in
         requestAnimationFrame(() => {
             feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
-        // Fade out
         setTimeout(() => {
             feedback.style.opacity = '0';
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
@@ -2506,9 +2685,6 @@ class PremiumAboutSection {
         }, duration);
     }
     
-    /**
-     * Focus trap for modal accessibility
-     */
     trapFocus() {
         if (!this.modal) return;
         
@@ -2519,12 +2695,10 @@ class PremiumAboutSection {
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
         
-        // Focus first element
         if (firstElement) {
             firstElement.focus();
         }
         
-        // Handle tab navigation
         this.modal.addEventListener('keydown', (e) => {
             if (e.key === 'Tab') {
                 if (e.shiftKey) {
@@ -2542,11 +2716,7 @@ class PremiumAboutSection {
         });
     }
     
-    /**
-     * Initialize performance optimizations
-     */
     initPerformanceOptimizations() {
-        // Add will-change for animated elements
         const animatedElements = this.section.querySelectorAll(
             '.premium-profile-card, .premium-philosophy-card, .premium-expertise-card, .premium-learn-more-btn'
         );
@@ -2555,13 +2725,9 @@ class PremiumAboutSection {
             element.style.willChange = 'transform, box-shadow';
         });
         
-        // Optimize scroll events
         this.addScrollOptimizations();
     }
     
-    /**
-     * Add scroll optimizations
-     */
     addScrollOptimizations() {
         let ticking = false;
         
@@ -2578,19 +2744,12 @@ class PremiumAboutSection {
         window.addEventListener('scroll', handleScroll, { passive: true });
     }
     
-    /**
-     * Handle scroll events
-     */
     onScroll() {
-        // Add parallax effect to floating elements
         if (!this.isMobile()) {
             this.updateFloatingElements();
         }
     }
     
-    /**
-     * Update floating elements with parallax
-     */
     updateFloatingElements() {
         const scrollY = window.pageYOffset;
         const elements = this.section.querySelectorAll('.premium-float-element');
@@ -2602,11 +2761,7 @@ class PremiumAboutSection {
         });
     }
     
-    /**
-     * Track analytics events
-     */
     trackEvent(action, category, label) {
-        // Google Analytics 4
         if (typeof gtag !== 'undefined') {
             gtag('event', action, {
                 event_category: category,
@@ -2618,19 +2773,12 @@ class PremiumAboutSection {
         console.log(`📊 Event tracked: ${action} - ${category} - ${label}`);
     }
     
-    /**
-     * Check if mobile device
-     */
     isMobile() {
         return window.innerWidth <= 768 || 
                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
     
-    /**
-     * Handle window resize
-     */
     onResize() {
-        // Update mobile state and optimize accordingly
         if (this.isMobile()) {
             this.optimizeForMobile();
         } else {
@@ -2638,61 +2786,39 @@ class PremiumAboutSection {
         }
     }
     
-    /**
-     * Optimize for mobile devices
-     */
     optimizeForMobile() {
-        // Disable expensive animations on mobile
         const cards = this.section.querySelectorAll('.premium-expertise-card, .premium-cert-item');
         cards.forEach(card => {
             card.style.willChange = 'auto';
         });
     }
     
-    /**
-     * Optimize for desktop
-     */
     optimizeForDesktop() {
-        // Enable full animations on desktop
         const cards = this.section.querySelectorAll('.premium-expertise-card, .premium-cert-item');
         cards.forEach(card => {
             card.style.willChange = 'transform, box-shadow';
         });
     }
     
-    /**
-     * Public API: Refresh section
-     */
     refresh() {
         this.destroy();
         this.init();
     }
     
-    /**
-     * Public API: Open modal programmatically
-     */
     openLearnMoreModal() {
         this.openModal();
     }
     
-    /**
-     * Public API: Close modal programmatically
-     */
     closeLearnMoreModal() {
         this.closeModal();
     }
     
-    /**
-     * Destroy the component
-     */
     destroy() {
-        // Clean up observers
         this.observers.forEach(observer => {
             observer.disconnect();
         });
         this.observers.clear();
         
-        // Remove event listeners
         if (this.learnMoreBtn) {
             this.learnMoreBtn.replaceWith(this.learnMoreBtn.cloneNode(true));
         }
@@ -2705,96 +2831,14 @@ class PremiumAboutSection {
             this.modalClose.replaceWith(this.modalClose.cloneNode(true));
         }
         
-        // Reset initialization state
         this.isInitialized = false;
         
         console.log('🗑️ Premium About Section destroyed');
     }
 }
 
-/**
- * Auto-initialize when DOM is ready
- */
-document.addEventListener('DOMContentLoaded', () => {
-    // Check if about section exists
-    if (document.querySelector('.premium-about-redesign')) {
-        const premiumAboutSection = new PremiumAboutSection();
-        
-        // Make it globally accessible for manual control
-        window.PremiumAboutSection = premiumAboutSection;
-        
-        console.log('🚀 Premium About Section ready');
-    }
-});
-
-/**
- * Handle page visibility for performance
- */
-document.addEventListener('visibilitychange', () => {
-    if (window.PremiumAboutSection) {
-        if (document.hidden) {
-            // Pause animations when page is hidden
-            document.querySelector('.premium-about-redesign')?.style.setProperty('animation-play-state', 'paused');
-        } else {
-            // Resume animations when page is visible
-            document.querySelector('.premium-about-redesign')?.style.setProperty('animation-play-state', 'running');
-        }
-    }
-});
-
-/**
- * Handle window resize
- */
-window.addEventListener('resize', () => {
-    if (window.PremiumAboutSection) {
-        window.PremiumAboutSection.onResize();
-    }
-});
-
-/**
- * Add CSS animations dynamically
- */
-const addDynamicCSS = () => {
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes premiumModalEntrance {
-            0% {
-                opacity: 0;
-                transform: scale(0.9) translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-        
-        @keyframes premiumModalExit {
-            0% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0.9) translateY(20px);
-            }
-        }
-    `;
-    document.head.appendChild(style);
-};
-
-// Add dynamic CSS when script loads
-addDynamicCSS();
-
-/**
- * Export for module systems
- */
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = PremiumAboutSection;
-}
-
-
 /* ========================================
-   MODERN TRANSFORMATIONS GALLERY
+   TRANSFORMATIONS
    ======================================== */
 
 class ModernTransformationsGallery {
@@ -2861,7 +2905,6 @@ class ModernTransformationsGallery {
             document.addEventListener('mouseup', handleMouseUp);
         });
 
-        // Touch events
         sliderHandle.addEventListener('touchstart', (e) => {
             isDragging = true;
             e.preventDefault();
@@ -2885,7 +2928,6 @@ class ModernTransformationsGallery {
             document.addEventListener('touchend', handleTouchEnd);
         });
 
-        // Auto-demo on hover (desktop only)
         if (!EviaUtils.isMobile()) {
             container.addEventListener('mouseenter', () => {
                 if (!isDragging) {
@@ -3131,8 +3173,9 @@ class ModernTransformationsGallery {
 }
 
 /* ========================================
-   LUXURY PRODUCTS SECTION
+   PRODUCTS
    ======================================== */
+
 class LuxuryProductsSection {
     constructor() {
         this.section = document.querySelector('.apple-products-section');
@@ -3163,9 +3206,6 @@ class LuxuryProductsSection {
         }
     }
     
-    /**
-     * Setup scroll reveal animations using Intersection Observer
-     */
     setupScrollReveal() {
         const observerOptions = {
             threshold: 0.1,
@@ -3188,21 +3228,14 @@ class LuxuryProductsSection {
         this.observers.set('scrollReveal', observer);
     }
     
-    /**
-     * Reveal element with smooth animation
-     */
     revealElement(element) {
         element.classList.add('reveal');
         
-        // Special handling for products grid
         if (element.classList.contains('products-grid')) {
             this.animateProductCards();
         }
     }
     
-    /**
-     * Animate product cards with staggered delay
-     */
     animateProductCards() {
         this.productCards.forEach((card, index) => {
             setTimeout(() => {
@@ -3212,9 +3245,6 @@ class LuxuryProductsSection {
         });
     }
     
-    /**
-     * Bind product card interactions
-     */
     bindProductInteractions() {
         this.productCards.forEach(card => {
             this.setupCardHoverEffects(card);
@@ -3223,9 +3253,6 @@ class LuxuryProductsSection {
         });
     }
     
-    /**
-     * Setup hover effects for product cards
-     */
     setupCardHoverEffects(card) {
         if (this.isMobile()) return;
         
@@ -3240,15 +3267,11 @@ class LuxuryProductsSection {
             this.onCardLeave(card, image, glow);
         });
         
-        // 3D tilt effect
         card.addEventListener('mousemove', (e) => {
             this.handleCardTilt(card, e);
         });
     }
     
-    /**
-     * Handle card hover state
-     */
     onCardHover(card, image, glow) {
         if (image) {
             image.style.transform = 'scale(1.05) translateY(-5px)';
@@ -3258,13 +3281,9 @@ class LuxuryProductsSection {
             glow.style.opacity = '1';
         }
         
-        // Add subtle card animation
         this.addCardFloatEffect(card);
     }
     
-    /**
-     * Handle card leave state
-     */
     onCardLeave(card, image, glow) {
         if (image) {
             image.style.transform = 'scale(1) translateY(0)';
@@ -3274,13 +3293,9 @@ class LuxuryProductsSection {
             glow.style.opacity = '0';
         }
         
-        // Reset card transform
         card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
     }
     
-    /**
-     * Add floating effect to card
-     */
     addCardFloatEffect(card) {
         let startTime = null;
         const duration = 2000;
@@ -3308,9 +3323,6 @@ class LuxuryProductsSection {
         requestAnimationFrame(animate);
     }
     
-    /**
-     * Handle 3D tilt effect on mouse move
-     */
     handleCardTilt(card, event) {
         if (this.isMobile()) return;
         
@@ -3327,34 +3339,23 @@ class LuxuryProductsSection {
         card.style.transform = `translateY(-8px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     }
     
-    /**
-     * Setup click effects for cards
-     */
     setupCardClickEffects(card) {
         card.addEventListener('click', (e) => {
-            // Don't trigger if clicking on CTA button
             if (e.target.closest('.product-cta')) return;
             
             this.handleCardClick(card, e);
         });
     }
     
-    /**
-     * Handle card click with ripple effect
-     */
     handleCardClick(card, event) {
         this.createRippleEffect(card, event);
         
-        // Optional: Focus on product or show details
         const productName = card.querySelector('.product-name')?.textContent;
         if (productName) {
             this.showProductFeedback(productName);
         }
     }
     
-    /**
-     * Create ripple effect on click
-     */
     createRippleEffect(element, event) {
         const ripple = document.createElement('div');
         const rect = element.getBoundingClientRect();
@@ -3392,13 +3393,9 @@ class LuxuryProductsSection {
         }, 600);
     }
     
-    /**
-     * Setup mobile-specific interactions
-     */
     setupMobileInteractions(card) {
         if (!this.isMobile()) return;
         
-        // Add touch feedback
         card.addEventListener('touchstart', () => {
             card.style.transform = 'scale(0.98)';
         });
@@ -3408,11 +3405,7 @@ class LuxuryProductsSection {
         });
     }
     
-    /**
-     * Bind CTA button events
-     */
     bindCTAEvents() {
-        // Product CTAs
         this.productCTAs.forEach(cta => {
             cta.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -3425,7 +3418,6 @@ class LuxuryProductsSection {
             });
         });
         
-        // Catalog button
         if (this.catalogButton) {
             this.catalogButton.addEventListener('click', () => {
                 this.handleCatalogClick();
@@ -3437,58 +3429,41 @@ class LuxuryProductsSection {
         }
     }
     
-    /**
-     * Handle product CTA click
-     */
     handleProductCTA(cta) {
         const productCard = cta.closest('.product-card');
         const productName = productCard.querySelector('.product-name')?.textContent || 'Product';
         const productUrl = cta.getAttribute('data-url') || 'https://us.alumiermd.com/products?code=54T7P4HH';
         
-        // Add click animation
         cta.style.transform = 'translateY(-1px) scale(0.98)';
         setTimeout(() => {
             cta.style.transform = '';
         }, 150);
         
-        // Show loading feedback
         this.showProductLoadingFeedback(productName);
         
-        // Open product page
         setTimeout(() => {
             window.open(productUrl, '_blank');
         }, 300);
         
-        // Track analytics
         this.trackProductClick(productName);
     }
     
-    /**
-     * Handle catalog button click
-     */
     handleCatalogClick() {
-        // Add click animation
         this.catalogButton.style.transform = 'translateY(-2px) scale(0.98)';
         
         setTimeout(() => {
             this.catalogButton.style.transform = '';
         }, 150);
         
-        // Show loading feedback
         this.showCatalogLoadingFeedback();
         
-        // Open catalog
         setTimeout(() => {
             window.open('https://us.alumiermd.com/products?code=54T7P4HH', '_blank');
         }, 300);
         
-        // Track analytics
         this.trackCatalogClick();
     }
     
-    /**
-     * Add shine effect to CTA button
-     */
     addCTAShineEffect(cta) {
         const shine = document.createElement('div');
         shine.style.cssText = `
@@ -3518,9 +3493,6 @@ class LuxuryProductsSection {
         }, 600);
     }
     
-    /**
-     * Add glow effect to button
-     */
     addButtonGlowEffect(button) {
         const glow = button.querySelector('.btn-glow');
         if (glow) {
@@ -3531,9 +3503,6 @@ class LuxuryProductsSection {
         }
     }
     
-    /**
-     * Show product loading feedback
-     */
     showProductLoadingFeedback(productName) {
         const feedback = this.createFeedbackElement(
             `Opening ${productName}...`,
@@ -3544,9 +3513,6 @@ class LuxuryProductsSection {
         this.showFeedback(feedback, 2000);
     }
     
-    /**
-     * Show catalog loading feedback
-     */
     showCatalogLoadingFeedback() {
         const feedback = this.createFeedbackElement(
             'Opening full product catalog...',
@@ -3557,9 +3523,6 @@ class LuxuryProductsSection {
         this.showFeedback(feedback, 2500);
     }
     
-    /**
-     * Show product click feedback
-     */
     showProductFeedback(productName) {
         const feedback = this.createFeedbackElement(
             `Viewing ${productName}`,
@@ -3570,9 +3533,6 @@ class LuxuryProductsSection {
         this.showFeedback(feedback, 1500);
     }
     
-    /**
-     * Create feedback element
-     */
     createFeedbackElement(message, backgroundColor, icon) {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
@@ -3608,20 +3568,15 @@ class LuxuryProductsSection {
         return feedback;
     }
     
-    /**
-     * Show feedback with animation
-     */
     showFeedback(feedback, duration = 2000) {
         document.body.appendChild(feedback);
         
-        // Fade in
         requestAnimationFrame(() => {
             feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
-        // Fade out
         setTimeout(() => {
             feedback.style.opacity = '0';
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
@@ -3634,27 +3589,18 @@ class LuxuryProductsSection {
         }, duration);
     }
     
-    /**
-     * Initialize performance optimizations
-     */
     initializePerformanceOptimizations() {
-        // Add will-change for animated elements
         this.productCards.forEach(card => {
             card.style.willChange = 'transform, box-shadow';
         });
         
-        // Debounce resize events
-        window.addEventListener('resize', this.debounce(() => {
+        window.addEventListener('resize', EviaUtils.debounce(() => {
             this.handleResize();
         }, 250));
         
-        // Optimize scroll events
         this.addScrollOptimizations();
     }
     
-    /**
-     * Add scroll optimizations
-     */
     addScrollOptimizations() {
         let ticking = false;
         
@@ -3671,35 +3617,22 @@ class LuxuryProductsSection {
         window.addEventListener('scroll', handleScroll, { passive: true });
     }
     
-    /**
-     * Handle scroll events
-     */
     onScroll() {
-        // Add scroll-based animations or effects here
         const scrollY = window.pageYOffset;
         const sectionTop = this.section.offsetTop;
         const sectionHeight = this.section.offsetHeight;
         
-        // Check if section is in viewport
         if (scrollY > sectionTop - window.innerHeight && 
             scrollY < sectionTop + sectionHeight) {
-            // Section is visible
             this.onSectionVisible();
         }
     }
     
-    /**
-     * Handle when section becomes visible
-     */
     onSectionVisible() {
         // Add any scroll-based effects here
     }
     
-    /**
-     * Handle window resize
-     */
     handleResize() {
-        // Update mobile state
         if (this.isMobile()) {
             this.optimizeForMobile();
         } else {
@@ -3707,31 +3640,20 @@ class LuxuryProductsSection {
         }
     }
     
-    /**
-     * Optimize for mobile devices
-     */
     optimizeForMobile() {
         this.productCards.forEach(card => {
-            // Remove hover effects on mobile
             card.style.transform = '';
             card.style.willChange = 'auto';
         });
     }
     
-    /**
-     * Optimize for desktop
-     */
     optimizeForDesktop() {
         this.productCards.forEach(card => {
             card.style.willChange = 'transform, box-shadow';
         });
     }
     
-    /**
-     * Track product click analytics
-     */
     trackProductClick(productName) {
-        // Google Analytics 4
         if (typeof gtag !== 'undefined') {
             gtag('event', 'product_click', {
                 event_category: 'products',
@@ -3743,11 +3665,7 @@ class LuxuryProductsSection {
         console.log(`📊 Product clicked: ${productName}`);
     }
     
-    /**
-     * Track catalog click analytics
-     */
     trackCatalogClick() {
-        // Google Analytics 4
         if (typeof gtag !== 'undefined') {
             gtag('event', 'catalog_view', {
                 event_category: 'products',
@@ -3759,17 +3677,11 @@ class LuxuryProductsSection {
         console.log('📊 Full catalog opened');
     }
     
-    /**
-     * Utility: Check if mobile device
-     */
     isMobile() {
         return window.innerWidth <= 768 || 
                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
     
-    /**
-     * Utility: Debounce function
-     */
     debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -3782,9 +3694,6 @@ class LuxuryProductsSection {
         };
     }
     
-    /**
-     * Utility: Throttle function
-     */
     throttle(func, limit) {
         let inThrottle;
         return function(...args) {
@@ -3796,76 +3705,29 @@ class LuxuryProductsSection {
         };
     }
     
-    /**
-     * Public API: Refresh section
-     */
     refresh() {
         this.destroy();
         this.init();
     }
     
-    /**
-     * Public API: Destroy section
-     */
     destroy() {
-        // Clean up observers
         this.observers.forEach(observer => {
             observer.disconnect();
         });
         this.observers.clear();
         
-        // Remove event listeners
         this.productCards.forEach(card => {
             card.replaceWith(card.cloneNode(true));
         });
         
-        // Reset initialization state
         this.isInitialized = false;
         
         console.log('🗑️ Products section destroyed');
     }
 }
 
-/**
- * Auto-initialize when DOM is ready
- */
-document.addEventListener('DOMContentLoaded', () => {
-    // Check if products section exists
-    if (document.querySelector('.apple-products-section')) {
-        const productsSection = new LuxuryProductsSection();
-        
-        // Make it globally accessible for manual control
-        window.LuxuryProductsSection = productsSection;
-        
-        console.log('🚀 Luxury Products Section ready');
-    }
-});
-
-/**
- * Handle page visibility for performance
- */
-document.addEventListener('visibilitychange', () => {
-    if (window.LuxuryProductsSection) {
-        if (document.hidden) {
-            // Pause animations when page is hidden
-            document.querySelector('.apple-products-section')?.style.setProperty('animation-play-state', 'paused');
-        } else {
-            // Resume animations when page is visible
-            document.querySelector('.apple-products-section')?.style.setProperty('animation-play-state', 'running');
-        }
-    }
-});
-
-/**
- * Export for module systems
- */
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = LuxuryProductsSection;
-}
-
-
 /* ========================================
-   CONTACT SECTION COMPONENT
+   CONTACT
    ======================================== */
 
 class LuxuryContactSection {
@@ -4199,7 +4061,7 @@ class LuxuryContactSection {
 }
 
 /* ========================================
-   LUXURY FLOATING BUTTONS COMPONENT
+   FLOATING BUTTONS
    ======================================== */
 
 class LuxuryFloatingButtons {
@@ -4533,10 +4395,8 @@ class LuxuryFloatingButtons {
    APPLICATION INITIALIZATION
    ======================================== */
 
-// Global app instance
 let app;
 
-// CSS injection for dynamic animations
 document.addEventListener('DOMContentLoaded', () => {
     const additionalCSS = `
         .animate-in {
@@ -4601,6 +4461,37 @@ document.addEventListener('DOMContentLoaded', () => {
             50% { transform: translateY(-6px); }
         }
         
+        @keyframes cardFloat {
+            0%, 100% {
+                transform: translateY(-8px) scale(1.02);
+            }
+            50% {
+                transform: translateY(-12px) scale(1.02);
+            }
+        }
+        
+        @keyframes premiumModalEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes premiumModalExit {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+        }
+        
         .carousel-track.dragging {
             cursor: grabbing;
         }
@@ -4611,15 +4502,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(style);
 });
 
-// Initialize application
 function initializeApp() {
     try {
         app = new EviaLuxuryApp();
-        window.app = app; // Global access
+        window.app = app;
         
         console.log('🎭 Evia Luxury Application initialized successfully');
         
-        // Performance monitoring
         if ('performance' in window && 'mark' in performance) {
             performance.mark('evia-app-ready');
             
@@ -4635,7 +4524,6 @@ function initializeApp() {
     } catch (error) {
         console.error('❌ Failed to initialize Evia App:', error);
         
-        // Fallback initialization
         setTimeout(() => {
             try {
                 app = new EviaLuxuryApp();
@@ -4648,14 +4536,12 @@ function initializeApp() {
     }
 }
 
-// Start initialization
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeApp);
 } else {
     initializeApp();
 }
 
-// Global error handling
 window.addEventListener('error', (e) => {
     console.error('Global error:', e.error);
 });
@@ -4665,7 +4551,6 @@ window.addEventListener('unhandledrejection', (e) => {
     e.preventDefault();
 });
 
-// Utility functions for external control
 window.showFloatingButtons = () => {
     const floatingButtons = app?.getComponent('floatingButtons');
     if (floatingButtons) {
@@ -4687,7 +4572,66 @@ window.toggleFloatingButtons = () => {
     }
 };
 
-// Export for potential module usage
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector('.apple-products-section')) {
+        const productsSection = new LuxuryProductsSection();
+        window.LuxuryProductsSection = productsSection;
+        console.log('🚀 Luxury Products Section ready');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector('.premium-about-redesign')) {
+        const premiumAboutSection = new PremiumAboutSection();
+        window.PremiumAboutSection = premiumAboutSection;
+        console.log('🚀 Premium About Section ready');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const servicesCarousel = new EnhancedServicesCarousel();
+    window.servicesCarousel = servicesCarousel;
+    console.log('🚀 Enhanced Services Carousel ready');
+});
+
+document.addEventListener('visibilitychange', () => {
+    if (window.servicesCarousel) {
+        if (document.hidden) {
+            window.servicesCarousel.pause();
+        } else if (!window.servicesCarousel.hasUserInteracted) {
+            setTimeout(() => {
+                window.servicesCarousel.play();
+            }, 1000);
+        }
+    }
+});
+
+document.addEventListener('visibilitychange', () => {
+    if (window.PremiumAboutSection) {
+        if (document.hidden) {
+            document.querySelector('.premium-about-redesign')?.style.setProperty('animation-play-state', 'paused');
+        } else {
+            document.querySelector('.premium-about-redesign')?.style.setProperty('animation-play-state', 'running');
+        }
+    }
+});
+
+document.addEventListener('visibilitychange', () => {
+    if (window.LuxuryProductsSection) {
+        if (document.hidden) {
+            document.querySelector('.apple-products-section')?.style.setProperty('animation-play-state', 'paused');
+        } else {
+            document.querySelector('.apple-products-section')?.style.setProperty('animation-play-state', 'running');
+        }
+    }
+});
+
+window.addEventListener('resize', () => {
+    if (window.PremiumAboutSection) {
+        window.PremiumAboutSection.onResize();
+    }
+});
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { 
         EviaLuxuryApp, 
@@ -4695,6 +4639,8 @@ if (typeof module !== 'undefined' && module.exports) {
         EnhancedServicesCarousel,
         PremiumAboutSection,
         LuxuryProductsSection,
+        ModernSignatureAnimation,
+        CinematicHero,
         EviaConfig
     };
 }
