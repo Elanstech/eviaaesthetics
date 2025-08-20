@@ -135,7 +135,7 @@ class EviaLuxuryApp {
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
             { name: 'about', class: PremiumAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
-            { name: 'LuxuryProductsSection', class: LuxuryProductsSection },
+            { name: 'HermesLuxuryProductsSection', class: HermesLuxuryProductsSection },
             { name: 'contactSection', class: LuxuryContactSection },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
@@ -3364,6 +3364,10 @@ class HermesLuxuryProductsSection {
         }
     }
     
+    onResize() {
+        this.handleResize();
+    }
+    
     optimizeForMobile() {
         this.productCards.forEach(card => {
             card.style.transform = '';
@@ -3427,34 +3431,9 @@ class HermesLuxuryProductsSection {
     }
 }
 
-/* ========================================
-   INITIALIZATION UPDATES
-   UPDATE YOUR EXISTING INITIALIZATION CODE
-   ======================================== */
-
-// Replace the existing LuxuryProductsSection initialization with:
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector('.hermes-products-section')) {
-        const hermesProductsSection = new HermesLuxuryProductsSection();
-        window.HermesLuxuryProductsSection = hermesProductsSection;
-        console.log('🚀 Hermès Luxury Products Section ready');
-    }
-});
-
-// Update the visibility change handler:
-document.addEventListener('visibilitychange', () => {
-    if (window.HermesLuxuryProductsSection) {
-        if (document.hidden) {
-            document.querySelector('.hermes-products-section')?.style.setProperty('animation-play-state', 'paused');
-        } else {
-            document.querySelector('.hermes-products-section')?.style.setProperty('animation-play-state', 'running');
-        }
-    }
-});
-
 // Update the resize handler:
 window.addEventListener('resize', () => {
-    if (window.HermesLuxuryProductsSection) {
+    if (window.HermesLuxuryProductsSection && typeof window.HermesLuxuryProductsSection.onResize === 'function') {
         window.HermesLuxuryProductsSection.onResize();
     }
 });
@@ -4311,10 +4290,10 @@ window.toggleFloatingButtons = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector('.apple-products-section')) {
-        const productsSection = new LuxuryProductsSection();
-        window.LuxuryProductsSection = productsSection;
-        console.log('🚀 Luxury Products Section ready');
+    if (document.querySelector('.hermes-products-section')) {
+        const hermesProductsSection = new HermesLuxuryProductsSection();
+        window.HermesLuxuryProductsSection = hermesProductsSection;
+        console.log('🚀 Hermès Luxury Products Section ready');
     }
 });
 
@@ -4355,11 +4334,11 @@ document.addEventListener('visibilitychange', () => {
 });
 
 document.addEventListener('visibilitychange', () => {
-    if (window.LuxuryProductsSection) {
+    if (window.HermesLuxuryProductsSection) {
         if (document.hidden) {
-            document.querySelector('.apple-products-section')?.style.setProperty('animation-play-state', 'paused');
+            document.querySelector('.hermes-products-section')?.style.setProperty('animation-play-state', 'paused');
         } else {
-            document.querySelector('.apple-products-section')?.style.setProperty('animation-play-state', 'running');
+            document.querySelector('.hermes-products-section')?.style.setProperty('animation-play-state', 'running');
         }
     }
 });
