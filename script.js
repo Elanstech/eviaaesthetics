@@ -133,7 +133,7 @@ class EviaLuxuryApp {
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
-            { name: 'about', class: PremiumAboutSection },
+            { name: 'about', class: HermesAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'HermesLuxuryProductsSection', class: HermesLuxuryProductsSection },
             { name: 'contactSection', class: LuxuryContactSection },
@@ -1846,18 +1846,14 @@ class EnhancedServicesCarousel {
    ABOUT
    ======================================== */
 
-class PremiumAboutSection {
+class HermesAboutSection {
     constructor() {
-        this.section = document.querySelector('.premium-about-redesign');
-        this.modal = document.getElementById('premiumLearnMoreModal');
-        this.learnMoreBtn = document.getElementById('premiumLearnMoreBtn');
-        this.contactBtn = document.getElementById('premiumContactBtn');
-        this.modalClose = document.getElementById('premiumModalClose');
-        this.modalBackdrop = null;
-        
+        this.section = document.querySelector('.hermes-about-section');
         this.revealElements = [];
         this.isInitialized = false;
         this.observers = new Map();
+        this.learnMoreBtn = document.getElementById('hermesLearnMoreBtn');
+        this.consultationBtn = document.getElementById('hermesConsultationBtn');
         
         if (this.section) {
             this.init();
@@ -1871,17 +1867,20 @@ class PremiumAboutSection {
             this.setupRevealElements();
             this.bindEvents();
             this.initIntersectionObserver();
+            this.initCredentialPills();
+            this.initExpertiseCards();
+            this.initCertificationCards();
             this.initPerformanceOptimizations();
             
             this.isInitialized = true;
-            console.log('✨ Premium About Section initialized');
+            console.log('✨ Hermès About Section initialized');
         } catch (error) {
-            console.error('❌ Error initializing Premium About Section:', error);
+            console.error('❌ Error initializing Hermès About Section:', error);
         }
     }
     
     setupRevealElements() {
-        this.revealElements = this.section.querySelectorAll('[data-premium-reveal]');
+        this.revealElements = this.section.querySelectorAll('[data-hermes-reveal]');
         
         this.revealElements.forEach(element => {
             const delay = element.getAttribute('data-delay') || 0;
@@ -1890,53 +1889,29 @@ class PremiumAboutSection {
     }
     
     bindEvents() {
+        // Learn More Button
         if (this.learnMoreBtn) {
             this.learnMoreBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.openModal();
+                this.handleLearnMoreClick();
             });
             
             this.learnMoreBtn.addEventListener('mouseenter', () => {
-                this.addButtonRipple(this.learnMoreBtn);
+                this.addButtonShine(this.learnMoreBtn);
             });
         }
         
-        if (this.contactBtn) {
-            this.contactBtn.addEventListener('click', (e) => {
+        // Consultation Button
+        if (this.consultationBtn) {
+            this.consultationBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.handleContactClick();
+                this.handleConsultationClick();
             });
             
-            this.contactBtn.addEventListener('mouseenter', () => {
-                this.addButtonGlow(this.contactBtn);
+            this.consultationBtn.addEventListener('mouseenter', () => {
+                this.addConsultationGlow(this.consultationBtn);
             });
         }
-        
-        if (this.modalClose) {
-            this.modalClose.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.closeModal();
-            });
-        }
-        
-        if (this.modal) {
-            this.modalBackdrop = this.modal.querySelector('.premium-modal-backdrop');
-            if (this.modalBackdrop) {
-                this.modalBackdrop.addEventListener('click', () => {
-                    this.closeModal();
-                });
-            }
-        }
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.modal && this.modal.classList.contains('premium-modal-active')) {
-                this.closeModal();
-            }
-        });
-        
-        this.bindAchievementPills();
-        this.bindExpertiseCards();
-        this.bindCertificationItems();
     }
     
     initIntersectionObserver() {
@@ -1962,111 +1937,54 @@ class PremiumAboutSection {
     }
     
     revealElement(element) {
-        element.classList.add('premium-reveal');
+        element.classList.add('reveal');
         
-        if (element.classList.contains('premium-content-grid')) {
-            this.animateGridElements(element);
-        } else if (element.classList.contains('premium-certifications-strip')) {
+        // Special animations for specific elements
+        if (element.classList.contains('hermes-content-layout')) {
+            this.animateContentLayout(element);
+        } else if (element.classList.contains('hermes-certifications-section')) {
             this.animateCertifications(element);
         }
     }
     
-    animateGridElements(grid) {
-        const cards = grid.querySelectorAll('.premium-profile-card, .premium-philosophy-card, .premium-expertise-showcase, .premium-cta-section');
+    animateContentLayout(layout) {
+        const profileCard = layout.querySelector('.hermes-doctor-profile');
+        const contentCards = layout.querySelectorAll('.hermes-philosophy-card, .hermes-expertise-showcase, .hermes-cta-section');
         
-        cards.forEach((card, index) => {
+        // Animate profile card first
+        if (profileCard) {
+            setTimeout(() => {
+                profileCard.style.transform = 'translateY(0)';
+                profileCard.style.opacity = '1';
+            }, 200);
+        }
+        
+        // Then animate content cards
+        contentCards.forEach((card, index) => {
             setTimeout(() => {
                 card.style.transform = 'translateY(0)';
                 card.style.opacity = '1';
+            }, 400 + (index * 150));
+        });
+    }
+    
+    animateCertifications(section) {
+        const cards = section.querySelectorAll('.hermes-cert-card');
+        
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0) scale(1)';
             }, index * 100);
         });
     }
     
-    animateCertifications(strip) {
-        const items = strip.querySelectorAll('.premium-cert-item');
-        
-        items.forEach((item, index) => {
-            setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0) scale(1)';
-            }, index * 150);
-        });
-    }
-    
-    openModal() {
-        if (!this.modal) return;
-        
-        document.body.style.overflow = 'hidden';
-        
-        this.modal.classList.add('premium-modal-active');
-        
-        this.trapFocus();
-        
-        this.trackEvent('learn_more_opened', 'about', 'modal_interaction');
-        
-        const modalContainer = this.modal.querySelector('.premium-modal-container');
-        if (modalContainer) {
-            modalContainer.style.animation = 'premiumModalEntrance 0.5s ease-out forwards';
-        }
-    }
-    
-    closeModal() {
-        if (!this.modal) return;
-        
-        const modalContainer = this.modal.querySelector('.premium-modal-container');
-        
-        if (modalContainer) {
-            modalContainer.style.animation = 'premiumModalExit 0.4s ease-in forwards';
-        }
-        
-        setTimeout(() => {
-            this.modal.classList.remove('premium-modal-active');
-            document.body.style.overflow = '';
-            
-            if (modalContainer) {
-                modalContainer.style.animation = '';
-            }
-        }, 400);
-    }
-    
-    handleContactClick() {
-        this.addClickFeedback(this.contactBtn);
-        
-        this.showContactFeedback();
-        
-        setTimeout(() => {
-            this.scrollToContact();
-        }, 300);
-        
-        this.trackEvent('contact_from_about', 'about', 'cta_click');
-    }
-    
-    scrollToContact() {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            contactSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    }
-    
-    showContactFeedback() {
-        const feedback = this.createFeedbackElement(
-            'Redirecting to contact...',
-            'rgba(255, 140, 0, 0.95)',
-            'ri-calendar-check-line'
-        );
-        
-        this.showFeedback(feedback, 2000);
-    }
-    
-    bindAchievementPills() {
-        const pills = this.section.querySelectorAll('.premium-achievement-pill');
+    initCredentialPills() {
+        const pills = this.section.querySelectorAll('.credential-pill');
         
         pills.forEach(pill => {
             pill.addEventListener('click', () => {
-                this.handleAchievementClick(pill);
+                this.handleCredentialClick(pill);
             });
             
             pill.addEventListener('mouseenter', () => {
@@ -2075,19 +1993,17 @@ class PremiumAboutSection {
         });
     }
     
-    handleAchievementClick(pill) {
-        const achievementText = pill.textContent.trim();
+    handleCredentialClick(pill) {
+        const credentialText = pill.textContent.trim();
         
         this.addRippleEffect(pill);
-        
-        this.showAchievementDetails(achievementText);
-        
-        this.trackEvent('achievement_clicked', 'about', achievementText);
+        this.showCredentialInfo(credentialText);
+        this.trackEvent('credential_clicked', 'about', credentialText);
     }
     
-    showAchievementDetails(achievement) {
-        const feedback = this.createFeedbackElement(
-            `${achievement} - Excellence in aesthetic medicine`,
+    showCredentialInfo(credential) {
+        const feedback = this.createLuxuryFeedback(
+            `${credential} - Excellence in aesthetic medicine`,
             'rgba(16, 185, 129, 0.95)',
             'ri-award-line'
         );
@@ -2095,8 +2011,8 @@ class PremiumAboutSection {
         this.showFeedback(feedback, 3000);
     }
     
-    bindExpertiseCards() {
-        const cards = this.section.querySelectorAll('.premium-expertise-card');
+    initExpertiseCards() {
+        const cards = this.section.querySelectorAll('.hermes-expertise-card');
         
         cards.forEach(card => {
             card.addEventListener('click', () => {
@@ -2114,14 +2030,12 @@ class PremiumAboutSection {
         const title = card.querySelector('h4')?.textContent;
         
         this.addClickFeedback(card);
-        
         this.showExpertiseInfo(title);
-        
         this.trackEvent('expertise_clicked', 'about', expertise);
     }
     
     showExpertiseInfo(title) {
-        const feedback = this.createFeedbackElement(
+        const feedback = this.createLuxuryFeedback(
             `Learn more about ${title}`,
             'rgba(139, 92, 246, 0.95)',
             'ri-information-line'
@@ -2130,29 +2044,27 @@ class PremiumAboutSection {
         this.showFeedback(feedback, 2500);
     }
     
-    bindCertificationItems() {
-        const items = this.section.querySelectorAll('.premium-cert-item');
+    initCertificationCards() {
+        const cards = this.section.querySelectorAll('.hermes-cert-card');
         
-        items.forEach(item => {
-            item.addEventListener('click', () => {
-                this.handleCertificationClick(item);
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                this.handleCertificationClick(card);
             });
         });
     }
     
-    handleCertificationClick(item) {
-        const title = item.querySelector('.premium-cert-title')?.textContent;
-        const subtitle = item.querySelector('.premium-cert-subtitle')?.textContent;
+    handleCertificationClick(card) {
+        const title = card.querySelector('h5')?.textContent;
+        const subtitle = card.querySelector('p')?.textContent;
         
-        this.addClickFeedback(item);
-        
+        this.addClickFeedback(card);
         this.showCertificationInfo(title, subtitle);
-        
         this.trackEvent('certification_clicked', 'about', title);
     }
     
     showCertificationInfo(title, subtitle) {
-        const feedback = this.createFeedbackElement(
+        const feedback = this.createLuxuryFeedback(
             `${title} - ${subtitle}`,
             'rgba(255, 140, 0, 0.95)',
             'ri-medal-line'
@@ -2161,10 +2073,72 @@ class PremiumAboutSection {
         this.showFeedback(feedback, 2500);
     }
     
-    addButtonRipple(button) {
+    handleLearnMoreClick() {
+        this.addClickFeedback(this.learnMoreBtn);
+        
+        // Add loading animation
+        this.showLoadingFeedback('Loading about page...');
+        
+        // Navigate to about.html after a brief delay
+        setTimeout(() => {
+            window.location.href = 'about.html';
+        }, 800);
+        
+        this.trackEvent('learn_more_clicked', 'about', 'about_page_navigation');
+    }
+    
+    handleConsultationClick() {
+        this.addClickFeedback(this.consultationBtn);
+        
+        this.showConsultationFeedback();
+        
+        setTimeout(() => {
+            this.scrollToContact();
+        }, 300);
+        
+        this.trackEvent('consultation_clicked', 'about', 'contact_navigation');
+    }
+    
+    scrollToContact() {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+    
+    showLoadingFeedback(message) {
+        const feedback = this.createLuxuryFeedback(
+            message,
+            'rgba(255, 140, 0, 0.95)',
+            'ri-loader-4-line'
+        );
+        
+        // Add spinning animation to icon
+        const icon = feedback.querySelector('i');
+        if (icon) {
+            icon.style.animation = 'spin 1s linear infinite';
+        }
+        
+        this.showFeedback(feedback, 3000);
+    }
+    
+    showConsultationFeedback() {
+        const feedback = this.createLuxuryFeedback(
+            'Redirecting to consultation booking...',
+            'rgba(16, 185, 129, 0.95)',
+            'ri-calendar-check-line'
+        );
+        
+        this.showFeedback(feedback, 2000);
+    }
+    
+    addButtonShine(button) {
         if (this.isMobile()) return;
         
-        const shine = button.querySelector('.premium-btn-shine');
+        const shine = button.querySelector('.btn-hermes-shine');
         if (shine) {
             shine.style.left = '-100%';
             shine.style.transition = 'left 0.8s ease';
@@ -2175,12 +2149,12 @@ class PremiumAboutSection {
         }
     }
     
-    addButtonGlow(button) {
-        const glow = button.querySelector('.premium-contact-bg, .premium-btn-glow');
-        if (glow) {
-            glow.style.opacity = '0.1';
+    addConsultationGlow(button) {
+        const ripple = button.querySelector('.consultation-ripple');
+        if (ripple) {
+            ripple.style.opacity = '0.1';
             setTimeout(() => {
-                glow.style.opacity = '';
+                ripple.style.opacity = '0';
             }, 1000);
         }
     }
@@ -2195,9 +2169,9 @@ class PremiumAboutSection {
     addCardParallax(card) {
         if (this.isMobile()) return;
         
-        const icon = card.querySelector('.premium-expertise-icon');
+        const icon = card.querySelector('.expertise-icon-frame');
         if (icon) {
-            icon.style.transform = 'scale(1.1) translateY(-2px)';
+            icon.style.transform = 'scale(1.1) translateY(-2px) rotate(-2deg)';
             setTimeout(() => {
                 icon.style.transform = '';
             }, 300);
@@ -2245,7 +2219,7 @@ class PremiumAboutSection {
         }, 150);
     }
     
-    createFeedbackElement(message, backgroundColor, iconClass) {
+    createLuxuryFeedback(message, backgroundColor, iconClass) {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
             position: fixed;
@@ -2254,37 +2228,41 @@ class PremiumAboutSection {
             transform: translate(-50%, -50%);
             background: ${backgroundColor};
             color: white;
-            padding: 16px 24px;
-            border-radius: 16px;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 14px;
+            padding: 20px 32px;
+            border-radius: 24px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
             font-weight: 600;
             z-index: 10000;
             pointer-events: none;
             opacity: 0;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(30px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.15),
+                0 8px 32px ${backgroundColor.replace('0.95', '0.3')};
             display: flex;
             align-items: center;
-            gap: 8px;
-            max-width: 300px;
+            gap: 12px;
+            max-width: 350px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            min-width: 280px;
+            justify-content: center;
         `;
         
         feedback.innerHTML = `
-            <i class="${iconClass}" style="font-size: 16px;"></i>
+            <i class="${iconClass}" style="font-size: 18px;"></i>
             <span>${message}</span>
         `;
         
         return feedback;
     }
     
-    showFeedback(feedback, duration = 2000) {
+    showFeedback(feedback, duration = 2500) {
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
@@ -2297,44 +2275,13 @@ class PremiumAboutSection {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
-            }, 400);
+            }, 600);
         }, duration);
-    }
-    
-    trapFocus() {
-        if (!this.modal) return;
-        
-        const focusableElements = this.modal.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-        
-        if (firstElement) {
-            firstElement.focus();
-        }
-        
-        this.modal.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') {
-                if (e.shiftKey) {
-                    if (document.activeElement === firstElement) {
-                        e.preventDefault();
-                        lastElement?.focus();
-                    }
-                } else {
-                    if (document.activeElement === lastElement) {
-                        e.preventDefault();
-                        firstElement?.focus();
-                    }
-                }
-            }
-        });
     }
     
     initPerformanceOptimizations() {
         const animatedElements = this.section.querySelectorAll(
-            '.premium-profile-card, .premium-philosophy-card, .premium-expertise-card, .premium-learn-more-btn'
+            '.hermes-doctor-profile, .hermes-philosophy-card, .hermes-expertise-card, .hermes-learn-more-btn'
         );
         
         animatedElements.forEach(element => {
@@ -2368,10 +2315,10 @@ class PremiumAboutSection {
     
     updateFloatingElements() {
         const scrollY = window.pageYOffset;
-        const elements = this.section.querySelectorAll('.premium-float-element');
+        const elements = this.section.querySelectorAll('.hermes-float-icon');
         
         elements.forEach((element, index) => {
-            const speed = 0.5 + (index * 0.1);
+            const speed = 0.3 + (index * 0.1);
             const yPos = -(scrollY * speed);
             element.style.transform = `translateY(${yPos}px)`;
         });
@@ -2403,14 +2350,14 @@ class PremiumAboutSection {
     }
     
     optimizeForMobile() {
-        const cards = this.section.querySelectorAll('.premium-expertise-card, .premium-cert-item');
+        const cards = this.section.querySelectorAll('.hermes-expertise-card, .hermes-cert-card');
         cards.forEach(card => {
             card.style.willChange = 'auto';
         });
     }
     
     optimizeForDesktop() {
-        const cards = this.section.querySelectorAll('.premium-expertise-card, .premium-cert-item');
+        const cards = this.section.querySelectorAll('.hermes-expertise-card, .hermes-cert-card');
         cards.forEach(card => {
             card.style.willChange = 'transform, box-shadow';
         });
@@ -2421,36 +2368,73 @@ class PremiumAboutSection {
         this.init();
     }
     
-    openLearnMoreModal() {
-        this.openModal();
-    }
-    
-    closeLearnMoreModal() {
-        this.closeModal();
-    }
-    
     destroy() {
         this.observers.forEach(observer => {
             observer.disconnect();
         });
         this.observers.clear();
         
+        // Remove event listeners by cloning nodes
         if (this.learnMoreBtn) {
             this.learnMoreBtn.replaceWith(this.learnMoreBtn.cloneNode(true));
         }
         
-        if (this.contactBtn) {
-            this.contactBtn.replaceWith(this.contactBtn.cloneNode(true));
-        }
-        
-        if (this.modalClose) {
-            this.modalClose.replaceWith(this.modalClose.cloneNode(true));
+        if (this.consultationBtn) {
+            this.consultationBtn.replaceWith(this.consultationBtn.cloneNode(true));
         }
         
         this.isInitialized = false;
         
-        console.log('🗑️ Premium About Section destroyed');
+        console.log('🗑️ Hermès About Section destroyed');
     }
+}
+
+// Spin animation for loading icons
+const spinKeyframes = `
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+`;
+
+// Add the animation to the document
+if (!document.querySelector('#hermes-spin-animation')) {
+    const style = document.createElement('style');
+    style.id = 'hermes-spin-animation';
+    style.textContent = spinKeyframes;
+    document.head.appendChild(style);
+}
+
+// Integration with existing app structure
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector('.hermes-about-section')) {
+        const hermesAboutSection = new HermesAboutSection();
+        window.HermesAboutSection = hermesAboutSection;
+        console.log('🚀 Hermès About Section ready');
+    }
+});
+
+// Handle visibility changes for performance
+document.addEventListener('visibilitychange', () => {
+    if (window.HermesAboutSection) {
+        if (document.hidden) {
+            document.querySelector('.hermes-about-section')?.style.setProperty('animation-play-state', 'paused');
+        } else {
+            document.querySelector('.hermes-about-section')?.style.setProperty('animation-play-state', 'running');
+        }
+    }
+});
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    if (window.HermesAboutSection) {
+        window.HermesAboutSection.onResize();
+    }
+});
+
+// Export for module usage (if needed)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { HermesAboutSection };
 }
 
 /* ========================================
