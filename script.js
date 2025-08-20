@@ -700,393 +700,121 @@ class UltraLuxuryMobileMenu {
    HERO
    ======================================== */
 
-class ModernSignatureAnimation {
+/* ========================================
+   HERO SECTION WITH SIMPLE SIGNATURE ANIMATION
+   ======================================== */
+
+class SimpleHermesSignature {
     constructor() {
-        this.signatureWrapper = document.querySelector('.modern-signature-wrapper');
-        this.signatureCard = document.querySelector('.signature-card');
-        this.letterContainers = document.querySelectorAll('.letter-container');
-        this.underline = document.querySelector('.signature-underline');
-        this.particles = document.querySelectorAll('.particle');
-        this.luxuryBadge = document.querySelector('.luxury-badge');
+        this.signatureWrapper = document.querySelector('.hermes-signature-wrapper');
+        this.signatureContainer = document.querySelector('.signature-container');
+        this.signatureLine = document.querySelector('.signature-line');
+        this.signatureCredentials = document.querySelector('.signature-credentials');
+        this.signatureUnderline = document.querySelector('.signature-underline');
         
         this.isAnimating = false;
         this.isDesktop = window.innerWidth > 1024;
         this.animationStarted = false;
-        this.animationQueue = [];
-        
-        this.config = {
-            initialDelay: 2000,
-            letterDelay: 150,
-            lineDelay: 300,
-            underlineDelay: 500,
-            particleDelay: 200,
-            badgeDelay: 100
-        };
         
         this.init();
     }
     
     init() {
         if (!this.isDesktop || !this.signatureWrapper) {
-            console.log('📱 Signature disabled on mobile/tablet');
+            console.log('📱 Simple signature disabled on mobile/tablet');
             return;
         }
         
         this.setupEventListeners();
-        this.prepareAnimation();
-        this.startAnimationSequence();
-        
-        console.log('✨ Modern Signature Animation initialized');
+        console.log('✨ Simple Hermès Signature initialized');
     }
     
     setupEventListeners() {
-        if (this.signatureCard) {
-            this.signatureCard.addEventListener('mouseenter', () => {
-                this.onHover();
-            });
-            
-            this.signatureCard.addEventListener('mouseleave', () => {
-                this.onLeave();
-            });
-            
-            this.signatureCard.addEventListener('click', () => {
+        if (this.signatureContainer) {
+            this.signatureContainer.addEventListener('click', () => {
                 this.onClick();
             });
-        }
-        
-        window.addEventListener('resize', EviaUtils.debounce(() => {
-            this.handleResize();
-        }, 250));
-        
-        this.setupIntersectionObserver();
-    }
-    
-    prepareAnimation() {
-        this.letterContainers.forEach((container, index) => {
-            const trace = container.querySelector('.letter-trace');
-            const letter = container.querySelector('.letter');
             
-            if (trace && letter) {
-                const letterText = letter.textContent;
-                trace.textContent = letterText;
-                trace.setAttribute('data-letter', letterText);
-                
-                trace.style.opacity = '0';
-                trace.style.transform = 'scale(0.8) rotateY(-90deg)';
-                letter.style.color = 'transparent';
-            }
-        });
-        
-        if (this.underline) {
-            const underlineTrace = this.underline.querySelector('.underline-trace');
-            if (underlineTrace) {
-                underlineTrace.style.left = '-100%';
-            }
+            this.signatureContainer.addEventListener('mouseenter', () => {
+                this.onHover();
+            });
         }
         
-        this.particles.forEach(particle => {
-            particle.style.opacity = '0';
+        window.addEventListener('resize', () => {
+            this.handleResize();
         });
-        
-        if (this.luxuryBadge) {
-            this.luxuryBadge.style.transform = 'scale(0.8) rotate(-180deg)';
-            this.luxuryBadge.style.opacity = '0.7';
-        }
     }
     
-    startAnimationSequence() {
-        if (this.animationStarted) return;
+    start() {
+        if (!this.isDesktop || this.animationStarted) return;
         
         setTimeout(() => {
-            this.showSignatureCard();
-            
-            setTimeout(() => {
-                this.animateSignature();
-            }, 800);
-        }, this.config.initialDelay);
+            this.showSignature();
+        }, 2000);
         
         this.animationStarted = true;
     }
     
-    showSignatureCard() {
+    showSignature() {
         if (!this.signatureWrapper) return;
         
+        // Show wrapper
         this.signatureWrapper.classList.add('signature-active');
         
+        // Animate signature line
         setTimeout(() => {
-            this.animateBadgeEntrance();
-        }, this.config.badgeDelay);
-    }
-    
-    animateBadgeEntrance() {
-        if (!this.luxuryBadge) return;
-        
-        this.luxuryBadge.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-        this.luxuryBadge.style.transform = 'scale(1) rotate(0deg)';
-        this.luxuryBadge.style.opacity = '1';
-        
-        setTimeout(() => {
-            this.luxuryBadge.style.transform = 'scale(1.05) rotate(3deg)';
-            setTimeout(() => {
-                this.luxuryBadge.style.transform = 'scale(1) rotate(0deg)';
-            }, 200);
-        }, 600);
-    }
-    
-    async animateSignature() {
-        if (this.isAnimating) return;
-        this.isAnimating = true;
-        
-        try {
-            const lines = this.getLettersByLine();
-            
-            for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-                await this.animateLine(lines[lineIndex], lineIndex);
-                
-                if (lineIndex < lines.length - 1) {
-                    await EviaUtils.wait(this.config.lineDelay);
-                }
+            if (this.signatureLine) {
+                this.signatureLine.classList.add('traced');
             }
-            
-            await EviaUtils.wait(this.config.underlineDelay);
-            await this.animateUnderline();
-            
-            await EviaUtils.wait(this.config.particleDelay);
-            this.animateParticles();
-            
-            this.onAnimationComplete();
-            
-        } catch (error) {
-            console.error('Error in signature animation:', error);
-        } finally {
-            this.isAnimating = false;
-        }
-    }
-    
-    getLettersByLine() {
-        const lines = [];
-        const line1 = document.querySelectorAll('.signature-line-1 .letter-container');
-        const line2 = document.querySelectorAll('.signature-line-2 .letter-container');
-        const line3 = document.querySelectorAll('.signature-line-3 .letter-container');
-        
-        if (line1.length) lines.push(Array.from(line1));
-        if (line2.length) lines.push(Array.from(line2));
-        if (line3.length) lines.push(Array.from(line3));
-        
-        return lines;
-    }
-    
-    async animateLine(letters, lineIndex) {
-        const promises = letters.map((container, letterIndex) => {
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    this.animateLetter(container);
-                    resolve();
-                }, letterIndex * this.config.letterDelay);
-            });
-        });
-        
-        await Promise.all(promises);
-        this.addLineCompletionEffect(lineIndex);
-    }
-    
-    animateLetter(container) {
-        const trace = container.querySelector('.letter-trace');
-        const letter = container.querySelector('.letter');
-        
-        if (!trace || !letter) return;
-        
-        container.classList.add('traced');
-        
-        trace.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-        trace.style.opacity = '1';
-        trace.style.transform = 'scale(1) rotateY(0deg)';
-        
-        setTimeout(() => {
-            trace.style.transform = 'scale(1.1) rotateY(0deg)';
-            setTimeout(() => {
-                trace.style.transform = 'scale(1) rotateY(0deg)';
-            }, 150);
         }, 400);
         
-        this.createLetterSparkle(container);
-    }
-    
-    createLetterSparkle(container) {
-        const sparkle = document.createElement('div');
-        sparkle.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, #FFD700 0%, #FF8C00 100%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 1;
-            pointer-events: none;
-            z-index: 10;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-        `;
-        
-        container.appendChild(sparkle);
-        
-        requestAnimationFrame(() => {
-            sparkle.style.transition = 'all 0.6s ease-out';
-            sparkle.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            sparkle.style.opacity = '0';
-        });
-        
+        // Animate credentials
         setTimeout(() => {
-            if (sparkle.parentNode) {
-                sparkle.parentNode.removeChild(sparkle);
+            if (this.signatureCredentials) {
+                this.signatureCredentials.classList.add('traced');
             }
-        }, 600);
-    }
-    
-    addLineCompletionEffect(lineIndex) {
-        const line = document.querySelector(`.signature-line-${lineIndex + 1}`);
-        if (!line) return;
+        }, 800);
         
-        const glow = document.createElement('div');
-        glow.style.cssText = `
-            position: absolute;
-            top: -10px;
-            left: -20px;
-            right: -20px;
-            bottom: -10px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(255, 215, 0, 0.3) 20%, 
-                rgba(255, 140, 0, 0.2) 50%, 
-                rgba(255, 215, 0, 0.3) 80%, 
-                transparent 100%);
-            border-radius: 20px;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 0;
-        `;
-        
-        line.style.position = 'relative';
-        line.appendChild(glow);
-        
-        requestAnimationFrame(() => {
-            glow.style.transition = 'opacity 0.8s ease-out';
-            glow.style.opacity = '1';
-        });
-        
+        // Animate underline
         setTimeout(() => {
-            glow.style.opacity = '0';
-            setTimeout(() => {
-                if (glow.parentNode) {
-                    glow.parentNode.removeChild(glow);
-                }
-            }, 800);
+            if (this.signatureUnderline) {
+                this.signatureUnderline.classList.add('traced');
+            }
         }, 1200);
-    }
-    
-    async animateUnderline() {
-        if (!this.underline) return;
         
-        const underlineTrace = this.underline.querySelector('.underline-trace');
-        if (!underlineTrace) return;
-        
-        this.underline.classList.add('traced');
-        
-        return new Promise(resolve => {
-            underlineTrace.style.transition = 'left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            underlineTrace.style.left = '100%';
-            
-            setTimeout(resolve, 1200);
-        });
-    }
-    
-    animateParticles() {
-        this.particles.forEach((particle, index) => {
-            setTimeout(() => {
-                particle.style.transition = 'opacity 0.8s ease-out';
-                particle.style.opacity = '1';
-                particle.style.animationPlayState = 'running';
-            }, index * 100);
-        });
-    }
-    
-    onAnimationComplete() {
-        if (this.signatureCard) {
-            this.signatureCard.classList.add('animation-complete');
-        }
-        
-        this.enableInteractions();
-        
-        console.log('✅ Signature animation completed');
-    }
-    
-    enableInteractions() {
-        if (!this.signatureCard) return;
-        
-        this.signatureCard.style.cursor = 'pointer';
-        
-        this.signatureCard.addEventListener('mouseenter', () => {
-            if (!this.signatureCard.classList.contains('interaction-active')) {
-                this.previewHoverEffect();
-            }
-        });
-    }
-    
-    previewHoverEffect() {
-        const cardGlow = this.signatureCard.querySelector('.card-glow');
-        if (cardGlow) {
-            cardGlow.style.opacity = '0.5';
-            setTimeout(() => {
-                cardGlow.style.opacity = '0';
-            }, 1000);
-        }
+        console.log('✨ Simple signature animation completed');
     }
     
     onHover() {
-        if (!this.signatureCard || this.isAnimating) return;
+        if (!this.signatureContainer || this.isAnimating) return;
         
-        this.signatureCard.classList.add('interaction-active');
+        // Add subtle glow effect
+        this.signatureContainer.style.boxShadow = `
+            0 12px 40px rgba(0, 0, 0, 0.08),
+            0 6px 20px rgba(255, 140, 0, 0.15),
+            0 0 20px rgba(255, 140, 0, 0.1)
+        `;
         
-        this.letterContainers.forEach((container, index) => {
-            setTimeout(() => {
-                const trace = container.querySelector('.letter-trace');
-                if (trace) {
-                    trace.style.filter = 'drop-shadow(0 4px 12px rgba(255, 140, 0, 0.8)) saturate(1.3)';
-                    trace.style.transform = 'scale(1.05) rotateY(0deg)';
-                }
-            }, index * 50);
-        });
-        
-        this.particles.forEach(particle => {
-            particle.style.animationDuration = '4s';
-            particle.style.opacity = '1';
-        });
-    }
-    
-    onLeave() {
-        if (!this.signatureCard) return;
-        
-        this.signatureCard.classList.remove('interaction-active');
-        
-        this.letterContainers.forEach(container => {
-            const trace = container.querySelector('.letter-trace');
-            if (trace) {
-                trace.style.filter = 'drop-shadow(0 2px 8px rgba(255, 140, 0, 0.4)) saturate(1)';
-                trace.style.transform = 'scale(1) rotateY(0deg)';
+        // Reset after hover
+        setTimeout(() => {
+            if (this.signatureContainer) {
+                this.signatureContainer.style.boxShadow = '';
             }
-        });
-        
-        this.particles.forEach(particle => {
-            particle.style.animationDuration = '8s';
-        });
+        }, 1000);
     }
     
     onClick() {
         if (this.isAnimating) return;
         
-        this.createClickEffect();
+        // Click feedback
+        if (this.signatureContainer) {
+            this.signatureContainer.style.transform = 'translateY(-2px) scale(0.98)';
+            setTimeout(() => {
+                this.signatureContainer.style.transform = '';
+            }, 200);
+        }
         
+        // Navigate to contact
         setTimeout(() => {
             const contactSection = document.getElementById('contact');
             if (contactSection) {
@@ -1095,74 +823,10 @@ class ModernSignatureAnimation {
                     block: 'start'
                 });
             }
-        }, 300);
+        }, 150);
         
+        // Track click
         this.trackSignatureClick();
-    }
-    
-    createClickEffect() {
-        const ripple = document.createElement('div');
-        ripple.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 1;
-            pointer-events: none;
-            z-index: 100;
-        `;
-        
-        this.signatureCard.appendChild(ripple);
-        
-        requestAnimationFrame(() => {
-            ripple.style.transition = 'all 0.8s ease-out';
-            ripple.style.transform = 'translate(-50%, -50%) scale(20)';
-            ripple.style.opacity = '0';
-        });
-        
-        setTimeout(() => {
-            if (ripple.parentNode) {
-                ripple.parentNode.removeChild(ripple);
-            }
-        }, 800);
-        
-        this.signatureCard.style.transform = 'translateY(-6px) scale(0.98)';
-        setTimeout(() => {
-            this.signatureCard.style.transform = '';
-        }, 200);
-    }
-    
-    setupIntersectionObserver() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
-                    if (this.animationStarted && !this.isAnimating) {
-                        setTimeout(() => {
-                            this.restartAnimation();
-                        }, 1000);
-                    }
-                }
-            });
-        }, {
-            threshold: [0.1, 0.5],
-            rootMargin: '0px 0px -10% 0px'
-        });
-        
-        if (this.signatureWrapper) {
-            observer.observe(this.signatureWrapper);
-        }
-    }
-    
-    restartAnimation() {
-        this.prepareAnimation();
-        
-        setTimeout(() => {
-            this.animateSignature();
-        }, 500);
     }
     
     handleResize() {
@@ -1178,7 +842,6 @@ class ModernSignatureAnimation {
         if (!wasDesktop && this.isDesktop) {
             if (this.signatureWrapper) {
                 this.signatureWrapper.style.display = 'block';
-                this.restartAnimation();
             }
         }
     }
@@ -1187,35 +850,38 @@ class ModernSignatureAnimation {
         if (typeof gtag !== 'undefined') {
             gtag('event', 'signature_click', {
                 event_category: 'engagement',
-                event_label: 'hero_signature',
+                event_label: 'simple_hermes_signature',
                 value: 1
             });
         }
         
-        console.log('📊 Signature click tracked');
-    }
-    
-    start() {
-        if (!this.animationStarted) {
-            this.startAnimationSequence();
-        }
+        console.log('📊 Simple signature click tracked');
     }
     
     restart() {
         this.animationStarted = false;
-        this.restartAnimation();
+        
+        // Reset classes
+        if (this.signatureLine) this.signatureLine.classList.remove('traced');
+        if (this.signatureCredentials) this.signatureCredentials.classList.remove('traced');
+        if (this.signatureUnderline) this.signatureUnderline.classList.remove('traced');
+        if (this.signatureWrapper) this.signatureWrapper.classList.remove('signature-active');
+        
+        // Restart animation
+        setTimeout(() => {
+            this.start();
+        }, 500);
     }
     
     destroy() {
-        if (this.signatureCard) {
-            this.signatureCard.removeEventListener('mouseenter', this.onHover);
-            this.signatureCard.removeEventListener('mouseleave', this.onLeave);
-            this.signatureCard.removeEventListener('click', this.onClick);
+        if (this.signatureContainer) {
+            this.signatureContainer.removeEventListener('click', this.onClick);
+            this.signatureContainer.removeEventListener('mouseenter', this.onHover);
         }
         
         window.removeEventListener('resize', this.handleResize);
         
-        console.log('🗑️ Modern Signature Animation destroyed');
+        console.log('🗑️ Simple Hermès Signature destroyed');
     }
 }
 
@@ -1301,95 +967,45 @@ class CinematicHero {
         });
     }
     
+    // Updated signature animation initialization
     initSignatureAnimation() {
         if (window.innerWidth > 1024) {
-            this.signatureAnimation = new ModernSignatureAnimation();
+            this.signatureAnimation = new SimpleHermesSignature();
         }
     }
     
+    // Updated signature animation start method
     startSignatureAnimation() {
-        const signatureWrapper = document.querySelector('.luxury-signature-wrapper, .modern-signature-wrapper');
-        if (signatureWrapper && !this.hasAnimatedSignature) {
-            this.hasAnimatedSignature = true;
-            
-            signatureWrapper.classList.add('animate');
-            
-            const signatureCard = signatureWrapper.querySelector('.signature-card');
-            if (signatureCard) {
-                signatureCard.addEventListener('mouseenter', () => {
-                    if (!EviaUtils.isMobile()) {
-                        this.addSignatureHoverEffect(signatureCard);
-                    }
-                });
-                
-                signatureCard.addEventListener('click', () => {
-                    this.addSignatureClickEffect(signatureCard);
-                });
-            }
-            
-            console.log('✨ Signature animation started');
-            return;
-        }
-        
         if (this.signatureAnimation && !this.hasAnimatedSignature) {
             this.signatureAnimation.start();
             this.hasAnimatedSignature = true;
+            return;
         }
         
-        if (this.hasAnimatedSignature || !this.signatureContainer) return;
-        
-        this.hasAnimatedSignature = true;
-        
-        const chars = this.signatureContainer.querySelectorAll('.signature-char, .signature-comma');
-        const underline = this.signatureContainer.querySelector('.signature-underline-animated');
-        const writingIndicator = this.signatureContainer.querySelector('.writing-indicator');
-        const sparkles = this.signatureContainer.querySelectorAll('.sparkle');
-        
-        if (writingIndicator) {
+        // Fallback for any other signature elements
+        const signatureWrapper = document.querySelector('.hermes-signature-wrapper');
+        if (signatureWrapper && !this.hasAnimatedSignature) {
+            this.hasAnimatedSignature = true;
+            
+            signatureWrapper.classList.add('signature-active');
+            
             setTimeout(() => {
-                writingIndicator.style.opacity = '1';
-                writingIndicator.style.transform = 'scale(1)';
-                writingIndicator.style.transition = 'all 0.3s ease-out';
-            }, 300);
+                const signatureLine = signatureWrapper.querySelector('.signature-line');
+                if (signatureLine) signatureLine.classList.add('traced');
+            }, 400);
+            
+            setTimeout(() => {
+                const credentials = signatureWrapper.querySelector('.signature-credentials');
+                if (credentials) credentials.classList.add('traced');
+            }, 800);
+            
+            setTimeout(() => {
+                const underline = signatureWrapper.querySelector('.signature-underline');
+                if (underline) underline.classList.add('traced');
+            }, 1200);
+            
+            console.log('✨ Fallback signature animation started');
         }
-        
-        chars.forEach((char, index) => {
-            const delay = 500 + (index * 200);
-            
-            setTimeout(() => {
-                char.style.transition = 'all 0.6s ease-out';
-                char.style.opacity = '1';
-                char.style.transform = 'translateY(0) rotate(0deg)';
-            }, delay);
-        });
-        
-        const totalDelay = chars.length * 200 + 800;
-        setTimeout(() => {
-            if (underline) {
-                underline.style.transition = 'all 1.5s ease-out';
-                underline.style.width = '100%';
-                underline.style.opacity = '1';
-            }
-            
-            if (writingIndicator) {
-                writingIndicator.style.opacity = '0';
-                writingIndicator.style.transform = 'scale(0.8)';
-            }
-            
-            sparkles.forEach((sparkle, index) => {
-                setTimeout(() => {
-                    sparkle.style.transition = 'all 2s ease-out';
-                    sparkle.style.opacity = '1';
-                    sparkle.style.transform = 'scale(1) rotate(360deg)';
-                    
-                    setTimeout(() => {
-                        sparkle.style.opacity = '0';
-                    }, 1500);
-                }, index * 500);
-            });
-        }, totalDelay);
-        
-        console.log('✨ Original signature animation started');
     }
     
     addSignatureHoverEffect(card) {
