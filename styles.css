@@ -1646,244 +1646,221 @@ body.menu-open {
    LUXURY SIGNATURE CARD
    ======================================== */
 
-.luxury-signature-wrapper {
+.hermes-signature-wrapper {
     position: absolute !important;
     bottom: clamp(2.5rem, 6vw, 3.5rem) !important;
     right: clamp(1.5rem, 4vw, 3rem) !important;
-    left: auto !important;
-    top: auto !important;
     z-index: 15;
-    width: auto;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: translateY(30px);
     opacity: 0;
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateY(30px) scale(0.9);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.luxury-signature-wrapper.animate {
-    transform: translateY(0);
+.hermes-signature-wrapper.animate {
     opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
-.signature-card {
+.hermes-signature-card {
     position: relative;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 24px;
-    padding: clamp(1rem, 2vw, 1.5rem) clamp(1.2rem, 2.5vw, 1.8rem);
+    border: 1px solid rgba(255, 140, 0, 0.15);
+    border-radius: 20px;
+    padding: clamp(1.2rem, 2.5vw, 1.8rem) clamp(1.5rem, 3vw, 2.2rem);
+    min-width: 300px;
+    max-width: 350px;
     box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.1),
-        0 8px 32px rgba(255, 140, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        0 25px 80px rgba(0, 0, 0, 0.08),
+        0 10px 40px rgba(255, 140, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     overflow: hidden;
-    min-width: 220px;
-    max-width: 280px;
-    transform: translateZ(0);
-    backface-visibility: hidden;
 }
 
-.signature-card:hover {
-    transform: translateY(-3px) scale(1.02);
+.hermes-signature-card:hover {
+    transform: translateY(-4px) scale(1.02);
     box-shadow: 
-        0 25px 70px rgba(0, 0, 0, 0.15),
-        0 12px 40px rgba(255, 140, 0, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 140, 0, 0.2);
+        0 35px 100px rgba(0, 0, 0, 0.12),
+        0 15px 50px rgba(255, 140, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 140, 0, 0.25);
 }
 
-/* Header with Monogram */
-.signature-header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.8rem;
-}
-
-.signature-monogram {
-    position: relative;
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+/* Hermès Badge */
+.hermes-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF6600 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3);
+    box-shadow: 
+        0 8px 25px rgba(255, 140, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.9);
     transition: all 0.4s ease;
 }
 
-.signature-card:hover .signature-monogram {
-    transform: scale(1.05) rotate(5deg);
+.hermes-signature-card:hover .hermes-badge {
+    transform: scale(1.08) rotate(5deg);
+    box-shadow: 
+        0 12px 35px rgba(255, 140, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-.monogram-text {
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Nunito', sans-serif;
-    font-size: 16px;
+.badge-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
     font-weight: 700;
     color: white;
-    letter-spacing: -0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
 }
 
-.monogram-glow {
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-    border-radius: 50%;
-    opacity: 0;
-    filter: blur(8px);
-    transition: opacity 0.4s ease;
-}
-
-.signature-card:hover .monogram-glow {
-    opacity: 0.6;
-}
-
-/* Signature SVG Animation */
-.signature-content {
+/* Signature Container */
+.signature-container {
     position: relative;
-    margin-bottom: 0.6rem;
+    text-align: center;
 }
 
-.signature-svg {
+/* Hermès Signature SVG */
+.hermes-signature-svg {
     width: 100%;
-    height: 40px;
+    height: 60px;
+    margin-bottom: 1rem;
     opacity: 0;
     transition: opacity 0.5s ease;
 }
 
-.luxury-signature-wrapper.animate .signature-svg {
+.hermes-signature-wrapper.animate .hermes-signature-svg {
     opacity: 1;
 }
 
-#signaturePath {
-    stroke-dasharray: 800;
-    stroke-dashoffset: 800;
+/* Signature Paths */
+#evia-signature {
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    opacity: 0;
+    filter: drop-shadow(0 2px 4px rgba(255, 140, 0, 0.3));
+}
+
+.hermes-signature-wrapper.animate #evia-signature {
+    animation: drawElegantSignature 3s ease-out 0.8s forwards;
+}
+
+#signature-underline {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
     opacity: 0;
 }
 
-.luxury-signature-wrapper.animate #signaturePath {
-    animation: drawSignature 2.5s ease-out 0.5s forwards;
+.hermes-signature-wrapper.animate #signature-underline {
+    animation: drawUnderline 1.2s ease-out 3.5s forwards;
 }
 
-/* Text Overlay */
-.signature-text-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+/* Doctor Title Overlay */
+.doctor-title-overlay {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    justify-content: center;
+    gap: 12px;
     opacity: 0;
-    transition: all 0.6s ease;
+    transform: translateY(10px);
+    transition: all 0.8s ease;
 }
 
-.luxury-signature-wrapper.animate .signature-text-overlay {
-    animation: fadeInText 0.8s ease-out 2.5s forwards;
+.hermes-signature-wrapper.animate .doctor-title-overlay {
+    animation: fadeInDoctorTitle 0.8s ease-out 4.2s forwards;
 }
 
-.signature-name {
-    font-family: 'Playfair Display', 'Nunito', serif;
-    font-size: clamp(1rem, 2vw, 1.2rem);
+.doctor-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
     font-weight: 600;
     font-style: italic;
     color: #FFFFFF;
     text-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.3),
-        0 1px 4px rgba(0, 0, 0, 0.2);
-    letter-spacing: 0.5px;
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 1px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.3px;
+    line-height: 1.2;
 }
 
-.signature-title {
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Nunito', sans-serif;
-    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+.doctor-credential {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.8rem, 1.6vw, 1rem);
     font-weight: 700;
     color: #FFB84D;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1.2px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #FFD700 0%, #FFB84D 50%, #FF8C00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-/* Subtle Underline */
-.signature-underline {
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #FF8C00 0%, #FFB84D 50%, #FF6600 100%);
-    border-radius: 2px;
-    margin: 0 auto;
-    opacity: 0;
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4);
-}
-
-.luxury-signature-wrapper.animate .signature-underline {
-    animation: drawUnderline 1s ease-out 3s forwards;
-}
-
-/* Premium Sparkle Effects */
-.luxury-sparkles {
+/* Hermès Decorative Elements */
+.hermes-decoration {
     position: absolute;
     inset: 0;
     pointer-events: none;
 }
 
-.sparkle-dot {
+.luxury-accent {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #FFD700;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 184, 77, 0.1));
     border-radius: 50%;
     opacity: 0;
-    box-shadow: 
-        0 0 8px rgba(255, 215, 0, 0.8),
-        0 0 4px rgba(255, 140, 0, 0.6);
-    animation: sparkleFloat 3s ease-in-out infinite;
+    transition: all 0.8s ease;
 }
 
-.luxury-signature-wrapper.animate .sparkle-dot {
-    animation: sparkleSequence 0.8s ease-out 3.2s forwards, sparkleFloat 3s ease-in-out 4s infinite;
+.luxury-accent.accent-1 {
+    width: 80px;
+    height: 80px;
+    top: -20px;
+    left: -20px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 70%);
 }
 
-.sparkle-1 {
-    top: 15%;
-    left: 20%;
-    animation-delay: 0s;
+.luxury-accent.accent-2 {
+    width: 60px;
+    height: 60px;
+    bottom: -15px;
+    right: -15px;
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.08) 0%, transparent 70%);
 }
 
-.sparkle-2 {
-    top: 25%;
-    right: 15%;
-    animation-delay: -1s;
+.hermes-signature-wrapper.animate .luxury-accent {
+    animation: luxuryAccentGlow 2s ease-out 4.8s forwards;
 }
 
-.sparkle-3 {
-    bottom: 20%;
-    left: 15%;
-    animation-delay: -2s;
-}
-
-.sparkle-4 {
-    bottom: 30%;
-    right: 25%;
-    animation-delay: -1.5s;
-}
-
-/* Card Reflection Effect */
-.signature-reflection {
+/* Premium Glow Effect */
+.signature-glow {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.08) 0%, 
-        transparent 100%);
-    border-radius: 24px 24px 0 0;
-    pointer-events: none;
+    inset: -3px;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 184, 77, 0.1));
+    border-radius: 20px;
+    opacity: 0;
+    filter: blur(15px);
+    transition: opacity 0.6s ease;
+    z-index: -1;
+}
+
+.hermes-signature-card:hover .signature-glow {
+    opacity: 1;
+    animation: premiumGlowPulse 3s ease-in-out infinite;
 }
 
 /* ========================================
@@ -2008,12 +1985,12 @@ body.menu-open {
 }
 
 /* Signature Animations */
-@keyframes drawSignature {
+@keyframes drawElegantSignature {
     0% {
-        stroke-dashoffset: 800;
+        stroke-dashoffset: 1200;
         opacity: 0;
     }
-    10% {
+    15% {
         opacity: 1;
     }
     100% {
@@ -2022,54 +1999,54 @@ body.menu-open {
     }
 }
 
-@keyframes fadeInText {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-
 @keyframes drawUnderline {
     0% {
-        width: 0;
+        stroke-dashoffset: 300;
         opacity: 0;
     }
-    50% {
+    30% {
         opacity: 1;
     }
     100% {
-        width: 80%;
-        opacity: 1;
+        stroke-dashoffset: 0;
+        opacity: 0.8;
     }
 }
 
-@keyframes sparkleSequence {
+@keyframes fadeInDoctorTitle {
     0% {
         opacity: 0;
-        transform: scale(0);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.2);
+        transform: translateY(10px) scale(0.95);
     }
     100% {
-        opacity: 0.8;
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes luxuryAccentGlow {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 0.3;
         transform: scale(1);
     }
 }
 
-@keyframes sparkleFloat {
+@keyframes premiumGlowPulse {
     0%, 100% {
-        opacity: 0.8;
-        transform: scale(1) translateY(0);
+        opacity: 0.6;
+        filter: blur(15px);
     }
     50% {
-        opacity: 1;
-        transform: scale(1.1) translateY(-2px);
+        opacity: 0.8;
+        filter: blur(20px);
     }
 }
 
