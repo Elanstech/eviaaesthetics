@@ -2688,6 +2688,8 @@ body.menu-open {
     }
 }
 
+
+
 /* ========================================
    ABOUT SECTION - OPTIMIZED
    ======================================== */
@@ -3933,14 +3935,94 @@ body.menu-open {
 /* ========================================
    PRODUCTS SECTION - OPTIMIZED
    ======================================== */
-.apple-products-section {
+/* Main Section */
+.hermes-products-section {
     position: relative;
-    padding: clamp(80px, 12vh, 140px) 0;
-    background: linear-gradient(180deg, #F5F5F5 0%, #FFFFFF 100%);
+    padding: clamp(100px, 15vh, 160px) 0;
+    background: linear-gradient(135deg, var(--cream-light) 0%, var(--cream-primary) 50%, var(--cream-soft) 100%);
     overflow: hidden;
+    min-height: 100vh;
 }
 
-.products-container {
+/* Ambient Background */
+.hermes-ambient-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hermes-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.06) 0%, transparent 70%);
+    filter: blur(120px);
+    animation: hermesLuxuryFloat 30s ease-in-out infinite;
+}
+
+.hermes-orb-1 { 
+    width: 500px; 
+    height: 500px; 
+    top: -15%; 
+    left: -20%; 
+}
+
+.hermes-orb-2 { 
+    width: 350px; 
+    height: 350px; 
+    top: 60%; 
+    right: -25%; 
+    animation-delay: -15s; 
+}
+
+.hermes-orb-3 { 
+    width: 280px; 
+    height: 280px; 
+    bottom: -10%; 
+    left: 50%; 
+    animation-delay: -25s; 
+}
+
+.hermes-mesh-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(229, 228, 226, 0.4) 0%, transparent 50%);
+}
+
+/* Floating Elements */
+.hermes-floating-elements {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.hermes-float-element {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 140, 0, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hermes-orange);
+    font-size: 24px;
+    animation: hermesFloatGentle 20s ease-in-out infinite;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.06),
+        0 4px 16px rgba(255, 140, 0, 0.08);
+}
+
+.hermes-element-1 { top: 15%; right: 10%; }
+.hermes-element-2 { top: 65%; left: 8%; animation-delay: -8s; }
+.hermes-element-3 { top: 40%; right: 5%; animation-delay: -16s; }
+
+/* Container */
+.hermes-products-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 clamp(20px, 4vw, 40px);
@@ -3948,311 +4030,963 @@ body.menu-open {
     z-index: 10;
 }
 
-/* Section Header - Streamlined */
-.products-header {
+/* Header Section */
+.hermes-products-header {
     text-align: center;
-    margin-bottom: clamp(60px, 8vh, 100px);
+    margin-bottom: clamp(80px, 12vh, 120px);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s var(--ease-luxury);
 }
 
-.products-header .header-badge {
+.hermes-products-header.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Partnership Badge */
+.hermes-partnership-badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 107, 0, 0.1);
-    border-radius: 50px;
-    padding: 8px 20px;
-    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(40px);
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    border-radius: 60px;
+    padding: clamp(16px, 3vw, 20px) clamp(28px, 5vw, 36px);
+    margin-bottom: clamp(32px, 5vh, 40px);
+    gap: clamp(16px, 3vw, 20px);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.6s var(--ease-luxury);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.08),
+        0 6px 20px rgba(255, 140, 0, 0.12);
 }
 
-.products-header .section-title {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
+.hermes-partnership-badge:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: rgba(255, 140, 0, 0.4);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.12),
+        0 8px 30px rgba(255, 140, 0, 0.2);
+}
+
+.partnership-seal {
+    width: clamp(48px, 8vw, 56px);
+    height: clamp(48px, 8vw, 56px);
+    background: var(--gradient-hermes-orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: clamp(20px, 4vw, 24px);
+    box-shadow: 
+        0 8px 24px rgba(255, 140, 0, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.4s ease;
+}
+
+.hermes-partnership-badge:hover .partnership-seal {
+    transform: scale(1.08) rotate(5deg);
+}
+
+.partnership-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.partnership-label {
+    font-family: var(--font-inter);
+    font-size: clamp(11px, 2vw, 13px);
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+.partnership-name {
+    font-family: var(--font-playfair);
+    font-size: clamp(18px, 3.5vw, 22px);
+    font-weight: 700;
+    color: var(--hermes-orange);
+    letter-spacing: -0.5px;
+}
+
+.partnership-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 1s ease;
+    pointer-events: none;
+    border-radius: 60px;
+}
+
+.hermes-partnership-badge:hover .partnership-shine {
+    left: 100%;
+}
+
+/* Header Badge */
+.hermes-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 140, 0, 0.15);
+    border-radius: 50px;
+    padding: 12px 24px;
+    margin-bottom: 32px;
+    transition: all 0.5s ease;
+}
+
+.badge-ornament {
+    width: 8px;
+    height: 8px;
+    background: var(--hermes-orange);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(255, 140, 0, 0.5);
+    animation: hermesGlow 3s ease-in-out infinite;
+}
+
+.badge-text {
+    font-family: var(--font-inter);
+    font-size: 13px;
     font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--hermes-orange);
+}
+
+/* Section Title */
+.hermes-section-title {
+    font-family: var(--font-playfair);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
     line-height: 1.1;
-    margin-bottom: 16px;
+    margin-bottom: clamp(20px, 3vh, 28px);
+    letter-spacing: -0.02em;
 }
 
 .title-main {
-    color: #1D1D1F;
     display: block;
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
 .title-accent {
-    background: linear-gradient(135deg, #FF6B00 0%, #FF8F3A 100%);
+    display: block;
+    background: var(--gradient-hermes-orange);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    display: block;
+    animation: hermesGradientFlow 4s ease-in-out infinite;
+    font-style: italic;
     font-weight: 700;
+    margin-top: 8px;
 }
 
-.section-subtitle {
-    font-size: clamp(16px, 2.5vw, 18px);
-    color: #6E6E73;
-    line-height: 1.5;
-    max-width: 600px;
-    margin: 0 auto;
+.hermes-section-subtitle {
+    font-family: var(--font-inter);
+    font-size: clamp(16px, 2.8vw, 18px);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto clamp(40px, 6vh, 50px) auto;
 }
 
-/* Products Grid - Optimized */
-.products-grid {
+/* Luxury Divider */
+.hermes-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: clamp(40px, 6vh, 50px) 0;
+}
+
+.divider-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--hermes-orange), transparent);
+}
+
+.divider-ornament {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hermes-orange);
+    font-size: 16px;
+    animation: hermesRotateGentle 8s linear infinite;
+    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.15);
+}
+
+/* Products Showcase */
+.hermes-products-showcase {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: clamp(24px, 4vw, 32px);
-    margin-bottom: clamp(80px, 10vh, 120px);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: clamp(32px, 5vw, 40px);
+    margin-bottom: clamp(80px, 12vh, 120px);
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 1s var(--ease-luxury) 0.3s;
 }
 
-.product-card {
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 24px;
-    overflow: hidden;
-    transition: all 0.4s ease;
+.hermes-products-showcase.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Product Cards */
+.hermes-product-card {
+    position: relative;
+    transition: all 0.6s var(--ease-luxury);
     cursor: pointer;
 }
 
-.product-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    border-color: rgba(255, 107, 0, 0.1);
+.hermes-product-card:hover {
+    transform: translateY(-12px) scale(1.02);
 }
 
-.product-frame {
+.hermes-card-frame {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(40px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 32px;
+    overflow: hidden;
     height: 100%;
+    min-height: 520px;
     display: flex;
     flex-direction: column;
     position: relative;
+    transition: all 0.6s var(--ease-luxury);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.06),
+        0 8px 32px rgba(255, 140, 0, 0.04);
 }
 
-/* Product Badges - Simplified */
-.product-badge {
+.hermes-product-card:hover .hermes-card-frame {
+    border-color: rgba(255, 140, 0, 0.3);
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.08),
+        0 12px 40px rgba(255, 140, 0, 0.08);
+}
+
+.hermes-card-glow {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    padding: 4px 12px;
-    border-radius: 12px;
+    inset: -4px;
+    background: var(--gradient-hermes-orange);
+    border-radius: 36px;
+    opacity: 0;
+    filter: blur(30px);
+    transition: opacity 0.6s ease;
+    z-index: -1;
+}
+
+.hermes-product-card:hover .hermes-card-glow {
+    opacity: 0.2;
+}
+
+/* Product Badges */
+.hermes-product-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    border-radius: 20px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     z-index: 10;
-    backdrop-filter: blur(20px);
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-.product-badge.bestseller {
-    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-    color: white;
+.hermes-product-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
-.product-badge.professional {
-    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-    color: white;
+.badge-star {
+    font-size: 14px;
+    color: var(--hermes-orange);
 }
 
-.product-badge.tinted {
-    background: linear-gradient(135deg, #EC4899 0%, #BE185D 100%);
-    color: white;
+.hermes-product-badge.bestseller { color: #D4A574; border-color: rgba(212, 165, 116, 0.3); }
+.hermes-product-badge.professional { color: #8B5CF6; border-color: rgba(139, 92, 246, 0.3); }
+.hermes-product-badge.tinted { color: #EC4899; border-color: rgba(236, 72, 153, 0.3); }
+.hermes-product-badge.antioxidant { color: #10B981; border-color: rgba(16, 185, 129, 0.3); }
+
+/* Product Hero */
+.hermes-product-hero {
+    padding: 32px 24px 20px;
+    background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);
+    position: relative;
 }
 
-.product-badge.antioxidant {
-    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    color: white;
-}
-
-/* Product Hero - Streamlined */
-.product-hero {
-    padding: 24px 20px 16px;
-    background: linear-gradient(135deg, #F8F8F8 0%, #F5F5F5 100%);
-}
-
-.product-image-container {
+.hermes-product-stage {
     position: relative;
     width: 100%;
     height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    perspective: 1000px;
 }
 
-.product-image {
+.stage-platform {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 80%;
-    height: 80%;
+    height: 20px;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.15), rgba(255, 140, 0, 0.05));
+    border-radius: 50%;
+    filter: blur(15px);
+    opacity: 0.7;
+}
+
+.hermes-product-image {
+    width: 75%;
+    height: 75%;
     object-fit: contain;
-    transition: transform 0.4s ease;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+    transition: all 0.8s var(--ease-luxury);
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.1));
+    z-index: 2;
+    position: relative;
 }
 
-.product-card:hover .product-image {
-    transform: scale(1.05) translateY(-5px);
+.hermes-product-card:hover .hermes-product-image {
+    transform: scale(1.08) translateY(-8px) rotateY(5deg);
 }
 
-.product-rating {
+.stage-reflection {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%) scaleY(-1);
+    width: 75%;
+    height: 30%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    border-radius: 50%;
+    filter: blur(5px);
+}
+
+.hermes-product-card:hover .stage-reflection {
+    opacity: 1;
+}
+
+/* Product Rating */
+.hermes-product-rating {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+    border-radius: 20px;
+    padding: 8px 16px;
+    margin: 0 auto;
+    width: fit-content;
 }
 
-.stars {
+.rating-stars {
     display: flex;
     gap: 2px;
+    color: #FFD700;
+    font-size: 14px;
 }
-
-.star {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #E5E5E7;
-}
-
-.star.filled { background: #FFD700; }
-.star.half { background: linear-gradient(90deg, #FFD700 50%, #E5E5E7 50%); }
 
 .rating-score {
+    font-family: var(--font-inter);
     font-size: 12px;
     font-weight: 600;
-    color: #6E6E73;
+    color: var(--text-primary);
 }
 
-/* Product Content - Unified */
-.product-content {
-    padding: 0 20px 24px;
+/* Product Content */
+.hermes-product-content {
+    padding: 28px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
-.product-category {
+.hermes-product-category {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--hermes-orange);
     font-size: 12px;
     font-weight: 500;
-    color: #FF6B00;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
 }
 
-.product-name {
-    font-size: 18px;
+.hermes-product-name {
+    font-family: var(--font-playfair);
+    font-size: 20px;
     font-weight: 600;
-    color: #1D1D1F;
+    color: var(--text-primary);
     line-height: 1.3;
+    letter-spacing: -0.5px;
 }
 
-.product-description {
+.hermes-product-description {
+    font-family: var(--font-inter);
     font-size: 14px;
-    color: #6E6E73;
-    line-height: 1.5;
+    color: var(--text-secondary);
+    line-height: 1.6;
     flex: 1;
 }
 
-.product-features {
+/* Product Features */
+.hermes-product-features {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     flex-wrap: wrap;
     margin: 8px 0;
 }
 
-.feature-pill {
+.hermes-feature-tag {
     display: flex;
     align-items: center;
-    gap: 4px;
-    background: rgba(245, 245, 247, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 12px;
+    gap: 6px;
+    background: rgba(255, 248, 240, 0.8);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+    border-radius: 16px;
+    padding: 6px 14px;
+    font-size: 11px;
     font-weight: 500;
-    color: #1D1D1F;
+    color: var(--text-primary);
     transition: all 0.3s ease;
 }
 
-.feature-pill:hover {
-    background: rgba(255, 107, 0, 0.08);
-    border-color: rgba(255, 107, 0, 0.2);
-}
-
-.product-cta {
-    width: 100%;
-    background: #1D1D1F;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: auto;
-}
-
-.product-cta:hover {
-    background: linear-gradient(135deg, #FF6B00 0%, #FF8F3A 100%);
+.hermes-feature-tag:hover {
+    background: rgba(255, 140, 0, 0.1);
+    border-color: rgba(255, 140, 0, 0.2);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(255, 107, 0, 0.3);
 }
 
-/* Catalog CTA - Simplified */
-.catalog-cta {
-    text-align: center;
+.feature-icon {
+    font-size: 14px;
 }
 
-.cta-container {
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 32px;
-    padding: clamp(40px, 6vw, 60px) clamp(24px, 4vw, 40px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+/* Hermès CTA Button */
+.hermes-product-cta {
+    width: 100%;
+    background: none;
+    border: 2px solid var(--warm-brown);
+    border-radius: 50px;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s var(--ease-luxury);
+    margin-top: auto;
+    height: 56px;
+}
+
+.hermes-product-cta:hover {
+    border-color: var(--hermes-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.2);
+}
+
+.cta-background {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-hermes-orange);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 48px;
+}
+
+.hermes-product-cta:hover .cta-background {
+    opacity: 1;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 100%;
+    padding: 0 28px;
     transition: all 0.4s ease;
 }
 
-.cta-container:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    border-color: rgba(255, 107, 0, 0.1);
-}
-
-.cta-title {
-    font-size: clamp(24px, 4vw, 28px);
+.cta-text {
+    font-family: var(--font-inter);
+    font-size: 14px;
     font-weight: 600;
-    color: #1D1D1F;
-    margin-bottom: 12px;
-}
-
-.cta-description {
-    font-size: 16px;
-    color: #6E6E73;
-    line-height: 1.5;
-    margin-bottom: 32px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.catalog-button {
-    background: linear-gradient(135deg, #FF6B00 0%, #FF8F3A 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 16px 32px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
+    color: var(--warm-brown);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 16px;
-    box-shadow: 0 8px 24px rgba(255, 107, 0, 0.3);
+    letter-spacing: 0.8px;
+    transition: color 0.4s ease;
 }
 
-.catalog-button:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 12px 32px rgba(255, 107, 0, 0.4);
+.hermes-product-cta:hover .cta-text {
+    color: white;
+}
+
+.cta-arrow {
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 140, 0, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hermes-orange);
+    font-size: 12px;
+    transition: all 0.4s ease;
+}
+
+.hermes-product-cta:hover .cta-arrow {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateX(4px);
+}
+
+.cta-luxury-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.8s ease;
+    pointer-events: none;
+    border-radius: 48px;
+}
+
+.hermes-product-cta:hover .cta-luxury-shine {
+    left: 100%;
+}
+
+/* Collection CTA */
+.hermes-collection-cta {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s var(--ease-luxury) 0.6s;
+}
+
+.hermes-collection-cta.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hermes-cta-container {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(40px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 40px;
+    padding: clamp(50px, 8vw, 70px) clamp(40px, 6vw, 60px);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.6s var(--ease-luxury);
+    box-shadow: 
+        0 25px 70px rgba(0, 0, 0, 0.06),
+        0 10px 35px rgba(255, 140, 0, 0.04);
+}
+
+.hermes-cta-container:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 140, 0, 0.3);
+    box-shadow: 
+        0 35px 90px rgba(0, 0, 0, 0.08),
+        0 15px 45px rgba(255, 140, 0, 0.08);
+}
+
+/* CTA Ornaments */
+.hermes-cta-ornament-top,
+.hermes-cta-ornament-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 0 auto;
+}
+
+.hermes-cta-ornament-top {
+    margin-bottom: 32px;
+}
+
+.hermes-cta-ornament-bottom {
+    margin-top: 32px;
+}
+
+.ornament-line {
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--hermes-orange), transparent);
+}
+
+.ornament-center {
+    width: 32px;
+    height: 32px;
+    background: var(--gradient-hermes-orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+}
+
+.hermes-cta-title {
+    font-family: var(--font-playfair);
+    font-size: clamp(28px, 5vw, 36px);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.hermes-cta-description {
+    font-family: var(--font-inter);
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto 40px auto;
+}
+
+/* Catalog Button */
+.hermes-catalog-button {
+    background: none;
+    border: 3px solid var(--warm-brown);
+    border-radius: 60px;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s var(--ease-luxury);
+    margin-bottom: 24px;
+    height: 64px;
+    min-width: 280px;
+}
+
+.hermes-catalog-button:hover {
+    border-color: var(--hermes-orange);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(255, 140, 0, 0.25);
+}
+
+.hermes-catalog-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-hermes-orange);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    border-radius: 57px;
+}
+
+.hermes-catalog-button:hover .hermes-catalog-bg {
+    opacity: 1;
+}
+
+.hermes-catalog-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 100%;
+    padding: 0 32px;
+}
+
+.catalog-text {
+    font-family: var(--font-inter);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--warm-brown);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.5s ease;
+}
+
+.hermes-catalog-button:hover .catalog-text {
+    color: white;
+}
+
+.catalog-icon {
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 140, 0, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hermes-orange);
+    font-size: 14px;
+    transition: all 0.5s ease;
+}
+
+.hermes-catalog-button:hover .catalog-icon {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: scale(1.1);
+}
+
+.hermes-catalog-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 1s ease;
+    pointer-events: none;
+    border-radius: 57px;
+}
+
+.hermes-catalog-button:hover .hermes-catalog-shine {
+    left: 100%;
+}
+
+/* Partnership Note */
+.hermes-partnership-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(255, 248, 240, 0.6);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+    border-radius: 20px;
+    padding: 12px 20px;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.note-icon {
+    color: var(--hermes-orange);
+    font-size: 16px;
+}
+
+.note-text {
+    font-family: var(--font-inter);
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: center;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes hermesLuxuryFloat {
+    0%, 100% { 
+        transform: translateY(0px) translateX(0px) scale(1); 
+        opacity: 0.06; 
+    }
+    25% { 
+        transform: translateY(-40px) translateX(20px) scale(1.08); 
+        opacity: 0.08; 
+    }
+    50% { 
+        transform: translateY(-15px) translateX(-25px) scale(0.95); 
+        opacity: 0.04; 
+    }
+    75% { 
+        transform: translateY(-35px) translateX(15px) scale(1.05); 
+        opacity: 0.07; 
+    }
+}
+
+@keyframes hermesFloatGentle {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    33% { 
+        transform: translateY(-15px) rotate(5deg); 
+    }
+    66% { 
+        transform: translateY(-8px) rotate(-3deg); 
+    }
+}
+
+@keyframes hermesGradientFlow {
+    0%, 100% { 
+        background-position: 0% 50%; 
+    }
+    25% { 
+        background-position: 50% 0%; 
+    }
+    50% { 
+        background-position: 100% 50%; 
+    }
+    75% { 
+        background-position: 50% 100%; 
+    }
+}
+
+@keyframes hermesGlow {
+    0%, 100% { 
+        box-shadow: 0 0 12px rgba(255, 140, 0, 0.5); 
+    }
+    50% { 
+        box-shadow: 0 0 20px rgba(255, 140, 0, 0.8); 
+    }
+}
+
+@keyframes hermesRotateGentle {
+    0% { 
+        transform: rotate(0deg); 
+    }
+    100% { 
+        transform: rotate(360deg); 
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .hermes-products-showcase {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: clamp(24px, 4vw, 32px);
+    }
+    
+    .hermes-floating-elements {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .hermes-products-section {
+        padding: clamp(60px, 10vh, 80px) 0;
+    }
+    
+    .hermes-products-container {
+        padding: 0 clamp(16px, 3vw, 20px);
+    }
+    
+    .hermes-products-header {
+        margin-bottom: clamp(50px, 8vh, 70px);
+    }
+    
+    .hermes-partnership-badge {
+        padding: 14px 24px;
+        gap: 14px;
+        margin-bottom: 28px;
+    }
+    
+    .partnership-seal {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+    }
+    
+    .partnership-name {
+        font-size: 18px;
+    }
+    
+    .hermes-products-showcase {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-bottom: clamp(60px, 10vh, 80px);
+    }
+    
+    .hermes-card-frame {
+        min-height: 480px;
+        border-radius: 24px;
+    }
+    
+    .hermes-product-content {
+        padding: 24px;
+    }
+    
+    .hermes-cta-container {
+        padding: 40px 24px;
+        border-radius: 28px;
+    }
+    
+    .hermes-catalog-button {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hermes-products-header {
+        margin-bottom: 40px;
+    }
+    
+    .hermes-partnership-badge {
+        flex-direction: column;
+        text-align: center;
+        padding: 16px 20px;
+        gap: 12px;
+    }
+    
+    .partnership-content {
+        align-items: center;
+        text-align: center;
+    }
+    
+    .hermes-card-frame {
+        min-height: 450px;
+        border-radius: 20px;
+    }
+    
+    .hermes-product-hero {
+        padding: 24px 20px 16px;
+    }
+    
+    .hermes-product-stage {
+        height: 160px;
+    }
+    
+    .hermes-product-content {
+        padding: 20px;
+        gap: 14px;
+    }
+    
+    .hermes-product-features {
+        gap: 8px;
+    }
+    
+    .hermes-feature-tag {
+        font-size: 10px;
+        padding: 5px 12px;
+    }
+    
+    .hermes-cta-container {
+        padding: 32px 20px;
+    }
 }
 
 /* ========================================
@@ -4960,11 +5694,6 @@ body.menu-open {
         text-align: center;
     }
     
-    .products-grid {
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: clamp(20px, 3vw, 28px);
-    }
-    
     .results-grid {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -4983,7 +5712,6 @@ body.menu-open {
     .luxury-instagram-section,
     .luxury-reviews-section,
     .modern-transformations-section,
-    .apple-products-section,
     .luxury-contact-section {
         padding: clamp(60px, 10vh, 80px) 0;
     }
@@ -4992,7 +5720,6 @@ body.menu-open {
     .instagram-container,
     .reviews-container,
     .transformations-container,
-    .products-container,
     .contact-container {
         padding: 0 clamp(16px, 3vw, 20px);
     }
@@ -5001,7 +5728,6 @@ body.menu-open {
     .instagram-header,
     .reviews-header,
     .transformations-header,
-    .products-header,
     .contact-header {
         margin-bottom: clamp(40px, 6vh, 50px);
     }
@@ -5094,7 +5820,6 @@ body.menu-open {
 @media (max-width: 480px) {
     .premium-about-container,
     .contact-container,
-    .products-container,
     .transformations-container {
         padding: 0 clamp(12px, 2.5vw, 16px);
     }
