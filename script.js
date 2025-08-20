@@ -4355,7 +4355,7 @@ if (typeof module !== 'undefined' && module.exports) {
         EviaUtils, 
         EnhancedServicesCarousel,
         PremiumAboutSection,
-        LuxuryProductsSection,
+        HermesLuxuryProductsSection,
         ModernSignatureAnimation,
         CinematicHero,
         EviaConfig
