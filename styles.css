@@ -4432,11 +4432,10 @@ body.menu-open {
 /* ========================================
    PRODUCTS SECTION - OPTIMIZED
    ======================================== */
-/* Main Section */
 .hermes-medspa-products {
     position: relative;
     padding: clamp(100px, 15vh, 140px) 0;
-    background: linear-gradient(135deg, var(--medspa-cream-soft) 0%, var(--medspa-cream-primary) 50%, var(--medspa-cream-secondary) 100%);
+    background: linear-gradient(135deg, var(--cream-light) 0%, var(--cream-primary) 50%, var(--cream-soft) 100%);
     overflow: hidden;
 }
 
@@ -4451,7 +4450,7 @@ body.menu-open {
 .ambient-bubble {
     position: absolute;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(212, 131, 15, 0.04) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 70%);
     filter: blur(80px);
     animation: medspaAmbientFloat 25s ease-in-out infinite;
 }
@@ -4501,45 +4500,45 @@ body.menu-open {
     gap: 12px;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px);
-    border: 2px solid var(--medspa-border-soft);
+    border: 2px solid rgba(255, 140, 0, 0.08);
     border-radius: 50px;
     padding: 16px 32px;
     margin-bottom: 36px;
     transition: all 0.6s ease;
-    box-shadow: var(--medspa-shadow-soft);
+    box-shadow: var(--shadow-soft);
 }
 
 .partnership-badge:hover {
     transform: translateY(-3px) scale(1.02);
-    border-color: rgba(212, 131, 15, 0.15);
-    box-shadow: var(--medspa-shadow-medium);
+    border-color: rgba(255, 140, 0, 0.15);
+    box-shadow: var(--shadow-medium);
 }
 
 .partnership-badge .badge-icon {
     width: 32px;
     height: 32px;
-    background: linear-gradient(135deg, var(--medspa-orange-warm) 0%, var(--medspa-orange-light) 100%);
+    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--medspa-white);
+    color: var(--white);
     font-size: 16px;
-    box-shadow: 0 4px 12px rgba(212, 131, 15, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
 }
 
 .partnership-badge .badge-text {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-inter);
     font-size: 14px;
     font-weight: 600;
-    color: var(--medspa-orange-warm);
+    color: var(--hermes-orange);
     text-transform: uppercase;
     letter-spacing: 0.8px;
 }
 
 /* Section Title */
 .medspa-products-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-playfair);
     font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 600;
     line-height: 1.1;
@@ -4549,13 +4548,13 @@ body.menu-open {
 
 .medspa-products-title .title-line {
     display: block;
-    color: var(--medspa-text-primary);
+    color: var(--text-primary);
     font-weight: 500;
 }
 
 .medspa-products-title .title-accent {
     display: block;
-    background: linear-gradient(135deg, var(--medspa-orange-warm) 0%, var(--medspa-orange-light) 100%);
+    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -4567,9 +4566,9 @@ body.menu-open {
 }
 
 .medspa-products-subtitle {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-inter);
     font-size: clamp(16px, 2.8vw, 18px);
-    color: var(--medspa-text-secondary);
+    color: var(--text-secondary);
     line-height: 1.6;
     max-width: 600px;
     margin: 0 auto;
@@ -4606,12 +4605,12 @@ body.menu-open {
     flex-direction: column;
     position: relative;
     transition: all 0.6s ease;
-    box-shadow: var(--medspa-shadow-soft);
+    box-shadow: var(--shadow-soft);
 }
 
 .medspa-product-card:hover .product-card-inner {
-    border-color: rgba(212, 131, 15, 0.2);
-    box-shadow: var(--medspa-shadow-strong);
+    border-color: rgba(255, 140, 0, 0.2);
+    box-shadow: var(--shadow-strong);
 }
 
 /* Product Badge */
@@ -4621,7 +4620,7 @@ body.menu-open {
     right: 20px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
-    border: 1px solid var(--medspa-border-soft);
+    border: 1px solid rgba(255, 140, 0, 0.08);
     border-radius: 20px;
     padding: 8px 16px;
     display: flex;
@@ -4637,7 +4636,7 @@ body.menu-open {
 
 .product-badge:hover {
     transform: scale(1.05) translateY(-2px);
-    box-shadow: var(--medspa-shadow-soft);
+    box-shadow: var(--shadow-soft);
 }
 
 .product-badge.bestseller { color: #B8860B; border-color: rgba(184, 134, 11, 0.2); }
@@ -4668,7 +4667,7 @@ body.menu-open {
     transform: translateX(-50%);
     width: 70%;
     height: 20px;
-    background: radial-gradient(ellipse, rgba(212, 131, 15, 0.1) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
     border-radius: 50%;
     filter: blur(15px);
 }
@@ -4690,7 +4689,7 @@ body.menu-open {
 .product-glow {
     position: absolute;
     inset: 20px;
-    background: radial-gradient(circle, rgba(212, 131, 15, 0.08) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.08) 0%, transparent 60%);
     border-radius: 50%;
     opacity: 0;
     transition: opacity 0.8s ease;
@@ -4714,7 +4713,7 @@ body.menu-open {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--medspa-orange-warm);
+    color: var(--hermes-orange);
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
@@ -4726,19 +4725,19 @@ body.menu-open {
 }
 
 .product-name {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-playfair);
     font-size: 22px;
     font-weight: 600;
-    color: var(--medspa-text-primary);
+    color: var(--text-primary);
     line-height: 1.25;
     letter-spacing: -0.5px;
     margin: 0;
 }
 
 .product-description {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-inter);
     font-size: 14px;
-    color: var(--medspa-text-secondary);
+    color: var(--text-secondary);
     line-height: 1.6;
     flex: 1;
     margin: 0;
@@ -4756,19 +4755,19 @@ body.menu-open {
     display: flex;
     align-items: center;
     gap: 6px;
-    background: var(--medspa-cream-secondary);
-    border: 1px solid var(--medspa-border-soft);
+    background: var(--cream-soft);
+    border: 1px solid rgba(255, 140, 0, 0.08);
     border-radius: 16px;
     padding: 6px 12px;
     font-size: 11px;
     font-weight: 500;
-    color: var(--medspa-text-primary);
+    color: var(--text-primary);
     transition: all 0.3s ease;
 }
 
 .feature-tag:hover {
-    background: rgba(212, 131, 15, 0.08);
-    border-color: rgba(212, 131, 15, 0.15);
+    background: rgba(255, 140, 0, 0.08);
+    border-color: rgba(255, 140, 0, 0.15);
     transform: translateY(-1px);
 }
 
@@ -4783,7 +4782,7 @@ body.menu-open {
     gap: 12px;
     padding: 12px 16px;
     background: rgba(255, 248, 240, 0.8);
-    border: 1px solid var(--medspa-border-soft);
+    border: 1px solid rgba(255, 140, 0, 0.08);
     border-radius: 20px;
     margin: 8px 0;
 }
@@ -4796,21 +4795,21 @@ body.menu-open {
 }
 
 .rating-text {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-inter);
     font-size: 12px;
     font-weight: 500;
-    color: var(--medspa-text-muted);
+    color: var(--text-muted);
 }
 
 /* Product CTA */
 .product-cta {
     width: 100%;
     background: none;
-    border: 2px solid var(--medspa-text-primary);
+    border: 2px solid var(--text-primary);
     border-radius: 24px;
     padding: 16px 24px;
-    color: var(--medspa-text-primary);
-    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+    font-family: var(--font-inter);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -4830,7 +4829,7 @@ body.menu-open {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--medspa-orange-warm) 0%, var(--medspa-orange-light) 100%);
+    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
     opacity: 0;
     transition: opacity 0.4s ease;
     border-radius: 22px;
@@ -4841,10 +4840,10 @@ body.menu-open {
 }
 
 .product-cta:hover {
-    border-color: var(--medspa-orange-warm);
-    color: var(--medspa-white);
+    border-color: var(--hermes-orange);
+    color: var(--white);
     transform: translateY(-2px);
-    box-shadow: var(--medspa-shadow-soft);
+    box-shadow: var(--shadow-soft);
 }
 
 .product-cta .cta-text,
@@ -4861,7 +4860,7 @@ body.menu-open {
 .cta-ripple {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle, rgba(212, 131, 15, 0.3) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
     opacity: 0;
     transition: opacity 0.3s ease;
     border-radius: 22px;
@@ -4880,13 +4879,13 @@ body.menu-open {
     padding: clamp(48px, 8vw, 64px) clamp(40px, 6vw, 56px);
     text-align: center;
     transition: all 0.6s ease;
-    box-shadow: var(--medspa-shadow-soft);
+    box-shadow: var(--shadow-soft);
 }
 
 .medspa-catalog-cta:hover {
     transform: translateY(-8px);
-    border-color: rgba(212, 131, 15, 0.2);
-    box-shadow: var(--medspa-shadow-strong);
+    border-color: rgba(255, 140, 0, 0.2);
+    box-shadow: var(--shadow-strong);
 }
 
 .catalog-cta-content {
