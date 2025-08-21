@@ -4090,7 +4090,6 @@ class LuxuryMedSpaProducts {
 /* ========================================
    CONTACT SECTION
    ======================================== */
-
 class HermesLuxuryContactSection {
     constructor() {
         this.section = document.querySelector('.hermes-contact-section');
@@ -4117,9 +4116,10 @@ class HermesLuxuryContactSection {
             this.initializeElfsightForm();
             this.setupFloatingCredentials();
             this.initializeAmbientEffects();
+            this.initializeMapFeatures();
             
             this.isInitialized = true;
-            console.log('✨ Hermès Luxury Contact Section initialized');
+            console.log('✨ Hermès Luxury Contact Section initialized with enhanced map features');
         } catch (error) {
             console.error('❌ Error initializing Hermès Contact Section:', error);
         }
@@ -4132,9 +4132,15 @@ class HermesLuxuryContactSection {
             header: this.section.querySelector('.hermes-contact-header'),
             layout: this.section.querySelector('.hermes-contact-layout'),
             
-            // Location elements
+            // Enhanced location elements
             locationCard: this.section.querySelector('.location-luxury-card'),
-            viewMapBtn: this.section.querySelector('.view-map-luxury'),
+            mapContainer: this.section.querySelector('.location-map-container'),
+            mapOverlay: this.section.querySelector('.map-overlay'),
+            googleMapFrame: this.section.querySelector('.google-map-frame'),
+            mapIframe: this.section.querySelector('.google-map-frame iframe'),
+            directionsBtn: this.section.querySelector('.directions-btn'),
+            streetViewBtn: this.section.querySelector('.street-view-btn'),
+            locationActions: this.section.querySelector('.location-actions'),
             
             // Contact method elements
             methodCards: this.section.querySelectorAll('.method-luxury-card'),
@@ -4224,6 +4230,24 @@ class HermesLuxuryContactSection {
                 this.elements.formContainer.style.transform = 'translateY(0)';
             }
         }, 600);
+
+        // Animate map container
+        setTimeout(() => {
+            this.animateMapReveal();
+        }, 300);
+    }
+
+    animateMapReveal() {
+        if (this.elements.mapContainer) {
+            this.elements.mapContainer.style.opacity = '0';
+            this.elements.mapContainer.style.transform = 'scale(0.95)';
+            this.elements.mapContainer.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            
+            setTimeout(() => {
+                this.elements.mapContainer.style.opacity = '1';
+                this.elements.mapContainer.style.transform = 'scale(1)';
+            }, 100);
+        }
     }
 
     animateEmergencySection() {
@@ -4255,16 +4279,131 @@ class HermesLuxuryContactSection {
         }
     }
 
-    bindInteractions() {
-        // View map button
-        if (this.elements.viewMapBtn) {
-            this.elements.viewMapBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleMapView();
+    // NEW: Initialize map features
+    initializeMapFeatures() {
+        if (this.elements.mapIframe) {
+            this.setupMapInteractions();
+            this.optimizeMapPerformance();
+        }
+    }
+
+    setupMapInteractions() {
+        // Add hover effects to map container
+        if (this.elements.mapContainer) {
+            this.elements.mapContainer.addEventListener('mouseenter', () => {
+                this.onMapHover();
             });
             
-            this.elements.viewMapBtn.addEventListener('mouseenter', () => {
-                this.triggerButtonShimmer(this.elements.viewMapBtn);
+            this.elements.mapContainer.addEventListener('mouseleave', () => {
+                this.onMapLeave();
+            });
+        }
+
+        // Add click tracking to map
+        if (this.elements.mapIframe) {
+            this.elements.mapIframe.addEventListener('load', () => {
+                this.onMapLoaded();
+            });
+        }
+    }
+
+    onMapHover() {
+        if (this.elements.googleMapFrame) {
+            this.elements.googleMapFrame.style.filter = 'grayscale(0) contrast(1.2) saturate(1.1)';
+        }
+        
+        if (this.elements.mapOverlay) {
+            this.elements.mapOverlay.style.background = 'linear-gradient(135deg, rgba(255, 140, 0, 0.98) 0%, rgba(255, 165, 0, 0.95) 100%)';
+        }
+    }
+
+    onMapLeave() {
+        if (this.elements.googleMapFrame) {
+            this.elements.googleMapFrame.style.filter = 'grayscale(0.2) contrast(1.1) saturate(0.9)';
+        }
+        
+        if (this.elements.mapOverlay) {
+            this.elements.mapOverlay.style.background = 'linear-gradient(135deg, rgba(255, 140, 0, 0.95) 0%, rgba(255, 165, 0, 0.9) 100%)';
+        }
+    }
+
+    onMapLoaded() {
+        console.log('✅ Google Maps iframe loaded successfully');
+        this.trackEvent('map_loaded', 'contact', 'google_maps_iframe');
+    }
+
+    optimizeMapPerformance() {
+        // Lazy load map improvements
+        if (this.elements.mapIframe) {
+            this.elements.mapIframe.loading = 'lazy';
+            
+            // Add loading state
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255, 248, 240, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2;
+                transition: opacity 0.5s ease;
+            `;
+            
+            loadingOverlay.innerHTML = `
+                <div style="text-align: center; color: #FF8C00;">
+                    <div class="loading-spinner" style="
+                        width: 32px;
+                        height: 32px;
+                        border: 3px solid rgba(255, 140, 0, 0.2);
+                        border-top: 3px solid #FF8C00;
+                        border-radius: 50%;
+                        animation: spin 1s linear infinite;
+                        margin: 0 auto 12px;
+                    "></div>
+                    <p style="font-size: 14px; font-weight: 500;">Loading map...</p>
+                </div>
+            `;
+            
+            if (this.elements.googleMapFrame) {
+                this.elements.googleMapFrame.style.position = 'relative';
+                this.elements.googleMapFrame.appendChild(loadingOverlay);
+                
+                this.elements.mapIframe.addEventListener('load', () => {
+                    setTimeout(() => {
+                        loadingOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            if (loadingOverlay.parentNode) {
+                                loadingOverlay.parentNode.removeChild(loadingOverlay);
+                            }
+                        }, 500);
+                    }, 1000);
+                });
+            }
+        }
+    }
+
+    bindInteractions() {
+        // NEW: Enhanced directions button
+        if (this.elements.directionsBtn) {
+            this.elements.directionsBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleDirections();
+            });
+            
+            this.elements.directionsBtn.addEventListener('mouseenter', () => {
+                this.triggerButtonShine(this.elements.directionsBtn);
+            });
+        }
+
+        // NEW: Street view button
+        if (this.elements.streetViewBtn) {
+            this.elements.streetViewBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleStreetView();
             });
         }
 
@@ -4337,12 +4476,13 @@ class HermesLuxuryContactSection {
         });
     }
 
-    handleMapView() {
+    // NEW: Enhanced map interactions
+    handleDirections() {
         const address = '65 West 36th Street, 10th Floor, New York, NY 10018';
         const encodedAddress = encodeURIComponent(address);
         
-        this.addClickFeedback(this.elements.viewMapBtn);
-        this.showMapLoadingFeedback();
+        this.addClickFeedback(this.elements.directionsBtn);
+        this.showDirectionsFeedback();
         
         // Detect device and open appropriate map
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -4350,18 +4490,34 @@ class HermesLuxuryContactSection {
         
         let mapUrl;
         if (isIOS) {
-            mapUrl = `maps://maps.google.com/maps?q=${encodedAddress}`;
+            mapUrl = `maps://maps.google.com/maps?daddr=${encodedAddress}`;
         } else if (isAndroid) {
             mapUrl = `geo:0,0?q=${encodedAddress}`;
         } else {
-            mapUrl = `https://maps.google.com/maps?q=${encodedAddress}`;
+            mapUrl = `https://maps.google.com/maps?daddr=${encodedAddress}`;
         }
         
         setTimeout(() => {
             window.open(mapUrl, '_blank', 'noopener,noreferrer');
         }, 300);
         
-        this.trackEvent('map_view', 'contact', 'location_directions');
+        this.trackEvent('directions_click', 'contact', 'map_directions');
+    }
+
+    handleStreetView() {
+        const lat = '40.7506604';
+        const lng = '-73.9849654';
+        
+        this.addClickFeedback(this.elements.streetViewBtn);
+        this.showStreetViewFeedback();
+        
+        const streetViewUrl = `https://maps.google.com/maps?layer=c&cbll=${lat},${lng}&cbp=12,20.09,,0,5`;
+        
+        setTimeout(() => {
+            window.open(streetViewUrl, '_blank', 'noopener,noreferrer');
+        }, 300);
+        
+        this.trackEvent('street_view_click', 'contact', 'map_street_view');
     }
 
     handleMethodAction(action, button) {
@@ -4749,23 +4905,31 @@ class HermesLuxuryContactSection {
         }, 600);
     }
 
-    triggerButtonShimmer(button) {
-        const shimmer = button.querySelector('.btn-shimmer');
-        if (shimmer) {
-            shimmer.style.left = '-100%';
-            shimmer.style.transition = 'none';
-            shimmer.offsetHeight; // Force reflow
-            shimmer.style.transition = 'left 0.8s ease';
-            shimmer.style.left = '100%';
+    triggerButtonShine(button) {
+        const shine = button.querySelector('.btn-shine');
+        if (shine) {
+            shine.style.left = '-100%';
+            shine.style.transition = 'none';
+            shine.offsetHeight; // Force reflow
+            shine.style.transition = 'left 0.8s ease';
+            shine.style.left = '100%';
         }
     }
 
-    // Feedback methods
-    showMapLoadingFeedback() {
+    // NEW: Enhanced feedback methods
+    showDirectionsFeedback() {
         this.showLuxuryFeedback(
-            'Opening maps application...',
+            'Opening directions...',
             'rgba(34, 197, 94, 0.95)',
             'ri-map-pin-line'
+        );
+    }
+
+    showStreetViewFeedback() {
+        this.showLuxuryFeedback(
+            'Opening street view...',
+            'rgba(59, 130, 246, 0.95)',
+            'ri-street-view-line'
         );
     }
 
@@ -4977,6 +5141,14 @@ class HermesLuxuryContactSection {
         };
     }
 
+    getMapStatus() {
+        return {
+            container: !!this.elements.mapContainer,
+            iframe: !!this.elements.mapIframe,
+            loaded: this.elements.mapIframe?.complete || false
+        };
+    }
+
     destroy() {
         // Clean up observers
         this.observers.forEach(observer => {
@@ -4985,8 +5157,12 @@ class HermesLuxuryContactSection {
         this.observers.clear();
         
         // Remove event listeners by cloning elements
-        if (this.elements.viewMapBtn) {
-            this.elements.viewMapBtn.replaceWith(this.elements.viewMapBtn.cloneNode(true));
+        if (this.elements.directionsBtn) {
+            this.elements.directionsBtn.replaceWith(this.elements.directionsBtn.cloneNode(true));
+        }
+        
+        if (this.elements.streetViewBtn) {
+            this.elements.streetViewBtn.replaceWith(this.elements.streetViewBtn.cloneNode(true));
         }
         
         if (this.elements.emergencyBtn) {
@@ -5015,8 +5191,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// CSS for form fallback (inject if needed)
-const fallbackCSS = `
+// Enhanced CSS for form fallback and loading spinner
+const enhancedFallbackCSS = `
     .form-fallback {
         text-align: center;
         padding: 40px 20px;
@@ -5093,6 +5269,11 @@ const fallbackCSS = `
         box-shadow: 0 8px 24px rgba(255, 140, 0, 0.3);
     }
     
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
     @media (max-width: 480px) {
         .fallback-actions {
             flex-direction: column;
@@ -5108,11 +5289,11 @@ const fallbackCSS = `
     }
 `;
 
-// Inject fallback CSS
-if (!document.querySelector('#hermes-contact-fallback-css')) {
+// Inject enhanced fallback CSS
+if (!document.querySelector('#hermes-contact-enhanced-css')) {
     const style = document.createElement('style');
-    style.id = 'hermes-contact-fallback-css';
-    style.textContent = fallbackCSS;
+    style.id = 'hermes-contact-enhanced-css';
+    style.textContent = enhancedFallbackCSS;
     document.head.appendChild(style);
 }
 
