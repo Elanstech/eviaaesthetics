@@ -1203,8 +1203,13 @@ body.menu-open {
 /* ========================================
    HERO SECTION - COMPLETE STYLES
    ======================================== */
+/* ========================================
+   HERO SECTION - COMPLETE CENTERED STYLES
+   ======================================== */
+
 .cinematic-hero {
     position: relative;
+    width: 100%;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -1212,8 +1217,10 @@ body.menu-open {
     padding: clamp(80px, 10vh, 120px) 0 clamp(60px, 8vh, 100px);
     overflow: hidden;
     background: var(--cream-primary);
+    text-align: center;
 }
 
+/* Video Background & Overlay */
 .video-container {
     position: absolute;
     top: 0;
@@ -1243,6 +1250,7 @@ body.menu-open {
     z-index: 2;
 }
 
+/* Floating Orbs */
 .floating-orbs {
     position: absolute;
     top: 0;
@@ -1281,28 +1289,82 @@ body.menu-open {
     width: clamp(80px, 15vw, 160px);
     height: clamp(80px, 15vw, 160px);
     bottom: 10%;
-    left: 60%;
+    left: 40%;
     animation-delay: -15s;
 }
 
+.orb-4 {
+    width: clamp(100px, 18vw, 200px);
+    height: clamp(100px, 18vw, 200px);
+    bottom: 30%;
+    right: 10%;
+    animation-delay: -12s;
+}
+
+/* Aqua Elements */
+.aqua-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.aqua-bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 158, 24, 0.1);
+    filter: blur(15px);
+    animation: float-gentle 20s ease-in-out infinite;
+}
+
+.bubble-1 {
+    width: 80px;
+    height: 80px;
+    top: 20%;
+    left: 15%;
+    animation-delay: -5s;
+}
+
+.bubble-2 {
+    width: 60px;
+    height: 60px;
+    bottom: 25%;
+    right: 20%;
+    animation-delay: -10s;
+}
+
+.bubble-3 {
+    width: 40px;
+    height: 40px;
+    top: 60%;
+    left: 30%;
+    animation-delay: -15s;
+}
+
+/* MAIN HERO CONTENT STACK */
 .hero-content-stack {
     position: relative;
     z-index: 10;
     max-width: 900px;
+    width: 100%;
     margin: 0 auto;
-    padding: 0 clamp(1rem, 3vw, 2rem);
-    text-align: center;
+    padding: 0 clamp(1.5rem, 5vw, 3rem);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: clamp(1.5rem, 3.5vw, 2rem);
-    min-height: 70vh;
+    gap: clamp(1.5rem, 3.5vw, 2.5rem);
+    min-height: 65vh;
 }
 
+/* Premium Badge */
 .hero-badge-premium {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     background: rgba(255, 255, 255, 0.95);
     color: var(--hermes-orange);
@@ -1317,6 +1379,8 @@ body.menu-open {
     border: 2px solid rgba(255, 140, 0, 0.3);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     transition: all var(--transition-medium);
+    width: auto;
+    margin: 0 auto;
 }
 
 .hero-badge-premium:hover {
@@ -1324,9 +1388,12 @@ body.menu-open {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
+/* Headline Stack */
 .hero-headline-stack {
     text-align: center;
     max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .headline-primary {
@@ -1338,6 +1405,7 @@ body.menu-open {
     color: var(--white);
     margin-bottom: clamp(0.75rem, 1.8vw, 1rem);
     text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    text-align: center;
 }
 
 .headline-secondary {
@@ -1354,8 +1422,10 @@ body.menu-open {
     background-clip: text;
     animation: gradient-shimmer 4s ease-in-out infinite;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+    text-align: center;
 }
 
+/* Subheadline */
 .hero-subheadline-elegant {
     font-family: var(--font-inter);
     font-size: clamp(0.8rem, 1.6vw, 1.2rem);
@@ -1366,8 +1436,10 @@ body.menu-open {
     margin: 0 auto;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     letter-spacing: 0.01em;
+    text-align: center;
 }
 
+/* CTA Button */
 .hero-cta-signature {
     position: relative;
     background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 50%, var(--hermes-orange-dark) 100%);
@@ -1387,6 +1459,10 @@ body.menu-open {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(20px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero-cta-signature:hover {
@@ -1408,14 +1484,33 @@ body.menu-open {
     z-index: 1;
 }
 
-.hero-cta-signature:hover .cta-shimmer { left: 100%; }
+.hero-cta-signature:hover .cta-shimmer { 
+    left: 100%; 
+}
 
+.cta-glow {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 50%, var(--hermes-orange-dark) 100%);
+    border-radius: 3rem;
+    opacity: 0;
+    filter: blur(8px);
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.hero-cta-signature:hover .cta-glow {
+    opacity: 0.5;
+}
+
+/* Stats Row */
 .stats-row-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: clamp(0.75rem, 1.8vw, 1rem);
     max-width: 1000px;
     width: 100%;
+    margin: 0 auto;
 }
 
 .stat-pill {
@@ -1479,9 +1574,7 @@ body.menu-open {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* ========================================
-   MODERN SIGNATURE - DESKTOP ONLY
-   ======================================== */
+/* Signature */
 .hermes-signature-wrapper {
     position: absolute;
     bottom: clamp(2.5rem, 6vw, 3.5rem);
@@ -1582,49 +1675,6 @@ body.menu-open {
     width: 80%;
 }
 
-/* Hover effects */
-.signature-container:hover .signature-line {
-    color: var(--luxury-orange);
-    transform: translateX(0) scale(1.02);
-}
-
-.signature-container:hover .signature-credentials {
-    transform: scale(1.05);
-}
-
-/* Click effect */
-.signature-container:active {
-    transform: translateY(-2px) scale(0.98);
-}
-
-/* Mobile hide */
-@media (max-width: 1024px) {
-    .hermes-signature-wrapper {
-        display: none !important;
-    }
-}
-
-/* Small desktop adjustments */
-@media (max-width: 1200px) {
-    .hermes-signature-wrapper {
-        bottom: clamp(2rem, 5vw, 3rem);
-        right: clamp(1rem, 3vw, 2rem);
-    }
-    
-    .signature-container {
-        padding: 1.25rem 1.75rem;
-        min-width: 200px;
-    }
-    
-    .signature-line {
-        font-size: 1.25rem;
-    }
-    
-    .signature-credentials {
-        font-size: 0.7rem;
-    }
-}
-
 /* Scroll Indicator */
 .scroll-indicator-elegant {
     position: absolute;
@@ -1673,9 +1723,7 @@ body.menu-open {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* ========================================
-   ANIMATIONS
-   ======================================== */
+/* Animations (keeping for reference) */
 @keyframes float-organic {
     0%, 100% { 
         transform: translateY(0px) translateX(0px) scale(1); 
@@ -1695,60 +1743,26 @@ body.menu-open {
     }
 }
 
+@keyframes float-gentle {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    25% {
+        transform: translateY(-15px) translateX(10px);
+    }
+    50% {
+        transform: translateY(5px) translateX(-5px);
+    }
+    75% {
+        transform: translateY(-10px) translateX(-10px);
+    }
+}
+
 @keyframes gradient-shimmer {
     0%, 100% { background-position: 0% 50%; }
     25% { background-position: 50% 0%; }
     50% { background-position: 100% 50%; }
     75% { background-position: 50% 100%; }
-}
-
-@keyframes luxury-gradient-flow {
-    0%, 100% { 
-        background-position: 0% 50%;
-        filter: drop-shadow(0 2px 8px rgba(255, 140, 0, 0.4)) saturate(1);
-    }
-    25% { 
-        background-position: 50% 0%;
-        filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.6)) saturate(1.2);
-    }
-    50% { 
-        background-position: 100% 50%;
-        filter: drop-shadow(0 2px 8px rgba(255, 140, 0, 0.4)) saturate(1);
-    }
-    75% { 
-        background-position: 50% 100%;
-        filter: drop-shadow(0 4px 12px rgba(255, 184, 77, 0.5)) saturate(1.1);
-    }
-}
-
-@keyframes particle-float {
-    0%, 100% { 
-        opacity: 0; 
-        transform: translateY(0px) scale(1) rotate(0deg); 
-    }
-    20% { 
-        opacity: 0.8; 
-        transform: translateY(-15px) scale(1.2) rotate(90deg); 
-    }
-    50% { 
-        opacity: 1; 
-        transform: translateY(-25px) scale(0.8) rotate(180deg); 
-    }
-    80% { 
-        opacity: 0.6; 
-        transform: translateY(-10px) scale(1.1) rotate(270deg); 
-    }
-}
-
-@keyframes accent-pulse {
-    0%, 100% { 
-        opacity: 0; 
-        transform: scale(0.8); 
-    }
-    50% { 
-        opacity: 0.6; 
-        transform: scale(1.2); 
-    }
 }
 
 @keyframes scroll-bounce {
@@ -1760,18 +1774,53 @@ body.menu-open {
     }
 }
 
-/* ========================================
-   RESPONSIVE - MOBILE DISABLE SIGNATURE
-   ======================================== */
+/* RESPONSIVE STYLES */
+@media (max-width: 1200px) {
+    .hermes-signature-wrapper {
+        bottom: clamp(2rem, 5vw, 3rem);
+        right: clamp(1rem, 3vw, 2rem);
+    }
+    
+    .signature-container {
+        padding: 1.25rem 1.75rem;
+        min-width: 200px;
+    }
+    
+    .signature-line {
+        font-size: 1.25rem;
+    }
+    
+    .signature-credentials {
+        font-size: 0.7rem;
+    }
+}
+
 @media (max-width: 1024px) {
-    .modern-signature-wrapper {
+    .hermes-signature-wrapper {
         display: none !important;
     }
     
     .hero-content-stack {
-        gap: clamp(1rem, 2.8vw, 1.5rem);
-        min-height: 90vh;
-        padding: clamp(2.5rem, 7vw, 3.5rem) clamp(1rem, 3.5vw, 1.5rem);
+        gap: clamp(1.2rem, 3vw, 1.8rem);
+        min-height: 80vh;
+        padding: 0 clamp(1.25rem, 4vw, 2rem);
+    }
+    
+    .stats-row-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(0.7rem, 1.8vw, 1rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .cinematic-hero {
+        padding: clamp(70px, 8vh, 100px) 0 clamp(50px, 6vh, 80px);
+    }
+    
+    .hero-content-stack {
+        gap: clamp(1rem, 2.5vw, 1.5rem);
+        min-height: 70vh;
+        padding: 0 clamp(1rem, 3vw, 1.5rem);
     }
     
     .stats-row-container {
@@ -1780,27 +1829,87 @@ body.menu-open {
     }
     
     .stat-pill {
-        padding: 0.7rem 0.9rem;
+        padding: 0.7rem 1rem;
         border-radius: 1.4rem;
-        flex-direction: column;
-        text-align: center;
-        gap: 0.4rem;
     }
     
-    .stat-content { 
-        align-items: center; 
-    }
-}
-
-@media (max-width: 768px) {
     .scroll-indicator-elegant {
-        bottom: clamp(2rem, 4vw, 3rem);
+        bottom: clamp(1.25rem, 3vw, 2rem);
+    }
+    
+    .headline-primary {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+    }
+    
+    .headline-secondary {
+        font-size: clamp(1.1rem, 3vw, 1.6rem);
     }
 }
 
 @media (max-width: 480px) {
+    .cinematic-hero {
+        padding: clamp(60px, 7vh, 80px) 0 clamp(40px, 5vh, 60px);
+    }
+    
     .hero-content-stack {
-        padding: clamp(2rem, 6vw, 3rem) clamp(0.75rem, 3vw, 1.25rem);
+        padding: 0 clamp(0.75rem, 2.5vw, 1.25rem);
+        gap: clamp(0.75rem, 2vw, 1.25rem);
+        min-height: 65vh;
+    }
+    
+    .hero-badge-premium {
+        font-size: 0.65rem;
+        padding: 0.45rem 0.9rem;
+    }
+    
+    .headline-primary {
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .headline-secondary {
+        font-size: clamp(1rem, 4vw, 1.4rem);
+    }
+    
+    .hero-subheadline-elegant {
+        font-size: clamp(0.7rem, 3vw, 0.85rem);
+    }
+    
+    .hero-cta-signature {
+        padding: 0.7rem 1.4rem;
+        font-size: 0.7rem;
+    }
+    
+    .stat-pill {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .stat-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 0.8rem;
+    }
+    
+    .stat-number {
+        font-size: 0.75rem;
+    }
+    
+    .stat-label {
+        font-size: 0.6rem;
+    }
+    
+    .scroll-indicator-elegant {
+        bottom: 1rem;
+    }
+    
+    .scroll-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+    
+    .scroll-text {
+        font-size: 0.6rem;
     }
 }
 
