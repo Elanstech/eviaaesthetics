@@ -136,7 +136,7 @@ class EviaLuxuryApp {
             { name: 'about', class: HermesAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'instagramReviews', class: RedesignedSocialSections },
-            { name: 'LuxuryProductsSection', class: HermesProductsCarousel },
+            { name: 'LuxuryProductsSection', class: HermesSpaProductsCarousel },
             { name: 'contactSection', class: HermesLuxuryContactSection },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
@@ -3211,18 +3211,18 @@ class RedesignedSocialSections {
    HERMÈS MEDSPA PRODUCTS CAROUSEL
    ======================================== */
 
- class HermesProductsCarousel {
+class HermesSpaProductsCarousel {
     constructor() {
-        this.section = document.querySelector('.hermes-products-carousel');
-        this.carousel = document.getElementById('productsCarousel');
-        this.prevBtn = document.getElementById('carouselPrev');
-        this.nextBtn = document.getElementById('carouselNext');
-        this.indicators = document.getElementById('carouselIndicators');
-        this.modal = document.getElementById('productModal');
-        this.modalBody = document.getElementById('modalBody');
-        this.modalClose = document.getElementById('modalClose');
-        this.modalShopBtn = document.getElementById('modalShopBtn');
-        this.catalogBtn = document.getElementById('catalogBtn');
+        this.section = document.querySelector('.hermes-spa-products-carousel');
+        this.carousel = document.getElementById('spaProductsCarousel');
+        this.prevBtn = document.getElementById('spaCarouselPrev');
+        this.nextBtn = document.getElementById('spaCarouselNext');
+        this.indicators = document.getElementById('spaCarouselIndicators');
+        this.modal = document.getElementById('spaProductModal');
+        this.modalBody = document.getElementById('spaModalBody');
+        this.modalClose = document.getElementById('spaModalClose');
+        this.modalShopBtn = document.getElementById('spaModalShopBtn');
+        this.catalogBtn = document.getElementById('spaCatalogBtn');
         
         this.currentSlide = 0;
         this.totalSlides = 4;
@@ -3233,6 +3233,8 @@ class RedesignedSocialSections {
         this.touchStartX = 0;
         this.touchEndX = 0;
         this.currentProductUrl = '';
+        this.cardsPerView = 1;
+        this.maxSlide = 0;
         
         this.productData = {
             'clear-shield': {
@@ -3300,36 +3302,38 @@ class RedesignedSocialSections {
     
     init() {
         try {
-            this.calculateDimensions();
+            this.calculateResponsiveDimensions();
             this.bindEvents();
             this.setupAutoplay();
             this.updateIndicators();
             this.updateNavigation();
             
-            console.log('✨ Hermès Products Carousel initialized successfully');
+            console.log('✨ Hermès Spa Products Carousel initialized successfully');
         } catch (error) {
-            console.error('❌ Error initializing Hermès Products Carousel:', error);
+            console.error('❌ Error initializing Hermès Spa Products Carousel:', error);
         }
     }
     
-    calculateDimensions() {
-        const containerWidth = this.carousel.parentElement.clientWidth;
-        const cardWidth = 280;
-        const gap = 20;
-        const padding = 40; // Container padding
+    calculateResponsiveDimensions() {
+        const screenWidth = window.innerWidth;
         
-        const availableWidth = containerWidth - padding;
-        const cardsPerView = Math.floor(availableWidth / (cardWidth + gap));
+        // Determine cards per view based on screen size
+        if (screenWidth <= 768) {
+            // Mobile: 1 card
+            this.cardsPerView = 1;
+        } else if (screenWidth <= 1024) {
+            // Tablet: 2 cards
+            this.cardsPerView = 2;
+        } else {
+            // Desktop: 3-4 cards (depending on content)
+            this.cardsPerView = 3;
+        }
         
-        // Calculate the actual slide width based on cards per view
-        this.slideWidth = cardWidth + gap;
-        this.cardsPerView = Math.max(1, cardsPerView);
-        
-        // Update CSS custom property for responsive behavior
-        document.documentElement.style.setProperty('--cards-per-view', this.cardsPerView);
-        
-        // Adjust total slides based on cards per view
+        // Calculate max slide based on cards per view
         this.maxSlide = Math.max(0, this.totalSlides - this.cardsPerView);
+        
+        // Ensure current slide is within bounds
+        this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
     }
     
     bindEvents() {
@@ -3339,14 +3343,14 @@ class RedesignedSocialSections {
         
         // Indicator clicks
         this.indicators?.addEventListener('click', (e) => {
-            if (e.target.classList.contains('indicator')) {
+            if (e.target.classList.contains('spa-indicator')) {
                 const slideIndex = parseInt(e.target.dataset.slide);
                 this.goToSlide(slideIndex);
             }
         });
         
         // Learn more buttons
-        document.querySelectorAll('.learn-more-btn').forEach(btn => {
+        document.querySelectorAll('.spa-learn-more-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const productId = btn.dataset.product;
@@ -3355,7 +3359,7 @@ class RedesignedSocialSections {
         });
         
         // Shop now buttons
-        document.querySelectorAll('.shop-now-btn').forEach(btn => {
+        document.querySelectorAll('.spa-shop-now-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const url = btn.dataset.url;
@@ -3427,8 +3431,21 @@ class RedesignedSocialSections {
         
         this.isAnimating = true;
         
-        const translateX = -this.currentSlide * this.slideWidth;
-        this.carousel.style.transform = `translateX(${translateX}px)`;
+        // Calculate transform based on cards per view and current slide
+        let translateXPercent;
+        
+        if (this.cardsPerView === 1) {
+            // Mobile: 100% per slide
+            translateXPercent = -this.currentSlide * 100;
+        } else if (this.cardsPerView === 2) {
+            // Tablet: 50% per slide
+            translateXPercent = -this.currentSlide * 50;
+        } else {
+            // Desktop: 33.33% per slide (for 3 cards)
+            translateXPercent = -this.currentSlide * (100 / 3);
+        }
+        
+        this.carousel.style.transform = `translateX(${translateXPercent}%)`;
         
         this.updateIndicators();
         this.updateNavigation();
@@ -3440,9 +3457,9 @@ class RedesignedSocialSections {
     }
     
     updateIndicators() {
-        const indicators = this.indicators?.querySelectorAll('.indicator');
+        const indicators = this.indicators?.querySelectorAll('.spa-indicator');
         indicators?.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === this.currentSlide);
+            indicator.classList.toggle('spa-active', index === this.currentSlide);
         });
     }
     
@@ -3495,7 +3512,7 @@ class RedesignedSocialSections {
     }
     
     handleKeydown(e) {
-        if (!this.modal?.classList.contains('active')) {
+        if (!this.modal?.classList.contains('spa-active')) {
             switch (e.key) {
                 case 'ArrowLeft':
                     e.preventDefault();
@@ -3516,8 +3533,7 @@ class RedesignedSocialSections {
     handleResize() {
         clearTimeout(this.resizeTimeout);
         this.resizeTimeout = setTimeout(() => {
-            this.calculateDimensions();
-            this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
+            this.calculateResponsiveDimensions();
             this.updateCarousel();
         }, 150);
     }
@@ -3550,55 +3566,55 @@ class RedesignedSocialSections {
         if (!this.modalBody) return;
         
         this.modalBody.innerHTML = `
-            <div class="modal-product-header">
-                <div class="modal-product-image">
+            <div class="spa-modal-product-header">
+                <div class="spa-modal-product-image">
                     <img src="${product.image}" alt="${product.name}" loading="lazy">
                 </div>
-                <div class="modal-product-info">
-                    <div class="modal-product-category">
+                <div class="spa-modal-product-info">
+                    <div class="spa-modal-product-category">
                         <i class="ri-star-line"></i>
                         <span>${product.category}</span>
                     </div>
-                    <h2 class="modal-product-name">${product.name}</h2>
-                    <div class="modal-product-rating">
-                        <div class="rating-stars">
+                    <h2 class="spa-modal-product-name">${product.name}</h2>
+                    <div class="spa-modal-product-rating">
+                        <div class="spa-rating-stars">
                             ${this.generateStars(product.rating)}
                         </div>
-                        <span class="rating-text">${product.rating} (${product.reviews} reviews)</span>
+                        <span class="spa-rating-text">${product.rating} (${product.reviews} reviews)</span>
                     </div>
                 </div>
             </div>
             
-            <div class="modal-product-content">
-                <div class="modal-section">
+            <div class="spa-modal-product-content">
+                <div class="spa-modal-section">
                     <h3>Description</h3>
                     <p>${product.detailedDescription}</p>
                 </div>
                 
-                <div class="modal-section">
+                <div class="spa-modal-section">
                     <h3>Key Features</h3>
-                    <ul class="features-list">
+                    <ul class="spa-features-list">
                         ${product.features.map(feature => `<li>${feature}</li>`).join('')}
                     </ul>
                 </div>
                 
-                <div class="modal-section">
+                <div class="spa-modal-section">
                     <h3>Benefits</h3>
-                    <ul class="benefits-list">
+                    <ul class="spa-benefits-list">
                         ${product.benefits.map(benefit => `<li>${benefit}</li>`).join('')}
                     </ul>
                 </div>
                 
-                <div class="modal-section">
+                <div class="spa-modal-section">
                     <h3>Key Ingredients</h3>
-                    <div class="ingredients-grid">
-                        ${product.keyIngredients.map(ingredient => `<span class="ingredient-tag">${ingredient}</span>`).join('')}
+                    <div class="spa-ingredients-grid">
+                        ${product.keyIngredients.map(ingredient => `<span class="spa-ingredient-tag">${ingredient}</span>`).join('')}
                     </div>
                 </div>
                 
-                <div class="modal-section">
+                <div class="spa-modal-section">
                     <h3>Usage Instructions</h3>
-                    <p class="usage-text">${product.usage}</p>
+                    <p class="spa-usage-text">${product.usage}</p>
                 </div>
             </div>
         `;
@@ -3608,12 +3624,12 @@ class RedesignedSocialSections {
     }
     
     addModalStyles() {
-        if (document.getElementById('modal-styles')) return;
+        if (document.getElementById('spa-modal-styles')) return;
         
         const styles = document.createElement('style');
-        styles.id = 'modal-styles';
+        styles.id = 'spa-modal-styles';
         styles.textContent = `
-            .modal-product-header {
+            .spa-modal-product-header {
                 display: flex;
                 gap: 20px;
                 margin-bottom: 24px;
@@ -3621,7 +3637,7 @@ class RedesignedSocialSections {
                 border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             }
             
-            .modal-product-image {
+            .spa-modal-product-image {
                 flex: 0 0 120px;
                 height: 120px;
                 background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);
@@ -3632,17 +3648,17 @@ class RedesignedSocialSections {
                 overflow: hidden;
             }
             
-            .modal-product-image img {
+            .spa-modal-product-image img {
                 width: 80%;
                 height: 80%;
                 object-fit: contain;
             }
             
-            .modal-product-info {
+            .spa-modal-product-info {
                 flex: 1;
             }
             
-            .modal-product-category {
+            .spa-modal-product-category {
                 display: flex;
                 align-items: center;
                 gap: 6px;
@@ -3654,7 +3670,7 @@ class RedesignedSocialSections {
                 margin-bottom: 8px;
             }
             
-            .modal-product-name {
+            .spa-modal-product-name {
                 font-family: var(--font-playfair);
                 font-size: 24px;
                 font-weight: 600;
@@ -3663,17 +3679,17 @@ class RedesignedSocialSections {
                 line-height: 1.3;
             }
             
-            .modal-product-rating {
+            .spa-modal-product-rating {
                 display: flex;
                 align-items: center;
                 gap: 10px;
             }
             
-            .modal-section {
+            .spa-modal-section {
                 margin-bottom: 24px;
             }
             
-            .modal-section h3 {
+            .spa-modal-section h3 {
                 font-family: var(--font-playfair);
                 font-size: 18px;
                 font-weight: 600;
@@ -3681,29 +3697,29 @@ class RedesignedSocialSections {
                 margin-bottom: 12px;
             }
             
-            .modal-section p {
+            .spa-modal-section p {
                 color: var(--text-secondary);
                 line-height: 1.6;
                 margin: 0;
             }
             
-            .features-list,
-            .benefits-list {
+            .spa-features-list,
+            .spa-benefits-list {
                 list-style: none;
                 padding: 0;
                 margin: 0;
             }
             
-            .features-list li,
-            .benefits-list li {
+            .spa-features-list li,
+            .spa-benefits-list li {
                 padding: 8px 0;
                 color: var(--text-secondary);
                 position: relative;
                 padding-left: 20px;
             }
             
-            .features-list li::before,
-            .benefits-list li::before {
+            .spa-features-list li::before,
+            .spa-benefits-list li::before {
                 content: '✓';
                 position: absolute;
                 left: 0;
@@ -3711,13 +3727,13 @@ class RedesignedSocialSections {
                 font-weight: bold;
             }
             
-            .ingredients-grid {
+            .spa-ingredients-grid {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 8px;
             }
             
-            .ingredient-tag {
+            .spa-ingredient-tag {
                 background: rgba(255, 140, 0, 0.1);
                 color: var(--hermes-orange);
                 padding: 6px 12px;
@@ -3727,7 +3743,7 @@ class RedesignedSocialSections {
                 border: 1px solid rgba(255, 140, 0, 0.2);
             }
             
-            .usage-text {
+            .spa-usage-text {
                 background: rgba(248, 244, 236, 0.8);
                 padding: 16px;
                 border-radius: 12px;
@@ -3737,12 +3753,12 @@ class RedesignedSocialSections {
             }
             
             @media (max-width: 768px) {
-                .modal-product-header {
+                .spa-modal-product-header {
                     flex-direction: column;
                     text-align: center;
                 }
                 
-                .modal-product-image {
+                .spa-modal-product-image {
                     flex: none;
                     width: 100px;
                     height: 100px;
@@ -3771,13 +3787,13 @@ class RedesignedSocialSections {
     }
     
     showModal() {
-        this.modal?.classList.add('active');
+        this.modal?.classList.add('spa-active');
         document.body.style.overflow = 'hidden';
         this.pauseAutoplay();
     }
     
     closeModal() {
-        this.modal?.classList.remove('active');
+        this.modal?.classList.remove('spa-active');
         document.body.style.overflow = '';
         this.currentProductUrl = '';
         this.resumeAutoplay();
@@ -3852,14 +3868,14 @@ class RedesignedSocialSections {
         `;
         
         feedback.innerHTML = `
-            <i class="ri-loader-4-line" style="font-size: 16px; animation: spin 1s linear infinite;"></i>
+            <i class="ri-loader-4-line" style="font-size: 16px; animation: spa-spin 1s linear infinite;"></i>
             <span>${message}</span>
         `;
         
         // Add spinner animation
         const spinStyle = document.createElement('style');
         spinStyle.textContent = `
-            @keyframes spin {
+            @keyframes spa-spin {
                 from { transform: rotate(0deg); }
                 to { transform: rotate(360deg); }
             }
@@ -3890,38 +3906,38 @@ class RedesignedSocialSections {
     
     trackProductModal(productName) {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'product_modal_open', {
-                event_category: 'products',
+            gtag('event', 'spa_product_modal_open', {
+                event_category: 'spa_products',
                 event_label: productName,
                 value: 1
             });
         }
         
-        console.log(`📊 Product modal opened: ${productName}`);
+        console.log(`📊 Spa Product modal opened: ${productName}`);
     }
     
     trackShopNowClick(url) {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'shop_now_click', {
-                event_category: 'products',
+            gtag('event', 'spa_shop_now_click', {
+                event_category: 'spa_products',
                 event_label: 'alumiermd_product',
                 value: 1
             });
         }
         
-        console.log(`📊 Shop now clicked: ${url}`);
+        console.log(`📊 Spa Shop now clicked: ${url}`);
     }
     
     trackCatalogClick() {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'catalog_view', {
-                event_category: 'products',
+            gtag('event', 'spa_catalog_view', {
+                event_category: 'spa_products',
                 event_label: 'alumiermd_full_catalog',
                 value: 1
             });
         }
         
-        console.log('📊 Catalog clicked');
+        console.log('📊 Spa Catalog clicked');
     }
     
     destroy() {
@@ -3937,7 +3953,7 @@ class RedesignedSocialSections {
             clearTimeout(this.resizeTimeout);
         }
         
-        console.log('🗑️ Hermès Products Carousel destroyed');
+        console.log('🗑️ Hermès Spa Products Carousel destroyed');
     }
     
     refresh() {
@@ -3948,26 +3964,26 @@ class RedesignedSocialSections {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    const hermesCarousel = new HermesProductsCarousel();
+    const hermesSpaCarousel = new HermesSpaProductsCarousel();
     
     // Make it globally accessible for debugging
-    window.hermesCarousel = hermesCarousel;
+    window.hermesSpaCarousel = hermesSpaCarousel;
 });
 
 // Handle page visibility changes to pause/resume autoplay
 document.addEventListener('visibilitychange', () => {
-    if (window.hermesCarousel) {
+    if (window.hermesSpaCarousel) {
         if (document.hidden) {
-            window.hermesCarousel.pauseAutoplay();
+            window.hermesSpaCarousel.pauseAutoplay();
         } else {
-            window.hermesCarousel.resumeAutoplay();
+            window.hermesSpaCarousel.resumeAutoplay();
         }
     }
 });
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = HermesProductsCarousel;
+    module.exports = HermesSpaProductsCarousel;
 }
 
 /* ========================================
@@ -5754,7 +5770,7 @@ if (typeof module !== 'undefined' && module.exports) {
         HermesAboutSection,
         ModernTransformationsGallery,
         RedesignedSocialSections,
-        HermesProductsCarousel,
+        HermesSpaProductsCarousel,
         HermesLuxuryContactSection,
         LuxuryFloatingButtons,
         CinematicHero,
