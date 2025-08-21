@@ -137,7 +137,7 @@ class EviaLuxuryApp {
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'instagramReviews', class: RedesignedSocialSections },
             { name: 'LuxuryProductsSection', class: LuxuryMedSpaProducts },
-            { name: 'contactSection', class: LuxuryContactSection },
+            { name: 'contactSection', class: HermesLuxuryContactSection },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
         
@@ -4003,122 +4003,497 @@ class LuxuryMedSpaProducts {
    CONTACT SECTION
    ======================================== */
 
-class LuxuryContactSection {
+class HermesLuxuryContactSection {
     constructor() {
+        this.section = document.querySelector('.hermes-contact-section');
         this.isInitialized = false;
         this.formLoaded = false;
+        this.observers = new Map();
+        this.animationQueue = [];
         
-        this.init();
+        // Element references
+        this.elements = {};
+        
+        if (this.section) {
+            this.init();
+        }
     }
-    
+
     init() {
         if (this.isInitialized) return;
-        
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.onDOMReady());
-        } else {
-            this.onDOMReady();
-        }
-    }
-    
-    onDOMReady() {
+
         try {
             this.initializeElements();
-            this.bindEvents();
-            this.handleElfsightForm();
+            this.setupRevealAnimations();
+            this.bindInteractions();
+            this.initializeElfsightForm();
+            this.setupFloatingCredentials();
+            this.initializeAmbientEffects();
             
             this.isInitialized = true;
-            console.log('✨ Luxury Contact Section initialized');
+            console.log('✨ Hermès Luxury Contact Section initialized');
         } catch (error) {
-            console.error('❌ Error initializing contact section:', error);
+            console.error('❌ Error initializing Hermès Contact Section:', error);
         }
     }
-    
+
     initializeElements() {
         this.elements = {
-            section: document.querySelector('.luxury-contact-section'),
-            viewMapBtn: document.querySelector('.view-map-btn'),
-            callBtns: document.querySelectorAll('.call-btn, .method-action[data-action="call"], .emergency-cta'),
-            emailBtns: document.querySelectorAll('.email-btn, .method-action[data-action="email"]'),
-            methodCards: document.querySelectorAll('.method-card'),
-            socialLinks: document.querySelectorAll('.social-link'),
-            formLoading: document.getElementById('formLoading'),
-            elfsightForm: document.getElementById('elfsightForm')
+            // Main containers
+            container: this.section.querySelector('.hermes-contact-container'),
+            header: this.section.querySelector('.hermes-contact-header'),
+            layout: this.section.querySelector('.hermes-contact-layout'),
+            
+            // Location elements
+            locationCard: this.section.querySelector('.location-luxury-card'),
+            viewMapBtn: this.section.querySelector('.view-map-luxury'),
+            
+            // Contact method elements
+            methodCards: this.section.querySelectorAll('.method-luxury-card'),
+            phoneCard: this.section.querySelector('.phone-card'),
+            emailCard: this.section.querySelector('.email-card'),
+            methodActionBtns: this.section.querySelectorAll('.method-action-btn'),
+            
+            // Social elements
+            socialLinks: this.section.querySelectorAll('.social-link-luxury'),
+            
+            // Form elements
+            formContainer: this.section.querySelector('.form-luxury-container'),
+            formLoading: this.section.querySelector('#formLoadingLuxury'),
+            elfsightForm: this.section.querySelector('#elfsightFormLuxury'),
+            elfsightWidget: this.section.querySelector('.elfsight-app-db15691a-379c-4773-8900-983e7e393d0f'),
+            
+            // Treatment highlights
+            highlightItems: this.section.querySelectorAll('.highlight-item'),
+            
+            // Emergency contact
+            emergencySection: this.section.querySelector('.emergency-contact-luxury'),
+            emergencyBtn: this.section.querySelector('.emergency-luxury-cta'),
+            
+            // Floating credentials
+            credentialPills: this.section.querySelectorAll('.credential-pill'),
+            
+            // Ambient elements
+            ambientOrbs: this.section.querySelectorAll('.ambient-orb'),
+            floatingIcons: this.section.querySelectorAll('.float-icon'),
+            
+            // Reveal elements
+            revealElements: this.section.querySelectorAll('[data-reveal]')
         };
+    }
+
+    setupRevealAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.revealElement(entry.target);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        this.elements.revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+
+        this.observers.set('reveal', revealObserver);
+    }
+
+    revealElement(element) {
+        const delay = element.getAttribute('data-delay') || 0;
         
-        if (!this.elements.section) {
-            throw new Error('Contact section not found');
+        setTimeout(() => {
+            element.classList.add('revealed');
+            
+            // Special animations for specific elements
+            if (element.classList.contains('hermes-contact-layout')) {
+                this.animateContactLayout();
+            } else if (element.classList.contains('emergency-contact-luxury')) {
+                this.animateEmergencySection();
+            }
+        }, parseInt(delay));
+    }
+
+    animateContactLayout() {
+        // Animate contact info cards
+        const infoCards = this.section.querySelectorAll('.location-luxury-card, .method-luxury-card, .treatment-highlights-card, .social-luxury-card');
+        infoCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 150);
+        });
+
+        // Animate form container
+        setTimeout(() => {
+            if (this.elements.formContainer) {
+                this.elements.formContainer.style.opacity = '1';
+                this.elements.formContainer.style.transform = 'translateY(0)';
+            }
+        }, 600);
+    }
+
+    animateEmergencySection() {
+        const emergencyIcon = this.elements.emergencySection?.querySelector('.emergency-icon-frame');
+        const emergencyText = this.elements.emergencySection?.querySelector('.emergency-text');
+        const emergencyBtn = this.elements.emergencySection?.querySelector('.emergency-luxury-cta');
+
+        if (emergencyIcon) {
+            setTimeout(() => {
+                emergencyIcon.style.transform = 'scale(1.1) rotate(5deg)';
+                setTimeout(() => {
+                    emergencyIcon.style.transform = 'scale(1) rotate(0deg)';
+                }, 300);
+            }, 200);
+        }
+
+        if (emergencyText) {
+            setTimeout(() => {
+                emergencyText.style.opacity = '1';
+                emergencyText.style.transform = 'translateX(0)';
+            }, 400);
+        }
+
+        if (emergencyBtn) {
+            setTimeout(() => {
+                emergencyBtn.style.opacity = '1';
+                emergencyBtn.style.transform = 'translateX(0)';
+            }, 600);
         }
     }
-    
-    bindEvents() {
+
+    bindInteractions() {
+        // View map button
         if (this.elements.viewMapBtn) {
-            this.elements.viewMapBtn.addEventListener('click', () => this.openMap());
+            this.elements.viewMapBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleMapView();
+            });
+            
+            this.elements.viewMapBtn.addEventListener('mouseenter', () => {
+                this.triggerButtonShimmer(this.elements.viewMapBtn);
+            });
         }
-        
-        this.elements.callBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => this.handleCall(e));
+
+        // Method action buttons
+        this.elements.methodActionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const action = btn.getAttribute('data-action');
+                this.handleMethodAction(action, btn);
+            });
+            
+            btn.addEventListener('mouseenter', () => {
+                this.addRippleEffect(btn);
+            });
         });
-        
-        this.elements.emailBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => this.handleEmail(e));
-        });
-        
+
+        // Method cards hover effects
         this.elements.methodCards.forEach(card => {
             card.addEventListener('mouseenter', () => this.onMethodCardHover(card));
             card.addEventListener('mouseleave', () => this.onMethodCardLeave(card));
+            card.addEventListener('click', () => this.onMethodCardClick(card));
         });
-        
+
+        // Social media links
         this.elements.socialLinks.forEach(link => {
-            link.addEventListener('click', (e) => this.handleSocialClick(e, link));
+            link.addEventListener('click', (e) => {
+                this.handleSocialClick(e, link);
+            });
+            
+            link.addEventListener('mouseenter', () => {
+                this.animateSocialHover(link);
+            });
+        });
+
+        // Treatment highlights
+        this.elements.highlightItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                this.animateHighlightHover(item);
+            });
+        });
+
+        // Emergency contact button
+        if (this.elements.emergencyBtn) {
+            this.elements.emergencyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleEmergencyCall();
+            });
+            
+            this.elements.emergencyBtn.addEventListener('mouseenter', () => {
+                this.activateEmergencyGlow();
+            });
+        }
+
+        // Location card interactions
+        if (this.elements.locationCard) {
+            this.elements.locationCard.addEventListener('mouseenter', () => {
+                this.animateLocationCardHover();
+            });
+        }
+
+        // Credential pills
+        this.elements.credentialPills.forEach(pill => {
+            pill.addEventListener('mouseenter', () => {
+                this.animateCredentialHover(pill);
+            });
+            
+            pill.addEventListener('click', () => {
+                this.handleCredentialClick(pill);
+            });
         });
     }
-    
-    handleElfsightForm() {
-        this.showFormLoading();
-        this.waitForElfsight();
+
+    handleMapView() {
+        const address = '65 West 36th Street, 10th Floor, New York, NY 10018';
+        const encodedAddress = encodeURIComponent(address);
         
+        this.addClickFeedback(this.elements.viewMapBtn);
+        this.showMapLoadingFeedback();
+        
+        // Detect device and open appropriate map
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/.test(navigator.userAgent);
+        
+        let mapUrl;
+        if (isIOS) {
+            mapUrl = `maps://maps.google.com/maps?q=${encodedAddress}`;
+        } else if (isAndroid) {
+            mapUrl = `geo:0,0?q=${encodedAddress}`;
+        } else {
+            mapUrl = `https://maps.google.com/maps?q=${encodedAddress}`;
+        }
+        
+        setTimeout(() => {
+            window.open(mapUrl, '_blank', 'noopener,noreferrer');
+        }, 300);
+        
+        this.trackEvent('map_view', 'contact', 'location_directions');
+    }
+
+    handleMethodAction(action, button) {
+        this.addClickFeedback(button);
+        
+        switch (action) {
+            case 'call':
+                this.handlePhoneCall();
+                break;
+            case 'email':
+                this.handleEmailContact();
+                break;
+            default:
+                console.warn('Unknown method action:', action);
+        }
+    }
+
+    handlePhoneCall() {
+        const phoneNumber = '2016394983';
+        const telLink = `tel:${phoneNumber}`;
+        
+        this.showCallingFeedback();
+        
+        setTimeout(() => {
+            window.location.href = telLink;
+        }, 300);
+        
+        this.trackEvent('phone_call', 'contact', 'method_action_button');
+    }
+
+    handleEmailContact() {
+        const email = 'info@eviaesthetics.com';
+        const subject = 'Consultation Request - Evia Aesthetics';
+        const body = 'Hello,\n\nI would like to schedule a consultation for aesthetic treatments.\n\nThank you!';
+        
+        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        
+        this.showEmailFeedback();
+        
+        setTimeout(() => {
+            window.location.href = mailtoLink;
+        }, 300);
+        
+        this.trackEvent('email_contact', 'contact', 'method_action_button');
+    }
+
+    handleEmergencyCall() {
+        this.addClickFeedback(this.elements.emergencyBtn);
+        this.triggerEmergencyGlow();
+        
+        const phoneNumber = '2016394983';
+        const telLink = `tel:${phoneNumber}`;
+        
+        this.showEmergencyCallFeedback();
+        
+        setTimeout(() => {
+            window.location.href = telLink;
+        }, 400);
+        
+        this.trackEvent('emergency_call', 'contact', 'urgent_consultation');
+    }
+
+    handleSocialClick(event, link) {
+        const platform = this.getSocialPlatform(link);
+        
+        this.addClickFeedback(link);
+        this.showSocialFeedback(platform);
+        
+        // Don't prevent default for social links - let them open normally
+        this.trackEvent('social_click', 'contact', platform);
+    }
+
+    getSocialPlatform(link) {
+        if (link.classList.contains('instagram')) return 'instagram';
+        if (link.classList.contains('facebook')) return 'facebook';
+        if (link.href.includes('instagram.com')) return 'instagram';
+        if (link.href.includes('facebook.com')) return 'facebook';
+        return 'social';
+    }
+
+    onMethodCardHover(card) {
+        const iconFrame = card.querySelector('.method-icon-frame');
+        const actionBtn = card.querySelector('.method-action-btn');
+        
+        if (iconFrame) {
+            iconFrame.style.transform = 'scale(1.1) rotate(5deg)';
+        }
+        
+        if (actionBtn) {
+            actionBtn.style.transform = 'scale(1.1)';
+            this.addRippleEffect(actionBtn);
+        }
+        
+        card.style.boxShadow = '0 12px 48px rgba(255, 140, 0, 0.15)';
+    }
+
+    onMethodCardLeave(card) {
+        const iconFrame = card.querySelector('.method-icon-frame');
+        const actionBtn = card.querySelector('.method-action-btn');
+        
+        if (iconFrame) {
+            iconFrame.style.transform = 'scale(1) rotate(0deg)';
+        }
+        
+        if (actionBtn) {
+            actionBtn.style.transform = 'scale(1)';
+        }
+        
+        card.style.boxShadow = '';
+    }
+
+    onMethodCardClick(card) {
+        this.addRippleEffectToCard(card);
+        
+        const actionBtn = card.querySelector('.method-action-btn');
+        if (actionBtn) {
+            actionBtn.click();
+        }
+    }
+
+    animateSocialHover(link) {
+        const iconFrame = link.querySelector('.social-icon-frame');
+        const arrow = link.querySelector('.social-arrow');
+        
+        if (iconFrame) {
+            iconFrame.style.transform = 'scale(1.1) rotate(5deg)';
+        }
+        
+        if (arrow) {
+            arrow.style.transform = 'translateX(4px)';
+            arrow.style.color = '#FF8C00';
+        }
+    }
+
+    animateHighlightHover(item) {
+        const icon = item.querySelector('.highlight-icon');
+        
+        if (icon) {
+            icon.style.transform = 'scale(1.2) rotate(10deg)';
+            icon.style.background = 'rgba(255, 140, 0, 0.2)';
+        }
+        
+        item.style.background = 'rgba(255, 140, 0, 0.08)';
+        item.style.borderColor = 'rgba(255, 140, 0, 0.3)';
+        
+        setTimeout(() => {
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0deg)';
+                icon.style.background = 'rgba(255, 140, 0, 0.1)';
+            }
+            item.style.background = 'rgba(255, 248, 240, 0.6)';
+            item.style.borderColor = 'rgba(255, 140, 0, 0.1)';
+        }, 1000);
+    }
+
+    animateLocationCardHover() {
+        const frameCorners = this.elements.locationCard.querySelectorAll('.frame-corner');
+        const headerIcon = this.elements.locationCard.querySelector('.header-icon-frame');
+        
+        frameCorners.forEach(corner => {
+            corner.style.opacity = '1';
+            corner.style.transform = 'scale(1.1)';
+        });
+        
+        if (headerIcon) {
+            headerIcon.style.transform = 'scale(1.08) rotate(5deg)';
+        }
+    }
+
+    animateCredentialHover(pill) {
+        pill.style.transform = 'translateY(-4px) scale(1.05)';
+        pill.style.boxShadow = '0 8px 32px rgba(255, 140, 0, 0.3)';
+        pill.style.borderColor = 'rgba(255, 140, 0, 0.4)';
+        
+        setTimeout(() => {
+            pill.style.transform = 'translateY(0) scale(1)';
+            pill.style.boxShadow = '';
+            pill.style.borderColor = 'rgba(255, 140, 0, 0.2)';
+        }, 1000);
+    }
+
+    handleCredentialClick(pill) {
+        this.addClickFeedback(pill);
+        
+        const credentialText = pill.textContent.trim();
+        this.showCredentialFeedback(credentialText);
+        
+        this.trackEvent('credential_click', 'contact', credentialText);
+    }
+
+    activateEmergencyGlow() {
+        const glow = this.elements.emergencyBtn.querySelector('.cta-glow');
+        if (glow) {
+            glow.style.opacity = '1';
+        }
+    }
+
+    triggerEmergencyGlow() {
+        const glow = this.elements.emergencyBtn.querySelector('.cta-glow');
+        if (glow) {
+            glow.style.opacity = '1';
+            setTimeout(() => {
+                glow.style.opacity = '0';
+            }, 1500);
+        }
+    }
+
+    // Form handling methods
+    initializeElfsightForm() {
+        this.showFormLoading();
+        this.waitForElfsightWidget();
+        
+        // Timeout fallback
         setTimeout(() => {
             if (!this.formLoaded) {
-                this.onFormLoadTimeout();
+                this.handleFormLoadFailure();
             }
-        }, 10000);
+        }, 12000);
     }
-    
-    waitForElfsight() {
-        const checkElfsight = () => {
-            if (window.ElfsightInstagram || document.querySelector('.elfsight-app-db15691a-379c-4773-8900-983e7e393d0f iframe')) {
-                this.onFormLoaded();
-                return;
-            }
-            
-            const widgetContainer = document.querySelector('.elfsight-app-db15691a-379c-4773-8900-983e7e393d0f');
-            if (widgetContainer && (widgetContainer.children.length > 0 || widgetContainer.innerHTML.trim() !== '')) {
-                setTimeout(() => this.onFormLoaded(), 1000);
-                return;
-            }
-            
-            setTimeout(checkElfsight, 500);
-        };
-        
-        setTimeout(checkElfsight, 1000);
-    }
-    
-    onFormLoaded() {
-        if (this.formLoaded) return;
-        
-        this.formLoaded = true;
-        this.hideFormLoading();
-        
-        setTimeout(() => {
-            this.styleElfsightForm();
-        }, 500);
-    }
-    
-    onFormLoadTimeout() {
-        this.showFormFallback();
-    }
-    
+
     showFormLoading() {
         if (this.elements.formLoading) {
             this.elements.formLoading.style.display = 'flex';
@@ -4127,7 +4502,7 @@ class LuxuryContactSection {
             this.elements.elfsightForm.style.opacity = '0';
         }
     }
-    
+
     hideFormLoading() {
         if (this.elements.formLoading) {
             this.elements.formLoading.style.opacity = '0';
@@ -4137,189 +4512,335 @@ class LuxuryContactSection {
         }
         
         if (this.elements.elfsightForm) {
+            this.elements.elfsightForm.classList.add('loaded');
             this.elements.elfsightForm.style.opacity = '1';
         }
     }
-    
-    showFormFallback() {
+
+    waitForElfsightWidget() {
+        let checkCount = 0;
+        const maxChecks = 24;
+        
+        const checkWidget = () => {
+            checkCount++;
+            
+            if (this.elements.elfsightWidget) {
+                const hasContent = this.elements.elfsightWidget.children.length > 0 || 
+                                 this.elements.elfsightWidget.innerHTML.trim() !== '';
+                
+                if (hasContent) {
+                    this.onFormLoaded();
+                    return;
+                }
+            }
+            
+            // Check for iframe (widget loaded)
+            const iframe = document.querySelector('.elfsight-app-db15691a-379c-4773-8900-983e7e393d0f iframe');
+            if (iframe) {
+                this.onFormLoaded();
+                return;
+            }
+            
+            if (checkCount < maxChecks) {
+                setTimeout(checkWidget, 500);
+            } else {
+                this.handleFormLoadFailure();
+            }
+        };
+        
+        setTimeout(checkWidget, 1000);
+    }
+
+    onFormLoaded() {
+        if (this.formLoaded) return;
+        
+        this.formLoaded = true;
+        this.hideFormLoading();
+        
+        setTimeout(() => {
+            this.styleElfsightWidget();
+        }, 500);
+        
+        console.log('✅ Elfsight contact form loaded');
+    }
+
+    handleFormLoadFailure() {
+        console.warn('⚠️ Elfsight form failed to load, showing fallback');
+        
         if (this.elements.formLoading) {
             this.elements.formLoading.innerHTML = `
-                <div class="fallback-content">
+                <div class="form-fallback">
                     <div class="fallback-icon">
                         <i class="ri-phone-line"></i>
                     </div>
-                    <h4>Unable to load form</h4>
+                    <h4>Contact Form Unavailable</h4>
                     <p>Please call us directly to schedule your consultation</p>
-                    <button class="fallback-call-btn" onclick="window.location.href='tel:2016394983'">
-                        <i class="ri-phone-line"></i>
-                        <span>Call (201) 639-4983</span>
-                    </button>
+                    <div class="fallback-actions">
+                        <button class="fallback-call-btn" onclick="window.location.href='tel:2016394983'">
+                            <i class="ri-phone-line"></i>
+                            <span>Call (201) 639-4983</span>
+                        </button>
+                        <button class="fallback-email-btn" onclick="window.location.href='mailto:info@eviaesthetics.com'">
+                            <i class="ri-mail-line"></i>
+                            <span>Send Email</span>
+                        </button>
+                    </div>
                 </div>
             `;
         }
     }
-    
-    styleElfsightForm() {
-        const formIframe = document.querySelector('.elfsight-app-db15691a-379c-4773-8900-983e7e393d0f iframe');
-        if (formIframe) {
-            formIframe.style.borderRadius = '20px';
-            formIframe.style.border = '1px solid rgba(255, 140, 0, 0.1)';
-            formIframe.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
-        }
-    }
-    
-    openMap() {
-        const address = '65 W 36th St, 10th Floor, New York, NY 10018';
-        const encodedAddress = encodeURIComponent(address);
-        
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        
-        let mapUrl;
-        if (isIOS) {
-            mapUrl = `maps://maps.google.com/maps?q=${encodedAddress}`;
-        } else {
-            mapUrl = `https://maps.google.com/maps?q=${encodedAddress}`;
+
+    styleElfsightWidget() {
+        const widget = this.elements.elfsightWidget;
+        if (widget) {
+            widget.style.borderRadius = '16px';
+            widget.style.overflow = 'hidden';
+            widget.style.border = 'none';
         }
         
-        this.addClickFeedback(this.elements.viewMapBtn);
-        
-        setTimeout(() => {
-            window.open(mapUrl, '_blank');
-        }, 150);
-        
-        this.trackEvent('map_view', 'contact', 'location_click');
-    }
-    
-    handleCall(event) {
-        event.preventDefault();
-        
-        const phoneNumber = '2016394983';
-        const telLink = `tel:${phoneNumber}`;
-        
-        this.addClickFeedback(event.currentTarget);
-        this.showCallingFeedback();
-        
-        setTimeout(() => {
-            window.location.href = telLink;
-        }, 300);
-        
-        this.trackEvent('phone_call', 'contact', 'call_button_click');
-    }
-    
-    handleEmail(event) {
-        event.preventDefault();
-        
-        const email = 'info@eviaesthetics.com';
-        const subject = 'Consultation Request - Eviaesthetics';
-        const body = 'Hello,\n\nI would like to schedule a consultation for aesthetic treatments.\n\nThank you!';
-        
-        const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        
-        this.addClickFeedback(event.currentTarget);
-        
-        setTimeout(() => {
-            window.location.href = mailtoLink;
-        }, 150);
-        
-        this.trackEvent('email_click', 'contact', 'email_button_click');
-    }
-    
-    handleSocialClick(event, link) {
-        const platform = link.classList.contains('instagram') ? 'instagram' : 
-                        link.classList.contains('facebook') ? 'facebook' : 'unknown';
-        
-        this.addClickFeedback(link);
-        this.trackEvent('social_click', 'contact', platform);
-    }
-    
-    onMethodCardHover(card) {
-        const icon = card.querySelector('.method-icon');
-        const action = card.querySelector('.method-action');
-        
-        if (icon) {
-            icon.style.transform = 'scale(1.1) rotate(5deg)';
-        }
-        
-        if (action) {
-            action.style.transform = 'scale(1.1)';
+        const iframe = widget?.querySelector('iframe');
+        if (iframe) {
+            iframe.style.borderRadius = '16px';
+            iframe.style.border = 'none';
         }
     }
-    
-    onMethodCardLeave(card) {
-        const icon = card.querySelector('.method-icon');
-        const action = card.querySelector('.method-action');
-        
-        if (icon) {
-            icon.style.transform = 'scale(1) rotate(0deg)';
-        }
-        
-        if (action) {
-            action.style.transform = 'scale(1)';
-        }
-    }
-    
+
+    // Effect methods
     addClickFeedback(element) {
         if (!element) return;
         
-        element.style.transform = 'scale(0.95)';
-        element.style.transition = 'transform 0.1s ease-out';
+        element.style.transform = 'scale(0.98)';
+        element.style.transition = 'transform 0.15s ease-out';
         
         setTimeout(() => {
             element.style.transform = '';
             element.style.transition = '';
         }, 150);
     }
-    
-    showCallingFeedback() {
-        const feedback = document.createElement('div');
-        feedback.innerHTML = `
-            <div class="feedback-content">
-                <div class="feedback-icon">
-                    <i class="ri-phone-line"></i>
-                </div>
-                <div class="feedback-text">
-                    <h4>Initiating Call...</h4>
-                    <p>Please wait while we connect you</p>
-                </div>
-            </div>
+
+    addRippleEffect(element) {
+        const ripple = element.querySelector('.btn-ripple');
+        if (ripple) {
+            element.classList.add('ripple-active');
+            setTimeout(() => {
+                element.classList.remove('ripple-active');
+            }, 600);
+        }
+    }
+
+    addRippleEffectToCard(card) {
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 140, 0, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+            pointer-events: none;
+            transition: all 0.6s ease-out;
+            z-index: 10;
         `;
         
-        Object.assign(feedback.style, {
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) scale(0.8)',
-            background: 'rgba(255, 140, 0, 0.95)',
-            color: 'white',
-            padding: '24px',
-            borderRadius: '20px',
-            boxShadow: '0 20px 60px rgba(255, 140, 0, 0.4)',
-            zIndex: '10000',
-            opacity: '0',
-            transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)'
+        card.style.position = 'relative';
+        card.style.overflow = 'hidden';
+        card.appendChild(ripple);
+        
+        requestAnimationFrame(() => {
+            ripple.style.transform = 'translate(-50%, -50%) scale(6)';
+            ripple.style.opacity = '0';
         });
+        
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 600);
+    }
+
+    triggerButtonShimmer(button) {
+        const shimmer = button.querySelector('.btn-shimmer');
+        if (shimmer) {
+            shimmer.style.left = '-100%';
+            shimmer.style.transition = 'none';
+            shimmer.offsetHeight; // Force reflow
+            shimmer.style.transition = 'left 0.8s ease';
+            shimmer.style.left = '100%';
+        }
+    }
+
+    // Feedback methods
+    showMapLoadingFeedback() {
+        this.showLuxuryFeedback(
+            'Opening maps application...',
+            'rgba(34, 197, 94, 0.95)',
+            'ri-map-pin-line'
+        );
+    }
+
+    showCallingFeedback() {
+        this.showLuxuryFeedback(
+            'Connecting your call...',
+            'rgba(16, 185, 129, 0.95)',
+            'ri-phone-line'
+        );
+    }
+
+    showEmailFeedback() {
+        this.showLuxuryFeedback(
+            'Opening email client...',
+            'rgba(59, 130, 246, 0.95)',
+            'ri-mail-line'
+        );
+    }
+
+    showEmergencyCallFeedback() {
+        this.showLuxuryFeedback(
+            'Connecting urgent consultation...',
+            'rgba(220, 38, 38, 0.95)',
+            'ri-phone-fill'
+        );
+    }
+
+    showSocialFeedback(platform) {
+        const platformNames = {
+            instagram: 'Instagram',
+            facebook: 'Facebook'
+        };
+        
+        const icons = {
+            instagram: 'ri-instagram-line',
+            facebook: 'ri-facebook-line'
+        };
+        
+        this.showLuxuryFeedback(
+            `Opening ${platformNames[platform] || 'social media'}...`,
+            'rgba(139, 92, 246, 0.95)',
+            icons[platform] || 'ri-external-link-line'
+        );
+    }
+
+    showCredentialFeedback(credential) {
+        this.showLuxuryFeedback(
+            `${credential} - Excellence in care`,
+            'rgba(255, 140, 0, 0.95)',
+            'ri-award-line'
+        );
+    }
+
+    showLuxuryFeedback(message, backgroundColor, iconClass, duration = 2500) {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: ${backgroundColor};
+            color: white;
+            padding: 20px 32px;
+            border-radius: 24px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(30px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.15),
+                0 8px 32px ${backgroundColor.replace('0.95', '0.3')};
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 350px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            min-width: 280px;
+            justify-content: center;
+        `;
+        
+        feedback.innerHTML = `
+            <i class="${iconClass}" style="font-size: 18px;"></i>
+            <span>${message}</span>
+        `;
         
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
         setTimeout(() => {
             feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
             
             setTimeout(() => {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
-            }, 300);
-        }, 2500);
+            }, 600);
+        }, duration);
     }
-    
+
+    // Ambient effects
+    setupFloatingCredentials() {
+        this.elements.credentialPills.forEach((pill, index) => {
+            const delay = index * 3000;
+            setTimeout(() => {
+                this.startCredentialFloat(pill);
+            }, delay);
+        });
+    }
+
+    startCredentialFloat(pill) {
+        let offset = Math.random() * Math.PI * 2;
+        
+        const animate = () => {
+            offset += 0.01;
+            const yOffset = Math.sin(offset) * 3;
+            pill.style.transform = `translateY(${yOffset}px)`;
+            
+            requestAnimationFrame(animate);
+        };
+        
+        animate();
+    }
+
+    initializeAmbientEffects() {
+        // Start floating icon animations
+        this.elements.floatingIcons.forEach((icon, index) => {
+            this.startFloatingIconAnimation(icon, index);
+        });
+        
+        // Start ambient orb animations
+        this.elements.ambientOrbs.forEach(orb => {
+            orb.style.animationPlayState = 'running';
+        });
+    }
+
+    startFloatingIconAnimation(icon, index) {
+        let offset = index * Math.PI / 2;
+        
+        const animate = () => {
+            offset += 0.005;
+            const x = Math.sin(offset) * 10;
+            const y = Math.cos(offset * 0.8) * 8;
+            const rotation = Math.sin(offset) * 5;
+            
+            icon.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+            
+            requestAnimationFrame(animate);
+        };
+        
+        animate();
+    }
+
+    // Analytics
     trackEvent(action, category, label) {
         if (typeof gtag !== 'undefined') {
             gtag('event', action, {
@@ -4329,8 +4850,187 @@ class LuxuryContactSection {
             });
         }
         
-        console.log(`📊 Event tracked: ${action} - ${category} - ${label}`);
+        console.log(`📊 Contact Event: ${action} - ${category} - ${label}`);
     }
+
+    // Responsive handling
+    onResize() {
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // Optimize for mobile
+            this.elements.floatingIcons.forEach(icon => {
+                icon.style.display = 'none';
+            });
+        } else {
+            // Restore desktop features
+            this.elements.floatingIcons.forEach(icon => {
+                icon.style.display = 'flex';
+            });
+        }
+    }
+
+    // Utility methods
+    isMobile() {
+        return window.innerWidth <= 768 || 
+               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Public API
+    refresh() {
+        this.formLoaded = false;
+        this.initializeElfsightForm();
+    }
+
+    getFormStatus() {
+        return {
+            loaded: this.formLoaded,
+            widget: !!this.elements.elfsightWidget
+        };
+    }
+
+    destroy() {
+        // Clean up observers
+        this.observers.forEach(observer => {
+            observer.disconnect();
+        });
+        this.observers.clear();
+        
+        // Remove event listeners by cloning elements
+        if (this.elements.viewMapBtn) {
+            this.elements.viewMapBtn.replaceWith(this.elements.viewMapBtn.cloneNode(true));
+        }
+        
+        if (this.elements.emergencyBtn) {
+            this.elements.emergencyBtn.replaceWith(this.elements.emergencyBtn.cloneNode(true));
+        }
+        
+        this.elements.methodActionBtns.forEach(btn => {
+            btn.replaceWith(btn.cloneNode(true));
+        });
+        
+        this.isInitialized = false;
+        console.log('🗑️ Hermès Contact Section destroyed');
+    }
+}
+
+// Initialize the contact section
+document.addEventListener('DOMContentLoaded', () => {
+    const hermesContact = new HermesLuxuryContactSection();
+    
+    // Make it globally available
+    window.hermesContact = hermesContact;
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        hermesContact.onResize();
+    });
+});
+
+// CSS for form fallback (inject if needed)
+const fallbackCSS = `
+    .form-fallback {
+        text-align: center;
+        padding: 40px 20px;
+        background: rgba(255, 248, 240, 0.9);
+        border-radius: 20px;
+        border: 2px solid rgba(255, 140, 0, 0.1);
+    }
+    
+    .form-fallback .fallback-icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        color: white;
+        font-size: 24px;
+    }
+    
+    .form-fallback h4 {
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        font-weight: 600;
+        color: #1F2937;
+        margin-bottom: 12px;
+    }
+    
+    .form-fallback p {
+        font-size: 16px;
+        color: #6B7280;
+        margin-bottom: 24px;
+        line-height: 1.5;
+    }
+    
+    .fallback-actions {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .fallback-call-btn,
+    .fallback-email-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 16px 24px;
+        border: none;
+        border-radius: 50px;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    
+    .fallback-call-btn {
+        background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+        color: white;
+    }
+    
+    .fallback-email-btn {
+        background: rgba(255, 140, 0, 0.1);
+        color: #FF8C00;
+        border: 2px solid rgba(255, 140, 0, 0.3);
+    }
+    
+    .fallback-call-btn:hover,
+    .fallback-email-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(255, 140, 0, 0.3);
+    }
+    
+    @media (max-width: 480px) {
+        .fallback-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .fallback-call-btn,
+        .fallback-email-btn {
+            width: 100%;
+            max-width: 280px;
+            justify-content: center;
+        }
+    }
+`;
+
+// Inject fallback CSS
+if (!document.querySelector('#hermes-contact-fallback-css')) {
+    const style = document.createElement('style');
+    style.id = 'hermes-contact-fallback-css';
+    style.textContent = fallbackCSS;
+    document.head.appendChild(style);
+}
+
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = HermesLuxuryContactSection;
 }
 
 /* ========================================
@@ -4903,7 +5603,7 @@ if (typeof module !== 'undefined' && module.exports) {
         ModernTransformationsGallery,
         RedesignedSocialSections,
         LuxuryMedSpaProducts,
-        LuxuryContactSection,
+        HermesLuxuryContactSection,
         LuxuryFloatingButtons,
         CinematicHero,
         EviaConfig
