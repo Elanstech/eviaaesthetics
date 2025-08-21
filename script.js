@@ -3217,16 +3217,31 @@ class HermesProductsCollection {
         this.section = document.querySelector('.hermes-products-collection');
         this.header = document.querySelector('.collection-header');
         this.gallery = document.querySelector('.products-gallery');
+        this.galleryContainer = document.querySelector('.gallery-container');
         this.footer = document.querySelector('.collection-footer');
         this.productBooks = document.querySelectorAll('.product-book');
         this.discoverButtons = document.querySelectorAll('.discover-btn');
         this.catalogButton = document.getElementById('catalogButton');
         this.partnershipSeal = document.querySelector('.partnership-seal');
         
+        // Carousel elements
+        this.carouselNav = document.querySelector('.carousel-nav');
+        this.prevBtn = document.querySelector('.prev-btn');
+        this.nextBtn = document.querySelector('.next-btn');
+        this.dots = document.querySelectorAll('.dot');
+        
         this.isInitialized = false;
         this.observers = new Map();
         this.isVisible = false;
         this.animationQueue = [];
+        
+        // Carousel state
+        this.currentSlide = 0;
+        this.totalSlides = this.productBooks.length;
+        this.isCarouselMode = false;
+        this.touchStartX = 0;
+        this.touchEndX = 0;
+        this.isDragging = false;
         
         if (this.section) {
             this.init();
@@ -3240,9 +3255,11 @@ class HermesProductsCollection {
             this.setupIntersectionObservers();
             this.bindProductInteractions();
             this.bindButtonEvents();
+            this.setupCarousel();
             this.initializeAnimations();
             this.setupPerformanceOptimizations();
             this.startAmbientAnimations();
+            this.checkCarouselMode();
             
             this.isInitialized = true;
             console.log('✨ Hermès Products Collection initialized');
@@ -4005,12 +4022,211 @@ class HermesProductsCollection {
         console.log('📊 Partnership seal clicked');
     }
     
+    
+    setupCarousel() {
+        if (!this.carouselNav) return;
+        
+        // Bind carousel navigation
+        if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', () => this.previousSlide());
+        }
+        
+        if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', () => this.nextSlide());
+        }
+        
+        // Bind dot navigation
+        this.dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => this.goToSlide(index));
+        });
+        
+        // Touch events for swipe
+        if (this.galleryContainer) {
+            this.setupTouchEvents();
+        }
+        
+        // Update carousel on resize
+        window.addEventListener('resize', () => {
+            clearTimeout(this.resizeTimeout);
+            this.resizeTimeout = setTimeout(() => {
+                this.checkCarouselMode();
+                this.updateCarouselButtons();
+            }, 250);
+        });
+    }
+    
+    setupTouchEvents() {
+        this.galleryContainer.addEventListener('touchstart', (e) => {
+            if (!this.isCarouselMode) return;
+            this.touchStartX = e.touches[0].clientX;
+            this.isDragging = true;
+        }, { passive: true });
+        
+        this.galleryContainer.addEventListener('touchmove', (e) => {
+            if (!this.isCarouselMode || !this.isDragging) return;
+            e.preventDefault();
+        }, { passive: false });
+        
+        this.galleryContainer.addEventListener('touchend', (e) => {
+            if (!this.isCarouselMode || !this.isDragging) return;
+            
+            this.touchEndX = e.changedTouches[0].clientX;
+            this.handleSwipe();
+            this.isDragging = false;
+        }, { passive: true });
+        
+        // Mouse events for desktop testing
+        this.galleryContainer.addEventListener('mousedown', (e) => {
+            if (!this.isCarouselMode) return;
+            this.touchStartX = e.clientX;
+            this.isDragging = true;
+            e.preventDefault();
+        });
+        
+        this.galleryContainer.addEventListener('mouseup', (e) => {
+            if (!this.isCarouselMode || !this.isDragging) return;
+            this.touchEndX = e.clientX;
+            this.handleSwipe();
+            this.isDragging = false;
+        });
+    }
+    
+    handleSwipe() {
+        const swipeThreshold = 50;
+        const swipeDistance = this.touchStartX - this.touchEndX;
+        
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+            if (swipeDistance > 0) {
+                this.nextSlide();
+            } else {
+                this.previousSlide();
+            }
+        }
+    }
+    
+    checkCarouselMode() {
+        const isMobile = window.innerWidth <= 768;
+        this.isCarouselMode = isMobile;
+        
+        if (this.carouselNav) {
+            this.carouselNav.style.display = isMobile ? 'flex' : 'none';
+        }
+        
+        if (isMobile) {
+            this.updateCarouselPosition();
+        } else {
+            // Reset desktop layout
+            if (this.galleryContainer) {
+                this.galleryContainer.style.transform = 'translateX(0)';
+            }
+        }
+        
+        this.updateCarouselButtons();
+    }
+    
+    nextSlide() {
+        if (!this.isCarouselMode) return;
+        
+        if (this.currentSlide < this.totalSlides - 1) {
+            this.currentSlide++;
+        } else {
+            this.currentSlide = 0; // Loop back to first
+        }
+        
+        this.updateCarouselPosition();
+        this.updateCarouselButtons();
+        this.updateDots();
+        this.trackCarouselNavigation('next');
+    }
+    
+    previousSlide() {
+        if (!this.isCarouselMode) return;
+        
+        if (this.currentSlide > 0) {
+            this.currentSlide--;
+        } else {
+            this.currentSlide = this.totalSlides - 1; // Loop to last
+        }
+        
+        this.updateCarouselPosition();
+        this.updateCarouselButtons();
+        this.updateDots();
+        this.trackCarouselNavigation('previous');
+    }
+    
+    goToSlide(slideIndex) {
+        if (!this.isCarouselMode || slideIndex === this.currentSlide) return;
+        
+        this.currentSlide = slideIndex;
+        this.updateCarouselPosition();
+        this.updateCarouselButtons();
+        this.updateDots();
+        this.trackCarouselNavigation('dot', slideIndex);
+    }
+    
+    updateCarouselPosition() {
+        if (!this.galleryContainer || !this.isCarouselMode) return;
+        
+        const slideWidth = this.getSlideWidth();
+        const offset = -this.currentSlide * slideWidth;
+        
+        this.galleryContainer.style.transform = `translateX(${offset}px)`;
+    }
+    
+    getSlideWidth() {
+        if (!this.productBooks.length) return 0;
+        
+        const book = this.productBooks[0];
+        const bookRect = book.getBoundingClientRect();
+        const gap = 16; // var(--space-lg) in pixels
+        
+        return bookRect.width + gap;
+    }
+    
+    updateCarouselButtons() {
+        if (!this.prevBtn || !this.nextBtn || !this.isCarouselMode) return;
+        
+        // For infinite loop, always enable buttons
+        this.prevBtn.disabled = false;
+        this.nextBtn.disabled = false;
+        
+        // Add visual feedback for current position
+        this.prevBtn.style.opacity = '1';
+        this.nextBtn.style.opacity = '1';
+    }
+    
+    updateDots() {
+        if (!this.dots.length) return;
+        
+        this.dots.forEach((dot, index) => {
+            if (index === this.currentSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+    
+    trackCarouselNavigation(action, slideIndex = null) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'hermes_carousel_navigation', {
+                event_category: 'products',
+                event_label: action,
+                value: slideIndex !== null ? slideIndex : this.currentSlide
+            });
+        }
+        
+        console.log(`📊 Carousel navigation: ${action}, slide: ${slideIndex !== null ? slideIndex : this.currentSlide}`);
+    }
+
     isMobile() {
         return window.innerWidth <= 768 || 
                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
     
     onResize() {
+        this.checkCarouselMode();
+        
         if (this.isMobile()) {
             this.optimizeForMobile();
         } else {
@@ -4059,12 +4275,33 @@ class HermesProductsCollection {
         });
         this.observers.clear();
         
+        // Clean up carousel event listeners
+        if (this.prevBtn) {
+            this.prevBtn.replaceWith(this.prevBtn.cloneNode(true));
+        }
+        if (this.nextBtn) {
+            this.nextBtn.replaceWith(this.nextBtn.cloneNode(true));
+        }
+        
+        this.dots.forEach(dot => {
+            dot.replaceWith(dot.cloneNode(true));
+        });
+        
+        if (this.galleryContainer) {
+            this.galleryContainer.replaceWith(this.galleryContainer.cloneNode(true));
+        }
+        
         this.productBooks.forEach(book => {
             book.replaceWith(book.cloneNode(true));
         });
         
         if (this.catalogButton) {
             this.catalogButton.replaceWith(this.catalogButton.cloneNode(true));
+        }
+        
+        // Clear resize timeout
+        if (this.resizeTimeout) {
+            clearTimeout(this.resizeTimeout);
         }
         
         this.isInitialized = false;
