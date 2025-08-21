@@ -1048,17 +1048,24 @@ class EnhancedServicesCarousel {
         this.gap = 24;
         this.isTransitioning = false;
         
+        // Enhanced touch handling properties
         this.touchStartX = 0;
         this.touchStartY = 0;
+        this.touchCurrentX = 0;
+        this.touchCurrentY = 0;
         this.touchEndX = 0;
         this.touchEndY = 0;
         this.isDragging = false;
-        this.isHorizontalScroll = false;
-        this.touchThreshold = 15;
+        this.isHorizontalGesture = false;
         this.hasUserInteracted = false;
+        this.touchThreshold = 10; // Reduced threshold for more responsive detection
+        this.swipeThreshold = 50; // Minimum distance for a swipe
+        this.touchStartTime = 0;
+        this.maxTouchTime = 500; // Maximum time for a valid swipe
         
         this.resizeTimeout = null;
         this.scrollTimeout = null;
+        this.isScrollingHorizontally = false;
         
         if (this.carousel && this.track) {
             this.init();
@@ -1080,7 +1087,7 @@ class EnhancedServicesCarousel {
             this.setupMobileScrolling();
         }
         
-        console.log('✨ Enhanced Services Carousel initialized');
+        console.log('✨ Enhanced Services Carousel initialized with fixed touch handling');
     }
     
     detectDeviceType() {
@@ -1106,6 +1113,7 @@ class EnhancedServicesCarousel {
     }
     
     bindEvents() {
+        // Desktop navigation
         if (this.prevBtn) {
             this.prevBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1138,6 +1146,7 @@ class EnhancedServicesCarousel {
         
         this.bindServiceCTAs();
         
+        // Window resize
         window.addEventListener('resize', () => {
             clearTimeout(this.resizeTimeout);
             this.resizeTimeout = setTimeout(() => {
@@ -1145,134 +1154,224 @@ class EnhancedServicesCarousel {
             }, 250);
         });
         
+        // Enhanced mobile touch events
         if (this.isMobile) {
-            this.bindMobileTouchEvents();
+            this.bindEnhancedTouchEvents();
         }
     }
     
-    bindMobileTouchEvents() {
+    bindEnhancedTouchEvents() {
+        // Use passive listeners where possible for better scroll performance
         this.track.addEventListener('touchstart', (e) => {
-            this.touchStartX = e.touches[0].clientX;
-            this.touchStartY = e.touches[0].clientY;
-            this.isDragging = false;
-            this.isHorizontalScroll = false;
+            this.handleTouchStart(e);
         }, { passive: true });
         
         this.track.addEventListener('touchmove', (e) => {
-            if (!e.touches[0]) return;
-            
-            const touchCurrentX = e.touches[0].clientX;
-            const touchCurrentY = e.touches[0].clientY;
-            const diffX = Math.abs(touchCurrentX - this.touchStartX);
-            const diffY = Math.abs(touchCurrentY - this.touchStartY);
-            
-            if (!this.isDragging && (diffX > this.touchThreshold || diffY > this.touchThreshold)) {
-                this.isDragging = true;
-                
-                if (diffX > diffY && diffX > this.touchThreshold) {
-                    this.isHorizontalScroll = true;
-                    this.track.classList.add('scrolling-horizontal');
-                    e.preventDefault();
-                } else {
-                    this.isHorizontalScroll = false;
-                    this.track.classList.remove('scrolling-horizontal');
-                }
-            }
-            
-            if (this.isDragging && this.isHorizontalScroll) {
-                e.preventDefault();
-            }
-        }, { passive: false });
+            this.handleTouchMove(e);
+        }, { passive: false }); // Not passive because we might prevent default
         
         this.track.addEventListener('touchend', (e) => {
-            if (!e.changedTouches[0]) return;
-            
-            this.touchEndX = e.changedTouches[0].clientX;
-            this.touchEndY = e.changedTouches[0].clientY;
-            
-            if (this.isDragging && this.isHorizontalScroll) {
-                this.handleTouchEnd();
-                this.handleUserInteraction();
-            }
-            
-            this.isDragging = false;
-            this.isHorizontalScroll = false;
-            this.track.classList.remove('scrolling-horizontal');
+            this.handleTouchEnd(e);
         }, { passive: true });
         
+        this.track.addEventListener('touchcancel', (e) => {
+            this.handleTouchCancel(e);
+        }, { passive: true });
+        
+        // Track scroll events for progress indication
         this.track.addEventListener('scroll', this.throttle(() => {
             this.updateMobileProgress();
         }, 16), { passive: true });
+        
+        // Prevent context menu on long press
+        this.track.addEventListener('contextmenu', (e) => {
+            if (this.isDragging) {
+                e.preventDefault();
+            }
+        });
     }
     
-    handleLearnMoreClick() {
-        this.learnMoreBtn.style.transform = 'translateY(-2px) scale(0.98)';
+    handleTouchStart(e) {
+        if (!e.touches[0]) return;
         
-        this.showLearnMoreFeedback();
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+        this.touchCurrentX = this.touchStartX;
+        this.touchCurrentY = this.touchStartY;
+        this.touchStartTime = Date.now();
         
-        setTimeout(() => {
-            this.learnMoreBtn.style.transform = '';
-        }, 150);
+        this.isDragging = false;
+        this.isHorizontalGesture = false;
+        this.isScrollingHorizontally = false;
         
-        setTimeout(() => {
-            window.location.href = 'services.html';
-        }, 800);
+        // Store initial scroll position
+        this.initialScrollLeft = this.track.scrollLeft;
         
-        this.trackEvent('learn_more_clicked', 'services', 'detailed_services_page');
+        // Add visual feedback
+        this.track.style.cursor = 'grabbing';
     }
     
-    showLearnMoreFeedback() {
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            color: white;
-            padding: 20px 32px;
-            border-radius: 24px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            z-index: 10000;
-            pointer-events: none;
-            opacity: 0;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            min-width: 280px;
-            justify-content: center;
-        `;
+    handleTouchMove(e) {
+        if (!e.touches[0]) return;
         
-        feedback.innerHTML = `
-            <i class="ri-information-line" style="font-size: 18px;"></i>
-            <span>Loading detailed services...</span>
-        `;
+        this.touchCurrentX = e.touches[0].clientX;
+        this.touchCurrentY = e.touches[0].clientY;
         
-        document.body.appendChild(feedback);
+        const deltaX = Math.abs(this.touchCurrentX - this.touchStartX);
+        const deltaY = Math.abs(this.touchCurrentY - this.touchStartY);
         
-        requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            feedback.style.opacity = '1';
-            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        // Determine gesture direction only after threshold is exceeded
+        if (!this.isDragging && (deltaX > this.touchThreshold || deltaY > this.touchThreshold)) {
+            this.isDragging = true;
+            
+            // Determine if this is a horizontal or vertical gesture
+            if (deltaX > deltaY && deltaX > this.touchThreshold) {
+                this.isHorizontalGesture = true;
+                this.isScrollingHorizontally = true;
+                
+                // Add class to track for styling
+                this.track.classList.add('scrolling-horizontal');
+                
+                // Prevent vertical scrolling only for horizontal gestures
+                e.preventDefault();
+                
+            } else if (deltaY > deltaX && deltaY > this.touchThreshold) {
+                this.isHorizontalGesture = false;
+                // Allow vertical scrolling by not preventing default
+            }
+        }
+        
+        // Continue to prevent default for confirmed horizontal gestures
+        if (this.isDragging && this.isHorizontalGesture) {
+            e.preventDefault();
+        }
+    }
+    
+    handleTouchEnd(e) {
+        if (!e.changedTouches[0]) return;
+        
+        this.touchEndX = e.changedTouches[0].clientX;
+        this.touchEndY = e.changedTouches[0].clientY;
+        
+        const touchDuration = Date.now() - this.touchStartTime;
+        const deltaX = this.touchStartX - this.touchEndX;
+        const deltaY = Math.abs(this.touchStartY - this.touchEndY);
+        
+        // Reset visual feedback
+        this.track.style.cursor = '';
+        this.track.classList.remove('scrolling-horizontal');
+        
+        // Process swipe only if it was a horizontal gesture and within time limit
+        if (this.isDragging && 
+            this.isHorizontalGesture && 
+            touchDuration < this.maxTouchTime &&
+            Math.abs(deltaX) > this.swipeThreshold &&
+            Math.abs(deltaX) > deltaY) {
+            
+            this.handleSwipeGesture(deltaX);
+            this.handleUserInteraction();
+        }
+        
+        // Reset state
+        this.resetTouchState();
+    }
+    
+    handleTouchCancel(e) {
+        this.track.style.cursor = '';
+        this.track.classList.remove('scrolling-horizontal');
+        this.resetTouchState();
+    }
+    
+    resetTouchState() {
+        this.isDragging = false;
+        this.isHorizontalGesture = false;
+        this.isScrollingHorizontally = false;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.touchCurrentX = 0;
+        this.touchCurrentY = 0;
+        this.touchEndX = 0;
+        this.touchEndY = 0;
+        this.touchStartTime = 0;
+    }
+    
+    handleSwipeGesture(deltaX) {
+        const currentScroll = this.track.scrollLeft;
+        const cardWidth = this.getCardWidth();
+        const gap = this.getGap();
+        const scrollDistance = cardWidth + gap;
+        
+        if (deltaX > 0) {
+            // Swipe left - show next card
+            const nextScroll = currentScroll + scrollDistance;
+            this.smoothScrollTo(Math.min(nextScroll, this.getMaxScrollLeft()));
+        } else {
+            // Swipe right - show previous card  
+            const prevScroll = currentScroll - scrollDistance;
+            this.smoothScrollTo(Math.max(prevScroll, 0));
+        }
+    }
+    
+    getCardWidth() {
+        const card = this.track.querySelector('.service-card');
+        return card ? card.offsetWidth : 300;
+    }
+    
+    getGap() {
+        const computedStyle = window.getComputedStyle(this.track);
+        return parseInt(computedStyle.gap) || 16;
+    }
+    
+    getMaxScrollLeft() {
+        return this.track.scrollWidth - this.track.clientWidth;
+    }
+    
+    smoothScrollTo(scrollLeft) {
+        this.track.scrollTo({
+            left: scrollLeft,
+            behavior: 'smooth'
+        });
+    }
+    
+    setupMobileScrolling() {
+        // Enhanced mobile scroll setup
+        this.track.style.scrollBehavior = 'smooth';
+        this.track.style.overflowX = 'auto';
+        this.track.style.overflowY = 'visible'; // Allow vertical overflow
+        this.track.style.scrollSnapType = 'x mandatory';
+        this.track.style.WebkitOverflowScrolling = 'touch';
+        
+        // Ensure cards have scroll snap alignment
+        const cards = this.track.querySelectorAll('.service-card');
+        cards.forEach(card => {
+            card.style.scrollSnapAlign = 'center';
+            card.style.scrollSnapStop = 'always';
         });
         
-        setTimeout(() => {
-            feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            
-            setTimeout(() => {
-                if (feedback.parentNode) {
-                    feedback.parentNode.removeChild(feedback);
-                }
-            }, 500);
-        }, 2500);
+        this.updateMobileProgress();
     }
     
+    updateMobileProgress() {
+        if (!this.isMobile || !this.progressFill) return;
+        
+        const scrollLeft = this.track.scrollLeft;
+        const maxScroll = this.getMaxScrollLeft();
+        const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
+        
+        this.progressFill.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+        
+        // Update current slide indicator
+        const cardWidth = this.getCardWidth();
+        const gap = this.getGap();
+        const slideWidth = cardWidth + gap;
+        const currentSlideIndex = Math.round(scrollLeft / slideWidth);
+        
+        if (this.currentSlide) {
+            this.currentSlide.textContent = Math.min(this.totalCards, Math.max(1, currentSlideIndex + 1));
+        }
+    }
+    
+    // Desktop carousel methods (unchanged)
     nextSlide() {
         if (this.isTransitioning || this.isMobile) return;
         
@@ -1331,74 +1430,6 @@ class EnhancedServicesCarousel {
         if (screenWidth <= 768) return 1;
         if (screenWidth <= 1200) return 2;
         return 3;
-    }
-    
-    setupMobileScrolling() {
-        this.track.style.scrollBehavior = 'smooth';
-        this.track.style.overflowX = 'auto';
-        this.track.style.scrollSnapType = 'x mandatory';
-        
-        this.updateMobileProgress();
-    }
-    
-    handleTouchEnd() {
-        const diffX = this.touchStartX - this.touchEndX;
-        const diffY = Math.abs(this.touchStartY - this.touchEndY);
-        const threshold = 50;
-        
-        if (Math.abs(diffX) > threshold && Math.abs(diffX) > diffY) {
-            if (diffX > 0) {
-                this.scrollToNextCard();
-            } else {
-                this.scrollToPreviousCard();
-            }
-        }
-    }
-    
-    scrollToNextCard() {
-        const cards = this.track.querySelectorAll('.service-card');
-        const currentScroll = this.track.scrollLeft;
-        const cardWidth = cards[0]?.offsetWidth || 300;
-        const gap = parseInt(window.getComputedStyle(this.track).gap) || 16;
-        
-        const nextScroll = currentScroll + cardWidth + gap;
-        this.track.scrollTo({
-            left: nextScroll,
-            behavior: 'smooth'
-        });
-    }
-    
-    scrollToPreviousCard() {
-        const cards = this.track.querySelectorAll('.service-card');
-        const currentScroll = this.track.scrollLeft;
-        const cardWidth = cards[0]?.offsetWidth || 300;
-        const gap = parseInt(window.getComputedStyle(this.track).gap) || 16;
-        
-        const prevScroll = Math.max(0, currentScroll - cardWidth - gap);
-        this.track.scrollTo({
-            left: prevScroll,
-            behavior: 'smooth'
-        });
-    }
-    
-    updateMobileProgress() {
-        if (!this.isMobile) return;
-        
-        const scrollLeft = this.track.scrollLeft;
-        const maxScroll = this.track.scrollWidth - this.track.clientWidth;
-        const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
-        
-        if (this.progressFill) {
-            this.progressFill.style.width = `${Math.min(100, Math.max(0, progress))}%`;
-        }
-        
-        const cardWidth = this.track.querySelector('.service-card')?.offsetWidth || 300;
-        const gap = parseInt(window.getComputedStyle(this.track).gap) || 16;
-        const currentSlideIndex = Math.round(scrollLeft / (cardWidth + gap));
-        
-        if (this.currentSlide) {
-            this.currentSlide.textContent = Math.min(this.totalCards, Math.max(1, currentSlideIndex + 1));
-        }
     }
     
     createDots() {
@@ -1555,15 +1586,20 @@ class EnhancedServicesCarousel {
         this.trackServiceClick(serviceType);
     }
     
-    addRippleEffect(button) {
-        const ripple = button.querySelector('.cta-ripple');
-        if (!ripple) return;
+    handleLearnMoreClick() {
+        this.learnMoreBtn.style.transform = 'translateY(-2px) scale(0.98)';
         
-        button.classList.add('ripple-active');
+        this.showLearnMoreFeedback();
         
         setTimeout(() => {
-            button.classList.remove('ripple-active');
-        }, 600);
+            this.learnMoreBtn.style.transform = '';
+        }, 150);
+        
+        setTimeout(() => {
+            window.location.href = 'services.html';
+        }, 800);
+        
+        this.trackEvent('learn_more_clicked', 'services', 'detailed_services_page');
     }
     
     showBookingFeedback(serviceType) {
@@ -1616,6 +1652,58 @@ class EnhancedServicesCarousel {
         }, 2500);
     }
     
+    showLearnMoreFeedback() {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            padding: 20px 32px;
+            border-radius: 24px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 280px;
+            justify-content: center;
+        `;
+        
+        feedback.innerHTML = `
+            <i class="ri-information-line" style="font-size: 18px;"></i>
+            <span>Loading detailed services...</span>
+        `;
+        
+        document.body.appendChild(feedback);
+        
+        requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        setTimeout(() => {
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 500);
+        }, 2500);
+    }
+    
     scrollToContact() {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
@@ -1624,6 +1712,17 @@ class EnhancedServicesCarousel {
                 block: 'start'
             });
         }
+    }
+    
+    addRippleEffect(button) {
+        const ripple = button.querySelector('.cta-ripple');
+        if (!ripple) return;
+        
+        button.classList.add('ripple-active');
+        
+        setTimeout(() => {
+            button.classList.remove('ripple-active');
+        }, 600);
     }
     
     trackServiceClick(serviceType) {
@@ -1656,6 +1755,7 @@ class EnhancedServicesCarousel {
         cards.forEach((card, index) => {
             if (this.isMobile) {
                 card.style.scrollSnapAlign = 'center';
+                card.style.scrollSnapStop = 'always';
             }
             
             this.setupCardAnimations(card, index);
@@ -1677,10 +1777,6 @@ class EnhancedServicesCarousel {
         
         card.addEventListener('mouseleave', () => {
             this.onCardLeave(card);
-        });
-        
-        card.addEventListener('mousemove', (e) => {
-            this.handleCardTilt(card, e);
         });
     }
     
@@ -1733,18 +1829,6 @@ class EnhancedServicesCarousel {
         };
     }
     
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-    
     onResize() {
         const wasDesktop = this.isDesktop;
         this.detectDeviceType();
@@ -1777,6 +1861,7 @@ class EnhancedServicesCarousel {
         
         if (this.isMobile) {
             this.track.style.transform = '';
+            this.resetTouchState();
         }
         
         if (this.isDesktop) {
@@ -1784,7 +1869,7 @@ class EnhancedServicesCarousel {
         }
         
         if (this.isMobile) {
-            this.bindMobileTouchEvents();
+            this.bindEnhancedTouchEvents();
         }
     }
     
@@ -1818,6 +1903,9 @@ class EnhancedServicesCarousel {
         if (this.scrollTimeout) {
             clearTimeout(this.scrollTimeout);
         }
+        
+        // Clean up touch events
+        this.resetTouchState();
         
         window.removeEventListener('resize', this.onResize);
         
