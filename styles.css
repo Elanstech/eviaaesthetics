@@ -5872,11 +5872,10 @@ body.menu-open {
 }
 
 /* ========================================
-   CONTACT SECTION - OPTIMIZED
+   CONTACT SECTION - WITH MAP REDESIGN
    ======================================== */
-/* ========================================
-   MAIN CONTACT SECTION
-   ======================================== */
+
+/* Main Contact Section */
 .hermes-contact-section {
     position: relative;
     padding: clamp(100px, 15vh, 160px) 0;
@@ -5886,9 +5885,7 @@ body.menu-open {
     isolation: isolate;
 }
 
-/* ========================================
-   AMBIENT BACKGROUND ELEMENTS
-   ======================================== */
+/* Ambient Background Elements */
 .hermes-contact-section .contact-ambient-background {
     position: absolute;
     inset: 0;
@@ -5964,9 +5961,7 @@ body.menu-open {
 .hermes-contact-section .icon-3 { top: 40%; right: 5%; animation-delay: -12s; }
 .hermes-contact-section .icon-4 { bottom: 20%; left: 15%; animation-delay: -18s; }
 
-/* ========================================
-   CONTAINER & LAYOUT
-   ======================================== */
+/* Container & Layout */
 .hermes-contact-section .hermes-contact-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -5975,9 +5970,7 @@ body.menu-open {
     z-index: 10;
 }
 
-/* ========================================
-   LUXURY SECTION HEADER
-   ======================================== */
+/* Luxury Section Header */
 .hermes-contact-section .hermes-contact-header {
     text-align: center;
     margin-bottom: clamp(80px, 12vh, 120px);
@@ -6123,9 +6116,7 @@ body.menu-open {
     box-shadow: var(--shadow-soft);
 }
 
-/* ========================================
-   MAIN CONTACT LAYOUT
-   ======================================== */
+/* Main Contact Layout */
 .hermes-contact-section .hermes-contact-layout {
     display: grid;
     grid-template-columns: 520px 1fr;
@@ -6142,9 +6133,7 @@ body.menu-open {
     transform: translateY(0);
 }
 
-/* ========================================
-   CONTACT INFO COLUMN
-   ======================================== */
+/* Contact Info Column */
 .hermes-contact-section .contact-info-column {
     position: sticky;
     top: 120px;
@@ -6156,13 +6145,13 @@ body.menu-open {
     gap: clamp(32px, 5vh, 40px);
 }
 
-/* Premier Location Card */
+/* REDESIGNED Premier Location Card with Google Maps */
 .hermes-contact-section .location-luxury-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(40px);
     border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: var(--radius-2xl);
-    padding: clamp(32px, 5vw, 40px);
+    padding: clamp(24px, 4vw, 32px);
     box-shadow: var(--shadow-luxury);
     transition: all 0.6s var(--ease-luxury);
     position: relative;
@@ -6240,75 +6229,110 @@ body.menu-open {
     letter-spacing: 0.8px;
 }
 
-.hermes-contact-section .card-content h3 {
+/* REDESIGNED Map Container */
+.hermes-contact-section .location-map-container {
+    position: relative;
+    margin-bottom: 24px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    background: var(--cream-soft);
+}
+
+.hermes-contact-section .map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.95) 0%, rgba(255, 165, 0, 0.9) 100%);
+    padding: 20px;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.hermes-contact-section .map-info h3 {
     font-family: var(--font-playfair);
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 20px;
+    color: white;
+    margin-bottom: 12px;
     letter-spacing: -0.5px;
 }
 
 .hermes-contact-section .address-elegant {
-    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .hermes-contact-section .address-line {
     font-family: var(--font-inter);
-    font-size: 16px;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    margin-bottom: 4px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.3;
+    margin: 0;
+    font-weight: 500;
 }
 
-.hermes-contact-section .view-map-luxury {
-    background: none;
-    border: 2px solid rgba(255, 140, 0, 0.3);
+/* Google Maps Frame */
+.hermes-contact-section .google-map-frame {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    overflow: hidden;
+    filter: grayscale(0.2) contrast(1.1) saturate(0.9);
+    transition: filter 0.6s ease;
+}
+
+.hermes-contact-section .location-luxury-card:hover .google-map-frame {
+    filter: grayscale(0) contrast(1.2) saturate(1.1);
+}
+
+.hermes-contact-section .google-map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    margin-top: -70px; /* Offset to hide overlay info */
+}
+
+/* Enhanced Location Actions */
+.hermes-contact-section .location-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.hermes-contact-section .directions-btn {
+    flex: 1;
+    background: var(--gradient-hermes-orange);
+    color: white;
+    border: none;
     border-radius: 50px;
-    padding: 16px 24px;
-    color: var(--hermes-orange);
+    padding: 14px 20px;
     font-family: var(--font-inter);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     transition: all 0.4s var(--ease-luxury);
-    position: relative;
-    overflow: hidden;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-}
-
-.hermes-contact-section .view-map-luxury::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-hermes-orange);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    border-radius: 48px;
-}
-
-.hermes-contact-section .view-map-luxury:hover::before {
-    opacity: 1;
-}
-
-.hermes-contact-section .view-map-luxury:hover {
-    color: white;
-    border-color: transparent;
-    transform: translateY(-2px);
+    position: relative;
+    overflow: hidden;
     box-shadow: var(--shadow-soft);
 }
 
-.hermes-contact-section .btn-text,
-.hermes-contact-section .btn-icon {
-    position: relative;
-    z-index: 2;
+.hermes-contact-section .directions-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-medium);
 }
 
-.hermes-contact-section .btn-shimmer {
+.hermes-contact-section .btn-shine {
     position: absolute;
     top: 0;
     left: -100%;
@@ -6317,11 +6341,37 @@ body.menu-open {
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
     transition: left 0.8s ease;
     pointer-events: none;
-    border-radius: 48px;
+    border-radius: 50px;
 }
 
-.hermes-contact-section .view-map-luxury:hover .btn-shimmer {
+.hermes-contact-section .directions-btn:hover .btn-shine {
     left: 100%;
+}
+
+.hermes-contact-section .street-view-btn {
+    background: none;
+    border: 2px solid rgba(255, 140, 0, 0.3);
+    border-radius: 50px;
+    padding: 14px 20px;
+    color: var(--hermes-orange);
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.4s var(--ease-luxury);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hermes-contact-section .street-view-btn:hover {
+    background: var(--gradient-hermes-orange);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
 }
 
 /* Floating Credentials */
@@ -6365,9 +6415,7 @@ body.menu-open {
 .hermes-contact-section .pill-1 { top: 20px; right: -60px; }
 .hermes-contact-section .pill-2 { bottom: 80px; left: -70px; animation-delay: -3s; }
 
-/* ========================================
-   CONTACT METHODS GRID
-   ======================================== */
+/* Contact Methods Grid */
 .hermes-contact-section .contact-methods-grid {
     display: flex;
     flex-direction: column;
@@ -6495,9 +6543,7 @@ body.menu-open {
     opacity: 1;
 }
 
-/* ========================================
-   TREATMENT HIGHLIGHTS CARD
-   ======================================== */
+/* Treatment Highlights Card */
 .hermes-contact-section .treatment-highlights-card {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(30px);
@@ -6567,9 +6613,7 @@ body.menu-open {
     line-height: 1.3;
 }
 
-/* ========================================
-   SOCIAL LUXURY CARD
-   ======================================== */
+/* Social Luxury Card */
 .hermes-contact-section .social-luxury-card {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(30px);
@@ -6685,9 +6729,7 @@ body.menu-open {
     transform: translateX(4px);
 }
 
-/* ========================================
-   CONTACT FORM COLUMN
-   ======================================== */
+/* Contact Form Column */
 .hermes-contact-section .contact-form-column {
     min-height: 600px;
 }
@@ -6890,9 +6932,7 @@ body.menu-open {
     color: var(--text-muted);
 }
 
-/* ========================================
-   EMERGENCY CONTACT LUXURY BAR
-   ======================================== */
+/* Emergency Contact Luxury Bar */
 .hermes-contact-section .emergency-contact-luxury {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(30px);
@@ -7018,9 +7058,95 @@ body.menu-open {
     opacity: 1;
 }
 
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
+/* Animations */
+@keyframes hermesLuxuryFloat {
+    0%, 100% { 
+        transform: translateY(0px) translateX(0px) scale(1); 
+        opacity: 0.06; 
+    }
+    25% { 
+        transform: translateY(-40px) translateX(20px) scale(1.05); 
+        opacity: 0.10; 
+    }
+    50% { 
+        transform: translateY(-15px) translateX(-25px) scale(0.95); 
+        opacity: 0.04; 
+    }
+    75% { 
+        transform: translateY(-35px) translateX(15px) scale(1.02); 
+        opacity: 0.08; 
+    }
+}
+
+@keyframes hermesFloatGentle {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    33% { 
+        transform: translateY(-15px) rotate(3deg); 
+    }
+    66% { 
+        transform: translateY(-8px) rotate(-2deg); 
+    }
+}
+
+@keyframes hermesGradientFlow {
+    0%, 100% { 
+        background-position: 0% 50%; 
+    }
+    25% { 
+        background-position: 50% 0%; 
+    }
+    50% { 
+        background-position: 100% 50%; 
+    }
+    75% { 
+        background-position: 50% 100%; 
+    }
+}
+
+@keyframes hermesGlow {
+    0%, 100% { 
+        box-shadow: 0 0 12px rgba(255, 140, 0, 0.5); 
+    }
+    50% { 
+        box-shadow: 0 0 20px rgba(255, 140, 0, 0.8); 
+    }
+}
+
+@keyframes hermesRotateGentle {
+    0% { 
+        transform: rotate(0deg); 
+    }
+    100% { 
+        transform: rotate(360deg); 
+    }
+}
+
+@keyframes hermesCredentialFloat {
+    0%, 100% { 
+        transform: translateY(0px); 
+    }
+    50% { 
+        transform: translateY(-8px); 
+    }
+}
+
+@keyframes hermesOrnamenterSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes hermesOrnamenterGlow {
+    0%, 100% { 
+        box-shadow: 0 0 8px rgba(255, 140, 0, 0.5); 
+    }
+    50% { 
+        box-shadow: 0 0 20px rgba(255, 140, 0, 0.8); 
+    }
+}
+
+/* Responsive Design */
 @media (max-width: 1200px) {
     .hermes-contact-section .hermes-contact-layout {
         grid-template-columns: 480px 1fr;
@@ -7110,6 +7236,10 @@ body.menu-open {
         flex-direction: column;
         gap: 16px;
     }
+    
+    .hermes-contact-section .location-actions {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 480px) {
@@ -7143,6 +7273,10 @@ body.menu-open {
     
     .hermes-contact-section .social-links-grid {
         gap: 8px;
+    }
+    
+    .hermes-contact-section .google-map-frame {
+        height: 220px;
     }
 }
 
