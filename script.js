@@ -136,7 +136,7 @@ class EviaLuxuryApp {
             { name: 'about', class: HermesAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'instagramReviews', class: RedesignedSocialSections },
-            { name: 'LuxuryProductsSection', class: LuxuryMedSpaProducts },
+            { name: 'LuxuryProductsSection', class: HermesProductsCollection },
             { name: 'contactSection', class: HermesLuxuryContactSection },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
@@ -3208,24 +3208,25 @@ class RedesignedSocialSections {
 }
 
 /* ========================================
-   PRODUCTS SECTION
+   HERMÈS-INSPIRED PRODUCTS COLLECTION
+   Interactive JavaScript Component
    ======================================== */
 
-class LuxuryMedSpaProducts {
+class HermesProductsCollection {
     constructor() {
-        this.section = document.querySelector('.luxury-medspa-products');
-        this.header = document.querySelector('.luxury-products-header');
-        this.showcase = document.querySelector('.luxury-products-showcase');
-        this.cta = document.querySelector('.luxury-collection-cta');
-        this.productCards = document.querySelectorAll('.luxury-product-card');
-        this.productCTAs = document.querySelectorAll('.luxury-product-cta');
-        this.catalogButton = document.getElementById('luxuryCatalogBtn');
-        this.partnershipEmblem = document.querySelector('.partnership-emblem');
+        this.section = document.querySelector('.hermes-products-collection');
+        this.header = document.querySelector('.collection-header');
+        this.gallery = document.querySelector('.products-gallery');
+        this.footer = document.querySelector('.collection-footer');
+        this.productBooks = document.querySelectorAll('.product-book');
+        this.discoverButtons = document.querySelectorAll('.discover-btn');
+        this.catalogButton = document.getElementById('catalogButton');
+        this.partnershipSeal = document.querySelector('.partnership-seal');
         
         this.isInitialized = false;
         this.observers = new Map();
-        this.animationQueue = [];
         this.isVisible = false;
+        this.animationQueue = [];
         
         if (this.section) {
             this.init();
@@ -3236,49 +3237,22 @@ class LuxuryMedSpaProducts {
         if (this.isInitialized) return;
         
         try {
-            this.setupScrollRevealSystem();
+            this.setupIntersectionObservers();
             this.bindProductInteractions();
-            this.bindCTAEvents();
+            this.bindButtonEvents();
             this.initializeAnimations();
             this.setupPerformanceOptimizations();
-            this.initializeLuxuryEffects();
+            this.startAmbientAnimations();
             
             this.isInitialized = true;
-            console.log('✨ Luxury MedSpa Products Section initialized');
+            console.log('✨ Hermès Products Collection initialized');
         } catch (error) {
-            console.error('❌ Error initializing Luxury Products section:', error);
+            console.error('❌ Error initializing Hermès Products Collection:', error);
         }
     }
     
-    setupScrollRevealSystem() {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -10% 0px'
-        };
-        
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.revealElement(entry.target);
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        
-        const revealElements = [
-            this.header,
-            this.showcase,
-            this.cta
-        ].filter(Boolean);
-        
-        revealElements.forEach(element => {
-            if (element.hasAttribute('data-products-reveal')) {
-                revealObserver.observe(element);
-            }
-        });
-        
-        this.observers.set('reveal', revealObserver);
-        
+    setupIntersectionObservers() {
+        // Main section observer
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 this.isVisible = entry.isIntersecting;
@@ -3290,131 +3264,205 @@ class LuxuryMedSpaProducts {
         
         sectionObserver.observe(this.section);
         this.observers.set('section', sectionObserver);
+        
+        // Element reveal observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.revealElement(entry.target);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+        
+        // Observe elements for reveal
+        const revealElements = [
+            this.header,
+            ...this.productBooks,
+            this.footer
+        ].filter(Boolean);
+        
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+        
+        this.observers.set('reveal', revealObserver);
+        
+        // Performance observer for product books
+        const performanceObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const book = entry.target;
+                if (entry.isIntersecting) {
+                    this.enableBookAnimations(book);
+                } else {
+                    this.disableBookAnimations(book);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px 0px 50px 0px'
+        });
+        
+        this.productBooks.forEach(book => {
+            performanceObserver.observe(book);
+        });
+        
+        this.observers.set('performance', performanceObserver);
     }
     
     revealElement(element) {
-        element.classList.add('revealed');
-        
-        if (element.classList.contains('luxury-products-showcase')) {
-            this.animateProductCards();
-        } else if (element.classList.contains('luxury-collection-cta')) {
-            this.animateCollectionCTA();
+        if (element.classList.contains('collection-header')) {
+            this.animateHeader();
+        } else if (element.classList.contains('product-book')) {
+            this.animateProductBook(element);
+        } else if (element.classList.contains('collection-footer')) {
+            this.animateFooter();
         }
     }
     
-    animateProductCards() {
-        this.productCards.forEach((card, index) => {
-            setTimeout(() => {
-                this.addCardEntranceEffect(card);
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 200);
-        });
-    }
-    
-    addCardEntranceEffect(card) {
-        const showcase = card.querySelector('.product-showcase');
-        const productImage = card.querySelector('.product-image');
-        const rating = card.querySelector('.luxury-product-rating');
-        const information = card.querySelector('.product-information');
+    animateHeader() {
+        const seal = this.header.querySelector('.partnership-seal');
+        const title = this.header.querySelector('.collection-title');
+        const subtitle = this.header.querySelector('.collection-subtitle');
         
-        if (showcase) {
+        if (seal) {
             setTimeout(() => {
-                showcase.style.transform = 'translateY(0)';
-                showcase.style.opacity = '1';
+                seal.style.opacity = '1';
+                seal.style.transform = 'translateY(0) scale(1)';
             }, 100);
         }
         
-        if (productImage) {
+        if (title) {
             setTimeout(() => {
-                productImage.style.transform = 'scale(1) translateY(0)';
-                productImage.style.opacity = '1';
-            }, 200);
-        }
-        
-        if (rating) {
-            setTimeout(() => {
-                rating.style.opacity = '1';
-                rating.style.transform = 'translateY(0) scale(1)';
+                title.style.opacity = '1';
+                title.style.transform = 'translateY(0)';
             }, 300);
         }
         
-        if (information) {
-            const infoElements = information.children;
-            Array.from(infoElements).forEach((element, index) => {
+        if (subtitle) {
+            setTimeout(() => {
+                subtitle.style.opacity = '1';
+                subtitle.style.transform = 'translateY(0)';
+            }, 500);
+        }
+    }
+    
+    animateProductBook(book) {
+        const index = Array.from(this.productBooks).indexOf(book);
+        
+        setTimeout(() => {
+            book.style.opacity = '1';
+            book.style.transform = 'translateY(0)';
+            
+            // Animate internal elements
+            this.animateBookContents(book);
+        }, index * 150);
+    }
+    
+    animateBookContents(book) {
+        const display = book.querySelector('.product-display');
+        const details = book.querySelector('.product-details');
+        const button = book.querySelector('.discover-btn');
+        
+        if (display) {
+            setTimeout(() => {
+                display.style.opacity = '1';
+                display.style.transform = 'translateY(0)';
+            }, 100);
+        }
+        
+        if (details) {
+            const detailElements = details.children;
+            Array.from(detailElements).forEach((element, index) => {
                 setTimeout(() => {
                     element.style.opacity = '1';
                     element.style.transform = 'translateY(0)';
-                }, 400 + (index * 100));
+                }, 200 + (index * 100));
+            });
+        }
+        
+        if (button) {
+            setTimeout(() => {
+                button.style.opacity = '1';
+                button.style.transform = 'translateY(0)';
+            }, 600);
+        }
+    }
+    
+    animateFooter() {
+        const content = this.footer.querySelector('.footer-content');
+        if (content) {
+            const elements = content.children;
+            Array.from(elements).forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 150);
             });
         }
     }
     
-    animateCollectionCTA() {
-        const ornaments = this.cta.querySelectorAll('.ornament-medallion');
-        ornaments.forEach((ornament, index) => {
-            setTimeout(() => {
-                ornament.style.transform = 'scale(1.1) rotate(180deg)';
-                setTimeout(() => {
-                    ornament.style.transform = 'scale(1) rotate(360deg)';
-                }, 300);
-            }, index * 200);
-        });
-    }
-    
     bindProductInteractions() {
-        this.productCards.forEach(card => {
-            this.setupCardInteractions(card);
-            this.setupCardTiltEffect(card);
+        this.productBooks.forEach(book => {
+            this.setupBookInteractions(book);
+            this.setupBookTiltEffect(book);
         });
         
-        if (this.partnershipEmblem) {
-            this.setupPartnershipEmblemInteraction();
+        if (this.partnershipSeal) {
+            this.setupPartnershipSealInteraction();
         }
     }
     
-    setupCardInteractions(card) {
-        const productImage = card.querySelector('.product-image');
-        const excellence_badge = card.querySelector('.product-excellence-badge');
-        const features = card.querySelectorAll('.feature-capsule');
-        const rating = card.querySelector('.luxury-product-rating');
+    setupBookInteractions(book) {
+        const productImage = book.querySelector('.product-image');
+        const statusBadge = book.querySelector('.status-badge');
+        const features = book.querySelectorAll('.feature-pill');
+        const rating = book.querySelector('.product-rating');
         
-        card.addEventListener('mouseenter', () => {
-            this.onCardHover(card, productImage, excellence_badge, features, rating);
+        book.addEventListener('mouseenter', () => {
+            this.onBookHover(book, productImage, statusBadge, features, rating);
         });
         
-        card.addEventListener('mouseleave', () => {
-            this.onCardLeave(card, productImage, excellence_badge, features, rating);
+        book.addEventListener('mouseleave', () => {
+            this.onBookLeave(book, productImage, statusBadge, features, rating);
         });
         
-        card.addEventListener('click', (e) => {
-            if (!e.target.closest('.luxury-product-cta')) {
-                this.handleCardClick(card, e);
+        book.addEventListener('click', (e) => {
+            if (!e.target.closest('.discover-btn')) {
+                this.handleBookClick(book, e);
             }
         });
         
+        // Feature pill interactions
         features.forEach(feature => {
             feature.addEventListener('mouseenter', () => {
                 this.addFeatureGlow(feature);
             });
         });
         
-        if (excellence_badge) {
-            excellence_badge.addEventListener('mouseenter', () => {
-                this.triggerBadgeShine(excellence_badge);
+        // Status badge interaction
+        if (statusBadge) {
+            statusBadge.addEventListener('mouseenter', () => {
+                this.triggerBadgeEffect(statusBadge);
             });
         }
     }
     
-    onCardHover(card, productImage, badge, features, rating) {
+    onBookHover(book, productImage, badge, features, rating) {
+        // Image animation
         if (productImage) {
-            productImage.style.transform = 'scale(1.08) translateY(-12px) rotateY(8deg)';
+            productImage.style.transform = 'scale(1.1) translateY(-8px)';
         }
         
+        // Badge effect
         if (badge) {
-            this.triggerBadgeShine(badge);
+            this.triggerBadgeEffect(badge);
         }
         
+        // Features animation
         features.forEach((feature, index) => {
             setTimeout(() => {
                 feature.style.transform = 'translateY(-2px) scale(1.02)';
@@ -3423,86 +3471,125 @@ class LuxuryMedSpaProducts {
             }, index * 50);
         });
         
+        // Rating animation
         if (rating) {
             rating.style.transform = 'scale(1.05)';
             rating.style.boxShadow = '0 6px 20px rgba(255, 140, 0, 0.15)';
         }
         
-        this.activateCardAmbientEffects(card);
+        // Activate glow effects
+        this.activateBookGlowEffects(book);
     }
     
-    onCardLeave(card, productImage, badge, features, rating) {
+    onBookLeave(book, productImage, badge, features, rating) {
+        // Reset image
         if (productImage) {
-            productImage.style.transform = 'scale(1) translateY(0) rotateY(0)';
+            productImage.style.transform = 'scale(1) translateY(0)';
         }
         
+        // Reset features
         features.forEach(feature => {
             feature.style.transform = 'translateY(0) scale(1)';
-            feature.style.borderColor = 'rgba(255, 140, 0, 0.1)';
-            feature.style.background = 'rgba(255, 248, 240, 0.8)';
+            feature.style.borderColor = 'rgba(255, 140, 0, 0.08)';
+            feature.style.background = 'var(--cream-soft)';
         });
         
+        // Reset rating
         if (rating) {
             rating.style.transform = 'scale(1)';
             rating.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.05)';
         }
     }
     
-    setupCardTiltEffect(card) {
+    setupBookTiltEffect(book) {
         if (this.isMobile()) return;
         
-        card.addEventListener('mousemove', (e) => {
-            this.handleCardTilt(card, e);
+        book.addEventListener('mousemove', (e) => {
+            this.handleBookTilt(book, e);
         });
         
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(-16px) scale(1.02) rotateX(0) rotateY(0)';
+        book.addEventListener('mouseleave', () => {
+            book.style.transform = 'translateY(-12px) scale(1.02) rotateX(0) rotateY(0)';
         });
     }
     
-    handleCardTilt(card, event) {
-        const rect = card.getBoundingClientRect();
+    handleBookTilt(book, event) {
+        const rect = book.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        const rotateX = (y - centerY) / centerY * -5;
-        const rotateY = (x - centerX) / centerX * 5;
+        const rotateX = (y - centerY) / centerY * -3;
+        const rotateY = (x - centerX) / centerX * 3;
         
-        card.style.transform = `translateY(-16px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        book.style.transform = `translateY(-12px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     }
     
-    handleCardClick(card, event) {
-        this.createLuxuryRippleEffect(card, event);
+    handleBookClick(book, event) {
+        this.createRippleEffect(book, event);
         
-        const productName = card.querySelector('.product-title')?.textContent;
-        if (productName) {
-            this.showProductInteractionFeedback(productName);
-        }
+        const productName = book.querySelector('.product-title')?.textContent || 'Product';
+        this.showProductFeedback(productName);
         
-        card.style.transform = 'scale(0.98)';
+        // Click animation
+        book.style.transform = 'scale(0.98)';
         setTimeout(() => {
-            card.style.transform = '';
+            book.style.transform = '';
         }, 150);
         
-        this.trackProductCardClick(productName);
+        this.trackProductBookClick(productName);
     }
     
-    bindCTAEvents() {
-        this.productCTAs.forEach(cta => {
-            cta.addEventListener('click', (e) => {
+    setupPartnershipSealInteraction() {
+        const sealContent = this.partnershipSeal.querySelector('.seal-content');
+        
+        this.partnershipSeal.addEventListener('mouseenter', () => {
+            this.activatePartnershipGlow();
+        });
+        
+        this.partnershipSeal.addEventListener('click', () => {
+            this.handlePartnershipClick();
+        });
+    }
+    
+    activatePartnershipGlow() {
+        const sealContent = this.partnershipSeal.querySelector('.seal-content');
+        if (sealContent) {
+            sealContent.style.transform = 'translateY(-2px) scale(1.05)';
+            sealContent.style.boxShadow = '0 8px 24px rgba(255, 140, 0, 0.3)';
+        }
+    }
+    
+    handlePartnershipClick() {
+        const sealContent = this.partnershipSeal.querySelector('.seal-content');
+        
+        sealContent.style.transform = 'translateY(-4px) scale(1.02) rotate(2deg)';
+        
+        setTimeout(() => {
+            sealContent.style.transform = '';
+        }, 200);
+        
+        this.showPartnershipFeedback();
+        this.trackPartnershipClick();
+    }
+    
+    bindButtonEvents() {
+        // Discover buttons
+        this.discoverButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                this.handleProductCTA(cta);
+                this.handleDiscoverClick(btn);
             });
             
-            cta.addEventListener('mouseenter', () => {
-                this.addCTALuxuryEffect(cta);
+            btn.addEventListener('mouseenter', () => {
+                this.addButtonHoverEffect(btn);
             });
         });
         
+        // Catalog button
         if (this.catalogButton) {
             this.catalogButton.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -3515,25 +3602,26 @@ class LuxuryMedSpaProducts {
         }
     }
     
-    handleProductCTA(cta) {
-        const productCard = cta.closest('.luxury-product-card');
-        const productName = productCard.querySelector('.product-title')?.textContent || 'Product';
-        const productUrl = cta.getAttribute('data-url') || 'https://us.alumiermd.com/products?code=54T7P4HH';
+    handleDiscoverClick(btn) {
+        const productBook = btn.closest('.product-book');
+        const productName = productBook.querySelector('.product-title')?.textContent || 'Product';
+        const productUrl = btn.getAttribute('data-url') || 'https://us.alumiermd.com/products?code=54T7P4HH';
         
-        cta.style.transform = 'translateY(-2px) scale(0.98)';
-        this.triggerCTAShimmer(cta);
+        // Button animation
+        btn.style.transform = 'translateY(-2px) scale(0.98)';
+        this.triggerButtonShimmer(btn);
         
         setTimeout(() => {
-            cta.style.transform = '';
+            btn.style.transform = '';
         }, 150);
         
-        this.showProductCTAFeedback(productName);
+        this.showDiscoverFeedback(productName);
         
         setTimeout(() => {
             window.open(productUrl, '_blank', 'noopener,noreferrer');
         }, 400);
         
-        this.trackProductCTAClick(productName);
+        this.trackDiscoverClick(productName);
     }
     
     handleCatalogClick() {
@@ -3544,7 +3632,7 @@ class LuxuryMedSpaProducts {
             this.catalogButton.style.transform = '';
         }, 150);
         
-        this.showCatalogLoadingFeedback();
+        this.showCatalogFeedback();
         
         setTimeout(() => {
             window.open('https://us.alumiermd.com/products?code=54T7P4HH', '_blank', 'noopener,noreferrer');
@@ -3553,97 +3641,57 @@ class LuxuryMedSpaProducts {
         this.trackCatalogClick();
     }
     
-    initializeLuxuryEffects() {
-        this.startMoleculeAnimation();
-        this.startAmbientEffects();
-        this.initializePartnershipGlow();
-    }
-    
-    setupPartnershipEmblemInteraction() {
-        const emblem = this.partnershipEmblem.querySelector('.emblem-frame');
-        const seal = this.partnershipEmblem.querySelector('.partnership-seal');
+    activateBookGlowEffects(book) {
+        const imageGlow = book.querySelector('.image-glow');
         
-        emblem.addEventListener('mouseenter', () => {
-            this.activatePartnershipGlow();
-        });
-        
-        emblem.addEventListener('click', () => {
-            this.handlePartnershipClick();
-        });
-    }
-    
-    activatePartnershipGlow() {
-        const glow = this.partnershipEmblem.querySelector('.emblem-glow');
-        const seal = this.partnershipEmblem.querySelector('.partnership-seal');
-        
-        if (glow) {
-            glow.style.opacity = '1';
-        }
-        
-        if (seal) {
-            seal.style.transform = 'scale(1.08) rotate(5deg)';
+        if (imageGlow) {
+            imageGlow.style.opacity = '1';
         }
     }
     
-    handlePartnershipClick() {
-        const emblem = this.partnershipEmblem.querySelector('.emblem-frame');
-        
-        emblem.style.transform = 'translateY(-8px) scale(1.02) rotate(2deg)';
+    triggerBadgeEffect(badge) {
+        badge.style.transform = 'scale(1.05) translateY(-2px) rotate(2deg)';
         
         setTimeout(() => {
-            emblem.style.transform = '';
-        }, 200);
-        
-        this.showPartnershipFeedback();
-        this.trackPartnershipClick();
+            badge.style.transform = '';
+        }, 300);
     }
     
-    activateCardAmbientEffects(card) {
-        const ambientGlow = card.querySelector('.card-ambient-glow');
-        const imageAura = card.querySelector('.image-aura');
-        const platformReflection = card.querySelector('.platform-reflection');
+    triggerButtonShimmer(btn) {
+        const shimmer = document.createElement('div');
+        shimmer.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.8s ease;
+            pointer-events: none;
+            border-radius: inherit;
+        `;
         
-        if (ambientGlow) {
-            ambientGlow.style.opacity = '1';
-        }
+        btn.style.position = 'relative';
+        btn.style.overflow = 'hidden';
+        btn.appendChild(shimmer);
         
-        if (imageAura) {
-            imageAura.style.opacity = '1';
-        }
-        
-        if (platformReflection) {
-            platformReflection.style.opacity = '1';
-        }
-    }
-    
-    triggerBadgeShine(badge) {
-        const shine = badge.querySelector('.badge-shine');
-        if (shine) {
-            shine.style.left = '-100%';
-            shine.style.transition = 'none';
-            shine.offsetHeight;
-            shine.style.transition = 'left 0.8s ease';
-            shine.style.left = '100%';
-        }
-    }
-    
-    triggerCTAShimmer(cta) {
-        const shimmer = cta.querySelector('.cta-luxury-shimmer');
-        if (shimmer) {
-            shimmer.style.left = '-100%';
-            shimmer.style.transition = 'none';
-            shimmer.offsetHeight;
-            shimmer.style.transition = 'left 1s ease';
+        requestAnimationFrame(() => {
             shimmer.style.left = '100%';
-        }
+        });
+        
+        setTimeout(() => {
+            if (shimmer.parentNode) {
+                shimmer.parentNode.removeChild(shimmer);
+            }
+        }, 800);
     }
     
     triggerCatalogShimmer() {
-        const shimmer = this.catalogButton.querySelector('.catalog-luxury-shimmer');
+        const shimmer = this.catalogButton.querySelector('.btn-shine');
         if (shimmer) {
             shimmer.style.left = '-100%';
             shimmer.style.transition = 'none';
-            shimmer.offsetHeight;
+            shimmer.offsetHeight; // Force reflow
             shimmer.style.transition = 'left 1.2s ease';
             shimmer.style.left = '100%';
         }
@@ -3657,31 +3705,23 @@ class LuxuryMedSpaProducts {
         }, 1000);
     }
     
-    addCTALuxuryEffect(cta) {
-        this.triggerCTAShimmer(cta);
-        
-        const background = cta.querySelector('.cta-background');
-        if (background) {
-            background.style.opacity = '0.1';
-            setTimeout(() => {
-                background.style.opacity = '';
-            }, 600);
-        }
+    addButtonHoverEffect(btn) {
+        this.triggerButtonShimmer(btn);
     }
     
     addCatalogHoverEffect() {
         this.triggerCatalogShimmer();
         
-        const ornaments = this.cta.querySelectorAll('.ornament-medallion');
-        ornaments.forEach(ornament => {
-            ornament.style.transform = 'scale(1.1) rotate(180deg)';
+        const footerIcon = this.footer.querySelector('.footer-icon');
+        if (footerIcon) {
+            footerIcon.style.transform = 'scale(1.08) rotate(5deg)';
             setTimeout(() => {
-                ornament.style.transform = '';
+                footerIcon.style.transform = '';
             }, 600);
-        });
+        }
     }
     
-    createLuxuryRippleEffect(element, event) {
+    createRippleEffect(element, event) {
         const ripple = document.createElement('div');
         const rect = element.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
@@ -3719,47 +3759,39 @@ class LuxuryMedSpaProducts {
         }, 800);
     }
     
-    showProductInteractionFeedback(productName) {
-        const feedback = this.createLuxuryFeedbackElement(
+    showProductFeedback(productName) {
+        this.showFeedback(
             `Viewing ${productName}`,
             'rgba(139, 92, 246, 0.95)',
             'ri-eye-line'
         );
-        
-        this.displayLuxuryFeedback(feedback, 2000);
     }
     
-    showProductCTAFeedback(productName) {
-        const feedback = this.createLuxuryFeedbackElement(
+    showDiscoverFeedback(productName) {
+        this.showFeedback(
             `Opening ${productName} details...`,
             'rgba(255, 140, 0, 0.95)',
             'ri-external-link-line'
         );
-        
-        this.displayLuxuryFeedback(feedback, 2500);
     }
     
-    showCatalogLoadingFeedback() {
-        const feedback = this.createLuxuryFeedbackElement(
+    showCatalogFeedback() {
+        this.showFeedback(
             'Opening AlumierMD catalog...',
             'rgba(16, 185, 129, 0.95)',
             'ri-shopping-bag-line'
         );
-        
-        this.displayLuxuryFeedback(feedback, 3000);
     }
     
     showPartnershipFeedback() {
-        const feedback = this.createLuxuryFeedbackElement(
+        this.showFeedback(
             'Exclusive AlumierMD Partnership',
             'rgba(255, 140, 0, 0.95)',
             'ri-award-line'
         );
-        
-        this.displayLuxuryFeedback(feedback, 2500);
     }
     
-    createLuxuryFeedbackElement(message, backgroundColor, iconClass) {
+    showFeedback(message, backgroundColor, iconClass, duration = 2500) {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
             position: fixed;
@@ -3795,10 +3827,6 @@ class LuxuryMedSpaProducts {
             <span>${message}</span>
         `;
         
-        return feedback;
-    }
-    
-    displayLuxuryFeedback(feedback, duration = 2500) {
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
@@ -3821,7 +3849,7 @@ class LuxuryMedSpaProducts {
     
     setupPerformanceOptimizations() {
         const animatedElements = this.section.querySelectorAll(
-            '.luxury-product-card, .product-image, .card-ambient-glow, .luxury-product-cta'
+            '.product-book, .product-image, .image-glow, .discover-btn'
         );
         
         animatedElements.forEach(element => {
@@ -3829,181 +3857,152 @@ class LuxuryMedSpaProducts {
             element.style.backfaceVisibility = 'hidden';
             element.style.transform = 'translateZ(0)';
         });
-        
-        this.setupPerformanceObserver();
     }
     
-    setupPerformanceObserver() {
-        const performanceObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const card = entry.target;
-                if (entry.isIntersecting) {
-                    this.enableCardAnimations(card);
-                } else {
-                    this.disableCardAnimations(card);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '50px 0px 50px 0px'
-        });
-        
-        this.productCards.forEach(card => {
-            performanceObserver.observe(card);
-        });
-        
-        this.observers.set('performance', performanceObserver);
+    enableBookAnimations(book) {
+        book.style.willChange = 'transform, box-shadow';
     }
     
-    enableCardAnimations(card) {
-        card.style.willChange = 'transform, box-shadow';
-    }
-    
-    disableCardAnimations(card) {
-        card.style.willChange = 'auto';
+    disableBookAnimations(book) {
+        book.style.willChange = 'auto';
     }
     
     initializeAnimations() {
-        this.productCards.forEach((card, index) => {
-            this.prepareCardForAnimation(card, index);
+        // Prepare header for animation
+        if (this.header) {
+            const seal = this.header.querySelector('.partnership-seal');
+            const title = this.header.querySelector('.collection-title');
+            const subtitle = this.header.querySelector('.collection-subtitle');
+            
+            if (seal) {
+                seal.style.opacity = '0';
+                seal.style.transform = 'translateY(40px) scale(0.9)';
+                seal.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            }
+            
+            if (title) {
+                title.style.opacity = '0';
+                title.style.transform = 'translateY(60px)';
+                title.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            }
+            
+            if (subtitle) {
+                subtitle.style.opacity = '0';
+                subtitle.style.transform = 'translateY(40px)';
+                subtitle.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            }
+        }
+        
+        // Prepare product books for animation
+        this.productBooks.forEach((book, index) => {
+            this.prepareBookForAnimation(book, index);
         });
         
-        if (this.cta) {
-            this.prepareCTAForAnimation();
+        // Prepare footer for animation
+        if (this.footer) {
+            this.prepareFooterForAnimation();
         }
     }
     
-    prepareCardForAnimation(card, index) {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(80px)';
-        card.style.transition = `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
+    prepareBookForAnimation(book, index) {
+        book.style.opacity = '0';
+        book.style.transform = 'translateY(80px)';
+        book.style.transition = `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
         
-        const showcase = card.querySelector('.product-showcase');
-        const productImage = card.querySelector('.product-image');
-        const rating = card.querySelector('.luxury-product-rating');
-        const information = card.querySelector('.product-information');
+        const display = book.querySelector('.product-display');
+        const details = book.querySelector('.product-details');
+        const button = book.querySelector('.discover-btn');
         
-        if (showcase) {
-            showcase.style.opacity = '0';
-            showcase.style.transform = 'translateY(40px)';
-            showcase.style.transition = 'all 0.6s ease';
+        if (display) {
+            display.style.opacity = '0';
+            display.style.transform = 'translateY(40px)';
+            display.style.transition = 'all 0.6s ease';
         }
         
-        if (productImage) {
-            productImage.style.opacity = '0';
-            productImage.style.transform = 'scale(0.8) translateY(20px)';
-            productImage.style.transition = 'all 0.8s ease';
-        }
-        
-        if (rating) {
-            rating.style.opacity = '0';
-            rating.style.transform = 'translateY(20px) scale(0.9)';
-            rating.style.transition = 'all 0.6s ease';
-        }
-        
-        if (information) {
-            Array.from(information.children).forEach((element, childIndex) => {
+        if (details) {
+            Array.from(details.children).forEach((element, childIndex) => {
                 element.style.opacity = '0';
                 element.style.transform = 'translateY(20px)';
                 element.style.transition = `all 0.5s ease ${childIndex * 0.1}s`;
             });
         }
-    }
-    
-    prepareCTAForAnimation() {
-        this.cta.style.opacity = '0';
-        this.cta.style.transform = 'translateY(80px)';
-        this.cta.style.transition = 'all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s';
-    }
-    
-    startMoleculeAnimation() {
-        const molecules = this.section.querySelectorAll('.molecule');
         
-        molecules.forEach((molecule, index) => {
-            this.animateMolecule(molecule, index);
-        });
-    }
-    
-    animateMolecule(molecule, index) {
-        const delay = index * 5000;
-        
-        setTimeout(() => {
-            if (this.isVisible) {
-                molecule.style.animationPlayState = 'running';
-            }
-        }, delay);
-    }
-    
-    startAmbientEffects() {
-        const orbs = this.section.querySelectorAll('.ambient-orb');
-        
-        orbs.forEach(orb => {
-            orb.style.animationPlayState = 'running';
-        });
-    }
-    
-    initializePartnershipGlow() {
-        const seal = this.section.querySelector('.partnership-seal');
-        
-        if (seal) {
-            const beforeElement = seal.querySelector('::before');
-            if (beforeElement) {
-                beforeElement.style.animationPlayState = 'running';
-            }
+        if (button) {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+            button.style.transition = 'all 0.6s ease';
         }
+    }
+    
+    prepareFooterForAnimation() {
+        const content = this.footer.querySelector('.footer-content');
+        if (content) {
+            Array.from(content.children).forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(40px)';
+                element.style.transition = `all 0.6s ease ${index * 0.1}s`;
+            });
+        }
+    }
+    
+    startAmbientAnimations() {
+        const floatingElements = this.section.querySelectorAll('.floating-element');
+        
+        floatingElements.forEach(element => {
+            element.style.animationPlayState = 'running';
+        });
     }
     
     onSectionVisible() {
-        this.startAmbientEffects();
-        this.startMoleculeAnimation();
+        this.startAmbientAnimations();
     }
     
-    trackProductCardClick(productName) {
+    trackProductBookClick(productName) {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'luxury_product_card_click', {
+            gtag('event', 'hermes_product_book_click', {
                 event_category: 'products',
                 event_label: productName,
                 value: 1
             });
         }
         
-        console.log(`📊 Luxury Product card clicked: ${productName}`);
+        console.log(`📊 Product book clicked: ${productName}`);
     }
     
-    trackProductCTAClick(productName) {
+    trackDiscoverClick(productName) {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'luxury_product_cta_click', {
+            gtag('event', 'hermes_discover_click', {
                 event_category: 'products',
                 event_label: productName,
                 value: 1
             });
         }
         
-        console.log(`📊 Luxury Product CTA clicked: ${productName}`);
+        console.log(`📊 Discover button clicked: ${productName}`);
     }
     
     trackCatalogClick() {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'luxury_catalog_view', {
+            gtag('event', 'hermes_catalog_view', {
                 event_category: 'products',
                 event_label: 'alumiermd_full_catalog',
                 value: 1
             });
         }
         
-        console.log('📊 Luxury Catalog opened');
+        console.log('📊 Catalog opened');
     }
     
     trackPartnershipClick() {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'partnership_emblem_click', {
+            gtag('event', 'hermes_partnership_click', {
                 event_category: 'engagement',
                 event_label: 'alumiermd_partnership',
                 value: 1
             });
         }
         
-        console.log('📊 Partnership emblem clicked');
+        console.log('📊 Partnership seal clicked');
     }
     
     isMobile() {
@@ -4020,45 +4019,32 @@ class LuxuryMedSpaProducts {
     }
     
     optimizeForMobile() {
-        this.productCards.forEach(card => {
-            card.style.willChange = 'auto';
-            card.removeEventListener('mousemove', this.handleCardTilt);
+        this.productBooks.forEach(book => {
+            book.style.willChange = 'auto';
+            book.removeEventListener('mousemove', this.handleBookTilt);
         });
     }
     
     optimizeForDesktop() {
-        this.productCards.forEach(card => {
-            card.style.willChange = 'transform, box-shadow';
-        });
-        
-        this.productCards.forEach(card => {
-            this.setupCardTiltEffect(card);
+        this.productBooks.forEach(book => {
+            book.style.willChange = 'transform, box-shadow';
+            this.setupBookTiltEffect(book);
         });
     }
     
     pause() {
-        const orbs = this.section.querySelectorAll('.ambient-orb');
-        const molecules = this.section.querySelectorAll('.molecule');
+        const floatingElements = this.section.querySelectorAll('.floating-element');
         
-        orbs.forEach(orb => {
-            orb.style.animationPlayState = 'paused';
-        });
-        
-        molecules.forEach(molecule => {
-            molecule.style.animationPlayState = 'paused';
+        floatingElements.forEach(element => {
+            element.style.animationPlayState = 'paused';
         });
     }
     
     play() {
-        const orbs = this.section.querySelectorAll('.ambient-orb');
-        const molecules = this.section.querySelectorAll('.molecule');
+        const floatingElements = this.section.querySelectorAll('.floating-element');
         
-        orbs.forEach(orb => {
-            orb.style.animationPlayState = 'running';
-        });
-        
-        molecules.forEach(molecule => {
-            molecule.style.animationPlayState = 'running';
+        floatingElements.forEach(element => {
+            element.style.animationPlayState = 'running';
         });
     }
     
@@ -4073,8 +4059,8 @@ class LuxuryMedSpaProducts {
         });
         this.observers.clear();
         
-        this.productCards.forEach(card => {
-            card.replaceWith(card.cloneNode(true));
+        this.productBooks.forEach(book => {
+            book.replaceWith(book.cloneNode(true));
         });
         
         if (this.catalogButton) {
@@ -4083,8 +4069,39 @@ class LuxuryMedSpaProducts {
         
         this.isInitialized = false;
         
-        console.log('🗑️ Luxury MedSpa Products Section destroyed');
+        console.log('🗑️ Hermès Products Collection destroyed');
     }
+}
+
+// Auto-initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    const hermesProducts = new HermesProductsCollection();
+    
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            hermesProducts.onResize();
+        }, 250);
+    });
+    
+    // Handle visibility change
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            hermesProducts.pause();
+        } else {
+            hermesProducts.play();
+        }
+    });
+    
+    // Expose to global scope for external control
+    window.HermesProductsCollection = hermesProducts;
+});
+
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = HermesProductsCollection;
 }
 
 /* ========================================
@@ -5871,7 +5888,7 @@ if (typeof module !== 'undefined' && module.exports) {
         HermesAboutSection,
         ModernTransformationsGallery,
         RedesignedSocialSections,
-        LuxuryMedSpaProducts,
+        HermesProductsCollection,
         HermesLuxuryContactSection,
         LuxuryFloatingButtons,
         CinematicHero,
