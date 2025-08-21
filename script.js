@@ -1,6 +1,6 @@
 /* ========================================
    EVIA AESTHETICS - COMPLETE LUXURY EXPERIENCE
-   ORGANIZED JAVASCRIPT WITH SIGNATURE ANIMATION
+   ORGANIZED JAVASCRIPT WITH ALL SECTIONS
    ======================================== */
 
 'use strict';
@@ -135,6 +135,7 @@ class EviaLuxuryApp {
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
             { name: 'about', class: HermesAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
+            { name: 'instagramReviews', class: RedesignedSocialSections },
             { name: 'LuxuryProductsSection', class: LuxuryMedSpaProducts },
             { name: 'contactSection', class: LuxuryContactSection },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
@@ -211,7 +212,7 @@ class EviaLuxuryApp {
 }
 
 /* ========================================
-   PRELOADER
+   PRELOADER SECTION
    ======================================== */
 
 class LuxuryPreloader {
@@ -328,7 +329,7 @@ class LuxuryPreloader {
 }
 
 /* ========================================
-   HEADER
+   HEADER SECTION
    ======================================== */
 
 class EnhancedLuxuryHeader {
@@ -555,7 +556,7 @@ class EnhancedLuxuryHeader {
 }
 
 /* ========================================
-   MOBILE MENU
+   MOBILE MENU SECTION
    ======================================== */
 
 class UltraLuxuryMobileMenu {
@@ -697,11 +698,7 @@ class UltraLuxuryMobileMenu {
 }
 
 /* ========================================
-   HERO
-   ======================================== */
-
-/* ========================================
-   HERO SECTION WITH SIMPLE SIGNATURE ANIMATION
+   HERO SECTION
    ======================================== */
 
 class SimpleHermesSignature {
@@ -758,24 +755,20 @@ class SimpleHermesSignature {
     showSignature() {
         if (!this.signatureWrapper) return;
         
-        // Show wrapper
         this.signatureWrapper.classList.add('signature-active');
         
-        // Animate signature line
         setTimeout(() => {
             if (this.signatureLine) {
                 this.signatureLine.classList.add('traced');
             }
         }, 400);
         
-        // Animate credentials
         setTimeout(() => {
             if (this.signatureCredentials) {
                 this.signatureCredentials.classList.add('traced');
             }
         }, 800);
         
-        // Animate underline
         setTimeout(() => {
             if (this.signatureUnderline) {
                 this.signatureUnderline.classList.add('traced');
@@ -788,14 +781,12 @@ class SimpleHermesSignature {
     onHover() {
         if (!this.signatureContainer || this.isAnimating) return;
         
-        // Add subtle glow effect
         this.signatureContainer.style.boxShadow = `
             0 12px 40px rgba(0, 0, 0, 0.08),
             0 6px 20px rgba(255, 140, 0, 0.15),
             0 0 20px rgba(255, 140, 0, 0.1)
         `;
         
-        // Reset after hover
         setTimeout(() => {
             if (this.signatureContainer) {
                 this.signatureContainer.style.boxShadow = '';
@@ -806,7 +797,6 @@ class SimpleHermesSignature {
     onClick() {
         if (this.isAnimating) return;
         
-        // Click feedback
         if (this.signatureContainer) {
             this.signatureContainer.style.transform = 'translateY(-2px) scale(0.98)';
             setTimeout(() => {
@@ -814,7 +804,6 @@ class SimpleHermesSignature {
             }, 200);
         }
         
-        // Navigate to contact
         setTimeout(() => {
             const contactSection = document.getElementById('contact');
             if (contactSection) {
@@ -825,7 +814,6 @@ class SimpleHermesSignature {
             }
         }, 150);
         
-        // Track click
         this.trackSignatureClick();
     }
     
@@ -861,13 +849,11 @@ class SimpleHermesSignature {
     restart() {
         this.animationStarted = false;
         
-        // Reset classes
         if (this.signatureLine) this.signatureLine.classList.remove('traced');
         if (this.signatureCredentials) this.signatureCredentials.classList.remove('traced');
         if (this.signatureUnderline) this.signatureUnderline.classList.remove('traced');
         if (this.signatureWrapper) this.signatureWrapper.classList.remove('signature-active');
         
-        // Restart animation
         setTimeout(() => {
             this.start();
         }, 500);
@@ -967,14 +953,12 @@ class CinematicHero {
         });
     }
     
-    // Updated signature animation initialization
     initSignatureAnimation() {
         if (window.innerWidth > 1024) {
             this.signatureAnimation = new SimpleHermesSignature();
         }
     }
     
-    // Updated signature animation start method
     startSignatureAnimation() {
         if (this.signatureAnimation && !this.hasAnimatedSignature) {
             this.signatureAnimation.start();
@@ -982,7 +966,6 @@ class CinematicHero {
             return;
         }
         
-        // Fallback for any other signature elements
         const signatureWrapper = document.querySelector('.hermes-signature-wrapper');
         if (signatureWrapper && !this.hasAnimatedSignature) {
             this.hasAnimatedSignature = true;
@@ -1035,7 +1018,7 @@ class CinematicHero {
 }
 
 /* ========================================
-   SERVICES
+   SERVICES SECTION
    ======================================== */
 
 class EnhancedServicesCarousel {
@@ -1843,7 +1826,7 @@ class EnhancedServicesCarousel {
 }
 
 /* ========================================
-   ABOUT
+   ABOUT SECTION
    ======================================== */
 
 class HermesAboutSection {
@@ -1889,7 +1872,6 @@ class HermesAboutSection {
     }
     
     bindEvents() {
-        // Learn More Button
         if (this.learnMoreBtn) {
             this.learnMoreBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1901,7 +1883,6 @@ class HermesAboutSection {
             });
         }
         
-        // Consultation Button
         if (this.consultationBtn) {
             this.consultationBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1939,7 +1920,6 @@ class HermesAboutSection {
     revealElement(element) {
         element.classList.add('reveal');
         
-        // Special animations for specific elements
         if (element.classList.contains('hermes-content-layout')) {
             this.animateContentLayout(element);
         } else if (element.classList.contains('hermes-certifications-section')) {
@@ -1951,7 +1931,6 @@ class HermesAboutSection {
         const profileCard = layout.querySelector('.hermes-doctor-profile');
         const contentCards = layout.querySelectorAll('.hermes-philosophy-card, .hermes-expertise-showcase, .hermes-cta-section');
         
-        // Animate profile card first
         if (profileCard) {
             setTimeout(() => {
                 profileCard.style.transform = 'translateY(0)';
@@ -1959,7 +1938,6 @@ class HermesAboutSection {
             }, 200);
         }
         
-        // Then animate content cards
         contentCards.forEach((card, index) => {
             setTimeout(() => {
                 card.style.transform = 'translateY(0)';
@@ -2076,10 +2054,8 @@ class HermesAboutSection {
     handleLearnMoreClick() {
         this.addClickFeedback(this.learnMoreBtn);
         
-        // Add loading animation
         this.showLoadingFeedback('Loading about page...');
         
-        // Navigate to about.html after a brief delay
         setTimeout(() => {
             window.location.href = 'about.html';
         }, 800);
@@ -2116,7 +2092,6 @@ class HermesAboutSection {
             'ri-loader-4-line'
         );
         
-        // Add spinning animation to icon
         const icon = feedback.querySelector('i');
         if (icon) {
             icon.style.animation = 'spin 1s linear infinite';
@@ -2374,7 +2349,6 @@ class HermesAboutSection {
         });
         this.observers.clear();
         
-        // Remove event listeners by cloning nodes
         if (this.learnMoreBtn) {
             this.learnMoreBtn.replaceWith(this.learnMoreBtn.cloneNode(true));
         }
@@ -2389,56 +2363,8 @@ class HermesAboutSection {
     }
 }
 
-// Spin animation for loading icons
-const spinKeyframes = `
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-`;
-
-// Add the animation to the document
-if (!document.querySelector('#hermes-spin-animation')) {
-    const style = document.createElement('style');
-    style.id = 'hermes-spin-animation';
-    style.textContent = spinKeyframes;
-    document.head.appendChild(style);
-}
-
-// Integration with existing app structure
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector('.hermes-about-section')) {
-        const hermesAboutSection = new HermesAboutSection();
-        window.HermesAboutSection = hermesAboutSection;
-        console.log('🚀 Hermès About Section ready');
-    }
-});
-
-// Handle visibility changes for performance
-document.addEventListener('visibilitychange', () => {
-    if (window.HermesAboutSection) {
-        if (document.hidden) {
-            document.querySelector('.hermes-about-section')?.style.setProperty('animation-play-state', 'paused');
-        } else {
-            document.querySelector('.hermes-about-section')?.style.setProperty('animation-play-state', 'running');
-        }
-    }
-});
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    if (window.HermesAboutSection) {
-        window.HermesAboutSection.onResize();
-    }
-});
-
-// Export for module usage (if needed)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { HermesAboutSection };
-}
-
 /* ========================================
-   TRANSFORMATIONS
+   TRANSFORMATIONS SECTION
    ======================================== */
 
 class ModernTransformationsGallery {
@@ -2773,7 +2699,428 @@ class ModernTransformationsGallery {
 }
 
 /* ========================================
-   PRODUCTS
+   INSTAGRAM & REVIEWS SECTIONS
+   ======================================== */
+
+class RedesignedSocialSections {
+    constructor() {
+        this.instagram = {
+            initialized: false,
+            widgetLoaded: false,
+            container: null,
+            loading: null
+        };
+        this.reviews = {
+            initialized: false,
+            widgetLoaded: false,
+            container: null,
+            loading: null
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.initializeRedesignedSections());
+            return;
+        }
+
+        this.initializeRedesignedSections();
+    }
+    
+    initializeRedesignedSections() {
+        this.initializeInstagramSection();
+        this.initializeReviewsSection();
+        this.setupElfsightIntegration();
+        
+        console.log('✨ Redesigned Social Sections initialized');
+    }
+
+    /* ========================================
+       INSTAGRAM SECTION
+       ======================================== */
+    
+    initializeInstagramSection() {
+        const instagramSection = document.querySelector('.redesigned-instagram-section');
+        if (!instagramSection) return;
+
+        this.instagram.container = document.getElementById('instagramWidgetContainer');
+        this.instagram.loading = document.getElementById('instagramLoading');
+
+        this.showInstagramLoading();
+        this.setupInstagramStatsAnimation();
+        this.setupInstagramObserver();
+
+        this.instagram.initialized = true;
+        console.log('📷 Instagram section initialized');
+    }
+
+    showInstagramLoading() {
+        if (this.instagram.loading) {
+            this.instagram.loading.style.display = 'flex';
+        }
+        if (this.instagram.container) {
+            this.instagram.container.style.opacity = '0';
+        }
+    }
+
+    hideInstagramLoading() {
+        if (this.instagram.loading) {
+            this.instagram.loading.style.opacity = '0';
+            setTimeout(() => {
+                this.instagram.loading.style.display = 'none';
+            }, 300);
+        }
+        
+        if (this.instagram.container) {
+            this.instagram.container.style.opacity = '1';
+        }
+    }
+
+    setupInstagramStatsAnimation() {
+        const stats = document.querySelectorAll('.redesigned-instagram-section .instagram-stat-number');
+        
+        stats.forEach(stat => {
+            const finalValue = stat.textContent;
+            const isNumber = /^\d+/.test(finalValue);
+            
+            if (isNumber) {
+                const number = parseInt(finalValue.replace(/\D/g, ''));
+                this.animateCounter(stat, 0, number, 2000, finalValue.replace(/\d/g, ''));
+            }
+        });
+    }
+
+    setupInstagramObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    
+                    if (entry.target.classList.contains('instagram-stats')) {
+                        this.setupInstagramStatsAnimation();
+                    }
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+
+        const elementsToObserve = document.querySelectorAll('.redesigned-instagram-section .instagram-stats, .redesigned-instagram-section .instagram-widget-container');
+        elementsToObserve.forEach(el => observer.observe(el));
+    }
+
+    /* ========================================
+       REVIEWS SECTION
+       ======================================== */
+    
+    initializeReviewsSection() {
+        const reviewsSection = document.querySelector('.redesigned-reviews-section');
+        if (!reviewsSection) return;
+
+        this.reviews.container = document.getElementById('reviewsWidgetContainer');
+        this.reviews.loading = document.getElementById('reviewsLoading');
+
+        this.showReviewsLoading();
+        this.setupReviewsStatsAnimation();
+        this.setupReviewsObserver();
+
+        this.reviews.initialized = true;
+        console.log('⭐ Reviews section initialized');
+    }
+
+    showReviewsLoading() {
+        if (this.reviews.loading) {
+            this.reviews.loading.style.display = 'flex';
+        }
+        if (this.reviews.container) {
+            this.reviews.container.style.opacity = '0';
+        }
+    }
+
+    hideReviewsLoading() {
+        if (this.reviews.loading) {
+            this.reviews.loading.style.opacity = '0';
+            setTimeout(() => {
+                this.reviews.loading.style.display = 'none';
+            }, 300);
+        }
+        
+        if (this.reviews.container) {
+            this.reviews.container.style.opacity = '1';
+        }
+    }
+
+    setupReviewsStatsAnimation() {
+        const stats = document.querySelectorAll('.redesigned-reviews-section .reviews-stat-number');
+        
+        stats.forEach(stat => {
+            const finalValue = stat.textContent;
+            const isNumber = /^\d+/.test(finalValue);
+            
+            if (isNumber) {
+                const number = parseInt(finalValue.replace(/\D/g, ''));
+                const suffix = finalValue.replace(/[\d.]/g, '');
+                this.animateCounter(stat, 0, number, 2000, suffix);
+            } else if (finalValue.includes('5.0')) {
+                this.animateRating(stat, 5.0);
+            }
+        });
+    }
+
+    setupReviewsObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    
+                    if (entry.target.classList.contains('reviews-stats-section')) {
+                        this.setupReviewsStatsAnimation();
+                    }
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+
+        const elementsToObserve = document.querySelectorAll('.redesigned-reviews-section .reviews-stats-section, .redesigned-reviews-section .reviews-widget-container');
+        elementsToObserve.forEach(el => observer.observe(el));
+    }
+
+    /* ========================================
+       ELFSIGHT INTEGRATION
+       ======================================== */
+    
+    setupElfsightIntegration() {
+        if (!window.ElfsightLoader && !document.querySelector('script[src*="elfsight"]')) {
+            this.loadElfsightScript();
+        } else {
+            setTimeout(() => this.checkWidgetStatus(), 1000);
+        }
+
+        this.setupWidgetChecks();
+    }
+
+    loadElfsightScript() {
+        const script = document.createElement('script');
+        script.src = 'https://static.elfsight.com/platform/platform.js';
+        script.async = true;
+        
+        script.onload = () => {
+            console.log('📦 Elfsight script loaded');
+            setTimeout(() => this.checkWidgetStatus(), 2000);
+        };
+        
+        script.onerror = () => {
+            console.warn('⚠️ Failed to load Elfsight script');
+            this.handleWidgetLoadFailure();
+        };
+        
+        document.head.appendChild(script);
+    }
+
+    setupWidgetChecks() {
+        let checkCount = 0;
+        const maxChecks = 20;
+        
+        const checkInterval = setInterval(() => {
+            checkCount++;
+            
+            this.checkWidgetStatus();
+            
+            if ((this.instagram.widgetLoaded && this.reviews.widgetLoaded) || checkCount >= maxChecks) {
+                clearInterval(checkInterval);
+                
+                if (checkCount >= maxChecks) {
+                    this.handleWidgetLoadFailure();
+                }
+            }
+        }, 1000);
+    }
+
+    checkWidgetStatus() {
+        if (!this.instagram.widgetLoaded) {
+            const instagramWidget = document.querySelector('.redesigned-instagram-section .elfsight-app-20c4a42b-4210-4270-b65c-9378811208fb');
+            if (instagramWidget && (instagramWidget.children.length > 0 || instagramWidget.innerHTML.trim() !== '')) {
+                this.instagram.widgetLoaded = true;
+                this.hideInstagramLoading();
+                this.styleInstagramWidget();
+                console.log('📷 Instagram widget loaded');
+            }
+        }
+
+        if (!this.reviews.widgetLoaded) {
+            const reviewsWidget = document.querySelector('.redesigned-reviews-section .elfsight-app-11e6a6c5-a645-4f66-855b-72683346f480');
+            if (reviewsWidget && (reviewsWidget.children.length > 0 || reviewsWidget.innerHTML.trim() !== '')) {
+                this.reviews.widgetLoaded = true;
+                this.hideReviewsLoading();
+                this.styleReviewsWidget();
+                console.log('⭐ Reviews widget loaded');
+            }
+        }
+    }
+
+    styleInstagramWidget() {
+        const widget = document.querySelector('.redesigned-instagram-section .elfsight-app-20c4a42b-4210-4270-b65c-9378811208fb');
+        if (widget) {
+            widget.style.borderRadius = '20px';
+            widget.style.overflow = 'hidden';
+            widget.style.border = 'none';
+            widget.style.boxShadow = 'none';
+        }
+    }
+
+    styleReviewsWidget() {
+        const widget = document.querySelector('.redesigned-reviews-section .elfsight-app-11e6a6c5-a645-4f66-855b-72683346f480');
+        if (widget) {
+            widget.style.borderRadius = '20px';
+            widget.style.overflow = 'hidden';
+            widget.style.border = 'none';
+            widget.style.boxShadow = 'none';
+        }
+    }
+
+    handleWidgetLoadFailure() {
+        console.warn('⚠️ Widgets failed to load within timeout period');
+        
+        if (!this.instagram.widgetLoaded && this.instagram.loading) {
+            this.instagram.loading.innerHTML = `
+                <div class="widget-fallback">
+                    <div class="fallback-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="#E1306C" stroke-width="2"/>
+                            <circle cx="12" cy="12" r="3" stroke="#E1306C" stroke-width="2"/>
+                            <circle cx="17.5" cy="6.5" r="1" fill="#E1306C"/>
+                        </svg>
+                    </div>
+                    <h4>Visit Our Instagram</h4>
+                    <p>Unable to load Instagram feed</p>
+                    <a href="https://www.instagram.com/eviaesthetics/?hl=en" target="_blank" class="fallback-link">
+                        Follow @eviaesthetics
+                    </a>
+                </div>
+            `;
+        }
+
+        if (!this.reviews.widgetLoaded && this.reviews.loading) {
+            this.reviews.loading.innerHTML = `
+                <div class="widget-fallback">
+                    <div class="fallback-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#FFD700"/>
+                        </svg>
+                    </div>
+                    <h4>5.0 ★ Rating</h4>
+                    <p>Unable to load reviews</p>
+                    <a href="https://www.google.com/search?q=eviaesthetics+reviews" target="_blank" class="fallback-link">
+                        View Google Reviews
+                    </a>
+                </div>
+            `;
+        }
+    }
+
+    /* ========================================
+       UTILITY FUNCTIONS
+       ======================================== */
+    
+    animateCounter(element, start, end, duration, suffix = '') {
+        const startTime = performance.now();
+        const range = end - start;
+
+        const updateCounter = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            
+            const currentValue = Math.floor(start + (range * easedProgress));
+            element.textContent = currentValue + suffix;
+
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = end + suffix;
+            }
+        };
+
+        requestAnimationFrame(updateCounter);
+    }
+
+    animateRating(element, targetRating) {
+        const startTime = performance.now();
+        const duration = 2000;
+
+        const updateRating = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            const currentRating = (targetRating * easedProgress).toFixed(1);
+            
+            element.textContent = currentRating;
+
+            if (progress < 1) {
+                requestAnimationFrame(updateRating);
+            } else {
+                element.textContent = targetRating.toFixed(1);
+            }
+        };
+
+        requestAnimationFrame(updateRating);
+    }
+
+    /* ========================================
+       RESPONSIVE HANDLING
+       ======================================== */
+    
+    handleResize() {
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            document.querySelectorAll('.redesigned-instagram-section .instagram-gradient-orb, .redesigned-reviews-section .reviews-gradient-orb').forEach(orb => {
+                orb.style.animationPlayState = 'paused';
+            });
+        } else {
+            document.querySelectorAll('.redesigned-instagram-section .instagram-gradient-orb, .redesigned-reviews-section .reviews-gradient-orb').forEach(orb => {
+                orb.style.animationPlayState = 'running';
+            });
+        }
+    }
+
+    /* ========================================
+       PUBLIC API
+       ======================================== */
+    
+    refresh() {
+        this.instagram.widgetLoaded = false;
+        this.reviews.widgetLoaded = false;
+        this.setupElfsightIntegration();
+    }
+    
+    getStatus() {
+        return {
+            instagram: {
+                initialized: this.instagram.initialized,
+                loaded: this.instagram.widgetLoaded
+            },
+            reviews: {
+                initialized: this.reviews.initialized,
+                loaded: this.reviews.widgetLoaded
+            }
+        };
+    }
+
+    onResize() {
+        this.handleResize();
+    }
+}
+
+/* ========================================
+   PRODUCTS SECTION
    ======================================== */
 
 class LuxuryMedSpaProducts {
@@ -2815,10 +3162,6 @@ class LuxuryMedSpaProducts {
         }
     }
     
-    /* ========================================
-       SCROLL REVEAL SYSTEM
-       ======================================== */
-    
     setupScrollRevealSystem() {
         const observerOptions = {
             threshold: 0.1,
@@ -2834,7 +3177,6 @@ class LuxuryMedSpaProducts {
             });
         }, observerOptions);
         
-        // Elements to reveal
         const revealElements = [
             this.header,
             this.showcase,
@@ -2849,7 +3191,6 @@ class LuxuryMedSpaProducts {
         
         this.observers.set('reveal', revealObserver);
         
-        // Main section visibility observer
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 this.isVisible = entry.isIntersecting;
@@ -2866,7 +3207,6 @@ class LuxuryMedSpaProducts {
     revealElement(element) {
         element.classList.add('revealed');
         
-        // Special animations for specific elements
         if (element.classList.contains('luxury-products-showcase')) {
             this.animateProductCards();
         } else if (element.classList.contains('luxury-collection-cta')) {
@@ -2885,7 +3225,6 @@ class LuxuryMedSpaProducts {
     }
     
     addCardEntranceEffect(card) {
-        // Animate product showcase elements
         const showcase = card.querySelector('.product-showcase');
         const productImage = card.querySelector('.product-image');
         const rating = card.querySelector('.luxury-product-rating');
@@ -2935,17 +3274,12 @@ class LuxuryMedSpaProducts {
         });
     }
     
-    /* ========================================
-       PRODUCT INTERACTIONS
-       ======================================== */
-    
     bindProductInteractions() {
         this.productCards.forEach(card => {
             this.setupCardInteractions(card);
             this.setupCardTiltEffect(card);
         });
         
-        // Partnership emblem interaction
         if (this.partnershipEmblem) {
             this.setupPartnershipEmblemInteraction();
         }
@@ -2971,14 +3305,12 @@ class LuxuryMedSpaProducts {
             }
         });
         
-        // Feature capsule interactions
         features.forEach(feature => {
             feature.addEventListener('mouseenter', () => {
                 this.addFeatureGlow(feature);
             });
         });
         
-        // Excellence badge interaction
         if (excellence_badge) {
             excellence_badge.addEventListener('mouseenter', () => {
                 this.triggerBadgeShine(excellence_badge);
@@ -2987,7 +3319,6 @@ class LuxuryMedSpaProducts {
     }
     
     onCardHover(card, productImage, badge, features, rating) {
-        // Enhanced hover animations
         if (productImage) {
             productImage.style.transform = 'scale(1.08) translateY(-12px) rotateY(8deg)';
         }
@@ -3063,7 +3394,6 @@ class LuxuryMedSpaProducts {
             this.showProductInteractionFeedback(productName);
         }
         
-        // Premium click animation
         card.style.transform = 'scale(0.98)';
         setTimeout(() => {
             card.style.transform = '';
@@ -3072,12 +3402,7 @@ class LuxuryMedSpaProducts {
         this.trackProductCardClick(productName);
     }
     
-    /* ========================================
-       CTA EVENTS & INTERACTIONS
-       ======================================== */
-    
     bindCTAEvents() {
-        // Product CTAs
         this.productCTAs.forEach(cta => {
             cta.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -3090,7 +3415,6 @@ class LuxuryMedSpaProducts {
             });
         });
         
-        // Catalog button
         if (this.catalogButton) {
             this.catalogButton.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -3108,7 +3432,6 @@ class LuxuryMedSpaProducts {
         const productName = productCard.querySelector('.product-title')?.textContent || 'Product';
         const productUrl = cta.getAttribute('data-url') || 'https://us.alumiermd.com/products?code=54T7P4HH';
         
-        // Premium click animation with enhanced feedback
         cta.style.transform = 'translateY(-2px) scale(0.98)';
         this.triggerCTAShimmer(cta);
         
@@ -3142,18 +3465,9 @@ class LuxuryMedSpaProducts {
         this.trackCatalogClick();
     }
     
-    /* ========================================
-       LUXURY EFFECTS & ANIMATIONS
-       ======================================== */
-    
     initializeLuxuryEffects() {
-        // Initialize floating molecules
         this.startMoleculeAnimation();
-        
-        // Initialize ambient orb effects
         this.startAmbientEffects();
-        
-        // Initialize partnership emblem glow
         this.initializePartnershipGlow();
     }
     
@@ -3219,7 +3533,7 @@ class LuxuryMedSpaProducts {
         if (shine) {
             shine.style.left = '-100%';
             shine.style.transition = 'none';
-            shine.offsetHeight; // Force reflow
+            shine.offsetHeight;
             shine.style.transition = 'left 0.8s ease';
             shine.style.left = '100%';
         }
@@ -3230,7 +3544,7 @@ class LuxuryMedSpaProducts {
         if (shimmer) {
             shimmer.style.left = '-100%';
             shimmer.style.transition = 'none';
-            shimmer.offsetHeight; // Force reflow
+            shimmer.offsetHeight;
             shimmer.style.transition = 'left 1s ease';
             shimmer.style.left = '100%';
         }
@@ -3241,7 +3555,7 @@ class LuxuryMedSpaProducts {
         if (shimmer) {
             shimmer.style.left = '-100%';
             shimmer.style.transition = 'none';
-            shimmer.offsetHeight; // Force reflow
+            shimmer.offsetHeight;
             shimmer.style.transition = 'left 1.2s ease';
             shimmer.style.left = '100%';
         }
@@ -3278,10 +3592,6 @@ class LuxuryMedSpaProducts {
             }, 600);
         });
     }
-    
-    /* ========================================
-       RIPPLE & FEEDBACK EFFECTS
-       ======================================== */
     
     createLuxuryRippleEffect(element, event) {
         const ripple = document.createElement('div');
@@ -3421,12 +3731,7 @@ class LuxuryMedSpaProducts {
         }, duration);
     }
     
-    /* ========================================
-       PERFORMANCE & OPTIMIZATION
-       ======================================== */
-    
     setupPerformanceOptimizations() {
-        // Add GPU acceleration to animated elements
         const animatedElements = this.section.querySelectorAll(
             '.luxury-product-card, .product-image, .card-ambient-glow, .luxury-product-cta'
         );
@@ -3437,7 +3742,6 @@ class LuxuryMedSpaProducts {
             element.style.transform = 'translateZ(0)';
         });
         
-        // Intersection observer for performance
         this.setupPerformanceObserver();
     }
     
@@ -3471,17 +3775,11 @@ class LuxuryMedSpaProducts {
         card.style.willChange = 'auto';
     }
     
-    /* ========================================
-       ANIMATION SYSTEMS
-       ======================================== */
-    
     initializeAnimations() {
-        // Initialize card entrance animations
         this.productCards.forEach((card, index) => {
             this.prepareCardForAnimation(card, index);
         });
         
-        // Initialize CTA animations
         if (this.cta) {
             this.prepareCTAForAnimation();
         }
@@ -3492,7 +3790,6 @@ class LuxuryMedSpaProducts {
         card.style.transform = 'translateY(80px)';
         card.style.transition = `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
         
-        // Prepare child elements
         const showcase = card.querySelector('.product-showcase');
         const productImage = card.querySelector('.product-image');
         const rating = card.querySelector('.luxury-product-rating');
@@ -3540,7 +3837,7 @@ class LuxuryMedSpaProducts {
     }
     
     animateMolecule(molecule, index) {
-        const delay = index * 5000; // Stagger molecules
+        const delay = index * 5000;
         
         setTimeout(() => {
             if (this.isVisible) {
@@ -3561,7 +3858,6 @@ class LuxuryMedSpaProducts {
         const seal = this.section.querySelector('.partnership-seal');
         
         if (seal) {
-            // Start the rotating border animation
             const beforeElement = seal.querySelector('::before');
             if (beforeElement) {
                 beforeElement.style.animationPlayState = 'running';
@@ -3570,14 +3866,9 @@ class LuxuryMedSpaProducts {
     }
     
     onSectionVisible() {
-        // Start ambient animations when section becomes visible
         this.startAmbientEffects();
         this.startMoleculeAnimation();
     }
-    
-    /* ========================================
-       TRACKING & ANALYTICS
-       ======================================== */
     
     trackProductCardClick(productName) {
         if (typeof gtag !== 'undefined') {
@@ -3627,10 +3918,6 @@ class LuxuryMedSpaProducts {
         console.log('📊 Partnership emblem clicked');
     }
     
-    /* ========================================
-       UTILITY METHODS
-       ======================================== */
-    
     isMobile() {
         return window.innerWidth <= 768 || 
                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -3645,7 +3932,6 @@ class LuxuryMedSpaProducts {
     }
     
     optimizeForMobile() {
-        // Disable complex animations on mobile
         this.productCards.forEach(card => {
             card.style.willChange = 'auto';
             card.removeEventListener('mousemove', this.handleCardTilt);
@@ -3653,19 +3939,16 @@ class LuxuryMedSpaProducts {
     }
     
     optimizeForDesktop() {
-        // Re-enable full animations on desktop
         this.productCards.forEach(card => {
             card.style.willChange = 'transform, box-shadow';
         });
         
-        // Re-setup tilt effects
         this.productCards.forEach(card => {
             this.setupCardTiltEffect(card);
         });
     }
     
     pause() {
-        // Pause all animations
         const orbs = this.section.querySelectorAll('.ambient-orb');
         const molecules = this.section.querySelectorAll('.molecule');
         
@@ -3679,7 +3962,6 @@ class LuxuryMedSpaProducts {
     }
     
     play() {
-        // Resume all animations
         const orbs = this.section.querySelectorAll('.ambient-orb');
         const molecules = this.section.querySelectorAll('.molecule');
         
@@ -3698,13 +3980,11 @@ class LuxuryMedSpaProducts {
     }
     
     destroy() {
-        // Clean up observers
         this.observers.forEach(observer => {
             observer.disconnect();
         });
         this.observers.clear();
         
-        // Remove event listeners by cloning elements
         this.productCards.forEach(card => {
             card.replaceWith(card.cloneNode(true));
         });
@@ -3720,43 +4000,7 @@ class LuxuryMedSpaProducts {
 }
 
 /* ========================================
-   INITIALIZATION & INTEGRATION
-   ======================================== */
-
-// Initialize the Luxury MedSpa Products section
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector('.luxury-medspa-products')) {
-        const luxuryProductsSection = new LuxuryMedSpaProducts();
-        window.LuxuryMedSpaProducts = luxuryProductsSection;
-        console.log('🚀 Luxury MedSpa Products Section ready');
-    }
-});
-
-// Handle visibility changes for performance
-document.addEventListener('visibilitychange', () => {
-    if (window.LuxuryMedSpaProducts) {
-        if (document.hidden) {
-            window.LuxuryMedSpaProducts.pause();
-        } else {
-            window.LuxuryMedSpaProducts.play();
-        }
-    }
-});
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    if (window.LuxuryMedSpaProducts) {
-        window.LuxuryMedSpaProducts.onResize();
-    }
-});
-
-// Export for module usage (if needed)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { LuxuryMedSpaProducts };
-}
-
-/* ========================================
-   CONTACT
+   CONTACT SECTION
    ======================================== */
 
 class LuxuryContactSection {
@@ -4090,7 +4334,7 @@ class LuxuryContactSection {
 }
 
 /* ========================================
-   FLOATING BUTTONS
+   FLOATING BUTTONS SECTION
    ======================================== */
 
 class LuxuryFloatingButtons {
@@ -4421,13 +4665,57 @@ class LuxuryFloatingButtons {
 }
 
 /* ========================================
-   APPLICATION INITIALIZATION
+   ADDITIONAL CSS INJECTION
    ======================================== */
 
-let app;
+function injectFallbackStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .widget-fallback {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6B5B47;
+        }
+        
+        .widget-fallback .fallback-icon {
+            margin-bottom: 16px;
+        }
+        
+        .widget-fallback h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1D1D1F;
+            margin-bottom: 8px;
+        }
+        
+        .widget-fallback p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .widget-fallback .fallback-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #E1306C 0%, #833AB4 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .redesigned-reviews-section .widget-fallback .fallback-link {
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+        }
+        
+        .widget-fallback .fallback-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const additionalCSS = `
         .animate-in {
             opacity: 1 !important;
             transform: translateY(0) !important;
@@ -4499,37 +4787,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        @keyframes premiumModalEntrance {
-            0% {
-                opacity: 0;
-                transform: scale(0.9) translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-        
-        @keyframes premiumModalExit {
-            0% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0.9) translateY(20px);
-            }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .carousel-track.dragging {
             cursor: grabbing;
         }
     `;
-    
-    const style = document.createElement('style');
-    style.textContent = additionalCSS;
     document.head.appendChild(style);
-});
+}
+
+/* ========================================
+   APPLICATION INITIALIZATION
+   ======================================== */
+
+let app;
 
 function initializeApp() {
     try {
@@ -4565,12 +4839,18 @@ function initializeApp() {
     }
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeApp);
-} else {
+// DOM Ready initialization
+document.addEventListener('DOMContentLoaded', () => {
+    injectFallbackStyles();
     initializeApp();
-}
+});
 
+// Window load events
+window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+});
+
+// Error handling
 window.addEventListener('error', (e) => {
     console.error('Global error:', e.error);
 });
@@ -4580,6 +4860,7 @@ window.addEventListener('unhandledrejection', (e) => {
     e.preventDefault();
 });
 
+// Global utility functions
 window.showFloatingButtons = () => {
     const floatingButtons = app?.getComponent('floatingButtons');
     if (floatingButtons) {
@@ -4601,75 +4882,34 @@ window.toggleFloatingButtons = () => {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector('.hermes-products-section')) {
-        const hermesProductsSection = new HermesLuxuryProductsSection();
-        window.HermesLuxuryProductsSection = hermesProductsSection;
-        console.log('🚀 Hermès Luxury Products Section ready');
-    }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector('.premium-about-redesign')) {
-        const premiumAboutSection = new PremiumAboutSection();
-        window.PremiumAboutSection = premiumAboutSection;
-        console.log('🚀 Premium About Section ready');
-    }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const servicesCarousel = new EnhancedServicesCarousel();
-    window.servicesCarousel = servicesCarousel;
-    console.log('🚀 Enhanced Services Carousel ready');
-});
-
+// Visibility change handling
 document.addEventListener('visibilitychange', () => {
-    if (window.servicesCarousel) {
-        if (document.hidden) {
-            window.servicesCarousel.pause();
-        } else if (!window.servicesCarousel.hasUserInteracted) {
-            setTimeout(() => {
-                window.servicesCarousel.play();
-            }, 1000);
-        }
+    if (document.hidden) {
+        // Pause animations when tab is hidden
+        document.body.classList.add('animations-paused');
+    } else {
+        // Resume animations when tab is visible
+        document.body.classList.remove('animations-paused');
     }
 });
 
-document.addEventListener('visibilitychange', () => {
-    if (window.LuxuryMedSpaProducts) {
-        if (document.hidden) {
-            document.querySelector('.premium-about-redesign')?.style.setProperty('animation-play-state', 'paused');
-        } else {
-            document.querySelector('.premium-about-redesign')?.style.setProperty('animation-play-state', 'running');
-        }
-    }
-});
-
-document.addEventListener('visibilitychange', () => {
-    if (window.LuxuryMedSpaProducts) {
-        if (document.hidden) {
-            document.querySelector('.hermes-products-section')?.style.setProperty('animation-play-state', 'paused');
-        } else {
-            document.querySelector('.hermes-products-section')?.style.setProperty('animation-play-state', 'running');
-        }
-    }
-});
-
-window.addEventListener('resize', () => {
-    if (window.PremiumAboutSection) {
-        window.PremiumAboutSection.onResize();
-    }
-});
-
+// Export for module usage
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { 
         EviaLuxuryApp, 
         EviaUtils, 
         EnhancedServicesCarousel,
-        PremiumAboutSection,
-        LuxuryMedSpa,
-        ModernSignatureAnimation,
+        HermesAboutSection,
+        ModernTransformationsGallery,
+        RedesignedSocialSections,
+        LuxuryMedSpaProducts,
+        LuxuryContactSection,
+        LuxuryFloatingButtons,
         CinematicHero,
         EviaConfig
     };
 }
+
+/* ========================================
+   EVIA AESTHETICS - END OF FILE
+   ======================================== */
