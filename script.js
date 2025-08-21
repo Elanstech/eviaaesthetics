@@ -135,7 +135,7 @@ class EviaLuxuryApp {
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
             { name: 'about', class: HermesAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
-            { name: 'HermesLuxuryProductsSection', class: HermesLuxuryProductsSection },
+            { name: 'LuxuryProductsSection', class: LuxuryMedSpaProducts },
             { name: 'contactSection', class: LuxuryContactSection },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
@@ -2776,86 +2776,132 @@ class ModernTransformationsGallery {
    PRODUCTS
    ======================================== */
 
-class HermesLuxuryProductsSection {
+class LuxuryMedSpaProducts {
     constructor() {
-        this.section = document.querySelector('.hermes-products-section');
-        this.productCards = document.querySelectorAll('.hermes-product-card');
-        this.productCTAs = document.querySelectorAll('.hermes-product-cta');
-        this.catalogButton = document.getElementById('viewCatalogBtn');
-        this.scrollElements = document.querySelectorAll('[data-scroll-reveal]');
+        this.section = document.querySelector('.luxury-medspa-products');
+        this.header = document.querySelector('.luxury-products-header');
+        this.showcase = document.querySelector('.luxury-products-showcase');
+        this.cta = document.querySelector('.luxury-collection-cta');
+        this.productCards = document.querySelectorAll('.luxury-product-card');
+        this.productCTAs = document.querySelectorAll('.luxury-product-cta');
+        this.catalogButton = document.getElementById('luxuryCatalogBtn');
+        this.partnershipEmblem = document.querySelector('.partnership-emblem');
         
         this.isInitialized = false;
         this.observers = new Map();
+        this.animationQueue = [];
+        this.isVisible = false;
         
-        this.init();
+        if (this.section) {
+            this.init();
+        }
     }
     
     init() {
         if (this.isInitialized) return;
         
         try {
-            this.setupScrollReveal();
+            this.setupScrollRevealSystem();
             this.bindProductInteractions();
             this.bindCTAEvents();
-            this.initializePerformanceOptimizations();
             this.initializeAnimations();
+            this.setupPerformanceOptimizations();
+            this.initializeLuxuryEffects();
             
             this.isInitialized = true;
-            console.log('✨ Hermès Luxury Products Section initialized');
+            console.log('✨ Luxury MedSpa Products Section initialized');
         } catch (error) {
-            console.error('❌ Error initializing Hermès products section:', error);
+            console.error('❌ Error initializing Luxury Products section:', error);
         }
     }
     
-    setupScrollReveal() {
+    /* ========================================
+       SCROLL REVEAL SYSTEM
+       ======================================== */
+    
+    setupScrollRevealSystem() {
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -10% 0px'
         };
         
-        const observer = new IntersectionObserver((entries) => {
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     this.revealElement(entry.target);
-                    observer.unobserve(entry.target);
+                    revealObserver.unobserve(entry.target);
                 }
             });
         }, observerOptions);
         
-        this.scrollElements.forEach(element => {
-            observer.observe(element);
+        // Elements to reveal
+        const revealElements = [
+            this.header,
+            this.showcase,
+            this.cta
+        ].filter(Boolean);
+        
+        revealElements.forEach(element => {
+            if (element.hasAttribute('data-products-reveal')) {
+                revealObserver.observe(element);
+            }
         });
         
-        this.observers.set('scrollReveal', observer);
+        this.observers.set('reveal', revealObserver);
+        
+        // Main section visibility observer
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                this.isVisible = entry.isIntersecting;
+                if (this.isVisible) {
+                    this.onSectionVisible();
+                }
+            });
+        }, { threshold: 0.2 });
+        
+        sectionObserver.observe(this.section);
+        this.observers.set('section', sectionObserver);
     }
     
     revealElement(element) {
-        element.classList.add('reveal');
+        element.classList.add('revealed');
         
-        if (element.classList.contains('hermes-products-showcase')) {
+        // Special animations for specific elements
+        if (element.classList.contains('luxury-products-showcase')) {
             this.animateProductCards();
+        } else if (element.classList.contains('luxury-collection-cta')) {
+            this.animateCollectionCTA();
         }
     }
     
     animateProductCards() {
         this.productCards.forEach((card, index) => {
             setTimeout(() => {
+                this.addCardEntranceEffect(card);
                 card.style.opacity = '1';
                 card.style.transform = 'translateY(0)';
-                this.addCardEntranceEffect(card);
-            }, index * 150);
+            }, index * 200);
         });
     }
     
     addCardEntranceEffect(card) {
-        const image = card.querySelector('.hermes-product-image');
-        const rating = card.querySelector('.hermes-product-rating');
-        const content = card.querySelector('.hermes-product-content');
+        // Animate product showcase elements
+        const showcase = card.querySelector('.product-showcase');
+        const productImage = card.querySelector('.product-image');
+        const rating = card.querySelector('.luxury-product-rating');
+        const information = card.querySelector('.product-information');
         
-        if (image) {
+        if (showcase) {
             setTimeout(() => {
-                image.style.transform = 'scale(1) translateY(0) rotateY(0)';
-                image.style.opacity = '1';
+                showcase.style.transform = 'translateY(0)';
+                showcase.style.opacity = '1';
+            }, 100);
+        }
+        
+        if (productImage) {
+            setTimeout(() => {
+                productImage.style.transform = 'scale(1) translateY(0)';
+                productImage.style.opacity = '1';
             }, 200);
         }
         
@@ -2863,123 +2909,139 @@ class HermesLuxuryProductsSection {
             setTimeout(() => {
                 rating.style.opacity = '1';
                 rating.style.transform = 'translateY(0) scale(1)';
-            }, 400);
+            }, 300);
         }
         
-        if (content) {
-            const contentElements = content.children;
-            Array.from(contentElements).forEach((element, index) => {
+        if (information) {
+            const infoElements = information.children;
+            Array.from(infoElements).forEach((element, index) => {
                 setTimeout(() => {
                     element.style.opacity = '1';
                     element.style.transform = 'translateY(0)';
-                }, 600 + (index * 100));
+                }, 400 + (index * 100));
             });
         }
     }
     
-    bindProductInteractions() {
-        this.productCards.forEach(card => {
-            this.setupCardHoverEffects(card);
-            this.setupCardClickEffects(card);
-            this.setupMobileInteractions(card);
+    animateCollectionCTA() {
+        const ornaments = this.cta.querySelectorAll('.ornament-medallion');
+        ornaments.forEach((ornament, index) => {
+            setTimeout(() => {
+                ornament.style.transform = 'scale(1.1) rotate(180deg)';
+                setTimeout(() => {
+                    ornament.style.transform = 'scale(1) rotate(360deg)';
+                }, 300);
+            }, index * 200);
         });
     }
     
-    setupCardHoverEffects(card) {
-        if (this.isMobile()) return;
+    /* ========================================
+       PRODUCT INTERACTIONS
+       ======================================== */
+    
+    bindProductInteractions() {
+        this.productCards.forEach(card => {
+            this.setupCardInteractions(card);
+            this.setupCardTiltEffect(card);
+        });
         
-        const image = card.querySelector('.hermes-product-image');
-        const badge = card.querySelector('.hermes-product-badge');
-        const features = card.querySelectorAll('.hermes-feature-tag');
+        // Partnership emblem interaction
+        if (this.partnershipEmblem) {
+            this.setupPartnershipEmblemInteraction();
+        }
+    }
+    
+    setupCardInteractions(card) {
+        const productImage = card.querySelector('.product-image');
+        const excellence_badge = card.querySelector('.product-excellence-badge');
+        const features = card.querySelectorAll('.feature-capsule');
+        const rating = card.querySelector('.luxury-product-rating');
         
         card.addEventListener('mouseenter', () => {
-            this.onCardHover(card, image, badge, features);
+            this.onCardHover(card, productImage, excellence_badge, features, rating);
         });
         
         card.addEventListener('mouseleave', () => {
-            this.onCardLeave(card, image, badge, features);
+            this.onCardLeave(card, productImage, excellence_badge, features, rating);
         });
         
-        card.addEventListener('mousemove', (e) => {
-            this.handleCardTilt(card, e);
+        card.addEventListener('click', (e) => {
+            if (!e.target.closest('.luxury-product-cta')) {
+                this.handleCardClick(card, e);
+            }
         });
+        
+        // Feature capsule interactions
+        features.forEach(feature => {
+            feature.addEventListener('mouseenter', () => {
+                this.addFeatureGlow(feature);
+            });
+        });
+        
+        // Excellence badge interaction
+        if (excellence_badge) {
+            excellence_badge.addEventListener('mouseenter', () => {
+                this.triggerBadgeShine(excellence_badge);
+            });
+        }
     }
     
-    onCardHover(card, image, badge, features) {
+    onCardHover(card, productImage, badge, features, rating) {
         // Enhanced hover animations
-        if (image) {
-            image.style.transform = 'scale(1.08) translateY(-8px) rotateY(5deg)';
+        if (productImage) {
+            productImage.style.transform = 'scale(1.08) translateY(-12px) rotateY(8deg)';
         }
         
         if (badge) {
-            badge.style.transform = 'scale(1.05) rotate(-2deg)';
-            badge.style.boxShadow = '0 8px 24px rgba(255, 140, 0, 0.2)';
+            this.triggerBadgeShine(badge);
         }
         
         features.forEach((feature, index) => {
             setTimeout(() => {
                 feature.style.transform = 'translateY(-2px) scale(1.02)';
                 feature.style.borderColor = 'rgba(255, 140, 0, 0.3)';
-            }, index * 100);
+                feature.style.background = 'rgba(255, 140, 0, 0.1)';
+            }, index * 50);
         });
         
-        this.addCardFloatEffect(card);
-        this.activateGlowEffect(card);
-    }
-    
-    onCardLeave(card, image, badge, features) {
-        if (image) {
-            image.style.transform = 'scale(1) translateY(0) rotateY(0)';
+        if (rating) {
+            rating.style.transform = 'scale(1.05)';
+            rating.style.boxShadow = '0 6px 20px rgba(255, 140, 0, 0.15)';
         }
         
-        if (badge) {
-            badge.style.transform = 'scale(1) rotate(0deg)';
-            badge.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.08)';
+        this.activateCardAmbientEffects(card);
+    }
+    
+    onCardLeave(card, productImage, badge, features, rating) {
+        if (productImage) {
+            productImage.style.transform = 'scale(1) translateY(0) rotateY(0)';
         }
         
         features.forEach(feature => {
             feature.style.transform = 'translateY(0) scale(1)';
             feature.style.borderColor = 'rgba(255, 140, 0, 0.1)';
+            feature.style.background = 'rgba(255, 248, 240, 0.8)';
         });
         
-        card.style.transform = 'translateY(0) rotateX(0) rotateY(0) scale(1)';
-    }
-    
-    addCardFloatEffect(card) {
-        let startTime = null;
-        const duration = 3000;
-        
-        const animate = (currentTime) => {
-            if (!startTime) startTime = currentTime;
-            const elapsed = currentTime - startTime;
-            const progress = (elapsed % duration) / duration;
-            
-            const yOffset = Math.sin(progress * Math.PI * 2) * 3;
-            const currentTransform = card.style.transform || '';
-            
-            if (card.matches(':hover')) {
-                const newTransform = currentTransform.includes('translateY(-12px)') 
-                    ? currentTransform.replace('translateY(-12px)', `translateY(${-12 + yOffset}px)`)
-                    : currentTransform + ` translateY(${yOffset}px)`;
-                card.style.transform = newTransform;
-                requestAnimationFrame(animate);
-            }
-        };
-        
-        requestAnimationFrame(animate);
-    }
-    
-    activateGlowEffect(card) {
-        const glow = card.querySelector('.hermes-card-glow');
-        if (glow) {
-            glow.style.opacity = '0.2';
-            glow.style.filter = 'blur(30px)';
+        if (rating) {
+            rating.style.transform = 'scale(1)';
+            rating.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.05)';
         }
     }
     
-    handleCardTilt(card, event) {
+    setupCardTiltEffect(card) {
         if (this.isMobile()) return;
         
+        card.addEventListener('mousemove', (e) => {
+            this.handleCardTilt(card, e);
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(-16px) scale(1.02) rotateX(0) rotateY(0)';
+        });
+    }
+    
+    handleCardTilt(card, event) {
         const rect = card.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
@@ -2987,34 +3049,239 @@ class HermesLuxuryProductsSection {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        const rotateX = (y - centerY) / centerY * -8;
-        const rotateY = (x - centerX) / centerX * 8;
+        const rotateX = (y - centerY) / centerY * -5;
+        const rotateY = (x - centerX) / centerX * 5;
         
-        card.style.transform = `translateY(-12px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    }
-    
-    setupCardClickEffects(card) {
-        card.addEventListener('click', (e) => {
-            if (e.target.closest('.hermes-product-cta')) return;
-            
-            this.handleCardClick(card, e);
-        });
+        card.style.transform = `translateY(-16px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     }
     
     handleCardClick(card, event) {
         this.createLuxuryRippleEffect(card, event);
         
-        const productName = card.querySelector('.hermes-product-name')?.textContent;
+        const productName = card.querySelector('.product-title')?.textContent;
         if (productName) {
-            this.showProductFeedback(productName);
+            this.showProductInteractionFeedback(productName);
         }
         
-        // Add premium click animation
+        // Premium click animation
         card.style.transform = 'scale(0.98)';
         setTimeout(() => {
             card.style.transform = '';
         }, 150);
+        
+        this.trackProductCardClick(productName);
     }
+    
+    /* ========================================
+       CTA EVENTS & INTERACTIONS
+       ======================================== */
+    
+    bindCTAEvents() {
+        // Product CTAs
+        this.productCTAs.forEach(cta => {
+            cta.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.handleProductCTA(cta);
+            });
+            
+            cta.addEventListener('mouseenter', () => {
+                this.addCTALuxuryEffect(cta);
+            });
+        });
+        
+        // Catalog button
+        if (this.catalogButton) {
+            this.catalogButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleCatalogClick();
+            });
+            
+            this.catalogButton.addEventListener('mouseenter', () => {
+                this.addCatalogHoverEffect();
+            });
+        }
+    }
+    
+    handleProductCTA(cta) {
+        const productCard = cta.closest('.luxury-product-card');
+        const productName = productCard.querySelector('.product-title')?.textContent || 'Product';
+        const productUrl = cta.getAttribute('data-url') || 'https://us.alumiermd.com/products?code=54T7P4HH';
+        
+        // Premium click animation with enhanced feedback
+        cta.style.transform = 'translateY(-2px) scale(0.98)';
+        this.triggerCTAShimmer(cta);
+        
+        setTimeout(() => {
+            cta.style.transform = '';
+        }, 150);
+        
+        this.showProductCTAFeedback(productName);
+        
+        setTimeout(() => {
+            window.open(productUrl, '_blank', 'noopener,noreferrer');
+        }, 400);
+        
+        this.trackProductCTAClick(productName);
+    }
+    
+    handleCatalogClick() {
+        this.catalogButton.style.transform = 'translateY(-6px) scale(0.98)';
+        this.triggerCatalogShimmer();
+        
+        setTimeout(() => {
+            this.catalogButton.style.transform = '';
+        }, 150);
+        
+        this.showCatalogLoadingFeedback();
+        
+        setTimeout(() => {
+            window.open('https://us.alumiermd.com/products?code=54T7P4HH', '_blank', 'noopener,noreferrer');
+        }, 400);
+        
+        this.trackCatalogClick();
+    }
+    
+    /* ========================================
+       LUXURY EFFECTS & ANIMATIONS
+       ======================================== */
+    
+    initializeLuxuryEffects() {
+        // Initialize floating molecules
+        this.startMoleculeAnimation();
+        
+        // Initialize ambient orb effects
+        this.startAmbientEffects();
+        
+        // Initialize partnership emblem glow
+        this.initializePartnershipGlow();
+    }
+    
+    setupPartnershipEmblemInteraction() {
+        const emblem = this.partnershipEmblem.querySelector('.emblem-frame');
+        const seal = this.partnershipEmblem.querySelector('.partnership-seal');
+        
+        emblem.addEventListener('mouseenter', () => {
+            this.activatePartnershipGlow();
+        });
+        
+        emblem.addEventListener('click', () => {
+            this.handlePartnershipClick();
+        });
+    }
+    
+    activatePartnershipGlow() {
+        const glow = this.partnershipEmblem.querySelector('.emblem-glow');
+        const seal = this.partnershipEmblem.querySelector('.partnership-seal');
+        
+        if (glow) {
+            glow.style.opacity = '1';
+        }
+        
+        if (seal) {
+            seal.style.transform = 'scale(1.08) rotate(5deg)';
+        }
+    }
+    
+    handlePartnershipClick() {
+        const emblem = this.partnershipEmblem.querySelector('.emblem-frame');
+        
+        emblem.style.transform = 'translateY(-8px) scale(1.02) rotate(2deg)';
+        
+        setTimeout(() => {
+            emblem.style.transform = '';
+        }, 200);
+        
+        this.showPartnershipFeedback();
+        this.trackPartnershipClick();
+    }
+    
+    activateCardAmbientEffects(card) {
+        const ambientGlow = card.querySelector('.card-ambient-glow');
+        const imageAura = card.querySelector('.image-aura');
+        const platformReflection = card.querySelector('.platform-reflection');
+        
+        if (ambientGlow) {
+            ambientGlow.style.opacity = '1';
+        }
+        
+        if (imageAura) {
+            imageAura.style.opacity = '1';
+        }
+        
+        if (platformReflection) {
+            platformReflection.style.opacity = '1';
+        }
+    }
+    
+    triggerBadgeShine(badge) {
+        const shine = badge.querySelector('.badge-shine');
+        if (shine) {
+            shine.style.left = '-100%';
+            shine.style.transition = 'none';
+            shine.offsetHeight; // Force reflow
+            shine.style.transition = 'left 0.8s ease';
+            shine.style.left = '100%';
+        }
+    }
+    
+    triggerCTAShimmer(cta) {
+        const shimmer = cta.querySelector('.cta-luxury-shimmer');
+        if (shimmer) {
+            shimmer.style.left = '-100%';
+            shimmer.style.transition = 'none';
+            shimmer.offsetHeight; // Force reflow
+            shimmer.style.transition = 'left 1s ease';
+            shimmer.style.left = '100%';
+        }
+    }
+    
+    triggerCatalogShimmer() {
+        const shimmer = this.catalogButton.querySelector('.catalog-luxury-shimmer');
+        if (shimmer) {
+            shimmer.style.left = '-100%';
+            shimmer.style.transition = 'none';
+            shimmer.offsetHeight; // Force reflow
+            shimmer.style.transition = 'left 1.2s ease';
+            shimmer.style.left = '100%';
+        }
+    }
+    
+    addFeatureGlow(feature) {
+        feature.style.boxShadow = '0 4px 12px rgba(255, 140, 0, 0.15)';
+        
+        setTimeout(() => {
+            feature.style.boxShadow = '';
+        }, 1000);
+    }
+    
+    addCTALuxuryEffect(cta) {
+        this.triggerCTAShimmer(cta);
+        
+        const background = cta.querySelector('.cta-background');
+        if (background) {
+            background.style.opacity = '0.1';
+            setTimeout(() => {
+                background.style.opacity = '';
+            }, 600);
+        }
+    }
+    
+    addCatalogHoverEffect() {
+        this.triggerCatalogShimmer();
+        
+        const ornaments = this.cta.querySelectorAll('.ornament-medallion');
+        ornaments.forEach(ornament => {
+            ornament.style.transform = 'scale(1.1) rotate(180deg)';
+            setTimeout(() => {
+                ornament.style.transform = '';
+            }, 600);
+        });
+    }
+    
+    /* ========================================
+       RIPPLE & FEEDBACK EFFECTS
+       ======================================== */
     
     createLuxuryRippleEffect(element, event) {
         const ripple = document.createElement('div');
@@ -3043,7 +3310,7 @@ class HermesLuxuryProductsSection {
         element.appendChild(ripple);
         
         requestAnimationFrame(() => {
-            ripple.style.transform = 'scale(2.5)';
+            ripple.style.transform = 'scale(3)';
             ripple.style.opacity = '0';
         });
         
@@ -3054,149 +3321,47 @@ class HermesLuxuryProductsSection {
         }, 800);
     }
     
-    setupMobileInteractions(card) {
-        if (!this.isMobile()) return;
-        
-        card.addEventListener('touchstart', () => {
-            card.style.transform = 'scale(0.98)';
-        }, { passive: true });
-        
-        card.addEventListener('touchend', () => {
-            card.style.transform = '';
-        }, { passive: true });
-    }
-    
-    bindCTAEvents() {
-        this.productCTAs.forEach(cta => {
-            cta.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.handleProductCTA(cta);
-            });
-            
-            cta.addEventListener('mouseenter', () => {
-                this.addCTALuxuryEffect(cta);
-            });
-        });
-        
-        if (this.catalogButton) {
-            this.catalogButton.addEventListener('click', () => {
-                this.handleCatalogClick();
-            });
-            
-            this.catalogButton.addEventListener('mouseenter', () => {
-                this.addCatalogHoverEffect(this.catalogButton);
-            });
-        }
-    }
-    
-    handleProductCTA(cta) {
-        const productCard = cta.closest('.hermes-product-card');
-        const productName = productCard.querySelector('.hermes-product-name')?.textContent || 'Product';
-        const productUrl = cta.getAttribute('data-url') || 'https://us.alumiermd.com/products?code=54T7P4HH';
-        
-        // Premium click animation
-        cta.style.transform = 'translateY(-1px) scale(0.98)';
-        setTimeout(() => {
-            cta.style.transform = '';
-        }, 150);
-        
-        this.showProductLoadingFeedback(productName);
-        
-        setTimeout(() => {
-            window.open(productUrl, '_blank');
-        }, 400);
-        
-        this.trackProductClick(productName);
-    }
-    
-    handleCatalogClick() {
-        this.catalogButton.style.transform = 'translateY(-4px) scale(0.98)';
-        
-        setTimeout(() => {
-            this.catalogButton.style.transform = '';
-        }, 150);
-        
-        this.showCatalogLoadingFeedback();
-        
-        setTimeout(() => {
-            window.open('https://us.alumiermd.com/products?code=54T7P4HH', '_blank');
-        }, 400);
-        
-        this.trackCatalogClick();
-    }
-    
-    addCTALuxuryEffect(cta) {
-        const shine = cta.querySelector('.cta-luxury-shine');
-        if (shine) {
-            shine.style.left = '-100%';
-            shine.style.transition = 'none';
-            shine.offsetHeight;
-            shine.style.transition = 'left 0.8s ease';
-            shine.style.left = '100%';
-        }
-        
-        // Add luxury pulse effect
-        const background = cta.querySelector('.cta-background');
-        if (background) {
-            background.style.opacity = '0.1';
-            setTimeout(() => {
-                background.style.opacity = '';
-            }, 600);
-        }
-    }
-    
-    addCatalogHoverEffect(button) {
-        const shine = button.querySelector('.hermes-catalog-shine');
-        if (shine) {
-            shine.style.left = '-100%';
-            shine.style.transition = 'none';
-            shine.offsetHeight;
-            shine.style.transition = 'left 1s ease';
-            shine.style.left = '100%';
-        }
-        
-        // Add ornament rotation effect
-        const ornaments = document.querySelectorAll('.ornament-center');
-        ornaments.forEach(ornament => {
-            ornament.style.transform = 'rotate(180deg) scale(1.1)';
-            setTimeout(() => {
-                ornament.style.transform = 'rotate(360deg) scale(1)';
-            }, 300);
-        });
-    }
-    
-    showProductLoadingFeedback(productName) {
+    showProductInteractionFeedback(productName) {
         const feedback = this.createLuxuryFeedbackElement(
-            `Opening ${productName}...`,
-            'rgba(255, 140, 0, 0.95)',
-            '🛍️'
+            `Viewing ${productName}`,
+            'rgba(139, 92, 246, 0.95)',
+            'ri-eye-line'
         );
         
-        this.showLuxuryFeedback(feedback, 2500);
+        this.displayLuxuryFeedback(feedback, 2000);
+    }
+    
+    showProductCTAFeedback(productName) {
+        const feedback = this.createLuxuryFeedbackElement(
+            `Opening ${productName} details...`,
+            'rgba(255, 140, 0, 0.95)',
+            'ri-external-link-line'
+        );
+        
+        this.displayLuxuryFeedback(feedback, 2500);
     }
     
     showCatalogLoadingFeedback() {
         const feedback = this.createLuxuryFeedbackElement(
             'Opening AlumierMD catalog...',
             'rgba(16, 185, 129, 0.95)',
-            '📋'
+            'ri-shopping-bag-line'
         );
         
-        this.showLuxuryFeedback(feedback, 3000);
+        this.displayLuxuryFeedback(feedback, 3000);
     }
     
-    showProductFeedback(productName) {
+    showPartnershipFeedback() {
         const feedback = this.createLuxuryFeedbackElement(
-            `Viewing ${productName}`,
-            'rgba(139, 92, 246, 0.95)',
-            '👁️'
+            'Exclusive AlumierMD Partnership',
+            'rgba(255, 140, 0, 0.95)',
+            'ri-award-line'
         );
         
-        this.showLuxuryFeedback(feedback, 2000);
+        this.displayLuxuryFeedback(feedback, 2500);
     }
     
-    createLuxuryFeedbackElement(message, backgroundColor, icon) {
+    createLuxuryFeedbackElement(message, backgroundColor, iconClass) {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
             position: fixed;
@@ -3205,41 +3370,41 @@ class HermesLuxuryProductsSection {
             transform: translate(-50%, -50%);
             background: ${backgroundColor};
             color: white;
-            padding: 20px 32px;
-            border-radius: 24px;
+            padding: 24px 36px;
+            border-radius: 28px;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             z-index: 10000;
             pointer-events: none;
             opacity: 0;
-            backdrop-filter: blur(30px);
+            backdrop-filter: blur(40px);
             box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.15),
-                0 8px 32px ${backgroundColor.replace('0.95', '0.3')};
+                0 24px 80px rgba(0, 0, 0, 0.15),
+                0 12px 40px ${backgroundColor.replace('0.95', '0.3')};
             display: flex;
             align-items: center;
-            gap: 12px;
-            max-width: 350px;
+            gap: 16px;
+            max-width: 400px;
             text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            min-width: 280px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            min-width: 320px;
             justify-content: center;
         `;
         
         feedback.innerHTML = `
-            <span style="font-size: 18px;">${icon}</span>
+            <i class="${iconClass}" style="font-size: 20px;"></i>
             <span>${message}</span>
         `;
         
         return feedback;
     }
     
-    showLuxuryFeedback(feedback, duration = 2500) {
+    displayLuxuryFeedback(feedback, duration = 2500) {
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
@@ -3252,95 +3417,226 @@ class HermesLuxuryProductsSection {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
-            }, 600);
+            }, 800);
         }, duration);
     }
+    
+    /* ========================================
+       PERFORMANCE & OPTIMIZATION
+       ======================================== */
+    
+    setupPerformanceOptimizations() {
+        // Add GPU acceleration to animated elements
+        const animatedElements = this.section.querySelectorAll(
+            '.luxury-product-card, .product-image, .card-ambient-glow, .luxury-product-cta'
+        );
+        
+        animatedElements.forEach(element => {
+            element.style.willChange = 'transform, box-shadow, opacity';
+            element.style.backfaceVisibility = 'hidden';
+            element.style.transform = 'translateZ(0)';
+        });
+        
+        // Intersection observer for performance
+        this.setupPerformanceObserver();
+    }
+    
+    setupPerformanceObserver() {
+        const performanceObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const card = entry.target;
+                if (entry.isIntersecting) {
+                    this.enableCardAnimations(card);
+                } else {
+                    this.disableCardAnimations(card);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px 0px 50px 0px'
+        });
+        
+        this.productCards.forEach(card => {
+            performanceObserver.observe(card);
+        });
+        
+        this.observers.set('performance', performanceObserver);
+    }
+    
+    enableCardAnimations(card) {
+        card.style.willChange = 'transform, box-shadow';
+    }
+    
+    disableCardAnimations(card) {
+        card.style.willChange = 'auto';
+    }
+    
+    /* ========================================
+       ANIMATION SYSTEMS
+       ======================================== */
     
     initializeAnimations() {
         // Initialize card entrance animations
         this.productCards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(50px)';
-            card.style.transition = `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
-            
-            // Initialize child elements
-            const image = card.querySelector('.hermes-product-image');
-            const rating = card.querySelector('.hermes-product-rating');
-            const content = card.querySelector('.hermes-product-content');
-            
-            if (image) {
-                image.style.opacity = '0';
-                image.style.transform = 'scale(0.8) translateY(20px)';
-                image.style.transition = 'all 0.6s ease';
-            }
-            
-            if (rating) {
-                rating.style.opacity = '0';
-                rating.style.transform = 'translateY(20px) scale(0.9)';
-                rating.style.transition = 'all 0.5s ease';
-            }
-            
-            if (content) {
-                Array.from(content.children).forEach((element, childIndex) => {
-                    element.style.opacity = '0';
-                    element.style.transform = 'translateY(20px)';
-                    element.style.transition = `all 0.5s ease ${childIndex * 0.1}s`;
-                });
-            }
+            this.prepareCardForAnimation(card, index);
+        });
+        
+        // Initialize CTA animations
+        if (this.cta) {
+            this.prepareCTAForAnimation();
+        }
+    }
+    
+    prepareCardForAnimation(card, index) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(80px)';
+        card.style.transition = `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
+        
+        // Prepare child elements
+        const showcase = card.querySelector('.product-showcase');
+        const productImage = card.querySelector('.product-image');
+        const rating = card.querySelector('.luxury-product-rating');
+        const information = card.querySelector('.product-information');
+        
+        if (showcase) {
+            showcase.style.opacity = '0';
+            showcase.style.transform = 'translateY(40px)';
+            showcase.style.transition = 'all 0.6s ease';
+        }
+        
+        if (productImage) {
+            productImage.style.opacity = '0';
+            productImage.style.transform = 'scale(0.8) translateY(20px)';
+            productImage.style.transition = 'all 0.8s ease';
+        }
+        
+        if (rating) {
+            rating.style.opacity = '0';
+            rating.style.transform = 'translateY(20px) scale(0.9)';
+            rating.style.transition = 'all 0.6s ease';
+        }
+        
+        if (information) {
+            Array.from(information.children).forEach((element, childIndex) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = `all 0.5s ease ${childIndex * 0.1}s`;
+            });
+        }
+    }
+    
+    prepareCTAForAnimation() {
+        this.cta.style.opacity = '0';
+        this.cta.style.transform = 'translateY(80px)';
+        this.cta.style.transition = 'all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s';
+    }
+    
+    startMoleculeAnimation() {
+        const molecules = this.section.querySelectorAll('.molecule');
+        
+        molecules.forEach((molecule, index) => {
+            this.animateMolecule(molecule, index);
         });
     }
     
-    initializePerformanceOptimizations() {
-        this.productCards.forEach(card => {
-            card.style.willChange = 'transform, box-shadow';
-        });
+    animateMolecule(molecule, index) {
+        const delay = index * 5000; // Stagger molecules
         
-        window.addEventListener('resize', EviaUtils.debounce(() => {
-            this.handleResize();
-        }, 250));
-        
-        this.addScrollOptimizations();
-    }
-    
-    addScrollOptimizations() {
-        let ticking = false;
-        
-        const handleScroll = () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    this.onScroll();
-                    ticking = false;
-                });
-                ticking = true;
+        setTimeout(() => {
+            if (this.isVisible) {
+                molecule.style.animationPlayState = 'running';
             }
-        };
-        
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        }, delay);
     }
     
-    onScroll() {
-        const scrollY = window.pageYOffset;
-        const sectionTop = this.section.offsetTop;
-        const sectionHeight = this.section.offsetHeight;
+    startAmbientEffects() {
+        const orbs = this.section.querySelectorAll('.ambient-orb');
         
-        if (scrollY > sectionTop - window.innerHeight && 
-            scrollY < sectionTop + sectionHeight) {
-            this.onSectionVisible();
+        orbs.forEach(orb => {
+            orb.style.animationPlayState = 'running';
+        });
+    }
+    
+    initializePartnershipGlow() {
+        const seal = this.section.querySelector('.partnership-seal');
+        
+        if (seal) {
+            // Start the rotating border animation
+            const beforeElement = seal.querySelector('::before');
+            if (beforeElement) {
+                beforeElement.style.animationPlayState = 'running';
+            }
         }
     }
     
     onSectionVisible() {
-        // Trigger floating elements animation
-        const floatingElements = document.querySelectorAll('.hermes-float-element');
-        floatingElements.forEach((element, index) => {
-            setTimeout(() => {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0) scale(1)';
-            }, index * 200);
-        });
+        // Start ambient animations when section becomes visible
+        this.startAmbientEffects();
+        this.startMoleculeAnimation();
     }
     
-    handleResize() {
+    /* ========================================
+       TRACKING & ANALYTICS
+       ======================================== */
+    
+    trackProductCardClick(productName) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'luxury_product_card_click', {
+                event_category: 'products',
+                event_label: productName,
+                value: 1
+            });
+        }
+        
+        console.log(`📊 Luxury Product card clicked: ${productName}`);
+    }
+    
+    trackProductCTAClick(productName) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'luxury_product_cta_click', {
+                event_category: 'products',
+                event_label: productName,
+                value: 1
+            });
+        }
+        
+        console.log(`📊 Luxury Product CTA clicked: ${productName}`);
+    }
+    
+    trackCatalogClick() {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'luxury_catalog_view', {
+                event_category: 'products',
+                event_label: 'alumiermd_full_catalog',
+                value: 1
+            });
+        }
+        
+        console.log('📊 Luxury Catalog opened');
+    }
+    
+    trackPartnershipClick() {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'partnership_emblem_click', {
+                event_category: 'engagement',
+                event_label: 'alumiermd_partnership',
+                value: 1
+            });
+        }
+        
+        console.log('📊 Partnership emblem clicked');
+    }
+    
+    /* ========================================
+       UTILITY METHODS
+       ======================================== */
+    
+    isMobile() {
+        return window.innerWidth <= 768 || 
+               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+    
+    onResize() {
         if (this.isMobile()) {
             this.optimizeForMobile();
         } else {
@@ -3348,50 +3644,52 @@ class HermesLuxuryProductsSection {
         }
     }
     
-    onResize() {
-        this.handleResize();
-    }
-    
     optimizeForMobile() {
+        // Disable complex animations on mobile
         this.productCards.forEach(card => {
-            card.style.transform = '';
             card.style.willChange = 'auto';
+            card.removeEventListener('mousemove', this.handleCardTilt);
         });
     }
     
     optimizeForDesktop() {
+        // Re-enable full animations on desktop
         this.productCards.forEach(card => {
             card.style.willChange = 'transform, box-shadow';
         });
-    }
-    
-    trackProductClick(productName) {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'hermes_product_click', {
-                event_category: 'products',
-                event_label: productName,
-                value: 1
-            });
-        }
         
-        console.log(`📊 Hermès Product clicked: ${productName}`);
+        // Re-setup tilt effects
+        this.productCards.forEach(card => {
+            this.setupCardTiltEffect(card);
+        });
     }
     
-    trackCatalogClick() {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'hermes_catalog_view', {
-                event_category: 'products',
-                event_label: 'alumiermd_full_catalog',
-                value: 1
-            });
-        }
+    pause() {
+        // Pause all animations
+        const orbs = this.section.querySelectorAll('.ambient-orb');
+        const molecules = this.section.querySelectorAll('.molecule');
         
-        console.log('📊 Hermès Full catalog opened');
+        orbs.forEach(orb => {
+            orb.style.animationPlayState = 'paused';
+        });
+        
+        molecules.forEach(molecule => {
+            molecule.style.animationPlayState = 'paused';
+        });
     }
     
-    isMobile() {
-        return window.innerWidth <= 768 || 
-               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    play() {
+        // Resume all animations
+        const orbs = this.section.querySelectorAll('.ambient-orb');
+        const molecules = this.section.querySelectorAll('.molecule');
+        
+        orbs.forEach(orb => {
+            orb.style.animationPlayState = 'running';
+        });
+        
+        molecules.forEach(molecule => {
+            molecule.style.animationPlayState = 'running';
+        });
     }
     
     refresh() {
@@ -3400,31 +3698,61 @@ class HermesLuxuryProductsSection {
     }
     
     destroy() {
+        // Clean up observers
         this.observers.forEach(observer => {
             observer.disconnect();
         });
         this.observers.clear();
         
+        // Remove event listeners by cloning elements
         this.productCards.forEach(card => {
             card.replaceWith(card.cloneNode(true));
         });
         
+        if (this.catalogButton) {
+            this.catalogButton.replaceWith(this.catalogButton.cloneNode(true));
+        }
+        
         this.isInitialized = false;
         
-        console.log('🗑️ Hermès Products section destroyed');
+        console.log('🗑️ Luxury MedSpa Products Section destroyed');
     }
 }
 
-// Update the resize handler:
-window.addEventListener('resize', () => {
-    if (window.HermesLuxuryProductsSection && typeof window.HermesLuxuryProductsSection.onResize === 'function') {
-        window.HermesLuxuryProductsSection.onResize();
+/* ========================================
+   INITIALIZATION & INTEGRATION
+   ======================================== */
+
+// Initialize the Luxury MedSpa Products section
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector('.luxury-medspa-products')) {
+        const luxuryProductsSection = new LuxuryMedSpaProducts();
+        window.LuxuryMedSpaProducts = luxuryProductsSection;
+        console.log('🚀 Luxury MedSpa Products Section ready');
     }
 });
 
-// Export for module usage (if needed):
+// Handle visibility changes for performance
+document.addEventListener('visibilitychange', () => {
+    if (window.LuxuryMedSpaProducts) {
+        if (document.hidden) {
+            window.LuxuryMedSpaProducts.pause();
+        } else {
+            window.LuxuryMedSpaProducts.play();
+        }
+    }
+});
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    if (window.LuxuryMedSpaProducts) {
+        window.LuxuryMedSpaProducts.onResize();
+    }
+});
+
+// Export for module usage (if needed)
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { HermesLuxuryProductsSection };
+    module.exports = { LuxuryMedSpaProducts };
 }
 
 /* ========================================
@@ -4308,7 +4636,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 document.addEventListener('visibilitychange', () => {
-    if (window.PremiumAboutSection) {
+    if (window.LuxuryMedSpaProducts) {
         if (document.hidden) {
             document.querySelector('.premium-about-redesign')?.style.setProperty('animation-play-state', 'paused');
         } else {
@@ -4318,7 +4646,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 document.addEventListener('visibilitychange', () => {
-    if (window.HermesLuxuryProductsSection) {
+    if (window.LuxuryMedSpaProducts) {
         if (document.hidden) {
             document.querySelector('.hermes-products-section')?.style.setProperty('animation-play-state', 'paused');
         } else {
@@ -4339,7 +4667,7 @@ if (typeof module !== 'undefined' && module.exports) {
         EviaUtils, 
         EnhancedServicesCarousel,
         PremiumAboutSection,
-        HermesLuxuryProductsSection,
+        LuxuryMedSpa,
         ModernSignatureAnimation,
         CinematicHero,
         EviaConfig
