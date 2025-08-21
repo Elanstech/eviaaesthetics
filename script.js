@@ -3208,40 +3208,90 @@ class RedesignedSocialSections {
 }
 
 /* ========================================
-   HERMÈS-INSPIRED PRODUCTS COLLECTION
-   Interactive JavaScript Component
+   HERMÈS MEDSPA PRODUCTS CAROUSEL
    ======================================== */
 
-class HermesProductsCollection {
+ class HermesProductsCarousel {
     constructor() {
-        this.section = document.querySelector('.hermes-products-collection');
-        this.header = document.querySelector('.collection-header');
-        this.gallery = document.querySelector('.products-gallery');
-        this.galleryContainer = document.querySelector('.gallery-container');
-        this.footer = document.querySelector('.collection-footer');
-        this.productBooks = document.querySelectorAll('.product-book');
-        this.discoverButtons = document.querySelectorAll('.discover-btn');
-        this.catalogButton = document.getElementById('catalogButton');
-        this.partnershipSeal = document.querySelector('.partnership-seal');
+        this.section = document.querySelector('.hermes-products-carousel');
+        this.carousel = document.getElementById('productsCarousel');
+        this.prevBtn = document.getElementById('carouselPrev');
+        this.nextBtn = document.getElementById('carouselNext');
+        this.indicators = document.getElementById('carouselIndicators');
+        this.modal = document.getElementById('productModal');
+        this.modalBody = document.getElementById('modalBody');
+        this.modalClose = document.getElementById('modalClose');
+        this.modalShopBtn = document.getElementById('modalShopBtn');
+        this.catalogBtn = document.getElementById('catalogBtn');
         
-        // Carousel elements
-        this.carouselNav = document.querySelector('.carousel-nav');
-        this.prevBtn = document.querySelector('.prev-btn');
-        this.nextBtn = document.querySelector('.next-btn');
-        this.dots = document.querySelectorAll('.dot');
-        
-        this.isInitialized = false;
-        this.observers = new Map();
-        this.isVisible = false;
-        this.animationQueue = [];
-        
-        // Carousel state
         this.currentSlide = 0;
-        this.totalSlides = this.productBooks.length;
-        this.isCarouselMode = false;
+        this.totalSlides = 4;
+        this.slideWidth = 0;
+        this.isAnimating = false;
+        this.autoplayInterval = null;
+        this.autoplayDelay = 5000;
         this.touchStartX = 0;
         this.touchEndX = 0;
-        this.isDragging = false;
+        this.currentProductUrl = '';
+        
+        this.productData = {
+            'clear-shield': {
+                name: 'Clear Shield SPF 42',
+                category: 'Sun Protection',
+                image: 'clear.jpg',
+                description: 'Lightweight, non-greasy broad spectrum sunscreen with antioxidant protection for daily use.',
+                detailedDescription: 'Clear Shield SPF 42 provides superior broad-spectrum protection against UVA and UVB rays while delivering powerful antioxidants to help prevent environmental damage. This lightweight formula absorbs quickly without leaving a white residue, making it perfect for daily use under makeup or alone.',
+                features: ['SPF 42 Broad Spectrum Protection', 'Non-comedogenic Formula', 'Antioxidant Rich', 'Water Resistant (40 minutes)', 'Suitable for All Skin Types'],
+                benefits: ['Prevents premature aging', 'Protects against UV damage', 'Lightweight, non-greasy feel', 'Perfect base for makeup'],
+                keyIngredients: ['Zinc Oxide', 'Titanium Dioxide', 'Vitamin E', 'Green Tea Extract'],
+                usage: 'Apply liberally 15 minutes before sun exposure. Reapply every 2 hours or after swimming, sweating, or toweling.',
+                rating: '5.0',
+                reviews: '128',
+                url: 'https://us.alumiermd.com/products?code=54T7P4HH'
+            },
+            'retinol': {
+                name: 'Retinol Resurfacing Serum 0.25',
+                category: 'Anti-Aging',
+                image: 'retinol.jpg',
+                description: 'Advanced retinol formula for skin renewal and anti-aging benefits with gentle, effective results.',
+                detailedDescription: 'This advanced retinol serum contains 0.25% pure retinol in a stabilized delivery system to minimize irritation while maximizing results. Formulated with soothing botanicals and hydrating ingredients to support skin renewal and reduce the appearance of fine lines and wrinkles.',
+                features: ['0.25% Pure Retinol', 'Stabilized Delivery System', 'Night Treatment', 'Anti-Aging Formula', 'Gentle on Sensitive Skin'],
+                benefits: ['Reduces fine lines and wrinkles', 'Improves skin texture', 'Promotes cellular renewal', 'Enhances skin radiance'],
+                keyIngredients: ['Retinol 0.25%', 'Hyaluronic Acid', 'Vitamin E', 'Chamomile Extract'],
+                usage: 'Apply 2-3 drops to clean, dry skin in the evening. Start with 2-3 times per week and gradually increase frequency. Always use SPF during the day.',
+                rating: '4.9',
+                reviews: '94',
+                url: 'https://us.alumiermd.com/products?code=54T7P4HH'
+            },
+            'sheer-hydration': {
+                name: 'Sheer Hydration SPF 40',
+                category: 'Tinted Moisturizer',
+                image: 'sheer.jpeg',
+                description: 'Lightweight tinted moisturizer with broad-spectrum sun protection and natural coverage.',
+                detailedDescription: 'Sheer Hydration combines the benefits of a moisturizer, sunscreen, and light coverage in one elegant formula. This universally flattering tint provides a natural, healthy glow while delivering broad-spectrum SPF 40 protection and long-lasting hydration.',
+                features: ['SPF 40 Protection', 'Universal Tint', 'Hydrating Formula', 'Natural Coverage', 'All-in-One Product'],
+                benefits: ['Evens skin tone', 'Provides natural coverage', 'Hydrates all day', 'Protects from UV damage'],
+                keyIngredients: ['Zinc Oxide', 'Iron Oxides', 'Hyaluronic Acid', 'Vitamin C'],
+                usage: 'Apply evenly to face and neck as the last step in your morning routine. Can be worn alone or under makeup.',
+                rating: '4.8',
+                reviews: '76',
+                url: 'https://us.alumiermd.com/products?code=54T7P4HH'
+            },
+            'everactive': {
+                name: 'EverActive C&E + Peptide',
+                category: 'Vitamin C Serum',
+                image: 'EverActive.jpeg',
+                description: 'Powerful antioxidant serum with vitamin C, E, and peptides for radiant, youthful skin.',
+                detailedDescription: 'EverActive C&E + Peptide delivers a potent combination of stable vitamin C, vitamin E, and advanced peptides in a lightweight serum. This powerful antioxidant formula brightens skin, reduces the appearance of dark spots, and supports collagen production for firmer, more youthful-looking skin.',
+                features: ['Stable Vitamin C', 'Vitamin E Complex', 'Advanced Peptides', 'Brightening Formula', 'Antioxidant Protection'],
+                benefits: ['Brightens complexion', 'Reduces dark spots', 'Supports collagen production', 'Protects against environmental damage'],
+                keyIngredients: ['L-Ascorbic Acid', 'Vitamin E', 'Peptide Complex', 'Ferulic Acid'],
+                usage: 'Apply 2-3 drops to clean skin in the morning. Follow with sunscreen. Can be used daily.',
+                rating: '5.0',
+                reviews: '112',
+                url: 'https://us.alumiermd.com/products?code=54T7P4HH'
+            }
+        };
         
         if (this.section) {
             this.init();
@@ -3249,605 +3299,576 @@ class HermesProductsCollection {
     }
     
     init() {
-        if (this.isInitialized) return;
-        
         try {
-            this.setupIntersectionObservers();
-            this.bindProductInteractions();
-            this.bindButtonEvents();
-            this.setupCarousel();
-            this.initializeAnimations();
-            this.setupPerformanceOptimizations();
-            this.startAmbientAnimations();
-            this.checkCarouselMode();
+            this.calculateDimensions();
+            this.bindEvents();
+            this.setupAutoplay();
+            this.updateIndicators();
+            this.updateNavigation();
             
-            this.isInitialized = true;
-            console.log('✨ Hermès Products Collection initialized');
+            console.log('✨ Hermès Products Carousel initialized successfully');
         } catch (error) {
-            console.error('❌ Error initializing Hermès Products Collection:', error);
+            console.error('❌ Error initializing Hermès Products Carousel:', error);
         }
     }
     
-    setupIntersectionObservers() {
-        // Main section observer
-        const sectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                this.isVisible = entry.isIntersecting;
-                if (this.isVisible) {
-                    this.onSectionVisible();
-                }
-            });
-        }, { threshold: 0.2 });
+    calculateDimensions() {
+        const containerWidth = this.carousel.parentElement.clientWidth;
+        const cardWidth = 280;
+        const gap = 20;
+        const padding = 40; // Container padding
         
-        sectionObserver.observe(this.section);
-        this.observers.set('section', sectionObserver);
+        const availableWidth = containerWidth - padding;
+        const cardsPerView = Math.floor(availableWidth / (cardWidth + gap));
         
-        // Element reveal observer
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.revealElement(entry.target);
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -10% 0px'
-        });
+        // Calculate the actual slide width based on cards per view
+        this.slideWidth = cardWidth + gap;
+        this.cardsPerView = Math.max(1, cardsPerView);
         
-        // Observe elements for reveal
-        const revealElements = [
-            this.header,
-            ...this.productBooks,
-            this.footer
-        ].filter(Boolean);
+        // Update CSS custom property for responsive behavior
+        document.documentElement.style.setProperty('--cards-per-view', this.cardsPerView);
         
-        revealElements.forEach(element => {
-            revealObserver.observe(element);
-        });
-        
-        this.observers.set('reveal', revealObserver);
-        
-        // Performance observer for product books
-        const performanceObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const book = entry.target;
-                if (entry.isIntersecting) {
-                    this.enableBookAnimations(book);
-                } else {
-                    this.disableBookAnimations(book);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '50px 0px 50px 0px'
-        });
-        
-        this.productBooks.forEach(book => {
-            performanceObserver.observe(book);
-        });
-        
-        this.observers.set('performance', performanceObserver);
+        // Adjust total slides based on cards per view
+        this.maxSlide = Math.max(0, this.totalSlides - this.cardsPerView);
     }
     
-    revealElement(element) {
-        if (element.classList.contains('collection-header')) {
-            this.animateHeader();
-        } else if (element.classList.contains('product-book')) {
-            this.animateProductBook(element);
-        } else if (element.classList.contains('collection-footer')) {
-            this.animateFooter();
-        }
-    }
-    
-    animateHeader() {
-        const seal = this.header.querySelector('.partnership-seal');
-        const title = this.header.querySelector('.collection-title');
-        const subtitle = this.header.querySelector('.collection-subtitle');
+    bindEvents() {
+        // Navigation buttons
+        this.prevBtn?.addEventListener('click', () => this.prevSlide());
+        this.nextBtn?.addEventListener('click', () => this.nextSlide());
         
-        if (seal) {
-            setTimeout(() => {
-                seal.style.opacity = '1';
-                seal.style.transform = 'translateY(0) scale(1)';
-            }, 100);
-        }
-        
-        if (title) {
-            setTimeout(() => {
-                title.style.opacity = '1';
-                title.style.transform = 'translateY(0)';
-            }, 300);
-        }
-        
-        if (subtitle) {
-            setTimeout(() => {
-                subtitle.style.opacity = '1';
-                subtitle.style.transform = 'translateY(0)';
-            }, 500);
-        }
-    }
-    
-    animateProductBook(book) {
-        const index = Array.from(this.productBooks).indexOf(book);
-        
-        setTimeout(() => {
-            book.style.opacity = '1';
-            book.style.transform = 'translateY(0)';
-            
-            // Animate internal elements
-            this.animateBookContents(book);
-        }, index * 150);
-    }
-    
-    animateBookContents(book) {
-        const display = book.querySelector('.product-display');
-        const details = book.querySelector('.product-details');
-        const button = book.querySelector('.discover-btn');
-        
-        if (display) {
-            setTimeout(() => {
-                display.style.opacity = '1';
-                display.style.transform = 'translateY(0)';
-            }, 100);
-        }
-        
-        if (details) {
-            const detailElements = details.children;
-            Array.from(detailElements).forEach((element, index) => {
-                setTimeout(() => {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }, 200 + (index * 100));
-            });
-        }
-        
-        if (button) {
-            setTimeout(() => {
-                button.style.opacity = '1';
-                button.style.transform = 'translateY(0)';
-            }, 600);
-        }
-    }
-    
-    animateFooter() {
-        const content = this.footer.querySelector('.footer-content');
-        if (content) {
-            const elements = content.children;
-            Array.from(elements).forEach((element, index) => {
-                setTimeout(() => {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }, index * 150);
-            });
-        }
-    }
-    
-    bindProductInteractions() {
-        this.productBooks.forEach(book => {
-            this.setupBookInteractions(book);
-            this.setupBookTiltEffect(book);
-        });
-        
-        if (this.partnershipSeal) {
-            this.setupPartnershipSealInteraction();
-        }
-    }
-    
-    setupBookInteractions(book) {
-        const productImage = book.querySelector('.product-image');
-        const statusBadge = book.querySelector('.status-badge');
-        const features = book.querySelectorAll('.feature-pill');
-        const rating = book.querySelector('.product-rating');
-        
-        book.addEventListener('mouseenter', () => {
-            this.onBookHover(book, productImage, statusBadge, features, rating);
-        });
-        
-        book.addEventListener('mouseleave', () => {
-            this.onBookLeave(book, productImage, statusBadge, features, rating);
-        });
-        
-        book.addEventListener('click', (e) => {
-            if (!e.target.closest('.discover-btn')) {
-                this.handleBookClick(book, e);
+        // Indicator clicks
+        this.indicators?.addEventListener('click', (e) => {
+            if (e.target.classList.contains('indicator')) {
+                const slideIndex = parseInt(e.target.dataset.slide);
+                this.goToSlide(slideIndex);
             }
         });
         
-        // Feature pill interactions
-        features.forEach(feature => {
-            feature.addEventListener('mouseenter', () => {
-                this.addFeatureGlow(feature);
-            });
-        });
-        
-        // Status badge interaction
-        if (statusBadge) {
-            statusBadge.addEventListener('mouseenter', () => {
-                this.triggerBadgeEffect(statusBadge);
-            });
-        }
-    }
-    
-    onBookHover(book, productImage, badge, features, rating) {
-        // Image animation
-        if (productImage) {
-            productImage.style.transform = 'scale(1.1) translateY(-8px)';
-        }
-        
-        // Badge effect
-        if (badge) {
-            this.triggerBadgeEffect(badge);
-        }
-        
-        // Features animation
-        features.forEach((feature, index) => {
-            setTimeout(() => {
-                feature.style.transform = 'translateY(-2px) scale(1.02)';
-                feature.style.borderColor = 'rgba(255, 140, 0, 0.3)';
-                feature.style.background = 'rgba(255, 140, 0, 0.1)';
-            }, index * 50);
-        });
-        
-        // Rating animation
-        if (rating) {
-            rating.style.transform = 'scale(1.05)';
-            rating.style.boxShadow = '0 6px 20px rgba(255, 140, 0, 0.15)';
-        }
-        
-        // Activate glow effects
-        this.activateBookGlowEffects(book);
-    }
-    
-    onBookLeave(book, productImage, badge, features, rating) {
-        // Reset image
-        if (productImage) {
-            productImage.style.transform = 'scale(1) translateY(0)';
-        }
-        
-        // Reset features
-        features.forEach(feature => {
-            feature.style.transform = 'translateY(0) scale(1)';
-            feature.style.borderColor = 'rgba(255, 140, 0, 0.08)';
-            feature.style.background = 'var(--cream-soft)';
-        });
-        
-        // Reset rating
-        if (rating) {
-            rating.style.transform = 'scale(1)';
-            rating.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.05)';
-        }
-    }
-    
-    setupBookTiltEffect(book) {
-        if (this.isMobile()) return;
-        
-        book.addEventListener('mousemove', (e) => {
-            this.handleBookTilt(book, e);
-        });
-        
-        book.addEventListener('mouseleave', () => {
-            book.style.transform = 'translateY(-12px) scale(1.02) rotateX(0) rotateY(0)';
-        });
-    }
-    
-    handleBookTilt(book, event) {
-        const rect = book.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / centerY * -3;
-        const rotateY = (x - centerX) / centerX * 3;
-        
-        book.style.transform = `translateY(-12px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    }
-    
-    handleBookClick(book, event) {
-        this.createRippleEffect(book, event);
-        
-        const productName = book.querySelector('.product-title')?.textContent || 'Product';
-        this.showProductFeedback(productName);
-        
-        // Click animation
-        book.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-            book.style.transform = '';
-        }, 150);
-        
-        this.trackProductBookClick(productName);
-    }
-    
-    setupPartnershipSealInteraction() {
-        const sealContent = this.partnershipSeal.querySelector('.seal-content');
-        
-        this.partnershipSeal.addEventListener('mouseenter', () => {
-            this.activatePartnershipGlow();
-        });
-        
-        this.partnershipSeal.addEventListener('click', () => {
-            this.handlePartnershipClick();
-        });
-    }
-    
-    activatePartnershipGlow() {
-        const sealContent = this.partnershipSeal.querySelector('.seal-content');
-        if (sealContent) {
-            sealContent.style.transform = 'translateY(-2px) scale(1.05)';
-            sealContent.style.boxShadow = '0 8px 24px rgba(255, 140, 0, 0.3)';
-        }
-    }
-    
-    handlePartnershipClick() {
-        const sealContent = this.partnershipSeal.querySelector('.seal-content');
-        
-        sealContent.style.transform = 'translateY(-4px) scale(1.02) rotate(2deg)';
-        
-        setTimeout(() => {
-            sealContent.style.transform = '';
-        }, 200);
-        
-        this.showPartnershipFeedback();
-        this.trackPartnershipClick();
-    }
-    
-    bindButtonEvents() {
-        // Discover buttons
-        this.discoverButtons.forEach(btn => {
+        // Learn more buttons
+        document.querySelectorAll('.learn-more-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                e.preventDefault();
                 e.stopPropagation();
-                this.handleDiscoverClick(btn);
+                const productId = btn.dataset.product;
+                this.openProductModal(productId);
             });
-            
-            btn.addEventListener('mouseenter', () => {
-                this.addButtonHoverEffect(btn);
+        });
+        
+        // Shop now buttons
+        document.querySelectorAll('.shop-now-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const url = btn.dataset.url;
+                this.handleShopNow(url, btn);
             });
+        });
+        
+        // Modal events
+        this.modalClose?.addEventListener('click', () => this.closeModal());
+        this.modal?.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+                this.closeModal();
+            }
+        });
+        
+        // Modal shop button
+        this.modalShopBtn?.addEventListener('click', () => {
+            if (this.currentProductUrl) {
+                this.handleShopNow(this.currentProductUrl, this.modalShopBtn);
+            }
         });
         
         // Catalog button
-        if (this.catalogButton) {
-            this.catalogButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleCatalogClick();
-            });
-            
-            this.catalogButton.addEventListener('mouseenter', () => {
-                this.addCatalogHoverEffect();
-            });
+        this.catalogBtn?.addEventListener('click', () => {
+            this.handleCatalogClick();
+        });
+        
+        // Touch events for mobile swipe
+        this.carousel?.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
+        this.carousel?.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => this.handleKeydown(e));
+        
+        // Window resize
+        window.addEventListener('resize', () => this.handleResize());
+        
+        // Pause autoplay on hover
+        this.section?.addEventListener('mouseenter', () => this.pauseAutoplay());
+        this.section?.addEventListener('mouseleave', () => this.resumeAutoplay());
+        
+        // Intersection Observer for performance
+        this.setupIntersectionObserver();
+    }
+    
+    prevSlide() {
+        if (this.isAnimating) return;
+        
+        this.currentSlide = this.currentSlide > 0 ? this.currentSlide - 1 : this.maxSlide;
+        this.updateCarousel();
+    }
+    
+    nextSlide() {
+        if (this.isAnimating) return;
+        
+        this.currentSlide = this.currentSlide < this.maxSlide ? this.currentSlide + 1 : 0;
+        this.updateCarousel();
+    }
+    
+    goToSlide(index) {
+        if (this.isAnimating || index === this.currentSlide) return;
+        
+        this.currentSlide = Math.max(0, Math.min(index, this.maxSlide));
+        this.updateCarousel();
+    }
+    
+    updateCarousel() {
+        if (!this.carousel) return;
+        
+        this.isAnimating = true;
+        
+        const translateX = -this.currentSlide * this.slideWidth;
+        this.carousel.style.transform = `translateX(${translateX}px)`;
+        
+        this.updateIndicators();
+        this.updateNavigation();
+        
+        // Reset animation flag
+        setTimeout(() => {
+            this.isAnimating = false;
+        }, 800);
+    }
+    
+    updateIndicators() {
+        const indicators = this.indicators?.querySelectorAll('.indicator');
+        indicators?.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === this.currentSlide);
+        });
+    }
+    
+    updateNavigation() {
+        if (this.prevBtn) {
+            this.prevBtn.disabled = this.currentSlide === 0;
+        }
+        if (this.nextBtn) {
+            this.nextBtn.disabled = this.currentSlide === this.maxSlide;
         }
     }
     
-    handleDiscoverClick(btn) {
-        const productBook = btn.closest('.product-book');
-        const productName = productBook.querySelector('.product-title')?.textContent || 'Product';
-        const productUrl = btn.getAttribute('data-url') || 'https://us.alumiermd.com/products?code=54T7P4HH';
+    setupAutoplay() {
+        this.autoplayInterval = setInterval(() => {
+            this.nextSlide();
+        }, this.autoplayDelay);
+    }
+    
+    pauseAutoplay() {
+        if (this.autoplayInterval) {
+            clearInterval(this.autoplayInterval);
+        }
+    }
+    
+    resumeAutoplay() {
+        this.pauseAutoplay();
+        this.setupAutoplay();
+    }
+    
+    handleTouchStart(e) {
+        this.touchStartX = e.touches[0].clientX;
+    }
+    
+    handleTouchEnd(e) {
+        this.touchEndX = e.changedTouches[0].clientX;
+        this.handleSwipe();
+    }
+    
+    handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = this.touchStartX - this.touchEndX;
         
-        // Button animation
-        btn.style.transform = 'translateY(-2px) scale(0.98)';
-        this.triggerButtonShimmer(btn);
-        
-        setTimeout(() => {
-            btn.style.transform = '';
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                this.nextSlide();
+            } else {
+                this.prevSlide();
+            }
+        }
+    }
+    
+    handleKeydown(e) {
+        if (!this.modal?.classList.contains('active')) {
+            switch (e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.prevSlide();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.nextSlide();
+                    break;
+            }
+        } else {
+            if (e.key === 'Escape') {
+                this.closeModal();
+            }
+        }
+    }
+    
+    handleResize() {
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            this.calculateDimensions();
+            this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
+            this.updateCarousel();
         }, 150);
+    }
+    
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.resumeAutoplay();
+                } else {
+                    this.pauseAutoplay();
+                }
+            });
+        }, { threshold: 0.3 });
         
-        this.showDiscoverFeedback(productName);
+        observer.observe(this.section);
+    }
+    
+    openProductModal(productId) {
+        const product = this.productData[productId];
+        if (!product) return;
         
+        this.currentProductUrl = product.url;
+        this.populateModalContent(product);
+        this.showModal();
+        this.trackProductModal(product.name);
+    }
+    
+    populateModalContent(product) {
+        if (!this.modalBody) return;
+        
+        this.modalBody.innerHTML = `
+            <div class="modal-product-header">
+                <div class="modal-product-image">
+                    <img src="${product.image}" alt="${product.name}" loading="lazy">
+                </div>
+                <div class="modal-product-info">
+                    <div class="modal-product-category">
+                        <i class="ri-star-line"></i>
+                        <span>${product.category}</span>
+                    </div>
+                    <h2 class="modal-product-name">${product.name}</h2>
+                    <div class="modal-product-rating">
+                        <div class="rating-stars">
+                            ${this.generateStars(product.rating)}
+                        </div>
+                        <span class="rating-text">${product.rating} (${product.reviews} reviews)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-product-content">
+                <div class="modal-section">
+                    <h3>Description</h3>
+                    <p>${product.detailedDescription}</p>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Key Features</h3>
+                    <ul class="features-list">
+                        ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Benefits</h3>
+                    <ul class="benefits-list">
+                        ${product.benefits.map(benefit => `<li>${benefit}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Key Ingredients</h3>
+                    <div class="ingredients-grid">
+                        ${product.keyIngredients.map(ingredient => `<span class="ingredient-tag">${ingredient}</span>`).join('')}
+                    </div>
+                </div>
+                
+                <div class="modal-section">
+                    <h3>Usage Instructions</h3>
+                    <p class="usage-text">${product.usage}</p>
+                </div>
+            </div>
+        `;
+        
+        // Add modal-specific styles
+        this.addModalStyles();
+    }
+    
+    addModalStyles() {
+        if (document.getElementById('modal-styles')) return;
+        
+        const styles = document.createElement('style');
+        styles.id = 'modal-styles';
+        styles.textContent = `
+            .modal-product-header {
+                display: flex;
+                gap: 20px;
+                margin-bottom: 24px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            
+            .modal-product-image {
+                flex: 0 0 120px;
+                height: 120px;
+                background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+            
+            .modal-product-image img {
+                width: 80%;
+                height: 80%;
+                object-fit: contain;
+            }
+            
+            .modal-product-info {
+                flex: 1;
+            }
+            
+            .modal-product-category {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                color: var(--hermes-orange);
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.6px;
+                margin-bottom: 8px;
+            }
+            
+            .modal-product-name {
+                font-family: var(--font-playfair);
+                font-size: 24px;
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 12px;
+                line-height: 1.3;
+            }
+            
+            .modal-product-rating {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .modal-section {
+                margin-bottom: 24px;
+            }
+            
+            .modal-section h3 {
+                font-family: var(--font-playfair);
+                font-size: 18px;
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 12px;
+            }
+            
+            .modal-section p {
+                color: var(--text-secondary);
+                line-height: 1.6;
+                margin: 0;
+            }
+            
+            .features-list,
+            .benefits-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .features-list li,
+            .benefits-list li {
+                padding: 8px 0;
+                color: var(--text-secondary);
+                position: relative;
+                padding-left: 20px;
+            }
+            
+            .features-list li::before,
+            .benefits-list li::before {
+                content: '✓';
+                position: absolute;
+                left: 0;
+                color: var(--hermes-orange);
+                font-weight: bold;
+            }
+            
+            .ingredients-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .ingredient-tag {
+                background: rgba(255, 140, 0, 0.1);
+                color: var(--hermes-orange);
+                padding: 6px 12px;
+                border-radius: 12px;
+                font-size: 12px;
+                font-weight: 500;
+                border: 1px solid rgba(255, 140, 0, 0.2);
+            }
+            
+            .usage-text {
+                background: rgba(248, 244, 236, 0.8);
+                padding: 16px;
+                border-radius: 12px;
+                color: var(--text-secondary);
+                line-height: 1.6;
+                border-left: 4px solid var(--hermes-orange);
+            }
+            
+            @media (max-width: 768px) {
+                .modal-product-header {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                
+                .modal-product-image {
+                    flex: none;
+                    width: 100px;
+                    height: 100px;
+                    margin: 0 auto;
+                }
+            }
+        `;
+        
+        document.head.appendChild(styles);
+    }
+    
+    generateStars(rating) {
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+        let starsHTML = '';
+        
+        for (let i = 0; i < fullStars; i++) {
+            starsHTML += '<i class="ri-star-fill"></i>';
+        }
+        
+        if (hasHalfStar) {
+            starsHTML += '<i class="ri-star-half-line"></i>';
+        }
+        
+        return starsHTML;
+    }
+    
+    showModal() {
+        this.modal?.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        this.pauseAutoplay();
+    }
+    
+    closeModal() {
+        this.modal?.classList.remove('active');
+        document.body.style.overflow = '';
+        this.currentProductUrl = '';
+        this.resumeAutoplay();
+    }
+    
+    handleShopNow(url, button) {
+        if (!url) return;
+        
+        // Visual feedback
+        this.addButtonFeedback(button);
+        
+        // Track click
+        this.trackShopNowClick(url);
+        
+        // Show loading feedback
+        this.showLoadingFeedback('Opening AlumierMD...');
+        
+        // Open URL after short delay for feedback
         setTimeout(() => {
-            window.open(productUrl, '_blank', 'noopener,noreferrer');
-        }, 400);
-        
-        this.trackDiscoverClick(productName);
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }, 600);
     }
     
     handleCatalogClick() {
-        this.catalogButton.style.transform = 'translateY(-6px) scale(0.98)';
-        this.triggerCatalogShimmer();
+        // Visual feedback
+        this.addButtonFeedback(this.catalogBtn);
         
-        setTimeout(() => {
-            this.catalogButton.style.transform = '';
-        }, 150);
+        // Track click
+        this.trackCatalogClick();
         
-        this.showCatalogFeedback();
+        // Show loading feedback
+        this.showLoadingFeedback('Opening full catalog...');
         
+        // Open catalog
         setTimeout(() => {
             window.open('https://us.alumiermd.com/products?code=54T7P4HH', '_blank', 'noopener,noreferrer');
-        }, 400);
-        
-        this.trackCatalogClick();
+        }, 600);
     }
     
-    activateBookGlowEffects(book) {
-        const imageGlow = book.querySelector('.image-glow');
+    addButtonFeedback(button) {
+        if (!button) return;
         
-        if (imageGlow) {
-            imageGlow.style.opacity = '1';
-        }
-    }
-    
-    triggerBadgeEffect(badge) {
-        badge.style.transform = 'scale(1.05) translateY(-2px) rotate(2deg)';
+        button.style.transform = 'translateY(-2px) scale(0.98)';
         
         setTimeout(() => {
-            badge.style.transform = '';
-        }, 300);
+            button.style.transform = '';
+        }, 200);
     }
     
-    triggerButtonShimmer(btn) {
-        const shimmer = document.createElement('div');
-        shimmer.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.8s ease;
-            pointer-events: none;
-            border-radius: inherit;
-        `;
-        
-        btn.style.position = 'relative';
-        btn.style.overflow = 'hidden';
-        btn.appendChild(shimmer);
-        
-        requestAnimationFrame(() => {
-            shimmer.style.left = '100%';
-        });
-        
-        setTimeout(() => {
-            if (shimmer.parentNode) {
-                shimmer.parentNode.removeChild(shimmer);
-            }
-        }, 800);
-    }
-    
-    triggerCatalogShimmer() {
-        const shimmer = this.catalogButton.querySelector('.btn-shine');
-        if (shimmer) {
-            shimmer.style.left = '-100%';
-            shimmer.style.transition = 'none';
-            shimmer.offsetHeight; // Force reflow
-            shimmer.style.transition = 'left 1.2s ease';
-            shimmer.style.left = '100%';
-        }
-    }
-    
-    addFeatureGlow(feature) {
-        feature.style.boxShadow = '0 4px 12px rgba(255, 140, 0, 0.15)';
-        
-        setTimeout(() => {
-            feature.style.boxShadow = '';
-        }, 1000);
-    }
-    
-    addButtonHoverEffect(btn) {
-        this.triggerButtonShimmer(btn);
-    }
-    
-    addCatalogHoverEffect() {
-        this.triggerCatalogShimmer();
-        
-        const footerIcon = this.footer.querySelector('.footer-icon');
-        if (footerIcon) {
-            footerIcon.style.transform = 'scale(1.08) rotate(5deg)';
-            setTimeout(() => {
-                footerIcon.style.transform = '';
-            }, 600);
-        }
-    }
-    
-    createRippleEffect(element, event) {
-        const ripple = document.createElement('div');
-        const rect = element.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = event.clientX - rect.left - size / 2;
-        const y = event.clientY - rect.top - size / 2;
-        
-        ripple.style.cssText = `
-            position: absolute;
-            left: ${x}px;
-            top: ${y}px;
-            width: ${size}px;
-            height: ${size}px;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, rgba(255, 140, 0, 0.1) 50%, transparent 100%);
-            border-radius: 50%;
-            transform: scale(0);
-            opacity: 1;
-            pointer-events: none;
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 1000;
-        `;
-        
-        element.style.position = 'relative';
-        element.style.overflow = 'hidden';
-        element.appendChild(ripple);
-        
-        requestAnimationFrame(() => {
-            ripple.style.transform = 'scale(3)';
-            ripple.style.opacity = '0';
-        });
-        
-        setTimeout(() => {
-            if (ripple.parentNode) {
-                ripple.parentNode.removeChild(ripple);
-            }
-        }, 800);
-    }
-    
-    showProductFeedback(productName) {
-        this.showFeedback(
-            `Viewing ${productName}`,
-            'rgba(139, 92, 246, 0.95)',
-            'ri-eye-line'
-        );
-    }
-    
-    showDiscoverFeedback(productName) {
-        this.showFeedback(
-            `Opening ${productName} details...`,
-            'rgba(255, 140, 0, 0.95)',
-            'ri-external-link-line'
-        );
-    }
-    
-    showCatalogFeedback() {
-        this.showFeedback(
-            'Opening AlumierMD catalog...',
-            'rgba(16, 185, 129, 0.95)',
-            'ri-shopping-bag-line'
-        );
-    }
-    
-    showPartnershipFeedback() {
-        this.showFeedback(
-            'Exclusive AlumierMD Partnership',
-            'rgba(255, 140, 0, 0.95)',
-            'ri-award-line'
-        );
-    }
-    
-    showFeedback(message, backgroundColor, iconClass, duration = 2500) {
+    showLoadingFeedback(message) {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: ${backgroundColor};
+            background: rgba(255, 140, 0, 0.95);
             color: white;
-            padding: 24px 36px;
-            border-radius: 28px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 16px;
+            padding: 20px 32px;
+            border-radius: 24px;
+            font-family: var(--font-inter);
+            font-size: 14px;
             font-weight: 600;
-            z-index: 10000;
-            pointer-events: none;
-            opacity: 0;
-            backdrop-filter: blur(40px);
-            box-shadow: 
-                0 24px 80px rgba(0, 0, 0, 0.15),
-                0 12px 40px ${backgroundColor.replace('0.95', '0.3')};
+            z-index: 10001;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
-            gap: 16px;
-            max-width: 400px;
-            text-align: center;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            min-width: 320px;
-            justify-content: center;
+            gap: 12px;
+            opacity: 0;
+            transition: all 0.6s ease;
         `;
         
         feedback.innerHTML = `
-            <i class="${iconClass}" style="font-size: 20px;"></i>
+            <i class="ri-loader-4-line" style="font-size: 16px; animation: spin 1s linear infinite;"></i>
             <span>${message}</span>
         `;
+        
+        // Add spinner animation
+        const spinStyle = document.createElement('style');
+        spinStyle.textContent = `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(spinStyle);
         
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
@@ -3860,485 +3881,93 @@ class HermesProductsCollection {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
-            }, 800);
-        }, duration);
+                if (spinStyle.parentNode) {
+                    spinStyle.parentNode.removeChild(spinStyle);
+                }
+            }, 600);
+        }, 2000);
     }
     
-    setupPerformanceOptimizations() {
-        const animatedElements = this.section.querySelectorAll(
-            '.product-book, .product-image, .image-glow, .discover-btn'
-        );
-        
-        animatedElements.forEach(element => {
-            element.style.willChange = 'transform, box-shadow, opacity';
-            element.style.backfaceVisibility = 'hidden';
-            element.style.transform = 'translateZ(0)';
-        });
-    }
-    
-    enableBookAnimations(book) {
-        book.style.willChange = 'transform, box-shadow';
-    }
-    
-    disableBookAnimations(book) {
-        book.style.willChange = 'auto';
-    }
-    
-    initializeAnimations() {
-        // Prepare header for animation
-        if (this.header) {
-            const seal = this.header.querySelector('.partnership-seal');
-            const title = this.header.querySelector('.collection-title');
-            const subtitle = this.header.querySelector('.collection-subtitle');
-            
-            if (seal) {
-                seal.style.opacity = '0';
-                seal.style.transform = 'translateY(40px) scale(0.9)';
-                seal.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            }
-            
-            if (title) {
-                title.style.opacity = '0';
-                title.style.transform = 'translateY(60px)';
-                title.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            }
-            
-            if (subtitle) {
-                subtitle.style.opacity = '0';
-                subtitle.style.transform = 'translateY(40px)';
-                subtitle.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            }
-        }
-        
-        // Prepare product books for animation
-        this.productBooks.forEach((book, index) => {
-            this.prepareBookForAnimation(book, index);
-        });
-        
-        // Prepare footer for animation
-        if (this.footer) {
-            this.prepareFooterForAnimation();
-        }
-    }
-    
-    prepareBookForAnimation(book, index) {
-        book.style.opacity = '0';
-        book.style.transform = 'translateY(80px)';
-        book.style.transition = `all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
-        
-        const display = book.querySelector('.product-display');
-        const details = book.querySelector('.product-details');
-        const button = book.querySelector('.discover-btn');
-        
-        if (display) {
-            display.style.opacity = '0';
-            display.style.transform = 'translateY(40px)';
-            display.style.transition = 'all 0.6s ease';
-        }
-        
-        if (details) {
-            Array.from(details.children).forEach((element, childIndex) => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(20px)';
-                element.style.transition = `all 0.5s ease ${childIndex * 0.1}s`;
-            });
-        }
-        
-        if (button) {
-            button.style.opacity = '0';
-            button.style.transform = 'translateY(20px)';
-            button.style.transition = 'all 0.6s ease';
-        }
-    }
-    
-    prepareFooterForAnimation() {
-        const content = this.footer.querySelector('.footer-content');
-        if (content) {
-            Array.from(content.children).forEach((element, index) => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(40px)';
-                element.style.transition = `all 0.6s ease ${index * 0.1}s`;
-            });
-        }
-    }
-    
-    startAmbientAnimations() {
-        const floatingElements = this.section.querySelectorAll('.floating-element');
-        
-        floatingElements.forEach(element => {
-            element.style.animationPlayState = 'running';
-        });
-    }
-    
-    onSectionVisible() {
-        this.startAmbientAnimations();
-    }
-    
-    trackProductBookClick(productName) {
+    trackProductModal(productName) {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'hermes_product_book_click', {
+            gtag('event', 'product_modal_open', {
                 event_category: 'products',
                 event_label: productName,
                 value: 1
             });
         }
         
-        console.log(`📊 Product book clicked: ${productName}`);
+        console.log(`📊 Product modal opened: ${productName}`);
     }
     
-    trackDiscoverClick(productName) {
+    trackShopNowClick(url) {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'hermes_discover_click', {
+            gtag('event', 'shop_now_click', {
                 event_category: 'products',
-                event_label: productName,
+                event_label: 'alumiermd_product',
                 value: 1
             });
         }
         
-        console.log(`📊 Discover button clicked: ${productName}`);
+        console.log(`📊 Shop now clicked: ${url}`);
     }
     
     trackCatalogClick() {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'hermes_catalog_view', {
+            gtag('event', 'catalog_view', {
                 event_category: 'products',
                 event_label: 'alumiermd_full_catalog',
                 value: 1
             });
         }
         
-        console.log('📊 Catalog opened');
+        console.log('📊 Catalog clicked');
     }
     
-    trackPartnershipClick() {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'hermes_partnership_click', {
-                event_category: 'engagement',
-                event_label: 'alumiermd_partnership',
-                value: 1
-            });
-        }
+    destroy() {
+        // Clean up event listeners and intervals
+        this.pauseAutoplay();
         
-        console.log('📊 Partnership seal clicked');
-    }
-    
-    
-    setupCarousel() {
-        if (!this.carouselNav) return;
+        // Remove event listeners
+        this.prevBtn?.removeEventListener('click', this.prevSlide);
+        this.nextBtn?.removeEventListener('click', this.nextSlide);
         
-        // Bind carousel navigation
-        if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', () => this.previousSlide());
-        }
-        
-        if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', () => this.nextSlide());
-        }
-        
-        // Bind dot navigation
-        this.dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => this.goToSlide(index));
-        });
-        
-        // Touch events for swipe
-        if (this.galleryContainer) {
-            this.setupTouchEvents();
-        }
-        
-        // Update carousel on resize
-        window.addEventListener('resize', () => {
+        // Clear timeouts
+        if (this.resizeTimeout) {
             clearTimeout(this.resizeTimeout);
-            this.resizeTimeout = setTimeout(() => {
-                this.checkCarouselMode();
-                this.updateCarouselButtons();
-            }, 250);
-        });
-    }
-    
-    setupTouchEvents() {
-        this.galleryContainer.addEventListener('touchstart', (e) => {
-            if (!this.isCarouselMode) return;
-            this.touchStartX = e.touches[0].clientX;
-            this.isDragging = true;
-        }, { passive: true });
-        
-        this.galleryContainer.addEventListener('touchmove', (e) => {
-            if (!this.isCarouselMode || !this.isDragging) return;
-            e.preventDefault();
-        }, { passive: false });
-        
-        this.galleryContainer.addEventListener('touchend', (e) => {
-            if (!this.isCarouselMode || !this.isDragging) return;
-            
-            this.touchEndX = e.changedTouches[0].clientX;
-            this.handleSwipe();
-            this.isDragging = false;
-        }, { passive: true });
-        
-        // Mouse events for desktop testing
-        this.galleryContainer.addEventListener('mousedown', (e) => {
-            if (!this.isCarouselMode) return;
-            this.touchStartX = e.clientX;
-            this.isDragging = true;
-            e.preventDefault();
-        });
-        
-        this.galleryContainer.addEventListener('mouseup', (e) => {
-            if (!this.isCarouselMode || !this.isDragging) return;
-            this.touchEndX = e.clientX;
-            this.handleSwipe();
-            this.isDragging = false;
-        });
-    }
-    
-    handleSwipe() {
-        const swipeThreshold = 50;
-        const swipeDistance = this.touchStartX - this.touchEndX;
-        
-        if (Math.abs(swipeDistance) > swipeThreshold) {
-            if (swipeDistance > 0) {
-                this.nextSlide();
-            } else {
-                this.previousSlide();
-            }
-        }
-    }
-    
-    checkCarouselMode() {
-        const isMobile = window.innerWidth <= 768;
-        this.isCarouselMode = isMobile;
-        
-        if (this.carouselNav) {
-            this.carouselNav.style.display = isMobile ? 'flex' : 'none';
         }
         
-        if (isMobile) {
-            this.updateCarouselPosition();
-        } else {
-            // Reset desktop layout
-            if (this.galleryContainer) {
-                this.galleryContainer.style.transform = 'translateX(0)';
-            }
-        }
-        
-        this.updateCarouselButtons();
-    }
-    
-    nextSlide() {
-        if (!this.isCarouselMode) return;
-        
-        if (this.currentSlide < this.totalSlides - 1) {
-            this.currentSlide++;
-        } else {
-            this.currentSlide = 0; // Loop back to first
-        }
-        
-        this.updateCarouselPosition();
-        this.updateCarouselButtons();
-        this.updateDots();
-        this.trackCarouselNavigation('next');
-    }
-    
-    previousSlide() {
-        if (!this.isCarouselMode) return;
-        
-        if (this.currentSlide > 0) {
-            this.currentSlide--;
-        } else {
-            this.currentSlide = this.totalSlides - 1; // Loop to last
-        }
-        
-        this.updateCarouselPosition();
-        this.updateCarouselButtons();
-        this.updateDots();
-        this.trackCarouselNavigation('previous');
-    }
-    
-    goToSlide(slideIndex) {
-        if (!this.isCarouselMode || slideIndex === this.currentSlide) return;
-        
-        this.currentSlide = slideIndex;
-        this.updateCarouselPosition();
-        this.updateCarouselButtons();
-        this.updateDots();
-        this.trackCarouselNavigation('dot', slideIndex);
-    }
-    
-    updateCarouselPosition() {
-        if (!this.galleryContainer || !this.isCarouselMode) return;
-        
-        const slideWidth = this.getSlideWidth();
-        const offset = -this.currentSlide * slideWidth;
-        
-        this.galleryContainer.style.transform = `translateX(${offset}px)`;
-    }
-    
-    getSlideWidth() {
-        if (!this.productBooks.length) return 0;
-        
-        const book = this.productBooks[0];
-        const bookRect = book.getBoundingClientRect();
-        const gap = 16; // var(--space-lg) in pixels
-        
-        return bookRect.width + gap;
-    }
-    
-    updateCarouselButtons() {
-        if (!this.prevBtn || !this.nextBtn || !this.isCarouselMode) return;
-        
-        // For infinite loop, always enable buttons
-        this.prevBtn.disabled = false;
-        this.nextBtn.disabled = false;
-        
-        // Add visual feedback for current position
-        this.prevBtn.style.opacity = '1';
-        this.nextBtn.style.opacity = '1';
-    }
-    
-    updateDots() {
-        if (!this.dots.length) return;
-        
-        this.dots.forEach((dot, index) => {
-            if (index === this.currentSlide) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    }
-    
-    trackCarouselNavigation(action, slideIndex = null) {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'hermes_carousel_navigation', {
-                event_category: 'products',
-                event_label: action,
-                value: slideIndex !== null ? slideIndex : this.currentSlide
-            });
-        }
-        
-        console.log(`📊 Carousel navigation: ${action}, slide: ${slideIndex !== null ? slideIndex : this.currentSlide}`);
-    }
-
-    isMobile() {
-        return window.innerWidth <= 768 || 
-               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
-    
-    onResize() {
-        this.checkCarouselMode();
-        
-        if (this.isMobile()) {
-            this.optimizeForMobile();
-        } else {
-            this.optimizeForDesktop();
-        }
-    }
-    
-    optimizeForMobile() {
-        this.productBooks.forEach(book => {
-            book.style.willChange = 'auto';
-            book.removeEventListener('mousemove', this.handleBookTilt);
-        });
-    }
-    
-    optimizeForDesktop() {
-        this.productBooks.forEach(book => {
-            book.style.willChange = 'transform, box-shadow';
-            this.setupBookTiltEffect(book);
-        });
-    }
-    
-    pause() {
-        const floatingElements = this.section.querySelectorAll('.floating-element');
-        
-        floatingElements.forEach(element => {
-            element.style.animationPlayState = 'paused';
-        });
-    }
-    
-    play() {
-        const floatingElements = this.section.querySelectorAll('.floating-element');
-        
-        floatingElements.forEach(element => {
-            element.style.animationPlayState = 'running';
-        });
+        console.log('🗑️ Hermès Products Carousel destroyed');
     }
     
     refresh() {
         this.destroy();
         this.init();
     }
-    
-    destroy() {
-        this.observers.forEach(observer => {
-            observer.disconnect();
-        });
-        this.observers.clear();
-        
-        // Clean up carousel event listeners
-        if (this.prevBtn) {
-            this.prevBtn.replaceWith(this.prevBtn.cloneNode(true));
-        }
-        if (this.nextBtn) {
-            this.nextBtn.replaceWith(this.nextBtn.cloneNode(true));
-        }
-        
-        this.dots.forEach(dot => {
-            dot.replaceWith(dot.cloneNode(true));
-        });
-        
-        if (this.galleryContainer) {
-            this.galleryContainer.replaceWith(this.galleryContainer.cloneNode(true));
-        }
-        
-        this.productBooks.forEach(book => {
-            book.replaceWith(book.cloneNode(true));
-        });
-        
-        if (this.catalogButton) {
-            this.catalogButton.replaceWith(this.catalogButton.cloneNode(true));
-        }
-        
-        // Clear resize timeout
-        if (this.resizeTimeout) {
-            clearTimeout(this.resizeTimeout);
-        }
-        
-        this.isInitialized = false;
-        
-        console.log('🗑️ Hermès Products Collection destroyed');
-    }
 }
 
-// Auto-initialize when DOM is ready
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    const hermesProducts = new HermesProductsCollection();
+    const hermesCarousel = new HermesProductsCarousel();
     
-    // Handle window resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            hermesProducts.onResize();
-        }, 250);
-    });
-    
-    // Handle visibility change
-    document.addEventListener('visibilitychange', () => {
+    // Make it globally accessible for debugging
+    window.hermesCarousel = hermesCarousel;
+});
+
+// Handle page visibility changes to pause/resume autoplay
+document.addEventListener('visibilitychange', () => {
+    if (window.hermesCarousel) {
         if (document.hidden) {
-            hermesProducts.pause();
+            window.hermesCarousel.pauseAutoplay();
         } else {
-            hermesProducts.play();
+            window.hermesCarousel.resumeAutoplay();
         }
-    });
-    
-    // Expose to global scope for external control
-    window.HermesProductsCollection = hermesProducts;
+    }
 });
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = HermesProductsCollection;
+    module.exports = HermesProductsCarousel;
 }
 
 /* ========================================
