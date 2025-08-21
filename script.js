@@ -136,7 +136,7 @@ class EviaLuxuryApp {
             { name: 'about', class: HermesAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'instagramReviews', class: RedesignedSocialSections },
-            { name: 'LuxuryProductsSection', class: HermesProductsCollection },
+            { name: 'LuxuryProductsSection', class: HermesProductsCarousel },
             { name: 'contactSection', class: HermesLuxuryContactSection },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
@@ -5754,7 +5754,7 @@ if (typeof module !== 'undefined' && module.exports) {
         HermesAboutSection,
         ModernTransformationsGallery,
         RedesignedSocialSections,
-        HermesProductsCollection,
+        HermesProductsCarousel,
         HermesLuxuryContactSection,
         LuxuryFloatingButtons,
         CinematicHero,
