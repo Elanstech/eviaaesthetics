@@ -134,7 +134,7 @@ class EviaLuxuryApp {
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
             { name: 'about', class: HermesAboutSection },
-            { name: 'transformationsGallery', class: ModernTransformationsGallery },
+            { name: 'resultsGallery', class: ResultsShowcaseGallery },
             { name: 'instagramReviews', class: RedesignedSocialSections },
             { name: 'LuxuryProductsSection', class: EnhancedProductsCarousel },
             { name: 'contactSection', class: HermesLuxuryContactSection },
@@ -2602,17 +2602,18 @@ class HermesAboutSection {
 }
 
 /* ========================================
-   TRANSFORMATIONS SECTION
+   RESULTS SHOWCASE SECTION - FIXED VERSION
    ======================================== */
 
-class ModernTransformationsGallery {
+class ResultsShowcaseGallery {
     constructor() {
-        this.gallery = document.querySelector('.modern-transformations-section');
-        this.filterButtons = document.querySelectorAll('.filter-btn');
-        this.resultItems = document.querySelectorAll('.result-item');
-        this.comparisonContainers = document.querySelectorAll('.comparison-container');
-        this.ctaButton = document.getElementById('modernResultsCTA');
+        this.gallery = document.querySelector('.results-showcase');
+        this.filterButtons = document.querySelectorAll('.results-showcase__filter');
+        this.resultItems = document.querySelectorAll('.results-showcase__item');
+        this.comparisonContainers = document.querySelectorAll('.results-showcase__comparison');
+        this.ctaButton = document.getElementById('resultsCtaBtn');
         this.activeFilter = 'all';
+        this.isInitialized = false;
 
         if (this.gallery) {
             this.init();
@@ -2620,10 +2621,20 @@ class ModernTransformationsGallery {
     }
 
     init() {
-        this.initImageComparisons();
-        this.initFilterSystem();
-        this.initCTAButton();
-        this.initIntersectionObserver();
+        if (this.isInitialized) return;
+        
+        try {
+            this.initImageComparisons();
+            this.initFilterSystem();
+            this.initCTAButton();
+            this.initIntersectionObserver();
+            this.initResponsiveHandling();
+            
+            this.isInitialized = true;
+            console.log('✨ Results Showcase Gallery initialized successfully');
+        } catch (error) {
+            console.error('❌ Error initializing Results Showcase:', error);
+        }
     }
 
     initImageComparisons() {
@@ -2633,15 +2644,22 @@ class ModernTransformationsGallery {
     }
 
     setupImageComparison(container) {
-        const afterImage = container.querySelector('.after-image');
-        const sliderHandle = container.querySelector('.slider-handle');
+        const afterImage = container.querySelector('.results-showcase__image--after');
+        const sliderHandle = container.querySelector('.results-showcase__slider-handle');
+        const slider = container.querySelector('.results-showcase__slider');
+        
+        if (!afterImage || !sliderHandle || !slider) {
+            console.warn('Missing comparison elements in container:', container);
+            return;
+        }
+
         let isDragging = false;
-        let currentPosition = 50;
+        let currentPosition = 50; // Start at 50%
 
-        if (!afterImage || !sliderHandle) return;
+        // Initialize the comparison
+        this.updateImageReveal(afterImage, slider, currentPosition);
 
-        this.updateImageReveal(afterImage, sliderHandle, currentPosition);
-
+        // Mouse events
         sliderHandle.addEventListener('mousedown', (e) => {
             isDragging = true;
             e.preventDefault();
@@ -2654,7 +2672,7 @@ class ModernTransformationsGallery {
                 const x = e.clientX - rect.left;
                 const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
                 currentPosition = percentage;
-                this.updateImageReveal(afterImage, sliderHandle, percentage);
+                this.updateImageReveal(afterImage, slider, percentage);
             };
 
             const handleMouseUp = () => {
@@ -2669,6 +2687,7 @@ class ModernTransformationsGallery {
             document.addEventListener('mouseup', handleMouseUp);
         });
 
+        // Touch events for mobile
         sliderHandle.addEventListener('touchstart', (e) => {
             isDragging = true;
             e.preventDefault();
@@ -2679,7 +2698,7 @@ class ModernTransformationsGallery {
                 const x = e.touches[0].clientX - rect.left;
                 const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
                 currentPosition = percentage;
-                this.updateImageReveal(afterImage, sliderHandle, percentage);
+                this.updateImageReveal(afterImage, slider, percentage);
             };
 
             const handleTouchEnd = () => {
@@ -2692,40 +2711,46 @@ class ModernTransformationsGallery {
             document.addEventListener('touchend', handleTouchEnd);
         });
 
-        if (!EviaUtils.isMobile()) {
-            container.addEventListener('mouseenter', () => {
-                if (!isDragging) {
-                    this.startAutoDemo(afterImage, sliderHandle, currentPosition);
-                }
-            });
-
-            container.addEventListener('mouseleave', () => {
-                if (!isDragging) {
-                    this.resetToCenter(afterImage, sliderHandle);
-                    currentPosition = 50;
-                }
-            });
-        }
-
+        // Click anywhere on comparison to move slider
         container.addEventListener('click', (e) => {
-            if (e.target.closest('.slider-handle')) return;
+            if (e.target.closest('.results-showcase__slider-handle')) return;
             
             const rect = container.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
             currentPosition = percentage;
             
-            this.animateImageReveal(afterImage, sliderHandle, percentage);
+            this.animateImageReveal(afterImage, slider, percentage);
         });
+
+        // Desktop hover effects
+        if (!this.isMobile()) {
+            container.addEventListener('mouseenter', () => {
+                if (!isDragging) {
+                    this.startAutoDemo(afterImage, slider, currentPosition);
+                }
+            });
+
+            container.addEventListener('mouseleave', () => {
+                if (!isDragging) {
+                    this.resetToCenter(afterImage, slider);
+                    currentPosition = 50;
+                }
+            });
+        }
     }
 
-    updateImageReveal(afterImage, sliderHandle, percentage) {
-        afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-        sliderHandle.parentElement.style.left = `${percentage}%`;
+    updateImageReveal(afterImage, slider, percentage) {
+        if (afterImage) {
+            afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        }
+        if (slider) {
+            slider.style.left = `${percentage}%`;
+        }
     }
 
-    animateImageReveal(afterImage, sliderHandle, targetPercentage) {
-        const currentPercentage = parseFloat(sliderHandle.parentElement.style.left) || 50;
+    animateImageReveal(afterImage, slider, targetPercentage) {
+        const currentPercentage = parseFloat(slider.style.left) || 50;
         const duration = 600;
         const startTime = performance.now();
 
@@ -2735,7 +2760,7 @@ class ModernTransformationsGallery {
             const easedProgress = this.easeInOutCubic(progress);
             const currentValue = currentPercentage + (targetPercentage - currentPercentage) * easedProgress;
 
-            this.updateImageReveal(afterImage, sliderHandle, currentValue);
+            this.updateImageReveal(afterImage, slider, currentValue);
 
             if (progress < 1) {
                 requestAnimationFrame(animate);
@@ -2745,13 +2770,13 @@ class ModernTransformationsGallery {
         requestAnimationFrame(animate);
     }
 
-    startAutoDemo(afterImage, sliderHandle, currentPosition) {
+    startAutoDemo(afterImage, slider, currentPosition) {
         const targetPosition = currentPosition > 50 ? 20 : 80;
-        this.animateImageReveal(afterImage, sliderHandle, targetPosition);
+        this.animateImageReveal(afterImage, slider, targetPosition);
     }
 
-    resetToCenter(afterImage, sliderHandle) {
-        this.animateImageReveal(afterImage, sliderHandle, 50);
+    resetToCenter(afterImage, slider) {
+        this.animateImageReveal(afterImage, slider, 50);
     }
 
     easeInOutCubic(t) {
@@ -2764,6 +2789,7 @@ class ModernTransformationsGallery {
                 const filter = button.getAttribute('data-filter');
                 this.setActiveFilter(filter);
                 this.filterResults(filter);
+                this.trackFilterClick(filter);
             });
         });
     }
@@ -2772,12 +2798,12 @@ class ModernTransformationsGallery {
         this.activeFilter = filter;
         
         this.filterButtons.forEach(btn => {
-            btn.classList.remove('active');
+            btn.classList.remove('results-showcase__filter--active');
         });
 
         const activeButton = document.querySelector(`[data-filter="${filter}"]`);
         if (activeButton) {
-            activeButton.classList.add('active');
+            activeButton.classList.add('results-showcase__filter--active');
         }
     }
 
@@ -2787,55 +2813,119 @@ class ModernTransformationsGallery {
             const shouldShow = filter === 'all' || category === filter;
 
             if (shouldShow) {
+                // Show with staggered animation
                 setTimeout(() => {
-                    item.classList.remove('filtered-out');
-                }, index * 50);
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                    item.style.pointerEvents = 'auto';
+                    item.setAttribute('data-hidden', 'false');
+                }, index * 100);
             } else {
-                item.classList.add('filtered-out');
+                // Hide immediately
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.pointerEvents = 'none';
+                item.setAttribute('data-hidden', 'true');
             }
         });
 
+        // Update grid layout after filtering
         setTimeout(() => {
             this.updateGridLayout();
-        }, 300);
+        }, 500);
     }
 
     updateGridLayout() {
         const visibleItems = Array.from(this.resultItems).filter(item => 
-            !item.classList.contains('filtered-out')
+            item.getAttribute('data-hidden') !== 'true'
         );
 
+        // Add staggered reveal animation to visible items
         visibleItems.forEach((item, index) => {
-            item.style.transitionDelay = `${index * 100}ms`;
+            item.style.transitionDelay = `${index * 50}ms`;
         });
 
+        // Reset transition delays after animation
         setTimeout(() => {
             visibleItems.forEach(item => {
                 item.style.transitionDelay = '';
             });
-        }, visibleItems.length * 100 + 500);
+        }, visibleItems.length * 50 + 500);
     }
 
     initCTAButton() {
         if (this.ctaButton) {
-            this.ctaButton.addEventListener('click', () => {
+            this.ctaButton.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.handleCTAClick();
+            });
+
+            this.ctaButton.addEventListener('mouseenter', () => {
+                this.addButtonShine(this.ctaButton);
             });
         }
     }
 
     handleCTAClick() {
+        // Add click feedback
         this.ctaButton.style.transform = 'translateY(-2px) scale(0.98)';
         
         setTimeout(() => {
             this.ctaButton.style.transform = '';
         }, 150);
 
-        setTimeout(() => {
-            app.smoothScrollTo('#contact');
-        }, 200);
-
+        // Show booking feedback
         this.showBookingFeedback();
+
+        // Scroll to contact section
+        setTimeout(() => {
+            this.scrollToContact();
+        }, 300);
+
+        // Track the event
+        this.trackEvent('results_cta_click', 'results', 'consultation_booking');
+    }
+
+    scrollToContact() {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+
+    addButtonShine(button) {
+        if (this.isMobile()) return;
+        
+        const shine = document.createElement('div');
+        shine.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+            border-radius: inherit;
+            z-index: 1;
+        `;
+        
+        button.style.position = 'relative';
+        button.style.overflow = 'hidden';
+        button.appendChild(shine);
+        
+        requestAnimationFrame(() => {
+            shine.style.left = '100%';
+        });
+        
+        setTimeout(() => {
+            if (shine.parentNode) {
+                shine.parentNode.removeChild(shine);
+            }
+        }, 600);
     }
 
     showBookingFeedback() {
@@ -2845,32 +2935,37 @@ class ModernTransformationsGallery {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 107, 0, 0.95);
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
             color: white;
-            padding: 16px 24px;
-            border-radius: 20px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
+            padding: 20px 32px;
+            border-radius: 24px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
             font-weight: 600;
             z-index: 10000;
             pointer-events: none;
             opacity: 0;
             backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(255, 107, 0, 0.4);
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            max-width: 350px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            min-width: 280px;
+            justify-content: center;
         `;
         
         feedback.innerHTML = `
-            <i class="ri-calendar-check-line" style="font-size: 16px;"></i>
+            <i class="ri-calendar-check-line" style="font-size: 18px;"></i>
             <span>Redirecting to consultation booking...</span>
         `;
         
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
@@ -2883,7 +2978,7 @@ class ModernTransformationsGallery {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
-            }, 400);
+            }, 600);
         }, 2500);
     }
 
@@ -2898,14 +2993,15 @@ class ModernTransformationsGallery {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate-in');
                     
-                    if (entry.target.classList.contains('results-grid')) {
-                        const items = entry.target.querySelectorAll('.result-item');
-                        items.forEach((item, index) => {
-                            setTimeout(() => {
-                                item.style.opacity = '1';
-                                item.style.transform = 'translateY(0)';
-                            }, index * 100);
-                        });
+                    // Special handling for different elements
+                    if (entry.target.classList.contains('results-showcase__header')) {
+                        this.animateHeader(entry.target);
+                    } else if (entry.target.classList.contains('results-showcase__filters')) {
+                        this.animateFilters(entry.target);
+                    } else if (entry.target.classList.contains('results-showcase__grid')) {
+                        this.animateGrid(entry.target);
+                    } else if (entry.target.classList.contains('results-showcase__cta')) {
+                        this.animateCTA(entry.target);
                     }
                     
                     observer.unobserve(entry.target);
@@ -2913,11 +3009,12 @@ class ModernTransformationsGallery {
             });
         }, observerOptions);
 
+        // Observe main sections
         const elementsToObserve = [
-            this.gallery.querySelector('.transformations-header'),
-            this.gallery.querySelector('.filter-navigation'),
-            this.gallery.querySelector('.results-grid'),
-            this.gallery.querySelector('.modern-cta')
+            this.gallery.querySelector('.results-showcase__header'),
+            this.gallery.querySelector('.results-showcase__filters'),
+            this.gallery.querySelector('.results-showcase__grid'),
+            this.gallery.querySelector('.results-showcase__cta')
         ].filter(Boolean);
 
         elementsToObserve.forEach(element => {
@@ -2925,15 +3022,145 @@ class ModernTransformationsGallery {
         });
     }
 
-    onResize() {
+    animateHeader(header) {
+        const elements = header.querySelectorAll('.results-showcase__badge, .results-showcase__title, .results-showcase__subtitle');
+        elements.forEach((element, index) => {
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+    }
+
+    animateFilters(filters) {
+        const filterButtons = filters.querySelectorAll('.results-showcase__filter');
+        filterButtons.forEach((button, index) => {
+            setTimeout(() => {
+                button.style.opacity = '1';
+                button.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    }
+
+    animateGrid(grid) {
+        const items = grid.querySelectorAll('.results-showcase__item');
+        items.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, index * 150);
+        });
+    }
+
+    animateCTA(cta) {
+        const elements = cta.querySelectorAll('.results-showcase__cta-title, .results-showcase__cta-text, .results-showcase__cta-button');
+        elements.forEach((element, index) => {
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+    }
+
+    initResponsiveHandling() {
+        this.handleResize();
+        window.addEventListener('resize', this.debounce(() => {
+            this.handleResize();
+        }, 250));
+    }
+
+    handleResize() {
+        // Re-initialize comparison sliders on resize
         this.comparisonContainers.forEach(container => {
-            const afterImage = container.querySelector('.after-image');
-            const sliderHandle = container.querySelector('.slider-handle');
-            if (afterImage && sliderHandle) {
-                this.updateImageReveal(afterImage, sliderHandle, 50);
+            const afterImage = container.querySelector('.results-showcase__image--after');
+            const slider = container.querySelector('.results-showcase__slider');
+            if (afterImage && slider) {
+                this.updateImageReveal(afterImage, slider, 50);
             }
         });
     }
+
+    // Utility methods
+    isMobile() {
+        return window.innerWidth <= 768 || 
+               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    trackEvent(action, category, label) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                event_category: category,
+                event_label: label,
+                value: 1
+            });
+        }
+        
+        console.log(`📊 Results Event: ${action} - ${category} - ${label}`);
+    }
+
+    trackFilterClick(filter) {
+        this.trackEvent('filter_click', 'results', filter);
+    }
+
+    // Public API methods
+    refresh() {
+        this.isInitialized = false;
+        this.init();
+    }
+
+    getActiveFilter() {
+        return this.activeFilter;
+    }
+
+    setFilter(filter) {
+        this.setActiveFilter(filter);
+        this.filterResults(filter);
+    }
+
+    destroy() {
+        // Clean up event listeners
+        this.filterButtons.forEach(button => {
+            button.replaceWith(button.cloneNode(true));
+        });
+
+        if (this.ctaButton) {
+            this.ctaButton.replaceWith(this.ctaButton.cloneNode(true));
+        }
+
+        this.comparisonContainers.forEach(container => {
+            container.replaceWith(container.cloneNode(true));
+        });
+
+        window.removeEventListener('resize', this.handleResize);
+        
+        this.isInitialized = false;
+        console.log('🗑️ Results Showcase Gallery destroyed');
+    }
+}
+
+// Initialize the Results Showcase when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    const resultsGallery = new ResultsShowcaseGallery();
+    
+    // Make it globally accessible
+    window.resultsGallery = resultsGallery;
+});
+
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = ResultsShowcaseGallery;
 }
 
 /* ========================================
@@ -6251,7 +6478,7 @@ if (typeof module !== 'undefined' && module.exports) {
         EviaUtils, 
         EnhancedServicesCarousel,
         HermesAboutSection,
-        ModernTransformationsGallery,
+        ResultsShowcaseGallery,
         RedesignedSocialSections,
         EnhancedProductsCarousel,
         HermesLuxuryContactSection,
