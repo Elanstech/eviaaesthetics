@@ -2160,8 +2160,8 @@ body.menu-open {
         text-overflow: ellipsis;
     }
     
-    .hero-scroll-indicator-elegant {
-        bottom: clamp(2.8rem, 7vh, 4.5rem);
+   hero-scroll-indicator-elegant {
+        bottom: clamp(1.5rem, 4vh, 2.5rem);
     }
     
     .hero-scroll-icon {
@@ -2248,7 +2248,7 @@ body.menu-open {
     }
     
     .hero-scroll-indicator-elegant {
-        bottom: clamp(2.5rem, 6vh, 4rem);
+        bottom: clamp(1.8rem, 4.5vh, 3rem);
     }
     
     .hero-scroll-icon {
@@ -2296,7 +2296,7 @@ body.menu-open {
     }
     
     .hero-scroll-indicator-elegant {
-        bottom: clamp(1.5rem, 4vh, 2.5rem);
+        bottom: clamp(1rem, 3vh, 2rem);
     }
 }
 
@@ -2339,6 +2339,11 @@ body.menu-open {
     .hero-bubble-1 {
         width: 50px;
         height: 50px;
+    }
+  
+    .hero-scroll-indicator-elegant {
+       bottom: clamp(1.5rem, 4vh, 2.8rem);
+ 
     }
     
     .hero-bubble-2 {
