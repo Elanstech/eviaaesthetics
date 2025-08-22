@@ -3358,7 +3358,7 @@ class RedesignedSocialSections {
 }
 
 /* ========================================
-   HERMÈS MEDSPA PRODUCTS CAROUSEL
+   PRODUCTS SECTION - UNIQUE FUNCTIONALITY
    ======================================== */
 
 class EnhancedProductsCarousel {
@@ -3495,8 +3495,8 @@ class EnhancedProductsCarousel {
         this.isMobile = window.innerWidth <= 1024;
         this.isDesktop = !this.isMobile;
         
-        document.body.classList.toggle('carousel-mobile', this.isMobile);
-        document.body.classList.toggle('carousel-desktop', this.isDesktop);
+        document.body.classList.toggle('products-carousel-mobile', this.isMobile);
+        document.body.classList.toggle('products-carousel-desktop', this.isDesktop);
     }
     
     calculateDimensions() {
