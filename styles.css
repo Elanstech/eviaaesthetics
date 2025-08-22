@@ -2562,7 +2562,7 @@ body.menu-open {
     padding: 20px 0;
 }
 
-/* Carousel Track - Improved Mobile Handling */
+/* Carousel Track - Fixed Mobile Handling */
 .carousel-track {
     display: flex;
     gap: 24px;
@@ -2573,11 +2573,11 @@ body.menu-open {
     padding: 0 20px;
 }
 
-/* Mobile: Better scroll handling */
+/* Mobile: Improved scroll handling */
 @media (max-width: 1024px) {
     .carousel-track {
         overflow-x: auto;
-        overflow-y: visible; /* Allow vertical scroll passthrough */
+        overflow-y: visible;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
@@ -2587,21 +2587,20 @@ body.menu-open {
         gap: 16px;
         padding: 0 16px;
         scroll-behavior: smooth;
-        touch-action: pan-x pan-y; /* Allow both directions initially */
-        cursor: grab;
-    }
-    
-    .carousel-track:active {
-        cursor: grabbing;
+        /* FIXED: Allow normal touch behavior */
+        touch-action: auto;
+        cursor: auto;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: auto;
     }
     
     .carousel-track::-webkit-scrollbar { 
         display: none; 
     }
     
-    /* Reduce touch interference */
-    .carousel-track.scrolling-horizontal {
-        touch-action: pan-x; /* Only horizontal when clearly scrolling horizontally */
+    /* Remove problematic hover states on mobile */
+    .carousel-track:active {
+        cursor: auto;
     }
 }
 
@@ -2613,7 +2612,6 @@ body.menu-open {
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: translateZ(0);
     backface-visibility: hidden;
-    touch-action: manipulation; /* Improve touch responsiveness */
 }
 
 .service-card:hover {
@@ -2627,11 +2625,20 @@ body.menu-open {
         max-width: 380px;
         scroll-snap-align: center;
         scroll-snap-stop: always;
-        touch-action: manipulation;
+        /* Ensure proper touch behavior */
+        touch-action: auto;
     }
     
+    /* Reduce transform on mobile to prevent conflicts */
     .service-card:hover {
         transform: translateY(-4px) scale(1.01);
+    }
+    
+    /* Disable hover effects on touch devices */
+    @media (hover: none) {
+        .service-card:hover {
+            transform: none;
+        }
     }
 }
 
@@ -2648,6 +2655,12 @@ body.menu-open {
 
 .service-card:hover .card-glow { 
     opacity: 1; 
+}
+
+@media (hover: none) {
+    .service-card:hover .card-glow { 
+        opacity: 0; 
+    }
 }
 
 .card-content {
@@ -2668,6 +2681,14 @@ body.menu-open {
     transform: translateY(-2px);
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
     border-color: rgba(255, 140, 0, 0.2);
+}
+
+@media (hover: none) {
+    .service-card:hover .card-content {
+        transform: none;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        border-color: rgba(255, 255, 255, 0.6);
+    }
 }
 
 .card-header {
@@ -2726,6 +2747,12 @@ body.menu-open {
     transform: scale(1.08);
 }
 
+@media (hover: none) {
+    .service-card:hover .card-image img {
+        transform: none;
+    }
+}
+
 .image-overlay {
     position: absolute;
     inset: 0;
@@ -2736,6 +2763,12 @@ body.menu-open {
 
 .service-card:hover .image-overlay { 
     opacity: 1; 
+}
+
+@media (hover: none) {
+    .service-card:hover .image-overlay { 
+        opacity: 0; 
+    }
 }
 
 .card-body {
@@ -2771,6 +2804,14 @@ body.menu-open {
     box-shadow: 0 16px 40px rgba(255, 140, 0, 0.3);
 }
 
+@media (hover: none) {
+    .service-card:hover .icon-bg {
+        background: linear-gradient(135deg, #FFF8F0, #FFFFFF);
+        transform: none;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+}
+
 .service-icon-wrapper i {
     position: relative;
     z-index: 2;
@@ -2786,6 +2827,14 @@ body.menu-open {
     color: #FFFFFF;
     -webkit-text-fill-color: #FFFFFF;
     transform: scale(1.1);
+}
+
+@media (hover: none) {
+    .service-card:hover .service-icon-wrapper i {
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        transform: none;
+    }
 }
 
 .service-title {
@@ -2905,6 +2954,9 @@ body.menu-open {
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     margin-top: auto;
+    /* Ensure proper touch target */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .service-cta::before {
@@ -2926,6 +2978,10 @@ body.menu-open {
     background: linear-gradient(135deg, #FF8C00, #FF6600);
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 12px 32px rgba(255, 140, 0, 0.3);
+}
+
+.service-cta:active {
+    transform: translateY(0) scale(0.98);
 }
 
 .cta-arrow {
@@ -3151,6 +3207,14 @@ body.menu-open {
     border-color: rgba(255, 140, 0, 0.2);
 }
 
+@media (hover: none) {
+    .services-learn-more:hover {
+        transform: none;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+        border-color: rgba(255, 140, 0, 0.1);
+    }
+}
+
 .learn-more-content {
     max-width: 600px;
     margin: 0 auto;
@@ -3209,11 +3273,17 @@ body.menu-open {
     box-shadow: 0 12px 32px rgba(255, 140, 0, 0.3);
     min-width: 200px;
     justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .learn-more-cta:hover {
     transform: translateY(-4px) scale(1.02);
     box-shadow: 0 16px 48px rgba(255, 140, 0, 0.4);
+}
+
+.learn-more-cta:active {
+    transform: translateY(-2px) scale(0.98);
 }
 
 .cta-text {
