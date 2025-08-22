@@ -2601,38 +2601,58 @@ class HermesAboutSection {
 }
 
 /* ========================================
-   TRANSFORMATIONS SECTION
+   MODERN RESULTS SHOWCASE JAVASCRIPT
    ======================================== */
 
 /* ========================================
-   MODERN RESULTS SHOWCASE JAVASCRIPT
+   UPDATED MODERN RESULTS SHOWCASE - INTEGRATED VERSION
    ======================================== */
+
+// Update the existing ModernResultsShowcase class in your main script
+// Replace the existing class (around lines 2348-2746) with this enhanced version
 
 class ModernResultsShowcase {
     constructor() {
         this.section = document.querySelector('.results-showcase');
+        if (!this.section) {
+            // Fallback to original selector if new one doesn't exist
+            this.section = document.querySelector('.modern-transformations-section');
+        }
         if (!this.section) return;
 
-        this.filters = document.querySelectorAll('.results-showcase__filter');
-        this.items = document.querySelectorAll('.results-showcase__item');
-        this.comparisons = document.querySelectorAll('.results-showcase__comparison');
-        this.ctaButton = document.getElementById('resultsCtaBtn');
+        // New selectors for the redesigned section
+        this.filters = document.querySelectorAll('.results-showcase__filter, .filter-btn');
+        this.items = document.querySelectorAll('.results-showcase__item, .result-item');
+        this.comparisons = document.querySelectorAll('.results-showcase__comparison, .comparison-container');
+        this.ctaButton = document.getElementById('resultsCtaBtn') || document.getElementById('modernResultsCTA');
         
         this.activeFilter = 'all';
         this.isMobile = window.innerWidth <= 768;
+        this.isInitialized = false;
         
         this.init();
     }
 
     init() {
-        this.setupFilterSystem();
-        this.setupImageComparisons();
-        this.setupCTAButton();
-        this.setupIntersectionObserver();
-        this.setupResizeHandler();
+        if (this.isInitialized) return;
         
-        // Initial animations
-        this.animateItemsIn();
+        try {
+            this.setupFilterSystem();
+            this.setupImageComparisons();
+            this.setupCTAButton();
+            this.setupIntersectionObserver();
+            this.setupResizeHandler();
+            
+            // Initial animations
+            setTimeout(() => {
+                this.animateItemsIn();
+            }, 500);
+            
+            this.isInitialized = true;
+            console.log('✨ Modern Results Showcase initialized successfully');
+        } catch (error) {
+            console.error('❌ Error initializing Modern Results Showcase:', error);
+        }
     }
 
     /* ========================================
@@ -2642,8 +2662,11 @@ class ModernResultsShowcase {
     setupFilterSystem() {
         this.filters.forEach(filter => {
             filter.addEventListener('click', (e) => {
+                e.preventDefault();
                 const filterValue = e.target.getAttribute('data-filter');
-                this.handleFilterChange(filterValue);
+                if (filterValue) {
+                    this.handleFilterChange(filterValue);
+                }
             });
         });
     }
@@ -2654,12 +2677,16 @@ class ModernResultsShowcase {
         this.activeFilter = filterValue;
         this.updateActiveFilter();
         this.filterItems(filterValue);
+        
+        // Track the filter change
+        this.trackEvent('filter_change', 'results', filterValue);
     }
 
     updateActiveFilter() {
         this.filters.forEach(filter => {
             const isActive = filter.getAttribute('data-filter') === this.activeFilter;
             filter.classList.toggle('results-showcase__filter--active', isActive);
+            filter.classList.toggle('active', isActive); // Fallback for old class
         });
     }
 
@@ -2672,11 +2699,17 @@ class ModernResultsShowcase {
                 // Show item with staggered animation
                 setTimeout(() => {
                     item.setAttribute('data-hidden', 'false');
+                    item.classList.remove('filtered-out');
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
                     item.style.animationDelay = `${index * 0.1}s`;
                 }, index * 50);
             } else {
                 // Hide item immediately
                 item.setAttribute('data-hidden', 'true');
+                item.classList.add('filtered-out');
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
             }
         });
 
@@ -2688,7 +2721,7 @@ class ModernResultsShowcase {
 
     updateGridLayout() {
         const visibleItems = Array.from(this.items).filter(item => 
-            item.getAttribute('data-hidden') !== 'true'
+            item.getAttribute('data-hidden') !== 'true' && !item.classList.contains('filtered-out')
         );
 
         // Trigger reflow for smooth transition
@@ -2709,9 +2742,10 @@ class ModernResultsShowcase {
     }
 
     initImageComparison(comparison) {
-        const afterImage = comparison.querySelector('.results-showcase__image--after');
-        const slider = comparison.querySelector('.results-showcase__slider');
-        const handle = comparison.querySelector('.results-showcase__slider-handle');
+        // Support both new and old selectors
+        const afterImage = comparison.querySelector('.results-showcase__image--after, .after-image');
+        const slider = comparison.querySelector('.results-showcase__slider, .reveal-slider');
+        const handle = comparison.querySelector('.results-showcase__slider-handle, .slider-handle');
         
         if (!afterImage || !slider || !handle) return;
 
@@ -2787,7 +2821,7 @@ class ModernResultsShowcase {
 
         // Click to position (mobile friendly)
         comparison.addEventListener('click', (e) => {
-            if (e.target.closest('.results-showcase__slider-handle')) return;
+            if (e.target.closest('.results-showcase__slider-handle, .slider-handle')) return;
             
             const newPosition = this.calculateSliderPosition(comparison, e.clientX);
             currentPosition = newPosition;
@@ -2803,7 +2837,14 @@ class ModernResultsShowcase {
     }
 
     updateSliderPosition(afterImage, slider, percentage) {
-        afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        // Support both new and old CSS properties
+        if (afterImage.style.clipPath !== undefined) {
+            afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        } else {
+            // Fallback for older browsers
+            afterImage.style.width = `${percentage}%`;
+        }
+        
         slider.style.left = `${percentage}%`;
     }
 
@@ -2852,6 +2893,11 @@ class ModernResultsShowcase {
             e.preventDefault();
             this.handleCTAClick();
         });
+        
+        // Add hover effect
+        this.ctaButton.addEventListener('mouseenter', () => {
+            this.addCTAHoverEffect();
+        });
     }
 
     handleCTAClick() {
@@ -2865,13 +2911,43 @@ class ModernResultsShowcase {
         // Show feedback and redirect
         this.showBookingFeedback();
         
-        // Scroll to contact section (adjust selector as needed)
+        // Scroll to contact section
         setTimeout(() => {
-            const contactSection = document.getElementById('contact') || document.querySelector('.contact');
-            if (contactSection) {
-                contactSection.scrollIntoView({ behavior: 'smooth' });
-            }
+            this.scrollToContact();
         }, 200);
+        
+        // Track the CTA click
+        this.trackEvent('cta_click', 'results', 'book_consultation');
+    }
+
+    addCTAHoverEffect() {
+        // Add shimmer effect if element has one
+        const shimmer = this.ctaButton.querySelector('.cta-shimmer, .button-glow');
+        if (shimmer) {
+            shimmer.style.left = '-100%';
+            shimmer.style.transition = 'none';
+            shimmer.offsetHeight; // Force reflow
+            shimmer.style.transition = 'left 0.8s ease';
+            shimmer.style.left = '100%';
+        }
+    }
+
+    scrollToContact() {
+        const contactSection = document.getElementById('contact') || 
+                              document.querySelector('.contact') ||
+                              document.querySelector('.hermes-contact-section');
+        
+        if (contactSection) {
+            contactSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        } else {
+            // Fallback - try using the app's smooth scroll method
+            if (window.app && window.app.smoothScrollTo) {
+                window.app.smoothScrollTo('#contact');
+            }
+        }
     }
 
     showBookingFeedback() {
@@ -2883,22 +2959,25 @@ class ModernResultsShowcase {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            background: var(--gradient-hermes-orange);
-            color: var(--white);
-            padding: var(--space-lg) var(--space-xl);
-            border-radius: var(--radius-lg);
-            font-family: var(--font-primary);
+            background: var(--gradient-hermes-orange, linear-gradient(135deg, #FF8C00 0%, #FFA500 100%));
+            color: var(--white, #FFFFFF);
+            padding: var(--space-lg, 16px) var(--space-xl, 24px);
+            border-radius: var(--radius-lg, 16px);
+            font-family: var(--font-primary, 'Inter', sans-serif);
             font-size: 0.875rem;
             font-weight: 600;
-            z-index: 1000;
+            z-index: 10000;
             pointer-events: none;
             opacity: 0;
             backdrop-filter: blur(20px);
-            box-shadow: var(--shadow-medium);
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
             display: flex;
             align-items: center;
-            gap: var(--space-sm);
-            transition: all 0.4s var(--ease-luxury);
+            gap: var(--space-sm, 8px);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            min-width: 280px;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         `;
 
         feedback.innerHTML = `
@@ -2945,7 +3024,8 @@ class ModernResultsShowcase {
                     entry.target.classList.add('in-view');
                     
                     // Trigger staggered animations for grid items
-                    if (entry.target.classList.contains('results-showcase__grid')) {
+                    if (entry.target.classList.contains('results-showcase__grid') || 
+                        entry.target.classList.contains('results-grid')) {
                         this.animateItemsIn();
                     }
                     
@@ -2955,26 +3035,27 @@ class ModernResultsShowcase {
             });
         }, observerOptions);
 
-        // Observe key elements
+        // Observe key elements with fallback selectors
         const elementsToObserve = [
-            this.section.querySelector('.results-showcase__header'),
-            this.section.querySelector('.results-showcase__filters'),
-            this.section.querySelector('.results-showcase__grid'),
-            this.section.querySelector('.results-showcase__cta')
+            this.section.querySelector('.results-showcase__header, .transformations-header'),
+            this.section.querySelector('.results-showcase__filters, .filter-navigation'),
+            this.section.querySelector('.results-showcase__grid, .results-grid'),
+            this.section.querySelector('.results-showcase__cta, .modern-cta')
         ].filter(Boolean);
 
         elementsToObserve.forEach(element => {
-            observer.observe(element);
+            if (element) observer.observe(element);
         });
     }
 
     animateItemsIn() {
         this.items.forEach((item, index) => {
             // Only animate visible items
-            if (item.getAttribute('data-hidden') !== 'true') {
+            if (item.getAttribute('data-hidden') !== 'true' && !item.classList.contains('filtered-out')) {
                 setTimeout(() => {
                     item.style.opacity = '1';
                     item.style.transform = 'translateY(0)';
+                    item.classList.add('animate-in');
                 }, index * 100);
             }
         });
@@ -3006,13 +3087,32 @@ class ModernResultsShowcase {
 
         // Reset all sliders to center position
         this.comparisons.forEach(comparison => {
-            const afterImage = comparison.querySelector('.results-showcase__image--after');
-            const slider = comparison.querySelector('.results-showcase__slider');
+            const afterImage = comparison.querySelector('.results-showcase__image--after, .after-image');
+            const slider = comparison.querySelector('.results-showcase__slider, .reveal-slider');
             
             if (afterImage && slider) {
                 this.updateSliderPosition(afterImage, slider, 50);
             }
         });
+    }
+
+    /* ========================================
+       UTILITY METHODS
+       ======================================== */
+
+    trackEvent(action, category, label) {
+        // Use the existing app's tracking if available
+        if (window.app && window.app.trackEvent) {
+            window.app.trackEvent(action, category, label);
+        } else if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                event_category: category,
+                event_label: label,
+                value: 1
+            });
+        }
+        
+        console.log(`📊 Results Event: ${action} - ${category} - ${label}`);
     }
 
     /* ========================================
@@ -3036,58 +3136,63 @@ class ModernResultsShowcase {
         this.setupImageComparisons();
         this.animateItemsIn();
     }
+
+    // Method for the app's resize handler
+    onResize() {
+        this.handleResize();
+    }
+
+    // Method to restart animations
+    restart() {
+        this.items.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.classList.remove('animate-in');
+        });
+        
+        setTimeout(() => {
+            this.animateItemsIn();
+        }, 100);
+    }
+
+    // Destroy method for cleanup
+    destroy() {
+        // Remove event listeners and clean up
+        this.filters.forEach(filter => {
+            filter.replaceWith(filter.cloneNode(true));
+        });
+        
+        if (this.ctaButton) {
+            this.ctaButton.replaceWith(this.ctaButton.cloneNode(true));
+        }
+        
+        this.isInitialized = false;
+        console.log('🗑️ Modern Results Showcase destroyed');
+    }
 }
 
 /* ========================================
-   INITIALIZATION
+   INTEGRATION HELPER
    ======================================== */
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.modernResultsShowcase = new ModernResultsShowcase();
-});
-
-// Also initialize if script loads after DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        if (!window.modernResultsShowcase) {
-            window.modernResultsShowcase = new ModernResultsShowcase();
-        }
-    });
-} else {
+// Function to initialize the updated results showcase
+function initializeModernResults() {
+    // Only initialize if not already done by the main app
     if (!window.modernResultsShowcase) {
         window.modernResultsShowcase = new ModernResultsShowcase();
     }
 }
 
-/* ========================================
-   UTILITY FUNCTIONS
-   ======================================== */
-
-// Utility function to check if element is in viewport
-function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeModernResults);
+} else {
+    initializeModernResults();
 }
 
-// Debounce function for performance
-function debounce(func, wait, immediate) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            timeout = null;
-            if (!immediate) func(...args);
-        };
-        const callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func(...args);
-    };
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = ModernResultsShowcase;
 }
 
     /* ========================================
