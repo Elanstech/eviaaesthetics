@@ -157,7 +157,7 @@ class EviaAestheticsApp {
 
     initializeComponents() {
         // Initialize all components
-        this.components.set('header', new ModernHeader());
+        this.components.set('header', new LuxuryHeader());
         this.components.set('mobileMenu', new MobileMenu());
         this.components.set('servicesCarousel', new ServicesCarousel());
         this.components.set('aboutSection', new AboutSection());
@@ -219,10 +219,13 @@ class EviaAestheticsApp {
 /* ========================================
    HEADER COMPONENT
    ======================================== */
-class ModernHeader {
+class LuxuryHeader {
     constructor() {
-        this.header = document.getElementById('header');
+        this.header = document.getElementById('luxuryHeader') || document.querySelector('.luxury-floating-header');
         this.isScrolled = false;
+        this.scrollThreshold = 100;
+        this.lastScrollY = 0;
+        this.ticking = false;
         
         if (this.header) {
             this.init();
@@ -231,36 +234,277 @@ class ModernHeader {
 
     init() {
         this.bindEvents();
+        this.initializeAnimations();
+        console.log('🏥 Luxury Header Initialized');
     }
 
     bindEvents() {
-        // Navigation links
-        const navLinks = document.querySelectorAll('.modern-nav-link');
+        // Navigation links with luxury interactions
+        const navLinks = document.querySelectorAll('.luxury-nav-link');
         navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href.startsWith('#')) {
-                    e.preventDefault();
-                    this.scrollToSection(href);
-                    this.setActiveNavLink(link);
-                }
-            });
+            link.addEventListener('click', (e) => this.handleNavClick(e, link));
+            link.addEventListener('mouseenter', (e) => this.handleNavHover(e, link));
+            link.addEventListener('mouseleave', (e) => this.handleNavLeave(e, link));
         });
 
-        // CTA button
-        const ctaBtn = document.getElementById('headerCTA');
+        // CTA button with enhanced interactions
+        const ctaBtn = document.getElementById('luxuryHeaderCTA') || document.querySelector('.luxury-cta-button');
         if (ctaBtn) {
-            ctaBtn.addEventListener('click', () => this.scrollToSection('#contact'));
+            ctaBtn.addEventListener('click', (e) => this.handleCtaClick(e));
+            ctaBtn.addEventListener('mouseenter', (e) => this.handleCtaHover(e));
+            ctaBtn.addEventListener('mouseleave', (e) => this.handleCtaLeave(e));
+        }
+
+        // Mobile toggle
+        const mobileToggle = document.getElementById('luxuryMobileToggle') || document.querySelector('.luxury-mobile-toggle');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', (e) => this.handleMobileToggle(e));
+        }
+
+        // Logo interactions
+        const logoWrapper = document.querySelector('.logo-glow-wrapper');
+        if (logoWrapper) {
+            logoWrapper.addEventListener('click', () => this.scrollToTop());
+        }
+
+        // Smooth scroll detection
+        window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
+        
+        // Resize handler
+        window.addEventListener('resize', this.debounce(() => this.handleResize(), 250));
+    }
+
+    initializeAnimations() {
+        // Initialize ambient orb animations
+        this.initAmbientOrbs();
+        
+        // Initialize navigation ripple effects
+        this.initNavRipples();
+        
+        // Initialize CTA shimmer effect
+        this.initCtaShimmer();
+    }
+
+    initAmbientOrbs() {
+        const orbs = document.querySelectorAll('.ambient-orb');
+        orbs.forEach((orb, index) => {
+            // Add random animation delays for more organic movement
+            const delay = Math.random() * 5000;
+            orb.style.animationDelay = `-${delay}ms`;
+            
+            // Add subtle mouse follow effect
+            document.addEventListener('mousemove', (e) => {
+                this.animateOrb(orb, e, index);
+            });
+        });
+    }
+
+    animateOrb(orb, event, index) {
+        const rect = this.header.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        
+        const factor = (index + 1) * 0.02;
+        const translateX = (x - rect.width / 2) * factor;
+        const translateY = (y - rect.height / 2) * factor;
+        
+        orb.style.transform = `translate(${translateX}px, ${translateY}px) scale(${1 + factor})`;
+    }
+
+    initNavRipples() {
+        const navLinks = document.querySelectorAll('.luxury-nav-link');
+        navLinks.forEach(link => {
+            const ripple = link.querySelector('.nav-ripple');
+            if (ripple) {
+                link.addEventListener('mouseenter', (e) => {
+                    this.createRippleEffect(ripple, e);
+                });
+            }
+        });
+    }
+
+    createRippleEffect(element, event) {
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+        
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.2) 0%, transparent 70%);
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            transform: scale(0);
+            animation: luxuryRipple 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: none;
+        `;
+        
+        element.appendChild(ripple);
+        
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 600);
+    }
+
+    initCtaShimmer() {
+        const ctaBtn = document.querySelector('.luxury-cta-button');
+        if (ctaBtn) {
+            // Add periodic shimmer effect
+            setInterval(() => {
+                if (!ctaBtn.matches(':hover')) {
+                    this.triggerShimmer(ctaBtn);
+                }
+            }, 8000);
         }
     }
 
-    onScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const shouldBeScrolled = scrollTop > 100;
+    triggerShimmer(button) {
+        const shimmer = button.querySelector('.cta-shimmer');
+        if (shimmer) {
+            shimmer.style.transition = 'none';
+            shimmer.style.left = '-100%';
+            
+            requestAnimationFrame(() => {
+                shimmer.style.transition = 'left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                shimmer.style.left = '100%';
+            });
+        }
+    }
 
+    handleNavClick(event, link) {
+        const href = link.getAttribute('href');
+        
+        if (href.startsWith('#')) {
+            event.preventDefault();
+            this.scrollToSection(href);
+            this.setActiveNavLink(link);
+            this.createClickFeedback(link);
+        }
+    }
+
+    handleNavHover(event, link) {
+        // Enhanced hover effect with subtle scaling
+        const ripple = link.querySelector('.nav-ripple');
+        if (ripple) {
+            ripple.style.transform = 'scale(1.05)';
+        }
+    }
+
+    handleNavLeave(event, link) {
+        const ripple = link.querySelector('.nav-ripple');
+        if (ripple) {
+            ripple.style.transform = 'scale(1)';
+        }
+    }
+
+    handleCtaClick(event) {
+        this.scrollToSection('#contact');
+        this.createCtaClickEffect(event.currentTarget);
+    }
+
+    handleCtaHover(event) {
+        const button = event.currentTarget;
+        const ambientGlow = button.querySelector('.cta-ambient-glow');
+        
+        if (ambientGlow) {
+            ambientGlow.style.opacity = '1';
+            ambientGlow.style.transform = 'scale(1.1)';
+        }
+    }
+
+    handleCtaLeave(event) {
+        const button = event.currentTarget;
+        const ambientGlow = button.querySelector('.cta-ambient-glow');
+        
+        if (ambientGlow) {
+            ambientGlow.style.opacity = '0';
+            ambientGlow.style.transform = 'scale(1)';
+        }
+    }
+
+    createCtaClickEffect(button) {
+        // Create expanding circle effect
+        const rect = button.getBoundingClientRect();
+        const circle = document.createElement('div');
+        
+        circle.style.cssText = `
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
+            width: 100px;
+            height: 100px;
+            left: ${rect.left + rect.width / 2 - 50}px;
+            top: ${rect.top + rect.height / 2 - 50}px;
+            transform: scale(0);
+            animation: ctaClickExpand 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: none;
+            z-index: 10000;
+        `;
+        
+        document.body.appendChild(circle);
+        
+        setTimeout(() => {
+            if (circle.parentNode) {
+                circle.parentNode.removeChild(circle);
+            }
+        }, 800);
+    }
+
+    handleMobileToggle(event) {
+        const toggle = event.currentTarget;
+        toggle.classList.toggle('active');
+        
+        // Trigger mobile menu if it exists
+        const mobileMenu = document.getElementById('mobileMenu') || document.querySelector('.modern-mobile-menu');
+        if (mobileMenu) {
+            // Trigger existing mobile menu logic
+            if (window.eviaApp && window.eviaApp.getComponent('mobileMenu')) {
+                window.eviaApp.getComponent('mobileMenu').toggleMenu();
+            }
+        }
+    }
+
+    handleScroll() {
+        if (!this.ticking) {
+            requestAnimationFrame(() => {
+                this.updateScrollState();
+                this.ticking = false;
+            });
+            this.ticking = true;
+        }
+    }
+
+    updateScrollState() {
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        const shouldBeScrolled = scrollY > this.scrollThreshold;
+        
         if (shouldBeScrolled !== this.isScrolled) {
             this.isScrolled = shouldBeScrolled;
             this.header.classList.toggle('scrolled', this.isScrolled);
+            
+            // Add subtle entrance animation
+            if (this.isScrolled) {
+                this.animateScrolledState();
+            }
+        }
+        
+        this.lastScrollY = scrollY;
+    }
+
+    animateScrolledState() {
+        const container = this.header.querySelector('.luxury-glass-container');
+        if (container) {
+            container.style.transform = 'translateY(-2px) scale(1.01)';
+            
+            setTimeout(() => {
+                container.style.transform = 'translateY(-2px) scale(1)';
+            }, 300);
         }
     }
 
@@ -270,19 +514,117 @@ class ModernHeader {
             const headerHeight = this.header.offsetHeight;
             const elementPosition = element.offsetTop - headerHeight - 20;
             
-            window.scrollTo({
-                top: elementPosition,
-                behavior: 'smooth'
-            });
+            // Smooth scroll with custom easing
+            this.smoothScrollTo(elementPosition, 1000);
         }
     }
 
+    smoothScrollTo(targetPosition, duration) {
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        let startTime = null;
+
+        const animation = (currentTime) => {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            
+            // Custom easing function for luxury feel
+            const easeProgress = this.easeInOutCubic(progress);
+            
+            window.scrollTo(0, startPosition + distance * easeProgress);
+            
+            if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+            }
+        };
+
+        requestAnimationFrame(animation);
+    }
+
+    easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    }
+
+    scrollToTop() {
+        this.smoothScrollTo(0, 800);
+    }
+
     setActiveNavLink(activeLink) {
-        document.querySelectorAll('.modern-nav-link').forEach(link => {
+        document.querySelectorAll('.luxury-nav-link').forEach(link => {
             link.classList.remove('active');
         });
         activeLink.classList.add('active');
     }
+
+    createClickFeedback(element) {
+        // Add subtle click feedback
+        element.style.transform = 'translateY(-1px) scale(0.98)';
+        
+        setTimeout(() => {
+            element.style.transform = '';
+        }, 150);
+    }
+
+    handleResize() {
+        // Recalculate any position-dependent animations
+        this.updateScrollState();
+    }
+
+    // Utility function
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+}
+
+// CSS animations to add to the page
+const luxuryAnimations = `
+<style>
+@keyframes luxuryRipple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes ctaClickExpand {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+</style>`;
+
+// Initialize luxury header when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Add animations to head
+    document.head.insertAdjacentHTML('beforeend', luxuryAnimations);
+    
+    // Initialize luxury header
+    if (document.querySelector('.luxury-floating-header')) {
+        window.luxuryHeader = new LuxuryHeader();
+    }
+});
+
+// Export for integration with existing app
+if (typeof window !== 'undefined') {
+    window.LuxuryHeader = LuxuryHeader;
 }
 
 /* ========================================
