@@ -1,4 +1,97 @@
 /* ========================================
+   INITIALIZATION FIXES FOR HERO & SERVICES
+   ======================================== */
+
+// Ensure AOS is properly initialized and content is visible
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS with proper settings
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 100,
+            delay: 0
+        });
+        
+        // Refresh AOS after a short delay to catch any layout shifts
+        setTimeout(() => {
+            AOS.refresh();
+        }, 500);
+    }
+    
+    // Ensure hero content is visible
+    const heroContent = document.querySelector('.hero-content-stack');
+    if (heroContent) {
+        heroContent.style.opacity = '1';
+        heroContent.style.visibility = 'visible';
+        heroContent.style.zIndex = '100';
+    }
+    
+    // Ensure services title is visible
+    const servicesTitle = document.querySelector('.services-title');
+    if (servicesTitle) {
+        servicesTitle.style.opacity = '1';
+        servicesTitle.style.visibility = 'visible';
+    }
+    
+    // Ensure services header is visible
+    const servicesHeader = document.querySelector('.services-header');
+    if (servicesHeader) {
+        servicesHeader.style.opacity = '1';
+        servicesHeader.style.visibility = 'visible';
+    }
+    
+    // Force video to load properly
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+        heroVideo.load();
+        heroVideo.play().catch(e => console.log('Video autoplay prevented:', e));
+    }
+});
+
+// Add window load event to catch any remaining issues
+window.addEventListener('load', function() {
+    // Refresh AOS after everything is loaded
+    if (typeof AOS !== 'undefined') {
+        AOS.refresh();
+    }
+    
+    // Force a layout recalculation
+    document.body.style.visibility = 'hidden';
+    document.body.offsetHeight; // Trigger reflow
+    document.body.style.visibility = 'visible';
+});
+
+// Add CSS overrides via JavaScript to prevent conflicts
+const style = document.createElement('style');
+style.textContent = `
+    /* Force hero content visibility */
+    .hero-content-stack {
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: 100 !important;
+    }
+    
+    /* Force services content visibility */
+    .services-title,
+    .services-header,
+    .services-subtitle {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* Ensure text is readable */
+    .hero-headline-primary,
+    .hero-headline-secondary,
+    .hero-subheadline-elegant {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+`;
+document.head.appendChild(style);
+
+/* ========================================
    MAIN APPLICATION CLASS
    ======================================== */
 class EviaAestheticsApp {
