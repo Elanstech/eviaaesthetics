@@ -1222,7 +1222,7 @@ class CinematicHero {
 }
 
 /* ========================================
-   SERVICES SECTION
+   SERVICES SECTION - FIXED MOBILE FUNCTIONALITY
    ======================================== */
 
 class EnhancedServicesCarousel {
@@ -1252,24 +1252,19 @@ class EnhancedServicesCarousel {
         this.gap = 24;
         this.isTransitioning = false;
         
-        // Enhanced touch handling properties
+        // Simplified touch handling properties
         this.touchStartX = 0;
         this.touchStartY = 0;
         this.touchCurrentX = 0;
         this.touchCurrentY = 0;
-        this.touchEndX = 0;
-        this.touchEndY = 0;
         this.isDragging = false;
-        this.isHorizontalGesture = false;
         this.hasUserInteracted = false;
-        this.touchThreshold = 10; // Reduced threshold for more responsive detection
-        this.swipeThreshold = 50; // Minimum distance for a swipe
+        this.swipeThreshold = 80; // Increased threshold for more deliberate swipes
         this.touchStartTime = 0;
-        this.maxTouchTime = 500; // Maximum time for a valid swipe
+        this.maxTouchTime = 300; // Reduced time for quicker response
         
         this.resizeTimeout = null;
         this.scrollTimeout = null;
-        this.isScrollingHorizontally = false;
         
         if (this.carousel && this.track) {
             this.init();
@@ -1291,7 +1286,7 @@ class EnhancedServicesCarousel {
             this.setupMobileScrolling();
         }
         
-        console.log('✨ Enhanced Services Carousel initialized with fixed touch handling');
+        console.log('✨ Enhanced Services Carousel initialized with improved mobile handling');
     }
     
     detectDeviceType() {
@@ -1358,41 +1353,30 @@ class EnhancedServicesCarousel {
             }, 250);
         });
         
-        // Enhanced mobile touch events
+        // Simplified mobile touch events
         if (this.isMobile) {
-            this.bindEnhancedTouchEvents();
+            this.bindSimplifiedTouchEvents();
         }
     }
     
-    bindEnhancedTouchEvents() {
-        // Use passive listeners where possible for better scroll performance
+    bindSimplifiedTouchEvents() {
+        // Use passive listeners for better performance
         this.track.addEventListener('touchstart', (e) => {
             this.handleTouchStart(e);
         }, { passive: true });
         
         this.track.addEventListener('touchmove', (e) => {
             this.handleTouchMove(e);
-        }, { passive: false }); // Not passive because we might prevent default
+        }, { passive: true }); // Keep passive to not interfere with scrolling
         
         this.track.addEventListener('touchend', (e) => {
             this.handleTouchEnd(e);
-        }, { passive: true });
-        
-        this.track.addEventListener('touchcancel', (e) => {
-            this.handleTouchCancel(e);
         }, { passive: true });
         
         // Track scroll events for progress indication
         this.track.addEventListener('scroll', this.throttle(() => {
             this.updateMobileProgress();
         }, 16), { passive: true });
-        
-        // Prevent context menu on long press
-        this.track.addEventListener('contextmenu', (e) => {
-            if (this.isDragging) {
-                e.preventDefault();
-            }
-        });
     }
     
     handleTouchStart(e) {
@@ -1403,16 +1387,7 @@ class EnhancedServicesCarousel {
         this.touchCurrentX = this.touchStartX;
         this.touchCurrentY = this.touchStartY;
         this.touchStartTime = Date.now();
-        
         this.isDragging = false;
-        this.isHorizontalGesture = false;
-        this.isScrollingHorizontally = false;
-        
-        // Store initial scroll position
-        this.initialScrollLeft = this.track.scrollLeft;
-        
-        // Add visual feedback
-        this.track.style.cursor = 'grabbing';
     }
     
     handleTouchMove(e) {
@@ -1421,56 +1396,29 @@ class EnhancedServicesCarousel {
         this.touchCurrentX = e.touches[0].clientX;
         this.touchCurrentY = e.touches[0].clientY;
         
+        // Only start tracking after significant movement
         const deltaX = Math.abs(this.touchCurrentX - this.touchStartX);
         const deltaY = Math.abs(this.touchCurrentY - this.touchStartY);
         
-        // Determine gesture direction only after threshold is exceeded
-        if (!this.isDragging && (deltaX > this.touchThreshold || deltaY > this.touchThreshold)) {
+        if (!this.isDragging && (deltaX > 10 || deltaY > 10)) {
             this.isDragging = true;
-            
-            // Determine if this is a horizontal or vertical gesture
-            if (deltaX > deltaY && deltaX > this.touchThreshold) {
-                this.isHorizontalGesture = true;
-                this.isScrollingHorizontally = true;
-                
-                // Add class to track for styling
-                this.track.classList.add('scrolling-horizontal');
-                
-                // Prevent vertical scrolling only for horizontal gestures
-                e.preventDefault();
-                
-            } else if (deltaY > deltaX && deltaY > this.touchThreshold) {
-                this.isHorizontalGesture = false;
-                // Allow vertical scrolling by not preventing default
-            }
-        }
-        
-        // Continue to prevent default for confirmed horizontal gestures
-        if (this.isDragging && this.isHorizontalGesture) {
-            e.preventDefault();
         }
     }
     
     handleTouchEnd(e) {
-        if (!e.changedTouches[0]) return;
+        if (!e.changedTouches[0] || !this.isDragging) return;
         
-        this.touchEndX = e.changedTouches[0].clientX;
-        this.touchEndY = e.changedTouches[0].clientY;
-        
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
         const touchDuration = Date.now() - this.touchStartTime;
-        const deltaX = this.touchStartX - this.touchEndX;
-        const deltaY = Math.abs(this.touchStartY - this.touchEndY);
         
-        // Reset visual feedback
-        this.track.style.cursor = '';
-        this.track.classList.remove('scrolling-horizontal');
+        const deltaX = this.touchStartX - touchEndX;
+        const deltaY = Math.abs(this.touchStartY - touchEndY);
         
-        // Process swipe only if it was a horizontal gesture and within time limit
-        if (this.isDragging && 
-            this.isHorizontalGesture && 
-            touchDuration < this.maxTouchTime &&
+        // Only process clear horizontal swipes that are fast and deliberate
+        if (touchDuration < this.maxTouchTime &&
             Math.abs(deltaX) > this.swipeThreshold &&
-            Math.abs(deltaX) > deltaY) {
+            Math.abs(deltaX) > deltaY * 2) { // Ensure horizontal dominance
             
             this.handleSwipeGesture(deltaX);
             this.handleUserInteraction();
@@ -1480,22 +1428,12 @@ class EnhancedServicesCarousel {
         this.resetTouchState();
     }
     
-    handleTouchCancel(e) {
-        this.track.style.cursor = '';
-        this.track.classList.remove('scrolling-horizontal');
-        this.resetTouchState();
-    }
-    
     resetTouchState() {
         this.isDragging = false;
-        this.isHorizontalGesture = false;
-        this.isScrollingHorizontally = false;
         this.touchStartX = 0;
         this.touchStartY = 0;
         this.touchCurrentX = 0;
         this.touchCurrentY = 0;
-        this.touchEndX = 0;
-        this.touchEndY = 0;
         this.touchStartTime = 0;
     }
     
@@ -1538,10 +1476,10 @@ class EnhancedServicesCarousel {
     }
     
     setupMobileScrolling() {
-        // Enhanced mobile scroll setup
+        // Simple mobile scroll setup
         this.track.style.scrollBehavior = 'smooth';
         this.track.style.overflowX = 'auto';
-        this.track.style.overflowY = 'visible'; // Allow vertical overflow
+        this.track.style.overflowY = 'visible';
         this.track.style.scrollSnapType = 'x mandatory';
         this.track.style.WebkitOverflowScrolling = 'touch';
         
@@ -2073,7 +2011,7 @@ class EnhancedServicesCarousel {
         }
         
         if (this.isMobile) {
-            this.bindEnhancedTouchEvents();
+            this.bindSimplifiedTouchEvents();
         }
     }
     
@@ -2116,6 +2054,14 @@ class EnhancedServicesCarousel {
         console.log('🗑️ Enhanced Services Carousel destroyed');
     }
 }
+
+// Initialize the carousel when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    const servicesCarousel = new EnhancedServicesCarousel();
+    
+    // Make it globally accessible if needed
+    window.servicesCarousel = servicesCarousel;
+});
 
 /* ========================================
    ABOUT SECTION
