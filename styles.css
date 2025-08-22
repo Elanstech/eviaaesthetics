@@ -477,7 +477,6 @@ body {
 /* ========================================
    HEADER SECTION
    ======================================== */
-
 /* Main Header Container */
 .sleek-floating-header {
     position: fixed;
@@ -511,42 +510,42 @@ body {
 }
 
 .sleek-header-logo {
-    width: 120px;
-    height: 120px;
-    object-fit: contain; /* Changed from 'cover' to 'contain' to show full logo */
-    object-position: center; /* Center the logo within the container */
-    border-radius: 20px;
+    width: 85px;
+    height: 85px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 18px;
     transition: all 0.5s var(--ease-luxury);
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px) saturate(180%);
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.06),
-        0 4px 16px rgba(255, 140, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        0 4px 20px rgba(0, 0, 0, 0.05),
+        0 2px 10px rgba(255, 140, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
     position: relative;
     overflow: hidden;
-    padding: 8px; 
+    padding: 0;
 }
 
 .sleek-header-logo::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+    background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
     opacity: 0;
     transition: opacity 0.4s ease;
     transform: translateX(-100%);
 }
 
 .sleek-header-logo:hover {
-    transform: translateY(-4px) scale(1.05);
+    transform: translateY(-3px) scale(1.08);
     box-shadow: 
-        0 16px 48px rgba(0, 0, 0, 0.1),
-        0 8px 24px rgba(255, 140, 0, 0.15),
+        0 12px 36px rgba(0, 0, 0, 0.08),
+        0 6px 18px rgba(255, 140, 0, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 1);
-    border-color: rgba(255, 140, 0, 0.2);
+    border-color: rgba(255, 140, 0, 0.25);
 }
 
 .sleek-header-logo:hover::before {
@@ -798,7 +797,7 @@ body {
     opacity: 0.6;
 }
 
-/* Scrolled State - Subtle changes */
+/* Scrolled State */
 .sleek-floating-header.scrolled {
     padding: 1rem 2rem;
 }
@@ -813,39 +812,41 @@ body {
 }
 
 .sleek-floating-header.scrolled .sleek-header-logo {
-    width: 100px;
-    height: 100px;
+    width: 65px;
+    height: 65px;
+    border-radius: 14px;
 }
 
 /* ========================================
-   MOBILE HEADER & MENU (PRESERVED)
+   ORIGINAL MOBILE MENU (UNCHANGED)
    ======================================== */
 
 /* Mobile Toggle */
 .aluminum-mobile-toggle {
     display: none;
-    width: 45px;
-    height: 45px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 140, 0, 0.2);
+    width: clamp(45px, 8vw, 60px);
+    height: clamp(45px, 8vw, 60px);
+    background: linear-gradient(135deg, #F8F8F8 0%, #E8E8E8 50%, #D8D8D8 100%);
+    border: 2px solid rgba(255, 140, 0, 0.3);
     border-radius: 50%;
     padding: 0;
     cursor: pointer;
-    transition: all 0.4s var(--ease-bounce);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.06),
-        0 2px 8px rgba(255, 140, 0, 0.1);
-    position: relative;
-    overflow: hidden;
+        0 8px 25px rgba(0, 0, 0, 0.1),
+        0 4px 12px rgba(255, 140, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
     flex-shrink: 0;
+    position: absolute;
+    right: 0;
+    overflow: hidden;
 }
 
 .aluminum-mobile-toggle::before {
     content: '';
     position: absolute;
     inset: -2px;
-    background: var(--gradient-hermes-orange);
+    background: linear-gradient(45deg, #FF8C00, #FFB84D, #FF8C00);
     border-radius: 50%;
     opacity: 0;
     transition: opacity 0.4s ease;
@@ -888,15 +889,15 @@ body {
 .toggle-bar {
     width: 100%;
     height: 3px;
-    background: var(--deep-brown);
+    background: #2A1B0A;
     border-radius: 3px;
-    transition: all 0.4s var(--ease-bounce);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     transform-origin: center;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .aluminum-mobile-toggle.active .toggle-bar {
-    background: var(--white);
+    background: #FFFFFF;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
@@ -913,7 +914,7 @@ body {
     transform: rotate(-45deg) translate(6px, -6px) scale(1.1);
 }
 
-/* Mobile Menu Backdrop */
+/* Enhanced Mobile Menu Backdrop */
 .mobile-backdrop {
     position: fixed;
     top: 0;
@@ -937,7 +938,7 @@ body {
     visibility: visible;
 }
 
-/* Luxury Mobile Menu */
+/* Ultra-Luxury Mobile Menu */
 .luxury-mobile-menu {
     position: fixed;
     top: 0;
@@ -952,7 +953,7 @@ body {
             rgba(248, 244, 236, 0.98) 100%);
     backdrop-filter: blur(60px) saturate(180%);
     z-index: 1999;
-    transition: right 0.8s var(--ease-bounce);
+    transition: right 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     overflow: hidden;
     box-shadow: 
         -20px 0 60px rgba(0, 0, 0, 0.15),
@@ -1004,7 +1005,7 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.4s var(--ease-bounce);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     position: relative;
     overflow: hidden;
     margin: 0;
@@ -1074,7 +1075,7 @@ body {
 .nav-item {
     opacity: 0;
     transform: translateX(50px);
-    transition: all 0.8s var(--ease-bounce);
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .luxury-mobile-menu.active .nav-item {
@@ -1097,7 +1098,7 @@ body {
     color: var(--text-primary);
     padding: clamp(0.75rem, 2vw, 1rem);
     border-radius: var(--radius-lg);
-    transition: all 0.4s var(--ease-luxury);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
     background: transparent;
@@ -1194,7 +1195,7 @@ body {
     padding-top: clamp(1rem, 3vw, 1.5rem);
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.8s var(--ease-luxury) 0.6s;
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s;
 }
 
 .luxury-mobile-menu.active .menu-footer {
@@ -1278,7 +1279,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: clamp(0.5rem, 2vw, 0.75rem);
-    transition: all 0.4s var(--ease-bounce);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     position: relative;
     overflow: hidden;
     margin-bottom: clamp(1rem, 3vw, 1.5rem);
@@ -1346,7 +1347,7 @@ body {
     justify-content: center;
     color: var(--hermes-orange);
     text-decoration: none;
-    transition: all 0.4s var(--ease-bounce);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     font-size: clamp(0.95rem, 2.5vw, 1.1rem);
 }
 
@@ -1451,6 +1452,17 @@ body.menu-open {
 
 /* Tablets and Mobile */
 @media (max-width: 1024px) {
+    /* Switch to mobile layout */
+    .sleek-nav-container {
+        justify-content: space-between;
+        gap: 1rem;
+    }
+    
+    .sleek-logo-section {
+        position: relative;
+        left: auto;
+    }
+    
     /* Hide desktop elements */
     .sleek-nav-pills,
     .sleek-header-actions {
@@ -1460,6 +1472,8 @@ body.menu-open {
     /* Show mobile toggle */
     .aluminum-mobile-toggle {
         display: flex;
+        position: relative;
+        right: auto;
     }
     
     /* Mobile logo adjustments */
@@ -1472,15 +1486,14 @@ body.menu-open {
         width: 50px;
         height: 50px;
         border-radius: 50%;
+        padding: 0;
+        object-fit: cover;
+        border: 1px solid rgba(255, 140, 0, 0.2);
     }
     
     /* Mobile header adjustments */
     .sleek-floating-header {
         padding: 1rem;
-    }
-    
-    .sleek-nav-container {
-        gap: 1rem;
     }
 }
 
@@ -1545,57 +1558,6 @@ body.menu-open {
     will-change: transform;
 }
 
-/* ========================================
-   ACCESSIBILITY & REDUCED MOTION
-   ======================================== */
-
-@media (prefers-reduced-motion: reduce) {
-    .sleek-floating-header,
-    .sleek-header-logo,
-    .nav-pill,
-    .sleek-cta-button,
-    .sleek-shop-link,
-    .aluminum-mobile-toggle {
-        transition: none;
-    }
-    
-    .cta-shimmer,
-    .sleek-header-logo::before {
-        display: none;
-    }
-    
-    .orb-1,
-    .orb-2,
-    .grid-dot {
-        animation: none;
-    }
-}
-
-/* Focus states for accessibility */
-.nav-pill:focus,
-.sleek-cta-button:focus,
-.sleek-shop-link:focus,
-.aluminum-mobile-toggle:focus {
-    outline: 2px solid var(--hermes-orange);
-    outline-offset: 2px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .sleek-nav-pills {
-        background: var(--white);
-        border: 2px solid var(--text-primary);
-    }
-    
-    .nav-pill.active::before {
-        background: var(--text-primary);
-    }
-    
-    .sleek-cta-button {
-        background: var(--text-primary);
-        border: 2px solid var(--white);
-    }
-}
 
 /* ========================================
    HERO SECTION - COMPLETE STYLES
