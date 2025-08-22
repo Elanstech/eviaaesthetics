@@ -134,7 +134,7 @@ class EviaLuxuryApp {
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
             { name: 'about', class: HermesAboutSection },
-            { name: 'transformationsGallery', class: ModernTransformationsGallery },
+            { name: 'transformationsGallery', class: ModernResultsShowcase },
             { name: 'instagramReviews', class: RedesignedSocialSections },
             { name: 'LuxuryProductsSection', class: EnhancedProductsCarousel },
             { name: 'contactSection', class: HermesLuxuryContactSection },
@@ -2605,81 +2605,175 @@ class HermesAboutSection {
    TRANSFORMATIONS SECTION
    ======================================== */
 
-class ModernTransformationsGallery {
-    constructor() {
-        this.gallery = document.querySelector('.modern-transformations-section');
-        this.filterButtons = document.querySelectorAll('.filter-btn');
-        this.resultItems = document.querySelectorAll('.result-item');
-        this.comparisonContainers = document.querySelectorAll('.comparison-container');
-        this.ctaButton = document.getElementById('modernResultsCTA');
-        this.activeFilter = 'all';
+/* ========================================
+   MODERN RESULTS SHOWCASE JAVASCRIPT
+   ======================================== */
 
-        if (this.gallery) {
-            this.init();
-        }
+class ModernResultsShowcase {
+    constructor() {
+        this.section = document.querySelector('.results-showcase');
+        if (!this.section) return;
+
+        this.filters = document.querySelectorAll('.results-showcase__filter');
+        this.items = document.querySelectorAll('.results-showcase__item');
+        this.comparisons = document.querySelectorAll('.results-showcase__comparison');
+        this.ctaButton = document.getElementById('resultsCtaBtn');
+        
+        this.activeFilter = 'all';
+        this.isMobile = window.innerWidth <= 768;
+        
+        this.init();
     }
 
     init() {
-        this.initImageComparisons();
-        this.initFilterSystem();
-        this.initCTAButton();
-        this.initIntersectionObserver();
+        this.setupFilterSystem();
+        this.setupImageComparisons();
+        this.setupCTAButton();
+        this.setupIntersectionObserver();
+        this.setupResizeHandler();
+        
+        // Initial animations
+        this.animateItemsIn();
     }
 
-    initImageComparisons() {
-        this.comparisonContainers.forEach(container => {
-            this.setupImageComparison(container);
+    /* ========================================
+       FILTER SYSTEM
+       ======================================== */
+
+    setupFilterSystem() {
+        this.filters.forEach(filter => {
+            filter.addEventListener('click', (e) => {
+                const filterValue = e.target.getAttribute('data-filter');
+                this.handleFilterChange(filterValue);
+            });
         });
     }
 
-    setupImageComparison(container) {
-        const afterImage = container.querySelector('.after-image');
-        const sliderHandle = container.querySelector('.slider-handle');
+    handleFilterChange(filterValue) {
+        if (filterValue === this.activeFilter) return;
+
+        this.activeFilter = filterValue;
+        this.updateActiveFilter();
+        this.filterItems(filterValue);
+    }
+
+    updateActiveFilter() {
+        this.filters.forEach(filter => {
+            const isActive = filter.getAttribute('data-filter') === this.activeFilter;
+            filter.classList.toggle('results-showcase__filter--active', isActive);
+        });
+    }
+
+    filterItems(filterValue) {
+        this.items.forEach((item, index) => {
+            const category = item.getAttribute('data-category');
+            const shouldShow = filterValue === 'all' || category === filterValue;
+            
+            if (shouldShow) {
+                // Show item with staggered animation
+                setTimeout(() => {
+                    item.setAttribute('data-hidden', 'false');
+                    item.style.animationDelay = `${index * 0.1}s`;
+                }, index * 50);
+            } else {
+                // Hide item immediately
+                item.setAttribute('data-hidden', 'true');
+            }
+        });
+
+        // Update grid layout after animation
+        setTimeout(() => {
+            this.updateGridLayout();
+        }, 300);
+    }
+
+    updateGridLayout() {
+        const visibleItems = Array.from(this.items).filter(item => 
+            item.getAttribute('data-hidden') !== 'true'
+        );
+
+        // Trigger reflow for smooth transition
+        visibleItems.forEach((item, index) => {
+            item.style.transform = 'translateY(0)';
+            item.style.opacity = '1';
+        });
+    }
+
+    /* ========================================
+       IMAGE COMPARISON SLIDERS
+       ======================================== */
+
+    setupImageComparisons() {
+        this.comparisons.forEach(comparison => {
+            this.initImageComparison(comparison);
+        });
+    }
+
+    initImageComparison(comparison) {
+        const afterImage = comparison.querySelector('.results-showcase__image--after');
+        const slider = comparison.querySelector('.results-showcase__slider');
+        const handle = comparison.querySelector('.results-showcase__slider-handle');
+        
+        if (!afterImage || !slider || !handle) return;
+
         let isDragging = false;
         let currentPosition = 50;
 
-        if (!afterImage || !sliderHandle) return;
+        // Set initial position
+        this.updateSliderPosition(afterImage, slider, currentPosition);
 
-        this.updateImageReveal(afterImage, sliderHandle, currentPosition);
+        // Mouse events for desktop
+        if (!this.isMobile) {
+            handle.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                isDragging = true;
+                document.body.style.cursor = 'ew-resize';
+                comparison.style.userSelect = 'none';
 
-        sliderHandle.addEventListener('mousedown', (e) => {
-            isDragging = true;
+                const handleMouseMove = (e) => {
+                    if (!isDragging) return;
+                    const newPosition = this.calculateSliderPosition(comparison, e.clientX);
+                    currentPosition = newPosition;
+                    this.updateSliderPosition(afterImage, slider, newPosition);
+                };
+
+                const handleMouseUp = () => {
+                    isDragging = false;
+                    document.body.style.cursor = '';
+                    comparison.style.userSelect = '';
+                    document.removeEventListener('mousemove', handleMouseMove);
+                    document.removeEventListener('mouseup', handleMouseUp);
+                };
+
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+            });
+
+            // Hover effects for desktop
+            comparison.addEventListener('mouseenter', () => {
+                if (!isDragging) {
+                    this.startAutoDemo(afterImage, slider, currentPosition);
+                }
+            });
+
+            comparison.addEventListener('mouseleave', () => {
+                if (!isDragging) {
+                    this.resetSliderPosition(afterImage, slider);
+                    currentPosition = 50;
+                }
+            });
+        }
+
+        // Touch events for mobile
+        handle.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            document.body.style.cursor = 'ew-resize';
-            container.style.userSelect = 'none';
-
-            const handleMouseMove = (e) => {
-                if (!isDragging) return;
-                const rect = container.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-                currentPosition = percentage;
-                this.updateImageReveal(afterImage, sliderHandle, percentage);
-            };
-
-            const handleMouseUp = () => {
-                isDragging = false;
-                document.body.style.cursor = '';
-                container.style.userSelect = '';
-                document.removeEventListener('mousemove', handleMouseMove);
-                document.removeEventListener('mouseup', handleMouseUp);
-            };
-
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-        });
-
-        sliderHandle.addEventListener('touchstart', (e) => {
             isDragging = true;
-            e.preventDefault();
 
             const handleTouchMove = (e) => {
                 if (!isDragging || !e.touches[0]) return;
-                const rect = container.getBoundingClientRect();
-                const x = e.touches[0].clientX - rect.left;
-                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-                currentPosition = percentage;
-                this.updateImageReveal(afterImage, sliderHandle, percentage);
+                const newPosition = this.calculateSliderPosition(comparison, e.touches[0].clientX);
+                currentPosition = newPosition;
+                this.updateSliderPosition(afterImage, slider, newPosition);
             };
 
             const handleTouchEnd = () => {
@@ -2690,42 +2784,32 @@ class ModernTransformationsGallery {
 
             document.addEventListener('touchmove', handleTouchMove, { passive: false });
             document.addEventListener('touchend', handleTouchEnd);
-        });
+        }, { passive: false });
 
-        if (!EviaUtils.isMobile()) {
-            container.addEventListener('mouseenter', () => {
-                if (!isDragging) {
-                    this.startAutoDemo(afterImage, sliderHandle, currentPosition);
-                }
-            });
-
-            container.addEventListener('mouseleave', () => {
-                if (!isDragging) {
-                    this.resetToCenter(afterImage, sliderHandle);
-                    currentPosition = 50;
-                }
-            });
-        }
-
-        container.addEventListener('click', (e) => {
-            if (e.target.closest('.slider-handle')) return;
+        // Click to position (mobile friendly)
+        comparison.addEventListener('click', (e) => {
+            if (e.target.closest('.results-showcase__slider-handle')) return;
             
-            const rect = container.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-            currentPosition = percentage;
-            
-            this.animateImageReveal(afterImage, sliderHandle, percentage);
+            const newPosition = this.calculateSliderPosition(comparison, e.clientX);
+            currentPosition = newPosition;
+            this.animateSliderTo(afterImage, slider, newPosition);
         });
     }
 
-    updateImageReveal(afterImage, sliderHandle, percentage) {
+    calculateSliderPosition(comparison, clientX) {
+        const rect = comparison.getBoundingClientRect();
+        const x = clientX - rect.left;
+        const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+        return percentage;
+    }
+
+    updateSliderPosition(afterImage, slider, percentage) {
         afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-        sliderHandle.parentElement.style.left = `${percentage}%`;
+        slider.style.left = `${percentage}%`;
     }
 
-    animateImageReveal(afterImage, sliderHandle, targetPercentage) {
-        const currentPercentage = parseFloat(sliderHandle.parentElement.style.left) || 50;
+    animateSliderTo(afterImage, slider, targetPercentage) {
+        const currentPercentage = parseFloat(slider.style.left) || 50;
         const duration = 600;
         const startTime = performance.now();
 
@@ -2735,7 +2819,7 @@ class ModernTransformationsGallery {
             const easedProgress = this.easeInOutCubic(progress);
             const currentValue = currentPercentage + (targetPercentage - currentPercentage) * easedProgress;
 
-            this.updateImageReveal(afterImage, sliderHandle, currentValue);
+            this.updateSliderPosition(afterImage, slider, currentValue);
 
             if (progress < 1) {
                 requestAnimationFrame(animate);
@@ -2745,136 +2829,95 @@ class ModernTransformationsGallery {
         requestAnimationFrame(animate);
     }
 
-    startAutoDemo(afterImage, sliderHandle, currentPosition) {
+    startAutoDemo(afterImage, slider, currentPosition) {
         const targetPosition = currentPosition > 50 ? 20 : 80;
-        this.animateImageReveal(afterImage, sliderHandle, targetPosition);
+        this.animateSliderTo(afterImage, slider, targetPosition);
     }
 
-    resetToCenter(afterImage, sliderHandle) {
-        this.animateImageReveal(afterImage, sliderHandle, 50);
+    resetSliderPosition(afterImage, slider) {
+        this.animateSliderTo(afterImage, slider, 50);
     }
 
     easeInOutCubic(t) {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
-    initFilterSystem() {
-        this.filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const filter = button.getAttribute('data-filter');
-                this.setActiveFilter(filter);
-                this.filterResults(filter);
-            });
+    /* ========================================
+       CTA BUTTON
+       ======================================== */
+
+    setupCTAButton() {
+        if (!this.ctaButton) return;
+
+        this.ctaButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.handleCTAClick();
         });
-    }
-
-    setActiveFilter(filter) {
-        this.activeFilter = filter;
-        
-        this.filterButtons.forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        const activeButton = document.querySelector(`[data-filter="${filter}"]`);
-        if (activeButton) {
-            activeButton.classList.add('active');
-        }
-    }
-
-    filterResults(filter) {
-        this.resultItems.forEach((item, index) => {
-            const category = item.getAttribute('data-category');
-            const shouldShow = filter === 'all' || category === filter;
-
-            if (shouldShow) {
-                setTimeout(() => {
-                    item.classList.remove('filtered-out');
-                }, index * 50);
-            } else {
-                item.classList.add('filtered-out');
-            }
-        });
-
-        setTimeout(() => {
-            this.updateGridLayout();
-        }, 300);
-    }
-
-    updateGridLayout() {
-        const visibleItems = Array.from(this.resultItems).filter(item => 
-            !item.classList.contains('filtered-out')
-        );
-
-        visibleItems.forEach((item, index) => {
-            item.style.transitionDelay = `${index * 100}ms`;
-        });
-
-        setTimeout(() => {
-            visibleItems.forEach(item => {
-                item.style.transitionDelay = '';
-            });
-        }, visibleItems.length * 100 + 500);
-    }
-
-    initCTAButton() {
-        if (this.ctaButton) {
-            this.ctaButton.addEventListener('click', () => {
-                this.handleCTAClick();
-            });
-        }
     }
 
     handleCTAClick() {
-        this.ctaButton.style.transform = 'translateY(-2px) scale(0.98)';
+        // Button animation
+        this.ctaButton.style.transform = 'translateY(-1px) scale(0.98)';
         
         setTimeout(() => {
             this.ctaButton.style.transform = '';
         }, 150);
 
-        setTimeout(() => {
-            app.smoothScrollTo('#contact');
-        }, 200);
-
+        // Show feedback and redirect
         this.showBookingFeedback();
+        
+        // Scroll to contact section (adjust selector as needed)
+        setTimeout(() => {
+            const contactSection = document.getElementById('contact') || document.querySelector('.contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 200);
     }
 
     showBookingFeedback() {
+        // Create feedback element
         const feedback = document.createElement('div');
+        feedback.className = 'results-showcase__feedback';
         feedback.style.cssText = `
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 107, 0, 0.95);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 20px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: var(--gradient-hermes-orange);
+            color: var(--white);
+            padding: var(--space-lg) var(--space-xl);
+            border-radius: var(--radius-lg);
+            font-family: var(--font-primary);
+            font-size: 0.875rem;
             font-weight: 600;
-            z-index: 10000;
+            z-index: 1000;
             pointer-events: none;
             opacity: 0;
             backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(255, 107, 0, 0.4);
+            box-shadow: var(--shadow-medium);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: var(--space-sm);
+            transition: all 0.4s var(--ease-luxury);
         `;
-        
+
         feedback.innerHTML = `
-            <i class="ri-calendar-check-line" style="font-size: 16px;"></i>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 2V8M16 2V8M3 10H21M8 14H8.01M12 14H12.01M16 14H16.01M8 18H8.01M12 18H12.01M16 18H16.01M5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22Z"/>
+            </svg>
             <span>Redirecting to consultation booking...</span>
         `;
-        
+
         document.body.appendChild(feedback);
-        
+
+        // Animate in
         requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
-        
+
+        // Animate out and remove
         setTimeout(() => {
             feedback.style.opacity = '0';
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
@@ -2887,7 +2930,11 @@ class ModernTransformationsGallery {
         }, 2500);
     }
 
-    initIntersectionObserver() {
+    /* ========================================
+       INTERSECTION OBSERVER
+       ======================================== */
+
+    setupIntersectionObserver() {
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -10% 0px'
@@ -2896,28 +2943,25 @@ class ModernTransformationsGallery {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
+                    entry.target.classList.add('in-view');
                     
-                    if (entry.target.classList.contains('results-grid')) {
-                        const items = entry.target.querySelectorAll('.result-item');
-                        items.forEach((item, index) => {
-                            setTimeout(() => {
-                                item.style.opacity = '1';
-                                item.style.transform = 'translateY(0)';
-                            }, index * 100);
-                        });
+                    // Trigger staggered animations for grid items
+                    if (entry.target.classList.contains('results-showcase__grid')) {
+                        this.animateItemsIn();
                     }
                     
+                    // Unobserve to prevent re-triggering
                     observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
+        // Observe key elements
         const elementsToObserve = [
-            this.gallery.querySelector('.transformations-header'),
-            this.gallery.querySelector('.filter-navigation'),
-            this.gallery.querySelector('.results-grid'),
-            this.gallery.querySelector('.modern-cta')
+            this.section.querySelector('.results-showcase__header'),
+            this.section.querySelector('.results-showcase__filters'),
+            this.section.querySelector('.results-showcase__grid'),
+            this.section.querySelector('.results-showcase__cta')
         ].filter(Boolean);
 
         elementsToObserve.forEach(element => {
@@ -2925,55 +2969,127 @@ class ModernTransformationsGallery {
         });
     }
 
-    onResize() {
-        this.comparisonContainers.forEach(container => {
-            const afterImage = container.querySelector('.after-image');
-            const sliderHandle = container.querySelector('.slider-handle');
-            if (afterImage && sliderHandle) {
-                this.updateImageReveal(afterImage, sliderHandle, 50);
+    animateItemsIn() {
+        this.items.forEach((item, index) => {
+            // Only animate visible items
+            if (item.getAttribute('data-hidden') !== 'true') {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 100);
             }
         });
+    }
+
+    /* ========================================
+       RESIZE HANDLER
+       ======================================== */
+
+    setupResizeHandler() {
+        let resizeTimeout;
+        
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.handleResize();
+            }, 250);
+        });
+    }
+
+    handleResize() {
+        const wasMobile = this.isMobile;
+        this.isMobile = window.innerWidth <= 768;
+
+        // If device type changed, reinitialize comparisons
+        if (wasMobile !== this.isMobile) {
+            this.setupImageComparisons();
+        }
+
+        // Reset all sliders to center position
+        this.comparisons.forEach(comparison => {
+            const afterImage = comparison.querySelector('.results-showcase__image--after');
+            const slider = comparison.querySelector('.results-showcase__slider');
+            
+            if (afterImage && slider) {
+                this.updateSliderPosition(afterImage, slider, 50);
+            }
+        });
+    }
+
+    /* ========================================
+       PUBLIC METHODS
+       ======================================== */
+
+    // Method to programmatically set filter
+    setFilter(filterValue) {
+        if (this.filters.length > 0) {
+            this.handleFilterChange(filterValue);
+        }
+    }
+
+    // Method to get current filter
+    getCurrentFilter() {
+        return this.activeFilter;
+    }
+
+    // Method to refresh the gallery
+    refresh() {
+        this.setupImageComparisons();
+        this.animateItemsIn();
     }
 }
 
 /* ========================================
-   INSTAGRAM & REVIEWS SECTIONS
+   INITIALIZATION
    ======================================== */
 
-class RedesignedSocialSections {
-    constructor() {
-        this.instagram = {
-            initialized: false,
-            widgetLoaded: false,
-            container: null,
-            loading: null
-        };
-        this.reviews = {
-            initialized: false,
-            widgetLoaded: false,
-            container: null,
-            loading: null
-        };
-        
-        this.init();
-    }
-    
-    init() {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.initializeRedesignedSections());
-            return;
-        }
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    window.modernResultsShowcase = new ModernResultsShowcase();
+});
 
-        this.initializeRedesignedSections();
+// Also initialize if script loads after DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!window.modernResultsShowcase) {
+            window.modernResultsShowcase = new ModernResultsShowcase();
+        }
+    });
+} else {
+    if (!window.modernResultsShowcase) {
+        window.modernResultsShowcase = new ModernResultsShowcase();
     }
-    
-    initializeRedesignedSections() {
-        this.initializeInstagramSection();
-        this.initializeReviewsSection();
-        this.setupElfsightIntegration();
-        
-        console.log('✨ Redesigned Social Sections initialized');
-    }
+}
+
+/* ========================================
+   UTILITY FUNCTIONS
+   ======================================== */
+
+// Utility function to check if element is in viewport
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Debounce function for performance
+function debounce(func, wait, immediate) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            timeout = null;
+            if (!immediate) func(...args);
+        };
+        const callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func(...args);
+    };
+}
 
     /* ========================================
        INSTAGRAM SECTION
@@ -6251,7 +6367,7 @@ if (typeof module !== 'undefined' && module.exports) {
         EviaUtils, 
         EnhancedServicesCarousel,
         HermesAboutSection,
-        ModernTransformationsGallery,
+        ModernResultsShowcase,
         RedesignedSocialSections,
         EnhancedProductsCarousel,
         HermesLuxuryContactSection,
