@@ -785,39 +785,12 @@ body {
     .header-logo {
         animation: logoGlow 4s ease-in-out infinite;
     }
-
-    /* LOGO SIZE HELPER CLASSES - UNCOMMENT THE ONE YOU WANT */
-    /*
-    :root {
-        --logo-size: 80px;   /* Small logo */
-        --logo-top-offset: 0px;
-        --logo-left-offset: 0px;
-    }
-    */
-
-    /*
-    :root {
-        --logo-size: 100px;  /* Medium logo */
-        --logo-top-offset: -5px;
-        --logo-left-offset: 0px;
-    }
-    */
-
-    /*
-    :root {
-        --logo-size: 120px;  /* Large logo (current) */
-        --logo-top-offset: -10px;
-        --logo-left-offset: 0px;
-    }
-    */
-
-    /*
+   
     :root {
         --logo-size: 150px;  /* Extra Large logo */
         --logo-top-offset: -20px;
         --logo-left-offset: 0px;
     }
-    */
 }
 
 /* ========================================
