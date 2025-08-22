@@ -134,7 +134,7 @@ class EviaLuxuryApp {
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
             { name: 'about', class: HermesAboutSection },
-            { name: 'transformationsGallery', class: ModernResultsShowcase },
+            { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'instagramReviews', class: RedesignedSocialSections },
             { name: 'LuxuryProductsSection', class: EnhancedProductsCarousel },
             { name: 'contactSection', class: HermesLuxuryContactSection },
@@ -2602,205 +2602,84 @@ class HermesAboutSection {
 }
 
 /* ========================================
-   UPDATED MODERN RESULTS SHOWCASE - INTEGRATED VERSION
+   TRANSFORMATIONS SECTION
    ======================================== */
 
-class ModernResultsShowcase {
+class ModernTransformationsGallery {
     constructor() {
-        this.section = document.querySelector('.results-showcase');
-        if (!this.section) {
-            // Fallback to original selector if new one doesn't exist
-            this.section = document.querySelector('.modern-transformations-section');
-        }
-        if (!this.section) return;
-
-        // New selectors for the redesigned section
-        this.filters = document.querySelectorAll('.results-showcase__filter, .filter-btn');
-        this.items = document.querySelectorAll('.results-showcase__item, .result-item');
-        this.comparisons = document.querySelectorAll('.results-showcase__comparison, .comparison-container');
-        this.ctaButton = document.getElementById('resultsCtaBtn') || document.getElementById('modernResultsCTA');
-        
+        this.gallery = document.querySelector('.modern-transformations-section');
+        this.filterButtons = document.querySelectorAll('.filter-btn');
+        this.resultItems = document.querySelectorAll('.result-item');
+        this.comparisonContainers = document.querySelectorAll('.comparison-container');
+        this.ctaButton = document.getElementById('modernResultsCTA');
         this.activeFilter = 'all';
-        this.isMobile = window.innerWidth <= 768;
-        this.isInitialized = false;
-        
-        this.init();
+
+        if (this.gallery) {
+            this.init();
+        }
     }
 
     init() {
-        if (this.isInitialized) return;
-        
-        try {
-            this.setupFilterSystem();
-            this.setupImageComparisons();
-            this.setupCTAButton();
-            this.setupIntersectionObserver();
-            this.setupResizeHandler();
-            
-            // Initial animations
-            setTimeout(() => {
-                this.animateItemsIn();
-            }, 500);
-            
-            this.isInitialized = true;
-            console.log('✨ Modern Results Showcase initialized successfully');
-        } catch (error) {
-            console.error('❌ Error initializing Modern Results Showcase:', error);
-        }
+        this.initImageComparisons();
+        this.initFilterSystem();
+        this.initCTAButton();
+        this.initIntersectionObserver();
     }
 
-    /* ========================================
-       FILTER SYSTEM
-       ======================================== */
-
-    setupFilterSystem() {
-        this.filters.forEach(filter => {
-            filter.addEventListener('click', (e) => {
-                e.preventDefault();
-                const filterValue = e.target.getAttribute('data-filter');
-                if (filterValue) {
-                    this.handleFilterChange(filterValue);
-                }
-            });
+    initImageComparisons() {
+        this.comparisonContainers.forEach(container => {
+            this.setupImageComparison(container);
         });
     }
 
-    handleFilterChange(filterValue) {
-        if (filterValue === this.activeFilter) return;
-
-        this.activeFilter = filterValue;
-        this.updateActiveFilter();
-        this.filterItems(filterValue);
-        
-        // Track the filter change
-        this.trackEvent('filter_change', 'results', filterValue);
-    }
-
-    updateActiveFilter() {
-        this.filters.forEach(filter => {
-            const isActive = filter.getAttribute('data-filter') === this.activeFilter;
-            filter.classList.toggle('results-showcase__filter--active', isActive);
-            filter.classList.toggle('active', isActive); // Fallback for old class
-        });
-    }
-
-    filterItems(filterValue) {
-        this.items.forEach((item, index) => {
-            const category = item.getAttribute('data-category');
-            const shouldShow = filterValue === 'all' || category === filterValue;
-            
-            if (shouldShow) {
-                // Show item with staggered animation
-                setTimeout(() => {
-                    item.setAttribute('data-hidden', 'false');
-                    item.classList.remove('filtered-out');
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateY(0)';
-                    item.style.animationDelay = `${index * 0.1}s`;
-                }, index * 50);
-            } else {
-                // Hide item immediately
-                item.setAttribute('data-hidden', 'true');
-                item.classList.add('filtered-out');
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(20px)';
-            }
-        });
-
-        // Update grid layout after animation
-        setTimeout(() => {
-            this.updateGridLayout();
-        }, 300);
-    }
-
-    updateGridLayout() {
-        const visibleItems = Array.from(this.items).filter(item => 
-            item.getAttribute('data-hidden') !== 'true' && !item.classList.contains('filtered-out')
-        );
-
-        // Trigger reflow for smooth transition
-        visibleItems.forEach((item, index) => {
-            item.style.transform = 'translateY(0)';
-            item.style.opacity = '1';
-        });
-    }
-
-    /* ========================================
-       IMAGE COMPARISON SLIDERS
-       ======================================== */
-
-    setupImageComparisons() {
-        this.comparisons.forEach(comparison => {
-            this.initImageComparison(comparison);
-        });
-    }
-
-    initImageComparison(comparison) {
-        // Support both new and old selectors
-        const afterImage = comparison.querySelector('.results-showcase__image--after, .after-image');
-        const slider = comparison.querySelector('.results-showcase__slider, .reveal-slider');
-        const handle = comparison.querySelector('.results-showcase__slider-handle, .slider-handle');
-        
-        if (!afterImage || !slider || !handle) return;
-
+    setupImageComparison(container) {
+        const afterImage = container.querySelector('.after-image');
+        const sliderHandle = container.querySelector('.slider-handle');
         let isDragging = false;
         let currentPosition = 50;
 
-        // Set initial position
-        this.updateSliderPosition(afterImage, slider, currentPosition);
+        if (!afterImage || !sliderHandle) return;
 
-        // Mouse events for desktop
-        if (!this.isMobile) {
-            handle.addEventListener('mousedown', (e) => {
-                e.preventDefault();
-                isDragging = true;
-                document.body.style.cursor = 'ew-resize';
-                comparison.style.userSelect = 'none';
+        this.updateImageReveal(afterImage, sliderHandle, currentPosition);
 
-                const handleMouseMove = (e) => {
-                    if (!isDragging) return;
-                    const newPosition = this.calculateSliderPosition(comparison, e.clientX);
-                    currentPosition = newPosition;
-                    this.updateSliderPosition(afterImage, slider, newPosition);
-                };
-
-                const handleMouseUp = () => {
-                    isDragging = false;
-                    document.body.style.cursor = '';
-                    comparison.style.userSelect = '';
-                    document.removeEventListener('mousemove', handleMouseMove);
-                    document.removeEventListener('mouseup', handleMouseUp);
-                };
-
-                document.addEventListener('mousemove', handleMouseMove);
-                document.addEventListener('mouseup', handleMouseUp);
-            });
-
-            // Hover effects for desktop
-            comparison.addEventListener('mouseenter', () => {
-                if (!isDragging) {
-                    this.startAutoDemo(afterImage, slider, currentPosition);
-                }
-            });
-
-            comparison.addEventListener('mouseleave', () => {
-                if (!isDragging) {
-                    this.resetSliderPosition(afterImage, slider);
-                    currentPosition = 50;
-                }
-            });
-        }
-
-        // Touch events for mobile
-        handle.addEventListener('touchstart', (e) => {
-            e.preventDefault();
+        sliderHandle.addEventListener('mousedown', (e) => {
             isDragging = true;
+            e.preventDefault();
+            document.body.style.cursor = 'ew-resize';
+            container.style.userSelect = 'none';
+
+            const handleMouseMove = (e) => {
+                if (!isDragging) return;
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                currentPosition = percentage;
+                this.updateImageReveal(afterImage, sliderHandle, percentage);
+            };
+
+            const handleMouseUp = () => {
+                isDragging = false;
+                document.body.style.cursor = '';
+                container.style.userSelect = '';
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', handleMouseUp);
+            };
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        });
+
+        sliderHandle.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            e.preventDefault();
 
             const handleTouchMove = (e) => {
                 if (!isDragging || !e.touches[0]) return;
-                const newPosition = this.calculateSliderPosition(comparison, e.touches[0].clientX);
-                currentPosition = newPosition;
-                this.updateSliderPosition(afterImage, slider, newPosition);
+                const rect = container.getBoundingClientRect();
+                const x = e.touches[0].clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                currentPosition = percentage;
+                this.updateImageReveal(afterImage, sliderHandle, percentage);
             };
 
             const handleTouchEnd = () => {
@@ -2811,39 +2690,42 @@ class ModernResultsShowcase {
 
             document.addEventListener('touchmove', handleTouchMove, { passive: false });
             document.addEventListener('touchend', handleTouchEnd);
-        }, { passive: false });
+        });
 
-        // Click to position (mobile friendly)
-        comparison.addEventListener('click', (e) => {
-            if (e.target.closest('.results-showcase__slider-handle, .slider-handle')) return;
+        if (!EviaUtils.isMobile()) {
+            container.addEventListener('mouseenter', () => {
+                if (!isDragging) {
+                    this.startAutoDemo(afterImage, sliderHandle, currentPosition);
+                }
+            });
+
+            container.addEventListener('mouseleave', () => {
+                if (!isDragging) {
+                    this.resetToCenter(afterImage, sliderHandle);
+                    currentPosition = 50;
+                }
+            });
+        }
+
+        container.addEventListener('click', (e) => {
+            if (e.target.closest('.slider-handle')) return;
             
-            const newPosition = this.calculateSliderPosition(comparison, e.clientX);
-            currentPosition = newPosition;
-            this.animateSliderTo(afterImage, slider, newPosition);
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            currentPosition = percentage;
+            
+            this.animateImageReveal(afterImage, sliderHandle, percentage);
         });
     }
 
-    calculateSliderPosition(comparison, clientX) {
-        const rect = comparison.getBoundingClientRect();
-        const x = clientX - rect.left;
-        const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-        return percentage;
+    updateImageReveal(afterImage, sliderHandle, percentage) {
+        afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        sliderHandle.parentElement.style.left = `${percentage}%`;
     }
 
-    updateSliderPosition(afterImage, slider, percentage) {
-        // Support both new and old CSS properties
-        if (afterImage.style.clipPath !== undefined) {
-            afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-        } else {
-            // Fallback for older browsers
-            afterImage.style.width = `${percentage}%`;
-        }
-        
-        slider.style.left = `${percentage}%`;
-    }
-
-    animateSliderTo(afterImage, slider, targetPercentage) {
-        const currentPercentage = parseFloat(slider.style.left) || 50;
+    animateImageReveal(afterImage, sliderHandle, targetPercentage) {
+        const currentPercentage = parseFloat(sliderHandle.parentElement.style.left) || 50;
         const duration = 600;
         const startTime = performance.now();
 
@@ -2853,7 +2735,7 @@ class ModernResultsShowcase {
             const easedProgress = this.easeInOutCubic(progress);
             const currentValue = currentPercentage + (targetPercentage - currentPercentage) * easedProgress;
 
-            this.updateSliderPosition(afterImage, slider, currentValue);
+            this.updateImageReveal(afterImage, sliderHandle, currentValue);
 
             if (progress < 1) {
                 requestAnimationFrame(animate);
@@ -2863,133 +2745,136 @@ class ModernResultsShowcase {
         requestAnimationFrame(animate);
     }
 
-    startAutoDemo(afterImage, slider, currentPosition) {
+    startAutoDemo(afterImage, sliderHandle, currentPosition) {
         const targetPosition = currentPosition > 50 ? 20 : 80;
-        this.animateSliderTo(afterImage, slider, targetPosition);
+        this.animateImageReveal(afterImage, sliderHandle, targetPosition);
     }
 
-    resetSliderPosition(afterImage, slider) {
-        this.animateSliderTo(afterImage, slider, 50);
+    resetToCenter(afterImage, sliderHandle) {
+        this.animateImageReveal(afterImage, sliderHandle, 50);
     }
 
     easeInOutCubic(t) {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
-    /* ========================================
-       CTA BUTTON
-       ======================================== */
-
-    setupCTAButton() {
-        if (!this.ctaButton) return;
-
-        this.ctaButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.handleCTAClick();
-        });
-        
-        // Add hover effect
-        this.ctaButton.addEventListener('mouseenter', () => {
-            this.addCTAHoverEffect();
+    initFilterSystem() {
+        this.filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.getAttribute('data-filter');
+                this.setActiveFilter(filter);
+                this.filterResults(filter);
+            });
         });
     }
 
+    setActiveFilter(filter) {
+        this.activeFilter = filter;
+        
+        this.filterButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        const activeButton = document.querySelector(`[data-filter="${filter}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+    }
+
+    filterResults(filter) {
+        this.resultItems.forEach((item, index) => {
+            const category = item.getAttribute('data-category');
+            const shouldShow = filter === 'all' || category === filter;
+
+            if (shouldShow) {
+                setTimeout(() => {
+                    item.classList.remove('filtered-out');
+                }, index * 50);
+            } else {
+                item.classList.add('filtered-out');
+            }
+        });
+
+        setTimeout(() => {
+            this.updateGridLayout();
+        }, 300);
+    }
+
+    updateGridLayout() {
+        const visibleItems = Array.from(this.resultItems).filter(item => 
+            !item.classList.contains('filtered-out')
+        );
+
+        visibleItems.forEach((item, index) => {
+            item.style.transitionDelay = `${index * 100}ms`;
+        });
+
+        setTimeout(() => {
+            visibleItems.forEach(item => {
+                item.style.transitionDelay = '';
+            });
+        }, visibleItems.length * 100 + 500);
+    }
+
+    initCTAButton() {
+        if (this.ctaButton) {
+            this.ctaButton.addEventListener('click', () => {
+                this.handleCTAClick();
+            });
+        }
+    }
+
     handleCTAClick() {
-        // Button animation
-        this.ctaButton.style.transform = 'translateY(-1px) scale(0.98)';
+        this.ctaButton.style.transform = 'translateY(-2px) scale(0.98)';
         
         setTimeout(() => {
             this.ctaButton.style.transform = '';
         }, 150);
 
-        // Show feedback and redirect
-        this.showBookingFeedback();
-        
-        // Scroll to contact section
         setTimeout(() => {
-            this.scrollToContact();
+            app.smoothScrollTo('#contact');
         }, 200);
-        
-        // Track the CTA click
-        this.trackEvent('cta_click', 'results', 'book_consultation');
-    }
 
-    addCTAHoverEffect() {
-        // Add shimmer effect if element has one
-        const shimmer = this.ctaButton.querySelector('.cta-shimmer, .button-glow');
-        if (shimmer) {
-            shimmer.style.left = '-100%';
-            shimmer.style.transition = 'none';
-            shimmer.offsetHeight; // Force reflow
-            shimmer.style.transition = 'left 0.8s ease';
-            shimmer.style.left = '100%';
-        }
-    }
-
-    scrollToContact() {
-        const contactSection = document.getElementById('contact') || 
-                              document.querySelector('.contact') ||
-                              document.querySelector('.hermes-contact-section');
-        
-        if (contactSection) {
-            contactSection.scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
-        } else {
-            // Fallback - try using the app's smooth scroll method
-            if (window.app && window.app.smoothScrollTo) {
-                window.app.smoothScrollTo('#contact');
-            }
-        }
+        this.showBookingFeedback();
     }
 
     showBookingFeedback() {
-        // Create feedback element
         const feedback = document.createElement('div');
-        feedback.className = 'results-showcase__feedback';
         feedback.style.cssText = `
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background: var(--gradient-hermes-orange, linear-gradient(135deg, #FF8C00 0%, #FFA500 100%));
-            color: var(--white, #FFFFFF);
-            padding: var(--space-lg, 16px) var(--space-xl, 24px);
-            border-radius: var(--radius-lg, 16px);
-            font-family: var(--font-primary, 'Inter', sans-serif);
-            font-size: 0.875rem;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 107, 0, 0.95);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
             font-weight: 600;
             z-index: 10000;
             pointer-events: none;
             opacity: 0;
             backdrop-filter: blur(20px);
-            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 8px 32px rgba(255, 107, 0, 0.4);
             display: flex;
             align-items: center;
-            gap: var(--space-sm, 8px);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            min-width: 280px;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            gap: 8px;
         `;
-
+        
         feedback.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M8 2V8M16 2V8M3 10H21M8 14H8.01M12 14H12.01M16 14H16.01M8 18H8.01M12 18H12.01M16 18H16.01M5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22Z"/>
-            </svg>
+            <i class="ri-calendar-check-line" style="font-size: 16px;"></i>
             <span>Redirecting to consultation booking...</span>
         `;
-
+        
         document.body.appendChild(feedback);
-
-        // Animate in
+        
         requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
-
-        // Animate out and remove
+        
         setTimeout(() => {
             feedback.style.opacity = '0';
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
@@ -3002,11 +2887,7 @@ class ModernResultsShowcase {
         }, 2500);
     }
 
-    /* ========================================
-       INTERSECTION OBSERVER
-       ======================================== */
-
-    setupIntersectionObserver() {
+    initIntersectionObserver() {
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -10% 0px'
@@ -3015,180 +2896,84 @@ class ModernResultsShowcase {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
+                    entry.target.classList.add('animate-in');
                     
-                    // Trigger staggered animations for grid items
-                    if (entry.target.classList.contains('results-showcase__grid') || 
-                        entry.target.classList.contains('results-grid')) {
-                        this.animateItemsIn();
+                    if (entry.target.classList.contains('results-grid')) {
+                        const items = entry.target.querySelectorAll('.result-item');
+                        items.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
                     }
                     
-                    // Unobserve to prevent re-triggering
                     observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        // Observe key elements with fallback selectors
         const elementsToObserve = [
-            this.section.querySelector('.results-showcase__header, .transformations-header'),
-            this.section.querySelector('.results-showcase__filters, .filter-navigation'),
-            this.section.querySelector('.results-showcase__grid, .results-grid'),
-            this.section.querySelector('.results-showcase__cta, .modern-cta')
+            this.gallery.querySelector('.transformations-header'),
+            this.gallery.querySelector('.filter-navigation'),
+            this.gallery.querySelector('.results-grid'),
+            this.gallery.querySelector('.modern-cta')
         ].filter(Boolean);
 
         elementsToObserve.forEach(element => {
-            if (element) observer.observe(element);
+            observer.observe(element);
         });
     }
 
-    animateItemsIn() {
-        this.items.forEach((item, index) => {
-            // Only animate visible items
-            if (item.getAttribute('data-hidden') !== 'true' && !item.classList.contains('filtered-out')) {
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateY(0)';
-                    item.classList.add('animate-in');
-                }, index * 100);
-            }
-        });
-    }
-
-    /* ========================================
-       RESIZE HANDLER
-       ======================================== */
-
-    setupResizeHandler() {
-        let resizeTimeout;
-        
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                this.handleResize();
-            }, 250);
-        });
-    }
-
-    handleResize() {
-        const wasMobile = this.isMobile;
-        this.isMobile = window.innerWidth <= 768;
-
-        // If device type changed, reinitialize comparisons
-        if (wasMobile !== this.isMobile) {
-            this.setupImageComparisons();
-        }
-
-        // Reset all sliders to center position
-        this.comparisons.forEach(comparison => {
-            const afterImage = comparison.querySelector('.results-showcase__image--after, .after-image');
-            const slider = comparison.querySelector('.results-showcase__slider, .reveal-slider');
-            
-            if (afterImage && slider) {
-                this.updateSliderPosition(afterImage, slider, 50);
-            }
-        });
-    }
-
-    /* ========================================
-       UTILITY METHODS
-       ======================================== */
-
-    trackEvent(action, category, label) {
-        // Use the existing app's tracking if available
-        if (window.app && window.app.trackEvent) {
-            window.app.trackEvent(action, category, label);
-        } else if (typeof gtag !== 'undefined') {
-            gtag('event', action, {
-                event_category: category,
-                event_label: label,
-                value: 1
-            });
-        }
-        
-        console.log(`📊 Results Event: ${action} - ${category} - ${label}`);
-    }
-
-    /* ========================================
-       PUBLIC METHODS
-       ======================================== */
-
-    // Method to programmatically set filter
-    setFilter(filterValue) {
-        if (this.filters.length > 0) {
-            this.handleFilterChange(filterValue);
-        }
-    }
-
-    // Method to get current filter
-    getCurrentFilter() {
-        return this.activeFilter;
-    }
-
-    // Method to refresh the gallery
-    refresh() {
-        this.setupImageComparisons();
-        this.animateItemsIn();
-    }
-
-    // Method for the app's resize handler
     onResize() {
-        this.handleResize();
-    }
-
-    // Method to restart animations
-    restart() {
-        this.items.forEach(item => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(20px)';
-            item.classList.remove('animate-in');
+        this.comparisonContainers.forEach(container => {
+            const afterImage = container.querySelector('.after-image');
+            const sliderHandle = container.querySelector('.slider-handle');
+            if (afterImage && sliderHandle) {
+                this.updateImageReveal(afterImage, sliderHandle, 50);
+            }
         });
-        
-        setTimeout(() => {
-            this.animateItemsIn();
-        }, 100);
-    }
-
-    // Destroy method for cleanup
-    destroy() {
-        // Remove event listeners and clean up
-        this.filters.forEach(filter => {
-            filter.replaceWith(filter.cloneNode(true));
-        });
-        
-        if (this.ctaButton) {
-            this.ctaButton.replaceWith(this.ctaButton.cloneNode(true));
-        }
-        
-        this.isInitialized = false;
-        console.log('🗑️ Modern Results Showcase destroyed');
     }
 }
 
 /* ========================================
-   INTEGRATION HELPER
+   INSTAGRAM & REVIEWS SECTIONS
    ======================================== */
 
-// Function to initialize the updated results showcase
-function initializeModernResults() {
-    // Only initialize if not already done by the main app
-    if (!window.modernResultsShowcase) {
-        window.modernResultsShowcase = new ModernResultsShowcase();
+class RedesignedSocialSections {
+    constructor() {
+        this.instagram = {
+            initialized: false,
+            widgetLoaded: false,
+            container: null,
+            loading: null
+        };
+        this.reviews = {
+            initialized: false,
+            widgetLoaded: false,
+            container: null,
+            loading: null
+        };
+        
+        this.init();
     }
-}
+    
+    init() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.initializeRedesignedSections());
+            return;
+        }
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeModernResults);
-} else {
-    initializeModernResults();
-}
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ModernResultsShowcase;
-}
-
+        this.initializeRedesignedSections();
+    }
+    
+    initializeRedesignedSections() {
+        this.initializeInstagramSection();
+        this.initializeReviewsSection();
+        this.setupElfsightIntegration();
+        
+        console.log('✨ Redesigned Social Sections initialized');
+    }
 
     /* ========================================
        INSTAGRAM SECTION
@@ -6466,7 +6251,7 @@ if (typeof module !== 'undefined' && module.exports) {
         EviaUtils, 
         EnhancedServicesCarousel,
         HermesAboutSection,
-        ModernResultsShowcase,
+        ModernTransformationsGallery,
         RedesignedSocialSections,
         EnhancedProductsCarousel,
         HermesLuxuryContactSection,
