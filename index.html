@@ -70,36 +70,39 @@
 </div>
     
 <!-- Modern Sleek Floating Header -->
-<header class="modern-floating-header" id="header">
-    <nav class="sleek-container">
+<header class="sleek-floating-header" id="header">
+    <nav class="sleek-nav-container">
         <!-- Logo Section -->
-        <div class="logo-section">
-            <img src="logo1.png" alt="Eviaesthetics" class="header-logo">
+        <div class="sleek-logo-section">
+            <img src="logo1.png" alt="Eviaesthetics" class="sleek-header-logo desktop-logo">
+            <img src="mobilelogo.png" alt="Eviaesthetics" class="sleek-header-logo mobile-logo">
         </div>
         
-        <!-- Compact Navigation Menu -->
-        <ul class="sleek-nav-menu">
-            <li><a href="#home" class="sleek-nav-link active"><span>Home</span></a></li>
-            <li><a href="#services" class="sleek-nav-link"><span>Services</span></a></li>
-            <li><a href="#about" class="sleek-nav-link"><span>About</span></a></li>
-            <li><a href="#results" class="sleek-nav-link"><span>Results</span></a></li>
-            <li><a href="#contact" class="sleek-nav-link"><span>Contact</span></a></li>
+        <!-- Navigation Pills (Desktop Only) -->
+        <ul class="sleek-nav-pills">
+            <li><a href="#home" class="nav-pill active" data-text="Home"><span>Home</span></a></li>
+            <li><a href="#services" class="nav-pill" data-text="Services"><span>Services</span></a></li>
+            <li><a href="#about" class="nav-pill" data-text="About"><span>About</span></a></li>
+            <li><a href="#results" class="nav-pill" data-text="Results"><span>Results</span></a></li>
+            <li><a href="#contact" class="nav-pill" data-text="Contact"><span>Contact</span></a></li>
         </ul>
         
-        <!-- Secondary Actions -->
-        <div class="header-actions">
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="shop-link" target="_blank">
+        <!-- Right Actions -->
+        <div class="sleek-header-actions">
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="sleek-shop-link" target="_blank">
                 <i class="ri-shopping-bag-line"></i>
                 <span>Shop</span>
+                <div class="link-ripple"></div>
             </a>
-            <button class="sleek-cta" id="headerCTA" type="button">
-                <span>Book Now</span>
-                <i class="ri-arrow-right-line"></i>
-                <div class="cta-shine"></div>
+            <button class="sleek-cta-button" id="headerCTA" type="button">
+                <span class="cta-text">Book Now</span>
+                <i class="ri-arrow-right-line cta-icon"></i>
+                <div class="cta-shimmer"></div>
+                <div class="cta-glow"></div>
             </button>
         </div>
         
-        <!-- Mobile Toggle -->
+        <!-- Mobile Toggle (unchanged functionality) -->
         <button class="aluminum-mobile-toggle" id="mobileToggle" type="button" aria-label="Toggle Menu">
             <div class="toggle-frame">
                 <span class="toggle-bar"></span>
