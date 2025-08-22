@@ -477,16 +477,11 @@ body {
 /* ========================================
    MODERN SLEEK FLOATING HEADER & MOBILE MENU
    ======================================== */
-
 /* ========================================
-   PROFESSIONAL SLEEK FLOATING HEADER
+   FLOATING HERMES ORANGE HEADER - NO BACKGROUND
    ======================================== */
 
-/* ========================================
-   DESKTOP HEADER - SLEEK FLOATING DESIGN  
-   ======================================== */
-
-/* Desktop Only Styles - REDESIGNED */
+/* Desktop Only Styles - COMPLETELY FLOATING */
 @media (min-width: 769px) {
     .modern-floating-header {
         position: fixed;
@@ -495,69 +490,38 @@ body {
         transform: translateX(-50%);
         z-index: 1000;
         transition: all 0.4s var(--ease-luxury);
-        width: min(92vw, 1500px);
+        width: min(95vw, 1600px);
         pointer-events: none;
-        filter: drop-shadow(0 8px 32px rgba(255, 248, 240, 0.3));
     }
 
     .sleek-container {
-        background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.12) 0%, 
-            rgba(255, 248, 240, 0.08) 50%, 
-            rgba(248, 244, 236, 0.10) 100%);
-        backdrop-filter: blur(60px) saturate(180%);
-        border: 1.5px solid rgba(255, 255, 255, 0.2);
-        border-radius: 50px;
-        padding: 1rem 3rem;
+        /* NO BACKGROUND - COMPLETELY TRANSPARENT */
+        background: transparent;
+        backdrop-filter: none;
+        border: none;
+        border-radius: 0;
+        padding: 1.5rem 3rem;
         display: flex;
         align-items: center;
-        gap: 3rem;
-        box-shadow: 
-            var(--shadow-luxury),
-            0 6px 25px rgba(255, 140, 0, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.25),
-            inset 0 -1px 0 rgba(255, 248, 240, 0.1);
+        gap: 4rem;
+        box-shadow: none;
         transition: all 0.4s var(--ease-luxury);
-        height: 90px;
+        height: auto;
         pointer-events: auto;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
     }
 
-    /* Subtle inner glow */
-    .sleek-container::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, 
-            rgba(255, 248, 240, 0.15) 0%, 
-            rgba(255, 255, 255, 0.08) 50%, 
-            rgba(248, 244, 236, 0.12) 100%);
-        border-radius: inherit;
-        pointer-events: none;
-        z-index: -1;
-        opacity: 0.8;
-    }
-
-    /* Enhanced scroll state */
+    /* Remove all scroll state backgrounds */
     .modern-floating-header.scrolled .sleek-container {
-        background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.18) 0%, 
-            rgba(255, 248, 240, 0.14) 50%, 
-            rgba(248, 244, 236, 0.16) 100%);
-        border-color: rgba(255, 140, 0, 0.15);
-        box-shadow: 
-            0 16px 60px rgba(255, 248, 240, 0.2),
-            0 8px 30px rgba(255, 140, 0, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3),
-            inset 0 -1px 0 rgba(255, 248, 240, 0.15);
-        transform: scale(0.98);
+        background: transparent;
+        backdrop-filter: none;
+        border: none;
+        box-shadow: none;
+        transform: none;
     }
 
-    /* Logo Section Enhancement */
+    /* MUCH BIGGER LOGO SECTION */
     .logo-section {
         display: flex;
         align-items: center;
@@ -566,31 +530,35 @@ body {
     }
 
     .header-logo {
-        width: 70px;
-        height: 70px;
+        width: 120px;  /* Much bigger than before (was 70px) */
+        height: 120px; /* Much bigger than before (was 70px) */
         object-fit: cover;
-        border-radius: var(--radius-lg);
+        border-radius: var(--radius-xl);
         transition: all var(--transition-medium);
         cursor: pointer;
         box-shadow: 
-            0 4px 20px rgba(255, 140, 0, 0.1),
-            var(--shadow-soft);
-        border: 2px solid rgba(255, 255, 255, 0.25);
+            0 8px 40px rgba(255, 140, 0, 0.3),
+            0 4px 20px rgba(255, 140, 0, 0.15),
+            inset 0 2px 0 rgba(255, 255, 255, 0.2);
+        border: 3px solid var(--hermes-orange);
+        filter: drop-shadow(0 4px 12px rgba(255, 140, 0, 0.4));
     }
 
     .header-logo:hover {
-        transform: scale(1.05) rotate(-1deg);
+        transform: scale(1.08) rotate(-2deg);
         box-shadow: 
-            0 8px 30px rgba(255, 140, 0, 0.2),
-            var(--shadow-medium);
-        border-color: rgba(255, 140, 0, 0.3);
+            0 12px 50px rgba(255, 140, 0, 0.4),
+            0 6px 25px rgba(255, 140, 0, 0.25),
+            inset 0 2px 0 rgba(255, 255, 255, 0.3);
+        border-color: var(--hermes-orange-light);
+        filter: drop-shadow(0 6px 20px rgba(255, 140, 0, 0.5));
     }
 
-    /* Enhanced Navigation */
+    /* Enhanced Navigation with Hermès Orange Theme */
     .sleek-nav-menu {
         display: flex;
         list-style: none;
-        gap: 0.75rem;
+        gap: 1rem;
         align-items: center;
         flex: 1;
         justify-content: center;
@@ -601,35 +569,35 @@ body {
     .sleek-nav-link {
         position: relative;
         text-decoration: none;
-        color: var(--text-primary);
-        font-weight: 500;
-        font-size: 0.9rem;
-        padding: 0.875rem 1.5rem;
-        border-radius: 35px;
+        color: var(--white);
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 1rem 1.75rem;
+        border-radius: 40px;
         transition: all var(--transition-medium);
         white-space: nowrap;
         overflow: hidden;
-        backdrop-filter: blur(10px);
-        border: 1px solid transparent;
+        backdrop-filter: blur(20px);
+        border: 2px solid transparent;
         font-family: var(--font-inter);
-        letter-spacing: 0.3px;
-        opacity: 0.85;
+        letter-spacing: 0.4px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        background: rgba(255, 140, 0, 0.15);
     }
 
-    /* Enhanced hover background */
+    /* Hermès Orange hover background */
     .sleek-nav-link::before {
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(135deg, 
-            var(--cream-light) 0%, 
-            var(--white) 50%, 
-            var(--cream-soft) 100%);
+        background: var(--gradient-hermes-orange);
         border-radius: inherit;
         opacity: 0;
         transform: scale(0.8);
         transition: all 0.4s var(--ease-bounce);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        box-shadow: 
+            0 4px 20px rgba(255, 140, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
 
     .sleek-nav-link:hover::before,
@@ -640,11 +608,13 @@ body {
 
     .sleek-nav-link:hover,
     .sleek-nav-link.active {
-        color: var(--hermes-orange);
-        transform: translateY(-1px);
-        border-color: rgba(255, 140, 0, 0.2);
-        box-shadow: var(--shadow-soft);
-        opacity: 1;
+        color: var(--white);
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 
+            0 8px 30px rgba(255, 140, 0, 0.4),
+            0 4px 15px rgba(0, 0, 0, 0.2);
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
     }
 
     .sleek-nav-link span {
@@ -652,69 +622,75 @@ body {
         z-index: 2;
     }
 
-    /* Header Actions Enhancement */
+    /* Header Actions with Hermès Orange Theme */
     .header-actions {
         display: flex;
         align-items: center;
-        gap: 1.25rem;
+        gap: 1.5rem;
         flex-shrink: 0;
     }
 
     .shop-link {
         display: flex;
         align-items: center;
-        gap: 0.625rem;
+        gap: 0.75rem;
         text-decoration: none;
-        color: var(--text-secondary);
-        font-size: 0.875rem;
-        font-weight: 500;
-        padding: 0.75rem 1.25rem;
-        border-radius: 25px;
-        border: 1px solid rgba(255, 140, 0, 0.15);
+        color: var(--white);
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 0.875rem 1.5rem;
+        border-radius: 30px;
+        border: 2px solid rgba(255, 140, 0, 0.4);
         transition: all var(--transition-medium);
-        background: rgba(255, 248, 240, 0.3);
+        background: rgba(255, 140, 0, 0.2);
         backdrop-filter: blur(20px);
         font-family: var(--font-inter);
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .shop-link:hover {
-        color: var(--hermes-orange);
-        background: rgba(255, 248, 240, 0.6);
-        border-color: rgba(255, 140, 0, 0.3);
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-soft);
+        color: var(--white);
+        background: rgba(255, 140, 0, 0.4);
+        border-color: rgba(255, 140, 0, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 
+            0 8px 25px rgba(255, 140, 0, 0.3),
+            0 4px 15px rgba(0, 0, 0, 0.2);
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
     }
 
     .shop-link i {
-        font-size: 1rem;
+        font-size: 1.1rem;
         transition: transform var(--transition-fast);
     }
 
     .shop-link:hover i {
-        transform: scale(1.1);
+        transform: scale(1.15);
     }
 
-    /* Enhanced CTA Button */
+    /* Enhanced Hermès Orange CTA Button */
     .sleek-cta {
         background: var(--gradient-hermes-orange);
         color: var(--white);
-        border: none;
-        padding: 1rem 2rem;
-        border-radius: 30px;
-        font-weight: 600;
-        font-size: 0.9rem;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        padding: 1.125rem 2.25rem;
+        border-radius: 35px;
+        font-weight: 700;
+        font-size: 1rem;
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.875rem;
         transition: all var(--transition-medium);
         box-shadow: 
-            var(--shadow-glow),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            0 8px 35px rgba(255, 140, 0, 0.4),
+            0 4px 20px rgba(0, 0, 0, 0.15),
+            inset 0 2px 0 rgba(255, 255, 255, 0.3);
         position: relative;
         overflow: hidden;
         font-family: var(--font-inter);
-        letter-spacing: 0.3px;
+        letter-spacing: 0.4px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
     .sleek-cta::before {
@@ -724,7 +700,7 @@ body {
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
         transition: left 0.6s ease;
     }
 
@@ -733,19 +709,21 @@ body {
     }
 
     .sleek-cta:hover {
-        transform: translateY(-2px) scale(1.02);
+        transform: translateY(-3px) scale(1.03);
         box-shadow: 
-            0 8px 35px rgba(255, 140, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            0 12px 45px rgba(255, 140, 0, 0.5),
+            0 6px 25px rgba(0, 0, 0, 0.2),
+            inset 0 2px 0 rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 255, 255, 0.4);
     }
 
     .sleek-cta i {
-        font-size: 1rem;
+        font-size: 1.1rem;
         transition: transform var(--transition-fast);
     }
 
     .sleek-cta:hover i {
-        transform: translateX(2px);
+        transform: translateX(3px) scale(1.1);
     }
 
     .cta-shine {
@@ -754,7 +732,7 @@ body {
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
         transition: left 0.8s ease;
         pointer-events: none;
         border-radius: inherit;
@@ -764,6 +742,34 @@ body {
     /* Mobile Toggle (Hidden on Desktop) */
     .aluminum-mobile-toggle {
         display: none;
+    }
+
+    /* Add a subtle floating animation */
+    @keyframes headerFloat {
+        0%, 100% {
+            transform: translateX(-50%) translateY(0px);
+        }
+        50% {
+            transform: translateX(-50%) translateY(-3px);
+        }
+    }
+
+    .modern-floating-header {
+        animation: headerFloat 6s ease-in-out infinite;
+    }
+
+    /* Glow effect for logo */
+    @keyframes logoGlow {
+        0%, 100% {
+            filter: drop-shadow(0 4px 12px rgba(255, 140, 0, 0.4));
+        }
+        50% {
+            filter: drop-shadow(0 6px 20px rgba(255, 140, 0, 0.6));
+        }
+    }
+
+    .header-logo {
+        animation: logoGlow 4s ease-in-out infinite;
     }
 }
 
@@ -1424,7 +1430,7 @@ body {
 .grid-dot:nth-child(6) { animation-delay: 2.5s; }
 
 /* ========================================
-   ORIGINAL ANIMATIONS (UNCHANGED)
+   ANIMATIONS
    ======================================== */
 
 @keyframes slideDown {
