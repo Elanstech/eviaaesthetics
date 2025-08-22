@@ -136,7 +136,7 @@ class EviaLuxuryApp {
             { name: 'about', class: HermesAboutSection },
             { name: 'transformationsGallery', class: ModernTransformationsGallery },
             { name: 'instagramReviews', class: RedesignedSocialSections },
-            { name: 'LuxuryProductsSection', class: HermesSpaProductsCarousel },
+            { name: 'LuxuryProductsSection', class: EnhancedProductsCarousel },
             { name: 'contactSection', class: HermesLuxuryContactSection },
             { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
@@ -3361,31 +3361,54 @@ class RedesignedSocialSections {
    HERMÈS MEDSPA PRODUCTS CAROUSEL
    ======================================== */
 
-class HermesSpaProductsCarousel {
+class EnhancedProductsCarousel {
     constructor() {
-        this.section = document.querySelector('.hermes-spa-products-carousel');
-        this.carousel = document.getElementById('spaProductsCarousel');
-        this.prevBtn = document.getElementById('spaCarouselPrev');
-        this.nextBtn = document.getElementById('spaCarouselNext');
-        this.indicators = document.getElementById('spaCarouselIndicators');
-        this.modal = document.getElementById('spaProductModal');
-        this.modalBody = document.getElementById('spaModalBody');
-        this.modalClose = document.getElementById('spaModalClose');
-        this.modalShopBtn = document.getElementById('spaModalShopBtn');
-        this.catalogBtn = document.getElementById('spaCatalogBtn');
+        this.carousel = document.getElementById('productsCarousel');
+        this.track = document.getElementById('productsCarouselTrack');
+        this.prevBtn = document.getElementById('productsPrevBtn');
+        this.nextBtn = document.getElementById('productsNextBtn');
+        this.dotsContainer = document.getElementById('productsCarouselDots');
+        this.autoplayBtn = document.getElementById('productsAutoplayBtn');
+        this.catalogBtn = document.getElementById('productsCatalogBtn');
         
-        this.currentSlide = 0;
-        this.totalSlides = 4;
-        this.slideWidth = 0;
-        this.isAnimating = false;
-        this.autoplayInterval = null;
-        this.autoplayDelay = 5000;
+        this.progressFill = document.getElementById('productsProgressFill');
+        this.currentSlide = document.getElementById('productsCurrentSlide');
+        this.totalSlides = document.getElementById('productsTotalSlides');
+        this.currentCounter = document.getElementById('productsCurrentCounter');
+        this.totalCounter = document.getElementById('productsTotalCounter');
+        
+        this.modal = document.getElementById('productModal');
+        this.modalBody = document.getElementById('productModalBody');
+        this.modalClose = document.getElementById('productModalClose');
+        this.modalShopBtn = document.getElementById('productModalShopBtn');
+        
+        this.currentIndex = 0;
+        this.totalCards = 0;
+        this.isAutoPlaying = true;
+        this.autoPlayInterval = null;
+        this.autoPlayDuration = 6000;
+        this.isMobile = false;
+        this.isDesktop = false;
+        this.cardWidth = 0;
+        this.gap = 24;
+        this.isTransitioning = false;
+        
+        // Simplified touch handling properties
         this.touchStartX = 0;
-        this.touchEndX = 0;
+        this.touchStartY = 0;
+        this.touchCurrentX = 0;
+        this.touchCurrentY = 0;
+        this.isDragging = false;
+        this.hasUserInteracted = false;
+        this.swipeThreshold = 80;
+        this.touchStartTime = 0;
+        this.maxTouchTime = 300;
         this.currentProductUrl = '';
-        this.cardsPerView = 1;
-        this.maxSlide = 0;
         
+        this.resizeTimeout = null;
+        this.scrollTimeout = null;
+        
+        // Product data
         this.productData = {
             'clear-shield': {
                 name: 'Clear Shield SPF 42',
@@ -3405,7 +3428,7 @@ class HermesSpaProductsCarousel {
                 name: 'Retinol Resurfacing Serum 0.25',
                 category: 'Anti-Aging',
                 image: 'retinol.jpg',
-                description: 'Advanced retinol formula for skin renewal and anti-aging benefits with gentle, effective results.',
+                description: 'Advanced retinol formula for skin renewal and anti-aging benefits with gentle effectiveness.',
                 detailedDescription: 'This advanced retinol serum contains 0.25% pure retinol in a stabilized delivery system to minimize irritation while maximizing results. Formulated with soothing botanicals and hydrating ingredients to support skin renewal and reduce the appearance of fine lines and wrinkles.',
                 features: ['0.25% Pure Retinol', 'Stabilized Delivery System', 'Night Treatment', 'Anti-Aging Formula', 'Gentle on Sensitive Skin'],
                 benefits: ['Reduces fine lines and wrinkles', 'Improves skin texture', 'Promotes cellular renewal', 'Enhances skin radiance'],
@@ -3445,261 +3468,523 @@ class HermesSpaProductsCarousel {
             }
         };
         
-        if (this.section) {
+        if (this.carousel && this.track) {
             this.init();
         }
     }
     
     init() {
-        try {
-            this.calculateResponsiveDimensions();
-            this.bindEvents();
-            this.setupAutoplay();
-            this.updateIndicators();
-            this.updateNavigation();
-            
-            console.log('✨ Hermès Spa Products Carousel initialized successfully');
-        } catch (error) {
-            console.error('❌ Error initializing Hermès Spa Products Carousel:', error);
+        this.detectDeviceType();
+        this.calculateDimensions();
+        this.createDots();
+        this.bindEvents();
+        this.initializeCards();
+        this.updateAllIndicators();
+        this.setupIntersectionObserver();
+        
+        if (this.isDesktop) {
+            this.startAutoPlay();
+        } else {
+            this.setupMobileScrolling();
         }
+        
+        console.log('✨ Enhanced Products Carousel initialized with improved mobile handling');
     }
     
-    calculateResponsiveDimensions() {
-        const screenWidth = window.innerWidth;
+    detectDeviceType() {
+        this.isMobile = window.innerWidth <= 1024;
+        this.isDesktop = !this.isMobile;
         
-        // Determine cards per view based on screen size
-        if (screenWidth <= 768) {
-            // Mobile: 1 card
-            this.cardsPerView = 1;
-        } else if (screenWidth <= 1024) {
-            // Tablet: 2 cards
-            this.cardsPerView = 2;
-        } else {
-            // Desktop: 3-4 cards (depending on content)
-            this.cardsPerView = 3;
+        document.body.classList.toggle('carousel-mobile', this.isMobile);
+        document.body.classList.toggle('carousel-desktop', this.isDesktop);
+    }
+    
+    calculateDimensions() {
+        const cards = this.track.querySelectorAll('.product-card');
+        this.totalCards = cards.length;
+        
+        if (this.isDesktop && cards.length > 0) {
+            const cardRect = cards[0].getBoundingClientRect();
+            this.cardWidth = cardRect.width;
+            const trackStyles = window.getComputedStyle(this.track);
+            this.gap = parseInt(trackStyles.gap) || 24;
         }
         
-        // Calculate max slide based on cards per view
-        this.maxSlide = Math.max(0, this.totalSlides - this.cardsPerView);
-        
-        // Ensure current slide is within bounds
-        this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
+        this.updateNavigationVisibility();
     }
     
     bindEvents() {
-        // Navigation buttons
-        this.prevBtn?.addEventListener('click', () => this.prevSlide());
-        this.nextBtn?.addEventListener('click', () => this.nextSlide());
-        
-        // Indicator clicks
-        this.indicators?.addEventListener('click', (e) => {
-            if (e.target.classList.contains('spa-indicator')) {
-                const slideIndex = parseInt(e.target.dataset.slide);
-                this.goToSlide(slideIndex);
-            }
-        });
-        
-        // Learn more buttons
-        document.querySelectorAll('.spa-learn-more-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const productId = btn.dataset.product;
-                this.openProductModal(productId);
+        // Desktop navigation
+        if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.previousSlide();
+                this.handleUserInteraction();
             });
-        });
+        }
         
-        // Shop now buttons
-        document.querySelectorAll('.spa-shop-now-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const url = btn.dataset.url;
-                this.handleShopNow(url, btn);
+        if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.nextSlide();
+                this.handleUserInteraction();
             });
-        });
+        }
         
-        // Modal events
-        this.modalClose?.addEventListener('click', () => this.closeModal());
-        this.modal?.addEventListener('click', (e) => {
-            if (e.target === this.modal) {
-                this.closeModal();
-            }
-        });
+        if (this.autoplayBtn) {
+            this.autoplayBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleAutoPlay();
+            });
+        }
         
-        // Modal shop button
-        this.modalShopBtn?.addEventListener('click', () => {
-            if (this.currentProductUrl) {
-                this.handleShopNow(this.currentProductUrl, this.modalShopBtn);
-            }
-        });
+        if (this.catalogBtn) {
+            this.catalogBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleCatalogClick();
+            });
+        }
         
-        // Catalog button
-        this.catalogBtn?.addEventListener('click', () => {
-            this.handleCatalogClick();
-        });
-        
-        // Touch events for mobile swipe
-        this.carousel?.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
-        this.carousel?.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => this.handleKeydown(e));
+        this.bindProductCTAs();
+        this.bindModalEvents();
         
         // Window resize
-        window.addEventListener('resize', () => this.handleResize());
-        
-        // Pause autoplay on hover
-        this.section?.addEventListener('mouseenter', () => this.pauseAutoplay());
-        this.section?.addEventListener('mouseleave', () => this.resumeAutoplay());
-        
-        // Intersection Observer for performance
-        this.setupIntersectionObserver();
-    }
-    
-    prevSlide() {
-        if (this.isAnimating) return;
-        
-        this.currentSlide = this.currentSlide > 0 ? this.currentSlide - 1 : this.maxSlide;
-        this.updateCarousel();
-    }
-    
-    nextSlide() {
-        if (this.isAnimating) return;
-        
-        this.currentSlide = this.currentSlide < this.maxSlide ? this.currentSlide + 1 : 0;
-        this.updateCarousel();
-    }
-    
-    goToSlide(index) {
-        if (this.isAnimating || index === this.currentSlide) return;
-        
-        this.currentSlide = Math.max(0, Math.min(index, this.maxSlide));
-        this.updateCarousel();
-    }
-    
-    updateCarousel() {
-        if (!this.carousel) return;
-        
-        this.isAnimating = true;
-        
-        // Calculate transform based on cards per view and current slide
-        let translateXPercent;
-        
-        if (this.cardsPerView === 1) {
-            // Mobile: 100% per slide
-            translateXPercent = -this.currentSlide * 100;
-        } else if (this.cardsPerView === 2) {
-            // Tablet: 50% per slide
-            translateXPercent = -this.currentSlide * 50;
-        } else {
-            // Desktop: 33.33% per slide (for 3 cards)
-            translateXPercent = -this.currentSlide * (100 / 3);
-        }
-        
-        this.carousel.style.transform = `translateX(${translateXPercent}%)`;
-        
-        this.updateIndicators();
-        this.updateNavigation();
-        
-        // Reset animation flag
-        setTimeout(() => {
-            this.isAnimating = false;
-        }, 800);
-    }
-    
-    updateIndicators() {
-        const indicators = this.indicators?.querySelectorAll('.spa-indicator');
-        indicators?.forEach((indicator, index) => {
-            indicator.classList.toggle('spa-active', index === this.currentSlide);
+        window.addEventListener('resize', () => {
+            clearTimeout(this.resizeTimeout);
+            this.resizeTimeout = setTimeout(() => {
+                this.onResize();
+            }, 250);
         });
-    }
-    
-    updateNavigation() {
-        if (this.prevBtn) {
-            this.prevBtn.disabled = this.currentSlide === 0;
-        }
-        if (this.nextBtn) {
-            this.nextBtn.disabled = this.currentSlide === this.maxSlide;
+        
+        // Simplified mobile touch events
+        if (this.isMobile) {
+            this.bindSimplifiedTouchEvents();
         }
     }
     
-    setupAutoplay() {
-        this.autoplayInterval = setInterval(() => {
-            this.nextSlide();
-        }, this.autoplayDelay);
-    }
-    
-    pauseAutoplay() {
-        if (this.autoplayInterval) {
-            clearInterval(this.autoplayInterval);
-        }
-    }
-    
-    resumeAutoplay() {
-        this.pauseAutoplay();
-        this.setupAutoplay();
+    bindSimplifiedTouchEvents() {
+        // Use passive listeners for better performance
+        this.track.addEventListener('touchstart', (e) => {
+            this.handleTouchStart(e);
+        }, { passive: true });
+        
+        this.track.addEventListener('touchmove', (e) => {
+            this.handleTouchMove(e);
+        }, { passive: true });
+        
+        this.track.addEventListener('touchend', (e) => {
+            this.handleTouchEnd(e);
+        }, { passive: true });
+        
+        // Track scroll events for progress indication
+        this.track.addEventListener('scroll', this.throttle(() => {
+            this.updateMobileProgress();
+        }, 16), { passive: true });
     }
     
     handleTouchStart(e) {
+        if (!e.touches[0]) return;
+        
         this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+        this.touchCurrentX = this.touchStartX;
+        this.touchCurrentY = this.touchStartY;
+        this.touchStartTime = Date.now();
+        this.isDragging = false;
+    }
+    
+    handleTouchMove(e) {
+        if (!e.touches[0]) return;
+        
+        this.touchCurrentX = e.touches[0].clientX;
+        this.touchCurrentY = e.touches[0].clientY;
+        
+        const deltaX = Math.abs(this.touchCurrentX - this.touchStartX);
+        const deltaY = Math.abs(this.touchCurrentY - this.touchStartY);
+        
+        if (!this.isDragging && (deltaX > 10 || deltaY > 10)) {
+            this.isDragging = true;
+        }
     }
     
     handleTouchEnd(e) {
-        this.touchEndX = e.changedTouches[0].clientX;
-        this.handleSwipe();
-    }
-    
-    handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = this.touchStartX - this.touchEndX;
+        if (!e.changedTouches[0] || !this.isDragging) return;
         
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                this.nextSlide();
-            } else {
-                this.prevSlide();
-            }
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        const touchDuration = Date.now() - this.touchStartTime;
+        
+        const deltaX = this.touchStartX - touchEndX;
+        const deltaY = Math.abs(this.touchStartY - touchEndY);
+        
+        if (touchDuration < this.maxTouchTime &&
+            Math.abs(deltaX) > this.swipeThreshold &&
+            Math.abs(deltaX) > deltaY * 2) {
+            
+            this.handleSwipeGesture(deltaX);
+            this.handleUserInteraction();
         }
+        
+        this.resetTouchState();
     }
     
-    handleKeydown(e) {
-        if (!this.modal?.classList.contains('spa-active')) {
-            switch (e.key) {
-                case 'ArrowLeft':
-                    e.preventDefault();
-                    this.prevSlide();
-                    break;
-                case 'ArrowRight':
-                    e.preventDefault();
-                    this.nextSlide();
-                    break;
-            }
+    resetTouchState() {
+        this.isDragging = false;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.touchCurrentX = 0;
+        this.touchCurrentY = 0;
+        this.touchStartTime = 0;
+    }
+    
+    handleSwipeGesture(deltaX) {
+        const currentScroll = this.track.scrollLeft;
+        const cardWidth = this.getCardWidth();
+        const gap = this.getGap();
+        const scrollDistance = cardWidth + gap;
+        
+        if (deltaX > 0) {
+            const nextScroll = currentScroll + scrollDistance;
+            this.smoothScrollTo(Math.min(nextScroll, this.getMaxScrollLeft()));
         } else {
-            if (e.key === 'Escape') {
-                this.closeModal();
-            }
+            const prevScroll = currentScroll - scrollDistance;
+            this.smoothScrollTo(Math.max(prevScroll, 0));
         }
     }
     
-    handleResize() {
-        clearTimeout(this.resizeTimeout);
-        this.resizeTimeout = setTimeout(() => {
-            this.calculateResponsiveDimensions();
-            this.updateCarousel();
-        }, 150);
+    getCardWidth() {
+        const card = this.track.querySelector('.product-card');
+        return card ? card.offsetWidth : 300;
     }
     
-    setupIntersectionObserver() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.resumeAutoplay();
-                } else {
-                    this.pauseAutoplay();
+    getGap() {
+        const computedStyle = window.getComputedStyle(this.track);
+        return parseInt(computedStyle.gap) || 16;
+    }
+    
+    getMaxScrollLeft() {
+        return this.track.scrollWidth - this.track.clientWidth;
+    }
+    
+    smoothScrollTo(scrollLeft) {
+        this.track.scrollTo({
+            left: scrollLeft,
+            behavior: 'smooth'
+        });
+    }
+    
+    setupMobileScrolling() {
+        this.track.style.scrollBehavior = 'smooth';
+        this.track.style.overflowX = 'auto';
+        this.track.style.overflowY = 'visible';
+        this.track.style.scrollSnapType = 'x mandatory';
+        this.track.style.WebkitOverflowScrolling = 'touch';
+        
+        const cards = this.track.querySelectorAll('.product-card');
+        cards.forEach(card => {
+            card.style.scrollSnapAlign = 'center';
+            card.style.scrollSnapStop = 'always';
+        });
+        
+        this.updateMobileProgress();
+    }
+    
+    updateMobileProgress() {
+        if (!this.isMobile || !this.progressFill) return;
+        
+        const scrollLeft = this.track.scrollLeft;
+        const maxScroll = this.getMaxScrollLeft();
+        const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
+        
+        this.progressFill.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+        
+        const cardWidth = this.getCardWidth();
+        const gap = this.getGap();
+        const slideWidth = cardWidth + gap;
+        const currentSlideIndex = Math.round(scrollLeft / slideWidth);
+        
+        if (this.currentSlide) {
+            this.currentSlide.textContent = Math.min(this.totalCards, Math.max(1, currentSlideIndex + 1));
+        }
+    }
+    
+    // Desktop carousel methods
+    nextSlide() {
+        if (this.isTransitioning || this.isMobile) return;
+        
+        const maxIndex = this.getMaxIndex();
+        if (this.currentIndex < maxIndex) {
+            this.currentIndex++;
+            this.updateCarousel();
+        } else if (this.isAutoPlaying) {
+            this.currentIndex = 0;
+            this.updateCarousel();
+        }
+    }
+    
+    previousSlide() {
+        if (this.isTransitioning || this.isMobile) return;
+        
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+            this.updateCarousel();
+        }
+    }
+    
+    goToSlide(index) {
+        if (this.isTransitioning || this.isMobile) return;
+        
+        const maxIndex = this.getMaxIndex();
+        this.currentIndex = Math.max(0, Math.min(index, maxIndex));
+        this.updateCarousel();
+        this.handleUserInteraction();
+    }
+    
+    updateCarousel() {
+        if (this.isMobile) return;
+        
+        this.isTransitioning = true;
+        
+        const translateX = -this.currentIndex * (this.cardWidth + this.gap);
+        this.track.style.transform = `translateX(${translateX}px)`;
+        
+        this.updateAllIndicators();
+        this.updateNavigationState();
+        
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 800);
+    }
+    
+    getMaxIndex() {
+        const visibleCards = this.getVisibleCards();
+        return Math.max(0, this.totalCards - visibleCards);
+    }
+    
+    getVisibleCards() {
+        const screenWidth = window.innerWidth;
+        
+        if (screenWidth <= 768) return 1;
+        if (screenWidth <= 1200) return 2;
+        return 3;
+    }
+    
+    createDots() {
+        if (!this.dotsContainer || this.isMobile) return;
+        
+        this.dotsContainer.innerHTML = '';
+        
+        for (let i = 0; i < this.totalCards; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot';
+            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+            dot.addEventListener('click', () => this.goToSlide(i));
+            
+            if (i === 0) dot.classList.add('active');
+            
+            this.dotsContainer.appendChild(dot);
+        }
+    }
+    
+    updateDots() {
+        if (!this.dotsContainer || this.isMobile) return;
+        
+        const dots = this.dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === this.currentIndex);
+        });
+    }
+    
+    startAutoPlay() {
+        if (this.isMobile || this.hasUserInteracted) return;
+        
+        this.isAutoPlaying = true;
+        this.updateAutoplayButton();
+        
+        this.autoPlayInterval = setInterval(() => {
+            if (!this.hasUserInteracted && this.isAutoPlaying) {
+                this.nextSlide();
+            }
+        }, this.autoPlayDuration);
+    }
+    
+    stopAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+        this.isAutoPlaying = false;
+        this.updateAutoplayButton();
+    }
+    
+    toggleAutoPlay() {
+        if (this.isAutoPlaying) {
+            this.stopAutoPlay();
+        } else {
+            this.startAutoPlay();
+        }
+        this.handleUserInteraction();
+    }
+    
+    updateAutoplayButton() {
+        if (!this.autoplayBtn) return;
+        
+        const icon = this.autoplayBtn.querySelector('i');
+        if (icon) {
+            icon.className = this.isAutoPlaying ? 'ri-pause-line' : 'ri-play-line';
+        }
+        
+        this.autoplayBtn.title = this.isAutoPlaying ? 'Pause Autoplay' : 'Start Autoplay';
+    }
+    
+    handleUserInteraction() {
+        this.hasUserInteracted = true;
+        if (this.isAutoPlaying) {
+            this.stopAutoPlay();
+        }
+    }
+    
+    updateAllIndicators() {
+        this.updateDots();
+        this.updateCounters();
+        this.updateNavigationState();
+        
+        if (this.isMobile) {
+            this.updateMobileProgress();
+        }
+    }
+    
+    updateCounters() {
+        if (this.currentCounter && this.isDesktop) {
+            this.currentCounter.textContent = String(this.currentIndex + 1).padStart(2, '0');
+        }
+        
+        if (this.totalCounter && this.isDesktop) {
+            this.totalCounter.textContent = String(this.totalCards).padStart(2, '0');
+        }
+        
+        if (this.totalSlides) {
+            this.totalSlides.textContent = this.totalCards;
+        }
+    }
+    
+    updateNavigationState() {
+        if (!this.isDesktop) return;
+        
+        const maxIndex = this.getMaxIndex();
+        
+        if (this.prevBtn) {
+            this.prevBtn.disabled = this.currentIndex === 0;
+        }
+        
+        if (this.nextBtn) {
+            this.nextBtn.disabled = this.currentIndex >= maxIndex;
+        }
+    }
+    
+    updateNavigationVisibility() {
+        const shouldShowDesktopNav = this.isDesktop && this.totalCards > this.getVisibleCards();
+        
+        if (this.prevBtn) this.prevBtn.style.display = shouldShowDesktopNav ? 'flex' : 'none';
+        if (this.nextBtn) this.nextBtn.style.display = shouldShowDesktopNav ? 'flex' : 'none';
+        
+        if (this.dotsContainer) {
+            this.dotsContainer.style.display = shouldShowDesktopNav ? 'flex' : 'none';
+        }
+    }
+    
+    bindProductCTAs() {
+        // Learn More buttons
+        const learnMoreBtns = this.track.querySelectorAll('.product-learn-more');
+        learnMoreBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.handleLearnMore(btn);
+            });
+        });
+        
+        // Shop Now buttons
+        const shopNowBtns = this.track.querySelectorAll('.product-shop-now');
+        shopNowBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.handleShopNow(btn);
+            });
+        });
+    }
+    
+    bindModalEvents() {
+        if (this.modalClose) {
+            this.modalClose.addEventListener('click', () => this.closeModal());
+        }
+        
+        if (this.modal) {
+            this.modal.addEventListener('click', (e) => {
+                if (e.target === this.modal) {
+                    this.closeModal();
                 }
             });
-        }, { threshold: 0.3 });
+        }
         
-        observer.observe(this.section);
+        if (this.modalShopBtn) {
+            this.modalShopBtn.addEventListener('click', () => {
+                if (this.currentProductUrl) {
+                    this.handleShopNowAction(this.currentProductUrl, this.modalShopBtn);
+                }
+            });
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (this.modal?.classList.contains('active') && e.key === 'Escape') {
+                this.closeModal();
+            }
+        });
+    }
+    
+    handleLearnMore(btn) {
+        const productId = btn.getAttribute('data-product');
+        
+        this.addButtonFeedback(btn);
+        
+        if (productId && this.productData[productId]) {
+            this.openProductModal(productId);
+        }
+        
+        this.trackEvent('product_learn_more', 'products', productId);
+    }
+    
+    handleShopNow(btn) {
+        const url = btn.getAttribute('data-url');
+        this.handleShopNowAction(url, btn);
+    }
+    
+    handleShopNowAction(url, button) {
+        if (!url) return;
+        
+        this.addButtonFeedback(button);
+        
+        this.showShopNowFeedback();
+        
+        setTimeout(() => {
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }, 600);
+        
+        this.trackEvent('product_shop_now', 'products', 'alumiermd_store');
+    }
+    
+    handleCatalogClick() {
+        this.addButtonFeedback(this.catalogBtn);
+        
+        this.showCatalogFeedback();
+        
+        setTimeout(() => {
+            window.open('https://us.alumiermd.com/products?code=54T7P4HH', '_blank', 'noopener,noreferrer');
+        }, 800);
+        
+        this.trackEvent('catalog_view', 'products', 'full_catalog');
     }
     
     openProductModal(productId) {
@@ -3709,77 +3994,77 @@ class HermesSpaProductsCarousel {
         this.currentProductUrl = product.url;
         this.populateModalContent(product);
         this.showModal();
-        this.trackProductModal(product.name);
+        
+        this.trackEvent('product_modal_open', 'products', product.name);
     }
     
     populateModalContent(product) {
         if (!this.modalBody) return;
         
         this.modalBody.innerHTML = `
-            <div class="spa-modal-product-header">
-                <div class="spa-modal-product-image">
+            <div class="product-modal-header">
+                <div class="product-modal-image">
                     <img src="${product.image}" alt="${product.name}" loading="lazy">
                 </div>
-                <div class="spa-modal-product-info">
-                    <div class="spa-modal-product-category">
+                <div class="product-modal-info">
+                    <div class="product-modal-category">
                         <i class="ri-star-line"></i>
                         <span>${product.category}</span>
                     </div>
-                    <h2 class="spa-modal-product-name">${product.name}</h2>
-                    <div class="spa-modal-product-rating">
-                        <div class="spa-rating-stars">
+                    <h2 class="product-modal-name">${product.name}</h2>
+                    <div class="product-modal-rating">
+                        <div class="rating-stars">
                             ${this.generateStars(product.rating)}
                         </div>
-                        <span class="spa-rating-text">${product.rating} (${product.reviews} reviews)</span>
+                        <span class="rating-text">${product.rating} (${product.reviews} reviews)</span>
                     </div>
                 </div>
             </div>
             
-            <div class="spa-modal-product-content">
-                <div class="spa-modal-section">
+            <div class="product-modal-content">
+                <div class="modal-section">
                     <h3>Description</h3>
                     <p>${product.detailedDescription}</p>
                 </div>
                 
-                <div class="spa-modal-section">
+                <div class="modal-section">
                     <h3>Key Features</h3>
-                    <ul class="spa-features-list">
+                    <ul class="features-list">
                         ${product.features.map(feature => `<li>${feature}</li>`).join('')}
                     </ul>
                 </div>
                 
-                <div class="spa-modal-section">
+                <div class="modal-section">
                     <h3>Benefits</h3>
-                    <ul class="spa-benefits-list">
+                    <ul class="benefits-list">
                         ${product.benefits.map(benefit => `<li>${benefit}</li>`).join('')}
                     </ul>
                 </div>
                 
-                <div class="spa-modal-section">
+                <div class="modal-section">
                     <h3>Key Ingredients</h3>
-                    <div class="spa-ingredients-grid">
-                        ${product.keyIngredients.map(ingredient => `<span class="spa-ingredient-tag">${ingredient}</span>`).join('')}
+                    <div class="ingredients-grid">
+                        ${product.keyIngredients.map(ingredient => `<span class="ingredient-tag">${ingredient}</span>`).join('')}
                     </div>
                 </div>
                 
-                <div class="spa-modal-section">
+                <div class="modal-section">
                     <h3>Usage Instructions</h3>
-                    <p class="spa-usage-text">${product.usage}</p>
+                    <p class="usage-text">${product.usage}</p>
                 </div>
             </div>
         `;
         
-        // Add modal-specific styles
         this.addModalStyles();
     }
     
     addModalStyles() {
-        if (document.getElementById('spa-modal-styles')) return;
+        if (document.getElementById('product-modal-styles')) return;
         
         const styles = document.createElement('style');
-        styles.id = 'spa-modal-styles';
+        styles.id = 'product-modal-styles';
         styles.textContent = `
-            .spa-modal-product-header {
+            .product-modal-header {
                 display: flex;
                 gap: 20px;
                 margin-bottom: 24px;
@@ -3787,7 +4072,7 @@ class HermesSpaProductsCarousel {
                 border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             }
             
-            .spa-modal-product-image {
+            .product-modal-image {
                 flex: 0 0 120px;
                 height: 120px;
                 background: linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%);
@@ -3798,21 +4083,21 @@ class HermesSpaProductsCarousel {
                 overflow: hidden;
             }
             
-            .spa-modal-product-image img {
+            .product-modal-image img {
                 width: 80%;
                 height: 80%;
                 object-fit: contain;
             }
             
-            .spa-modal-product-info {
+            .product-modal-info {
                 flex: 1;
             }
             
-            .spa-modal-product-category {
+            .product-modal-category {
                 display: flex;
                 align-items: center;
                 gap: 6px;
-                color: var(--hermes-orange);
+                color: #8B4513;
                 font-size: 12px;
                 font-weight: 600;
                 text-transform: uppercase;
@@ -3820,95 +4105,95 @@ class HermesSpaProductsCarousel {
                 margin-bottom: 8px;
             }
             
-            .spa-modal-product-name {
-                font-family: var(--font-playfair);
+            .product-modal-name {
+                font-family: 'Playfair Display', serif;
                 font-size: 24px;
                 font-weight: 600;
-                color: var(--text-primary);
+                color: #2A1B0A;
                 margin-bottom: 12px;
                 line-height: 1.3;
             }
             
-            .spa-modal-product-rating {
+            .product-modal-rating {
                 display: flex;
                 align-items: center;
                 gap: 10px;
             }
             
-            .spa-modal-section {
+            .modal-section {
                 margin-bottom: 24px;
             }
             
-            .spa-modal-section h3 {
-                font-family: var(--font-playfair);
+            .modal-section h3 {
+                font-family: 'Playfair Display', serif;
                 font-size: 18px;
                 font-weight: 600;
-                color: var(--text-primary);
+                color: #2A1B0A;
                 margin-bottom: 12px;
             }
             
-            .spa-modal-section p {
-                color: var(--text-secondary);
+            .modal-section p {
+                color: #6B5B47;
                 line-height: 1.6;
                 margin: 0;
             }
             
-            .spa-features-list,
-            .spa-benefits-list {
+            .features-list,
+            .benefits-list {
                 list-style: none;
                 padding: 0;
                 margin: 0;
             }
             
-            .spa-features-list li,
-            .spa-benefits-list li {
+            .features-list li,
+            .benefits-list li {
                 padding: 8px 0;
-                color: var(--text-secondary);
+                color: #6B5B47;
                 position: relative;
                 padding-left: 20px;
             }
             
-            .spa-features-list li::before,
-            .spa-benefits-list li::before {
+            .features-list li::before,
+            .benefits-list li::before {
                 content: '✓';
                 position: absolute;
                 left: 0;
-                color: var(--hermes-orange);
+                color: #8B4513;
                 font-weight: bold;
             }
             
-            .spa-ingredients-grid {
+            .ingredients-grid {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 8px;
             }
             
-            .spa-ingredient-tag {
-                background: rgba(255, 140, 0, 0.1);
-                color: var(--hermes-orange);
+            .ingredient-tag {
+                background: rgba(139, 69, 19, 0.1);
+                color: #8B4513;
                 padding: 6px 12px;
                 border-radius: 12px;
                 font-size: 12px;
                 font-weight: 500;
-                border: 1px solid rgba(255, 140, 0, 0.2);
+                border: 1px solid rgba(139, 69, 19, 0.2);
             }
             
-            .spa-usage-text {
+            .usage-text {
                 background: rgba(248, 244, 236, 0.8);
                 padding: 16px;
                 border-radius: 12px;
-                color: var(--text-secondary);
+                color: #6B5B47;
                 line-height: 1.6;
-                border-left: 4px solid var(--hermes-orange);
+                border-left: 4px solid #8B4513;
             }
             
             @media (max-width: 768px) {
-                .spa-modal-product-header {
+                .product-modal-header {
                     flex-direction: column;
                     text-align: center;
                 }
                 
-                .spa-modal-product-image {
+                .product-modal-image {
                     flex: none;
                     width: 100px;
                     height: 100px;
@@ -3937,50 +4222,18 @@ class HermesSpaProductsCarousel {
     }
     
     showModal() {
-        this.modal?.classList.add('spa-active');
+        this.modal?.classList.add('active');
         document.body.style.overflow = 'hidden';
-        this.pauseAutoplay();
+        this.stopAutoPlay();
     }
     
     closeModal() {
-        this.modal?.classList.remove('spa-active');
+        this.modal?.classList.remove('active');
         document.body.style.overflow = '';
         this.currentProductUrl = '';
-        this.resumeAutoplay();
-    }
-    
-    handleShopNow(url, button) {
-        if (!url) return;
-        
-        // Visual feedback
-        this.addButtonFeedback(button);
-        
-        // Track click
-        this.trackShopNowClick(url);
-        
-        // Show loading feedback
-        this.showLoadingFeedback('Opening AlumierMD...');
-        
-        // Open URL after short delay for feedback
-        setTimeout(() => {
-            window.open(url, '_blank', 'noopener,noreferrer');
-        }, 600);
-    }
-    
-    handleCatalogClick() {
-        // Visual feedback
-        this.addButtonFeedback(this.catalogBtn);
-        
-        // Track click
-        this.trackCatalogClick();
-        
-        // Show loading feedback
-        this.showLoadingFeedback('Opening full catalog...');
-        
-        // Open catalog
-        setTimeout(() => {
-            window.open('https://us.alumiermd.com/products?code=54T7P4HH', '_blank', 'noopener,noreferrer');
-        }, 600);
+        if (this.isDesktop && !this.hasUserInteracted) {
+            this.startAutoPlay();
+        }
     }
     
     addButtonFeedback(button) {
@@ -3993,18 +4246,26 @@ class HermesSpaProductsCarousel {
         }, 200);
     }
     
-    showLoadingFeedback(message) {
+    showShopNowFeedback() {
+        this.showFeedback('Opening AlumierMD store...', 'ri-shopping-cart-line');
+    }
+    
+    showCatalogFeedback() {
+        this.showFeedback('Loading full catalog...', 'ri-book-open-line');
+    }
+    
+    showFeedback(message, icon) {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 140, 0, 0.95);
+            background: linear-gradient(135deg, #8B4513, #CD853F);
             color: white;
             padding: 20px 32px;
             border-radius: 24px;
-            font-family: var(--font-inter);
+            font-family: 'Inter', sans-serif;
             font-size: 14px;
             font-weight: 600;
             z-index: 10001;
@@ -4015,22 +4276,14 @@ class HermesSpaProductsCarousel {
             gap: 12px;
             opacity: 0;
             transition: all 0.6s ease;
+            min-width: 280px;
+            justify-content: center;
         `;
         
         feedback.innerHTML = `
-            <i class="ri-loader-4-line" style="font-size: 16px; animation: spa-spin 1s linear infinite;"></i>
+            <i class="${icon}" style="font-size: 16px;"></i>
             <span>${message}</span>
         `;
-        
-        // Add spinner animation
-        const spinStyle = document.createElement('style');
-        spinStyle.textContent = `
-            @keyframes spa-spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(spinStyle);
         
         document.body.appendChild(feedback);
         
@@ -4047,94 +4300,174 @@ class HermesSpaProductsCarousel {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
-                if (spinStyle.parentNode) {
-                    spinStyle.parentNode.removeChild(spinStyle);
-                }
             }, 600);
-        }, 2000);
+        }, 2500);
     }
     
-    trackProductModal(productName) {
+    trackEvent(action, category, label) {
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'spa_product_modal_open', {
-                event_category: 'spa_products',
-                event_label: productName,
+            gtag('event', action, {
+                event_category: category,
+                event_label: label,
                 value: 1
             });
         }
         
-        console.log(`📊 Spa Product modal opened: ${productName}`);
+        console.log(`📊 Event tracked: ${action} - ${category} - ${label}`);
     }
     
-    trackShopNowClick(url) {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'spa_shop_now_click', {
-                event_category: 'spa_products',
-                event_label: 'alumiermd_product',
-                value: 1
-            });
-        }
+    initializeCards() {
+        const cards = this.track.querySelectorAll('.product-card');
         
-        console.log(`📊 Spa Shop now clicked: ${url}`);
+        cards.forEach((card, index) => {
+            if (this.isMobile) {
+                card.style.scrollSnapAlign = 'center';
+                card.style.scrollSnapStop = 'always';
+            }
+            
+            this.setupCardAnimations(card, index);
+        });
     }
     
-    trackCatalogClick() {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'spa_catalog_view', {
-                event_category: 'spa_products',
-                event_label: 'alumiermd_full_catalog',
-                value: 1
+    setupCardAnimations(card, index) {
+        card.style.setProperty('--animation-delay', `${index * 100}ms`);
+        
+        if (!this.isMobile) {
+            this.setupCardHoverEffects(card);
+        }
+    }
+    
+    setupCardHoverEffects(card) {
+        card.addEventListener('mouseenter', () => {
+            this.onCardHover(card);
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            this.onCardLeave(card);
+        });
+    }
+    
+    onCardHover(card) {
+        card.style.animationName = 'cardFloat';
+        card.style.animationDuration = '3s';
+        card.style.animationIterationCount = 'infinite';
+        card.style.animationTimingFunction = 'ease-in-out';
+    }
+    
+    onCardLeave(card) {
+        card.style.animationName = '';
+    }
+    
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.onSectionVisible();
+                    observer.unobserve(entry.target);
+                }
             });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+        
+        if (this.carousel) {
+            observer.observe(this.carousel);
+        }
+    }
+    
+    onSectionVisible() {
+        const cards = this.track.querySelectorAll('.product-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('animate-in');
+            }, index * 100);
+        });
+    }
+    
+    throttle(func, limit) {
+        let inThrottle;
+        return function(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+    
+    onResize() {
+        const wasDesktop = this.isDesktop;
+        this.detectDeviceType();
+        
+        if (wasDesktop !== this.isDesktop) {
+            this.handleDeviceTypeChange();
         }
         
-        console.log('📊 Spa Catalog clicked');
+        this.calculateDimensions();
+        this.updateNavigationVisibility();
+        
+        if (this.isDesktop) {
+            const maxIndex = this.getMaxIndex();
+            if (this.currentIndex > maxIndex) {
+                this.currentIndex = Math.max(0, maxIndex);
+            }
+            this.updateCarousel();
+        } else {
+            this.setupMobileScrolling();
+            this.updateMobileProgress();
+        }
+        
+        this.updateAllIndicators();
+    }
+    
+    handleDeviceTypeChange() {
+        if (this.isMobile && this.isAutoPlaying) {
+            this.stopAutoPlay();
+        }
+        
+        if (this.isMobile) {
+            this.track.style.transform = '';
+            this.resetTouchState();
+        }
+        
+        if (this.isDesktop) {
+            this.createDots();
+        }
+        
+        if (this.isMobile) {
+            this.bindSimplifiedTouchEvents();
+        }
     }
     
     destroy() {
-        // Clean up event listeners and intervals
-        this.pauseAutoplay();
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+        }
         
-        // Remove event listeners
-        this.prevBtn?.removeEventListener('click', this.prevSlide);
-        this.nextBtn?.removeEventListener('click', this.nextSlide);
-        
-        // Clear timeouts
         if (this.resizeTimeout) {
             clearTimeout(this.resizeTimeout);
         }
         
-        console.log('🗑️ Hermès Spa Products Carousel destroyed');
-    }
-    
-    refresh() {
-        this.destroy();
-        this.init();
-    }
-}
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    const hermesSpaCarousel = new HermesSpaProductsCarousel();
-    
-    // Make it globally accessible for debugging
-    window.hermesSpaCarousel = hermesSpaCarousel;
-});
-
-// Handle page visibility changes to pause/resume autoplay
-document.addEventListener('visibilitychange', () => {
-    if (window.hermesSpaCarousel) {
-        if (document.hidden) {
-            window.hermesSpaCarousel.pauseAutoplay();
-        } else {
-            window.hermesSpaCarousel.resumeAutoplay();
+        if (this.scrollTimeout) {
+            clearTimeout(this.scrollTimeout);
         }
+        
+        this.resetTouchState();
+        
+        window.removeEventListener('resize', this.onResize);
+        
+        console.log('🗑️ Enhanced Products Carousel destroyed');
     }
-});
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = HermesSpaProductsCarousel;
 }
+
+// Initialize the carousel when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    const productsCarousel = new EnhancedProductsCarousel();
+    
+    // Make it globally accessible if needed
+    window.productsCarousel = productsCarousel;
+});
 
 /* ========================================
    CONTACT SECTION
@@ -5920,7 +6253,7 @@ if (typeof module !== 'undefined' && module.exports) {
         HermesAboutSection,
         ModernTransformationsGallery,
         RedesignedSocialSections,
-        HermesSpaProductsCarousel,
+        EnhancedProductsCarousel,
         HermesLuxuryContactSection,
         LuxuryFloatingButtons,
         CinematicHero,
