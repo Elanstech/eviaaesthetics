@@ -159,7 +159,7 @@ class EviaAestheticsApp {
         // Initialize all components
         this.components.set('header', new LuxuryHeader());
         this.components.set('mobileMenu', new MobileMenu());
-        this.components.set('servicesCarousel', new ServicesCarousel());
+        this.components.set('servicesCarousel', new EnhancedServicesCarousel());
         this.components.set('aboutSection', new AboutSection());
         this.components.set('resultsGallery', new ResultsGallery());
         this.components.set('contactForm', new ContactForm());
@@ -754,24 +754,31 @@ class MobileMenu {
 /* ========================================
    SERVICES CAROUSEL COMPONENT
    ======================================== */
-class ServicesCarousel {
+class EnhancedServicesCarousel {
     constructor() {
         this.carousel = document.getElementById('servicesCarousel');
         this.track = document.getElementById('carouselTrack');
         this.prevBtn = document.getElementById('prevBtn');
         this.nextBtn = document.getElementById('nextBtn');
         this.autoplayBtn = document.getElementById('autoplayBtn');
-        this.learnMoreBtn = document.getElementById('learnMoreBtn');
-        this.currentCounter = document.getElementById('currentCounter');
-        this.totalCounter = document.getElementById('totalCounter');
-        this.mobileProgressFill = document.getElementById('mobileProgressFill');
+        this.currentCounter = document.querySelector('.carousel-counter .current');
+        this.totalCounter = document.querySelector('.carousel-counter .total');
+        this.progressFill = document.querySelector('.progress-fill');
         
+        // State
         this.currentIndex = 0;
         this.totalSlides = 0;
         this.slideWidth = 0;
+        this.gap = 20;
         this.isAutoplay = true;
         this.autoplayInterval = null;
         this.isMobile = window.innerWidth <= 768;
+        this.isTransitioning = false;
+        
+        // Touch handling
+        this.touchStartX = 0;
+        this.touchEndX = 0;
+        this.minSwipeDistance = 50;
         
         if (this.carousel && this.track) {
             this.init();
@@ -782,9 +789,11 @@ class ServicesCarousel {
         this.calculateDimensions();
         this.bindEvents();
         this.updateCounters();
-        this.updateMobileProgress();
+        this.updateProgress();
+        this.bindServiceNavigation();
         this.startAutoplay();
-        console.log('🎠 Services Carousel Initialized');
+        
+        console.log('🎠 Enhanced Services Carousel Initialized');
     }
 
     calculateDimensions() {
@@ -795,28 +804,22 @@ class ServicesCarousel {
             this.totalCounter.textContent = String(this.totalSlides).padStart(2, '0');
         }
         
-        if (cards.length > 0) {
+        if (cards.length > 0 && !this.isMobile) {
             const cardRect = cards[0].getBoundingClientRect();
             this.slideWidth = cardRect.width;
             const trackStyles = window.getComputedStyle(this.track);
-            this.gap = parseInt(trackStyles.gap) || 24;
+            this.gap = parseInt(trackStyles.gap) || 20;
         }
     }
 
     bindEvents() {
-        // Desktop navigation
+        // Navigation buttons
         if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', () => {
-                this.previousSlide();
-                this.handleUserInteraction();
-            });
+            this.prevBtn.addEventListener('click', () => this.previousSlide());
         }
         
         if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', () => {
-                this.nextSlide();
-                this.handleUserInteraction();
-            });
+            this.nextBtn.addEventListener('click', () => this.nextSlide());
         }
 
         // Autoplay toggle
@@ -824,78 +827,173 @@ class ServicesCarousel {
             this.autoplayBtn.addEventListener('click', () => this.toggleAutoplay());
         }
 
-        // Learn more button
-        if (this.learnMoreBtn) {
-            this.learnMoreBtn.addEventListener('click', () => this.showLearnMoreFeedback());
-        }
-
-        // Service CTAs
-        const serviceCTAs = document.querySelectorAll('.service-cta');
-        serviceCTAs.forEach(cta => {
-            cta.addEventListener('click', (e) => {
-                const service = e.currentTarget.dataset.service;
-                this.handleServiceClick(service);
-            });
-        });
-
-        // Mobile touch events
+        // Touch events for mobile
         if (this.isMobile) {
             this.bindTouchEvents();
         }
 
-        // Track scroll for mobile progress
-        if (this.isMobile && this.track) {
-            this.track.addEventListener('scroll', this.throttle(() => {
-                this.updateMobileProgress();
-            }, 16), { passive: true });
-        }
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => this.handleKeyboardNav(e));
 
         // Window resize
-        window.addEventListener('resize', this.debounce(() => this.onResize(), 250));
+        window.addEventListener('resize', this.debounce(() => this.handleResize(), 250));
+
+        // Intersection Observer for pause on visibility
+        this.setupVisibilityObserver();
+
+        // Mouse enter/leave for autoplay pause
+        if (this.carousel) {
+            this.carousel.addEventListener('mouseenter', () => this.pauseAutoplay());
+            this.carousel.addEventListener('mouseleave', () => this.resumeAutoplay());
+        }
     }
 
     bindTouchEvents() {
-        let startX = 0;
-        let currentX = 0;
-        let isDragging = false;
+        this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
+        this.track.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
+        this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
+    }
 
-        this.track.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-        }, { passive: true });
+    bindServiceNavigation() {
+        // Handle "Learn More" button clicks
+        const learnMoreBtns = document.querySelectorAll('.learn-more-btn');
+        learnMoreBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const serviceType = btn.dataset.service;
+                this.navigateToService(serviceType);
+            });
+        });
 
-        this.track.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            currentX = e.touches[0].clientX;
-        }, { passive: true });
-
-        this.track.addEventListener('touchend', () => {
-            if (!isDragging) return;
-            
-            const diff = startX - currentX;
-            const threshold = 50;
-
-            if (Math.abs(diff) > threshold) {
-                if (diff > 0) {
-                    this.nextSlide();
-                } else {
-                    this.previousSlide();
+        // Handle card clicks
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Only trigger if not clicking on a button
+                if (!e.target.closest('button')) {
+                    const serviceType = card.dataset.service;
+                    this.navigateToService(serviceType);
                 }
-                this.handleUserInteraction();
+            });
+        });
+
+        // Handle "View All Services" button
+        const viewAllBtn = document.querySelector('.view-all-btn');
+        if (viewAllBtn) {
+            viewAllBtn.addEventListener('click', (e) => {
+                this.trackEvent('view_all_services_clicked');
+            });
+        }
+    }
+
+    navigateToService(serviceType) {
+        // Add loading state
+        this.showNavigationFeedback(serviceType);
+        
+        // Track the click
+        this.trackEvent('service_clicked', { service: serviceType });
+        
+        // Navigate to services.html with hash
+        const serviceMapping = {
+            'botox': 'botox-fillers',
+            'weight-management': 'weight-management',
+            'iv-therapy': 'iv-therapy',
+            'microneedling': 'microneedling',
+            'prp': 'prp-therapy',
+            'chemical-peels': 'chemical-peels'
+        };
+        
+        const serviceHash = serviceMapping[serviceType] || serviceType;
+        
+        // Smooth transition to services page
+        setTimeout(() => {
+            window.location.href = `services.html#${serviceHash}`;
+        }, 300);
+    }
+
+    showNavigationFeedback(serviceType) {
+        const serviceNames = {
+            'botox': 'Botox & Fillers',
+            'weight-management': 'Weight Management',
+            'iv-therapy': 'IV Therapy',
+            'microneedling': 'Microneedling',
+            'prp': 'PRP Therapy',
+            'chemical-peels': 'Chemical Peels'
+        };
+
+        const feedback = document.createElement('div');
+        feedback.className = 'navigation-feedback';
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        `;
+        
+        feedback.innerHTML = `
+            <div class="loading-spinner" style="
+                width: 16px; 
+                height: 16px; 
+                border: 2px solid rgba(255,255,255,0.3); 
+                border-top: 2px solid white; 
+                border-radius: 50%; 
+                animation: spin 1s linear infinite;
+            "></div>
+            <span>Loading ${serviceNames[serviceType] || 'service details'}...</span>
+        `;
+        
+        document.body.appendChild(feedback);
+        
+        requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        setTimeout(() => {
+            if (feedback.parentNode) {
+                feedback.style.opacity = '0';
+                feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
+                setTimeout(() => feedback.remove(), 300);
             }
-            
-            isDragging = false;
-        }, { passive: true });
+        }, 1000);
     }
 
     nextSlide() {
+        if (this.isTransitioning) return;
+        this.isTransitioning = true;
+        
         this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
         this.updateSlide();
+        this.restartAutoplay();
+        
+        setTimeout(() => this.isTransitioning = false, 600);
     }
 
     previousSlide() {
+        if (this.isTransitioning) return;
+        this.isTransitioning = true;
+        
         this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
         this.updateSlide();
+        this.restartAutoplay();
+        
+        setTimeout(() => this.isTransitioning = false, 600);
     }
 
     updateSlide() {
@@ -905,7 +1003,8 @@ class ServicesCarousel {
         }
         
         this.updateCounters();
-        this.updateMobileProgress();
+        this.updateProgress();
+        this.highlightActiveCard();
     }
 
     updateCounters() {
@@ -914,18 +1013,27 @@ class ServicesCarousel {
         }
     }
 
-    updateMobileProgress() {
-        if (this.mobileProgressFill && this.isMobile) {
+    updateProgress() {
+        if (this.progressFill) {
             const progress = ((this.currentIndex + 1) / this.totalSlides) * 100;
-            this.mobileProgressFill.style.width = `${progress}%`;
+            this.progressFill.style.width = `${progress}%`;
         }
     }
 
+    highlightActiveCard() {
+        const cards = this.track.querySelectorAll('.service-card');
+        cards.forEach((card, index) => {
+            card.classList.toggle('active', index === this.currentIndex);
+        });
+    }
+
     startAutoplay() {
-        if (this.isAutoplay && !this.isMobile) {
+        if (this.isAutoplay && !this.isMobile && !this.autoplayInterval) {
             this.autoplayInterval = setInterval(() => {
-                this.nextSlide();
-            }, 5000);
+                if (!document.hidden && this.isVisible()) {
+                    this.nextSlide();
+                }
+            }, 4000);
         }
     }
 
@@ -933,6 +1041,23 @@ class ServicesCarousel {
         if (this.autoplayInterval) {
             clearInterval(this.autoplayInterval);
             this.autoplayInterval = null;
+        }
+    }
+
+    pauseAutoplay() {
+        this.stopAutoplay();
+    }
+
+    resumeAutoplay() {
+        if (this.isAutoplay && !this.isMobile) {
+            setTimeout(() => this.startAutoplay(), 1000);
+        }
+    }
+
+    restartAutoplay() {
+        this.stopAutoplay();
+        if (this.isAutoplay && !this.isMobile) {
+            setTimeout(() => this.startAutoplay(), 2000);
         }
     }
 
@@ -953,109 +1078,108 @@ class ServicesCarousel {
         }
     }
 
-    handleUserInteraction() {
-        this.stopAutoplay();
-        setTimeout(() => {
-            if (this.isAutoplay) this.startAutoplay();
-        }, 10000);
+    handleTouchStart(e) {
+        this.touchStartX = e.touches[0].clientX;
     }
 
-    handleServiceClick(service) {
-        this.showServiceFeedback(service);
-        // Here you could add navigation to service detail page
-        // window.location.href = `/services/${service}`;
+    handleTouchMove(e) {
+        // Prevent vertical scroll during horizontal swipe
+        if (Math.abs(e.touches[0].clientX - this.touchStartX) > 10) {
+            e.preventDefault();
+        }
     }
 
-    showServiceFeedback(service) {
-        const serviceNames = {
-            'botox': 'Botox & Fillers',
-            'weight': 'Weight Management',
-            'iv': 'IV Therapy',
-            'microneedling': 'Microneedling',
-            'prp': 'PRP Therapy',
-            'peels': 'Chemical Peels'
-        };
-
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            color: white; padding: 20px 32px; border-radius: 24px;
-            font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
-            z-index: 10000; pointer-events: none; opacity: 0;
-            backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
-            display: flex; align-items: center; gap: 12px; min-width: 280px; justify-content: center;
-        `;
-        
-        feedback.innerHTML = `
-            <i class="ri-heart-pulse-line" style="font-size: 18px;"></i>
-            <span>Learn more about ${serviceNames[service] || 'this service'}</span>
-        `;
-        
-        document.body.appendChild(feedback);
-        
-        requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            feedback.style.opacity = '1';
-            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-        
-        setTimeout(() => {
-            feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => feedback.remove(), 400);
-        }, 2500);
+    handleTouchEnd(e) {
+        this.touchEndX = e.changedTouches[0].clientX;
+        this.handleSwipe();
     }
 
-    showLearnMoreFeedback() {
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            color: white; padding: 20px 32px; border-radius: 24px;
-            font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
-            z-index: 10000; pointer-events: none; opacity: 0;
-            backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
-            display: flex; align-items: center; gap: 12px; min-width: 280px; justify-content: center;
-        `;
+    handleSwipe() {
+        const swipeDistance = this.touchStartX - this.touchEndX;
         
-        feedback.innerHTML = `
-            <i class="ri-information-line" style="font-size: 18px;"></i>
-            <span>Loading detailed services...</span>
-        `;
-        
-        document.body.appendChild(feedback);
-        
-        requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            feedback.style.opacity = '1';
-            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-        
-        setTimeout(() => {
-            feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => feedback.remove(), 500);
-        }, 2500);
+        if (Math.abs(swipeDistance) > this.minSwipeDistance) {
+            if (swipeDistance > 0) {
+                this.nextSlide();
+            } else {
+                this.previousSlide();
+            }
+        }
     }
 
-    onResize() {
+    handleKeyboardNav(e) {
+        if (this.isVisible()) {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.previousSlide();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.nextSlide();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    this.toggleAutoplay();
+                    break;
+            }
+        }
+    }
+
+    setupVisibilityObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.resumeAutoplay();
+                } else {
+                    this.pauseAutoplay();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (this.carousel) {
+            observer.observe(this.carousel);
+        }
+    }
+
+    isVisible() {
+        const rect = this.carousel?.getBoundingClientRect();
+        return rect && rect.top < window.innerHeight && rect.bottom > 0;
+    }
+
+    handleResize() {
         const wasMobile = this.isMobile;
         this.isMobile = window.innerWidth <= 768;
         
         if (wasMobile !== this.isMobile) {
+            this.calculateDimensions();
+            
             if (this.isMobile) {
                 this.stopAutoplay();
                 this.track.style.transform = '';
             } else {
-                if (this.isAutoplay) this.startAutoplay();
-                this.calculateDimensions();
+                if (this.isAutoplay) {
+                    this.startAutoplay();
+                }
                 this.updateSlide();
             }
         } else if (!this.isMobile) {
             this.calculateDimensions();
             this.updateSlide();
         }
+    }
+
+    trackEvent(eventName, eventData = {}) {
+        // Google Analytics tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, {
+                event_category: 'Services Carousel',
+                event_label: eventData.service || 'general',
+                ...eventData
+            });
+        }
+        
+        // Console logging for development
+        console.log(`📊 Event: ${eventName}`, eventData);
     }
 
     // Utility functions
@@ -1071,18 +1195,67 @@ class ServicesCarousel {
         };
     }
 
-    throttle(func, limit) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
+    // Public API methods
+    goToSlide(index) {
+        if (index >= 0 && index < this.totalSlides && index !== this.currentIndex) {
+            this.currentIndex = index;
+            this.updateSlide();
+            this.restartAutoplay();
         }
     }
+
+    destroy() {
+        this.stopAutoplay();
+        
+        // Remove event listeners
+        if (this.prevBtn) this.prevBtn.removeEventListener('click', this.previousSlide);
+        if (this.nextBtn) this.nextBtn.removeEventListener('click', this.nextSlide);
+        if (this.autoplayBtn) this.autoplayBtn.removeEventListener('click', this.toggleAutoplay);
+        
+        // Remove touch events
+        if (this.track && this.isMobile) {
+            this.track.removeEventListener('touchstart', this.handleTouchStart);
+            this.track.removeEventListener('touchmove', this.handleTouchMove);
+            this.track.removeEventListener('touchend', this.handleTouchEnd);
+        }
+        
+        document.removeEventListener('keydown', this.handleKeyboardNav);
+        window.removeEventListener('resize', this.handleResize);
+    }
+}
+
+// CSS for spinner animation
+const spinnerCSS = `
+<style>
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.service-card.active {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(255, 140, 0, 0.2);
+}
+
+.navigation-feedback {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+</style>`;
+
+// Initialize the carousel when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Add spinner CSS
+    document.head.insertAdjacentHTML('beforeend', spinnerCSS);
+    
+    // Initialize carousel
+    if (document.getElementById('servicesCarousel')) {
+        window.servicesCarousel = new EnhancedServicesCarousel();
+    }
+});
+
+// Export for external use
+if (typeof window !== 'undefined') {
+    window.EnhancedServicesCarousel = EnhancedServicesCarousel;
 }
 
 /* ========================================
