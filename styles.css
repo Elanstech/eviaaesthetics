@@ -1969,6 +1969,14 @@ body.mobile-menu-open {
     }
 }
 
+@media (min-width: 993px) {
+    .hero-badge-premium {
+        margin-top: 3rem; /* Move badge down by 48px on desktop */
+        margin-bottom: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
 /* iOS Safari specific fixes */
 @supports (-webkit-touch-callout: none) {
     @media (max-width: 768px) {
