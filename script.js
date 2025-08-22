@@ -218,9 +218,16 @@ class EviaLuxuryApp {
 class LuxuryPreloader {
     constructor() {
         this.preloader = document.getElementById('preloader');
-        this.minDisplayTime = 2500;
+        this.desktopPreloader = null;
+        this.mobilePreloader = null;
+        this.progressFill = null;
+        this.isMobile = window.innerWidth <= 768;
+        
+        // Timing configuration
+        this.minDisplayTime = this.isMobile ? 1000 : 1800; // Mobile: 1s, Desktop: 1.8s
         this.startTime = Date.now();
         this.isReady = false;
+        this.fadeOutStarted = false;
         
         if (this.preloader) {
             this.init();
@@ -228,53 +235,115 @@ class LuxuryPreloader {
     }
     
     init() {
+        console.log(`🚀 Initializing ${this.isMobile ? 'mobile' : 'desktop'} preloader`);
+        
+        // Prevent scrolling during preloader
         document.body.style.overflow = 'hidden';
-        this.startAnimations();
+        document.body.classList.add('preloader-active');
+        
+        // Get elements
+        this.desktopPreloader = this.preloader.querySelector('.desktop-preloader');
+        this.mobilePreloader = this.preloader.querySelector('.mobile-preloader');
+        this.progressFill = this.preloader.querySelector('.progress-fill');
+        
+        // Start appropriate preloader
+        if (this.isMobile) {
+            this.initMobilePreloader();
+        } else {
+            this.initDesktopPreloader();
+        }
+        
+        // Monitor load state
         this.checkReadyState();
+        
+        // Handle window resize
+        window.addEventListener('resize', this.handleResize.bind(this));
+        
+        // Force cleanup after maximum time
+        setTimeout(() => {
+            if (!this.fadeOutStarted) {
+                console.warn('⚠️ Preloader taking too long, forcing cleanup');
+                this.fadeOut();
+            }
+        }, 4000);
     }
     
-    startAnimations() {
-        const icons = this.preloader.querySelectorAll('.medspa-icon');
-        icons.forEach((icon, index) => {
-            this.animateIcon(icon, index);
+    initDesktopPreloader() {
+        if (!this.desktopPreloader) return;
+        
+        const logo = this.desktopPreloader.querySelector('.preloader-logo');
+        const loadingText = this.desktopPreloader.querySelector('.loading-text');
+        
+        // Start logo animation immediately
+        if (logo) {
+            logo.style.opacity = '1';
+            this.addLogoInteractivity(logo);
+        }
+        
+        // Start progress bar animation
+        if (this.progressFill) {
+            // Small delay to ensure smooth start
+            setTimeout(() => {
+                this.progressFill.style.animation = 'progressBarFill 1.8s ease-out forwards';
+            }, 100);
+        }
+        
+        // Fade in loading text
+        if (loadingText) {
+            setTimeout(() => {
+                loadingText.style.opacity = '1';
+            }, 300);
+        }
+        
+        console.log('✨ Desktop preloader animations started');
+    }
+    
+    initMobilePreloader() {
+        if (!this.mobilePreloader) return;
+        
+        const notification = this.mobilePreloader.querySelector('.corner-notification');
+        const logo = this.mobilePreloader.querySelector('.mobile-logo');
+        
+        // Ensure mobile preloader is visible
+        this.mobilePreloader.style.display = 'block';
+        
+        if (notification) {
+            notification.style.animation = 'slideInFromRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        }
+        
+        if (logo) {
+            this.addLogoInteractivity(logo);
+        }
+        
+        console.log('✨ Mobile preloader animations started');
+    }
+    
+    addLogoInteractivity(logo) {
+        if (!logo) return;
+        
+        // Add subtle hover effect for desktop
+        if (!this.isMobile) {
+            logo.addEventListener('mouseenter', () => {
+                logo.style.transform = 'scale(1.05)';
+                logo.style.transition = 'transform 0.3s ease';
+            });
+            
+            logo.addEventListener('mouseleave', () => {
+                logo.style.transform = 'scale(1)';
+            });
+        }
+        
+        // Add loading state indicator
+        logo.addEventListener('load', () => {
+            logo.style.opacity = '1';
         });
         
-        const logo = this.preloader.querySelector('.preloader-logo');
-        if (logo) {
-            this.animateLogo(logo);
-        }
-    }
-    
-    animateIcon(icon, index) {
-        const animate = () => {
-            const time = Date.now() * 0.001;
-            const offset = index * 0.7;
-            const x = Math.sin(time + offset) * 20;
-            const y = Math.cos(time * 0.8 + offset) * 15;
-            const rotation = Math.sin(time + offset) * 10;
-            
-            icon.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
-            
-            if (!this.isReady) {
-                requestAnimationFrame(animate);
-            }
-        };
-        
-        setTimeout(animate, index * 200);
-    }
-    
-    animateLogo(logo) {
-        const animate = () => {
-            const time = Date.now() * 0.0008;
-            const scale = 1 + Math.sin(time) * 0.02;
-            logo.style.transform = `scale(${scale})`;
-            
-            if (!this.isReady) {
-                requestAnimationFrame(animate);
-            }
-        };
-        
-        animate();
+        // Handle load errors gracefully
+        logo.addEventListener('error', () => {
+            console.warn('⚠️ Logo failed to load, using fallback');
+            logo.style.backgroundColor = 'var(--hermes-orange)';
+            logo.style.opacity = '1';
+        });
     }
     
     checkReadyState() {
@@ -282,49 +351,184 @@ class LuxuryPreloader {
             const timeElapsed = Date.now() - this.startTime;
             const timeReady = timeElapsed >= this.minDisplayTime;
             const pageReady = document.readyState === 'complete';
+            const imagesLoaded = this.checkImagesLoaded();
             
-            if (timeReady && pageReady) {
+            // More aggressive loading detection for mobile
+            const isReady = this.isMobile ? 
+                (timeReady && (pageReady || timeElapsed >= 1500)) :
+                (timeReady && pageReady && imagesLoaded);
+            
+            if (isReady) {
                 clearInterval(checkInterval);
                 this.fadeOut();
             }
-        }, 100);
+        }, 50);
         
+        // Cleanup interval after max wait time
         setTimeout(() => {
             clearInterval(checkInterval);
-            this.fadeOut();
+            if (!this.fadeOutStarted) {
+                this.fadeOut();
+            }
         }, 5000);
     }
     
+    checkImagesLoaded() {
+        const images = this.preloader.querySelectorAll('img');
+        return Array.from(images).every(img => img.complete && img.naturalHeight !== 0);
+    }
+    
     async fadeOut() {
+        if (this.fadeOutStarted) return;
+        
+        this.fadeOutStarted = true;
         this.isReady = true;
         
-        const icons = this.preloader.querySelectorAll('.medspa-icon');
-        icons.forEach((icon, index) => {
-            setTimeout(() => {
-                EviaUtils.animate(icon, [
-                    { opacity: 1, transform: 'scale(1) rotate(0deg)' },
-                    { opacity: 0, transform: 'scale(0.5) rotate(180deg)' }
-                ], { duration: 400 });
-            }, index * 50);
-        });
+        console.log(`🎯 Starting ${this.isMobile ? 'mobile' : 'desktop'} preloader fade out`);
         
-        await EviaUtils.wait(300);
+        try {
+            if (this.isMobile) {
+                await this.fadeOutMobile();
+            } else {
+                await this.fadeOutDesktop();
+            }
+            
+            // Final cleanup
+            await this.cleanup();
+            
+        } catch (error) {
+            console.error('❌ Error during preloader fadeout:', error);
+            // Force cleanup even if animation fails
+            this.forceCleanup();
+        }
+    }
+    
+    async fadeOutDesktop() {
+        const logo = this.desktopPreloader?.querySelector('.preloader-logo');
+        const progressContainer = this.desktopPreloader?.querySelector('.progress-bar-container');
         
-        const logo = this.preloader.querySelector('.preloader-logo');
-        const loadingIndicator = this.preloader.querySelector('.loading-indicator');
+        // Animate logo first
+        if (logo) {
+            logo.style.animation = 'logoFadeOut 0.6s ease-out forwards';
+        }
         
-        if (logo) EviaUtils.animate(logo, [{ opacity: 1 }, { opacity: 0 }]);
-        if (loadingIndicator) EviaUtils.animate(loadingIndicator, [{ opacity: 1 }, { opacity: 0 }]);
+        // Wait a bit, then animate progress container
+        await this.wait(200);
         
-        await EviaUtils.wait(500);
+        if (progressContainer) {
+            progressContainer.style.animation = 'contentFadeOut 0.6s ease-out forwards';
+        }
         
+        // Wait for animations to complete
+        await this.wait(600);
+    }
+    
+    async fadeOutMobile() {
+        const notification = this.mobilePreloader?.querySelector('.corner-notification');
+        
+        if (notification) {
+            notification.style.animation = 'slideOutToRight 0.6s ease-in forwards';
+        }
+        
+        await this.wait(600);
+    }
+    
+    async cleanup() {
+        // Add fade out class to entire preloader
         this.preloader.classList.add('fade-out');
         
-        setTimeout(() => {
+        // Wait for CSS transition
+        await this.wait(800);
+        
+        // Remove from DOM
+        this.preloader.style.display = 'none';
+        
+        // Restore body state
+        document.body.style.overflow = '';
+        document.body.classList.remove('preloader-active');
+        document.body.classList.add('preloader-complete');
+        
+        // Dispatch custom event for other components
+        window.dispatchEvent(new CustomEvent('preloaderComplete'));
+        
+        console.log('✅ Preloader cleanup completed successfully');
+    }
+    
+    forceCleanup() {
+        console.log('🔧 Force cleaning up preloader');
+        
+        if (this.preloader) {
             this.preloader.style.display = 'none';
-            document.body.style.overflow = '';
-            document.body.classList.add('preloader-complete');
-        }, 1200);
+        }
+        
+        document.body.style.overflow = '';
+        document.body.classList.remove('preloader-active');
+        document.body.classList.add('preloader-complete');
+        
+        window.dispatchEvent(new CustomEvent('preloaderComplete'));
+    }
+    
+    handleResize() {
+        const newIsMobile = window.innerWidth <= 768;
+        
+        // If device type changed during preloader, restart with correct version
+        if (newIsMobile !== this.isMobile && !this.fadeOutStarted) {
+            console.log('📱 Device orientation changed, restarting preloader');
+            this.isMobile = newIsMobile;
+            
+            // Hide current preloader elements
+            if (this.desktopPreloader) this.desktopPreloader.style.display = 'none';
+            if (this.mobilePreloader) this.mobilePreloader.style.display = 'none';
+            
+            // Restart with correct version
+            if (this.isMobile) {
+                this.initMobilePreloader();
+            } else {
+                this.initDesktopPreloader();
+            }
+        }
+    }
+    
+    // Utility method
+    wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    // Public method to restart preloader (for testing)
+    restart() {
+        if (this.fadeOutStarted) {
+            console.log('🔄 Restarting preloader');
+            
+            this.fadeOutStarted = false;
+            this.isReady = false;
+            this.startTime = Date.now();
+            
+            this.preloader.classList.remove('fade-out');
+            this.preloader.style.display = 'flex';
+            
+            document.body.style.overflow = 'hidden';
+            document.body.classList.add('preloader-active');
+            document.body.classList.remove('preloader-complete');
+            
+            if (this.isMobile) {
+                this.initMobilePreloader();
+            } else {
+                this.initDesktopPreloader();
+            }
+            
+            this.checkReadyState();
+        }
+    }
+    
+    // Get current state (for debugging)
+    getState() {
+        return {
+            isMobile: this.isMobile,
+            isReady: this.isReady,
+            fadeOutStarted: this.fadeOutStarted,
+            timeElapsed: Date.now() - this.startTime,
+            minDisplayTime: this.minDisplayTime
+        };
     }
 }
 
