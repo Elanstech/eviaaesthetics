@@ -129,7 +129,7 @@ class EviaLuxuryApp {
     initializeComponents() {
         const componentDefinitions = [
             { name: 'preloader', class: LuxuryPreloader },
-            { name: 'header', class: SleekFloatingHeader },
+            { name: 'header', class: EnhancedLuxuryHeader },
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
             { name: 'servicesCarousel', class: EnhancedServicesCarousel },
@@ -138,7 +138,7 @@ class EviaLuxuryApp {
             { name: 'instagramReviews', class: RedesignedSocialSections },
             { name: 'LuxuryProductsSection', class: EnhancedProductsCarousel },
             { name: 'contactSection', class: HermesLuxuryContactSection },
-            { name: 'floatingButtons', class: MinimalisticFloatingButtons }
+            { name: 'floatingButtons', class: LuxuryFloatingButtons }
         ];
         
         componentDefinitions.forEach(({ name, class: ComponentClass }) => {
@@ -532,31 +532,17 @@ class LuxuryPreloader {
     }
 }
 
-
 /* ========================================
-   SLEEK FLOATING HEADER JAVASCRIPT
+   HEADER SECTION
    ======================================== */
 
-class SleekFloatingHeader {
+class EnhancedLuxuryHeader {
     constructor() {
         this.header = document.getElementById('header');
-        this.navContainer = document.querySelector('.sleek-nav-container');
-        this.navPills = document.querySelectorAll('.nav-pill');
-        this.ctaButton = document.getElementById('headerCTA');
-        this.shopLink = document.querySelector('.sleek-shop-link');
-        this.mobileToggle = document.getElementById('mobileToggle');
-        this.logo = document.querySelector('.sleek-header-logo');
-        
-        // State management
         this.lastScrollY = 0;
         this.ticking = false;
         this.isScrolled = false;
-        this.isMobile = window.innerWidth <= 1024;
-        this.activeSection = 'home';
-        
-        // Performance optimization
-        this.scrollThreshold = 100;
-        this.rafId = null;
+        this.isMobileMode = false;
         
         if (this.header) {
             this.init();
@@ -565,553 +551,212 @@ class SleekFloatingHeader {
     
     init() {
         this.bindEvents();
-        this.initActiveNavigation();
-        this.setupIntersectionObserver();
-        this.addPerformanceOptimizations();
-        this.handleResize();
-        
-        console.log('✨ Sleek Floating Header initialized');
+        this.initNavigation();
+        this.startHeaderAnimations();
     }
     
     bindEvents() {
-        // Optimized scroll handling
-        window.addEventListener('scroll', this.throttle(() => {
-            this.handleScroll();
-        }, 16), { passive: true });
+        window.addEventListener('scroll', () => {
+            if (!this.ticking) {
+                requestAnimationFrame(() => this.handleScroll());
+                this.ticking = true;
+            }
+        }, { passive: true });
         
-        // Navigation pills
-        this.navPills.forEach(pill => {
-            pill.addEventListener('click', (e) => this.handleNavClick(e, pill));
-            pill.addEventListener('mouseenter', () => this.handleNavHover(pill));
-            pill.addEventListener('mouseleave', () => this.handleNavLeave(pill));
-        });
-        
-        // CTA button
-        if (this.ctaButton) {
-            this.ctaButton.addEventListener('click', () => this.handleCTAClick());
-            this.ctaButton.addEventListener('mouseenter', () => this.triggerCTAShimmer());
+        const headerCTA = document.getElementById('headerCTA');
+        if (headerCTA) {
+            headerCTA.addEventListener('click', () => app.smoothScrollTo('#contact'));
+            headerCTA.addEventListener('mouseenter', () => this.addCTAShimmer(headerCTA));
         }
         
-        // Shop link
-        if (this.shopLink) {
-            this.shopLink.addEventListener('click', (e) => this.handleShopClick(e));
-            this.shopLink.addEventListener('mouseenter', () => this.triggerShopHover());
+        const mobileToggle = document.getElementById('mobileToggle');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleMobileMenu();
+            });
         }
-        
-        // Logo interactions
-        if (this.logo) {
-            this.logo.addEventListener('click', () => this.handleLogoClick());
-            this.logo.addEventListener('mouseenter', () => this.triggerLogoShine());
-        }
-        
-        // Mobile toggle (preserve existing functionality)
-        if (this.mobileToggle) {
-            this.mobileToggle.addEventListener('click', (e) => this.handleMobileToggle(e));
-        }
-        
-        // Window events
-        window.addEventListener('resize', this.debounce(() => {
-            this.handleResize();
-        }, 250));
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
     }
     
     handleScroll() {
-        if (this.isMobile) return;
-        
         const scrollY = window.pageYOffset;
-        const shouldScroll = scrollY > this.scrollThreshold;
+        const scrollDirection = scrollY > this.lastScrollY ? 'down' : 'up';
+        const scrollThreshold = 100;
         
-        if (shouldScroll !== this.isScrolled) {
-            this.isScrolled = shouldScroll;
-            this.updateScrollState();
+        if (window.innerWidth > 900) {
+            if (scrollDirection === 'down' && scrollY > scrollThreshold) {
+                if (!this.header.classList.contains('mobile-mode')) {
+                    this.header.classList.add('mobile-mode');
+                    this.header.classList.remove('scrolled');
+                    this.isMobileMode = true;
+                }
+            } else if (scrollDirection === 'up' && scrollY < 50) {
+                if (this.header.classList.contains('mobile-mode')) {
+                    this.header.classList.remove('mobile-mode');
+                    this.isMobileMode = false;
+                }
+            }
+            
+            if (!this.header.classList.contains('mobile-mode')) {
+                const shouldTransform = scrollY > scrollThreshold;
+                if (shouldTransform !== this.isScrolled) {
+                    this.isScrolled = shouldTransform;
+                    this.header.classList.toggle('scrolled', this.isScrolled);
+                }
+            }
+        } else {
+            this.header.classList.remove('mobile-mode');
+            this.isMobileMode = false;
+            const shouldTransform = scrollY > scrollThreshold;
+            if (shouldTransform !== this.isScrolled) {
+                this.isScrolled = shouldTransform;
+                this.header.classList.toggle('scrolled', this.isScrolled);
+            }
         }
         
         this.lastScrollY = scrollY;
+        this.ticking = false;
     }
     
-    updateScrollState() {
-        if (!this.header) return;
+    initNavigation() {
+        const navLinks = document.querySelectorAll('.nav-link');
         
-        this.header.classList.toggle('scrolled', this.isScrolled);
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            
+            if (href && href.startsWith('#')) {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    app.smoothScrollTo(href);
+                    this.updateActiveLink(href);
+                });
+                
+                link.addEventListener('mouseenter', () => {
+                    this.addNavLinkShine(link);
+                });
+            }
+        });
         
-        // Add subtle animation
-        if (this.isScrolled) {
-            this.header.style.transform = 'translateY(-2px)';
-        } else {
-            this.header.style.transform = 'translateY(0)';
-        }
+        this.initActiveNavigation();
     }
     
-    handleNavClick(e, pill) {
-        e.preventDefault();
+    addNavLinkShine(link) {
+        if (EviaUtils.isMobile()) return;
         
-        const href = pill.getAttribute('href');
-        if (!href || !href.startsWith('#')) return;
-        
-        // Update active state
-        this.setActiveNav(href.substring(1));
-        
-        // Smooth scroll with offset
-        this.smoothScrollToSection(href);
-        
-        // Add click feedback
-        this.addClickFeedback(pill);
-        
-        // Track interaction
-        this.trackEvent('nav_click', 'header', href.substring(1));
-    }
-    
-    handleNavHover(pill) {
-        if (this.isMobile) return;
-        
-        // Add hover shimmer effect
-        this.addNavShimmer(pill);
-        
-        // Subtle scale effect
-        pill.style.transform = 'translateY(-1px) scale(1.02)';
-    }
-    
-    handleNavLeave(pill) {
-        if (this.isMobile) return;
-        
-        pill.style.transform = '';
-    }
-    
-    addNavShimmer(pill) {
-        if (pill.classList.contains('active')) return;
-        
-        const shimmer = document.createElement('div');
-        shimmer.style.cssText = `
+        const shine = document.createElement('div');
+        shine.style.cssText = `
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.6s ease;
             pointer-events: none;
-            border-radius: 25px;
-            z-index: 1;
+            border-radius: 1.5rem;
+            z-index: 0;
         `;
         
-        pill.style.position = 'relative';
-        pill.appendChild(shimmer);
+        link.style.position = 'relative';
+        link.appendChild(shine);
         
         requestAnimationFrame(() => {
-            shimmer.style.left = '100%';
+            shine.style.left = '100%';
         });
         
         setTimeout(() => {
-            if (shimmer.parentNode) {
-                shimmer.parentNode.removeChild(shimmer);
+            if (shine.parentNode) {
+                shine.parentNode.removeChild(shine);
             }
         }, 600);
     }
     
-    handleCTAClick() {
-        this.addClickFeedback(this.ctaButton);
-        this.triggerCTAGlow();
-        
-        // Scroll to contact
-        setTimeout(() => {
-            this.smoothScrollToSection('#contact');
-        }, 200);
-        
-        this.trackEvent('cta_click', 'header', 'book_consultation');
-    }
-    
-    triggerCTAShimmer() {
-        const shimmer = this.ctaButton.querySelector('.cta-shimmer');
+    addCTAShimmer(cta) {
+        const shimmer = cta.querySelector('.cta-shine');
         if (shimmer) {
             shimmer.style.left = '-100%';
             shimmer.style.transition = 'none';
-            shimmer.offsetHeight; // Force reflow
+            shimmer.offsetHeight;
             shimmer.style.transition = 'left 0.8s ease';
             shimmer.style.left = '100%';
         }
     }
     
-    triggerCTAGlow() {
-        const glow = this.ctaButton.querySelector('.cta-glow');
-        if (glow) {
-            glow.style.opacity = '1';
-            setTimeout(() => {
-                glow.style.opacity = '0';
-            }, 1000);
-        }
-    }
-    
-    handleShopClick(e) {
-        this.addClickFeedback(this.shopLink);
-        this.showShopFeedback();
-        this.trackEvent('shop_click', 'header', 'alumiermd_store');
-    }
-    
-    triggerShopHover() {
-        const ripple = this.shopLink.querySelector('.link-ripple');
-        if (ripple) {
-            ripple.style.opacity = '0.1';
-            setTimeout(() => {
-                ripple.style.opacity = '0';
-            }, 1000);
-        }
-    }
-    
-    handleLogoClick() {
-        this.addClickFeedback(this.logo);
-        this.smoothScrollToSection('#home');
-        this.setActiveNav('home');
-        this.trackEvent('logo_click', 'header', 'home_navigation');
-    }
-    
-    triggerLogoShine() {
-        // Logo shine effect is handled by CSS hover
-        this.logo.style.transform = 'translateY(-2px) scale(1.02) rotate(-1deg)';
-        setTimeout(() => {
-            this.logo.style.transform = '';
-        }, 300);
-    }
-    
-    handleMobileToggle(e) {
-        e.preventDefault();
-        // Preserve existing mobile menu functionality
-        this.mobileToggle.classList.toggle('active');
-        
-        if (this.mobileToggle.classList.contains('active')) {
-            this.openMobileMenu();
-        } else {
-            this.closeMobileMenu();
-        }
-    }
-    
-    openMobileMenu() {
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileBackdrop = document.getElementById('mobileBackdrop');
-        
-        document.body.style.overflow = 'hidden';
-        document.body.classList.add('menu-open');
-        
-        if (mobileBackdrop) mobileBackdrop.classList.add('active');
-        if (mobileMenu) mobileMenu.classList.add('active');
-    }
-    
-    closeMobileMenu() {
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileBackdrop = document.getElementById('mobileBackdrop');
-        
-        setTimeout(() => {
-            if (mobileMenu) mobileMenu.classList.remove('active');
-            if (mobileBackdrop) mobileBackdrop.classList.remove('active');
-            this.mobileToggle.classList.remove('active');
-            
-            document.body.style.overflow = '';
-            document.body.classList.remove('menu-open');
-        }, 300);
-    }
-    
-    setActiveNav(sectionId) {
-        this.activeSection = sectionId;
-        
-        this.navPills.forEach(pill => {
-            const href = pill.getAttribute('href');
-            const isActive = href === `#${sectionId}`;
-            
-            pill.classList.toggle('active', isActive);
-            
-            if (isActive && !this.isMobile) {
-                this.animateActiveNavPill(pill);
-            }
-        });
-    }
-    
-    animateActiveNavPill(pill) {
-        pill.style.transform = 'scale(1.05)';
-        setTimeout(() => {
-            pill.style.transform = '';
-        }, 200);
-    }
-    
     initActiveNavigation() {
-        // Set initial active state
-        this.setActiveNav('home');
-    }
-    
-    setupIntersectionObserver() {
         const sections = document.querySelectorAll('section[id]');
         
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
                     const id = entry.target.getAttribute('id');
-                    this.setActiveNav(id);
+                    this.updateActiveLink(`#${id}`);
                 }
             });
         }, {
-            threshold: [0.3, 0.5, 0.7],
+            threshold: [0.3, 0.7],
             rootMargin: '-20% 0px -20% 0px'
         });
         
         sections.forEach(section => observer.observe(section));
-        this.intersectionObserver = observer;
     }
     
-    smoothScrollToSection(target) {
-        const element = document.querySelector(target);
-        if (!element) return;
+    updateActiveLink(href) {
+        const navLinks = document.querySelectorAll('.nav-link');
         
-        const offset = this.isMobile ? 80 : 120;
-        const targetPosition = element.offsetTop - offset;
-        
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-        });
-    }
-    
-    handleKeyboard(e) {
-        // ESC key handling
-        if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
-            this.closeMobileMenu();
-        }
-        
-        // Tab navigation enhancement
-        if (e.key === 'Tab') {
-            document.body.classList.add('keyboard-navigation');
-            setTimeout(() => {
-                document.body.classList.remove('keyboard-navigation');
-            }, 3000);
-        }
-    }
-    
-    handleResize() {
-        const wasMobile = this.isMobile;
-        this.isMobile = window.innerWidth <= 1024;
-        
-        if (wasMobile !== this.isMobile) {
-            this.onDeviceChange();
-        }
-        
-        // Reset scroll state on resize
-        this.isScrolled = false;
-        this.updateScrollState();
-    }
-    
-    onDeviceChange() {
-        if (this.isMobile) {
-            // Switching to mobile
-            this.header.classList.remove('scrolled');
-            if (document.body.classList.contains('menu-open')) {
-                this.closeMobileMenu();
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === href) {
+                link.classList.add('active');
             }
-        } else {
-            // Switching to desktop
-            this.closeMobileMenu();
-        }
-    }
-    
-    addClickFeedback(element) {
-        if (!element) return;
-        
-        element.style.transform = 'scale(0.98)';
-        element.style.transition = 'transform 0.1s ease-out';
-        
-        setTimeout(() => {
-            element.style.transform = '';
-            element.style.transition = '';
-        }, 150);
-    }
-    
-    showShopFeedback() {
-        this.showFeedback('Opening AlumierMD store...', '#FF8C00', 'ri-shopping-bag-line');
-    }
-    
-    showFeedback(message, color, icon) {
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${color};
-            color: white;
-            padding: 16px 20px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 10001;
-            opacity: 0;
-            transform: translateX(100px);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            backdrop-filter: blur(20px);
-        `;
-        
-        feedback.innerHTML = `
-            <i class="${icon}" style="font-size: 16px;"></i>
-            <span>${message}</span>
-        `;
-        
-        document.body.appendChild(feedback);
-        
-        requestAnimationFrame(() => {
-            feedback.style.opacity = '1';
-            feedback.style.transform = 'translateX(0)';
         });
+    }
+    
+    startHeaderAnimations() {
+        const container = this.header.querySelector('.aluminum-container');
+        if (!container || EviaUtils.isMobile()) return;
         
-        setTimeout(() => {
-            feedback.style.opacity = '0';
-            feedback.style.transform = 'translateX(100px)';
+        let floatOffset = 0;
+        
+        const animate = () => {
+            if (document.hidden) return;
             
-            setTimeout(() => {
-                if (feedback.parentNode) {
-                    feedback.parentNode.removeChild(feedback);
+            floatOffset += 0.005;
+            const yOffset = Math.sin(floatOffset) * 0.5;
+            
+            if (!this.isScrolled && !this.isMobileMode) {
+                container.style.transform = `translateY(${yOffset}px)`;
+            }
+            
+            requestAnimationFrame(animate);
+        };
+        
+        animate();
+    }
+    
+    toggleMobileMenu() {
+        const toggle = document.getElementById('mobileToggle');
+        if (toggle) {
+            toggle.classList.toggle('active');
+            
+            const mobileMenu = app.getComponent('mobileMenu');
+            if (mobileMenu) {
+                if (toggle.classList.contains('active')) {
+                    mobileMenu.openMenu();
+                } else {
+                    mobileMenu.closeMenu();
                 }
-            }, 400);
-        }, 3000);
-    }
-    
-    addPerformanceOptimizations() {
-        // Add will-change for animated elements
-        const animatedElements = [
-            this.header,
-            this.logo,
-            ...this.navPills,
-            this.ctaButton,
-            this.shopLink
-        ].filter(Boolean);
-        
-        animatedElements.forEach(el => {
-            el.style.willChange = 'transform';
-        });
-        
-        // Cleanup will-change after animations
-        setTimeout(() => {
-            animatedElements.forEach(el => {
-                el.style.willChange = 'auto';
-            });
-        }, 5000);
-    }
-    
-    trackEvent(action, category, label) {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', action, {
-                event_category: category,
-                event_label: label,
-                value: 1
-            });
-        }
-        
-        console.log(`📊 Header Event: ${action} - ${category} - ${label}`);
-    }
-    
-    // Utility methods
-    throttle(func, limit) {
-        let inThrottle;
-        return function(...args) {
-            if (!inThrottle) {
-                func.apply(this, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
             }
-        };
-    }
-    
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-    
-    // Public API
-    scrollToSection(sectionId) {
-        this.smoothScrollToSection(`#${sectionId}`);
-        this.setActiveNav(sectionId);
-    }
-    
-    setSection(sectionId) {
-        this.setActiveNav(sectionId);
-    }
-    
-    getCurrentSection() {
-        return this.activeSection;
-    }
-    
-    destroy() {
-        // Clean up observers
-        if (this.intersectionObserver) {
-            this.intersectionObserver.disconnect();
         }
-        
-        // Remove event listeners
-        window.removeEventListener('scroll', this.handleScroll);
-        window.removeEventListener('resize', this.handleResize);
-        document.removeEventListener('keydown', this.handleKeyboard);
-        
-        // Cancel any pending animations
-        if (this.rafId) {
-            cancelAnimationFrame(this.rafId);
+    }
+    
+    onResize() {
+        if (window.innerWidth <= 900) {
+            this.header.classList.remove('mobile-mode');
+            this.isMobileMode = false;
+            const toggle = document.getElementById('mobileToggle');
+            if (toggle) toggle.classList.remove('active');
         }
-        
-        console.log('🗑️ Sleek Floating Header destroyed');
     }
-}
-
-// Initialize the header
-document.addEventListener('DOMContentLoaded', () => {
-    const sleekHeader = new SleekFloatingHeader();
-    
-    // Make it globally accessible
-    window.sleekHeader = sleekHeader;
-    
-    // Enhanced mobile menu integration
-    const mobileClose = document.getElementById('mobileClose');
-    const mobileBackdrop = document.getElementById('mobileBackdrop');
-    
-    if (mobileClose) {
-        mobileClose.addEventListener('click', () => {
-            sleekHeader.closeMobileMenu();
-        });
-    }
-    
-    if (mobileBackdrop) {
-        mobileBackdrop.addEventListener('click', () => {
-            sleekHeader.closeMobileMenu();
-        });
-    }
-    
-    // Mobile menu navigation links
-    const mobileNavLinks = document.querySelectorAll('.nav-item .nav-link');
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
-            
-            if (href && href.startsWith('#')) {
-                e.preventDefault();
-                
-                sleekHeader.closeMobileMenu();
-                
-                setTimeout(() => {
-                    sleekHeader.scrollToSection(href.substring(1));
-                }, 300);
-            }
-        });
-    });
-});
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = SleekFloatingHeader;
 }
 
 /* ========================================
@@ -6270,12 +5915,12 @@ if (typeof module !== 'undefined' && module.exports) {
    FLOATING BUTTONS SECTION
    ======================================== */
 
-class MinimalisticFloatingButtons {
+class LuxuryFloatingButtons {
     constructor() {
-        this.callBtn = document.getElementById('miniCallBtn');
-        this.topBtn = document.getElementById('miniTopBtn');
+        this.callBtn = document.getElementById('luxuryCallBtn');
+        this.topBtn = document.getElementById('luxuryTopBtn');
         this.isVisible = false;
-        this.scrollThreshold = 200;
+        this.scrollThreshold = 300;
         this.lastScrollY = 0;
         this.ticking = false;
         
@@ -6286,11 +5931,10 @@ class MinimalisticFloatingButtons {
     
     init() {
         this.bindEvents();
-        this.showWithDelay();
+        this.showButtonsWithDelay();
     }
     
     bindEvents() {
-        // Scroll handling for back to top button
         window.addEventListener('scroll', () => {
             if (!this.ticking) {
                 requestAnimationFrame(() => this.handleScroll());
@@ -6298,17 +5942,21 @@ class MinimalisticFloatingButtons {
             }
         }, { passive: true });
         
-        // Call button
         if (this.callBtn) {
-            this.callBtn.addEventListener('click', (e) => this.handleCall(e));
-            this.callBtn.addEventListener('mouseenter', () => this.addRipple(this.callBtn));
+            this.callBtn.addEventListener('click', (e) => this.handleCallClick(e));
+            this.callBtn.addEventListener('mouseenter', () => this.addRippleEffect(this.callBtn));
         }
         
-        // Top button
         if (this.topBtn) {
-            this.topBtn.addEventListener('click', (e) => this.handleTop(e));
-            this.topBtn.addEventListener('mouseenter', () => this.addRipple(this.topBtn));
+            this.topBtn.addEventListener('click', (e) => this.handleTopClick(e));
+            this.topBtn.addEventListener('mouseenter', () => this.addRippleEffect(this.topBtn));
         }
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                this.showButtons();
+            }, 2000);
+        });
     }
     
     handleScroll() {
@@ -6325,37 +5973,47 @@ class MinimalisticFloatingButtons {
         this.ticking = false;
     }
     
-    showWithDelay() {
-        // Show call button after page load
+    showButtonsWithDelay() {
         setTimeout(() => {
             this.showCallButton();
-        }, 2000);
+        }, 3000);
         
-        // Show top button if needed
         setTimeout(() => {
             if (window.pageYOffset > this.scrollThreshold) {
                 this.showTopButton();
             }
-        }, 2500);
+        }, 3500);
+    }
+    
+    showButtons() {
+        this.showCallButton();
+        
+        if (window.pageYOffset > this.scrollThreshold) {
+            this.showTopButton();
+        }
+        
+        this.isVisible = true;
     }
     
     showCallButton() {
         if (this.callBtn && !this.callBtn.classList.contains('show')) {
-            this.callBtn.classList.add('enter', 'show');
+            this.callBtn.style.animation = 'fab-entrance 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+            this.callBtn.classList.add('show');
             
-            // Add pulse effect for attention
             setTimeout(() => {
-                this.callBtn.classList.add('pulse');
-                setTimeout(() => {
-                    this.callBtn.classList.remove('pulse');
-                }, 4000);
-            }, 1000);
+                this.addBounceEffect(this.callBtn);
+            }, 800);
         }
     }
     
     showTopButton() {
         if (this.topBtn && !this.topBtn.classList.contains('show')) {
-            this.topBtn.classList.add('enter', 'show');
+            this.topBtn.style.animation = 'fab-entrance 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+            this.topBtn.classList.add('show');
+            
+            setTimeout(() => {
+                this.addBounceEffect(this.topBtn);
+            }, 800);
         }
     }
     
@@ -6365,76 +6023,88 @@ class MinimalisticFloatingButtons {
         }
     }
     
-    handleCall(e) {
+    handleCallClick(e) {
         e.preventDefault();
         
-        this.triggerRipple(this.callBtn);
+        this.triggerRipple(this.callBtn, e);
         this.addClickFeedback(this.callBtn);
         
         const phoneNumber = '2016394983';
+        const telLink = `tel:${phoneNumber}`;
         
-        this.showFeedback('Connecting call...', '#10B981');
+        this.showCallingFeedback();
         
-        setTimeout(() => {
-            window.location.href = `tel:${phoneNumber}`;
-        }, 300);
+        window.location.href = telLink;
         
-        this.trackEvent('mini_call_button', 'engagement', 'phone_call');
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'phone_call', {
+                event_category: 'engagement',
+                event_label: 'floating_call_button'
+            });
+        }
     }
     
-    handleTop(e) {
+    handleTopClick(e) {
         e.preventDefault();
         
-        this.triggerRipple(this.topBtn);
+        this.triggerRipple(this.topBtn, e);
         this.addClickFeedback(this.topBtn);
         
         this.scrollToTop();
         
-        this.trackEvent('mini_top_button', 'navigation', 'scroll_to_top');
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'scroll_to_top', {
+                event_category: 'navigation',
+                event_label: 'floating_top_button'
+            });
+        }
     }
     
     scrollToTop() {
-        const duration = 1000;
-        const start = window.pageYOffset;
+        const startPosition = window.pageYOffset;
         const startTime = performance.now();
+        const duration = 1200;
         
-        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+        const easeOutCubic = (t) => {
+            return 1 - Math.pow(1 - t, 3);
+        };
         
         const scroll = (currentTime) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = easeOutCubic(progress);
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            const easedProgress = easeOutCubic(progress);
             
-            window.scrollTo(0, start * (1 - eased));
+            window.scrollTo(0, startPosition * (1 - easedProgress));
             
             if (progress < 1) {
                 requestAnimationFrame(scroll);
             } else {
-                // Success feedback
-                this.showTopSuccess();
+                this.onScrollComplete();
             }
         };
         
         requestAnimationFrame(scroll);
     }
     
-    showTopSuccess() {
-        const icon = this.topBtn.querySelector('i');
-        const originalClass = icon.className;
-        
-        icon.className = 'ri-check-line';
-        this.topBtn.style.background = 'rgba(16, 185, 129, 0.95)';
-        this.topBtn.style.color = 'white';
+    onScrollComplete() {
+        this.addSuccessFeedback(this.topBtn);
         
         setTimeout(() => {
-            icon.className = originalClass;
-            this.topBtn.style.background = '';
-            this.topBtn.style.color = '';
             this.hideTopButton();
-        }, 2000);
+        }, 1000);
     }
     
-    triggerRipple(button) {
+    triggerRipple(button, event) {
+        const ripple = button.querySelector('.fab-ripple');
+        if (!ripple) return;
+        
+        const rect = button.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
         button.classList.add('ripple-active');
         
         setTimeout(() => {
@@ -6442,88 +6112,133 @@ class MinimalisticFloatingButtons {
         }, 600);
     }
     
-    addRipple(button) {
-        if (!button.classList.contains('ripple-active')) {
-            this.triggerRipple(button);
+    addRippleEffect(button) {
+        const ripple = button.querySelector('.fab-ripple');
+        if (ripple) {
+            ripple.style.left = '50%';
+            ripple.style.top = '50%';
+            button.classList.add('ripple-active');
+            
+            setTimeout(() => {
+                button.classList.remove('ripple-active');
+            }, 600);
         }
     }
     
     addClickFeedback(button) {
-        button.style.transform = 'scale(0.9)';
+        button.style.transform = 'translateY(-4px) scale(0.95)';
         
         setTimeout(() => {
             button.style.transform = '';
         }, 150);
     }
     
-    showFeedback(message, color) {
+    addBounceEffect(button) {
+        button.style.animation = 'none';
+        button.offsetHeight;
+        button.style.animation = 'arrow-bounce 0.6s ease-out';
+        
+        setTimeout(() => {
+            button.style.animation = '';
+        }, 600);
+    }
+    
+    addSuccessFeedback(button) {
+        const icon = button.querySelector('.fab-icon i');
+        if (icon) {
+            const originalClass = icon.className;
+            icon.className = 'ri-check-line';
+            
+            setTimeout(() => {
+                icon.className = originalClass;
+            }, 2000);
+        }
+    }
+    
+    showCallingFeedback() {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: ${color};
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
             color: white;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 14px;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            font-family: var(--font-inter);
+            font-size: 0.9rem;
             font-weight: 600;
-            z-index: 10001;
+            z-index: 10000;
+            pointer-events: none;
             opacity: 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         `;
         
-        feedback.textContent = message;
+        feedback.innerHTML = `
+            <i class="ri-phone-line" style="font-size: 1.1rem;"></i>
+            <span>Connecting call...</span>
+        `;
+        
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
+            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
         setTimeout(() => {
             feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            
             setTimeout(() => {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
-            }, 300);
-        }, 2000);
+            }, 400);
+        }, 2500);
     }
     
-    trackEvent(action, category, label) {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', action, {
-                event_category: category,
-                event_label: label,
-                value: 1
-            });
-        }
-        
-        console.log(`📊 Event: ${action} - ${category} - ${label}`);
-    }
-    
-    // Public methods
     show() {
-        this.showCallButton();
-        if (window.pageYOffset > this.scrollThreshold) {
-            this.showTopButton();
-        }
-        this.isVisible = true;
+        this.showButtons();
     }
     
     hide() {
-        this.callBtn?.classList.remove('show');
-        this.topBtn?.classList.remove('show');
+        if (this.callBtn) {
+            this.callBtn.classList.remove('show');
+        }
+        if (this.topBtn) {
+            this.topBtn.classList.remove('show');
+        }
         this.isVisible = false;
+    }
+    
+    toggle() {
+        if (this.isVisible) {
+            this.hide();
+        } else {
+            this.show();
+        }
     }
     
     destroy() {
         window.removeEventListener('scroll', this.handleScroll);
-        this.callBtn?.removeEventListener('click', this.handleCall);
-        this.topBtn?.removeEventListener('click', this.handleTop);
+        window.removeEventListener('load', this.showButtons);
+        
+        if (this.callBtn) {
+            this.callBtn.removeEventListener('click', this.handleCallClick);
+            this.callBtn.removeEventListener('mouseenter', this.addRippleEffect);
+        }
+        
+        if (this.topBtn) {
+            this.topBtn.removeEventListener('click', this.handleTopClick);
+            this.topBtn.removeEventListener('mouseenter', this.addRippleEffect);
+        }
     }
 }
 
@@ -6767,7 +6482,7 @@ if (typeof module !== 'undefined' && module.exports) {
         RedesignedSocialSections,
         EnhancedProductsCarousel,
         HermesLuxuryContactSection,
-        MinimalisticFloatingButtons,
+        LuxuryFloatingButtons,
         CinematicHero,
         EviaConfig
     };
