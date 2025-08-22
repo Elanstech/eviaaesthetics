@@ -5,2418 +5,1156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Eviaesthetics - Manhattan's Premier Luxury Medical Spa</title>
     
-    <!-- Meta Tags -->
     <meta name="description" content="Experience Manhattan's most luxurious medical spa. Dr. Evia Alikaj Nano offers cutting-edge aesthetic treatments, facial rejuvenation, and wellness services at Eviaesthetics.">
     <meta name="keywords" content="manhattan medical spa, nyc aesthetics, luxury medspa, facial treatments, botox nyc, dermal fillers manhattan, eviaesthetics">
     
-    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://images.unsplash.com">
-    <link rel="preconnect" href="https://raw.githubusercontent.com">
     
-    <!-- DNS Prefetch -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
     
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <!-- Optimized Font Loading -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Nunito:wght@200;300;400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
-    
-    <!-- Animation Library -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     
-    <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Redesigned Preloader -->
-<div class="evia-modern-preloader" id="preloader">
-    <div class="desktop-corner-notification">
-        <div class="corner-notification">
-            <div class="logo-container">
-                <img src="mobilelogo.png" alt="Eviaesthetics" class="preloader-logo">
-            </div>
-            <div class="loading-content">
-                <div class="loading-text">Preparing luxury experience</div>
-                <div class="brand-text">Eviaesthetics</div>
-                <div class="progress-indicator">
-                    <div class="progress-fill"></div>
+    <!-- Preloader -->
+    <div class="evia-modern-preloader" id="preloader">
+        <div class="desktop-corner-notification">
+            <div class="corner-notification">
+                <div class="logo-container">
+                    <img src="mobilelogo.png" alt="Eviaesthetics" class="preloader-logo">
+                </div>
+                <div class="loading-content">
+                    <div class="loading-text">Preparing luxury experience</div>
+                    <div class="brand-text">Eviaesthetics</div>
+                    <div class="progress-indicator">
+                        <div class="progress-fill"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     
-   <!-- Redesigned Floating Header -->
-<header class="modern-floating-header" id="header">
-    <nav class="header-glass-container">
-        <!-- Logo Section -->
-        <div class="modern-logo-section">
-            <!-- Desktop Logo -->
-            <img src="logo1.png" alt="Eviaesthetics" class="modern-header-logo desktop-logo">
-            <!-- Scrolled Logo (for desktop scrolled state) -->
-            <img src="mobilelogo.png" alt="Eviaesthetics" class="modern-header-logo scrolled-logo">
-            <!-- Mobile Logo (for tablets and mobile) -->
-            <img src="mobilelogo.png" alt="Eviaesthetics" class="modern-header-logo mobile-logo">
-        </div>
-        
-        <!-- Navigation Menu -->
-        <ul class="modern-nav-menu">
-            <li><a href="#home" class="modern-nav-link active" data-text="Home">Home</a></li>
-            <li><a href="#services" class="modern-nav-link" data-text="Services">Services</a></li>
-            <li><a href="https://us.alumiermd.com/products?code=54T7P4HH" class="modern-nav-link" data-text="Shop Products">Shop Products</a></li>
-            <li><a href="#about" class="modern-nav-link" data-text="About">About</a></li>
-            <li><a href="#results" class="modern-nav-link" data-text="Results">Results</a></li>
-            <li><a href="#contact" class="modern-nav-link" data-text="Contact">Contact</a></li>
-        </ul>
-        
-        <!-- Modern CTA Button -->
-        <button class="modern-cta-button" id="headerCTA" type="button">
-            <span class="modern-cta-text">Book Now</span>
-            <span class="modern-cta-icon">→</span>
-        </button>
-        
-        <!-- Modern Mobile Toggle -->
-        <button class="modern-mobile-toggle" id="mobileToggle" type="button" aria-label="Toggle Menu">
-            <span class="toggle-line"></span>
-            <span class="toggle-line"></span>
-            <span class="toggle-line"></span>
-        </button>
-    </nav>
-</header>
-
-<!-- Modern Mobile Menu -->
-<div class="modern-mobile-backdrop" id="mobileBackdrop"></div>
-<div class="modern-mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-container">
-        <!-- Mobile Menu Header -->
-        <div class="mobile-menu-header">
-            <img src="mobilelogo.png" alt="Eviaesthetics" class="mobile-menu-logo">
-            <button class="mobile-menu-close" id="mobileClose" type="button" aria-label="Close Menu">
-                <span class="close-line"></span>
-                <span class="close-line"></span>
+    <!-- Header -->
+    <header class="modern-floating-header" id="header">
+        <nav class="header-glass-container">
+            <div class="modern-logo-section">
+                <img src="logo1.png" alt="Eviaesthetics" class="modern-header-logo desktop-logo">
+                <img src="mobilelogo.png" alt="Eviaesthetics" class="modern-header-logo scrolled-logo">
+                <img src="mobilelogo.png" alt="Eviaesthetics" class="modern-header-logo mobile-logo">
+            </div>
+            
+            <ul class="modern-nav-menu">
+                <li><a href="#home" class="modern-nav-link active" data-text="Home">Home</a></li>
+                <li><a href="#services" class="modern-nav-link" data-text="Services">Services</a></li>
+                <li><a href="https://us.alumiermd.com/products?code=54T7P4HH" class="modern-nav-link" data-text="Shop Products">Shop Products</a></li>
+                <li><a href="#about" class="modern-nav-link" data-text="About">About</a></li>
+                <li><a href="#results" class="modern-nav-link" data-text="Results">Results</a></li>
+                <li><a href="#contact" class="modern-nav-link" data-text="Contact">Contact</a></li>
+            </ul>
+            
+            <button class="modern-cta-button" id="headerCTA" type="button">
+                <span class="modern-cta-text">Book Now</span>
+                <span class="modern-cta-icon">→</span>
             </button>
-        </div>
-        
-        <!-- Mobile Navigation -->
-        <nav class="mobile-navigation">
-            <a href="#home" class="mobile-nav-link active">
-                <span class="mobile-nav-number">01</span>
-                <span class="mobile-nav-text">Home</span>
-            </a>
-            <a href="#services" class="mobile-nav-link">
-                <span class="mobile-nav-number">02</span>
-                <span class="mobile-nav-text">Services</span>
-            </a>
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="mobile-nav-link">
-                <span class="mobile-nav-number">03</span>
-                <span class="mobile-nav-text">Shop Products</span>
-            </a>
-            <a href="#about" class="mobile-nav-link">
-                <span class="mobile-nav-number">04</span>
-                <span class="mobile-nav-text">About</span>
-            </a>
-            <a href="#results" class="mobile-nav-link">
-                <span class="mobile-nav-number">05</span>
-                <span class="mobile-nav-text">Results</span>
-            </a>
-            <a href="#contact" class="mobile-nav-link">
-                <span class="mobile-nav-number">06</span>
-                <span class="mobile-nav-text">Contact</span>
-            </a>
+            
+            <button class="modern-mobile-toggle" id="mobileToggle" type="button" aria-label="Toggle Menu">
+                <span class="toggle-line"></span>
+                <span class="toggle-line"></span>
+                <span class="toggle-line"></span>
+            </button>
         </nav>
-        
-        <!-- Mobile CTA -->
-        <div class="mobile-menu-footer">
-            <button class="mobile-cta-button" type="button">
-                <span>Book Consultation</span>
-                <span class="mobile-cta-icon">✨</span>
-            </button>
-            
-            <!-- Contact Info -->
-            <div class="mobile-contact-info">
-                <div class="contact-item">
-                    <span class="contact-label">Call</span>
-                    <span class="contact-value">(212) 555-0123</span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-label">Location</span>
-                    <span class="contact-value">Manhattan, NYC</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-   
-<!-- UPDATED HERO SECTION WITH FIXED CLASS NAMES -->
-<section class="cinematic-hero" id="home">
-    <!-- Enhanced Video Background -->
-    <div class="hero-video-container">
-        <video class="hero-video" autoplay muted loop playsinline preload="metadata">
-            <source src="hero.mp4" type="video/mp4">
-        </video>
-        <div class="hero-video-overlay"></div>
-    </div>
-    
-    <!-- Hero Floating Orbs -->
-    <div class="hero-floating-orbs">
-        <div class="hero-orb hero-orb-1"></div>
-        <div class="hero-orb hero-orb-2"></div>
-        <div class="hero-orb hero-orb-3"></div>
-        <div class="hero-orb hero-orb-4"></div>
-    </div>
+    </header>
 
-    <!-- Hero Aqua Elements -->
-    <div class="hero-aqua-elements">
-        <div class="hero-aqua-bubble hero-bubble-1"></div>
-        <div class="hero-aqua-bubble hero-bubble-2"></div>
-        <div class="hero-aqua-bubble hero-bubble-3"></div>
-    </div>
-    
-    <!-- MAIN HERO CONTENT - ENHANCED MOBILE LAYOUT -->
-    <div class="hero-content-stack">
-        <!-- 1. TOP BADGE -->
-        <div class="hero-badge-premium" data-aos="fade-down" data-aos-delay="200">
-            <i class="ri-map-pin-2-fill"></i>
-            <span>Manhattan's Premier Boutique Med Spa</span>
-        </div>
-        
-        <!-- 2. HEADLINE (Two Lines) -->
-        <div class="hero-headline-stack" data-aos="fade-up" data-aos-delay="400">
-            <h1 class="hero-headline-primary">The Art of Subtle Transformation</h1>
-            <h2 class="hero-headline-secondary">Welcome To Eviaesthetics</h2>
-        </div>
-        
-        <!-- 3. SUBHEADLINE -->
-        <p class="hero-subheadline-elegant" data-aos="fade-up" data-aos-delay="600">
-            Botox & Fillers, Weight Management, IV Therapy, Microneedling, PRP, Chemical Peels.
-        </p>
-        
-        <!-- 4. CTA BUTTON -->
-        <button class="hero-cta-signature" id="primaryCTA" data-aos="fade-up" data-aos-delay="800" type="button">
-            <span>Begin Your Signature Consultation</span>
-            <div class="hero-cta-shimmer"></div>
-            <div class="hero-cta-glow"></div>
-        </button>
-        
-        <!-- 5. ENHANCED STATS ROW - MOBILE OPTIMIZED -->
-        <div class="hero-stats-row-container" data-aos="fade-up" data-aos-delay="1000">
-            <div class="hero-stat-pill">
-                <div class="hero-stat-icon">
-                    <i class="ri-heart-pulse-line"></i>
-                </div>
-                <div class="hero-stat-content">
-                    <span class="hero-stat-number">1,000+</span>
-                    <span class="hero-stat-label">Signature Transformations</span>
-                </div>
-            </div>
-            
-            <div class="hero-stat-pill">
-                <div class="hero-stat-icon">
-                    <i class="ri-award-line"></i>
-                </div>
-                <div class="hero-stat-content">
-                    <span class="hero-stat-number">20+</span>
-                    <span class="hero-stat-label">Years of Expertise</span>
-                </div>
-            </div>
-            
-            <div class="hero-stat-pill">
-                <div class="hero-stat-icon">
-                    <i class="ri-user-heart-line"></i>
-                </div>
-                <div class="hero-stat-content">
-                    <span class="hero-stat-number">Board-Certified</span>
-                    <span class="hero-stat-label">Aesthetic Physician</span>
-                </div>
-            </div>
-            
-            <div class="hero-stat-pill">
-                <div class="hero-stat-icon">
-                    <i class="ri-star-fill"></i>
-                </div>
-                <div class="hero-stat-content">
-                    <span class="hero-stat-number">5.0★</span>
-                    <span class="hero-stat-label">Client Rating</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 6. ENHANCED HERMÈS SIGNATURE (Desktop Only) -->
-    <div class="hero-hermes-signature-wrapper" id="heroHermesSignature">
-        <div class="hero-signature-container">
-            <div class="hero-signature-text">
-                <span class="hero-signature-line">Evia Alikaj Nano</span>
-                <span class="hero-signature-credentials">MD</span>
-            </div>
-            <div class="hero-signature-underline"></div>
-        </div>
-    </div>
-    
-    <!-- 7. ENHANCED SCROLL INDICATOR -->
-    <div class="hero-scroll-indicator-elegant" data-aos="fade-up" data-aos-delay="1400">
-        <div class="hero-scroll-icon">
-            <i class="ri-arrow-down-line"></i>
-        </div>
-        <span class="hero-scroll-text">Explore the Experience</span>
-    </div>
-</section>
-
-  <!-- ENHANCED LUXURY SERVICES SECTION -->
-<section class="enhanced-services-section" id="services">
-    <div class="services-container">
-        <!-- Section Header -->
-        <div class="services-header" data-aos="fade-up">
-            <div class="header-badge">
-                <span class="badge-dot"></span>
-                <span class="badge-text">Signature Treatments</span>
-                <span class="badge-dot"></span>
-            </div>
-            <h2 class="services-title">
-                <span class="title-line-1">Where Science</span>
-                <span class="title-line-2">Meets <em>Artistry</em></span>
-            </h2>
-            <p class="services-subtitle">
-                Each treatment is a masterpiece of precision and luxury crafted by Dr. Nano
-            </p>
-        </div>
-
-        <!-- Services Carousel Wrapper -->
-        <div class="services-carousel-wrapper">
-            <!-- Desktop Navigation Arrows -->
-            <button class="carousel-nav carousel-nav-prev" id="prevBtn" aria-label="Previous" type="button">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-            
-            <button class="carousel-nav carousel-nav-next" id="nextBtn" aria-label="Next" type="button">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-
-            <!-- Main Carousel -->
-            <div class="services-carousel" id="servicesCarousel">
-                <div class="carousel-track" id="carouselTrack">
-                    
-                    <!-- Service Card 1: Botox & Fillers -->
-                    <div class="service-card" data-service="botox">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="service-number">01</div>
-                                <div class="service-badge bestseller">Most Popular</div>
-                            </div>
-                            
-                            <div class="card-image">
-                                <img src="https://drvitolo.com/wp-content/uploads/2023/11/shutterstock_331039175-scaled.jpg" alt="Botox & Fillers Treatment" loading="lazy">
-                                <div class="image-overlay"></div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="service-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-syringe-line"></i>
-                                </div>
-                                
-                                <h3 class="service-title">Botox & Fillers</h3>
-                                <p class="service-tagline">Refined • Natural • Timeless</p>
-                                <p class="service-description">
-                                    Precision-placed injectables that enhance your natural features with subtle sophistication and expert artistry.
-                                </p>
-                                
-                                <div class="service-features">
-                                    <div class="feature-item">
-                                        <i class="ri-time-line"></i>
-                                        <span>30-45 min</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-shield-check-line"></i>
-                                        <span>FDA Approved</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="price-section">
-                                    <span class="price-label">Starting from</span>
-                                    <span class="price-amount">$16<span class="price-unit">/unit</span></span>
-                                </div>
-                                
-                                <button class="service-cta" type="button" data-service="botox">
-                                    <span>Book Consultation</span>
-                                    <div class="cta-arrow">→</div>
-                                    <div class="cta-ripple"></div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 2: Weight Management -->
-                    <div class="service-card" data-service="weight">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="service-number">02</div>
-                                <div class="service-badge program">Comprehensive</div>
-                            </div>
-                            
-                            <div class="card-image">
-                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop" alt="Weight Management Program" loading="lazy">
-                                <div class="image-overlay"></div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="service-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-hearts-line"></i>
-                                </div>
-                                
-                                <h3 class="service-title">Weight Management</h3>
-                                <p class="service-tagline">Sustainable • Holistic • Transformative</p>
-                                <p class="service-description">
-                                    Medical weight management programs tailored to your lifestyle for lasting, healthy results.
-                                </p>
-                                
-                                <div class="service-features">
-                                    <div class="feature-item">
-                                        <i class="ri-calendar-check-line"></i>
-                                        <span>Custom Plan</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-user-heart-line"></i>
-                                        <span>Personalized</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="price-section">
-                                    <span class="price-label">Pricing</span>
-                                    <span class="price-amount">Inquire Within</span>
-                                </div>
-                                
-                                <button class="service-cta" type="button" data-service="weight">
-                                    <span>Book Consultation</span>
-                                    <div class="cta-arrow">→</div>
-                                    <div class="cta-ripple"></div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 3: IV Therapy -->
-                    <div class="service-card" data-service="iv">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="service-number">03</div>
-                                <div class="service-badge premium">Premium</div>
-                            </div>
-                            
-                            <div class="card-image">
-                                <img src="https://www.drdavidfein.com/wp-content/uploads/sites/449/2025/02/A-blurred-image-of-a-woman-taking-IV-Drip-Vitamin-Infuser-Therapy-Solution.jpg" alt="IV Therapy Treatment" loading="lazy">
-                                <div class="image-overlay"></div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="service-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-drop-line"></i>
-                                </div>
-                                
-                                <h3 class="service-title">IV Therapy</h3>
-                                <p class="service-tagline">Revitalize • Restore • Rejuvenate</p>
-                                <p class="service-description">
-                                    Luxury vitamin infusions designed to optimize your health and natural glow from within.
-                                </p>
-                                
-                                <div class="service-features">
-                                    <div class="feature-item">
-                                        <i class="ri-timer-line"></i>
-                                        <span>45-60 min</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-sparkles-line"></i>
-                                        <span>Instant Results</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="price-section">
-                                    <span class="price-label">Starting from</span>
-                                    <span class="price-amount">$350</span>
-                                </div>
-                                
-                                <button class="service-cta" type="button" data-service="iv">
-                                    <span>Book Consultation</span>
-                                    <div class="cta-arrow">→</div>
-                                    <div class="cta-ripple"></div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 4: Microneedling -->
-                    <div class="service-card" data-service="microneedling">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="service-number">04</div>
-                                <div class="service-badge advanced">SkinPen</div>
-                            </div>
-                            
-                            <div class="card-image">
-                                <img src="https://nmaesthetics.com/cdn/shop/files/RF-MicroneedlingVideo-Cover.jpg?v=1711125451&width=2000" alt="Microneedling SkinPen Treatment" loading="lazy">
-                                <div class="image-overlay"></div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="service-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-sparkling-line"></i>
-                                </div>
-                                
-                                <h3 class="service-title">Microneedling (SkinPen)</h3>
-                                <p class="service-tagline">Renew • Repair • Radiate</p>
-                                <p class="service-description">
-                                    Advanced collagen induction therapy for smoother skin texture and luminous complexion.
-                                </p>
-                                
-                                <div class="service-features">
-                                    <div class="feature-item">
-                                        <i class="ri-refresh-line"></i>
-                                        <span>3-6 Sessions</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-star-line"></i>
-                                        <span>Top Rated</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="price-section">
-                                    <span class="price-label">Starting from</span>
-                                    <span class="price-amount">$700</span>
-                                </div>
-                                
-                                <button class="service-cta" type="button" data-service="microneedling">
-                                    <span>Book Consultation</span>
-                                    <div class="cta-arrow">→</div>
-                                    <div class="cta-ripple"></div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 5: PRP Therapy -->
-                    <div class="service-card" data-service="prp">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="service-number">05</div>
-                                <div class="service-badge natural">100% Natural</div>
-                            </div>
-                            
-                            <div class="card-image">
-                                <img src="https://charettecosmetics.com/wp-content/uploads/2024/02/AdobeStock_458058116-scaled.jpeg" alt="PRP Therapy Treatment" loading="lazy">
-                                <div class="image-overlay"></div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="service-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-plant-line"></i>
-                                </div>
-                                
-                                <h3 class="service-title">PRP Therapy</h3>
-                                <p class="service-tagline">Natural • Regenerative • Powerful</p>
-                                <p class="service-description">
-                                    Harness your body's natural healing power for facial rejuvenation and restoration.
-                                </p>
-                                
-                                <div class="service-features">
-                                    <div class="feature-item">
-                                        <i class="ri-leaf-line"></i>
-                                        <span>Organic</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-pulse-line"></i>
-                                        <span>Biocompatible</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="price-section">
-                                    <span class="price-label">Starting from</span>
-                                    <span class="price-amount">$800</span>
-                                </div>
-                                
-                                <button class="service-cta" type="button" data-service="prp">
-                                    <span>Book Consultation</span>
-                                    <div class="cta-arrow">→</div>
-                                    <div class="cta-ripple"></div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Card 6: Chemical Peels -->
-                    <div class="service-card" data-service="peels">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="service-number">06</div>
-                                <div class="service-badge renewal">Renewal</div>
-                            </div>
-                            
-                            <div class="card-image">
-                                <img src="https://thecentrefordermatology.com/wp-content/uploads/2024/12/steptodown.com723656.jpg" alt="Chemical Peels Treatment" loading="lazy">
-                                <div class="image-overlay"></div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="service-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-contrast-drop-line"></i>
-                                </div>
-                                
-                                <h3 class="service-title">Chemical Peels</h3>
-                                <p class="service-tagline">Reveal • Refine • Perfect</p>
-                                <p class="service-description">
-                                    Medical-grade peels that reveal your skin's natural radiance with expert precision.
-                                </p>
-                                
-                                <div class="service-features">
-                                    <div class="feature-item">
-                                        <i class="ri-magic-line"></i>
-                                        <span>Instant Glow</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-verified-badge-line"></i>
-                                        <span>Medical Grade</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="price-section">
-                                    <span class="price-label">Starting from</span>
-                                    <span class="price-amount">$350</span>
-                                </div>
-                                
-                                <button class="service-cta" type="button" data-service="peels">
-                                    <span>Book Consultation</span>
-                                    <div class="cta-arrow">→</div>
-                                    <div class="cta-ripple"></div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Mobile Progress Indicator -->
-            <div class="mobile-progress" id="mobileProgress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-text">
-                    <span class="current-slide" id="currentSlide">1</span>
-                    <span class="separator">of</span>
-                    <span class="total-slides" id="totalSlides">6</span>
-                </div>
-            </div>
-
-            <!-- Carousel Dots -->
-            <div class="carousel-dots" id="carouselDots"></div>
-        </div>
-
-        <!-- Desktop Navigation Counter -->
-        <div class="desktop-navigation" id="desktopNavigation">
-            <div class="nav-counter">
-                <span class="current-counter" id="currentCounter">01</span>
-                <span class="nav-separator">—</span>
-                <span class="total-counter" id="totalCounter">06</span>
-            </div>
-            <div class="nav-controls">
-                <button class="nav-control-btn" id="autoplayBtn" type="button" title="Toggle Autoplay">
-                    <i class="ri-pause-line"></i>
+    <!-- Mobile Menu -->
+    <div class="modern-mobile-backdrop" id="mobileBackdrop"></div>
+    <div class="modern-mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-container">
+            <div class="mobile-menu-header">
+                <img src="mobilelogo.png" alt="Eviaesthetics" class="mobile-menu-logo">
+                <button class="mobile-menu-close" id="mobileClose" type="button" aria-label="Close Menu">
+                    <span class="close-line"></span>
+                    <span class="close-line"></span>
                 </button>
             </div>
-        </div>
-
-        <!-- Learn More Section -->
-        <div class="services-learn-more" data-aos="fade-up" data-aos-delay="400">
-            <div class="learn-more-content">
-                <div class="learn-more-badge">
-                    <i class="ri-information-line"></i>
-                    <span>Explore Details</span>
-                </div>
-                <h3 class="learn-more-title">Want to Learn More About Our Services?</h3>
-                <p class="learn-more-description">
-                    Discover detailed information about each treatment, pricing, recovery times, and frequently asked questions.
-                </p>
-                <button class="learn-more-cta" id="learnMoreBtn" type="button">
-                    <span class="cta-text">View All Services</span>
-                    <div class="cta-icon">
-                        <i class="ri-arrow-right-line"></i>
-                    </div>
-                    <div class="cta-shimmer"></div>
-                    <div class="cta-glow"></div>
+            
+            <nav class="mobile-navigation">
+                <a href="#home" class="mobile-nav-link active">
+                    <span class="mobile-nav-number">01</span>
+                    <span class="mobile-nav-text">Home</span>
+                </a>
+                <a href="#services" class="mobile-nav-link">
+                    <span class="mobile-nav-number">02</span>
+                    <span class="mobile-nav-text">Services</span>
+                </a>
+                <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="mobile-nav-link">
+                    <span class="mobile-nav-number">03</span>
+                    <span class="mobile-nav-text">Shop Products</span>
+                </a>
+                <a href="#about" class="mobile-nav-link">
+                    <span class="mobile-nav-number">04</span>
+                    <span class="mobile-nav-text">About</span>
+                </a>
+                <a href="#results" class="mobile-nav-link">
+                    <span class="mobile-nav-number">05</span>
+                    <span class="mobile-nav-text">Results</span>
+                </a>
+                <a href="#contact" class="mobile-nav-link">
+                    <span class="mobile-nav-number">06</span>
+                    <span class="mobile-nav-text">Contact</span>
+                </a>
+            </nav>
+            
+            <div class="mobile-menu-footer">
+                <button class="mobile-cta-button" type="button">
+                    <span>Book Consultation</span>
+                    <span class="mobile-cta-icon">✨</span>
                 </button>
-            </div>
-        </div>
-    </div>
-</section>
-    
-<!-- ENHANCED HERMÈS ABOUT SECTION -->
-<section class="hermes-about-section" id="about">
-    <!-- Luxury Background Elements -->
-    <div class="hermes-about-background">
-        <div class="hermes-bg-orb hermes-orb-1"></div>
-        <div class="hermes-bg-orb hermes-orb-2"></div>
-        <div class="hermes-bg-orb hermes-orb-3"></div>
-        <div class="hermes-mesh-gradient"></div>
-        
-        <!-- Floating Luxury Icons -->
-        <div class="hermes-floating-icons">
-            <div class="hermes-float-icon hermes-icon-1">
-                <i class="ri-heart-pulse-line"></i>
-            </div>
-            <div class="hermes-float-icon hermes-icon-2">
-                <i class="ri-award-line"></i>
-            </div>
-            <div class="hermes-float-icon hermes-icon-3">
-                <i class="ri-shield-check-line"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="hermes-about-container">
-        <!-- Hermès Section Header -->
-        <header class="hermes-about-header" data-hermes-reveal="fade-up">
-            <!-- Luxury Badge -->
-            <div class="hermes-excellence-badge">
-                <div class="badge-ornament-left"></div>
-                <div class="badge-content">
-                    <i class="ri-user-heart-line"></i>
-                    <span>Meet Our Expert</span>
-                </div>
-                <div class="badge-ornament-right"></div>
-            </div>
-            
-            <!-- Hermès Typography -->
-            <h2 class="hermes-about-title">
-                <span class="hermes-title-main">Where Medical Excellence</span>
-                <span class="hermes-title-accent">Meets Artistry</span>
-            </h2>
-            
-            <p class="hermes-about-subtitle">
-                Dr. Evia Alikaj Nano combines two decades of medical expertise with an unwavering commitment to aesthetic perfection, delivering transformative results in the heart of Manhattan.
-            </p>
-            
-            <!-- Hermès Divider -->
-            <div class="hermes-luxury-divider">
-                <div class="divider-line-left"></div>
-                <div class="divider-diamond">
-                    <i class="ri-sparkling-2-line"></i>
-                </div>
-                <div class="divider-line-right"></div>
-            </div>
-        </header>
-
-        <!-- Main Content Layout - Improved -->
-        <div class="hermes-content-layout" data-hermes-reveal="fade-up" data-delay="200">
-            
-            <!-- Doctor Profile Column - Enhanced -->
-            <div class="hermes-doctor-column">
-                <div class="hermes-doctor-profile">
-                    <!-- Enhanced Image Frame -->
-                    <div class="hermes-image-frame">
-                        <div class="hermes-frame-ornaments">
-                            <div class="frame-corner frame-tl"></div>
-                            <div class="frame-corner frame-tr"></div>
-                            <div class="frame-corner frame-bl"></div>
-                            <div class="frame-corner frame-br"></div>
-                        </div>
-                        
-                        <div class="hermes-image-container">
-                            <img src="eviaherself.jpg" alt="Dr. Evia Alikaj Nano" class="hermes-doctor-portrait">
-                            <div class="hermes-image-overlay"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Doctor Information -->
-                    <div class="hermes-doctor-info">
-                        <div class="hermes-doctor-title">
-                            <h3>Evia A Nano, MD</h3>
-                            <p>Aesthetic Medicine Specialist</p>
-                        </div>
-                        
-                        <!-- Enhanced Stats -->
-                        <div class="hermes-signature-stats">
-                            <div class="signature-stat">
-                                <span class="stat-number">20+</span>
-                                <span class="stat-label">Years Experience</span>
-                            </div>
-                            <div class="stat-divider"></div>
-                            <div class="signature-stat">
-                                <span class="stat-number">1,000+</span>
-                                <span class="stat-label">Transformations</span>
-                            </div>
-                            <div class="stat-divider"></div>
-                            <div class="signature-stat">
-                                <span class="stat-number">5.0★</span>
-                                <span class="stat-label">Client Rating</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Quick Contact -->
-                        <div class="doctor-quick-contact">
-                            <button class="quick-consultation-btn">
-                                <i class="ri-calendar-check-line"></i>
-                                <span>Book Consultation</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Column - Improved Layout -->
-            <div class="hermes-content-column">
                 
-                <!-- Philosophy Card -->
-                <div class="hermes-philosophy-card">
-                    <div class="hermes-card-header">
-                        <div class="header-icon-frame">
-                            <i class="ri-heart-pulse-line"></i>
-                        </div>
-                        <h3>Our Philosophy</h3>
+                <div class="mobile-contact-info">
+                    <div class="contact-item">
+                        <span class="contact-label">Call</span>
+                        <span class="contact-value">(201) 639-4983</span>
                     </div>
-                    
-                    <div class="hermes-philosophy-content">
-                        <blockquote class="hermes-luxury-quote">
-                            <div class="quote-mark-ornament">"</div>
-                            <p>True beauty lies in enhancement, not transformation. I believe in revealing each patient's natural elegance through precision, artistry, and an unwavering commitment to excellence.</p>
-                            <footer class="quote-signature">
-                                <div class="signature-line"></div>
-                                <span>Dr. Evia Nano</span>
-                            </footer>
-                        </blockquote>
+                    <div class="contact-item">
+                        <span class="contact-label">Location</span>
+                        <span class="contact-value">Manhattan, NYC</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <!-- Hero Section -->
+    <section class="cinematic-hero" id="home">
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop playsinline preload="metadata">
+                <source src="hero.mp4" type="video/mp4">
+            </video>
+            <div class="hero-video-overlay"></div>
+        </div>
+        
+        <div class="hero-floating-orbs">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-orb hero-orb-3"></div>
+            <div class="hero-orb hero-orb-4"></div>
+        </div>
+
+        <div class="hero-aqua-elements">
+            <div class="hero-aqua-bubble hero-bubble-1"></div>
+            <div class="hero-aqua-bubble hero-bubble-2"></div>
+            <div class="hero-aqua-bubble hero-bubble-3"></div>
+        </div>
+        
+        <div class="hero-content-stack">
+            <div class="hero-badge-premium" data-aos="fade-down" data-aos-delay="200">
+                <i class="ri-map-pin-2-fill"></i>
+                <span>Manhattan's Premier Boutique Med Spa</span>
+            </div>
+            
+            <div class="hero-headline-stack" data-aos="fade-up" data-aos-delay="400">
+                <h1 class="hero-headline-primary">The Art of Subtle Transformation</h1>
+                <h2 class="hero-headline-secondary">Welcome To Eviaesthetics</h2>
+            </div>
+            
+            <p class="hero-subheadline-elegant" data-aos="fade-up" data-aos-delay="600">
+                Botox & Fillers, Weight Management, IV Therapy, Microneedling, PRP, Chemical Peels.
+            </p>
+            
+            <button class="hero-cta-signature" data-aos="fade-up" data-aos-delay="800" type="button">
+                <span class="cta-text">Schedule Your Transformation</span>
+                <i class="ri-calendar-check-line"></i>
+                <div class="cta-shimmer"></div>
+            </button>
+            
+            <div class="hero-stats-row-container" data-aos="fade-up" data-aos-delay="1000">
+                <div class="hero-stat-pill">
+                    <div class="hero-stat-icon">
+                        <i class="ri-time-line"></i>
+                    </div>
+                    <div class="hero-stat-content">
+                        <div class="hero-stat-number">20+</div>
+                        <div class="hero-stat-label">Years Experience</div>
+                    </div>
+                </div>
+                
+                <div class="hero-stat-pill">
+                    <div class="hero-stat-icon">
+                        <i class="ri-user-heart-line"></i>
+                    </div>
+                    <div class="hero-stat-content">
+                        <div class="hero-stat-number">5000+</div>
+                        <div class="hero-stat-label">Happy Clients</div>
+                    </div>
+                </div>
+                
+                <div class="hero-stat-pill">
+                    <div class="hero-stat-icon">
+                        <i class="ri-award-line"></i>
+                    </div>
+                    <div class="hero-stat-content">
+                        <div class="hero-stat-number">Manhattan</div>
+                        <div class="hero-stat-label">Premier Location</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-hermes-signature-wrapper" id="heroHermesSignature">
+                <div class="hero-signature-container">
+                    <div class="hero-signature-text">
+                        <span class="hero-signature-line">Evia Alikaj Nano</span>
+                        <span class="hero-signature-credentials">MD</span>
+                    </div>
+                    <div class="hero-signature-underline"></div>
+                </div>
+            </div>
+            
+            <div class="hero-scroll-indicator-elegant" data-aos="fade-up" data-aos-delay="1400">
+                <div class="hero-scroll-icon">
+                    <i class="ri-arrow-down-line"></i>
+                </div>
+                <span class="hero-scroll-text">Explore the Experience</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="enhanced-services-section" id="services">
+        <div class="services-container">
+            <div class="services-header" data-aos="fade-up">
+                <div class="header-badge">
+                    <span class="badge-dot"></span>
+                    <span class="badge-text">Signature Treatments</span>
+                    <span class="badge-dot"></span>
+                </div>
+                <h2 class="services-title">
+                    <span class="title-line-1">Where Science</span>
+                    <span class="title-line-2">Meets <em>Artistry</em></span>
+                </h2>
+                <p class="services-subtitle">
+                    Each treatment is a masterpiece of precision and luxury crafted by Dr. Nano
+                </p>
+            </div>
+
+            <div class="services-carousel-wrapper">
+                <button class="carousel-nav carousel-nav-prev" id="prevBtn" aria-label="Previous" type="button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <button class="carousel-nav carousel-nav-next" id="nextBtn" aria-label="Next" type="button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <div class="services-carousel" id="servicesCarousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        
+                        <div class="service-card" data-service="botox">
+                            <div class="card-glow"></div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="service-icon">
+                                        <i class="ri-syringe-line"></i>
+                                    </div>
+                                    <div class="service-badge">Most Popular</div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="service-title">Botox & Fillers</h3>
+                                    <p class="service-description">
+                                        Expert injections for natural-looking results. Smooth wrinkles, enhance features, and restore youthful vitality.
+                                    </p>
+                                    <div class="service-details">
+                                        <div class="detail-item">
+                                            <i class="ri-time-line"></i>
+                                            <span>30-45 min</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="ri-money-dollar-circle-line"></i>
+                                            <span>From $299</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="service-cta" data-service="botox" type="button">
+                                    <span>Learn More</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="service-card" data-service="weight">
+                            <div class="card-glow"></div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="service-icon">
+                                        <i class="ri-scales-3-line"></i>
+                                    </div>
+                                    <div class="service-badge">Trending</div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="service-title">Weight Management</h3>
+                                    <p class="service-description">
+                                        Comprehensive programs combining medical expertise with personalized nutrition and lifestyle guidance.
+                                    </p>
+                                    <div class="service-details">
+                                        <div class="detail-item">
+                                            <i class="ri-time-line"></i>
+                                            <span>Ongoing</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="ri-money-dollar-circle-line"></i>
+                                            <span>Custom Plans</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="service-cta" data-service="weight" type="button">
+                                    <span>Learn More</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="service-card" data-service="iv">
+                            <div class="card-glow"></div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="service-icon">
+                                        <i class="ri-drop-line"></i>
+                                    </div>
+                                    <div class="service-badge">Wellness</div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="service-title">IV Therapy</h3>
+                                    <p class="service-description">
+                                        Revitalize your body with customized IV infusions designed to boost energy, immunity, and overall wellness.
+                                    </p>
+                                    <div class="service-details">
+                                        <div class="detail-item">
+                                            <i class="ri-time-line"></i>
+                                            <span>45-60 min</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="ri-money-dollar-circle-line"></i>
+                                            <span>From $199</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="service-cta" data-service="iv" type="button">
+                                    <span>Learn More</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="service-card" data-service="microneedling">
+                            <div class="card-glow"></div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="service-icon">
+                                        <i class="ri-contrast-2-line"></i>
+                                    </div>
+                                    <div class="service-badge">Rejuvenation</div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="service-title">Microneedling</h3>
+                                    <p class="service-description">
+                                        Stimulate natural collagen production for improved skin texture, tone, and reduced appearance of scars.
+                                    </p>
+                                    <div class="service-details">
+                                        <div class="detail-item">
+                                            <i class="ri-time-line"></i>
+                                            <span>60-90 min</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="ri-money-dollar-circle-line"></i>
+                                            <span>From $399</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="service-cta" data-service="microneedling" type="button">
+                                    <span>Learn More</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="service-card" data-service="prp">
+                            <div class="card-glow"></div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="service-icon">
+                                        <i class="ri-heart-pulse-line"></i>
+                                    </div>
+                                    <div class="service-badge">Advanced</div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="service-title">PRP Therapy</h3>
+                                    <p class="service-description">
+                                        Harness your body's healing power with Platelet-Rich Plasma for natural skin rejuvenation and hair restoration.
+                                    </p>
+                                    <div class="service-details">
+                                        <div class="detail-item">
+                                            <i class="ri-time-line"></i>
+                                            <span>90 min</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="ri-money-dollar-circle-line"></i>
+                                            <span>From $599</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="service-cta" data-service="prp" type="button">
+                                    <span>Learn More</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="service-card" data-service="peels">
+                            <div class="card-glow"></div>
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <div class="service-icon">
+                                        <i class="ri-leaf-line"></i>
+                                    </div>
+                                    <div class="service-badge">Renewal</div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="service-title">Chemical Peels</h3>
+                                    <p class="service-description">
+                                        Professional-grade peels to reveal brighter, smoother skin and address various skin concerns effectively.
+                                    </p>
+                                    <div class="service-details">
+                                        <div class="detail-item">
+                                            <i class="ri-time-line"></i>
+                                            <span>30-45 min</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="ri-money-dollar-circle-line"></i>
+                                            <span>From $149</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="service-cta" data-service="peels" type="button">
+                                    <span>Learn More</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Expertise Showcase - Enhanced Grid -->
-                <div class="hermes-expertise-showcase">
-                    <h3 class="hermes-showcase-title">Areas of Mastery</h3>
-                    
-                    <div class="hermes-expertise-grid">
-                        <div class="hermes-expertise-card" data-expertise="injectables">
-                            <div class="expertise-icon-frame">
-                                <i class="ri-syringe-line"></i>
-                            </div>
-                            <div class="expertise-content">
-                                <h4>Advanced Injectables</h4>
-                                <p>Precision placement of Botox and dermal fillers for natural enhancement</p>
-                                <span class="expertise-badge">Expert Level</span>
-                            </div>
-                            <div class="hermes-card-accent"></div>
-                        </div>
-                        
-                        <div class="hermes-expertise-card" data-expertise="rejuvenation">
-                            <div class="expertise-icon-frame">
-                                <i class="ri-sparkling-2-line"></i>
-                            </div>
-                            <div class="expertise-content">
-                                <h4>Skin Rejuvenation</h4>
-                                <p>Chemical peels, microneedling, and PRP for radiant complexion</p>
-                                <span class="expertise-badge">Specialized</span>
-                            </div>
-                            <div class="hermes-card-accent"></div>
-                        </div>
-                        
-                        <div class="hermes-expertise-card" data-expertise="wellness">
-                            <div class="expertise-icon-frame">
-                                <i class="ri-drop-line"></i>
-                            </div>
-                            <div class="expertise-content">
-                                <h4>Wellness Therapy</h4>
-                                <p>IV therapy and weight management for holistic beauty</p>
-                                <span class="expertise-badge">Holistic</span>
-                            </div>
-                            <div class="hermes-card-accent"></div>
-                        </div>
-                        
-                        <div class="hermes-expertise-card" data-expertise="restoration">
-                            <div class="expertise-icon-frame">
-                                <i class="ri-leaf-line"></i>
-                            </div>
-                            <div class="expertise-content">
-                                <h4>Hair Restoration</h4>
-                                <p>Advanced mesotherapy for hair follicle regeneration</p>
-                                <span class="expertise-badge">Advanced</span>
-                            </div>
-                            <div class="hermes-card-accent"></div>
-                        </div>
+                <div class="mobile-progress-indicator">
+                    <div class="progress-track">
+                        <div class="progress-fill" id="mobileProgressFill"></div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Enhanced Achievement Cards -->
-                <div class="hermes-achievements-grid">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                            <i class="ri-medal-line"></i>
-                        </div>
-                        <div class="achievement-content">
-                            <h4>Board Certified</h4>
-                            <p>Medical Excellence</p>
-                        </div>
-                    </div>
-                    
-                    <div class="achievement-card">
-                        <div class="achievement-icon">
-                            <i class="ri-map-pin-2-line"></i>
-                        </div>
-                        <div class="achievement-content">
-                            <h4>Manhattan Premier</h4>
-                            <p>Luxury Location</p>
-                        </div>
-                    </div>
+            <div class="services-navigation-info">
+                <div class="nav-counter">
+                    <span class="current-counter" id="currentCounter">01</span>
+                    <span class="nav-separator">—</span>
+                    <span class="total-counter" id="totalCounter">06</span>
                 </div>
+                <div class="nav-controls">
+                    <button class="nav-control-btn" id="autoplayBtn" type="button" title="Toggle Autoplay">
+                        <i class="ri-pause-line"></i>
+                    </button>
+                </div>
+            </div>
 
-                <!-- Enhanced CTA Section -->
-                <div class="hermes-cta-section">
-                    <div class="hermes-cta-content">
-                        <h3 class="hermes-cta-title">Ready to Begin Your Journey?</h3>
-                        <p class="hermes-cta-description">Experience personalized aesthetic care from Manhattan's most trusted specialist</p>
+            <div class="services-learn-more" data-aos="fade-up" data-aos-delay="400">
+                <div class="learn-more-content">
+                    <div class="learn-more-badge">
+                        <i class="ri-information-line"></i>
+                        <span>Explore Details</span>
+                    </div>
+                    <h3 class="learn-more-title">Want to Learn More About Our Services?</h3>
+                    <p class="learn-more-description">
+                        Discover detailed information about each treatment, pricing, recovery times, and frequently asked questions.
+                    </p>
+                    <button class="learn-more-cta" id="learnMoreBtn" type="button">
+                        <span class="cta-text">View All Services</span>
+                        <div class="cta-icon">
+                            <i class="ri-arrow-right-line"></i>
+                        </div>
+                        <div class="cta-shimmer"></div>
+                        <div class="cta-glow"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="hermes-about-section" id="about">
+        <div class="hermes-about-background">
+            <div class="hermes-bg-orb hermes-orb-1"></div>
+            <div class="hermes-bg-orb hermes-orb-2"></div>
+            <div class="hermes-bg-orb hermes-orb-3"></div>
+            <div class="hermes-mesh-gradient"></div>
+        </div>
+
+        <div class="hermes-about-container">
+            <header class="hermes-about-header" data-hermes-reveal="fade-up">
+                <div class="hermes-excellence-badge">
+                    <div class="badge-ornament-left"></div>
+                    <div class="badge-content">
+                        <i class="ri-user-heart-line"></i>
+                        <span>Meet Our Expert</span>
+                    </div>
+                    <div class="badge-ornament-right"></div>
+                </div>
+                
+                <h2 class="hermes-about-title">
+                    <span class="hermes-title-main">Where Medical Excellence</span>
+                    <span class="hermes-title-accent">Meets Artistry</span>
+                </h2>
+                
+                <p class="hermes-about-subtitle">
+                    Dr. Evia Alikaj Nano combines two decades of medical expertise with an unwavering commitment to aesthetic perfection.
+                </p>
+            </header>
+
+            <div class="hermes-content-layout" data-hermes-reveal="fade-up" data-delay="300">
+                <div class="hermes-doctor-column">
+                    <div class="hermes-doctor-profile">
+                        <div class="hermes-image-frame">
+                            <div class="hermes-frame-ornaments">
+                                <div class="frame-corner frame-tl"></div>
+                                <div class="frame-corner frame-tr"></div>
+                                <div class="frame-corner frame-bl"></div>
+                                <div class="frame-corner frame-br"></div>
+                            </div>
+                            <img src="doctor.png" alt="Dr. Evia Alikaj Nano" class="hermes-doctor-image">
+                        </div>
                         
-                        <div class="hermes-cta-buttons">
-                            <button class="hermes-primary-cta" id="hermesConsultationBtn">
-                                <span class="cta-text">Schedule Consultation</span>
-                                <i class="ri-calendar-check-line"></i>
-                                <div class="cta-shine"></div>
-                            </button>
-                            
-                            <button class="hermes-secondary-cta" id="hermesLearnMoreBtn">
-                                <span class="btn-text">Learn More</span>
+                        <div class="hermes-doctor-info">
+                            <h3 class="hermes-doctor-name">Dr. Evia Alikaj Nano</h3>
+                            <p class="hermes-doctor-credentials">Medical Doctor, Aesthetic Specialist</p>
+                            <p class="hermes-doctor-description">
+                                Board-certified physician specializing in advanced aesthetic medicine and non-invasive cosmetic procedures.
+                            </p>
+                        </div>
+
+                        <div class="mobile-about-cta">
+                            <button class="mobile-learn-more-btn" id="mobileAboutBtn">
+                                <span>Learn More About Dr. Nano</span>
                                 <i class="ri-arrow-right-line"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Certifications & Awards -->
-        <div class="hermes-certifications-section" data-hermes-reveal="fade-up" data-delay="400">
-            <div class="hermes-certifications-header">
-                <h4>Trusted Excellence</h4>
-                <p>Certified by leading medical organizations</p>
-            </div>
-            
-            <div class="hermes-certifications-showcase">
-                <div class="hermes-cert-card">
-                    <div class="cert-icon-frame">
-                        <i class="ri-medal-line"></i>
-                    </div>
-                    <div class="cert-content">
-                        <h5>Board Certified</h5>
-                        <p>Medical Doctor</p>
-                    </div>
-                </div>
-                
-                <div class="hermes-cert-card">
-                    <div class="cert-icon-frame">
-                        <i class="ri-flask-line"></i>
-                    </div>
-                    <div class="cert-content">
-                        <h5>AlumierMD</h5>
-                        <p>Partner</p>
-                    </div>
-                </div>
-                
-                <div class="hermes-cert-card">
-                    <div class="cert-icon-frame">
-                        <i class="ri-microscope-line"></i>
-                    </div>
-                    <div class="cert-content">
-                        <h5>Pistor Method</h5>
-                        <p>Certified</p>
-                    </div>
-                </div>
-                
-                <div class="hermes-cert-card">
-                    <div class="cert-icon-frame">
-                        <i class="ri-map-pin-2-line"></i>
-                    </div>
-                    <div class="cert-content">
-                        <h5>Manhattan</h5>
-                        <p>Premier Location</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-  <!-- Modern Results Section -->
-<section class="results-showcase" id="results">
-    <div class="results-showcase__container">
-        <!-- Section Header -->
-        <div class="results-showcase__header">
-            <div class="results-showcase__badge">
-                <span class="results-showcase__badge-dot"></span>
-                <span>Real Results</span>
-            </div>
-            <h2 class="results-showcase__title">
-                See the <span class="results-showcase__title-accent">Difference</span>
-            </h2>
-            <p class="results-showcase__subtitle">
-                Authentic transformations from real clients who trusted Dr. Nano with their aesthetic journey
-            </p>
-        </div>
-
-        <!-- Filter Tabs -->
-        <div class="results-showcase__filters">
-            <button class="results-showcase__filter results-showcase__filter--active" data-filter="all">
-                All Results
-            </button>
-            <button class="results-showcase__filter" data-filter="botox">
-                Botox
-            </button>
-            <button class="results-showcase__filter" data-filter="fillers">
-                Dermal Fillers
-            </button>
-            <button class="results-showcase__filter" data-filter="skincare">
-                Skin Treatments
-            </button>
-        </div>
-
-        <!-- Results Grid -->
-        <div class="results-showcase__grid">
-            <!-- Botox Forehead -->
-            <div class="results-showcase__item" data-category="botox">
-                <div class="results-showcase__card">
-                    <div class="results-showcase__image-container">
-                        <div class="results-showcase__comparison">
-                            <img src="foreheadafter.jpeg" 
-                                 alt="Before Botox treatment" class="results-showcase__image results-showcase__image--before">
-                            <img src="foreheadbefore.jpeg" 
-                                 alt="After Botox treatment" class="results-showcase__image results-showcase__image--after">
-                            <div class="results-showcase__slider">
-                                <div class="results-showcase__slider-handle">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <path d="M18 8L22 12L18 16M6 8L2 12L6 16" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
+                <div class="hermes-expertise-column">
+                    <div class="hermes-expertise-content">
+                        <h4 class="hermes-expertise-title">Areas of Expertise</h4>
+                        
+                        <div class="hermes-expertise-grid">
+                            <div class="hermes-expertise-card" data-expertise="injectables">
+                                <div class="expertise-icon-frame">
+                                    <i class="ri-syringe-line"></i>
                                 </div>
-                                <div class="results-showcase__slider-line"></div>
-                            </div>
-                            <div class="results-showcase__labels">
-                                <span class="results-showcase__label results-showcase__label--before">Before</span>
-                                <span class="results-showcase__label results-showcase__label--after">After</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="results-showcase__content">
-                        <div class="results-showcase__meta">
-                            <span class="results-showcase__category">Botox</span>
-                            <span class="results-showcase__timeline">2 weeks</span>
-                        </div>
-                        <h3 class="results-showcase__treatment">Forehead Lines Smoothing</h3>
-                        <p class="results-showcase__description">Natural-looking reduction in forehead lines while preserving facial expression</p>
-                        <div class="results-showcase__specs">
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Units</span>
-                                <span class="results-showcase__spec-value">20</span>
-                            </div>
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Duration</span>
-                                <span class="results-showcase__spec-value">4-6 months</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lip Enhancement -->
-            <div class="results-showcase__item" data-category="fillers">
-                <div class="results-showcase__card">
-                    <div class="results-showcase__image-container">
-                        <div class="results-showcase__comparison">
-                            <img src="lipafter.jpeg" 
-                                 alt="Before lip enhancement" class="results-showcase__image results-showcase__image--before">
-                            <img src="lipbefore.jpeg" 
-                                 alt="After lip enhancement" class="results-showcase__image results-showcase__image--after">
-                            <div class="results-showcase__slider">
-                                <div class="results-showcase__slider-handle">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <path d="M18 8L22 12L18 16M6 8L2 12L6 16" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
+                                <div class="expertise-content">
+                                    <h4>Injectable Treatments</h4>
+                                    <p>Botox, dermal fillers, and advanced injection techniques</p>
+                                    <span class="expertise-badge">Expert</span>
                                 </div>
-                                <div class="results-showcase__slider-line"></div>
-                            </div>
-                            <div class="results-showcase__labels">
-                                <span class="results-showcase__label results-showcase__label--before">Before</span>
-                                <span class="results-showcase__label results-showcase__label--after">After</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="results-showcase__content">
-                        <div class="results-showcase__meta">
-                            <span class="results-showcase__category">Dermal Fillers</span>
-                            <span class="results-showcase__timeline">Immediate</span>
-                        </div>
-                        <h3 class="results-showcase__treatment">Lip Volume Enhancement</h3>
-                        <p class="results-showcase__description">Balanced lip augmentation creating natural fullness and definition</p>
-                        <div class="results-showcase__specs">
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Volume</span>
-                                <span class="results-showcase__spec-value">1ml</span>
-                            </div>
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Duration</span>
-                                <span class="results-showcase__spec-value">12-18 months</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Skin Treatment -->
-            <div class="results-showcase__item" data-category="skincare">
-                <div class="results-showcase__card">
-                    <div class="results-showcase__image-container">
-                        <div class="results-showcase__comparison">
-                            <img src="microafter.jpeg" 
-                                 alt="Before skin treatment" class="results-showcase__image results-showcase__image--before">
-                            <img src="microbefore.jpeg" 
-                                 alt="After skin treatment" class="results-showcase__image results-showcase__image--after">
-                            <div class="results-showcase__slider">
-                                <div class="results-showcase__slider-handle">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <path d="M18 8L22 12L18 16M6 8L2 12L6 16" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </div>
-                                <div class="results-showcase__slider-line"></div>
-                            </div>
-                            <div class="results-showcase__labels">
-                                <span class="results-showcase__label results-showcase__label--before">Before</span>
-                                <span class="results-showcase__label results-showcase__label--after">After</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="results-showcase__content">
-                        <div class="results-showcase__meta">
-                            <span class="results-showcase__category">Skin Treatment</span>
-                            <span class="results-showcase__timeline">6 weeks</span>
-                        </div>
-                        <h3 class="results-showcase__treatment">Skin Texture Refinement</h3>
-                        <p class="results-showcase__description">Enhanced smoothness and radiance through microneedling therapy</p>
-                        <div class="results-showcase__specs">
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Sessions</span>
-                                <span class="results-showcase__spec-value">3</span>
-                            </div>
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Results</span>
-                                <span class="results-showcase__spec-value">Progressive</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cheek Enhancement -->
-            <div class="results-showcase__item" data-category="fillers">
-                <div class="results-showcase__card">
-                    <div class="results-showcase__image-container">
-                        <div class="results-showcase__comparison">
-                            <img src="Checkafter.jpeg" 
-                                 alt="Before cheek enhancement" class="results-showcase__image results-showcase__image--before">
-                            <img src="Checkbefore.jpeg" 
-                                 alt="After cheek enhancement" class="results-showcase__image results-showcase__image--after">
-                            <div class="results-showcase__slider">
-                                <div class="results-showcase__slider-handle">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <path d="M18 8L22 12L18 16M6 8L2 12L6 16" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </div>
-                                <div class="results-showcase__slider-line"></div>
-                            </div>
-                            <div class="results-showcase__labels">
-                                <span class="results-showcase__label results-showcase__label--before">Before</span>
-                                <span class="results-showcase__label results-showcase__label--after">After</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="results-showcase__content">
-                        <div class="results-showcase__meta">
-                            <span class="results-showcase__category">Dermal Fillers</span>
-                            <span class="results-showcase__timeline">Immediate</span>
-                        </div>
-                        <h3 class="results-showcase__treatment">Cheek Volume Restoration</h3>
-                        <p class="results-showcase__description">Restored youthful volume and defined cheekbone contours</p>
-                        <div class="results-showcase__specs">
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Volume</span>
-                                <span class="results-showcase__spec-value">2ml</span>
-                            </div>
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Duration</span>
-                                <span class="results-showcase__spec-value">18 months</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Under Eye Treatment -->
-            <div class="results-showcase__item" data-category="fillers">
-                <div class="results-showcase__card">
-                    <div class="results-showcase__image-container">
-                        <div class="results-showcase__comparison">
-                            <img src="eyeafter.jpeg" 
-                                 alt="Before under eye treatment" class="results-showcase__image results-showcase__image--before">
-                            <img src="eyebefore.jpeg" 
-                                 alt="After under eye treatment" class="results-showcase__image results-showcase__image--after">
-                            <div class="results-showcase__slider">
-                                <div class="results-showcase__slider-handle">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <path d="M18 8L22 12L18 16M6 8L2 12L6 16" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </div>
-                                <div class="results-showcase__slider-line"></div>
-                            </div>
-                            <div class="results-showcase__labels">
-                                <span class="results-showcase__label results-showcase__label--before">Before</span>
-                                <span class="results-showcase__label results-showcase__label--after">After</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="results-showcase__content">
-                        <div class="results-showcase__meta">
-                            <span class="results-showcase__category">Under Eye Filler</span>
-                            <span class="results-showcase__timeline">Immediate</span>
-                        </div>
-                        <h3 class="results-showcase__treatment">Under Eye Rejuvenation</h3>
-                        <p class="results-showcase__description">Gentle tear trough correction for a refreshed appearance</p>
-                        <div class="results-showcase__specs">
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Volume</span>
-                                <span class="results-showcase__spec-value">0.5ml</span>
-                            </div>
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Duration</span>
-                                <span class="results-showcase__spec-value">12 months</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Jawline Enhancement -->
-            <div class="results-showcase__item" data-category="fillers">
-                <div class="results-showcase__card">
-                    <div class="results-showcase__image-container">
-                        <div class="results-showcase__comparison">
-                            <img src="jawafter.jpeg" 
-                                 alt="Before jawline enhancement" class="results-showcase__image results-showcase__image--before">
-                            <img src="jawbefore.jpeg" 
-                                 alt="After jawline enhancement" class="results-showcase__image results-showcase__image--after">
-                            <div class="results-showcase__slider">
-                                <div class="results-showcase__slider-handle">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <path d="M18 8L22 12L18 16M6 8L2 12L6 16" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </div>
-                                <div class="results-showcase__slider-line"></div>
-                            </div>
-                            <div class="results-showcase__labels">
-                                <span class="results-showcase__label results-showcase__label--before">Before</span>
-                                <span class="results-showcase__label results-showcase__label--after">After</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="results-showcase__content">
-                        <div class="results-showcase__meta">
-                            <span class="results-showcase__category">Jawline Filler</span>
-                            <span class="results-showcase__timeline">Immediate</span>
-                        </div>
-                        <h3 class="results-showcase__treatment">Jawline Definition</h3>
-                        <p class="results-showcase__description">Enhanced masculine jawline with improved definition and proportions</p>
-                        <div class="results-showcase__specs">
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Volume</span>
-                                <span class="results-showcase__spec-value">3ml</span>
-                            </div>
-                            <div class="results-showcase__spec">
-                                <span class="results-showcase__spec-label">Duration</span>
-                                <span class="results-showcase__spec-value">18-24 months</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Call to Action -->
-        <div class="results-showcase__cta">
-            <h3 class="results-showcase__cta-title">Ready for Your Transformation?</h3>
-            <p class="results-showcase__cta-text">Schedule a consultation to discuss your aesthetic goals</p>
-            <button class="results-showcase__cta-button" id="resultsCtaBtn">
-                Book Your Consultation
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"/>
-                </svg>
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- ENHANCED LUXURY PRODUCTS SECTION -->
-<section class="enhanced-products-section" id="products">
-    <div class="products-container">
-        <!-- Section Header -->
-        <div class="products-header" data-aos="fade-up">
-            <div class="header-badge">
-                <span class="badge-dot"></span>
-                <span class="badge-text">AlumierMD Partnership</span>
-                <span class="badge-dot"></span>
-            </div>
-            <h2 class="products-title">
-                <span class="title-line-1">Curated</span>
-                <span class="title-line-2">Skincare <em>Excellence</em></span>
-            </h2>
-            <p class="products-subtitle">
-                Medical-grade formulations trusted by aesthetic professionals worldwide
-            </p>
-        </div>
-
-        <!-- Products Carousel Wrapper -->
-        <div class="products-carousel-wrapper">
-            <!-- Desktop Navigation Arrows -->
-            <button class="carousel-nav carousel-nav-prev" id="productsPrevBtn" aria-label="Previous" type="button">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-            
-            <button class="carousel-nav carousel-nav-next" id="productsNextBtn" aria-label="Next" type="button">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-
-            <!-- Main Carousel -->
-            <div class="products-carousel" id="productsCarousel">
-                <div class="carousel-track" id="productsCarouselTrack">
-                    
-                    <!-- Product Card 1: Clear Shield -->
-                    <div class="product-card" data-product="clear-shield">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="product-number">01</div>
-                                <div class="product-badge bestseller">Bestseller</div>
+                                <div class="hermes-card-accent"></div>
                             </div>
                             
-                            <div class="card-image">
-                                <img src="clear.jpg" alt="Clear Shield SPF 42" loading="lazy">
-                                <div class="image-overlay"></div>
+                            <div class="hermes-expertise-card" data-expertise="wellness">
+                                <div class="expertise-icon-frame">
+                                    <i class="ri-heart-pulse-line"></i>
+                                </div>
+                                <div class="expertise-content">
+                                    <h4>Medical Wellness</h4>
+                                    <p>IV therapy, weight management, and holistic health</p>
+                                    <span class="expertise-badge">Certified</span>
+                                </div>
+                                <div class="hermes-card-accent"></div>
                             </div>
                             
-                            <div class="card-body">
-                                <div class="product-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-sun-line"></i>
+                            <div class="hermes-expertise-card" data-expertise="skincare">
+                                <div class="expertise-icon-frame">
+                                    <i class="ri-leaf-line"></i>
                                 </div>
-                                
-                                <h3 class="product-title">Clear Shield SPF 42</h3>
-                                <p class="product-tagline">Protection • Lightweight • Daily</p>
-                                <p class="product-description">
-                                    Lightweight, non-greasy broad spectrum sunscreen with antioxidant protection for daily use.
-                                </p>
-                                
-                                <div class="product-features">
-                                    <div class="feature-item">
-                                        <i class="ri-shield-check-line"></i>
-                                        <span>SPF 42</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-drop-line"></i>
-                                        <span>Non-comedogenic</span>
-                                    </div>
+                                <div class="expertise-content">
+                                    <h4>Advanced Skincare</h4>
+                                    <p>Chemical peels, microneedling, and PRP therapy</p>
+                                    <span class="expertise-badge">Specialist</span>
                                 </div>
-                                
-                                <div class="product-rating">
-                                    <div class="rating-stars">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                    </div>
-                                    <span class="rating-text">5.0 (128 reviews)</span>
+                                <div class="hermes-card-accent"></div>
+                            </div>
+                        </div>
+
+                        <div class="hermes-achievements-grid">
+                            <div class="achievement-card">
+                                <div class="achievement-icon">
+                                    <i class="ri-medal-line"></i>
                                 </div>
+                                <div class="achievement-content">
+                                    <h4>Board Certified</h4>
+                                    <p>Medical Excellence</p>
+                                </div>
+                            </div>
+                            
+                            <div class="achievement-card">
+                                <div class="achievement-icon">
+                                    <i class="ri-map-pin-2-line"></i>
+                                </div>
+                                <div class="achievement-content">
+                                    <h4>Manhattan Premier</h4>
+                                    <p>Luxury Location</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hermes-cta-section">
+                            <div class="hermes-cta-content">
+                                <h3 class="hermes-cta-title">Ready to Begin Your Journey?</h3>
+                                <p class="hermes-cta-description">Experience personalized aesthetic care from Manhattan's most trusted specialist</p>
                                 
-                                <div class="product-actions">
-                                    <button class="product-learn-more" type="button" data-product="clear-shield">
-                                        <span>Learn More</span>
-                                        <div class="cta-arrow">→</div>
-                                        <div class="cta-ripple"></div>
+                                <div class="hermes-cta-buttons">
+                                    <button class="hermes-primary-cta" id="hermesConsultationBtn">
+                                        <span class="cta-text">Schedule Consultation</span>
+                                        <i class="ri-calendar-check-line"></i>
+                                        <div class="cta-shine"></div>
                                     </button>
-                                    <button class="product-shop-now" type="button" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
-                                        <span>Shop Now</span>
-                                        <div class="cta-arrow">→</div>
-                                        <div class="cta-ripple"></div>
+                                    
+                                    <button class="hermes-secondary-cta" id="hermesLearnMoreBtn">
+                                        <span class="btn-text">Learn More</span>
+                                        <i class="ri-arrow-right-line"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Product Card 2: Retinol -->
-                    <div class="product-card" data-product="retinol">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="product-number">02</div>
-                                <div class="product-badge professional">Professional</div>
-                            </div>
-                            
-                            <div class="card-image">
-                                <img src="retinol.jpg" alt="Retinol Resurfacing Serum" loading="lazy">
-                                <div class="image-overlay"></div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="product-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-refresh-line"></i>
-                                </div>
-                                
-                                <h3 class="product-title">Retinol Resurfacing Serum 0.25</h3>
-                                <p class="product-tagline">Renewal • Anti-Aging • Night</p>
-                                <p class="product-description">
-                                    Advanced retinol formula for skin renewal and anti-aging benefits with gentle effectiveness.
-                                </p>
-                                
-                                <div class="product-features">
-                                    <div class="feature-item">
-                                        <i class="ri-flask-line"></i>
-                                        <span>0.25% Retinol</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-moon-line"></i>
-                                        <span>Night Use</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="product-rating">
-                                    <div class="rating-stars">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-half-line"></i>
-                                    </div>
-                                    <span class="rating-text">4.9 (94 reviews)</span>
-                                </div>
-                                
-                                <div class="product-actions">
-                                    <button class="product-learn-more" type="button" data-product="retinol">
-                                        <span>Learn More</span>
-                                        <div class="cta-arrow">→</div>
-                                        <div class="cta-ripple"></div>
-                                    </button>
-                                    <button class="product-shop-now" type="button" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
-                                        <span>Shop Now</span>
-                                        <div class="cta-arrow">→</div>
-                                        <div class="cta-ripple"></div>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 3: Sheer Hydration -->
-                    <div class="product-card" data-product="sheer-hydration">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="product-number">03</div>
-                                <div class="product-badge tinted">Tinted</div>
-                            </div>
-                            
-                            <div class="card-image">
-                                <img src="sheer.jpeg" alt="Sheer Hydration SPF 40" loading="lazy">
-                                <div class="image-overlay"></div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="product-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-palette-line"></i>
-                                </div>
-                                
-                                <h3 class="product-title">Sheer Hydration SPF 40</h3>
-                                <p class="product-tagline">Tinted • Hydrating • Coverage</p>
-                                <p class="product-description">
-                                    Lightweight tinted moisturizer with broad-spectrum sun protection and natural coverage.
-                                </p>
-                                
-                                <div class="product-features">
-                                    <div class="feature-item">
-                                        <i class="ri-palette-fill"></i>
-                                        <span>Universal Tint</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-sparkling-line"></i>
-                                        <span>Natural Glow</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="product-rating">
-                                    <div class="rating-stars">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-half-line"></i>
-                                    </div>
-                                    <span class="rating-text">4.8 (76 reviews)</span>
-                                </div>
-                                
-                                <div class="product-actions">
-                                    <button class="product-learn-more" type="button" data-product="sheer-hydration">
-                                        <span>Learn More</span>
-                                        <div class="cta-arrow">→</div>
-                                        <div class="cta-ripple"></div>
-                                    </button>
-                                    <button class="product-shop-now" type="button" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
-                                        <span>Shop Now</span>
-                                        <div class="cta-arrow">→</div>
-                                        <div class="cta-ripple"></div>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 4: EverActive -->
-                    <div class="product-card" data-product="everactive">
-                        <div class="card-glow"></div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <div class="product-number">04</div>
-                                <div class="product-badge antioxidant">Antioxidant</div>
-                            </div>
-                            
-                            <div class="card-image">
-                                <img src="EverActive.jpeg" alt="EverActive C&E + Peptide" loading="lazy">
-                                <div class="image-overlay"></div>
-                            </div>
-                            
-                            <div class="card-body">
-                                <div class="product-icon-wrapper">
-                                    <div class="icon-bg"></div>
-                                    <i class="ri-flashlight-line"></i>
-                                </div>
-                                
-                                <h3 class="product-title">EverActive C&E + Peptide</h3>
-                                <p class="product-tagline">Brightening • Peptides • Antioxidant</p>
-                                <p class="product-description">
-                                    Powerful antioxidant serum with vitamin C, E, and peptides for radiant, youthful skin.
-                                </p>
-                                
-                                <div class="product-features">
-                                    <div class="feature-item">
-                                        <i class="ri-magic-line"></i>
-                                        <span>Brightening</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="ri-dna-line"></i>
-                                        <span>Peptides</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="product-rating">
-                                    <div class="rating-stars">
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                        <i class="ri-star-fill"></i>
-                                    </div>
-                                    <span class="rating-text">5.0 (112 reviews)</span>
-                                </div>
-                                
-                                <div class="product-actions">
-                                    <button class="product-learn-more" type="button" data-product="everactive">
-                                        <span>Learn More</span>
-                                        <div class="cta-arrow">→</div>
-                                        <div class="cta-ripple"></div>
-                                    </button>
-                                    <button class="product-shop-now" type="button" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
-                                        <span>Shop Now</span>
-                                        <div class="cta-arrow">→</div>
-                                        <div class="cta-ripple"></div>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
-
-            <!-- Mobile Progress Indicator -->
-            <div class="mobile-progress" id="productsMobileProgress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="productsProgressFill"></div>
-                </div>
-                <div class="progress-text">
-                    <span class="current-slide" id="productsCurrentSlide">1</span>
-                    <span class="separator">of</span>
-                    <span class="total-slides" id="productsTotalSlides">4</span>
-                </div>
-            </div>
-
-            <!-- Carousel Dots -->
-            <div class="carousel-dots" id="productsCarouselDots"></div>
-        </div>
-
-        <!-- Desktop Navigation Counter -->
-        <div class="desktop-navigation" id="productsDesktopNavigation">
-            <div class="nav-counter">
-                <span class="current-counter" id="productsCurrentCounter">01</span>
-                <span class="nav-separator">—</span>
-                <span class="total-counter" id="productsTotalCounter">04</span>
-            </div>
-            <div class="nav-controls">
-                <button class="nav-control-btn" id="productsAutoplayBtn" type="button" title="Toggle Autoplay">
-                    <i class="ri-pause-line"></i>
-                </button>
             </div>
         </div>
+    </section>
 
-        <!-- Full Catalog CTA -->
-        <div class="products-catalog-cta" data-aos="fade-up" data-aos-delay="400">
-            <div class="catalog-cta-content">
-                <div class="catalog-cta-badge">
-                    <i class="ri-gift-line"></i>
-                    <span>Complete Collection</span>
+    <!-- Results Section -->
+    <section class="results-showcase" id="results">
+        <div class="results-showcase__container">
+            <div class="results-showcase__header">
+                <div class="results-badge">
+                    <i class="ri-camera-line"></i>
+                    <span>Before & After Gallery</span>
                 </div>
-                <h3 class="catalog-cta-title">Explore Our Full Skincare Range</h3>
-                <p class="catalog-cta-description">
-                    Discover the complete collection of medical-grade skincare solutions and find your perfect routine.
+                <h2 class="results-title">
+                    <span class="title-main">Real Results</span>
+                    <span class="title-accent">Real Transformations</span>
+                </h2>
+                <p class="results-subtitle">
+                    Witness the artistry of Dr. Nano through our clients' transformative journeys
                 </p>
-                <button class="catalog-cta-btn" id="productsCatalogBtn" type="button">
-                    <span class="cta-text">View Full Catalog</span>
-                    <div class="cta-icon">
-                        <i class="ri-external-link-line"></i>
+            </div>
+
+            <div class="results-showcase__filters">
+                <button class="results-showcase__filter active" data-filter="all">All Results</button>
+                <button class="results-showcase__filter" data-filter="botox">Botox & Fillers</button>
+                <button class="results-showcase__filter" data-filter="skincare">Skincare</button>
+                <button class="results-showcase__filter" data-filter="wellness">Wellness</button>
+            </div>
+
+            <div class="results-showcase__grid" id="resultsGrid">
+                <div class="results-showcase__item" data-category="botox">
+                    <div class="results-showcase__comparison">
+                        <div class="comparison-container">
+                            <div class="comparison-image before">
+                                <img src="before1.jpg" alt="Before treatment">
+                                <div class="comparison-label">Before</div>
+                            </div>
+                            <div class="comparison-image after">
+                                <img src="after1.jpg" alt="After treatment">
+                                <div class="comparison-label">After</div>
+                            </div>
+                            <div class="comparison-slider" data-position="50">
+                                <div class="slider-handle">
+                                    <i class="ri-drag-move-line"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="cta-shimmer"></div>
-                    <div class="cta-glow"></div>
+                    <div class="results-showcase__info">
+                        <h3 class="result-title">Lip Enhancement</h3>
+                        <p class="result-description">Natural lip augmentation with dermal fillers</p>
+                        <div class="result-details">
+                            <span class="result-treatment">Dermal Fillers</span>
+                            <span class="result-duration">6 months results</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-showcase__item" data-category="skincare">
+                    <div class="results-showcase__comparison">
+                        <div class="comparison-container">
+                            <div class="comparison-image before">
+                                <img src="before2.jpg" alt="Before treatment">
+                                <div class="comparison-label">Before</div>
+                            </div>
+                            <div class="comparison-image after">
+                                <img src="after2.jpg" alt="After treatment">
+                                <div class="comparison-label">After</div>
+                            </div>
+                            <div class="comparison-slider" data-position="50">
+                                <div class="slider-handle">
+                                    <i class="ri-drag-move-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results-showcase__info">
+                        <h3 class="result-title">Skin Rejuvenation</h3>
+                        <p class="result-description">Microneedling with PRP for enhanced skin texture</p>
+                        <div class="result-details">
+                            <span class="result-treatment">Microneedling + PRP</span>
+                            <span class="result-duration">3 months results</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-showcase__item" data-category="botox">
+                    <div class="results-showcase__comparison">
+                        <div class="comparison-container">
+                            <div class="comparison-image before">
+                                <img src="before3.jpg" alt="Before treatment">
+                                <div class="comparison-label">Before</div>
+                            </div>
+                            <div class="comparison-image after">
+                                <img src="after3.jpg" alt="After treatment">
+                                <div class="comparison-label">After</div>
+                            </div>
+                            <div class="comparison-slider" data-position="50">
+                                <div class="slider-handle">
+                                    <i class="ri-drag-move-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results-showcase__info">
+                        <h3 class="result-title">Wrinkle Reduction</h3>
+                        <p class="result-description">Botox treatment for forehead and crow's feet</p>
+                        <div class="result-details">
+                            <span class="result-treatment">Botox</span>
+                            <span class="result-duration">4 months results</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional results for desktop only -->
+                <div class="results-showcase__item desktop-only" data-category="wellness">
+                    <div class="results-showcase__comparison">
+                        <div class="comparison-container">
+                            <div class="comparison-image before">
+                                <img src="before4.jpg" alt="Before treatment">
+                                <div class="comparison-label">Before</div>
+                            </div>
+                            <div class="comparison-image after">
+                                <img src="after4.jpg" alt="After treatment">
+                                <div class="comparison-label">After</div>
+                            </div>
+                            <div class="comparison-slider" data-position="50">
+                                <div class="slider-handle">
+                                    <i class="ri-drag-move-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results-showcase__info">
+                        <h3 class="result-title">Weight Management</h3>
+                        <p class="result-description">Comprehensive weight management program results</p>
+                        <div class="result-details">
+                            <span class="result-treatment">Medical Program</span>
+                            <span class="result-duration">6 months progress</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-showcase__item desktop-only" data-category="skincare">
+                    <div class="results-showcase__comparison">
+                        <div class="comparison-container">
+                            <div class="comparison-image before">
+                                <img src="before5.jpg" alt="Before treatment">
+                                <div class="comparison-label">Before</div>
+                            </div>
+                            <div class="comparison-image after">
+                                <img src="after5.jpg" alt="After treatment">
+                                <div class="comparison-label">After</div>
+                            </div>
+                            <div class="comparison-slider" data-position="50">
+                                <div class="slider-handle">
+                                    <i class="ri-drag-move-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results-showcase__info">
+                        <h3 class="result-title">Chemical Peel</h3>
+                        <p class="result-description">Professional chemical peel for skin renewal</p>
+                        <div class="result-details">
+                            <span class="result-treatment">Chemical Peel</span>
+                            <span class="result-duration">2 months results</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-showcase__item desktop-only" data-category="botox">
+                    <div class="results-showcase__comparison">
+                        <div class="comparison-container">
+                            <div class="comparison-image before">
+                                <img src="before6.jpg" alt="Before treatment">
+                                <div class="comparison-label">Before</div>
+                            </div>
+                            <div class="comparison-image after">
+                                <img src="after6.jpg" alt="After treatment">
+                                <div class="comparison-label">After</div>
+                            </div>
+                            <div class="comparison-slider" data-position="50">
+                                <div class="slider-handle">
+                                    <i class="ri-drag-move-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="results-showcase__info">
+                        <h3 class="result-title">Facial Contouring</h3>
+                        <p class="result-description">Advanced filler techniques for facial sculpting</p>
+                        <div class="result-details">
+                            <span class="result-treatment">Dermal Fillers</span>
+                            <span class="result-duration">8 months results</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile See More Button -->
+            <div class="mobile-results-more">
+                <button class="mobile-see-more-btn" id="mobileResultsBtn">
+                    <span>See More Results</span>
+                    <i class="ri-arrow-right-line"></i>
                 </button>
             </div>
-        </div>
-    </div>
 
-    <!-- Product Details Modal -->
-    <div class="product-modal" id="productModal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-container">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <button class="modal-close" id="productModalClose">
-                        <i class="ri-close-line"></i>
-                    </button>
-                </div>
-
-                <!-- Modal Body -->
-                <div class="modal-body" id="productModalBody">
-                    <!-- Content will be dynamically inserted here -->
-                </div>
-
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button class="modal-shop-btn" id="productModalShopBtn">
-                        <span>Shop Now</span>
-                        <i class="ri-external-link-line"></i>
+            <div class="results-showcase__cta">
+                <div class="results-cta-content">
+                    <h3 class="results-cta-title">Ready to See Your Own Transformation?</h3>
+                    <p class="results-cta-description">
+                        Schedule a consultation to discuss your aesthetic goals and create your personalized treatment plan.
+                    </p>
+                    <button class="results-cta-btn" id="resultsCtaBtn">
+                        <span class="cta-text">Book Your Consultation</span>
+                        <i class="ri-calendar-check-line"></i>
+                        <div class="cta-glow"></div>
                     </button>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-    
-<!-- REDESIGNED INSTAGRAM SECTION -->
-<section class="redesigned-instagram-section" id="instagram-redesign">
-    <!-- Background Elements -->
-    <div class="instagram-bg-elements">
-        <div class="instagram-gradient-orb instagram-orb-1"></div>
-        <div class="instagram-gradient-orb instagram-orb-2"></div>
-        <div class="instagram-mesh-overlay"></div>
-    </div>
+    </section>
 
-    <div class="instagram-container">
-        <!-- Section Header -->
-        <div class="instagram-header" data-aos="fade-up">
-            <!-- Instagram Badge -->
-            <div class="instagram-badge">
-                <div class="instagram-badge-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                        <path d="m16 11.37-.12-.39-.24-.38-.24-.38-.39-.48-.48-.39-.38-.24-.38-.24-.39-.12h-2.76l-.39.12-.38.24-.38.24-.48.39-.39.48-.24.38-.24.38-.12.39v2.76l.12.39.24.38.24.38.39.48.48.39.38.24.38.24.39.12h2.76l.39-.12.38-.24.38-.24.48-.39.39-.48.24-.38.24-.38.12-.39z"/>
-                        <circle cx="12" cy="12" r="3"/>
-                        <circle cx="17.5" cy="6.5" r="1"/>
-                    </svg>
-                </div>
-                <span class="instagram-badge-text">Follow Our Journey</span>
-            </div>
-
-            <!-- Main Title -->
-            <h2 class="instagram-title">
-                <span class="instagram-title-main">Behind the Scenes</span>
-                <span class="instagram-title-accent">@eviaesthetics</span>
-            </h2>
-
-            <!-- Subtitle -->
-            <p class="instagram-subtitle">
-                Experience the artistry of aesthetic medicine through our curated Instagram moments. 
-                <span class="instagram-highlight">Follow us for daily inspiration and transformation stories.</span>
-            </p>
+    <!-- Contact Section -->
+    <section class="hermes-contact-section" id="contact">
+        <div class="contact-ambient-background">
+            <div class="ambient-orb orb-1"></div>
+            <div class="ambient-orb orb-2"></div>
+            <div class="ambient-orb orb-3"></div>
+            <div class="mesh-gradient-overlay"></div>
         </div>
 
-        <!-- Instagram Widget Container -->
-        <div class="instagram-widget-container" data-aos="fade-up" data-aos-delay="200">
-            <!-- Loading State -->
-            <div class="instagram-loading" id="instagramLoading">
-                <div class="instagram-loading-spinner">
-                    <div class="instagram-spinner-ring"></div>
-                </div>
-                <p class="instagram-loading-text">Loading Instagram feed...</p>
-            </div>
-
-            <!-- Elfsight Instagram Widget -->
-            <div class="instagram-elfsight-wrapper" id="instagramWidgetContainer">
-                <div class="elfsight-app-20c4a42b-4210-4270-b65c-9378811208fb" data-elfsight-app-lazy></div>
-            </div>
-
-            <!-- Instagram Stats (Optional) -->
-            <div class="instagram-stats">
-                <div class="instagram-stat">
-                    <span class="instagram-stat-number">1K+</span>
-                    <span class="instagram-stat-label">Followers</span>
-                </div>
-                <div class="instagram-stat">
-                    <span class="instagram-stat-number">500+</span>
-                    <span class="instagram-stat-label">Posts</span>
-                </div>
-                <div class="instagram-stat">
-                    <span class="instagram-stat-number">98%</span>
-                    <span class="instagram-stat-label">Satisfaction</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Instagram CTA -->
-        <div class="instagram-cta-section" data-aos="fade-up" data-aos-delay="400">
-            <a href="https://www.instagram.com/eviaesthetics/?hl=en" target="_blank" class="instagram-follow-btn">
-                <div class="instagram-btn-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                        <path d="m16 11.37-.12-.39-.24-.38-.24-.38-.39-.48-.48-.39-.38-.24-.38-.24-.39-.12h-2.76l-.39.12-.38.24-.38.24-.48.39-.39.48-.24.38-.24.38-.12.39v2.76l.12.39.24.38.24.38.39.48.48.39.38.24.38.24.39.12h2.76l.39-.12.38-.24.38-.24.48-.39.39-.48.24-.38.24-.38.12-.39z"/>
-                        <circle cx="12" cy="12" r="3"/>
-                        <circle cx="17.5" cy="6.5" r="1"/>
-                    </svg>
-                </div>
-                <span class="instagram-btn-text">Follow @eviaesthetics</span>
-                <div class="instagram-btn-arrow">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- REDESIGNED GOOGLE REVIEWS SECTION -->
-<section class="redesigned-reviews-section" id="reviews-redesign">
-    <!-- Background Elements -->
-    <div class="reviews-bg-elements">
-        <div class="reviews-gradient-orb reviews-orb-1"></div>
-        <div class="reviews-gradient-orb reviews-orb-2"></div>
-        <div class="reviews-mesh-overlay"></div>
-    </div>
-
-    <div class="reviews-container">
-        <!-- Section Header -->
-        <div class="reviews-header" data-aos="fade-up">
-            <!-- Google Reviews Badge -->
-            <div class="reviews-badge">
-                <div class="reviews-badge-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                    </svg>
-                </div>
-                <div class="reviews-badge-content">
-                    <span class="reviews-badge-rating">5.0★</span>
-                    <span class="reviews-badge-text">Google Reviews</span>
-                </div>
-            </div>
-
-            <!-- Main Title -->
-            <h2 class="reviews-title">
-                <span class="reviews-title-main">What Our Clients</span>
-                <span class="reviews-title-accent">Say About Us</span>
-            </h2>
-
-            <!-- Subtitle -->
-            <p class="reviews-subtitle">
-                Discover why over <strong>1,000 New Yorkers</strong> trust Dr. Nano for their aesthetic transformation. 
-                <span class="reviews-highlight">Read verified reviews from real clients.</span>
-            </p>
-
-            <!-- Trust Indicators -->
-            <div class="reviews-trust-indicators">
-                <div class="reviews-indicator">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                    <span>Verified Reviews</span>
-                </div>
-                <div class="reviews-indicator">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
-                    </svg>
-                    <span>5-Star Rating</span>
-                </div>
-                <div class="reviews-indicator">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 108 0 4 4 0 00-8 0z" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                    <span>Real Clients</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Reviews Widget Container -->
-        <div class="reviews-widget-container" data-aos="fade-up" data-aos-delay="200">
-            <!-- Loading State -->
-            <div class="reviews-loading" id="reviewsLoading">
-                <div class="reviews-loading-spinner">
-                    <div class="reviews-spinner-ring"></div>
-                </div>
-                <p class="reviews-loading-text">Loading client testimonials...</p>
-            </div>
-
-            <!-- Elfsight Google Reviews Widget -->
-            <div class="reviews-elfsight-wrapper" id="reviewsWidgetContainer">
-                <div class="elfsight-app-11e6a6c5-a645-4f66-855b-72683346f480" data-elfsight-app-lazy></div>
-            </div>
-        </div>
-
-        <!-- Reviews Stats -->
-        <div class="reviews-stats-section" data-aos="fade-up" data-aos-delay="400">
-            <div class="reviews-stats-grid">
-                <div class="reviews-stat-card">
-                    <div class="reviews-stat-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
-                        </svg>
+        <div class="hermes-contact-container">
+            <header class="hermes-contact-header" data-reveal="fade-up">
+                <div class="excellence-badge">
+                    <div class="badge-ornament-left"></div>
+                    <div class="badge-content">
+                        <i class="ri-calendar-check-line"></i>
+                        <span>Schedule Your Consultation</span>
                     </div>
-                    <div class="reviews-stat-content">
-                        <span class="reviews-stat-number">5.0</span>
-                        <span class="reviews-stat-label">Average Rating</span>
-                    </div>
+                    <div class="badge-ornament-right"></div>
                 </div>
+                
+                <h2 class="hermes-contact-title">
+                    <span class="title-main">Begin Your</span>
+                    <span class="title-accent">Transformation Journey</span>
+                </h2>
+                
+                <p class="hermes-contact-subtitle">
+                    Experience Manhattan's most luxurious medical spa. Dr. Evia Alikaj Nano combines 
+                    <span class="text-highlight">two decades of expertise</span> with cutting-edge treatments 
+                    in our premium boutique setting.
+                </p>
+            </header>
 
-                <div class="reviews-stat-card">
-                    <div class="reviews-stat-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 108 0 4 4 0 00-8 0z" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <div class="reviews-stat-content">
-                        <span class="reviews-stat-number">1,000+</span>
-                        <span class="reviews-stat-label">Happy Clients</span>
-                    </div>
-                </div>
-
-                <div class="reviews-stat-card">
-                    <div class="reviews-stat-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <div class="reviews-stat-content">
-                        <span class="reviews-stat-number">20+</span>
-                        <span class="reviews-stat-label">Years Experience</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Google Trust Badge -->
-            <div class="reviews-google-badge">
-                <div class="reviews-google-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                    </svg>
-                </div>
-                <span class="reviews-google-text">Verified by Google</span>
-            </div>
-        </div>
-    </div>
-</section>
-    
-<!-- HERMÈS-INSPIRED LUXURY CONTACT SECTION -->
-<section class="hermes-contact-section" id="contact">
-    <!-- Ambient Background Elements -->
-    <div class="contact-ambient-background">
-        <div class="ambient-orb orb-1"></div>
-        <div class="ambient-orb orb-2"></div>
-        <div class="ambient-orb orb-3"></div>
-        <div class="mesh-gradient-overlay"></div>
-        
-        <!-- Floating Luxury Icons -->
-        <div class="floating-icons">
-            <div class="float-icon icon-1">
-                <i class="ri-phone-line"></i>
-            </div>
-            <div class="float-icon icon-2">
-                <i class="ri-calendar-check-line"></i>
-            </div>
-            <div class="float-icon icon-3">
-                <i class="ri-map-pin-2-line"></i>
-            </div>
-            <div class="float-icon icon-4">
-                <i class="ri-heart-pulse-line"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="hermes-contact-container">
-        <!-- Luxury Section Header -->
-        <header class="hermes-contact-header" data-reveal="fade-up">
-            <!-- Excellence Badge -->
-            <div class="excellence-badge">
-                <div class="badge-ornament-left"></div>
-                <div class="badge-content">
-                    <i class="ri-calendar-check-line"></i>
-                    <span>Schedule Your Consultation</span>
-                </div>
-                <div class="badge-ornament-right"></div>
-            </div>
-            
-            <!-- Hermès Typography -->
-            <h2 class="hermes-contact-title">
-                <span class="title-main">Begin Your</span>
-                <span class="title-accent">Transformation Journey</span>
-            </h2>
-            
-            <p class="hermes-contact-subtitle">
-                Experience Manhattan's most luxurious medical spa. Dr. Evia Alikaj Nano combines 
-                <span class="text-highlight">two decades of expertise</span> with cutting-edge treatments 
-                in our premium boutique setting.
-            </p>
-            
-            <!-- Hermès Divider -->
-            <div class="hermes-divider">
-                <div class="divider-line-left"></div>
-                <div class="divider-diamond">
-                    <i class="ri-sparkling-2-line"></i>
-                </div>
-                <div class="divider-line-right"></div>
-            </div>
-        </header>
-
-        <!-- Main Contact Layout -->
-        <div class="hermes-contact-layout" data-reveal="fade-up" data-delay="200">
-            
-            <!-- Contact Information Column -->
-            <div class="contact-info-column">
-                <div class="contact-info-stack">
-                    
-                    <!-- REDESIGNED Premier Location Card with Google Maps -->
-                    <div class="location-luxury-card">
-                        <!-- Frame Ornaments -->
-                        <div class="card-frame-ornaments">
-                            <div class="frame-corner corner-tl"></div>
-                            <div class="frame-corner corner-tr"></div>
-                            <div class="frame-corner corner-bl"></div>
-                            <div class="frame-corner corner-br"></div>
-                        </div>
+            <div class="hermes-contact-layout" data-reveal="fade-up" data-delay="200">
+                
+                <div class="contact-info-column">
+                    <div class="contact-info-stack">
                         
-                        <div class="card-header">
-                            <div class="header-icon-frame">
-                                <i class="ri-building-line"></i>
+                        <div class="location-luxury-card">
+                            <div class="card-frame-ornaments">
+                                <div class="frame-corner corner-tl"></div>
+                                <div class="frame-corner corner-tr"></div>
+                                <div class="frame-corner corner-bl"></div>
+                                <div class="frame-corner corner-br"></div>
                             </div>
-                            <div class="location-badge">Manhattan Premier</div>
-                        </div>
-                        
-                        <!-- Enhanced Map Section -->
-                        <div class="location-map-container">
-                            <div class="map-overlay">
-                                <div class="map-info">
-                                    <h3>Exclusive Manhattan Location</h3>
-                                    <div class="address-elegant">
-                                        <p class="address-line">65 West 36th Street</p>
-                                        <p class="address-line">10th Floor</p>
-                                        <p class="address-line">New York, NY 10018</p>
+                            
+                            <div class="card-header">
+                                <div class="header-icon-frame">
+                                    <i class="ri-building-line"></i>
+                                </div>
+                                <div class="location-badge">Manhattan Premier</div>
+                            </div>
+                            
+                            <div class="location-map-container">
+                                <div class="map-overlay">
+                                    <div class="map-info">
+                                        <h3>Exclusive Manhattan Location</h3>
+                                        <div class="address-elegant">
+                                            <p class="address-line">65 West 36th Street</p>
+                                            <p class="address-line">10th Floor</p>
+                                            <p class="address-line">New York, NY 10018</p>
+                                        </div>
                                     </div>
                                 </div>
+                                
+                                <div class="google-map-frame">
+                                    <iframe 
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.682842815609!2d-73.98823368459394!3d40.74844007932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0x4ca5d0dfcd4a9d2f!2s65%20W%2036th%20St%2010th%20floor%2C%20New%20York%2C%20NY%2010018!5e0!3m2!1sen!2sus!4v1638555234567!5m2!1sen!2sus"
+                                        allowfullscreen="" 
+                                        loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade"
+                                        title="Eviaesthetics Location">
+                                    </iframe>
+                                </div>
                             </div>
                             
-                            <!-- Google Maps Embed -->
-                            <div class="google-map-frame">
-                                <iframe 
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.6160612417447!2d-73.98723492339755!3d40.75066037138596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259af15610e21%3A0x8f9f7abf9b3f8123!2s65%20W%2036th%20St%2C%20New%20York%2C%20NY%2010018!5e0!3m2!1sen!2sus!4v1645123456789!5m2!1sen!2sus" 
-                                    width="100%" 
-                                    height="280" 
-                                    style="border:0;" 
-                                    allowfullscreen="" 
-                                    loading="lazy" 
-                                    referrerpolicy="no-referrer-when-downgrade">
-                                </iframe>
-                            </div>
-                        </div>
-                        
-                        <div class="location-actions">
-                            <button class="directions-btn" type="button">
-                                <i class="ri-map-line"></i>
-                                <span>Get Directions</span>
-                                <div class="btn-shine"></div>
-                            </button>
-                            
-                            <button class="street-view-btn" type="button">
-                                <i class="ri-street-view-line"></i>
-                                <span>Street View</span>
-                            </button>
-                        </div>
-                        
-                        <!-- Floating Credentials -->
-                        <div class="floating-credentials">
-                            <div class="credential-pill pill-1">
-                                <i class="ri-time-line"></i>
-                                <span>By Appointment</span>
-                            </div>
-                            <div class="credential-pill pill-2">
-                                <i class="ri-shield-check-line"></i>
-                                <span>Private Setting</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Contact Methods Grid -->
-                    <div class="contact-methods-grid">
-                        <!-- Phone Contact -->
-                        <div class="method-luxury-card phone-card">
-                            <div class="method-header">
-                                <div class="method-icon-frame">
-                                    <i class="ri-phone-fill"></i>
-                                </div>
-                                <div class="method-badge">Priority Line</div>
-                            </div>
-                            <div class="method-content">
-                                <h4>Direct Consultation Line</h4>
-                                <p class="contact-detail">(201) 639-4983</p>
-                                <span class="availability">Same-day appointments available</span>
-                            </div>
-                            <button class="method-action-btn" data-action="call" type="button">
-                                <i class="ri-phone-line"></i>
-                                <div class="btn-ripple"></div>
-                            </button>
-                        </div>
-                        
-                        <!-- Email Contact -->
-                        <div class="method-luxury-card email-card">
-                            <div class="method-header">
-                                <div class="method-icon-frame">
-                                    <i class="ri-mail-fill"></i>
-                                </div>
-                                <div class="method-badge">24hr Response</div>
-                            </div>
-                            <div class="method-content">
-                                <h4>Email Consultation</h4>
-                                <p class="contact-detail">info@eviaesthetics.com</p>
-                                <span class="availability">Professional consultation via email</span>
-                            </div>
-                            <button class="method-action-btn" data-action="email" type="button">
-                                <i class="ri-mail-line"></i>
-                                <div class="btn-ripple"></div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Treatment Highlights -->
-                    <div class="treatment-highlights-card">
-                        <h4>What to Expect</h4>
-                        <div class="highlights-grid">
-                            <div class="highlight-item">
-                                <div class="highlight-icon">
-                                    <i class="ri-user-heart-line"></i>
-                                </div>
-                                <span>Personalized Consultation</span>
-                            </div>
-                            <div class="highlight-item">
-                                <div class="highlight-icon">
-                                    <i class="ri-shield-check-line"></i>
-                                </div>
-                                <span>Board-Certified Care</span>
-                            </div>
-                            <div class="highlight-item">
-                                <div class="highlight-icon">
-                                    <i class="ri-time-line"></i>
-                                </div>
-                                <span>Flexible Scheduling</span>
-                            </div>
-                            <div class="highlight-item">
-                                <div class="highlight-icon">
-                                    <i class="ri-award-line"></i>
-                                </div>
-                                <span>20+ Years Experience</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Social Links Luxury -->
-                    <div class="social-luxury-card">
-                        <h4>Follow Our Journey</h4>
-                        <p class="social-description">Stay connected for daily inspiration and transformation stories</p>
-                        <div class="social-links-grid">
-                            <a href="https://www.instagram.com/eviaesthetics/?hl=en" class="social-link-luxury instagram" target="_blank">
-                                <div class="social-icon-frame">
-                                    <i class="ri-instagram-line"></i>
-                                </div>
-                                <div class="social-content">
-                                    <span class="social-platform">Instagram</span>
-                                    <span class="social-handle">@eviaesthetics</span>
-                                </div>
-                                <div class="social-arrow">
-                                    <i class="ri-arrow-right-line"></i>
-                                </div>
-                            </a>
-                            <a href="#" class="social-link-luxury facebook" target="_blank">
-                                <div class="social-icon-frame">
-                                    <i class="ri-facebook-line"></i>
-                                </div>
-                                <div class="social-content">
-                                    <span class="social-platform">Facebook</span>
-                                    <span class="social-handle">Eviaesthetics</span>
-                                </div>
-                                <div class="social-arrow">
-                                    <i class="ri-arrow-right-line"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Form Column -->
-            <div class="contact-form-column">
-                <div class="form-luxury-container">
-                    <!-- Form Header with Ornaments -->
-                    <div class="form-header-luxury">
-                        <!-- Frame Ornaments -->
-                        <div class="form-frame-ornaments">
-                            <div class="frame-corner corner-tl"></div>
-                            <div class="frame-corner corner-tr"></div>
-                            <div class="frame-corner corner-bl"></div>
-                            <div class="frame-corner corner-br"></div>
-                        </div>
-                        
-                        <div class="form-badge-luxury">
-                            <i class="ri-calendar-check-line"></i>
-                            <span>Book Your Consultation</span>
-                        </div>
-                        <h3>Schedule Your Transformation</h3>
-                        <p>Complete our luxury consultation form and Dr. Nano's team will contact you within 24 hours to confirm your premium appointment experience.</p>
-                    </div>
-                    
-                    <!-- Elfsight Form Integration -->
-                    <div class="elfsight-form-wrapper">
-                        <!-- Luxury Loading Animation -->
-                        <div class="form-loading-luxury" id="formLoadingLuxury">
-                            <div class="loading-ornament">
-                                <div class="ornament-ring ring-1"></div>
-                                <div class="ornament-ring ring-2"></div>
-                                <div class="ornament-ring ring-3"></div>
-                                <div class="ornament-center">
-                                    <i class="ri-sparkling-2-line"></i>
-                                </div>
-                            </div>
-                            <p class="loading-text">Preparing your luxury consultation form...</p>
-                        </div>
-                        
-                        <!-- Elfsight Contact Form -->
-                        <div class="elfsight-contact-luxury" id="elfsightFormLuxury">
-                            <div class="elfsight-app-db15691a-379c-4773-8900-983e7e393d0f" data-elfsight-app-lazy></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Form Benefits -->
-                    <div class="form-benefits-luxury">
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="ri-shield-check-line"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <span class="benefit-title">HIPAA Compliant</span>
-                                <span class="benefit-subtitle">Secure & Private</span>
-                            </div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="ri-time-line"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <span class="benefit-title">Quick Process</span>
-                                <span class="benefit-subtitle">2-Minute Form</span>
-                            </div>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <i class="ri-phone-line"></i>
-                            </div>
-                            <div class="benefit-content">
-                                <span class="benefit-title">Rapid Response</span>
-                                <span class="benefit-subtitle">24hr Guarantee</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Emergency Contact Luxury Bar -->
-        <div class="emergency-contact-luxury" data-reveal="fade-up" data-delay="600">
-            <div class="emergency-content">
-                <div class="emergency-icon-frame">
-                    <i class="ri-phone-fill"></i>
-                </div>
-                <div class="emergency-text">
-                    <h4>Need Immediate Assistance?</h4>
-                    <p>Call us directly at <strong>(201) 639-4983</strong> for urgent consultations and same-day appointments</p>
-                </div>
-                <button class="emergency-luxury-cta" type="button">
-                    <span class="cta-text">Call Now</span>
-                    <div class="cta-icon">
-                        <i class="ri-arrow-right-line"></i>
-                    </div>
-                    <div class="cta-glow"></div>
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-    
-<!-- REDESIGNED LUXURY FOOTER SECTION -->
-<footer class="premium-footer">
-    <div class="footer-upper">
-        <div class="container">
-            <div class="footer-grid">
-                <!-- Branding Column - Enlarged Logo -->
-                <div class="footer-brand-column">
-                    <div class="footer-logo-container">
-                        <img src="logo1.png" alt="Eviaesthetics" class="footer-logo">
-                    </div>
-                    <h3 class="brand-name">Eviaesthetics</h3>
-                    <p class="brand-tagline">Manhattan's Premier Luxury Medical Spa</p>
-                    <div class="footer-contact-info">
-                        <div class="contact-item">
-                            <i class="ri-phone-fill"></i>
-                            <span>(201) 639-4983</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="ri-map-pin-fill"></i>
-                            <span>65 W 36th St. 10th Floor, New York, NY 10018</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Quick Links Column -->
-                <div class="footer-links-column">
-                    <h4 class="footer-column-title">Quick Links</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#about">About Dr. Nano</a></li>
-                        <li><a href="#results">Before & After</a></li>
-                        <li><a href="#contact">Book Consultation</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Services Column -->
-                <div class="footer-services-column">
-                    <h4 class="footer-column-title">Our Services</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="#services">Botox & Fillers</a></li>
-                        <li><a href="#services">Weight Management</a></li>
-                        <li><a href="#services">IV Therapy</a></li>
-                        <li><a href="#services">Microneedling</a></li>
-                        <li><a href="#services">PRP Therapy</a></li>
-                        <li><a href="#services">Chemical Peels</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Social & Newsletter Column -->
-                <div class="footer-social-column">
-                    <h4 class="footer-column-title">Connect With Us</h4>
-                    <div class="social-media-links">
-                        <a href="https://www.instagram.com/eviaesthetics/?hl=en" class="social-media-link" aria-label="Instagram">
-                            <i class="ri-instagram-line"></i>
-                        </a>
-                        <a href="#" class="social-media-link" aria-label="Facebook">
-                            <i class="ri-facebook-line"></i>
-                        </a>
-                        <a href="#" class="social-media-link" aria-label="YouTube">
-                            <i class="ri-youtube-line"></i>
-                        </a>
-                        <a href="#" class="social-media-link" aria-label="Twitter">
-                            <i class="ri-twitter-x-line"></i>
-                        </a>
-                    </div>
-                    
-                    <!-- Newsletter Subscription -->
-                    <div class="newsletter-subscription">
-                        <h5 class="newsletter-title">Join Our Newsletter</h5>
-                        <p class="newsletter-subtitle">Exclusive offers & beauty tips</p>
-                        <form class="newsletter-form">
-                            <div class="form-input-group">
-                                <input type="email" placeholder="Your Email" class="newsletter-input">
-                                <button type="submit" class="newsletter-submit">
-                                    <i class="ri-arrow-right-line"></i>
+                            <div class="location-actions">
+                                <button class="location-cta-btn directions-btn" onclick="window.open('https://maps.google.com/?q=65+West+36th+Street+10th+Floor+New+York+NY+10018')" type="button">
+                                    <i class="ri-navigation-line"></i>
+                                    <span>Get Directions</span>
+                                </button>
+                                
+                                <button class="location-cta-btn call-btn" onclick="window.open('tel:+12016394983')" type="button">
+                                    <i class="ri-phone-line"></i>
+                                    <span>Call Now</span>
                                 </button>
                             </div>
+                        </div>
+                        
+                        <div class="method-luxury-card">
+                            <div class="method-icon-frame">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            <div class="method-content">
+                                <h4 class="method-title">Call or Text</h4>
+                                <p class="method-description">Speak directly with our team</p>
+                                <a href="tel:+12016394983" class="method-link">(201) 639-4983</a>
+                            </div>
+                        </div>
+                        
+                        <div class="social-luxury-card">
+                            <h4 class="social-title">Follow Our Journey</h4>
+                            <div class="social-links-grid">
+                                <a href="https://instagram.com/eviaesthetics" class="social-link instagram" target="_blank">
+                                    <i class="ri-instagram-line"></i>
+                                    <span>Instagram</span>
+                                </a>
+                                <a href="https://facebook.com/eviaesthetics" class="social-link facebook" target="_blank">
+                                    <i class="ri-facebook-line"></i>
+                                    <span>Facebook</span>
+                                </a>
+                                <a href="https://g.page/eviaesthetics" class="social-link google" target="_blank">
+                                    <i class="ri-google-line"></i>
+                                    <span>Google</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-column">
+                    <div class="form-luxury-container">
+                        <div class="form-header-luxury">
+                            <h3 class="form-title-luxury">Schedule Your Consultation</h3>
+                            <p class="form-subtitle-luxury">Let's discuss your aesthetic goals</p>
+                        </div>
+                        
+                        <form class="hermes-contact-form" id="contactForm">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Full Name *</label>
+                                <input type="text" id="name" name="name" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    <input type="email" id="email" name="email" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" class="form-input" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="service" class="form-label">Interested Service</label>
+                                <select id="service" name="service" class="form-select">
+                                    <option value="">Select a service...</option>
+                                    <option value="botox">Botox & Fillers</option>
+                                    <option value="weight">Weight Management</option>
+                                    <option value="iv">IV Therapy</option>
+                                    <option value="microneedling">Microneedling</option>
+                                    <option value="prp">PRP Therapy</option>
+                                    <option value="peels">Chemical Peels</option>
+                                    <option value="consultation">General Consultation</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea id="message" name="message" class="form-textarea" rows="4" placeholder="Tell us about your goals and any questions you have..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="form-submit-btn">
+                                <span class="submit-text">Schedule Consultation</span>
+                                <i class="ri-send-plane-line"></i>
+                                <div class="submit-shine"></div>
+                            </button>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <!-- Trust Badges Section -->
-    <div class="trust-badges-section">
-        <div class="container">
-            <div class="trust-badges-wrapper">
-                <!-- Payment Methods -->
-                <div class="trust-badge-group payment-methods">
-                    <h5 class="badge-group-title">Secure Payments</h5>
-                    <div class="badge-icons">
-                        <div class="badge-icon">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width="60">
-                        </div>
-                        <div class="badge-icon">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width="60">
-                        </div>
-                        <div class="badge-icon">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="American Express" width="60">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Certifications -->
-                <div class="trust-badge-group certifications">
-                    <h5 class="badge-group-title">Verified & Certified</h5>
-                    <div class="badge-icons">
-                        <div class="badge-icon">
-                            <img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified" width="100">
-                        </div>
-                        <div class="badge-icon">
-                            <img src="https://www.currentware.com/wp-content/uploads/2019/12/hipaa-compliance-1.jpg" alt="HIPAA Compliant" width="80">
-                        </div>
-                        <div class="badge-icon">
-                            <img src="https://www.amst.com/user/pages/35485/imghero-f.jpg?t=1718395933" alt="Google Partner" width="80">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Reviews -->
-                <div class="trust-badge-group reviews">
-                    <h5 class="badge-group-title">Trusted By Clients</h5>
-                    <div class="badge-icons">
-                        <div class="badge-icon rating">
-                            <div class="rating-stars">
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                                <i class="ri-star-fill"></i>
-                            </div>
-                            <div class="rating-text">5.0 Rating on Google</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Legal Section -->
-    <div class="footer-legal">
-        <div class="container">
-            <div class="legal-flex">
-                <div class="legal-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cancellation Policy</a>
-                    <a href="#">Cookie Policy</a>
-                </div>
-                <div class="copyright-text">
-                    &copy; 2024 Eviaesthetics. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Design Credit -->
-    <div class="design-credit">
-        <div class="container">
-            <a href="https://elanstechworld.com" class="designer-link" target="_blank" rel="noopener">
-                <span>Designed by</span>
-                <div class="designer-logo">
-                    <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="30">
-                    <span>Elan's Tech World</span>
-                </div>
-            </a>
-        </div>
-    </div>
-</footer>
 
-    <!-- Luxury Floating Action Buttons -->
-<div class="mini-floating-actions">
-    <!-- Call Button -->
-    <button class="mini-fab mini-fab-call" id="miniCallBtn" type="button" aria-label="Call Now">
-        <i class="ri-phone-line"></i>
-        <div class="mini-ripple"></div>
-    </button>
-    
-    <!-- Back to Top Button -->
-    <button class="mini-fab mini-fab-top" id="miniTopBtn" type="button" aria-label="Back to Top">
-        <i class="ri-arrow-up-line"></i>
-        <div class="mini-ripple"></div>
-    </button>
-</div>
+            <div class="emergency-contact-luxury" data-reveal="fade-up" data-delay="400">
+                <div class="emergency-content">
+                    <div class="emergency-icon-frame">
+                        <i class="ri-customer-service-2-line"></i>
+                    </div>
+                    <div class="emergency-info">
+                        <h4 class="emergency-title">Need Immediate Assistance?</h4>
+                        <p class="emergency-description">Our team is ready to help you with any questions or concerns.</p>
+                    </div>
+                    <div class="emergency-actions">
+                        <a href="tel:+12016394983" class="emergency-btn primary">
+                            <i class="ri-phone-line"></i>
+                            <span>Call Now</span>
+                        </a>
+                        <a href="sms:+12016394983" class="emergency-btn secondary">
+                            <i class="ri-message-3-line"></i>
+                            <span>Text Us</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="premium-footer">
+        <div class="footer-upper">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-brand-column">
+                        <div class="footer-logo-container">
+                            <img src="logo1.png" alt="Eviaesthetics" class="footer-logo">
+                        </div>
+                        <h3 class="brand-name">Eviaesthetics</h3>
+                        <p class="brand-tagline">Manhattan's Premier Luxury Medical Spa</p>
+                        <div class="footer-contact-info">
+                            <div class="contact-item">
+                                <i class="ri-phone-fill"></i>
+                                <span>(201) 639-4983</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="ri-map-pin-fill"></i>
+                                <span>65 W 36th St. 10th Floor, New York, NY 10018</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links-column">
+                        <h4 class="footer-column-title">Quick Links</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#services">Services</a></li>
+                            <li><a href="#about">About Dr. Nano</a></li>
+                            <li><a href="#results">Before & After</a></li>
+                            <li><a href="#contact">Book Consultation</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-services-column">
+                        <h4 class="footer-column-title">Our Services</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="#services">Botox & Fillers</a></li>
+                            <li><a href="#services">Weight Management</a></li>
+                            <li><a href="#services">IV Therapy</a></li>
+                            <li><a href="#services">Microneedling</a></li>
+                            <li><a href="#services">PRP Therapy</a></li>
+                            <li><a href="#services">Chemical Peels</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-social-column">
+                        <h4 class="footer-column-title">Connect With Us</h4>
+                        <div class="footer-social-links">
+                            <a href="https://instagram.com/eviaesthetics" class="footer-social-link" target="_blank">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                            <a href="https://facebook.com/eviaesthetics" class="footer-social-link" target="_blank">
+                                <i class="ri-facebook-line"></i>
+                            </a>
+                            <a href="https://g.page/eviaesthetics" class="footer-social-link" target="_blank">
+                                <i class="ri-google-line"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="footer-newsletter">
+                            <h5 class="newsletter-title">Stay Updated</h5>
+                            <p class="newsletter-description">Get the latest beauty tips and exclusive offers</p>
+                            <div class="newsletter-form">
+                                <input type="email" placeholder="Enter your email" class="newsletter-input">
+                                <button type="submit" class="newsletter-btn">
+                                    <i class="ri-arrow-right-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-lower">
+            <div class="container">
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <div class="legal-flex">
+                            <div class="legal-links">
+                                <a href="/privacy">Privacy Policy</a>
+                                <a href="/terms">Terms of Service</a>
+                                <a href="/accessibility">Accessibility</a>
+                            </div>
+                            <p class="copyright-text">
+                                © 2024 Eviaesthetics. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="https://static.elfsight.com/platform/platform.js" async></script>
     <script src="script.js"></script>
 </body>
 </html>
