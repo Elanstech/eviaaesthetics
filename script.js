@@ -128,7 +128,7 @@ class EviaLuxuryApp {
     
     initializeComponents() {
         const componentDefinitions = [
-            { name: 'preloader', class: LuxuryPreloader },
+            { name: 'preloader', class: ModernPreloader },
             { name: 'header', class: EnhancedLuxuryHeader },
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
@@ -215,16 +215,11 @@ class EviaLuxuryApp {
    PRELOADER SECTION
    ======================================== */
 
-class LuxuryPreloader {
+class ModernPreloader {
     constructor() {
         this.preloader = document.getElementById('preloader');
-        this.desktopPreloader = null;
-        this.mobilePreloader = null;
-        this.progressFill = null;
         this.isMobile = window.innerWidth <= 768;
-        
-        // Timing configuration
-        this.minDisplayTime = this.isMobile ? 1000 : 1800; // Mobile: 1s, Desktop: 1.8s
+        this.minDisplayTime = this.isMobile ? 1000 : 2000; // Mobile: 1s, Desktop: 2s
         this.startTime = Date.now();
         this.isReady = false;
         this.fadeOutStarted = false;
@@ -237,21 +232,8 @@ class LuxuryPreloader {
     init() {
         console.log(`🚀 Initializing ${this.isMobile ? 'mobile' : 'desktop'} preloader`);
         
-        // Prevent scrolling during preloader
-        document.body.style.overflow = 'hidden';
-        document.body.classList.add('preloader-active');
-        
-        // Get elements
-        this.desktopPreloader = this.preloader.querySelector('.desktop-preloader');
-        this.mobilePreloader = this.preloader.querySelector('.mobile-preloader');
-        this.progressFill = this.preloader.querySelector('.progress-fill');
-        
-        // Start appropriate preloader
-        if (this.isMobile) {
-            this.initMobilePreloader();
-        } else {
-            this.initDesktopPreloader();
-        }
+        // Start preloader (no body overflow changes)
+        this.startPreloader();
         
         // Monitor load state
         this.checkReadyState();
@@ -268,54 +250,23 @@ class LuxuryPreloader {
         }, 4000);
     }
     
-    initDesktopPreloader() {
-        if (!this.desktopPreloader) return;
+    startPreloader() {
+        const logo = this.preloader.querySelector('.preloader-logo');
+        const progressFill = this.preloader.querySelector('.progress-fill');
         
-        const logo = this.desktopPreloader.querySelector('.preloader-logo');
-        const loadingText = this.desktopPreloader.querySelector('.loading-text');
-        
-        // Start logo animation immediately
+        // Add logo interactivity
         if (logo) {
-            logo.style.opacity = '1';
             this.addLogoInteractivity(logo);
         }
         
         // Start progress bar animation
-        if (this.progressFill) {
-            // Small delay to ensure smooth start
+        if (progressFill) {
             setTimeout(() => {
-                this.progressFill.style.animation = 'progressBarFill 1.8s ease-out forwards';
-            }, 100);
+                progressFill.style.animation = 'progressBarFill 2.5s ease-out forwards';
+            }, 200);
         }
         
-        // Fade in loading text
-        if (loadingText) {
-            setTimeout(() => {
-                loadingText.style.opacity = '1';
-            }, 300);
-        }
-        
-        console.log('✨ Desktop preloader animations started');
-    }
-    
-    initMobilePreloader() {
-        if (!this.mobilePreloader) return;
-        
-        const notification = this.mobilePreloader.querySelector('.corner-notification');
-        const logo = this.mobilePreloader.querySelector('.mobile-logo');
-        
-        // Ensure mobile preloader is visible
-        this.mobilePreloader.style.display = 'block';
-        
-        if (notification) {
-            notification.style.animation = 'slideInFromRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        }
-        
-        if (logo) {
-            this.addLogoInteractivity(logo);
-        }
-        
-        console.log('✨ Mobile preloader animations started');
+        console.log('✨ Preloader animations started');
     }
     
     addLogoInteractivity(logo) {
@@ -324,12 +275,13 @@ class LuxuryPreloader {
         // Add subtle hover effect for desktop
         if (!this.isMobile) {
             logo.addEventListener('mouseenter', () => {
-                logo.style.transform = 'scale(1.05)';
+                logo.style.transform = 'scale(1.05) rotate(180deg)';
                 logo.style.transition = 'transform 0.3s ease';
             });
             
             logo.addEventListener('mouseleave', () => {
                 logo.style.transform = 'scale(1)';
+                logo.style.transition = 'transform 3s linear';
             });
         }
         
@@ -355,86 +307,28 @@ class LuxuryPreloader {
             
             // More aggressive loading detection for mobile
             const isReady = this.isMobile ? 
-                (timeReady && (pageReady || timeElapsed >= 1500)) :
+                (timeReady && (pageReady || timeElapsed > 1500)) :
                 (timeReady && pageReady && imagesLoaded);
             
-            if (isReady) {
+            if (isReady && !this.fadeOutStarted) {
                 clearInterval(checkInterval);
                 this.fadeOut();
             }
-        }, 50);
-        
-        // Cleanup interval after max wait time
-        setTimeout(() => {
-            clearInterval(checkInterval);
-            if (!this.fadeOutStarted) {
-                this.fadeOut();
-            }
-        }, 5000);
+        }, 100);
     }
     
     checkImagesLoaded() {
-        const images = this.preloader.querySelectorAll('img');
-        return Array.from(images).every(img => img.complete && img.naturalHeight !== 0);
+        const images = document.querySelectorAll('img:not(.preloader-logo)');
+        return Array.from(images).every(img => img.complete);
     }
     
     async fadeOut() {
         if (this.fadeOutStarted) return;
         
         this.fadeOutStarted = true;
-        this.isReady = true;
+        console.log('🎭 Starting preloader fade out');
         
-        console.log(`🎯 Starting ${this.isMobile ? 'mobile' : 'desktop'} preloader fade out`);
-        
-        try {
-            if (this.isMobile) {
-                await this.fadeOutMobile();
-            } else {
-                await this.fadeOutDesktop();
-            }
-            
-            // Final cleanup
-            await this.cleanup();
-            
-        } catch (error) {
-            console.error('❌ Error during preloader fadeout:', error);
-            // Force cleanup even if animation fails
-            this.forceCleanup();
-        }
-    }
-    
-    async fadeOutDesktop() {
-        const logo = this.desktopPreloader?.querySelector('.preloader-logo');
-        const progressContainer = this.desktopPreloader?.querySelector('.progress-bar-container');
-        
-        // Animate logo first
-        if (logo) {
-            logo.style.animation = 'logoFadeOut 0.6s ease-out forwards';
-        }
-        
-        // Wait a bit, then animate progress container
-        await this.wait(200);
-        
-        if (progressContainer) {
-            progressContainer.style.animation = 'contentFadeOut 0.6s ease-out forwards';
-        }
-        
-        // Wait for animations to complete
-        await this.wait(600);
-    }
-    
-    async fadeOutMobile() {
-        const notification = this.mobilePreloader?.querySelector('.corner-notification');
-        
-        if (notification) {
-            notification.style.animation = 'slideOutToRight 0.6s ease-in forwards';
-        }
-        
-        await this.wait(600);
-    }
-    
-    async cleanup() {
-        // Add fade out class to entire preloader
+        // Start fade out animation
         this.preloader.classList.add('fade-out');
         
         // Wait for CSS transition
@@ -443,9 +337,7 @@ class LuxuryPreloader {
         // Remove from DOM
         this.preloader.style.display = 'none';
         
-        // Restore body state
-        document.body.style.overflow = '';
-        document.body.classList.remove('preloader-active');
+        // Add completion class
         document.body.classList.add('preloader-complete');
         
         // Dispatch custom event for other components
@@ -461,8 +353,6 @@ class LuxuryPreloader {
             this.preloader.style.display = 'none';
         }
         
-        document.body.style.overflow = '';
-        document.body.classList.remove('preloader-active');
         document.body.classList.add('preloader-complete');
         
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
@@ -470,23 +360,7 @@ class LuxuryPreloader {
     
     handleResize() {
         const newIsMobile = window.innerWidth <= 768;
-        
-        // If device type changed during preloader, restart with correct version
-        if (newIsMobile !== this.isMobile && !this.fadeOutStarted) {
-            console.log('📱 Device orientation changed, restarting preloader');
-            this.isMobile = newIsMobile;
-            
-            // Hide current preloader elements
-            if (this.desktopPreloader) this.desktopPreloader.style.display = 'none';
-            if (this.mobilePreloader) this.mobilePreloader.style.display = 'none';
-            
-            // Restart with correct version
-            if (this.isMobile) {
-                this.initMobilePreloader();
-            } else {
-                this.initDesktopPreloader();
-            }
-        }
+        this.isMobile = newIsMobile;
     }
     
     // Utility method
@@ -496,28 +370,19 @@ class LuxuryPreloader {
     
     // Public method to restart preloader (for testing)
     restart() {
-        if (this.fadeOutStarted) {
-            console.log('🔄 Restarting preloader');
-            
-            this.fadeOutStarted = false;
-            this.isReady = false;
-            this.startTime = Date.now();
-            
-            this.preloader.classList.remove('fade-out');
-            this.preloader.style.display = 'flex';
-            
-            document.body.style.overflow = 'hidden';
-            document.body.classList.add('preloader-active');
-            document.body.classList.remove('preloader-complete');
-            
-            if (this.isMobile) {
-                this.initMobilePreloader();
-            } else {
-                this.initDesktopPreloader();
-            }
-            
-            this.checkReadyState();
-        }
+        console.log('🔄 Restarting preloader');
+        
+        this.fadeOutStarted = false;
+        this.isReady = false;
+        this.startTime = Date.now();
+        
+        this.preloader.classList.remove('fade-out');
+        this.preloader.style.display = 'block';
+        
+        document.body.classList.remove('preloader-complete');
+        
+        this.startPreloader();
+        this.checkReadyState();
     }
     
     // Get current state (for debugging)
@@ -531,6 +396,22 @@ class LuxuryPreloader {
         };
     }
 }
+
+// Initialize preloader when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    window.preloader = new ModernPreloader();
+});
+
+// Handle page load
+window.addEventListener('load', () => {
+    console.log('📄 Page fully loaded');
+});
+
+// Handle preloader complete event
+window.addEventListener('preloaderComplete', () => {
+    console.log('🎉 Preloader sequence completed');
+    // Add any custom logic here that should run after preloader completes
+});
 
 /* ========================================
    HEADER SECTION
