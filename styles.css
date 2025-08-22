@@ -133,12 +133,9 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.9) 0%, 
-        rgba(240, 248, 255, 0.95) 50%,
-        rgba(255, 255, 255, 0.9) 100%);
-    backdrop-filter: blur(20px) saturate(120%);
+    background: transparent;
     z-index: 10000;
+    pointer-events: none;
     transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
 }
 
@@ -172,6 +169,7 @@ body {
     min-width: 220px;
     position: relative;
     overflow: hidden;
+    pointer-events: auto;
 }
 
 .corner-notification::before {
@@ -372,6 +370,7 @@ body {
 .evia-modern-preloader.fade-out .corner-notification {
     animation: slideOutToRight 0.8s ease-in forwards;
 }
+
 /* ========================================
    HEADER SECTION
    ======================================== */
