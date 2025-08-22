@@ -128,7 +128,7 @@ class EviaLuxuryApp {
     
     initializeComponents() {
         const componentDefinitions = [
-            { name: 'preloader', class: ModernPreloader },
+            { name: 'preloader', class: CornerPreloader },
             { name: 'header', class: EnhancedLuxuryHeader },
             { name: 'mobileMenu', class: UltraLuxuryMobileMenu },
             { name: 'hero', class: CinematicHero },
@@ -215,13 +215,12 @@ class EviaLuxuryApp {
    PRELOADER SECTION
    ======================================== */
 
-class ModernPreloader {
+class CornerPreloader {
     constructor() {
         this.preloader = document.getElementById('preloader');
         this.isMobile = window.innerWidth <= 768;
-        this.minDisplayTime = this.isMobile ? 1000 : 2000; // Mobile: 1s, Desktop: 2s
+        this.minDisplayTime = 1500; // 1.5 seconds minimum
         this.startTime = Date.now();
-        this.isReady = false;
         this.fadeOutStarted = false;
         
         if (this.preloader) {
@@ -230,50 +229,29 @@ class ModernPreloader {
     }
     
     init() {
-        console.log(`🚀 Initializing ${this.isMobile ? 'mobile' : 'desktop'} preloader`);
+        console.log(`🚀 Starting corner preloader`);
         
-        // Start preloader (no body overflow changes)
-        this.startPreloader();
+        // Start animations
+        this.startAnimations();
         
         // Monitor load state
         this.checkReadyState();
         
-        // Handle window resize
-        window.addEventListener('resize', this.handleResize.bind(this));
-        
         // Force cleanup after maximum time
         setTimeout(() => {
             if (!this.fadeOutStarted) {
-                console.warn('⚠️ Preloader taking too long, forcing cleanup');
+                console.log('⏰ Maximum time reached, hiding preloader');
                 this.fadeOut();
             }
-        }, 4000);
+        }, 3000);
     }
     
-    startPreloader() {
+    startAnimations() {
         const logo = this.preloader.querySelector('.preloader-logo');
         const progressFill = this.preloader.querySelector('.progress-fill');
         
-        // Add logo interactivity
-        if (logo) {
-            this.addLogoInteractivity(logo);
-        }
-        
-        // Start progress bar animation
-        if (progressFill) {
-            setTimeout(() => {
-                progressFill.style.animation = 'progressBarFill 2.5s ease-out forwards';
-            }, 200);
-        }
-        
-        console.log('✨ Preloader animations started');
-    }
-    
-    addLogoInteractivity(logo) {
-        if (!logo) return;
-        
-        // Add subtle hover effect for desktop
-        if (!this.isMobile) {
+        // Add logo hover effects for desktop
+        if (logo && !this.isMobile) {
             logo.addEventListener('mouseenter', () => {
                 logo.style.transform = 'scale(1.05) rotate(180deg)';
                 logo.style.transition = 'transform 0.3s ease';
@@ -285,17 +263,12 @@ class ModernPreloader {
             });
         }
         
-        // Add loading state indicator
-        logo.addEventListener('load', () => {
-            logo.style.opacity = '1';
-        });
-        
-        // Handle load errors gracefully
-        logo.addEventListener('error', () => {
-            console.warn('⚠️ Logo failed to load, using fallback');
-            logo.style.backgroundColor = 'var(--hermes-orange)';
-            logo.style.opacity = '1';
-        });
+        // Start progress bar
+        if (progressFill) {
+            setTimeout(() => {
+                progressFill.style.animation = 'progressBarFill 2s ease-out forwards';
+            }, 100);
+        }
     }
     
     checkReadyState() {
@@ -303,103 +276,44 @@ class ModernPreloader {
             const timeElapsed = Date.now() - this.startTime;
             const timeReady = timeElapsed >= this.minDisplayTime;
             const pageReady = document.readyState === 'complete';
-            const imagesLoaded = this.checkImagesLoaded();
             
-            // More aggressive loading detection for mobile
-            const isReady = this.isMobile ? 
-                (timeReady && (pageReady || timeElapsed > 1500)) :
-                (timeReady && pageReady && imagesLoaded);
-            
-            if (isReady && !this.fadeOutStarted) {
+            if (timeReady && pageReady && !this.fadeOutStarted) {
                 clearInterval(checkInterval);
                 this.fadeOut();
             }
         }, 100);
     }
     
-    checkImagesLoaded() {
-        const images = document.querySelectorAll('img:not(.preloader-logo)');
-        return Array.from(images).every(img => img.complete);
-    }
-    
     async fadeOut() {
         if (this.fadeOutStarted) return;
         
         this.fadeOutStarted = true;
-        console.log('🎭 Starting preloader fade out');
+        console.log('👋 Hiding corner preloader');
         
-        // Start fade out animation
+        // Add fade out class
         this.preloader.classList.add('fade-out');
         
-        // Wait for CSS transition
-        await this.wait(800);
+        // Wait for transition
+        await this.wait(600);
         
         // Remove from DOM
-        this.preloader.style.display = 'none';
+        this.preloader.remove();
         
-        // Add completion class
-        document.body.classList.add('preloader-complete');
-        
-        // Dispatch custom event for other components
+        // Dispatch completion event
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
         
-        console.log('✅ Preloader cleanup completed successfully');
-    }
-    
-    forceCleanup() {
-        console.log('🔧 Force cleaning up preloader');
-        
-        if (this.preloader) {
-            this.preloader.style.display = 'none';
-        }
-        
-        document.body.classList.add('preloader-complete');
-        
-        window.dispatchEvent(new CustomEvent('preloaderComplete'));
-    }
-    
-    handleResize() {
-        const newIsMobile = window.innerWidth <= 768;
-        this.isMobile = newIsMobile;
+        console.log('✅ Corner preloader removed');
     }
     
     // Utility method
     wait(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-    
-    // Public method to restart preloader (for testing)
-    restart() {
-        console.log('🔄 Restarting preloader');
-        
-        this.fadeOutStarted = false;
-        this.isReady = false;
-        this.startTime = Date.now();
-        
-        this.preloader.classList.remove('fade-out');
-        this.preloader.style.display = 'block';
-        
-        document.body.classList.remove('preloader-complete');
-        
-        this.startPreloader();
-        this.checkReadyState();
-    }
-    
-    // Get current state (for debugging)
-    getState() {
-        return {
-            isMobile: this.isMobile,
-            isReady: this.isReady,
-            fadeOutStarted: this.fadeOutStarted,
-            timeElapsed: Date.now() - this.startTime,
-            minDisplayTime: this.minDisplayTime
-        };
-    }
 }
 
-// Initialize preloader when DOM is ready
+// Initialize corner preloader when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    window.preloader = new ModernPreloader();
+    window.cornerPreloader = new CornerPreloader();
 });
 
 // Handle page load
@@ -409,8 +323,7 @@ window.addEventListener('load', () => {
 
 // Handle preloader complete event
 window.addEventListener('preloaderComplete', () => {
-    console.log('🎉 Preloader sequence completed');
-    // Add any custom logic here that should run after preloader completes
+    console.log('🎉 Corner preloader completed');
 });
 
 /* ========================================
