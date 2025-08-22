@@ -1475,102 +1475,103 @@
     </div>
 </section>
 
-<!-- HERMÈS MEDSPA PRODUCTS CAROUSEL SECTION -->
-<section class="hermes-spa-products-carousel" id="products">
-    <!-- Ambient Background -->
-    <div class="spa-products-ambient-bg">
-        <div class="spa-ambient-orb spa-orb-1"></div>
-        <div class="spa-ambient-orb spa-orb-2"></div>
-        <div class="spa-ambient-orb spa-orb-3"></div>
-    </div>
-
-    <div class="spa-products-container">
+<!-- ENHANCED LUXURY PRODUCTS SECTION -->
+<section class="enhanced-products-section" id="products">
+    <div class="products-container">
         <!-- Section Header -->
-        <header class="spa-products-header" data-aos="fade-up">
-            <!-- Partnership Badge -->
-            <div class="spa-partnership-badge">
-                <div class="spa-badge-icon">
-                    <i class="ri-award-line"></i>
-                </div>
-                <span class="spa-badge-text">Exclusive AlumierMD Partnership</span>
+        <div class="products-header" data-aos="fade-up">
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                <span class="badge-text">AlumierMD Partnership</span>
+                <span class="badge-dot"></span>
             </div>
-            
-            <!-- Main Title -->
-            <h2 class="spa-products-title">
-                <span class="spa-title-line">Curated</span>
-                <span class="spa-title-accent">Skincare Excellence</span>
+            <h2 class="products-title">
+                <span class="title-line-1">Curated</span>
+                <span class="title-line-2">Skincare <em>Excellence</em></span>
             </h2>
-            
-            <p class="spa-products-subtitle">
+            <p class="products-subtitle">
                 Medical-grade formulations trusted by aesthetic professionals worldwide
             </p>
-        </header>
+        </div>
 
-        <!-- Products Carousel -->
-        <div class="spa-products-carousel-wrapper" data-aos="fade-up" data-aos-delay="200">
-            <!-- Carousel Container -->
-            <div class="spa-products-carousel-container">
-                <div class="spa-products-carousel-track" id="spaProductsCarousel">
+        <!-- Products Carousel Wrapper -->
+        <div class="products-carousel-wrapper">
+            <!-- Desktop Navigation Arrows -->
+            <button class="carousel-nav carousel-nav-prev" id="productsPrevBtn" aria-label="Previous" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            
+            <button class="carousel-nav carousel-nav-next" id="productsNextBtn" aria-label="Next" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+
+            <!-- Main Carousel -->
+            <div class="products-carousel" id="productsCarousel">
+                <div class="carousel-track" id="productsCarouselTrack">
                     
                     <!-- Product Card 1: Clear Shield -->
-                    <div class="spa-product-card" data-product="clear-shield">
-                        <div class="spa-product-card-inner">
-                            <!-- Product Badge -->
-                            <div class="spa-product-badge spa-badge-bestseller">
-                                <i class="ri-star-fill"></i>
-                                <span>Bestseller</span>
+                    <div class="product-card" data-product="clear-shield">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="product-number">01</div>
+                                <div class="product-badge bestseller">Bestseller</div>
                             </div>
                             
-                            <!-- Product Image -->
-                            <div class="spa-product-image-container">
-                                <div class="spa-product-platform"></div>
-                                <img src="clear.jpg" alt="Clear Shield SPF 42" class="spa-product-image" loading="lazy">
-                                <div class="spa-product-glow"></div>
+                            <div class="card-image">
+                                <div class="product-platform"></div>
+                                <img src="clear.jpg" alt="Clear Shield SPF 42" loading="lazy">
+                                <div class="image-overlay"></div>
                             </div>
                             
-                            <!-- Product Content -->
-                            <div class="spa-product-content">
-                                <div class="spa-product-category">
+                            <div class="card-body">
+                                <div class="product-icon-wrapper">
+                                    <div class="icon-bg"></div>
                                     <i class="ri-sun-line"></i>
-                                    <span>Sun Protection</span>
                                 </div>
                                 
-                                <h3 class="spa-product-name">Clear Shield SPF 42</h3>
-                                <p class="spa-product-description">Lightweight, non-greasy broad spectrum sunscreen with antioxidant protection.</p>
+                                <h3 class="product-title">Clear Shield SPF 42</h3>
+                                <p class="product-tagline">Protection • Lightweight • Daily</p>
+                                <p class="product-description">
+                                    Lightweight, non-greasy broad spectrum sunscreen with antioxidant protection for daily use.
+                                </p>
                                 
-                                <!-- Product Features -->
-                                <div class="spa-product-features">
-                                    <span class="spa-feature-tag">
-                                        <span class="spa-feature-icon">☀️</span>
-                                        SPF 42
-                                    </span>
-                                    <span class="spa-feature-tag">
-                                        <span class="spa-feature-icon">💧</span>
-                                        Non-comedogenic
-                                    </span>
+                                <div class="product-features">
+                                    <div class="feature-item">
+                                        <i class="ri-shield-check-line"></i>
+                                        <span>SPF 42</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-drop-line"></i>
+                                        <span>Non-comedogenic</span>
+                                    </div>
                                 </div>
                                 
-                                <!-- Product Rating -->
-                                <div class="spa-product-rating">
-                                    <div class="spa-rating-stars">
+                                <div class="product-rating">
+                                    <div class="rating-stars">
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                     </div>
-                                    <span class="spa-rating-text">5.0 (128 reviews)</span>
+                                    <span class="rating-text">5.0 (128 reviews)</span>
                                 </div>
                                 
-                                <!-- Product Actions -->
-                                <div class="spa-product-actions">
-                                    <button class="spa-learn-more-btn" data-product="clear-shield">
+                                <div class="product-actions">
+                                    <button class="product-learn-more" type="button" data-product="clear-shield">
                                         <span>Learn More</span>
-                                        <i class="ri-information-line"></i>
+                                        <div class="cta-arrow">→</div>
+                                        <div class="cta-ripple"></div>
                                     </button>
-                                    <button class="spa-shop-now-btn" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
+                                    <button class="product-shop-now" type="button" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
                                         <span>Shop Now</span>
-                                        <i class="ri-external-link-line"></i>
+                                        <div class="cta-arrow">→</div>
+                                        <div class="cta-ripple"></div>
                                     </button>
                                 </div>
                             </div>
@@ -1578,58 +1579,64 @@
                     </div>
 
                     <!-- Product Card 2: Retinol -->
-                    <div class="spa-product-card" data-product="retinol">
-                        <div class="spa-product-card-inner">
-                            <div class="spa-product-badge spa-badge-professional">
-                                <i class="ri-flask-line"></i>
-                                <span>Professional</span>
+                    <div class="product-card" data-product="retinol">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="product-number">02</div>
+                                <div class="product-badge professional">Professional</div>
                             </div>
                             
-                            <div class="spa-product-image-container">
-                                <div class="spa-product-platform"></div>
-                                <img src="retinol.jpg" alt="Retinol Resurfacing Serum" class="spa-product-image" loading="lazy">
-                                <div class="spa-product-glow"></div>
+                            <div class="card-image">
+                                <div class="product-platform"></div>
+                                <img src="retinol.jpg" alt="Retinol Resurfacing Serum" loading="lazy">
+                                <div class="image-overlay"></div>
                             </div>
                             
-                            <div class="spa-product-content">
-                                <div class="spa-product-category">
+                            <div class="card-body">
+                                <div class="product-icon-wrapper">
+                                    <div class="icon-bg"></div>
                                     <i class="ri-refresh-line"></i>
-                                    <span>Anti-Aging</span>
                                 </div>
                                 
-                                <h3 class="spa-product-name">Retinol Resurfacing Serum 0.25</h3>
-                                <p class="spa-product-description">Advanced retinol formula for skin renewal and anti-aging benefits.</p>
+                                <h3 class="product-title">Retinol Resurfacing Serum 0.25</h3>
+                                <p class="product-tagline">Renewal • Anti-Aging • Night</p>
+                                <p class="product-description">
+                                    Advanced retinol formula for skin renewal and anti-aging benefits with gentle effectiveness.
+                                </p>
                                 
-                                <div class="spa-product-features">
-                                    <span class="spa-feature-tag">
-                                        <span class="spa-feature-icon">🔄</span>
-                                        0.25% Retinol
-                                    </span>
-                                    <span class="spa-feature-tag">
-                                        <span class="spa-feature-icon">🌙</span>
-                                        Night Use
-                                    </span>
+                                <div class="product-features">
+                                    <div class="feature-item">
+                                        <i class="ri-flask-line"></i>
+                                        <span>0.25% Retinol</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-moon-line"></i>
+                                        <span>Night Use</span>
+                                    </div>
                                 </div>
                                 
-                                <div class="spa-product-rating">
-                                    <div class="spa-rating-stars">
+                                <div class="product-rating">
+                                    <div class="rating-stars">
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-half-line"></i>
                                     </div>
-                                    <span class="spa-rating-text">4.9 (94 reviews)</span>
+                                    <span class="rating-text">4.9 (94 reviews)</span>
                                 </div>
                                 
-                                <div class="spa-product-actions">
-                                    <button class="spa-learn-more-btn" data-product="retinol">
+                                <div class="product-actions">
+                                    <button class="product-learn-more" type="button" data-product="retinol">
                                         <span>Learn More</span>
-                                        <i class="ri-information-line"></i>
+                                        <div class="cta-arrow">→</div>
+                                        <div class="cta-ripple"></div>
                                     </button>
-                                    <button class="spa-shop-now-btn" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
+                                    <button class="product-shop-now" type="button" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
                                         <span>Shop Now</span>
-                                        <i class="ri-external-link-line"></i>
+                                        <div class="cta-arrow">→</div>
+                                        <div class="cta-ripple"></div>
                                     </button>
                                 </div>
                             </div>
@@ -1637,58 +1644,64 @@
                     </div>
 
                     <!-- Product Card 3: Sheer Hydration -->
-                    <div class="spa-product-card" data-product="sheer-hydration">
-                        <div class="spa-product-card-inner">
-                            <div class="spa-product-badge spa-badge-tinted">
-                                <i class="ri-palette-line"></i>
-                                <span>Tinted</span>
+                    <div class="product-card" data-product="sheer-hydration">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="product-number">03</div>
+                                <div class="product-badge tinted">Tinted</div>
                             </div>
                             
-                            <div class="spa-product-image-container">
-                                <div class="spa-product-platform"></div>
-                                <img src="sheer.jpeg" alt="Sheer Hydration SPF 40" class="spa-product-image" loading="lazy">
-                                <div class="spa-product-glow"></div>
+                            <div class="card-image">
+                                <div class="product-platform"></div>
+                                <img src="sheer.jpeg" alt="Sheer Hydration SPF 40" loading="lazy">
+                                <div class="image-overlay"></div>
                             </div>
                             
-                            <div class="spa-product-content">
-                                <div class="spa-product-category">
-                                    <i class="ri-drop-line"></i>
-                                    <span>Tinted Moisturizer</span>
+                            <div class="card-body">
+                                <div class="product-icon-wrapper">
+                                    <div class="icon-bg"></div>
+                                    <i class="ri-palette-line"></i>
                                 </div>
                                 
-                                <h3 class="spa-product-name">Sheer Hydration SPF 40</h3>
-                                <p class="spa-product-description">Lightweight tinted moisturizer with broad-spectrum sun protection.</p>
+                                <h3 class="product-title">Sheer Hydration SPF 40</h3>
+                                <p class="product-tagline">Tinted • Hydrating • Coverage</p>
+                                <p class="product-description">
+                                    Lightweight tinted moisturizer with broad-spectrum sun protection and natural coverage.
+                                </p>
                                 
-                                <div class="spa-product-features">
-                                    <span class="spa-feature-tag">
-                                        <span class="spa-feature-icon">🎨</span>
-                                        Universal Tint
-                                    </span>
-                                    <span class="spa-feature-tag">
-                                        <span class="spa-feature-icon">✨</span>
-                                        Natural Glow
-                                    </span>
+                                <div class="product-features">
+                                    <div class="feature-item">
+                                        <i class="ri-palette-fill"></i>
+                                        <span>Universal Tint</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-sparkling-line"></i>
+                                        <span>Natural Glow</span>
+                                    </div>
                                 </div>
                                 
-                                <div class="spa-product-rating">
-                                    <div class="spa-rating-stars">
+                                <div class="product-rating">
+                                    <div class="rating-stars">
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-half-line"></i>
                                     </div>
-                                    <span class="spa-rating-text">4.8 (76 reviews)</span>
+                                    <span class="rating-text">4.8 (76 reviews)</span>
                                 </div>
                                 
-                                <div class="spa-product-actions">
-                                    <button class="spa-learn-more-btn" data-product="sheer-hydration">
+                                <div class="product-actions">
+                                    <button class="product-learn-more" type="button" data-product="sheer-hydration">
                                         <span>Learn More</span>
-                                        <i class="ri-information-line"></i>
+                                        <div class="cta-arrow">→</div>
+                                        <div class="cta-ripple"></div>
                                     </button>
-                                    <button class="spa-shop-now-btn" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
+                                    <button class="product-shop-now" type="button" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
                                         <span>Shop Now</span>
-                                        <i class="ri-external-link-line"></i>
+                                        <div class="cta-arrow">→</div>
+                                        <div class="cta-ripple"></div>
                                     </button>
                                 </div>
                             </div>
@@ -1696,58 +1709,64 @@
                     </div>
 
                     <!-- Product Card 4: EverActive -->
-                    <div class="spa-product-card" data-product="everactive">
-                        <div class="spa-product-card-inner">
-                            <div class="spa-product-badge spa-badge-antioxidant">
-                                <i class="ri-leaf-line"></i>
-                                <span>Antioxidant</span>
+                    <div class="product-card" data-product="everactive">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="product-number">04</div>
+                                <div class="product-badge antioxidant">Antioxidant</div>
                             </div>
                             
-                            <div class="spa-product-image-container">
-                                <div class="spa-product-platform"></div>
-                                <img src="EverActive.jpeg" alt="EverActive C&E + Peptide" class="spa-product-image" loading="lazy">
-                                <div class="spa-product-glow"></div>
+                            <div class="card-image">
+                                <div class="product-platform"></div>
+                                <img src="EverActive.jpeg" alt="EverActive C&E + Peptide" loading="lazy">
+                                <div class="image-overlay"></div>
                             </div>
                             
-                            <div class="spa-product-content">
-                                <div class="spa-product-category">
+                            <div class="card-body">
+                                <div class="product-icon-wrapper">
+                                    <div class="icon-bg"></div>
                                     <i class="ri-flashlight-line"></i>
-                                    <span>Vitamin C Serum</span>
                                 </div>
                                 
-                                <h3 class="spa-product-name">EverActive C&E + Peptide</h3>
-                                <p class="spa-product-description">Powerful antioxidant serum with vitamin C, E, and peptides.</p>
+                                <h3 class="product-title">EverActive C&E + Peptide</h3>
+                                <p class="product-tagline">Brightening • Peptides • Antioxidant</p>
+                                <p class="product-description">
+                                    Powerful antioxidant serum with vitamin C, E, and peptides for radiant, youthful skin.
+                                </p>
                                 
-                                <div class="spa-product-features">
-                                    <span class="spa-feature-tag">
-                                        <span class="spa-feature-icon">✨</span>
-                                        Brightening
-                                    </span>
-                                    <span class="spa-feature-tag">
-                                        <span class="spa-feature-icon">🧬</span>
-                                        Peptides
-                                    </span>
+                                <div class="product-features">
+                                    <div class="feature-item">
+                                        <i class="ri-magic-line"></i>
+                                        <span>Brightening</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="ri-dna-line"></i>
+                                        <span>Peptides</span>
+                                    </div>
                                 </div>
                                 
-                                <div class="spa-product-rating">
-                                    <div class="spa-rating-stars">
+                                <div class="product-rating">
+                                    <div class="rating-stars">
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                         <i class="ri-star-fill"></i>
                                     </div>
-                                    <span class="spa-rating-text">5.0 (112 reviews)</span>
+                                    <span class="rating-text">5.0 (112 reviews)</span>
                                 </div>
                                 
-                                <div class="spa-product-actions">
-                                    <button class="spa-learn-more-btn" data-product="everactive">
+                                <div class="product-actions">
+                                    <button class="product-learn-more" type="button" data-product="everactive">
                                         <span>Learn More</span>
-                                        <i class="ri-information-line"></i>
+                                        <div class="cta-arrow">→</div>
+                                        <div class="cta-ripple"></div>
                                     </button>
-                                    <button class="spa-shop-now-btn" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
+                                    <button class="product-shop-now" type="button" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
                                         <span>Shop Now</span>
-                                        <i class="ri-external-link-line"></i>
+                                        <div class="cta-arrow">→</div>
+                                        <div class="cta-ripple"></div>
                                     </button>
                                 </div>
                             </div>
@@ -1757,61 +1776,79 @@
                 </div>
             </div>
 
-            <!-- Carousel Navigation -->
-            <div class="spa-carousel-navigation">
-                <button class="spa-carousel-nav spa-carousel-prev" id="spaCarouselPrev">
-                    <i class="ri-arrow-left-line"></i>
-                </button>
-                <div class="spa-carousel-indicators" id="spaCarouselIndicators">
-                    <span class="spa-indicator spa-active" data-slide="0"></span>
-                    <span class="spa-indicator" data-slide="1"></span>
-                    <span class="spa-indicator" data-slide="2"></span>
-                    <span class="spa-indicator" data-slide="3"></span>
+            <!-- Mobile Progress Indicator -->
+            <div class="mobile-progress" id="productsMobileProgress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="productsProgressFill"></div>
                 </div>
-                <button class="spa-carousel-nav spa-carousel-next" id="spaCarouselNext">
-                    <i class="ri-arrow-right-line"></i>
+                <div class="progress-text">
+                    <span class="current-slide" id="productsCurrentSlide">1</span>
+                    <span class="separator">of</span>
+                    <span class="total-slides" id="productsTotalSlides">4</span>
+                </div>
+            </div>
+
+            <!-- Carousel Dots -->
+            <div class="carousel-dots" id="productsCarouselDots"></div>
+        </div>
+
+        <!-- Desktop Navigation Counter -->
+        <div class="desktop-navigation" id="productsDesktopNavigation">
+            <div class="nav-counter">
+                <span class="current-counter" id="productsCurrentCounter">01</span>
+                <span class="nav-separator">—</span>
+                <span class="total-counter" id="productsTotalCounter">04</span>
+            </div>
+            <div class="nav-controls">
+                <button class="nav-control-btn" id="productsAutoplayBtn" type="button" title="Toggle Autoplay">
+                    <i class="ri-pause-line"></i>
                 </button>
             </div>
         </div>
 
         <!-- Full Catalog CTA -->
-        <div class="spa-catalog-cta" data-aos="fade-up" data-aos-delay="400">
-            <div class="spa-catalog-content">
-                <div class="spa-catalog-icon">
+        <div class="products-catalog-cta" data-aos="fade-up" data-aos-delay="400">
+            <div class="catalog-cta-content">
+                <div class="catalog-cta-badge">
                     <i class="ri-gift-line"></i>
+                    <span>Complete Collection</span>
                 </div>
-                <h3 class="spa-catalog-title">Explore Our Complete Collection</h3>
-                <p class="spa-catalog-description">Discover the full range of medical-grade skincare solutions.</p>
-                
-                <button class="spa-catalog-btn" id="spaCatalogBtn">
-                    <span>View Full Catalog</span>
-                    <i class="ri-external-link-line"></i>
-                    <div class="spa-btn-shimmer"></div>
+                <h3 class="catalog-cta-title">Explore Our Full Skincare Range</h3>
+                <p class="catalog-cta-description">
+                    Discover the complete collection of medical-grade skincare solutions and find your perfect routine.
+                </p>
+                <button class="catalog-cta-btn" id="productsCatalogBtn" type="button">
+                    <span class="cta-text">View Full Catalog</span>
+                    <div class="cta-icon">
+                        <i class="ri-external-link-line"></i>
+                    </div>
+                    <div class="cta-shimmer"></div>
+                    <div class="cta-glow"></div>
                 </button>
             </div>
         </div>
     </div>
 
     <!-- Product Details Modal -->
-    <div class="spa-product-modal" id="spaProductModal">
-        <div class="spa-modal-backdrop"></div>
-        <div class="spa-modal-container">
-            <div class="spa-modal-content">
+    <div class="product-modal" id="productModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <div class="modal-content">
                 <!-- Modal Header -->
-                <div class="spa-modal-header">
-                    <button class="spa-modal-close" id="spaModalClose">
+                <div class="modal-header">
+                    <button class="modal-close" id="productModalClose">
                         <i class="ri-close-line"></i>
                     </button>
                 </div>
 
                 <!-- Modal Body -->
-                <div class="spa-modal-body" id="spaModalBody">
+                <div class="modal-body" id="productModalBody">
                     <!-- Content will be dynamically inserted here -->
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="spa-modal-footer">
-                    <button class="spa-modal-shop-btn" id="spaModalShopBtn">
+                <div class="modal-footer">
+                    <button class="modal-shop-btn" id="productModalShopBtn">
                         <span>Shop Now</span>
                         <i class="ri-external-link-line"></i>
                     </button>
