@@ -126,89 +126,348 @@ body {
 /* ========================================
    PRELOADER
    ======================================== */
-.luxury-preloader {
+.evia-modern-preloader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
+    height: 100dvh;
     background: var(--cream-primary);
+    z-index: 9999;
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
-    transition: all var(--transition-slow);
-    overflow: hidden;
 }
 
-.luxury-preloader.fade-out {
+.evia-modern-preloader.fade-out {
     opacity: 0;
     visibility: hidden;
-    transition: all 1.2s ease-out;
+    transition: all 0.8s ease-out;
 }
 
-.preloader-container {
-    position: relative;
+/* ========================================
+   DESKTOP PRELOADER - MINIMAL PROGRESS BAR
+   ======================================== */
+
+.desktop-preloader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    max-width: 400px;
     width: 100%;
-    height: 100%;
+    padding: 0 2rem;
+}
+
+.logo-container {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
 }
-
-.medspa-icons-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 1;
-}
-
-.medspa-icon {
-    position: absolute;
-    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-    opacity: 0.12;
-    animation: float-medspa 8s ease-in-out infinite;
-}
-
-.icon-1 { top: 15%; left: 10%; animation-delay: 0s; }
-.icon-2 { top: 25%; right: 15%; animation-delay: -1s; }
-.icon-3 { top: 60%; left: 8%; animation-delay: -2s; }
-.icon-4 { top: 70%; right: 12%; animation-delay: -3s; }
-.icon-5 { top: 45%; left: 85%; animation-delay: -4s; }
-.icon-6 { top: 35%; left: 50%; animation-delay: -5s; }
 
 .preloader-logo {
-    width: clamp(200px, 25vw, 300px);
-    height: clamp(200px, 25vw, 300px);
-    object-fit: contain;
-    animation: logo-gentle-pulse 3s ease-in-out infinite;
-    filter: drop-shadow(0 4px 20px rgba(255, 158, 24, 0.3));
-    z-index: 2;
+    width: clamp(80px, 12vw, 120px);
+    height: clamp(80px, 12vw, 120px);
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 
+        0 15px 40px rgba(68, 44, 21, 0.15),
+        0 8px 25px rgba(255, 158, 24, 0.2);
+    animation: logoGentlePulse 2.5s ease-in-out infinite;
+    transition: all 0.4s ease;
 }
 
-.loading-dots {
+.progress-bar-container {
+    width: 100%;
+    max-width: 320px;
     display: flex;
-    gap: 8px;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    margin-top: var(--space-lg);
+    gap: 1rem;
 }
 
-.loading-dots span {
-    width: 8px;
-    height: 8px;
-    background: var(--luxury-orange);
-    border-radius: 50%;
-    animation: loading-bounce 1.4s ease-in-out infinite;
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(68, 44, 21, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(68, 44, 21, 0.1);
 }
 
-.loading-dots span:nth-child(1) { animation-delay: 0s; }
-.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+.progress-fill {
+    height: 100%;
+    background: var(--gradient-hermes-orange);
+    background-size: 200% 100%;
+    border-radius: 4px;
+    width: 0%;
+    animation: progressBarFill 1.8s ease-out forwards;
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.4);
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: progressShimmer 1.8s ease-out;
+}
+
+.loading-text {
+    font-family: var(--font-inter);
+    font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+    font-weight: 500;
+    color: var(--text-primary);
+    opacity: 0;
+    animation: textFadeIn 0.8s ease-out 0.3s forwards;
+    letter-spacing: 0.3px;
+    text-align: center;
+}
+
+/* ========================================
+   MOBILE PRELOADER - CORNER NOTIFICATION
+   ======================================== */
+
+.mobile-preloader {
+    display: none;
+    position: absolute;
+    top: env(safe-area-inset-top, 1.5rem);
+    right: 1.5rem;
+    z-index: 10000;
+}
+
+.corner-notification {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 140, 0, 0.15);
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 8px 20px rgba(255, 140, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    animation: slideInFromRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    min-width: 160px;
+}
+
+.mobile-logo-container {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.mobile-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    object-fit: cover;
+    animation: mobileLogoSpin 2s linear infinite;
+    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+}
+
+.mobile-loading-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.mobile-loading-text {
+    font-family: var(--font-inter);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.mobile-brand {
+    font-family: var(--font-inter);
+    font-size: 0.65rem;
+    font-weight: 400;
+    color: var(--hermes-orange);
+    opacity: 0.8;
+    line-height: 1;
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Mobile: Show corner notification */
+@media (max-width: 768px) {
+    .desktop-preloader {
+        display: none;
+    }
+    
+    .mobile-preloader {
+        display: block;
+    }
+    
+    .evia-modern-preloader {
+        background: transparent;
+        pointer-events: none;
+    }
+    
+    .corner-notification {
+        pointer-events: auto;
+    }
+}
+
+/* Tablet and up: Show desktop version */
+@media (min-width: 769px) {
+    .desktop-preloader {
+        display: flex;
+    }
+    
+    .mobile-preloader {
+        display: none;
+    }
+}
+
+/* Small mobile adjustments */
+@media (max-width: 480px) {
+    .mobile-preloader {
+        top: env(safe-area-inset-top, 1rem);
+        right: 1rem;
+    }
+    
+    .corner-notification {
+        padding: 0.75rem 1rem;
+        gap: 0.6rem;
+        min-width: 140px;
+    }
+    
+    .mobile-logo {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .mobile-loading-text {
+        font-size: 0.7rem;
+    }
+    
+    .mobile-brand {
+        font-size: 0.6rem;
+    }
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes logoGentlePulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 8px 25px rgba(255, 140, 0, 0.2));
+    }
+    50% {
+        transform: scale(1.02);
+        filter: drop-shadow(0 12px 35px rgba(255, 140, 0, 0.3));
+    }
+}
+
+@keyframes progressBarFill {
+    0% {
+        width: 0%;
+        background-position: 0% 50%;
+    }
+    100% {
+        width: 100%;
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes progressShimmer {
+    0% {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(300px);
+        opacity: 0;
+    }
+}
+
+@keyframes textFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes mobileLogoSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToRight {
+    to {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   FADE OUT ANIMATIONS
+   ======================================== */
+
+.evia-modern-preloader.fade-out .corner-notification {
+    animation: slideOutToRight 0.6s ease-in forwards;
+}
+
+.evia-modern-preloader.fade-out .preloader-logo {
+    animation: logoFadeOut 0.8s ease-out forwards;
+}
+
+.evia-modern-preloader.fade-out .progress-bar-container {
+    animation: contentFadeOut 0.6s ease-out 0.2s forwards;
+}
+
+@keyframes logoFadeOut {
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+@keyframes contentFadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
 
 /* ========================================
    HEADER SECTION
