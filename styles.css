@@ -511,7 +511,8 @@ body {
 .sleek-header-logo {
     width: 120px;
     height: 120px;
-    object-fit: cover;
+    object-fit: contain; /* Changed from 'cover' to 'contain' to show full logo */
+    object-position: center; /* Center the logo within the container */
     border-radius: 20px;
     transition: all 0.5s var(--ease-luxury);
     cursor: pointer;
@@ -524,6 +525,7 @@ body {
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
     position: relative;
     overflow: hidden;
+    padding: 8px; 
 }
 
 .sleek-header-logo::before {
