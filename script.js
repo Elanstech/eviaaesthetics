@@ -533,7 +533,7 @@ class LuxuryPreloader {
 }
 
 /* ========================================
-   HEADER SECTION
+   ENHANCED LUXURY HEADER JAVASCRIPT
    ======================================== */
 
 class EnhancedLuxuryHeader {
@@ -565,7 +565,7 @@ class EnhancedLuxuryHeader {
         
         const headerCTA = document.getElementById('headerCTA');
         if (headerCTA) {
-            headerCTA.addEventListener('click', () => app.smoothScrollTo('#contact'));
+            headerCTA.addEventListener('click', () => this.scrollToContact());
             headerCTA.addEventListener('mouseenter', () => this.addCTAShimmer(headerCTA));
         }
         
@@ -583,30 +583,7 @@ class EnhancedLuxuryHeader {
         const scrollDirection = scrollY > this.lastScrollY ? 'down' : 'up';
         const scrollThreshold = 100;
         
-        if (window.innerWidth > 900) {
-            if (scrollDirection === 'down' && scrollY > scrollThreshold) {
-                if (!this.header.classList.contains('mobile-mode')) {
-                    this.header.classList.add('mobile-mode');
-                    this.header.classList.remove('scrolled');
-                    this.isMobileMode = true;
-                }
-            } else if (scrollDirection === 'up' && scrollY < 50) {
-                if (this.header.classList.contains('mobile-mode')) {
-                    this.header.classList.remove('mobile-mode');
-                    this.isMobileMode = false;
-                }
-            }
-            
-            if (!this.header.classList.contains('mobile-mode')) {
-                const shouldTransform = scrollY > scrollThreshold;
-                if (shouldTransform !== this.isScrolled) {
-                    this.isScrolled = shouldTransform;
-                    this.header.classList.toggle('scrolled', this.isScrolled);
-                }
-            }
-        } else {
-            this.header.classList.remove('mobile-mode');
-            this.isMobileMode = false;
+        if (window.innerWidth > 768) {
             const shouldTransform = scrollY > scrollThreshold;
             if (shouldTransform !== this.isScrolled) {
                 this.isScrolled = shouldTransform;
@@ -619,7 +596,7 @@ class EnhancedLuxuryHeader {
     }
     
     initNavigation() {
-        const navLinks = document.querySelectorAll('.nav-link');
+        const navLinks = document.querySelectorAll('.sleek-nav-link');
         
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
@@ -627,7 +604,7 @@ class EnhancedLuxuryHeader {
             if (href && href.startsWith('#')) {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    app.smoothScrollTo(href);
+                    this.smoothScrollTo(href);
                     this.updateActiveLink(href);
                 });
                 
@@ -641,7 +618,7 @@ class EnhancedLuxuryHeader {
     }
     
     addNavLinkShine(link) {
-        if (EviaUtils.isMobile()) return;
+        if (window.innerWidth <= 768) return;
         
         const shine = document.createElement('div');
         shine.style.cssText = `
@@ -650,10 +627,10 @@ class EnhancedLuxuryHeader {
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             transition: left 0.6s ease;
             pointer-events: none;
-            border-radius: 1.5rem;
+            border-radius: 40px;
             z-index: 0;
         `;
         
@@ -701,7 +678,7 @@ class EnhancedLuxuryHeader {
     }
     
     updateActiveLink(href) {
-        const navLinks = document.querySelectorAll('.nav-link');
+        const navLinks = document.querySelectorAll('.sleek-nav-link');
         
         navLinks.forEach(link => {
             link.classList.remove('active');
@@ -712,8 +689,8 @@ class EnhancedLuxuryHeader {
     }
     
     startHeaderAnimations() {
-        const container = this.header.querySelector('.aluminum-container');
-        if (!container || EviaUtils.isMobile()) return;
+        const container = this.header.querySelector('.sleek-container');
+        if (!container || window.innerWidth <= 768) return;
         
         let floatOffset = 0;
         
@@ -723,7 +700,7 @@ class EnhancedLuxuryHeader {
             floatOffset += 0.005;
             const yOffset = Math.sin(floatOffset) * 0.5;
             
-            if (!this.isScrolled && !this.isMobileMode) {
+            if (!this.isScrolled) {
                 container.style.transform = `translateY(${yOffset}px)`;
             }
             
@@ -735,29 +712,153 @@ class EnhancedLuxuryHeader {
     
     toggleMobileMenu() {
         const toggle = document.getElementById('mobileToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileBackdrop = document.getElementById('mobileBackdrop');
+        
         if (toggle) {
             toggle.classList.toggle('active');
             
-            const mobileMenu = app.getComponent('mobileMenu');
-            if (mobileMenu) {
-                if (toggle.classList.contains('active')) {
-                    mobileMenu.openMenu();
-                } else {
-                    mobileMenu.closeMenu();
-                }
+            if (toggle.classList.contains('active')) {
+                this.openMobileMenu();
+            } else {
+                this.closeMobileMenu();
             }
         }
     }
     
+    openMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileBackdrop = document.getElementById('mobileBackdrop');
+        
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add('menu-open');
+        
+        if (mobileBackdrop) mobileBackdrop.classList.add('active');
+        if (mobileMenu) mobileMenu.classList.add('active');
+        
+        // Animate nav items
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            }, index * 100);
+        });
+    }
+    
+    closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileBackdrop = document.getElementById('mobileBackdrop');
+        const toggle = document.getElementById('mobileToggle');
+        
+        // Reverse animate nav items
+        const navItems = document.querySelectorAll('.nav-item');
+        const reverseItems = Array.from(navItems).reverse();
+        reverseItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(50px)';
+            }, index * 50);
+        });
+        
+        setTimeout(() => {
+            if (mobileMenu) mobileMenu.classList.remove('active');
+            if (mobileBackdrop) mobileBackdrop.classList.remove('active');
+            if (toggle) toggle.classList.remove('active');
+            
+            document.body.style.overflow = '';
+            document.body.classList.remove('menu-open');
+        }, 400);
+    }
+    
+    smoothScrollTo(target, offset = 100) {
+        const element = document.querySelector(target);
+        if (!element) return;
+        
+        const targetPosition = element.offsetTop - offset;
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+    }
+    
+    scrollToContact() {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+    
     onResize() {
-        if (window.innerWidth <= 900) {
-            this.header.classList.remove('mobile-mode');
-            this.isMobileMode = false;
+        if (window.innerWidth <= 768) {
             const toggle = document.getElementById('mobileToggle');
             if (toggle) toggle.classList.remove('active');
+            this.closeMobileMenu();
         }
     }
 }
+
+// Mobile Menu Close Handler
+document.addEventListener('DOMContentLoaded', () => {
+    const header = new EnhancedLuxuryHeader();
+    
+    // Mobile menu close button
+    const mobileClose = document.getElementById('mobileClose');
+    if (mobileClose) {
+        mobileClose.addEventListener('click', () => {
+            header.closeMobileMenu();
+        });
+    }
+    
+    // Mobile backdrop click
+    const mobileBackdrop = document.getElementById('mobileBackdrop');
+    if (mobileBackdrop) {
+        mobileBackdrop.addEventListener('click', () => {
+            header.closeMobileMenu();
+        });
+    }
+    
+    // Mobile menu navigation links
+    const mobileNavLinks = document.querySelectorAll('.nav-item .nav-link');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                
+                header.closeMobileMenu();
+                
+                setTimeout(() => {
+                    header.smoothScrollTo(href);
+                }, 300);
+            }
+        });
+    });
+    
+    // Menu CTA button
+    const menuCTA = document.querySelector('.menu-cta');
+    if (menuCTA) {
+        menuCTA.addEventListener('click', () => {
+            header.closeMobileMenu();
+            
+            setTimeout(() => {
+                header.scrollToContact();
+            }, 300);
+        });
+    }
+    
+    // Window resize handler
+    window.addEventListener('resize', () => {
+        header.onResize();
+    });
+    
+    // Make header globally available
+    window.luxuryHeader = header;
+});
 
 /* ========================================
    MOBILE MENU SECTION
