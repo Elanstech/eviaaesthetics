@@ -160,7 +160,7 @@ class EviaAestheticsApp {
         this.components.set('header', new LuxuryHeader());
         this.components.set('mobileMenu', new MobileMenu());
         this.components.set('servicesCarousel', new HermesServicesCarousel());
-        this.components.set('aboutSection', new AboutSection());
+        this.components.set('aboutSection', new HermesAboutSection());
         this.components.set('resultsGallery', new ResultsGallery());
         this.components.set('contactForm', new ContactForm());
         this.components.set('scrollIndicator', new ScrollIndicator());
@@ -1602,12 +1602,28 @@ if ('performance' in window && 'mark' in performance) {
 /* ========================================
    ABOUT SECTION COMPONENT
    ======================================== */
-class AboutSection {
+/**
+ * Hermes About Section Component
+ * Enhanced luxury about section with navigation and analytics
+ */
+class HermesAboutSection {
     constructor() {
-        this.section = document.querySelector('.hermes-about-section');
-        this.consultationBtn = document.getElementById('hermesConsultationBtn');
-        this.learnMoreBtn = document.getElementById('hermesLearnMoreBtn');
-        this.mobileAboutBtn = document.getElementById('mobileAboutBtn');
+        this.section = document.querySelector('.hermes-about-showcase');
+        this.profileCard = document.querySelector('.doctor-profile-luxury');
+        this.profileCtaBtn = document.querySelector('.doctor-profile-cta');
+        this.mobileProfileBtn = document.querySelector('.mobile-profile-btn');
+        this.primaryCta = document.querySelector('.primary-cta-luxury');
+        this.secondaryCta = document.querySelector('.secondary-cta-luxury');
+        this.expertiseItems = document.querySelectorAll('.expertise-item');
+        
+        // State management
+        this.isAnimating = false;
+        this.hasBeenViewed = false;
+        this.interactionCount = 0;
+        
+        // Performance optimization
+        this.resizeTimeout = null;
+        this.scrollTimeout = null;
         
         if (this.section) {
             this.init();
@@ -1616,91 +1632,848 @@ class AboutSection {
 
     init() {
         this.bindEvents();
-        this.initScrollReveal();
+        this.setupIntersectionObserver();
+        this.initializeLuxuryEffects();
+        this.setupAccessibility();
+        
+        console.log('✨ Hermes About Section Initialized with Luxury Experience');
     }
 
     bindEvents() {
-        if (this.consultationBtn) {
-            this.consultationBtn.addEventListener('click', () => this.scrollToContact());
-        }
-
-        if (this.learnMoreBtn) {
-            this.learnMoreBtn.addEventListener('click', () => this.showLearnMoreFeedback());
-        }
-
-        if (this.mobileAboutBtn) {
-            this.mobileAboutBtn.addEventListener('click', () => this.showMobileAboutFeedback());
-        }
-    }
-
-    initScrollReveal() {
-        const revealElements = this.section.querySelectorAll('[data-hermes-reveal]');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('reveal');
-                    }, parseInt(entry.target.dataset.delay) || 0);
-                }
+        // Profile CTA navigation
+        if (this.profileCtaBtn) {
+            this.profileCtaBtn.addEventListener('click', (e) => {
+                this.handleProfileNavigation(e, 'profile_cta_desktop');
             });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        }
+
+        if (this.mobileProfileBtn) {
+            this.mobileProfileBtn.addEventListener('click', (e) => {
+                this.handleProfileNavigation(e, 'profile_cta_mobile');
+            });
+        }
+
+        // Primary CTA (Meet Dr. Nano)
+        if (this.primaryCta) {
+            this.primaryCta.addEventListener('click', (e) => {
+                this.handlePrimaryCta(e);
+            });
+        }
+
+        // Secondary CTA (Schedule Consultation)
+        if (this.secondaryCta) {
+            this.secondaryCta.addEventListener('click', (e) => {
+                this.handleSecondaryCta(e);
+            });
+        }
+
+        // Expertise items interaction
+        this.expertiseItems.forEach((item, index) => {
+            item.addEventListener('click', (e) => {
+                this.handleExpertiseClick(e, item, index);
+            });
+            
+            item.addEventListener('mouseenter', () => {
+                this.handleExpertiseHover(item);
+            });
         });
 
-        revealElements.forEach(element => observer.observe(element));
+        // Profile card enhanced interactions
+        if (this.profileCard) {
+            this.profileCard.addEventListener('mouseenter', () => this.handleProfileCardHover());
+            this.profileCard.addEventListener('mouseleave', () => this.handleProfileCardLeave());
+            this.profileCard.addEventListener('click', (e) => {
+                if (!e.target.closest('button')) {
+                    this.handleProfileCardClick(e);
+                }
+            });
+        }
+
+        // Window events
+        window.addEventListener('resize', () => {
+            clearTimeout(this.resizeTimeout);
+            this.resizeTimeout = setTimeout(() => this.handleResize(), 250);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => this.handleKeyboardNav(e));
     }
 
-    scrollToContact() {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            contactSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+    handleProfileNavigation(event, source) {
+        if (this.isAnimating) return;
+        
+        event.preventDefault();
+        this.isAnimating = true;
+        
+        // Add luxury loading state to button
+        this.addLuxuryLoadingState(event.currentTarget);
+        
+        // Show navigation feedback
+        this.showLuxuryNavigationFeedback('about');
+        
+        // Track interaction
+        this.trackEvent('profile_navigation_clicked', {
+            source: source,
+            interaction_count: ++this.interactionCount,
+            viewport_width: window.innerWidth,
+            time_on_section: this.getTimeOnSection()
+        });
+        
+        // Navigate with luxury timing
+        setTimeout(() => {
+            window.location.href = 'about.html';
+        }, 600);
+    }
+
+    handlePrimaryCta(event) {
+        event.preventDefault();
+        
+        // Add shimmer effect
+        this.triggerShimmerEffect(event.currentTarget);
+        
+        // Show loading feedback
+        this.showLuxuryNavigationFeedback('about', 'Exploring Dr. Nano\'s complete profile...');
+        
+        // Track primary CTA click
+        this.trackEvent('primary_cta_clicked', {
+            cta_text: 'Meet Dr. Nano',
+            section: 'about',
+            user_journey_step: 'profile_discovery'
+        });
+        
+        // Navigate to about page
+        setTimeout(() => {
+            window.location.href = 'about.html';
+        }, 500);
+    }
+
+    handleSecondaryCta(event) {
+        // Add ripple effect
+        this.addRippleEffect(event.currentTarget, event);
+        
+        // Track consultation request
+        this.trackEvent('consultation_requested', {
+            source: 'about_section_secondary_cta',
+            doctor_interest: true
+        });
+        
+        // Smooth scroll to contact section
+        this.smoothScrollToContact();
+    }
+
+    handleExpertiseClick(event, item, index) {
+        const specialty = item.dataset.specialty;
+        
+        // Add click feedback
+        this.addExpertiseClickEffect(item);
+        
+        // Track expertise interest
+        this.trackEvent('expertise_clicked', {
+            specialty: specialty,
+            index: index,
+            section: 'about_expertise_preview'
+        });
+        
+        // Show feedback about expertise
+        this.showExpertiseFeedback(specialty);
+    }
+
+    handleExpertiseHover(item) {
+        // Add luxury hover sound effect
+        this.playLuxuryHoverSound();
+        
+        // Enhanced hover animation
+        const icon = item.querySelector('.expertise-icon');
+        if (icon) {
+            icon.style.transform = 'rotate(10deg) scale(1.1)';
+            setTimeout(() => {
+                icon.style.transform = '';
+            }, 300);
         }
     }
 
-    showLearnMoreFeedback() {
-        this.showFeedback('Loading more about Dr. Nano...', 'ri-information-line');
+    handleProfileCardHover() {
+        // Track hover engagement
+        this.trackEvent('profile_card_hovered', {
+            engagement_type: 'hover',
+            time_on_section: this.getTimeOnSection()
+        });
+        
+        // Add subtle glow effect
+        this.addProfileGlowEffect();
     }
 
-    showMobileAboutFeedback() {
-        this.showFeedback('Navigating to About page...', 'ri-user-heart-line');
+    handleProfileCardLeave() {
+        // Remove glow effect
+        this.removeProfileGlowEffect();
     }
 
-    showFeedback(message, icon) {
+    handleProfileCardClick(event) {
+        if (window.innerWidth <= 768) {
+            // Mobile card click navigation
+            this.handleProfileNavigation(event, 'profile_card_mobile');
+        } else {
+            // Desktop card click feedback
+            this.addCardPressEffect();
+            this.showMobileHint();
+        }
+    }
+
+    showLuxuryNavigationFeedback(destination, customMessage = null) {
+        const messages = {
+            'about': 'Loading Dr. Nano\'s complete profile...',
+            'consultation': 'Preparing consultation booking...'
+        };
+
+        const message = customMessage || messages[destination] || 'Loading...';
+
         const feedback = document.createElement('div');
+        feedback.className = 'hermes-navigation-feedback';
         feedback.style.cssText = `
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            color: white; padding: 20px 32px; border-radius: 24px;
-            font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
-            z-index: 10000; pointer-events: none; opacity: 0;
-            backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
-            display: flex; align-items: center; gap: 12px; min-width: 280px; justify-content: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, 
+                rgba(255, 140, 0, 0.95) 0%, 
+                rgba(255, 165, 0, 0.95) 50%, 
+                rgba(255, 122, 0, 0.95) 100%);
+            color: white;
+            padding: 24px 36px;
+            border-radius: 60px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(40px);
+            box-shadow: 
+                0 25px 100px rgba(255, 140, 0, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.5px;
+            min-width: 300px;
+            justify-content: center;
         `;
         
         feedback.innerHTML = `
-            <i class="${icon}" style="font-size: 18px;"></i>
+            <div class="hermes-luxury-spinner" style="
+                width: 20px; 
+                height: 20px; 
+                border: 2.5px solid rgba(255,255,255,0.3); 
+                border-top: 2.5px solid white; 
+                border-radius: 50%; 
+                animation: luxurySpinner 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            "></div>
             <span>${message}</span>
         `;
         
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            feedback.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
+        // Auto-remove if navigation doesn't happen
+        setTimeout(() => {
+            if (feedback.parentNode) {
+                feedback.style.opacity = '0';
+                feedback.style.transform = 'translate(-50%, -50%) scale(0.95)';
+                setTimeout(() => feedback.remove(), 600);
+            }
+        }, 3000);
+    }
+
+    addLuxuryLoadingState(button) {
+        const originalContent = button.innerHTML;
+        button.style.pointerEvents = 'none';
+        button.style.opacity = '0.8';
+        
+        const spinner = document.createElement('div');
+        spinner.style.cssText = `
+            width: 16px; 
+            height: 16px; 
+            border: 2px solid rgba(255,255,255,0.3); 
+            border-top: 2px solid white; 
+            border-radius: 50%; 
+            animation: luxurySpinner 1s linear infinite;
+            margin-right: 8px;
+        `;
+        
+        button.innerHTML = '';
+        button.appendChild(spinner);
+        button.appendChild(document.createTextNode('Loading...'));
+        
+        // Restore after navigation timeout
+        setTimeout(() => {
+            if (button.parentNode) {
+                button.innerHTML = originalContent;
+                button.style.pointerEvents = '';
+                button.style.opacity = '';
+            }
+        }, 1000);
+    }
+
+    triggerShimmerEffect(element) {
+        const shimmer = element.querySelector('.cta-shimmer-effect');
+        if (shimmer) {
+            shimmer.style.transition = 'none';
+            shimmer.style.left = '-100%';
+            
+            requestAnimationFrame(() => {
+                shimmer.style.transition = 'left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                shimmer.style.left = '100%';
+            });
+        }
+    }
+
+    addRippleEffect(element, event) {
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+        
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            transform: scale(0);
+            animation: hermesRipple 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: none;
+            z-index: 10;
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 800);
+    }
+
+    addExpertiseClickEffect(item) {
+        item.style.transform = 'translateY(-2px) scale(0.98)';
+        setTimeout(() => {
+            item.style.transform = '';
+        }, 200);
+    }
+
+    addProfileGlowEffect() {
+        if (this.profileCard) {
+            this.profileCard.style.boxShadow = `
+                0 25px 100px rgba(255, 140, 0, 0.15),
+                0 10px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 140, 0, 0.1)
+            `;
+        }
+    }
+
+    removeProfileGlowEffect() {
+        if (this.profileCard) {
+            this.profileCard.style.boxShadow = '';
+        }
+    }
+
+    addCardPressEffect() {
+        if (this.profileCard) {
+            this.profileCard.style.transform = 'translateY(-6px) scale(0.98)';
+            setTimeout(() => {
+                this.profileCard.style.transform = '';
+            }, 200);
+        }
+    }
+
+    showExpertiseFeedback(specialty) {
+        const specialtyNames = {
+            'injectables': 'Injectable Treatments',
+            'wellness': 'Medical Wellness',
+            'aesthetic': 'Aesthetic Procedures'
+        };
+
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #2A1B0A 0%, #5D4E37 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        `;
+        
+        feedback.innerHTML = `
+            <i class="ri-information-line"></i>
+            <span>Learn more about ${specialtyNames[specialty] || specialty} on the About page</span>
+        `;
+        
+        document.body.appendChild(feedback);
+        
+        requestAnimationFrame(() => {
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translateX(0)';
+        });
+        
         setTimeout(() => {
             feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => feedback.remove(), 400);
-        }, 2500);
+            feedback.style.transform = 'translateX(100px)';
+            setTimeout(() => feedback.remove(), 500);
+        }, 4000);
     }
+
+    showMobileHint() {
+        const hint = document.createElement('div');
+        hint.style.cssText = `
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(42, 27, 10, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 100;
+        `;
+        
+        hint.textContent = 'Click "View Full Profile" button to learn more';
+        this.profileCard.style.position = 'relative';
+        this.profileCard.appendChild(hint);
+        
+        requestAnimationFrame(() => {
+            hint.style.opacity = '1';
+            hint.style.transform = 'translateX(-50%) translateY(-5px)';
+        });
+        
+        setTimeout(() => {
+            if (hint.parentNode) {
+                hint.style.opacity = '0';
+                setTimeout(() => hint.remove(), 300);
+            }
+        }, 3000);
+    }
+
+    smoothScrollToContact() {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            const headerHeight = 100;
+            const elementPosition = contactSection.offsetTop - headerHeight;
+            
+            this.smoothScrollTo(elementPosition, 1200);
+        }
+    }
+
+    smoothScrollTo(targetPosition, duration) {
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        let startTime = null;
+
+        const animation = (currentTime) => {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            
+            // Luxury easing function
+            const easeProgress = this.easeInOutCubic(progress);
+            
+            window.scrollTo(0, startPosition + distance * easeProgress);
+            
+            if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+            }
+        };
+
+        requestAnimationFrame(animation);
+    }
+
+    easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    }
+
+    setupIntersectionObserver() {
+        // Track when section comes into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !this.hasBeenViewed) {
+                    this.hasBeenViewed = true;
+                    this.sectionViewTime = Date.now();
+                    
+                    // Track section view
+                    this.trackEvent('about_section_viewed', {
+                        viewport_width: window.innerWidth,
+                        viewport_height: window.innerHeight,
+                        scroll_depth: Math.round((window.pageYOffset / document.body.scrollHeight) * 100)
+                    });
+                    
+                    // Trigger entrance animations
+                    this.triggerEntranceAnimations();
+                }
+            });
+        }, { 
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        if (this.section) {
+            observer.observe(this.section);
+        }
+    }
+
+    triggerEntranceAnimations() {
+        // Stagger entrance animations for luxury feel
+        const elements = [
+            this.section.querySelector('.hermes-about-header'),
+            this.section.querySelector('.doctor-profile-luxury'),
+            this.section.querySelector('.expertise-preview-column'),
+            this.section.querySelector('.about-transformation-cta')
+        ];
+
+        elements.forEach((element, index) => {
+            if (element) {
+                setTimeout(() => {
+                    element.classList.add('animate-entrance');
+                }, index * 200);
+            }
+        });
+    }
+
+    initializeLuxuryEffects() {
+        // Add subtle parallax effect to background orbs
+        window.addEventListener('scroll', () => {
+            if (!this.scrollTimeout) {
+                this.scrollTimeout = setTimeout(() => {
+                    this.updateParallaxEffects();
+                    this.scrollTimeout = null;
+                }, 16);
+            }
+        }, { passive: true });
+
+        // Initialize hover effects for better performance
+        this.preloadHoverEffects();
+    }
+
+    updateParallaxEffects() {
+        if (!this.isElementInViewport()) return;
+
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+
+        const orbs = this.section.querySelectorAll('.ambient-orb');
+        orbs.forEach((orb, index) => {
+            const speed = (index + 1) * 0.2;
+            orb.style.transform = `translate3d(0, ${rate * speed}px, 0)`;
+        });
+    }
+
+    preloadHoverEffects() {
+        // Preload hover states for smoother interactions
+        const hoverElements = [
+            this.profileCard,
+            ...this.expertiseItems,
+            this.primaryCta,
+            this.secondaryCta
+        ];
+
+        hoverElements.forEach(element => {
+            if (element) {
+                element.style.willChange = 'transform, box-shadow';
+            }
+        });
+    }
+
+    setupAccessibility() {
+        // Enhanced keyboard navigation
+        const interactiveElements = [
+            this.profileCtaBtn,
+            this.mobileProfileBtn,
+            this.primaryCta,
+            this.secondaryCta,
+            ...this.expertiseItems
+        ];
+
+        interactiveElements.forEach(element => {
+            if (element) {
+                element.setAttribute('tabindex', '0');
+                element.addEventListener('focus', (e) => this.handleElementFocus(e));
+                element.addEventListener('blur', (e) => this.handleElementBlur(e));
+            }
+        });
+    }
+
+    handleElementFocus(event) {
+        event.target.style.outline = '3px solid rgba(255, 140, 0, 0.5)';
+        event.target.style.outlineOffset = '2px';
+    }
+
+    handleElementBlur(event) {
+        event.target.style.outline = '';
+        event.target.style.outlineOffset = '';
+    }
+
+    handleKeyboardNav(event) {
+        if (!this.isElementInViewport()) return;
+
+        switch(event.key) {
+            case 'Enter':
+            case ' ':
+                const focusedElement = document.activeElement;
+                if (focusedElement && this.section.contains(focusedElement)) {
+                    event.preventDefault();
+                    focusedElement.click();
+                }
+                break;
+        }
+    }
+
+    handleResize() {
+        // Update parallax calculations and responsive behaviors
+        this.updateParallaxEffects();
+        
+        // Track resize for analytics
+        this.trackEvent('viewport_resized', {
+            new_width: window.innerWidth,
+            new_height: window.innerHeight
+        });
+    }
+
+    playLuxuryHoverSound() {
+        // Placeholder for luxury hover sound effect
+        if (window.AudioContext && this.hasBeenViewed) {
+            // Could implement subtle luxury hover sounds
+        }
+    }
+
+    isElementInViewport() {
+        if (!this.section) return false;
+        const rect = this.section.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
+    }
+
+    getTimeOnSection() {
+        return this.sectionViewTime ? Date.now() - this.sectionViewTime : 0;
+    }
+
+    trackEvent(eventName, eventData = {}) {
+        // Enhanced analytics tracking
+        const analyticsData = {
+            event_category: 'Hermes About Section',
+            event_label: eventData.source || 'general',
+            custom_parameters: {
+                section_state: {
+                    has_been_viewed: this.hasBeenViewed,
+                    interaction_count: this.interactionCount,
+                    time_on_section: this.getTimeOnSection()
+                },
+                user_context: {
+                    timestamp: Date.now(),
+                    viewport_width: window.innerWidth,
+                    viewport_height: window.innerHeight,
+                    user_agent: navigator.userAgent.substr(0, 100)
+                },
+                ...eventData
+            }
+        };
+
+        // Google Analytics 4 tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, analyticsData);
+        }
+
+        // Custom analytics endpoint
+        if (window.customAnalytics) {
+            window.customAnalytics.track(eventName, analyticsData);
+        }
+        
+        // Development logging
+        console.log(`📊 Hermes About Event: ${eventName}`, analyticsData);
+    }
+
+    // Public API methods
+    scrollToSection() {
+        if (this.section) {
+            this.section.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+    }
+
+    highlightExpertise(specialty) {
+        const expertiseItem = document.querySelector(`[data-specialty="${specialty}"]`);
+        if (expertiseItem) {
+            expertiseItem.classList.add('highlighted');
+            setTimeout(() => {
+                expertiseItem.classList.remove('highlighted');
+            }, 2000);
+        }
+    }
+
+    getInteractionStats() {
+        return {
+            interactionCount: this.interactionCount,
+            timeOnSection: this.getTimeOnSection(),
+            hasBeenViewed: this.hasBeenViewed
+        };
+    }
+
+    destroy() {
+        // Clean up event listeners and timeouts
+        if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
+        if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
+        
+        // Remove event listeners
+        const elements = [
+            this.profileCtaBtn,
+            this.mobileProfileBtn,
+            this.primaryCta,
+            this.secondaryCta,
+            ...this.expertiseItems
+        ];
+
+        elements.forEach(element => {
+            if (element) {
+                element.replaceWith(element.cloneNode(true));
+            }
+        });
+        
+        console.log('✨ Hermes About Section Destroyed');
+    }
+}
+
+// Enhanced CSS animations and luxury effects
+const hermesAboutLuxuryCSS = `
+<style>
+@keyframes luxurySpinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes hermesRipple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.animate-entrance {
+    animation: luxuryEntrance 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes luxuryEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.expertise-item.highlighted {
+    transform: translateY(-8px) scale(1.02) !important;
+    border-color: rgba(255, 140, 0, 0.4) !important;
+    box-shadow: 0 12px 40px rgba(255, 140, 0, 0.2) !important;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* Focus styles for accessibility */
+.hermes-about-showcase *:focus {
+    outline: 3px solid rgba(255, 140, 0, 0.5) !important;
+    outline-offset: 2px !important;
+}
+
+/* Performance optimizations */
+.doctor-profile-luxury,
+.expertise-item,
+.primary-cta-luxury,
+.secondary-cta-luxury {
+    will-change: transform;
+}
+
+/* Luxury loading states */
+.luxury-loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.luxury-loading::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 140, 0, 0.1) 50%, 
+        transparent 100%);
+    animation: luxuryShimmer 2s ease-in-out infinite;
+}
+
+@keyframes luxuryShimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .hermes-navigation-feedback {
+        left: 10px !important;
+        right: 10px !important;
+        transform: translateY(-50%) !important;
+        min-width: auto !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+}
+</style>`;
+
+// Initialize the Hermes About Section when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Add luxury CSS animations
+    document.head.insertAdjacentHTML('beforeend', hermesAboutLuxuryCSS);
+    
+    // Initialize about section with luxury enhancements
+    if (document.querySelector('.hermes-about-showcase')) {
+        window.hermesAboutSection = new HermesAboutSection();
+        
+        console.log('🏛️ Hermes About Experience Activated');
+    }
+});
+
+// Export for external use and testing
+if (typeof window !== 'undefined') {
+    window.HermesAboutSection = HermesAboutSection;
+}
+
+// Performance monitoring
+if ('performance' in window && 'mark' in performance) {
+    performance.mark('hermes-about-script-loaded');
 }
 
 /* ========================================
