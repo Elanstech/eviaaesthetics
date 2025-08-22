@@ -1,6 +1,5 @@
 /* ========================================
    EVIA AESTHETICS - COMPLETE LUXURY EXPERIENCE
-   ORGANIZED JAVASCRIPT WITH ALL SECTIONS
    ======================================== */
 
 'use strict';
