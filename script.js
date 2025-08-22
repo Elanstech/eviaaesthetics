@@ -138,7 +138,7 @@ class EviaLuxuryApp {
             { name: 'instagramReviews', class: RedesignedSocialSections },
             { name: 'LuxuryProductsSection', class: EnhancedProductsCarousel },
             { name: 'contactSection', class: HermesLuxuryContactSection },
-            { name: 'floatingButtons', class: LuxuryFloatingButtons }
+            { name: 'floatingButtons', class: MinimalisticFloatingButtons }
         ];
         
         componentDefinitions.forEach(({ name, class: ComponentClass }) => {
@@ -5915,12 +5915,12 @@ if (typeof module !== 'undefined' && module.exports) {
    FLOATING BUTTONS SECTION
    ======================================== */
 
-class LuxuryFloatingButtons {
+class MinimalisticFloatingButtons {
     constructor() {
-        this.callBtn = document.getElementById('luxuryCallBtn');
-        this.topBtn = document.getElementById('luxuryTopBtn');
+        this.callBtn = document.getElementById('miniCallBtn');
+        this.topBtn = document.getElementById('miniTopBtn');
         this.isVisible = false;
-        this.scrollThreshold = 300;
+        this.scrollThreshold = 200;
         this.lastScrollY = 0;
         this.ticking = false;
         
@@ -5931,10 +5931,11 @@ class LuxuryFloatingButtons {
     
     init() {
         this.bindEvents();
-        this.showButtonsWithDelay();
+        this.showWithDelay();
     }
     
     bindEvents() {
+        // Scroll handling for back to top button
         window.addEventListener('scroll', () => {
             if (!this.ticking) {
                 requestAnimationFrame(() => this.handleScroll());
@@ -5942,21 +5943,17 @@ class LuxuryFloatingButtons {
             }
         }, { passive: true });
         
+        // Call button
         if (this.callBtn) {
-            this.callBtn.addEventListener('click', (e) => this.handleCallClick(e));
-            this.callBtn.addEventListener('mouseenter', () => this.addRippleEffect(this.callBtn));
+            this.callBtn.addEventListener('click', (e) => this.handleCall(e));
+            this.callBtn.addEventListener('mouseenter', () => this.addRipple(this.callBtn));
         }
         
+        // Top button
         if (this.topBtn) {
-            this.topBtn.addEventListener('click', (e) => this.handleTopClick(e));
-            this.topBtn.addEventListener('mouseenter', () => this.addRippleEffect(this.topBtn));
+            this.topBtn.addEventListener('click', (e) => this.handleTop(e));
+            this.topBtn.addEventListener('mouseenter', () => this.addRipple(this.topBtn));
         }
-        
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                this.showButtons();
-            }, 2000);
-        });
     }
     
     handleScroll() {
@@ -5973,47 +5970,37 @@ class LuxuryFloatingButtons {
         this.ticking = false;
     }
     
-    showButtonsWithDelay() {
+    showWithDelay() {
+        // Show call button after page load
         setTimeout(() => {
             this.showCallButton();
-        }, 3000);
+        }, 2000);
         
+        // Show top button if needed
         setTimeout(() => {
             if (window.pageYOffset > this.scrollThreshold) {
                 this.showTopButton();
             }
-        }, 3500);
-    }
-    
-    showButtons() {
-        this.showCallButton();
-        
-        if (window.pageYOffset > this.scrollThreshold) {
-            this.showTopButton();
-        }
-        
-        this.isVisible = true;
+        }, 2500);
     }
     
     showCallButton() {
         if (this.callBtn && !this.callBtn.classList.contains('show')) {
-            this.callBtn.style.animation = 'fab-entrance 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
-            this.callBtn.classList.add('show');
+            this.callBtn.classList.add('enter', 'show');
             
+            // Add pulse effect for attention
             setTimeout(() => {
-                this.addBounceEffect(this.callBtn);
-            }, 800);
+                this.callBtn.classList.add('pulse');
+                setTimeout(() => {
+                    this.callBtn.classList.remove('pulse');
+                }, 4000);
+            }, 1000);
         }
     }
     
     showTopButton() {
         if (this.topBtn && !this.topBtn.classList.contains('show')) {
-            this.topBtn.style.animation = 'fab-entrance 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
-            this.topBtn.classList.add('show');
-            
-            setTimeout(() => {
-                this.addBounceEffect(this.topBtn);
-            }, 800);
+            this.topBtn.classList.add('enter', 'show');
         }
     }
     
@@ -6023,88 +6010,76 @@ class LuxuryFloatingButtons {
         }
     }
     
-    handleCallClick(e) {
+    handleCall(e) {
         e.preventDefault();
         
-        this.triggerRipple(this.callBtn, e);
+        this.triggerRipple(this.callBtn);
         this.addClickFeedback(this.callBtn);
         
         const phoneNumber = '2016394983';
-        const telLink = `tel:${phoneNumber}`;
         
-        this.showCallingFeedback();
+        this.showFeedback('Connecting call...', '#10B981');
         
-        window.location.href = telLink;
+        setTimeout(() => {
+            window.location.href = `tel:${phoneNumber}`;
+        }, 300);
         
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'phone_call', {
-                event_category: 'engagement',
-                event_label: 'floating_call_button'
-            });
-        }
+        this.trackEvent('mini_call_button', 'engagement', 'phone_call');
     }
     
-    handleTopClick(e) {
+    handleTop(e) {
         e.preventDefault();
         
-        this.triggerRipple(this.topBtn, e);
+        this.triggerRipple(this.topBtn);
         this.addClickFeedback(this.topBtn);
         
         this.scrollToTop();
         
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'scroll_to_top', {
-                event_category: 'navigation',
-                event_label: 'floating_top_button'
-            });
-        }
+        this.trackEvent('mini_top_button', 'navigation', 'scroll_to_top');
     }
     
     scrollToTop() {
-        const startPosition = window.pageYOffset;
+        const duration = 1000;
+        const start = window.pageYOffset;
         const startTime = performance.now();
-        const duration = 1200;
         
-        const easeOutCubic = (t) => {
-            return 1 - Math.pow(1 - t, 3);
-        };
+        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
         
         const scroll = (currentTime) => {
-            const timeElapsed = currentTime - startTime;
-            const progress = Math.min(timeElapsed / duration, 1);
-            const easedProgress = easeOutCubic(progress);
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = easeOutCubic(progress);
             
-            window.scrollTo(0, startPosition * (1 - easedProgress));
+            window.scrollTo(0, start * (1 - eased));
             
             if (progress < 1) {
                 requestAnimationFrame(scroll);
             } else {
-                this.onScrollComplete();
+                // Success feedback
+                this.showTopSuccess();
             }
         };
         
         requestAnimationFrame(scroll);
     }
     
-    onScrollComplete() {
-        this.addSuccessFeedback(this.topBtn);
+    showTopSuccess() {
+        const icon = this.topBtn.querySelector('i');
+        const originalClass = icon.className;
+        
+        icon.className = 'ri-check-line';
+        this.topBtn.style.background = 'rgba(16, 185, 129, 0.95)';
+        this.topBtn.style.color = 'white';
         
         setTimeout(() => {
+            icon.className = originalClass;
+            this.topBtn.style.background = '';
+            this.topBtn.style.color = '';
             this.hideTopButton();
-        }, 1000);
+        }, 2000);
     }
     
-    triggerRipple(button, event) {
-        const ripple = button.querySelector('.fab-ripple');
-        if (!ripple) return;
-        
-        const rect = button.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        
-        ripple.style.left = `${x}px`;
-        ripple.style.top = `${y}px`;
-        
+    triggerRipple(button) {
         button.classList.add('ripple-active');
         
         setTimeout(() => {
@@ -6112,133 +6087,88 @@ class LuxuryFloatingButtons {
         }, 600);
     }
     
-    addRippleEffect(button) {
-        const ripple = button.querySelector('.fab-ripple');
-        if (ripple) {
-            ripple.style.left = '50%';
-            ripple.style.top = '50%';
-            button.classList.add('ripple-active');
-            
-            setTimeout(() => {
-                button.classList.remove('ripple-active');
-            }, 600);
+    addRipple(button) {
+        if (!button.classList.contains('ripple-active')) {
+            this.triggerRipple(button);
         }
     }
     
     addClickFeedback(button) {
-        button.style.transform = 'translateY(-4px) scale(0.95)';
+        button.style.transform = 'scale(0.9)';
         
         setTimeout(() => {
             button.style.transform = '';
         }, 150);
     }
     
-    addBounceEffect(button) {
-        button.style.animation = 'none';
-        button.offsetHeight;
-        button.style.animation = 'arrow-bounce 0.6s ease-out';
-        
-        setTimeout(() => {
-            button.style.animation = '';
-        }, 600);
-    }
-    
-    addSuccessFeedback(button) {
-        const icon = button.querySelector('.fab-icon i');
-        if (icon) {
-            const originalClass = icon.className;
-            icon.className = 'ri-check-line';
-            
-            setTimeout(() => {
-                icon.className = originalClass;
-            }, 2000);
-        }
-    }
-    
-    showCallingFeedback() {
+    showFeedback(message, color) {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            background: ${color};
             color: white;
-            padding: 1rem 2rem;
-            border-radius: 2rem;
-            font-family: var(--font-inter);
-            font-size: 0.9rem;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
             font-weight: 600;
-            z-index: 10000;
-            pointer-events: none;
+            z-index: 10001;
             opacity: 0;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         `;
         
-        feedback.innerHTML = `
-            <i class="ri-phone-line" style="font-size: 1.1rem;"></i>
-            <span>Connecting call...</span>
-        `;
-        
+        feedback.textContent = message;
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
         setTimeout(() => {
             feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.8)';
-            
             setTimeout(() => {
                 if (feedback.parentNode) {
                     feedback.parentNode.removeChild(feedback);
                 }
-            }, 400);
-        }, 2500);
+            }, 300);
+        }, 2000);
     }
     
+    trackEvent(action, category, label) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                event_category: category,
+                event_label: label,
+                value: 1
+            });
+        }
+        
+        console.log(`📊 Event: ${action} - ${category} - ${label}`);
+    }
+    
+    // Public methods
     show() {
-        this.showButtons();
+        this.showCallButton();
+        if (window.pageYOffset > this.scrollThreshold) {
+            this.showTopButton();
+        }
+        this.isVisible = true;
     }
     
     hide() {
-        if (this.callBtn) {
-            this.callBtn.classList.remove('show');
-        }
-        if (this.topBtn) {
-            this.topBtn.classList.remove('show');
-        }
+        this.callBtn?.classList.remove('show');
+        this.topBtn?.classList.remove('show');
         this.isVisible = false;
-    }
-    
-    toggle() {
-        if (this.isVisible) {
-            this.hide();
-        } else {
-            this.show();
-        }
     }
     
     destroy() {
         window.removeEventListener('scroll', this.handleScroll);
-        window.removeEventListener('load', this.showButtons);
-        
-        if (this.callBtn) {
-            this.callBtn.removeEventListener('click', this.handleCallClick);
-            this.callBtn.removeEventListener('mouseenter', this.addRippleEffect);
-        }
-        
-        if (this.topBtn) {
-            this.topBtn.removeEventListener('click', this.handleTopClick);
-            this.topBtn.removeEventListener('mouseenter', this.addRippleEffect);
-        }
+        this.callBtn?.removeEventListener('click', this.handleCall);
+        this.topBtn?.removeEventListener('click', this.handleTop);
     }
 }
 
@@ -6482,7 +6412,7 @@ if (typeof module !== 'undefined' && module.exports) {
         RedesignedSocialSections,
         EnhancedProductsCarousel,
         HermesLuxuryContactSection,
-        LuxuryFloatingButtons,
+        MinimalisticFloatingButtons,
         CinematicHero,
         EviaConfig
     };
