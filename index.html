@@ -276,276 +276,237 @@
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section class="enhanced-services-section" id="services">
-        <div class="services-container">
-            <div class="services-header" data-aos="fade-up">
-                <div class="header-badge">
-                    <span class="badge-dot"></span>
-                    <span class="badge-text">Signature Treatments</span>
-                    <span class="badge-dot"></span>
-                </div>
-                <h2 class="services-title">
-                    <span class="title-line-1">Where Science</span>
-                    <span class="title-line-2">Meets <em>Artistry</em></span>
-                </h2>
-                <p class="services-subtitle">
-                    Each treatment is a masterpiece of precision and luxury crafted by Dr. Nano
-                </p>
+    <!-- Compact Services Section -->
+<section class="compact-services-section" id="services">
+    <div class="services-container">
+        <!-- Header -->
+        <div class="services-header" data-aos="fade-up">
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                <span class="badge-text">Our Treatments</span>
+                <span class="badge-dot"></span>
             </div>
+            <h2 class="services-title">
+                <span class="title-main">Premium Medical Aesthetics</span>
+            </h2>
+            <p class="services-subtitle">
+                Transform with confidence using proven treatments
+            </p>
+        </div>
 
-            <div class="services-carousel-wrapper">
-                <button class="carousel-nav carousel-nav-prev" id="prevBtn" aria-label="Previous" type="button">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                
-                <button class="carousel-nav carousel-nav-next" id="nextBtn" aria-label="Next" type="button">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
+        <!-- Compact Carousel -->
+        <div class="compact-carousel-wrapper">
+            <button class="carousel-nav prev" id="prevBtn">
+                <i class="ri-arrow-left-line"></i>
+            </button>
+            
+            <button class="carousel-nav next" id="nextBtn">
+                <i class="ri-arrow-right-line"></i>
+            </button>
 
-                <div class="services-carousel" id="servicesCarousel">
-                    <div class="carousel-track" id="carouselTrack">
-                        
-                        <div class="service-card" data-service="botox">
-                            <div class="card-glow"></div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <div class="service-icon">
-                                        <i class="ri-syringe-line"></i>
-                                    </div>
-                                    <div class="service-badge">Most Popular</div>
-                                </div>
-                                <div class="card-body">
-                                    <h3 class="service-title">Botox & Fillers</h3>
-                                    <p class="service-description">
-                                        Expert injections for natural-looking results. Smooth wrinkles, enhance features, and restore youthful vitality.
-                                    </p>
-                                    <div class="service-details">
-                                        <div class="detail-item">
-                                            <i class="ri-time-line"></i>
-                                            <span>30-45 min</span>
-                                        </div>
-                                        <div class="detail-item">
-                                            <i class="ri-money-dollar-circle-line"></i>
-                                            <span>From $299</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="service-cta" data-service="botox" type="button">
-                                    <span>Learn More</span>
-                                    <i class="ri-arrow-right-line"></i>
-                                </button>
-                            </div>
+            <div class="services-carousel" id="servicesCarousel">
+                <div class="carousel-track" id="carouselTrack">
+                    
+                    <!-- Botox & Fillers -->
+                    <div class="service-card" data-service="botox">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=250&fit=crop&auto=format" 
+                                 alt="Botox Treatment" loading="lazy">
+                            <div class="image-overlay"></div>
+                            <div class="popular-badge">Most Popular</div>
                         </div>
-
-                        <div class="service-card" data-service="weight">
-                            <div class="card-glow"></div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <div class="service-icon">
-                                        <i class="ri-scales-3-line"></i>
-                                    </div>
-                                    <div class="service-badge">Trending</div>
+                        <div class="card-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <i class="ri-syringe-line"></i>
                                 </div>
-                                <div class="card-body">
-                                    <h3 class="service-title">Weight Management</h3>
-                                    <p class="service-description">
-                                        Comprehensive programs combining medical expertise with personalized nutrition and lifestyle guidance.
-                                    </p>
-                                    <div class="service-details">
-                                        <div class="detail-item">
-                                            <i class="ri-time-line"></i>
-                                            <span>Ongoing</span>
-                                        </div>
-                                        <div class="detail-item">
-                                            <i class="ri-money-dollar-circle-line"></i>
-                                            <span>Custom Plans</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="service-cta" data-service="weight" type="button">
-                                    <span>Learn More</span>
-                                    <i class="ri-arrow-right-line"></i>
-                                </button>
+                                <div class="service-rating">⭐ 4.9</div>
                             </div>
-                        </div>
-
-                        <div class="service-card" data-service="iv">
-                            <div class="card-glow"></div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <div class="service-icon">
-                                        <i class="ri-drop-line"></i>
-                                    </div>
-                                    <div class="service-badge">Wellness</div>
-                                </div>
-                                <div class="card-body">
-                                    <h3 class="service-title">IV Therapy</h3>
-                                    <p class="service-description">
-                                        Revitalize your body with customized IV infusions designed to boost energy, immunity, and overall wellness.
-                                    </p>
-                                    <div class="service-details">
-                                        <div class="detail-item">
-                                            <i class="ri-time-line"></i>
-                                            <span>45-60 min</span>
-                                        </div>
-                                        <div class="detail-item">
-                                            <i class="ri-money-dollar-circle-line"></i>
-                                            <span>From $199</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="service-cta" data-service="iv" type="button">
-                                    <span>Learn More</span>
-                                    <i class="ri-arrow-right-line"></i>
-                                </button>
+                            <h3 class="service-title">Botox & Fillers</h3>
+                            <p class="service-brief">Natural wrinkle reduction & lip enhancement</p>
+                            <div class="service-meta">
+                                <span class="duration">30-45 min</span>
+                                <span class="price">From $299</span>
                             </div>
-                        </div>
-
-                        <div class="service-card" data-service="microneedling">
-                            <div class="card-glow"></div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <div class="service-icon">
-                                        <i class="ri-contrast-2-line"></i>
-                                    </div>
-                                    <div class="service-badge">Rejuvenation</div>
-                                </div>
-                                <div class="card-body">
-                                    <h3 class="service-title">Microneedling</h3>
-                                    <p class="service-description">
-                                        Stimulate natural collagen production for improved skin texture, tone, and reduced appearance of scars.
-                                    </p>
-                                    <div class="service-details">
-                                        <div class="detail-item">
-                                            <i class="ri-time-line"></i>
-                                            <span>60-90 min</span>
-                                        </div>
-                                        <div class="detail-item">
-                                            <i class="ri-money-dollar-circle-line"></i>
-                                            <span>From $399</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="service-cta" data-service="microneedling" type="button">
-                                    <span>Learn More</span>
-                                    <i class="ri-arrow-right-line"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="service-card" data-service="prp">
-                            <div class="card-glow"></div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <div class="service-icon">
-                                        <i class="ri-heart-pulse-line"></i>
-                                    </div>
-                                    <div class="service-badge">Advanced</div>
-                                </div>
-                                <div class="card-body">
-                                    <h3 class="service-title">PRP Therapy</h3>
-                                    <p class="service-description">
-                                        Harness your body's healing power with Platelet-Rich Plasma for natural skin rejuvenation and hair restoration.
-                                    </p>
-                                    <div class="service-details">
-                                        <div class="detail-item">
-                                            <i class="ri-time-line"></i>
-                                            <span>90 min</span>
-                                        </div>
-                                        <div class="detail-item">
-                                            <i class="ri-money-dollar-circle-line"></i>
-                                            <span>From $599</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="service-cta" data-service="prp" type="button">
-                                    <span>Learn More</span>
-                                    <i class="ri-arrow-right-line"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="service-card" data-service="peels">
-                            <div class="card-glow"></div>
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <div class="service-icon">
-                                        <i class="ri-leaf-line"></i>
-                                    </div>
-                                    <div class="service-badge">Renewal</div>
-                                </div>
-                                <div class="card-body">
-                                    <h3 class="service-title">Chemical Peels</h3>
-                                    <p class="service-description">
-                                        Professional-grade peels to reveal brighter, smoother skin and address various skin concerns effectively.
-                                    </p>
-                                    <div class="service-details">
-                                        <div class="detail-item">
-                                            <i class="ri-time-line"></i>
-                                            <span>30-45 min</span>
-                                        </div>
-                                        <div class="detail-item">
-                                            <i class="ri-money-dollar-circle-line"></i>
-                                            <span>From $149</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="service-cta" data-service="peels" type="button">
-                                    <span>Learn More</span>
-                                    <i class="ri-arrow-right-line"></i>
-                                </button>
-                            </div>
+                            <button class="learn-more-btn" data-service="botox">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="mobile-progress-indicator">
-                    <div class="progress-track">
-                        <div class="progress-fill" id="mobileProgressFill"></div>
+                    <!-- Weight Management -->
+                    <div class="service-card" data-service="weight-management">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=250&fit=crop&auto=format" 
+                                 alt="Weight Management" loading="lazy">
+                            <div class="image-overlay"></div>
+                            <div class="trending-badge">Trending</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <i class="ri-scales-3-line"></i>
+                                </div>
+                                <div class="service-rating">⭐ 4.8</div>
+                            </div>
+                            <h3 class="service-title">Weight Management</h3>
+                            <p class="service-brief">Medical weight loss with personalized plans</p>
+                            <div class="service-meta">
+                                <span class="duration">Ongoing</span>
+                                <span class="price">Custom Plans</span>
+                            </div>
+                            <button class="learn-more-btn" data-service="weight-management">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- IV Therapy -->
+                    <div class="service-card" data-service="iv-therapy">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=250&fit=crop&auto=format" 
+                                 alt="IV Therapy" loading="lazy">
+                            <div class="image-overlay"></div>
+                            <div class="wellness-badge">Wellness</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <i class="ri-drop-line"></i>
+                                </div>
+                                <div class="service-rating">⭐ 4.9</div>
+                            </div>
+                            <h3 class="service-title">IV Therapy</h3>
+                            <p class="service-brief">Boost energy & immunity with custom infusions</p>
+                            <div class="service-meta">
+                                <span class="duration">45-60 min</span>
+                                <span class="price">From $199</span>
+                            </div>
+                            <button class="learn-more-btn" data-service="iv-therapy">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Microneedling -->
+                    <div class="service-card" data-service="microneedling">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=250&fit=crop&auto=format" 
+                                 alt="Microneedling Treatment" loading="lazy">
+                            <div class="image-overlay"></div>
+                            <div class="advanced-badge">Advanced</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <i class="ri-contrast-2-line"></i>
+                                </div>
+                                <div class="service-rating">⭐ 4.8</div>
+                            </div>
+                            <h3 class="service-title">Microneedling</h3>
+                            <p class="service-brief">Improve texture & reduce scars naturally</p>
+                            <div class="service-meta">
+                                <span class="duration">60-90 min</span>
+                                <span class="price">From $399</span>
+                            </div>
+                            <button class="learn-more-btn" data-service="microneedling">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- PRP Therapy -->
+                    <div class="service-card" data-service="prp">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=250&fit=crop&auto=format" 
+                                 alt="PRP Therapy" loading="lazy">
+                            <div class="image-overlay"></div>
+                            <div class="premium-badge">Premium</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <i class="ri-heart-pulse-line"></i>
+                                </div>
+                                <div class="service-rating">⭐ 4.9</div>
+                            </div>
+                            <h3 class="service-title">PRP Therapy</h3>
+                            <p class="service-brief">Natural healing for skin & hair restoration</p>
+                            <div class="service-meta">
+                                <span class="duration">90 min</span>
+                                <span class="price">From $599</span>
+                            </div>
+                            <button class="learn-more-btn" data-service="prp">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chemical Peels -->
+                    <div class="service-card" data-service="chemical-peels">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1616391182219-e080b4d1043a?w=400&h=250&fit=crop&auto=format" 
+                                 alt="Chemical Peel Treatment" loading="lazy">
+                            <div class="image-overlay"></div>
+                            <div class="renewal-badge">Renewal</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <i class="ri-leaf-line"></i>
+                                </div>
+                                <div class="service-rating">⭐ 4.8</div>
+                            </div>
+                            <h3 class="service-title">Chemical Peels</h3>
+                            <p class="service-brief">Reveal brighter, smoother skin texture</p>
+                            <div class="service-meta">
+                                <span class="duration">30-45 min</span>
+                                <span class="price">From $149</span>
+                            </div>
+                            <button class="learn-more-btn" data-service="chemical-peels">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="services-navigation-info">
-                <div class="nav-counter">
-                    <span class="current-counter" id="currentCounter">01</span>
-                    <span class="nav-separator">—</span>
-                    <span class="total-counter" id="totalCounter">06</span>
-                </div>
-                <div class="nav-controls">
-                    <button class="nav-control-btn" id="autoplayBtn" type="button" title="Toggle Autoplay">
-                        <i class="ri-pause-line"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="services-learn-more" data-aos="fade-up" data-aos-delay="400">
-                <div class="learn-more-content">
-                    <div class="learn-more-badge">
-                        <i class="ri-information-line"></i>
-                        <span>Explore Details</span>
-                    </div>
-                    <h3 class="learn-more-title">Want to Learn More About Our Services?</h3>
-                    <p class="learn-more-description">
-                        Discover detailed information about each treatment, pricing, recovery times, and frequently asked questions.
-                    </p>
-                    <button class="learn-more-cta" id="learnMoreBtn" type="button">
-                        <span class="cta-text">View All Services</span>
-                        <div class="cta-icon">
-                            <i class="ri-arrow-right-line"></i>
-                        </div>
-                        <div class="cta-shimmer"></div>
-                        <div class="cta-glow"></div>
-                    </button>
-                </div>
+            <!-- Mobile Progress Bar -->
+            <div class="mobile-progress">
+                <div class="progress-fill"></div>
             </div>
         </div>
-    </section>
+
+        <!-- Navigation Controls -->
+        <div class="carousel-controls">
+            <div class="carousel-counter">
+                <span class="current">01</span> / <span class="total">06</span>
+            </div>
+            <button class="autoplay-toggle" id="autoplayBtn">
+                <i class="ri-pause-line"></i>
+            </button>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="services-cta" data-aos="fade-up">
+            <div class="cta-content">
+                <h3 class="cta-title">Ready to Begin Your Transformation?</h3>
+                <p class="cta-subtitle">Explore our complete treatment guide with pricing, preparation steps, and success stories.</p>
+                <a href="services.html" class="view-all-btn">
+                    <span>View All Services</span>
+                    <i class="ri-external-link-line"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
     
     <!-- About Section -->
     <section class="hermes-about-section" id="about">
