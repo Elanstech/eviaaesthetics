@@ -1020,99 +1020,89 @@ class HermesAboutSection {
 }
 
 /* ========================================
-   RESULTS GALLERY COMPONENT
+   ABOUT SECTION COMPONENT
    ======================================== */
-class ResultsGallery {
+class HermesAboutSection {
     constructor() {
-        this.gallery = document.querySelector('.results-showcase');
-        this.sliders = document.querySelectorAll('.comparison-slider');
-        this.filterButtons = document.querySelectorAll('.filter-btn');
-        this.resultItems = document.querySelectorAll('.results-showcase__item');
+        this.section = document.querySelector('.hermes-about-showcase');
+        this.profileCard = document.querySelector('.doctor-profile-luxury');
+        this.ctaButtons = document.querySelectorAll('.hermes-about-cta');
         
-        if (this.gallery) {
+        if (this.section) {
             this.init();
         }
     }
 
     init() {
-        this.setupSliders();
-        this.setupFilters();
-        console.log('📸 Results Gallery Initialized');
+        this.setupInteractions();
+        this.initializeAnimations();
+        console.log('👩‍⚕️ About Section Initialized');
     }
 
-    setupSliders() {
-        this.sliders.forEach(slider => {
-            let isMouseDown = false;
-            
-            const updateSlider = (e) => {
-                const rect = slider.closest('.comparison-container').getBoundingClientRect();
-                const x = (e.type.includes('touch') ? e.touches[0].clientX : e.clientX) - rect.left;
-                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-                
-                slider.style.left = `${percentage}%`;
-                slider.setAttribute('data-position', percentage);
-                
-                const afterImage = slider.closest('.comparison-container').querySelector('.after');
-                if (afterImage) {
-                    afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-                }
-            };
-            
-            // Mouse events
-            slider.addEventListener('mousedown', (e) => {
-                isMouseDown = true;
-                updateSlider(e);
-            });
-            
-            document.addEventListener('mousemove', (e) => {
-                if (isMouseDown) updateSlider(e);
-            });
-            
-            document.addEventListener('mouseup', () => {
-                isMouseDown = false;
-            });
-            
-            // Touch events
-            slider.addEventListener('touchstart', (e) => {
-                updateSlider(e);
-            });
-            
-            slider.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                updateSlider(e);
-            });
+    setupInteractions() {
+        // Profile card hover effects
+        if (this.profileCard) {
+            this.profileCard.addEventListener('mouseenter', () => this.onProfileHover());
+            this.profileCard.addEventListener('mouseleave', () => this.onProfileLeave());
+        }
+
+        // CTA button interactions
+        this.ctaButtons.forEach(button => {
+            button.addEventListener('click', (e) => this.handleCtaClick(e, button));
         });
     }
 
-    setupFilters() {
-        this.filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const filter = button.getAttribute('data-filter');
-                this.filterResults(filter);
-                
-                // Update active button
-                this.filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-            });
-        });
+    onProfileHover() {
+        if (this.profileCard) {
+            this.profileCard.style.transform = 'translateY(-5px) scale(1.02)';
+        }
     }
 
-    filterResults(filter) {
-        this.resultItems.forEach(item => {
-            const category = item.getAttribute('data-category');
-            
-            if (filter === 'all' || category === filter) {
-                item.style.display = 'block';
-                item.style.opacity = '1';
-            } else {
-                item.style.opacity = '0';
-                setTimeout(() => {
-                    if (item.style.opacity === '0') {
-                        item.style.display = 'none';
+    onProfileLeave() {
+        if (this.profileCard) {
+            this.profileCard.style.transform = 'translateY(0) scale(1)';
+        }
+    }
+
+    handleCtaClick(e, button) {
+        const href = button.getAttribute('href');
+        
+        // Add click animation
+        button.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+            button.style.transform = '';
+        }, 150);
+        
+        // Track CTA clicks
+        this.trackCtaClick(button);
+    }
+
+    trackCtaClick(button) {
+        const ctaType = button.textContent.trim();
+        
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'about_cta_click', {
+                'event_category': 'About Section',
+                'event_label': ctaType
+            });
+        }
+        
+        console.log(`About CTA clicked: ${ctaType}`);
+    }
+
+    initializeAnimations() {
+        // Add entrance animations for about section
+        if (this.section) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
                     }
-                }, 300);
-            }
-        });
+                });
+            }, { threshold: 0.2 });
+            
+            observer.observe(this.section);
+        }
     }
 }
 
