@@ -159,11 +159,12 @@ class EviaAestheticsApp {
         // Initialize all components
         this.components.set('header', new LuxuryHeader());
         this.components.set('mobileMenu', new MobileMenu());
-        this.components.set('servicesCarousel', new HermesServicesCarousel());
+        this.components.set('servicesCarousel', new HermesServicesCarousel());  
         this.components.set('aboutSection', new HermesAboutSection());
         this.components.set('resultsGallery', new ResultsGallery());
         this.components.set('contactForm', new ContactForm());
         this.components.set('scrollIndicator', new ScrollIndicator());
+        this.components.set('servicesCarousel', new HermesFloatingButtons());
     }
 
     getComponent(name) {
@@ -2854,6 +2855,753 @@ class ScrollIndicator {
         });
     }
 }
+
+/* ========================================
+   FLOATING BUTTONS JS
+   ======================================== */
+
+class HermesFloatingButtons {
+    constructor() {
+        this.backToTopBtn = document.getElementById('backToTopBtn');
+        this.contactFabBtn = document.getElementById('contactFabBtn');
+        this.contactBackdrop = document.getElementById('contactBackdrop');
+        this.mainContactBtn = this.contactFabBtn?.querySelector('.main-contact-btn');
+        this.contactOptions = document.querySelectorAll('.contact-option');
+        
+        // State management
+        this.isContactExpanded = false;
+        this.isBackToTopVisible = false;
+        this.scrollThreshold = 400;
+        this.lastScrollY = 0;
+        this.ticking = false;
+        
+        // Performance optimization
+        this.scrollTimeout = null;
+        this.resizeTimeout = null;
+        
+        // Interaction tracking
+        this.backToTopClicks = 0;
+        this.contactInteractions = {
+            call: 0,
+            instagram: 0,
+            email: 0
+        };
+        
+        if (this.backToTopBtn || this.contactFabBtn) {
+            this.init();
+        }
+    }
+
+    init() {
+        this.bindEvents();
+        this.setupScrollObserver();
+        this.setupAccessibility();
+        this.initializeAnimations();
+        
+        console.log('✨ Hermes Floating Buttons Initialized');
+    }
+
+    bindEvents() {
+        // Back to Top button events
+        if (this.backToTopBtn) {
+            this.backToTopBtn.addEventListener('click', (e) => this.handleBackToTop(e));
+            this.backToTopBtn.addEventListener('mouseenter', () => this.handleBackToTopHover());
+            this.backToTopBtn.addEventListener('mouseleave', () => this.handleBackToTopLeave());
+        }
+
+        // Contact FAB events
+        if (this.mainContactBtn) {
+            this.mainContactBtn.addEventListener('click', (e) => this.toggleContactFab(e));
+            this.mainContactBtn.addEventListener('mouseenter', () => this.handleContactFabHover());
+            this.mainContactBtn.addEventListener('mouseleave', () => this.handleContactFabLeave());
+        }
+
+        // Contact backdrop
+        if (this.contactBackdrop) {
+            this.contactBackdrop.addEventListener('click', () => this.closeContactFab());
+        }
+
+        // Individual contact options
+        this.contactOptions.forEach(option => {
+            const link = option.querySelector('.contact-link');
+            const contactType = option.dataset.contact;
+            
+            if (link && contactType) {
+                link.addEventListener('click', (e) => this.handleContactClick(e, contactType));
+                link.addEventListener('mouseenter', () => this.handleContactOptionHover(option));
+                link.addEventListener('mouseleave', () => this.handleContactOptionLeave(option));
+            }
+        });
+
+        // Global events
+        window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
+        window.addEventListener('resize', () => this.handleResize());
+        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+        document.addEventListener('click', (e) => this.handleDocumentClick(e));
+        
+        // Touch events for mobile
+        if ('ontouchstart' in window) {
+            this.bindTouchEvents();
+        }
+    }
+
+    setupScrollObserver() {
+        // Optimize scroll performance with Intersection Observer
+        const sentinel = document.createElement('div');
+        sentinel.style.cssText = `
+            position: absolute;
+            top: ${this.scrollThreshold}px;
+            height: 1px;
+            width: 1px;
+            pointer-events: none;
+            visibility: hidden;
+        `;
+        document.body.appendChild(sentinel);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const shouldShow = !entry.isIntersecting;
+                this.toggleBackToTopVisibility(shouldShow);
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0
+        });
+
+        observer.observe(sentinel);
+    }
+
+    handleScroll() {
+        if (!this.ticking) {
+            requestAnimationFrame(() => {
+                this.updateScrollState();
+                this.ticking = false;
+            });
+            this.ticking = true;
+        }
+    }
+
+    updateScrollState() {
+        const scrollY = window.pageYOffset;
+        const shouldShow = scrollY > this.scrollThreshold;
+        
+        // Close contact FAB if scrolling and expanded
+        if (this.isContactExpanded && Math.abs(scrollY - this.lastScrollY) > 100) {
+            this.closeContactFab();
+        }
+        
+        this.lastScrollY = scrollY;
+    }
+
+    toggleBackToTopVisibility(shouldShow) {
+        if (shouldShow !== this.isBackToTopVisible) {
+            this.isBackToTopVisible = shouldShow;
+            
+            if (this.backToTopBtn) {
+                this.backToTopBtn.classList.toggle('visible', shouldShow);
+                
+                // Analytics tracking
+                if (shouldShow && this.backToTopClicks === 0) {
+                    this.trackEvent('back_to_top_shown', {
+                        scroll_depth: Math.round((window.pageYOffset / document.body.scrollHeight) * 100)
+                    });
+                }
+            }
+        }
+    }
+
+    handleBackToTop(event) {
+        event.preventDefault();
+        this.backToTopClicks++;
+        
+        // Add click effect
+        this.addClickEffect(this.backToTopBtn);
+        
+        // Smooth scroll to top with luxury easing
+        this.smoothScrollToTop();
+        
+        // Track interaction
+        this.trackEvent('back_to_top_clicked', {
+            click_count: this.backToTopClicks,
+            current_scroll_position: window.pageYOffset,
+            time_on_page: this.getTimeOnPage()
+        });
+    }
+
+    smoothScrollToTop() {
+        const startPosition = window.pageYOffset;
+        const distance = startPosition;
+        const duration = Math.min(1500, Math.max(800, distance / 3)); // Dynamic duration
+        let startTime = null;
+
+        const easeInOutCubic = (t) => {
+            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+        };
+
+        const animation = (currentTime) => {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            const easeProgress = easeInOutCubic(progress);
+            
+            window.scrollTo(0, startPosition - (distance * easeProgress));
+            
+            if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+            } else {
+                // Ensure we're exactly at the top
+                window.scrollTo(0, 0);
+                this.onScrollComplete();
+            }
+        };
+
+        requestAnimationFrame(animation);
+    }
+
+    onScrollComplete() {
+        // Add subtle success feedback
+        this.showScrollCompleteNotification();
+        
+        // Track scroll completion
+        this.trackEvent('scroll_to_top_completed', {
+            duration: 'smooth_scroll',
+            final_position: window.pageYOffset
+        });
+    }
+
+    showScrollCompleteNotification() {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        `;
+        
+        notification.innerHTML = `
+            <i class="ri-check-line"></i>
+            <span>Back to top!</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        requestAnimationFrame(() => {
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateX(-50%) translateY(0)';
+        });
+        
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(-50%) translateY(-20px)';
+            setTimeout(() => notification.remove(), 400);
+        }, 2000);
+    }
+
+    toggleContactFab(event) {
+        event.stopPropagation();
+        
+        if (this.isContactExpanded) {
+            this.closeContactFab();
+        } else {
+            this.openContactFab();
+        }
+    }
+
+    openContactFab() {
+        this.isContactExpanded = true;
+        this.contactFabBtn.classList.add('expanded');
+        
+        // Add staggered entrance animations
+        this.contactOptions.forEach((option, index) => {
+            setTimeout(() => {
+                option.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+                option.style.opacity = '1';
+                option.style.visibility = 'visible';
+            }, index * 100);
+        });
+        
+        // Track expansion
+        this.trackEvent('contact_fab_expanded', {
+            options_count: this.contactOptions.length,
+            viewport_width: window.innerWidth
+        });
+    }
+
+    closeContactFab() {
+        if (!this.isContactExpanded) return;
+        
+        this.isContactExpanded = false;
+        this.contactFabBtn.classList.remove('expanded');
+        
+        // Reset option styles
+        this.contactOptions.forEach(option => {
+            option.style.transform = '';
+            option.style.opacity = '';
+            option.style.visibility = '';
+        });
+        
+        // Track collapse
+        this.trackEvent('contact_fab_collapsed');
+    }
+
+    handleContactClick(event, contactType) {
+        // Don't prevent default - let the link work
+        this.contactInteractions[contactType]++;
+        
+        // Add click effect
+        this.addClickEffect(event.currentTarget);
+        
+        // Show interaction feedback
+        this.showContactFeedback(contactType);
+        
+        // Track contact interaction
+        this.trackEvent('contact_method_clicked', {
+            method: contactType,
+            click_count: this.contactInteractions[contactType],
+            total_interactions: Object.values(this.contactInteractions).reduce((a, b) => a + b, 0),
+            time_on_page: this.getTimeOnPage()
+        });
+        
+        // Close FAB after interaction
+        setTimeout(() => {
+            this.closeContactFab();
+        }, 500);
+    }
+
+    showContactFeedback(contactType) {
+        const messages = {
+            call: 'Opening phone dialer...',
+            instagram: 'Opening Instagram...',
+            email: 'Opening email client...'
+        };
+
+        const colors = {
+            call: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+            instagram: 'linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%)',
+            email: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)'
+        };
+
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            background: ${colors[contactType]};
+            color: white;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 200px;
+        `;
+        
+        notification.innerHTML = `
+            <div class="feedback-spinner" style="
+                width: 12px; 
+                height: 12px; 
+                border: 1.5px solid rgba(255,255,255,0.3); 
+                border-top: 1.5px solid white; 
+                border-radius: 50%; 
+                animation: spin 1s linear infinite;
+            "></div>
+            <span>${messages[contactType]}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        requestAnimationFrame(() => {
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateY(0) scale(1)';
+        });
+        
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(20px) scale(0.8)';
+            setTimeout(() => notification.remove(), 400);
+        }, 2500);
+    }
+
+    handleBackToTopHover() {
+        this.playHoverSound();
+        this.addHoverGlow(this.backToTopBtn);
+    }
+
+    handleBackToTopLeave() {
+        this.removeHoverGlow(this.backToTopBtn);
+    }
+
+    handleContactFabHover() {
+        this.playHoverSound();
+        this.addHoverGlow(this.mainContactBtn);
+    }
+
+    handleContactFabLeave() {
+        this.removeHoverGlow(this.mainContactBtn);
+    }
+
+    handleContactOptionHover(option) {
+        this.playHoverSound();
+        this.addHoverGlow(option.querySelector('.contact-link'));
+    }
+
+    handleContactOptionLeave(option) {
+        this.removeHoverGlow(option.querySelector('.contact-link'));
+    }
+
+    addClickEffect(element) {
+        element.style.transform = element.style.transform + ' scale(0.95)';
+        
+        setTimeout(() => {
+            element.style.transform = element.style.transform.replace(' scale(0.95)', '');
+        }, 150);
+        
+        // Add ripple effect
+        this.createRippleEffect(element);
+    }
+
+    createRippleEffect(element) {
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = rect.width / 2 - size / 2;
+        const y = rect.height / 2 - size / 2;
+        
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            transform: scale(0);
+            animation: rippleEffect 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: none;
+            z-index: 100;
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    }
+
+    addHoverGlow(element) {
+        const glowDiv = element.querySelector('.btn-ambient-glow, .option-ambient-glow');
+        if (glowDiv) {
+            glowDiv.style.opacity = '1';
+        }
+    }
+
+    removeHoverGlow(element) {
+        const glowDiv = element.querySelector('.btn-ambient-glow, .option-ambient-glow');
+        if (glowDiv) {
+            glowDiv.style.opacity = '0';
+        }
+    }
+
+    bindTouchEvents() {
+        // Enhanced touch support for mobile
+        if (this.mainContactBtn) {
+            this.mainContactBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.addClickEffect(this.mainContactBtn);
+            }, { passive: false });
+        }
+
+        if (this.backToTopBtn) {
+            this.backToTopBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.addClickEffect(this.backToTopBtn);
+            }, { passive: false });
+        }
+    }
+
+    setupAccessibility() {
+        // Enhanced keyboard navigation
+        const focusableElements = [
+            this.backToTopBtn,
+            this.mainContactBtn,
+            ...Array.from(document.querySelectorAll('.contact-link'))
+        ];
+
+        focusableElements.forEach(element => {
+            if (element) {
+                element.setAttribute('tabindex', '0');
+                element.addEventListener('focus', (e) => this.handleElementFocus(e));
+                element.addEventListener('blur', (e) => this.handleElementBlur(e));
+            }
+        });
+
+        // ARIA labels
+        if (this.backToTopBtn) {
+            this.backToTopBtn.setAttribute('aria-label', 'Scroll back to top of page');
+            this.backToTopBtn.setAttribute('role', 'button');
+        }
+
+        if (this.mainContactBtn) {
+            this.mainContactBtn.setAttribute('aria-label', 'Open contact options menu');
+            this.mainContactBtn.setAttribute('role', 'button');
+            this.mainContactBtn.setAttribute('aria-expanded', 'false');
+        }
+    }
+
+    handleElementFocus(event) {
+        event.target.style.outline = '3px solid rgba(255, 140, 0, 0.6)';
+        event.target.style.outlineOffset = '2px';
+    }
+
+    handleElementBlur(event) {
+        event.target.style.outline = '';
+        event.target.style.outlineOffset = '';
+    }
+
+    handleKeyboard(event) {
+        switch(event.key) {
+            case 'Escape':
+                if (this.isContactExpanded) {
+                    this.closeContactFab();
+                }
+                break;
+                
+            case 'Enter':
+            case ' ':
+                const focusedElement = document.activeElement;
+                if (focusedElement === this.backToTopBtn) {
+                    event.preventDefault();
+                    this.handleBackToTop(event);
+                } else if (focusedElement === this.mainContactBtn) {
+                    event.preventDefault();
+                    this.toggleContactFab(event);
+                }
+                break;
+        }
+    }
+
+    handleDocumentClick(event) {
+        // Close contact FAB if clicking outside
+        if (this.isContactExpanded && 
+            !this.contactFabBtn.contains(event.target)) {
+            this.closeContactFab();
+        }
+    }
+
+    handleResize() {
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            // Close contact FAB on resize to prevent positioning issues
+            if (this.isContactExpanded) {
+                this.closeContactFab();
+            }
+            
+            // Track resize
+            this.trackEvent('floating_buttons_resized', {
+                new_width: window.innerWidth,
+                new_height: window.innerHeight
+            });
+        }, 250);
+    }
+
+    initializeAnimations() {
+        // Add entrance animation delay
+        setTimeout(() => {
+            if (this.backToTopBtn) {
+                this.backToTopBtn.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            }
+            if (this.contactFabBtn) {
+                this.contactFabBtn.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            }
+        }, 500);
+    }
+
+    playHoverSound() {
+        // Placeholder for subtle hover sound effect
+        if (window.AudioContext && 'createOscillator' in AudioContext.prototype) {
+            // Could implement subtle luxury hover sounds
+        }
+    }
+
+    getTimeOnPage() {
+        return Date.now() - (window.pageLoadTime || Date.now());
+    }
+
+    trackEvent(eventName, eventData = {}) {
+        // Enhanced analytics tracking
+        const analyticsData = {
+            event_category: 'Hermes Floating Buttons',
+            event_label: eventData.method || 'general',
+            custom_parameters: {
+                button_state: {
+                    back_to_top_visible: this.isBackToTopVisible,
+                    contact_expanded: this.isContactExpanded,
+                    back_to_top_clicks: this.backToTopClicks,
+                    contact_interactions: this.contactInteractions
+                },
+                user_context: {
+                    timestamp: Date.now(),
+                    viewport_width: window.innerWidth,
+                    viewport_height: window.innerHeight,
+                    scroll_position: window.pageYOffset,
+                    page_height: document.body.scrollHeight
+                },
+                ...eventData
+            }
+        };
+
+        // Google Analytics 4 tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, analyticsData);
+        }
+
+        // Custom analytics endpoint
+        if (window.customAnalytics) {
+            window.customAnalytics.track(eventName, analyticsData);
+        }
+        
+        // Development logging
+        console.log(`📊 Floating Buttons Event: ${eventName}`, analyticsData);
+    }
+
+    // Public API methods
+    showBackToTop() {
+        this.toggleBackToTopVisibility(true);
+    }
+
+    hideBackToTop() {
+        this.toggleBackToTopVisibility(false);
+    }
+
+    openContactMenu() {
+        if (!this.isContactExpanded) {
+            this.openContactFab();
+        }
+    }
+
+    closeContactMenu() {
+        if (this.isContactExpanded) {
+            this.closeContactFab();
+        }
+    }
+
+    getInteractionStats() {
+        return {
+            backToTopClicks: this.backToTopClicks,
+            contactInteractions: { ...this.contactInteractions },
+            isContactExpanded: this.isContactExpanded,
+            isBackToTopVisible: this.isBackToTopVisible
+        };
+    }
+
+    destroy() {
+        // Clean up event listeners and timeouts
+        if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
+        if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
+        
+        // Remove event listeners
+        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('resize', this.handleResize);
+        document.removeEventListener('keydown', this.handleKeyboard);
+        document.removeEventListener('click', this.handleDocumentClick);
+        
+        console.log('✨ Hermes Floating Buttons Destroyed');
+    }
+}
+
+// CSS animations to add
+const hermesFloatingCSS = `
+<style>
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes rippleEffect {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Smooth transitions for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .hermes-back-to-top,
+    .main-contact-btn,
+    .contact-option {
+        transition-duration: 0.2s !important;
+        animation-duration: 0.2s !important;
+    }
+    
+    .main-contact-btn {
+        animation: none !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .hermes-back-to-top,
+    .main-contact-btn,
+    .contact-link {
+        border-width: 3px !important;
+        border-color: currentColor !important;
+    }
+}
+</style>`;
+
+// Initialize Hermes Floating Buttons when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Add CSS animations
+    document.head.insertAdjacentHTML('beforeend', hermesFloatingCSS);
+    
+    // Set page load time for analytics
+    window.pageLoadTime = Date.now();
+    
+    // Initialize floating buttons
+    if (document.querySelector('.hermes-floating-controls')) {
+        window.hermesFloatingButtons = new HermesFloatingButtons();
+        
+        console.log('🏛️ Hermes Floating Controls Activated');
+    }
+});
+
+// Export for external use and testing
+if (typeof window !== 'undefined') {
+    window.HermesFloatingButtons = HermesFloatingButtons;
+}
+
+// Performance monitoring
+if ('performance' in window && 'mark' in performance) {
+    performance.mark('hermes-floating-buttons-loaded');
+}
+
 
 /* ========================================
    INITIALIZE APPLICATION
