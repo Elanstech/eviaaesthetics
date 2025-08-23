@@ -160,15 +160,17 @@ class EviaAestheticsApp {
         this.components.set('header', new LuxuryHeader());
         this.components.set('mobileMenu', new MobileMenu());
         this.components.set('servicesCarousel', new HermesServicesCarousel()); // New carousel
-        this.components.set('aboutSection', new HermesAboutSection());
         this.components.set('contactForm', new LuxuryContactSection());
         this.components.set('scrollIndicator', new ScrollIndicator());
         this.components.set('floatingButtons', new HermesFloatingButtons());
         
-        // Initialize your existing ResultsGallery if it exists
+        // Initialize existing components if they exist
         if (typeof ResultsGallery !== 'undefined') {
             this.components.set('resultsGallery', new ResultsGallery());
         }
+        
+        // Your existing HermesAboutSection will be initialized separately
+        // No need to initialize it here to avoid conflicts
     }
 
     getComponent(name) {
@@ -937,91 +939,9 @@ class HermesServicesCarousel {
 }
 
 /* ========================================
-   ABOUT SECTION COMPONENT
+   ABOUT SECTION - Using existing HermesAboutSection
    ======================================== */
-class HermesAboutSection {
-    constructor() {
-        this.section = document.querySelector('.hermes-about-showcase');
-        this.profileCard = document.querySelector('.doctor-profile-luxury');
-        this.ctaButtons = document.querySelectorAll('.hermes-about-cta');
-        
-        if (this.section) {
-            this.init();
-        }
-    }
-
-    init() {
-        this.setupInteractions();
-        this.initializeAnimations();
-        console.log('👩‍⚕️ About Section Initialized');
-    }
-
-    setupInteractions() {
-        // Profile card hover effects
-        if (this.profileCard) {
-            this.profileCard.addEventListener('mouseenter', () => this.onProfileHover());
-            this.profileCard.addEventListener('mouseleave', () => this.onProfileLeave());
-        }
-
-        // CTA button interactions
-        this.ctaButtons.forEach(button => {
-            button.addEventListener('click', (e) => this.handleCtaClick(e, button));
-        });
-    }
-
-    onProfileHover() {
-        if (this.profileCard) {
-            this.profileCard.style.transform = 'translateY(-5px) scale(1.02)';
-        }
-    }
-
-    onProfileLeave() {
-        if (this.profileCard) {
-            this.profileCard.style.transform = 'translateY(0) scale(1)';
-        }
-    }
-
-    handleCtaClick(e, button) {
-        const href = button.getAttribute('href');
-        
-        // Add click animation
-        button.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-            button.style.transform = '';
-        }, 150);
-        
-        // Track CTA clicks
-        this.trackCtaClick(button);
-    }
-
-    trackCtaClick(button) {
-        const ctaType = button.textContent.trim();
-        
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'about_cta_click', {
-                'event_category': 'About Section',
-                'event_label': ctaType
-            });
-        }
-        
-        console.log(`About CTA clicked: ${ctaType}`);
-    }
-
-    initializeAnimations() {
-        // Add entrance animations for about section
-        if (this.section) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                    }
-                });
-            }, { threshold: 0.2 });
-            
-            observer.observe(this.section);
-        }
-    }
-}
+// About section is handled by your existing HermesAboutSection class
 
 /* ========================================
    ABOUT SECTION COMPONENT
