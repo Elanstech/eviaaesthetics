@@ -767,247 +767,252 @@ class LuxuryHeader {
 /* ========================================
    SERVICES CAROUSEL - FIXED
    ======================================== */
-/* HERMES COMPLETE SERVICES CAROUSEL JAVASCRIPT */
 
-class HermesServicesCarousel {
+class RefinedServicesCarousel {
     constructor() {
-        this.section = document.querySelector('.hermes-services-showcase');
-        this.carousel = document.getElementById('hermesServicesCarousel');
-        this.track = document.getElementById('hermesCarouselTrack');
-        this.prevBtn = document.getElementById('hermesServicesPrev');
-        this.nextBtn = document.getElementById('hermesServicesNext');
-        this.currentCounter = document.getElementById('hermesCurrentSlide');
-        this.totalCounter = document.getElementById('hermesTotalSlides');
-        this.progressFill = document.getElementById('hermesProgressFill');
-        this.progressDots = document.querySelectorAll('.hermes-progress-dot');
-        this.serviceCards = document.querySelectorAll('.hermes-service-card');
-        this.mainCtaBtn = document.getElementById('hermesViewAllServicesBtn');
+        this.section = document.querySelector('.refined-hermes-services');
+        this.track = document.getElementById('refinedCarouselTrack');
+        this.prevBtn = document.getElementById('refinedPrevBtn');
+        this.nextBtn = document.getElementById('refinedNextBtn');
+        this.currentCounter = document.getElementById('refinedCurrentSlide');
+        this.totalCounter = document.getElementById('refinedTotalSlides');
+        this.progressFill = document.getElementById('refinedProgressFill');
+        this.dots = document.querySelectorAll('.refined-dot');
+        this.serviceCards = document.querySelectorAll('.refined-service-card');
+        this.mainCTA = document.getElementById('refinedMainCTA');
         
-        // State
+        // State Management
         this.currentIndex = 0;
         this.totalSlides = 6;
-        this.isAutoplay = true;
-        this.autoplayInterval = null;
         this.isTransitioning = false;
+        this.autoplayInterval = null;
+        this.autoplayDelay = 5000;
+        this.isAutoplayActive = true;
+        
+        // Responsive Properties
         this.isMobile = window.innerWidth <= 768;
-        this.slideWidth = 460; // Card width + gap
+        this.isTablet = window.innerWidth <= 992;
+        this.cardWidth = this.calculateCardWidth();
+        this.gap = 32;
+        this.maxIndex = this.calculateMaxIndex();
         
-        // Touch handling
-        this.touchStartX = 0;
-        this.touchStartY = 0;
-        this.touchEndX = 0;
-        this.touchEndY = 0;
-        this.isDragging = false;
+        // Touch Handling
+        this.touchState = {
+            startX: 0,
+            startY: 0,
+            currentX: 0,
+            isDragging: false,
+            startTime: 0
+        };
         
-        if (this.section) {
+        if (this.section && this.track) {
             this.init();
-            console.log('✅ Hermes Services Carousel Initialized');
+            console.log('✅ Refined Services Carousel Initialized');
         }
     }
 
     init() {
-        this.setupCarousel();
+        this.setupInitialState();
         this.bindEvents();
         this.updateUI();
         this.startAutoplay();
-        this.setupResponsive();
+        this.setupIntersectionObserver();
     }
 
-    setupCarousel() {
+    setupInitialState() {
         // Set total counter
         if (this.totalCounter) {
             this.totalCounter.textContent = this.totalSlides.toString().padStart(2, '0');
         }
         
-        // Initialize carousel position
-        this.updateCarouselPosition();
+        // Initialize track position
+        this.updateTrackPosition(false);
+        
+        // Set initial accessibility attributes
+        this.setupAccessibility();
+    }
+
+    calculateCardWidth() {
+        if (window.innerWidth <= 480) return 280;
+        if (window.innerWidth <= 768) return 300;
+        if (window.innerWidth <= 992) return 320;
+        if (window.innerWidth <= 1200) return 340;
+        return 360;
+    }
+
+    calculateMaxIndex() {
+        const containerWidth = this.track?.parentElement?.offsetWidth || 800;
+        const totalCardsWidth = (this.cardWidth * this.totalSlides) + (this.gap * (this.totalSlides - 1));
+        const visibleCards = Math.floor((containerWidth + this.gap) / (this.cardWidth + this.gap));
+        
+        // On mobile, show one card at a time
+        if (this.isMobile) {
+            return this.totalSlides - 1;
+        }
+        
+        // On larger screens, calculate based on visible cards
+        return Math.max(0, this.totalSlides - visibleCards);
     }
 
     bindEvents() {
-        // Navigation buttons
-        if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.previousSlide();
-            });
-        }
+        // Navigation Buttons
+        this.prevBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.previousSlide();
+        });
         
-        if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.nextSlide();
-            });
-        }
+        this.nextBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.nextSlide();
+        });
 
-        // Progress dots
-        this.progressDots.forEach((dot, index) => {
+        // Dot Navigation
+        this.dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 this.goToSlide(index);
             });
         });
 
-        // Service cards
+        // Service Cards
         this.serviceCards.forEach((card, index) => {
             card.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.handleServiceCardClick(card, index);
             });
-            
-            // Touch support
-            card.addEventListener('touchend', (e) => {
-                if (!this.isDragging) {
-                    e.preventDefault();
-                    this.handleServiceCardClick(card, index);
-                }
-            });
         });
 
-        // Main CTA button
-        if (this.mainCtaBtn) {
-            this.mainCtaBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleMainCTAClick();
-            });
-            
-            this.mainCtaBtn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                this.handleMainCTAClick();
-            });
-        }
-
-        // Touch/Swipe events
-        if (this.track) {
-            this.setupTouchEvents();
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (this.section.contains(document.activeElement)) {
-                this.handleKeyboardNavigation(e);
-            }
+        // Main CTA
+        this.mainCTA?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.handleMainCTAClick();
         });
+
+        // Touch Events
+        this.setupTouchEvents();
+
+        // Keyboard Navigation
+        this.setupKeyboardNavigation();
+
+        // Window Events
+        window.addEventListener('resize', this.debounce(() => {
+            this.handleResize();
+        }, 250));
+
+        // Intersection Observer for Autoplay
+        this.setupVisibilityHandling();
 
         // Pause autoplay on hover (desktop only)
-        if (!this.isMobile && this.section) {
-            this.section.addEventListener('mouseenter', () => this.pauseAutoplay());
-            this.section.addEventListener('mouseleave', () => this.resumeAutoplay());
+        if (!this.isMobile) {
+            this.section?.addEventListener('mouseenter', () => this.pauseAutoplay());
+            this.section?.addEventListener('mouseleave', () => this.resumeAutoplay());
         }
-
-        // Window resize
-        window.addEventListener('resize', () => {
-            this.handleResize();
-        });
-
-        // Visibility change (pause autoplay when tab not active)
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                this.pauseAutoplay();
-            } else {
-                this.resumeAutoplay();
-            }
-        });
     }
 
     setupTouchEvents() {
-        // Touch start
+        if (!this.track) return;
+
         this.track.addEventListener('touchstart', (e) => {
-            this.touchStartX = e.touches[0].clientX;
-            this.touchStartY = e.touches[0].clientY;
-            this.isDragging = false;
+            this.touchState.startX = e.touches[0].clientX;
+            this.touchState.startY = e.touches[0].clientY;
+            this.touchState.startTime = Date.now();
+            this.touchState.isDragging = false;
             this.pauseAutoplay();
         }, { passive: true });
 
-        // Touch move
         this.track.addEventListener('touchmove', (e) => {
-            if (!this.touchStartX || !this.touchStartY) return;
+            if (!this.touchState.startX) return;
             
-            const touchX = e.touches[0].clientX;
-            const touchY = e.touches[0].clientY;
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const diffX = this.touchState.startX - currentX;
+            const diffY = this.touchState.startY - currentY;
             
-            const diffX = this.touchStartX - touchX;
-            const diffY = this.touchStartY - touchY;
-            
-            // Determine if it's a horizontal swipe
-            if (Math.abs(diffX) > Math.abs(diffY)) {
-                // Horizontal swipe - prevent vertical scroll
+            // Determine if this is a horizontal swipe
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
                 e.preventDefault();
-                this.isDragging = true;
+                this.touchState.isDragging = true;
+                this.touchState.currentX = currentX;
             }
         });
 
-        // Touch end
         this.track.addEventListener('touchend', (e) => {
-            if (!this.touchStartX) return;
+            if (!this.touchState.startX || !this.touchState.isDragging) {
+                this.resumeAutoplay();
+                return;
+            }
             
-            this.touchEndX = e.changedTouches[0].clientX;
-            const diffX = this.touchStartX - this.touchEndX;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = this.touchState.startX - endX;
+            const diffTime = Date.now() - this.touchState.startTime;
+            const velocity = Math.abs(diffX) / diffTime;
             
-            // Minimum swipe distance
-            const minSwipeDistance = 50;
-            
-            if (Math.abs(diffX) > minSwipeDistance) {
+            // Minimum swipe distance and velocity
+            if (Math.abs(diffX) > 50 || velocity > 0.3) {
                 if (diffX > 0) {
-                    // Swipe left - next slide
                     this.nextSlide();
                 } else {
-                    // Swipe right - previous slide
                     this.previousSlide();
                 }
             }
             
-            // Reset values
-            this.touchStartX = 0;
-            this.touchStartY = 0;
-            this.touchEndX = 0;
-            this.touchEndY = 0;
+            // Reset touch state
+            this.touchState = {
+                startX: 0,
+                startY: 0,
+                currentX: 0,
+                isDragging: false,
+                startTime: 0
+            };
             
-            // Resume autoplay after touch
-            setTimeout(() => {
-                if (!this.isDragging) {
-                    this.resumeAutoplay();
-                }
-                this.isDragging = false;
-            }, 100);
+            setTimeout(() => this.resumeAutoplay(), 1000);
         }, { passive: true });
     }
 
-    handleKeyboardNavigation(e) {
-        switch(e.key) {
-            case 'ArrowLeft':
-                e.preventDefault();
-                this.previousSlide();
-                break;
-            case 'ArrowRight':
-                e.preventDefault();
-                this.nextSlide();
-                break;
-            case 'Home':
-                e.preventDefault();
-                this.goToSlide(0);
-                break;
-            case 'End':
-                e.preventDefault();
-                this.goToSlide(this.totalSlides - 1);
-                break;
-        }
+    setupKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            if (!this.section?.contains(document.activeElement)) return;
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.previousSlide();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.nextSlide();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    this.goToSlide(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    this.goToSlide(this.maxIndex);
+                    break;
+            }
+        });
     }
 
     nextSlide() {
-        if (this.isTransitioning) return;
-        this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+        if (this.isTransitioning || this.currentIndex >= this.maxIndex) return;
+        
+        this.currentIndex = Math.min(this.currentIndex + 1, this.maxIndex);
         this.updateSlide();
         this.trackInteraction('next_slide');
     }
 
     previousSlide() {
-        if (this.isTransitioning) return;
-        this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+        if (this.isTransitioning || this.currentIndex <= 0) return;
+        
+        this.currentIndex = Math.max(this.currentIndex - 1, 0);
         this.updateSlide();
         this.trackInteraction('previous_slide');
     }
 
     goToSlide(index) {
-        if (this.isTransitioning || index === this.currentIndex || index < 0 || index >= this.totalSlides) return;
+        if (this.isTransitioning || index === this.currentIndex) return;
+        if (index < 0 || index > this.maxIndex) return;
+        
         this.currentIndex = index;
         this.updateSlide();
         this.trackInteraction('dot_navigation', index);
@@ -1016,23 +1021,36 @@ class HermesServicesCarousel {
     updateSlide() {
         this.isTransitioning = true;
         
-        // Update visual indicators
+        // Update UI elements
         this.updateUI();
-        this.updateCarouselPosition();
+        
+        // Update track position
+        this.updateTrackPosition(true);
         
         // Reset transition lock
         setTimeout(() => {
             this.isTransitioning = false;
-        }, 800);
+        }, 600);
     }
 
-    updateCarouselPosition() {
+    updateTrackPosition(animated = true) {
         if (!this.track) return;
         
-        // Only apply transform on desktop/tablet
-        if (window.innerWidth > 768) {
-            const translateX = -(this.currentIndex * this.slideWidth);
-            this.track.style.transform = `translateX(${translateX}px)`;
+        const translateX = -(this.currentIndex * (this.cardWidth + this.gap));
+        
+        if (animated) {
+            this.track.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        } else {
+            this.track.style.transition = 'none';
+        }
+        
+        this.track.style.transform = `translateX(${translateX}px)`;
+        
+        // Reset transition after animation
+        if (animated) {
+            setTimeout(() => {
+                this.track.style.transition = '';
+            }, 600);
         }
     }
 
@@ -1044,87 +1062,132 @@ class HermesServicesCarousel {
         
         // Update progress bar
         if (this.progressFill) {
-            const progress = ((this.currentIndex + 1) / this.totalSlides) * 100;
-            this.progressFill.style.width = `${progress}%`;
+            const progress = this.maxIndex > 0 ? 
+                ((this.currentIndex / this.maxIndex) * 100) : 
+                (this.currentIndex / (this.totalSlides - 1)) * 100;
+            this.progressFill.style.width = `${Math.min(100, Math.max(0, progress))}%`;
         }
         
-        // Update progress dots
-        this.progressDots.forEach((dot, index) => {
+        // Update dots
+        this.dots.forEach((dot, index) => {
             dot.classList.toggle('active', index === this.currentIndex);
         });
         
-        // Update navigation buttons state
-        if (this.prevBtn && this.nextBtn) {
-            this.prevBtn.disabled = false;
-            this.nextBtn.disabled = false;
+        // Update navigation buttons
+        if (this.prevBtn) {
+            this.prevBtn.disabled = this.currentIndex <= 0;
+        }
+        if (this.nextBtn) {
+            this.nextBtn.disabled = this.currentIndex >= this.maxIndex;
         }
     }
 
     handleServiceCardClick(card, index) {
-        const serviceName = card.querySelector('.hermes-service-title').textContent;
+        const serviceName = card.querySelector('.refined-service-title')?.textContent;
         const serviceSlug = card.dataset.service;
         
-        console.log(`🎯 Service card clicked: ${serviceName} (${index + 1})`);
+        console.log(`🎯 Service Card Clicked: ${serviceName} (${index + 1})`);
         
         // Visual feedback
         this.addClickFeedback(card);
         
-        // Show service feedback
+        // Show loading feedback
         this.showServiceFeedback(serviceName);
         
         // Track interaction
         this.trackInteraction('service_card_click', serviceSlug);
         
-        // Navigate to services.html with anchor
+        // Navigate to services page
         setTimeout(() => {
             window.location.href = `services.html#${serviceSlug}`;
-        }, 600);
+        }, 800);
     }
 
     handleMainCTAClick() {
-        console.log('🎯 Main Services CTA clicked - Navigating to services.html');
+        console.log('🎯 Main CTA Clicked - Navigating to services.html');
         
         // Visual feedback
-        this.addClickFeedback(this.mainCtaBtn);
+        this.addClickFeedback(this.mainCTA);
         
-        // Update button text temporarily
-        this.showLoadingFeedback();
+        // Show loading state
+        this.showCTALoadingState();
         
         // Track interaction
         this.trackInteraction('main_cta_click');
         
-        // Navigate to services.html
+        // Navigate
         setTimeout(() => {
             window.location.href = 'services.html';
         }, 800);
     }
 
     addClickFeedback(element) {
+        if (!element) return;
+        
         element.style.transform = 'scale(0.98)';
-        element.style.transition = 'transform 0.2s ease';
+        element.style.transition = 'transform 0.15s ease';
         
         setTimeout(() => {
             element.style.transform = '';
             element.style.transition = '';
-        }, 200);
+        }, 150);
     }
 
     showServiceFeedback(serviceName) {
+        const feedback = this.createFeedback(`Exploring ${serviceName}...`, 'ri-arrow-right-line');
+        this.displayFeedback(feedback);
+    }
+
+    showCTALoadingState() {
+        if (!this.mainCTA) return;
+        
+        const textElement = this.mainCTA.querySelector('.refined-cta-text');
+        const iconElement = this.mainCTA.querySelector('.refined-cta-icon i');
+        
+        if (textElement && iconElement) {
+            const originalText = textElement.textContent;
+            const originalIcon = iconElement.className;
+            
+            textElement.textContent = 'Loading...';
+            iconElement.className = 'ri-loader-4-line';
+            iconElement.style.animation = 'spin 1s linear infinite';
+            
+            // Add spinner animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes spin { 
+                    from { transform: rotate(0deg); } 
+                    to { transform: rotate(360deg); } 
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Reset after delay
+            setTimeout(() => {
+                if (textElement && iconElement) {
+                    textElement.textContent = originalText;
+                    iconElement.className = originalIcon;
+                    iconElement.style.animation = '';
+                }
+                style.remove();
+            }, 1200);
+        }
+    }
+
+    createFeedback(message, iconClass) {
         const feedback = document.createElement('div');
-        feedback.className = 'hermes-services-feedback';
+        feedback.className = 'refined-feedback';
         feedback.innerHTML = `
-            <div class="feedback-content">
-                <i class="ri-check-line"></i>
-                <span>Exploring ${serviceName}...</span>
-            </div>
+            <i class="${iconClass}"></i>
+            <span>${message}</span>
         `;
         
-        // Feedback styles
+        // Styles
         feedback.style.cssText = `
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
+            transform: translate(-50%, -50%) scale(0.9);
             background: linear-gradient(135deg, #FF8C00, #FFA500);
             color: white;
             padding: 16px 24px;
@@ -1136,15 +1199,16 @@ class HermesServicesCarousel {
             opacity: 0;
             pointer-events: none;
             box-shadow: 0 20px 60px rgba(255, 140, 0, 0.3);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        `;
-        
-        feedback.querySelector('.feedback-content').style.cssText = `
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         `;
         
+        return feedback;
+    }
+
+    displayFeedback(feedback) {
         document.body.appendChild(feedback);
         
         // Animate in
@@ -1153,54 +1217,25 @@ class HermesServicesCarousel {
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
-        // Remove after delay
+        // Animate out and remove
         setTimeout(() => {
             feedback.style.opacity = '0';
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => feedback.remove(), 400);
-        }, 2000);
-    }
-
-    showLoadingFeedback() {
-        if (!this.mainCtaBtn) return;
-        
-        const ctaText = this.mainCtaBtn.querySelector('.hermes-cta-text');
-        const ctaIcon = this.mainCtaBtn.querySelector('.hermes-cta-icon i');
-        
-        if (ctaText && ctaIcon) {
-            const originalText = ctaText.textContent;
-            ctaText.textContent = 'Loading Services...';
-            ctaIcon.className = 'ri-loader-4-line';
-            ctaIcon.style.animation = 'spin 1s linear infinite';
-            
-            // Add loading animation
-            const loadingStyles = document.createElement('style');
-            loadingStyles.textContent = `
-                @keyframes spin {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
-                }
-            `;
-            document.head.appendChild(loadingStyles);
-            
-            // Reset after navigation
-            setTimeout(() => {
-                if (ctaText && ctaIcon) {
-                    ctaText.textContent = originalText;
-                    ctaIcon.className = 'ri-arrow-right-line';
-                    ctaIcon.style.animation = '';
-                }
-                loadingStyles.remove();
-            }, 1000);
-        }
+            setTimeout(() => feedback.remove(), 300);
+        }, 2500);
     }
 
     startAutoplay() {
-        if (this.isAutoplay && !this.autoplayInterval && !this.isMobile && !document.hidden) {
-            this.autoplayInterval = setInterval(() => {
+        if (!this.isAutoplayActive || this.isMobile || this.autoplayInterval) return;
+        
+        this.autoplayInterval = setInterval(() => {
+            if (this.currentIndex >= this.maxIndex) {
+                // Reset to beginning when reaching end
+                this.goToSlide(0);
+            } else {
                 this.nextSlide();
-            }, 4000);
-        }
+            }
+        }, this.autoplayDelay);
     }
 
     pauseAutoplay() {
@@ -1211,60 +1246,118 @@ class HermesServicesCarousel {
     }
 
     resumeAutoplay() {
-        if (this.isAutoplay && !this.isMobile && !document.hidden) {
-            this.startAutoplay();
+        if (this.isAutoplayActive && !this.isMobile) {
+            setTimeout(() => {
+                this.startAutoplay();
+            }, 1000);
         }
     }
 
-    setupResponsive() {
-        this.handleResize();
+    setupVisibilityHandling() {
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.pauseAutoplay();
+            } else {
+                this.resumeAutoplay();
+            }
+        });
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.isAutoplayActive = true;
+                    this.resumeAutoplay();
+                } else {
+                    this.isAutoplayActive = false;
+                    this.pauseAutoplay();
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        });
+        
+        if (this.section) {
+            observer.observe(this.section);
+        }
+    }
+
+    setupAccessibility() {
+        // Add ARIA labels and roles
+        if (this.track) {
+            this.track.setAttribute('role', 'region');
+            this.track.setAttribute('aria-label', 'Services carousel');
+        }
+        
+        this.serviceCards.forEach((card, index) => {
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+            const serviceName = card.querySelector('.refined-service-title')?.textContent;
+            card.setAttribute('aria-label', `Learn more about ${serviceName}`);
+        });
+        
+        this.dots.forEach((dot, index) => {
+            dot.setAttribute('tabindex', '0');
+            dot.setAttribute('role', 'button');
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+        });
     }
 
     handleResize() {
+        const wasTablet = this.isTablet;
         const wasMobile = this.isMobile;
-        this.isMobile = window.innerWidth <= 768;
         
+        this.isMobile = window.innerWidth <= 768;
+        this.isTablet = window.innerWidth <= 992;
+        this.cardWidth = this.calculateCardWidth();
+        this.maxIndex = this.calculateMaxIndex();
+        
+        // Ensure current index is within bounds
+        this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
+        
+        // Update UI and position
+        this.updateUI();
+        this.updateTrackPosition(false);
+        
+        // Handle autoplay changes
         if (wasMobile !== this.isMobile) {
-            // Screen size changed
             if (this.isMobile) {
-                // Switched to mobile
                 this.pauseAutoplay();
-                this.track.style.transform = '';
             } else {
-                // Switched to desktop
-                this.updateCarouselPosition();
                 this.resumeAutoplay();
             }
-        }
-        
-        // Update slide width for desktop
-        if (!this.isMobile) {
-            this.slideWidth = window.innerWidth > 1400 ? 460 : 390;
-            this.updateCarouselPosition();
         }
     }
 
     trackInteraction(action, data = null) {
-        console.log(`📊 Services Carousel: ${action}${data ? ` - ${data}` : ''}`);
+        console.log(`📊 Refined Services: ${action}${data ? ` - ${data}` : ''}`);
         
-        // Add analytics tracking here
+        // Analytics integration
         if (typeof gtag !== 'undefined') {
-            gtag('event', 'services_carousel_interaction', {
-                event_category: 'Services Carousel',
+            gtag('event', 'refined_services_interaction', {
+                event_category: 'Refined Services',
                 event_label: data || action,
                 value: this.currentIndex + 1
             });
         }
-        
-        if (typeof fbq !== 'undefined') {
-            fbq('track', 'ViewContent', {
-                content_type: 'services_carousel',
-                content_name: data || action
-            });
-        }
     }
 
-    // Public methods
+    // Utility function
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Public API
     navigateToServices() {
         this.handleMainCTAClick();
     }
@@ -1273,7 +1366,7 @@ class HermesServicesCarousel {
         const card = document.querySelector(`[data-service="${serviceSlug}"]`);
         if (card) {
             const index = Array.from(this.serviceCards).indexOf(card);
-            if (index !== -1) {
+            if (index !== -1 && index <= this.maxIndex) {
                 this.goToSlide(index);
                 setTimeout(() => {
                     this.handleServiceCardClick(card, index);
@@ -1284,79 +1377,49 @@ class HermesServicesCarousel {
 
     destroy() {
         this.pauseAutoplay();
-        // Remove event listeners if needed
-        console.log('🗑️ Services Carousel destroyed');
+        // Additional cleanup can be added here
+        console.log('🗑️ Refined Services Carousel destroyed');
     }
 }
 
-// Initialize when DOM is ready
+// Initialize the carousel
 document.addEventListener('DOMContentLoaded', () => {
-    window.hermesServicesCarousel = new HermesServicesCarousel();
+    window.refinedServicesCarousel = new RefinedServicesCarousel();
 });
 
-// Alternative initialization for immediate script loading
+// Alternative initialization
 if (document.readyState !== 'loading') {
-    window.hermesServicesCarousel = new HermesServicesCarousel();
+    window.refinedServicesCarousel = new RefinedServicesCarousel();
 }
 
 // Global utility functions
-window.navigateToHermesServices = () => {
-    if (window.hermesServicesCarousel) {
-        window.hermesServicesCarousel.navigateToServices();
+window.navigateToRefinedServices = () => {
+    if (window.refinedServicesCarousel) {
+        window.refinedServicesCarousel.navigateToServices();
     } else {
         window.location.href = 'services.html';
     }
 };
 
-window.showHermesService = (serviceSlug) => {
-    if (window.hermesServicesCarousel) {
-        window.hermesServicesCarousel.goToService(serviceSlug);
+window.showRefinedService = (serviceSlug) => {
+    if (window.refinedServicesCarousel) {
+        window.refinedServicesCarousel.goToService(serviceSlug);
     } else {
         window.location.href = `services.html#${serviceSlug}`;
     }
 };
 
-// Handle intersection observer for scroll animations
-const observeServicesSection = () => {
-    const section = document.querySelector('.hermes-services-showcase');
-    if (!section) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Animate service cards with stagger
-                const cards = section.querySelectorAll('.hermes-service-card');
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-                
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-    
-    observer.observe(section);
-};
-
-// Initialize scroll observer
-document.addEventListener('DOMContentLoaded', observeServicesSection);
-
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { 
-        HermesServicesCarousel, 
-        navigateToHermesServices, 
-        showHermesService 
+        RefinedServicesCarousel, 
+        navigateToRefinedServices, 
+        showRefinedService 
     };
 }
 
-console.log('🎨 Hermes Services Carousel Script Loaded Successfully!');
+console.log('✨ Refined Hermes Services Carousel Script Loaded Successfully!');
+
 
 /* ========================================
    RESULTS GALLERY - FIXED
@@ -2181,7 +2244,7 @@ window.addEventListener('load', () => {
 window.MobileMenu = MobileMenu;
 window.FloatingButtons = FloatingButtons;
 window.LuxuryHeader = LuxuryHeader;
-window.ServicesCarousel = ServicesCarousel;
+window.ServicesCarousel = RefinedServicesCarousel;
 window.ContactSection = ContactSection;
 window.HeroSection = HeroSection;
 window.AboutSection = AboutSection;
