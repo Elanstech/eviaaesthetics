@@ -1425,138 +1425,301 @@ console.log('✨ Refined Hermes Services Carousel Script Loaded Successfully!');
 /* ========================================
    RESULTS GALLERY - FIXED
    ======================================== */
-class ResultsGallery {
+class HermesResultsShowcase {
     constructor() {
-        this.gallery = document.querySelector('.results-showcase');
-        this.filterButtons = document.querySelectorAll('.results-showcase__filter');
-        this.resultItems = document.querySelectorAll('.results-showcase__item');
-        this.mobileResultsBtn = document.getElementById('mobileResultsBtn');
-        this.resultsCtaBtn = document.getElementById('resultsCtaBtn');
-        this.activeFilter = 'all';
+        this.section = document.querySelector('.hermes-results-showcase');
+        this.filterButtons = document.querySelectorAll('.hermes-filter-btn');
+        this.resultItems = document.querySelectorAll('.hermes-result-item');
+        this.ctaButton = document.getElementById('hermesResultsCtaBtn');
         
-        if (this.gallery) {
+        // Comparison functionality
+        this.comparisons = document.querySelectorAll('.result-comparison-wrapper');
+        this.activeComparison = null;
+        
+        // Filter state
+        this.activeFilter = 'all';
+        this.isAnimating = false;
+        
+        if (this.section) {
             this.init();
-            console.log('✅ Results Gallery Initialized Successfully');
+            console.log('✅ Hermes Results Showcase Initialized');
         }
     }
-
+   
     init() {
-        this.initImageComparisons();
+        this.initializeComparisons();
         this.bindEvents();
+        this.setupIntersectionObserver();
+        this.setupKeyboardNavigation();
     }
 
-    initImageComparisons() {
-        const comparisons = document.querySelectorAll('.results-showcase__comparison');
-        
-        comparisons.forEach(comparison => {
-            const slider = comparison.querySelector('.comparison-slider');
-            const afterImage = comparison.querySelector('.comparison-image.after');
+    initializeComparisons() {
+        this.comparisons.forEach(comparison => {
+            const slider = comparison.querySelector('.result-slider');
+            const afterImage = comparison.querySelector('.result-after');
             
             if (slider && afterImage) {
                 let isActive = false;
+                let currentPosition = 50;
                 
-                const updateSlider = (clientX) => {
-                    const rect = comparison.getBoundingClientRect();
-                    const x = clientX - rect.left;
-                    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-                    
-                    slider.style.left = `${percentage}%`;
-                    afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-                };
+                // Initialize position
+                this.updateSliderPosition(comparison, currentPosition);
                 
-                // Mouse events
+                // Mouse Events
                 slider.addEventListener('mousedown', (e) => {
-                    isActive = true;
-                    updateSlider(e.clientX);
                     e.preventDefault();
+                    isActive = true;
+                    this.activeComparison = comparison;
+                    comparison.classList.add('dragging');
+                    document.body.style.cursor = 'ew-resize';
+                    this.updateSliderPosition(comparison, this.getPositionFromEvent(e, comparison));
                 });
                 
                 comparison.addEventListener('mousemove', (e) => {
-                    if (isActive) {
-                        updateSlider(e.clientX);
+                    if (isActive && this.activeComparison === comparison) {
+                        this.updateSliderPosition(comparison, this.getPositionFromEvent(e, comparison));
                     }
                 });
                 
-                document.addEventListener('mouseup', () => {
-                    isActive = false;
-                });
-                
-                // Touch events
+                // Touch Events
                 slider.addEventListener('touchstart', (e) => {
-                    isActive = true;
-                    updateSlider(e.touches[0].clientX);
                     e.preventDefault();
-                });
+                    isActive = true;
+                    this.activeComparison = comparison;
+                    comparison.classList.add('dragging');
+                    this.updateSliderPosition(comparison, this.getPositionFromEvent(e.touches[0], comparison));
+                }, { passive: false });
                 
                 comparison.addEventListener('touchmove', (e) => {
-                    if (isActive) {
-                        updateSlider(e.touches[0].clientX);
+                    if (isActive && this.activeComparison === comparison) {
                         e.preventDefault();
+                        this.updateSliderPosition(comparison, this.getPositionFromEvent(e.touches[0], comparison));
+                    }
+                }, { passive: false });
+                
+                // Global mouse/touch end events
+                document.addEventListener('mouseup', () => this.endDragging());
+                document.addEventListener('touchend', () => this.endDragging());
+                
+                // Hover effect
+                comparison.addEventListener('mouseenter', () => {
+                    if (!isActive) {
+                        comparison.classList.add('hover');
                     }
                 });
                 
-                comparison.addEventListener('touchend', () => {
-                    isActive = false;
+                comparison.addEventListener('mouseleave', () => {
+                    comparison.classList.remove('hover');
+                });
+                
+                // Click to center
+                comparison.addEventListener('dblclick', () => {
+                    this.animateSliderTo(comparison, 50);
                 });
             }
         });
+    }
+
+    getPositionFromEvent(event, container) {
+        const rect = container.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+        return percentage;
+    }
+
+    updateSliderPosition(container, percentage) {
+        const slider = container.querySelector('.result-slider');
+        const afterImage = container.querySelector('.result-after');
+        
+        if (slider && afterImage) {
+            slider.style.left = `${percentage}%`;
+            afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+            slider.dataset.position = percentage;
+        }
+    }
+
+    animateSliderTo(container, targetPercentage) {
+        const currentPercentage = parseFloat(container.querySelector('.result-slider').dataset.position) || 50;
+        const duration = 600;
+        const startTime = Date.now();
+        
+        const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function
+            const easeInOutCubic = t => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+            const easedProgress = easeInOutCubic(progress);
+            
+            const currentPos = currentPercentage + (targetPercentage - currentPercentage) * easedProgress;
+            this.updateSliderPosition(container, currentPos);
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+        
+        animate();
+    }
+
+    endDragging() {
+        if (this.activeComparison) {
+            this.activeComparison.classList.remove('dragging');
+            this.activeComparison = null;
+            document.body.style.cursor = '';
+        }
     }
 
     bindEvents() {
         // Filter buttons
         this.filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const filter = button.dataset.filter;
-                this.setActiveFilter(filter);
-                this.filterResults(filter);
-            });
-        });
-
-        // Mobile results button
-        if (this.mobileResultsBtn) {
-            this.mobileResultsBtn.addEventListener('click', (e) => {
+            button.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.showFeedback('Loading full gallery...', 'ri-image-line');
+                if (this.isAnimating) return;
                 
-                setTimeout(() => {
-                    window.location.href = 'results.html';
-                }, 1000);
+                const filter = button.dataset.filter;
+                this.handleFilterChange(filter, button);
             });
-        }
+        });
 
-        // Results CTA button
-        if (this.resultsCtaBtn) {
-            this.resultsCtaBtn.addEventListener('click', (e) => {
+        // CTA button
+        if (this.ctaButton) {
+            this.ctaButton.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.scrollToContact();
+                this.handleCtaClick();
+            });
+            
+            this.ctaButton.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.handleCtaClick();
+            });
+        }
+
+        // Result item interactions
+        this.resultItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                this.enhanceItemVisually(item);
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                this.resetItemVisuals(item);
+            });
+        });
+    }
+
+    handleFilterChange(filter, button) {
+        if (filter === this.activeFilter) return;
+        
+        console.log(`🔍 Filtering results: ${filter}`);
+        this.isAnimating = true;
+        
+        // Update active button
+        this.filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        // Add click feedback
+        this.addButtonFeedback(button);
+        
+        // Filter results with animation
+        this.filterResults(filter).then(() => {
+            this.activeFilter = filter;
+            this.isAnimating = false;
+        });
+    }
+
+    async filterResults(filter) {
+        // Hide items that don't match
+        const hidePromises = Array.from(this.resultItems).map((item, index) => {
+            return new Promise(resolve => {
+                const categories = item.dataset.category.split(' ');
+                const shouldShow = filter === 'all' || categories.includes(filter);
+                
+                if (!shouldShow) {
+                    setTimeout(() => {
+                        item.classList.add('hidden');
+                        resolve();
+                    }, index * 50);
+                } else {
+                    resolve();
+                }
+            });
+        });
+        
+        await Promise.all(hidePromises);
+        
+        // Wait a bit, then show matching items
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        const showPromises = Array.from(this.resultItems).map((item, index) => {
+            return new Promise(resolve => {
+                const categories = item.dataset.category.split(' ');
+                const shouldShow = filter === 'all' || categories.includes(filter);
+                
+                if (shouldShow) {
+                    setTimeout(() => {
+                        item.classList.remove('hidden');
+                        resolve();
+                    }, index * 100);
+                } else {
+                    resolve();
+                }
+            });
+        });
+        
+        await Promise.all(showPromises);
+    }
+   
+    enhanceItemVisually(item) {
+        const comparison = item.querySelector('.result-comparison-wrapper');
+        if (comparison) {
+            const images = comparison.querySelectorAll('.result-image img');
+            images.forEach(img => {
+                img.style.transform = 'scale(1.05)';
+                img.style.filter = 'brightness(1.1) contrast(1.05)';
             });
         }
     }
 
-    setActiveFilter(filter) {
-        this.activeFilter = filter;
-        this.filterButtons.forEach(button => {
-            button.classList.toggle('active', button.dataset.filter === filter);
-        });
+    resetItemVisuals(item) {
+        const comparison = item.querySelector('.result-comparison-wrapper');
+        if (comparison) {
+            const images = comparison.querySelectorAll('.result-image img');
+            images.forEach(img => {
+                img.style.transform = '';
+                img.style.filter = '';
+            });
+        }
     }
 
-    filterResults(filter) {
-        this.resultItems.forEach(item => {
-            const category = item.dataset.category;
-            const shouldShow = filter === 'all' || category === filter;
-            
-            if (shouldShow) {
-                item.style.display = 'block';
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-            } else {
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(20px)';
-                setTimeout(() => {
-                    item.style.display = 'none';
-                }, 300);
-            }
-        });
+    addButtonFeedback(button) {
+        button.style.transform = 'translateY(-2px) scale(0.98)';
+        setTimeout(() => {
+            button.style.transform = '';
+        }, 200);
+    }
+
+    handleCtaClick() {
+        console.log('📅 Results CTA clicked - Scheduling consultation');
+        
+        // Visual feedback
+        this.addCtaFeedback();
+        
+        // Show action feedback
+        this.showActionFeedback('Opening consultation booking...', 'ri-calendar-check-line');
+        
+        // Scroll to contact section
+        setTimeout(() => {
+            this.scrollToContact();
+        }, 1000);
+    }
+
+    addCtaFeedback() {
+        if (this.ctaButton) {
+            this.ctaButton.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.ctaButton.style.transform = '';
+            }, 150);
+        }
     }
 
     scrollToContact() {
@@ -1572,48 +1735,160 @@ class ResultsGallery {
         }
     }
 
-    showFeedback(message, iconClass) {
+    showActionFeedback(message, iconClass) {
         const feedback = document.createElement('div');
+        feedback.innerHTML = `<i class="${iconClass}"></i><span>${message}</span>`;
         feedback.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #FF8C00;
-            color: white;
-            padding: 16px 24px;
-            border-radius: 24px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 10001;
-            pointer-events: none;
-            opacity: 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 200px;
-            justify-content: center;
-        `;
-        
-        feedback.innerHTML = `
-            <i class="${iconClass}"></i>
-            <span>${message}</span>
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #FF8C00, #FFA500); color: white;
+            padding: 18px 28px; border-radius: 50px; font-family: 'Inter', sans-serif;
+            font-size: 14px; font-weight: 600; z-index: 10001; opacity: 0;
+            display: flex; align-items: center; gap: 12px; justify-content: center;
+            transition: all 0.4s ease; box-shadow: 0 20px 60px rgba(255, 140, 0, 0.3);
+            min-width: 280px;
         `;
         
         document.body.appendChild(feedback);
         
         requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.4s ease';
             feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
         setTimeout(() => {
             feedback.style.opacity = '0';
             setTimeout(() => feedback.remove(), 400);
-        }, 2000);
+        }, 2500);
+    }
+   
+    setupKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            if (!this.section.contains(document.activeElement)) return;
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                case 'ArrowRight':
+                    if (this.activeComparison) {
+                        e.preventDefault();
+                        const currentPos = parseFloat(this.activeComparison.querySelector('.result-slider').dataset.position) || 50;
+                        const newPos = e.key === 'ArrowLeft' ? 
+                            Math.max(0, currentPos - 5) : 
+                            Math.min(100, currentPos + 5);
+                        this.updateSliderPosition(this.activeComparison, newPos);
+                    }
+                    break;
+                case 'Enter':
+                case ' ':
+                    if (document.activeElement.classList.contains('result-comparison-wrapper')) {
+                        e.preventDefault();
+                        this.animateSliderTo(document.activeElement, 50);
+                    }
+                    break;
+            }
+        });
+    }
+   
+    setupIntersectionObserver() {
+        const observeElements = [
+            '.hermes-result-item',
+            '.hermes-results-cta'
+        ];
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    this.triggerItemAnimation(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        observeElements.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => observer.observe(el));
+        });
+    }
+
+    triggerItemAnimation(element) {
+        if (element.classList.contains('hermes-result-item')) {
+            const slider = element.querySelector('.result-slider');
+            if (slider) {
+                setTimeout(() => {
+                    // Subtle animation to show interactivity
+                    this.animateSliderTo(element.querySelector('.result-comparison-wrapper'), 60);
+                    setTimeout(() => {
+                        this.animateSliderTo(element.querySelector('.result-comparison-wrapper'), 50);
+                    }, 800);
+                }, Math.random() * 500);
+            }
+        }
+    }
+   
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    filterByCategory(category) {
+        const button = document.querySelector(`[data-filter="${category}"]`);
+        if (button) {
+            this.handleFilterChange(category, button);
+        }
+    }
+
+    resetAllSliders() {
+        this.comparisons.forEach(comparison => {
+            this.animateSliderTo(comparison, 50);
+        });
+    }
+
+    destroy() {
+        // Cleanup event listeners
+        document.removeEventListener('mouseup', this.endDragging);
+        document.removeEventListener('touchend', this.endDragging);
+        console.log('🗑️ Hermes Results Showcase destroyed');
     }
 }
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    window.hermesResultsShowcase = new HermesResultsShowcase();
+});
+
+// Alternative initialization for dynamic loading
+if (document.readyState !== 'loading') {
+    window.hermesResultsShowcase = new HermesResultsShowcase();
+}
+
+// Global utility functions
+window.filterResults = (category) => {
+    if (window.hermesResultsShowcase) {
+        window.hermesResultsShowcase.filterByCategory(category);
+    }
+};
+
+window.resetSliders = () => {
+    if (window.hermesResultsShowcase) {
+        window.hermesResultsShowcase.resetAllSliders();
+    }
+};
+
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = HermesResultsShowcase;
+}
+
+console.log('✨ Hermes Results Showcase Script Loaded Successfully!');
 
 /* ========================================
    CONTACT SECTION - FIXED
