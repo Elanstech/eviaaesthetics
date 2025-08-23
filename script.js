@@ -161,10 +161,14 @@ class EviaAestheticsApp {
         this.components.set('mobileMenu', new MobileMenu());
         this.components.set('servicesCarousel', new HermesServicesCarousel()); // New carousel
         this.components.set('aboutSection', new HermesAboutSection());
-        this.components.set('resultsGallery', new ResultsGallery());
         this.components.set('contactForm', new LuxuryContactSection());
         this.components.set('scrollIndicator', new ScrollIndicator());
         this.components.set('floatingButtons', new HermesFloatingButtons());
+        
+        // Initialize your existing ResultsGallery if it exists
+        if (typeof ResultsGallery !== 'undefined') {
+            this.components.set('resultsGallery', new ResultsGallery());
+        }
     }
 
     getComponent(name) {
