@@ -767,237 +767,361 @@ class LuxuryHeader {
 /* ========================================
    SERVICES CAROUSEL - FIXED
    ======================================== */
-class ServicesCarousel {
+class HermesServicesSection {
     constructor() {
-        this.carousel = document.getElementById('servicesCarousel') || document.querySelector('.hermes-services-carousel');
-        this.track = document.getElementById('carouselTrack') || document.querySelector('.carousel-track');
-        this.prevBtn = document.getElementById('prevBtn') || document.querySelector('.hermes-nav-btn.prev');
-        this.nextBtn = document.getElementById('nextBtn') || document.querySelector('.hermes-nav-btn.next');
-        this.currentCounter = document.querySelector('.counter-current');
-        this.totalCounter = document.querySelector('.counter-total');
-        this.progressFill = document.querySelector('.progress-fill');
-        this.progressDots = document.querySelectorAll('.progress-dot');
+        this.section = document.querySelector('.hermes-services-section');
+        this.mainCtaBtn = document.getElementById('viewAllServicesBtn');
+        this.serviceTiles = document.querySelectorAll('.service-tile');
+        this.hermesServicesInit = false;
         
-        // State
-        this.currentIndex = 0;
-        this.totalSlides = 0;
-        this.isAutoplay = true;
-        this.autoplayInterval = null;
-        this.isTransitioning = false;
-        
-        if (this.carousel && this.track) {
+        if (this.section) {
             this.init();
-            console.log('✅ Services Carousel Initialized Successfully');
+            console.log('✅ Hermes Services Section Initialized');
         }
     }
 
     init() {
-        this.calculateSlides();
-        this.bindEvents();
-        this.updateCounters();
-        this.updateProgress();
-        this.startAutoplay();
+        this.setupMainCTA();
+        this.setupServiceTiles();
+        this.setupAnimations();
+        this.setupAccessibility();
+        this.hermesServicesInit = true;
     }
 
-    calculateSlides() {
-        const cards = this.track.querySelectorAll('.hermes-service-card');
-        this.totalSlides = cards.length;
-        
-        if (this.totalCounter) {
-            this.totalCounter.textContent = this.totalSlides.toString();
-        }
-    }
-
-    bindEvents() {
-        // Navigation buttons
-        if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', (e) => {
+    setupMainCTA() {
+        if (this.mainCtaBtn) {
+            // Main CTA click handler - Navigate to services.html
+            this.mainCtaBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.previousSlide();
+                this.handleMainCTAClick();
             });
-        }
-        
-        if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', (e) => {
+
+            // Touch support for mobile
+            this.mainCtaBtn.addEventListener('touchend', (e) => {
                 e.preventDefault();
-                this.nextSlide();
+                this.handleMainCTAClick();
+            });
+
+            // Enhanced hover effects
+            this.mainCtaBtn.addEventListener('mouseenter', () => {
+                this.triggerCTAHover();
             });
         }
-
-        // Progress dots
-        this.progressDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                this.goToSlide(index);
-            });
-        });
-
-        // Service card clicks
-        const serviceCards = document.querySelectorAll('.hermes-service-card');
-        serviceCards.forEach(card => {
-            const primaryCta = card.querySelector('.primary-cta');
-            const secondaryCta = card.querySelector('.secondary-cta');
-            
-            if (primaryCta) {
-                primaryCta.addEventListener('click', (e) => {
-                    // Allow natural link behavior
-                    console.log('Service primary CTA clicked');
-                });
-            }
-            
-            if (secondaryCta) {
-                secondaryCta.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    console.log('Service secondary CTA clicked - booking');
-                    this.scrollToContact();
-                });
-            }
-        });
-
-        // Touch events for mobile swipe
-        if (this.track) {
-            let startX, startY, isScrolling;
-            
-            this.track.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-                isScrolling = false;
-            }, { passive: true });
-            
-            this.track.addEventListener('touchmove', (e) => {
-                if (!startX || !startY) return;
-                
-                const diffX = startX - e.touches[0].clientX;
-                const diffY = startY - e.touches[0].clientY;
-                
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    // Horizontal swipe
-                    isScrolling = false;
-                    e.preventDefault();
-                } else {
-                    // Vertical scroll
-                    isScrolling = true;
-                }
-            });
-            
-            this.track.addEventListener('touchend', (e) => {
-                if (!startX || isScrolling) return;
-                
-                const endX = e.changedTouches[0].clientX;
-                const diffX = startX - endX;
-                
-                if (Math.abs(diffX) > 50) {
-                    if (diffX > 0) {
-                        this.nextSlide();
-                    } else {
-                        this.previousSlide();
-                    }
-                }
-                
-                startX = null;
-                startY = null;
-            }, { passive: true });
-        }
-
-        // Pause autoplay on hover (desktop only)
-        if (this.carousel && window.innerWidth > 768) {
-            this.carousel.addEventListener('mouseenter', () => this.pauseAutoplay());
-            this.carousel.addEventListener('mouseleave', () => this.resumeAutoplay());
-        }
     }
 
-    nextSlide() {
-        if (this.isTransitioning) return;
-        this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
-        this.updateSlide();
-    }
-
-    previousSlide() {
-        if (this.isTransitioning) return;
-        this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
-        this.updateSlide();
-    }
-
-    goToSlide(index) {
-        if (this.isTransitioning || index === this.currentIndex) return;
-        this.currentIndex = index;
-        this.updateSlide();
-    }
-
-    updateSlide() {
-        this.isTransitioning = true;
+    handleMainCTAClick() {
+        console.log('🎯 Main Services CTA clicked - Navigating to services.html');
         
-        // Update visual indicators
-        this.updateCounters();
-        this.updateProgress();
-        this.updateDots();
+        // Add clicked state with visual feedback
+        this.mainCtaBtn.style.transform = 'translateY(-4px) scale(0.98)';
         
-        // Update slide position (only on desktop)
-        if (window.innerWidth > 768) {
-            const slideWidth = 430; // Card width + gap
-            const translateX = -(this.currentIndex * slideWidth);
-            this.track.style.transform = `translateX(${translateX}px)`;
-        }
+        // Show loading feedback
+        this.showLoadingFeedback();
         
+        // Navigate to services.html after brief delay for UX
         setTimeout(() => {
-            this.isTransitioning = false;
+            window.location.href = 'services.html';
+        }, 800);
+    }
+
+    showLoadingFeedback() {
+        // Update button text temporarily
+        const originalText = this.mainCtaBtn.querySelector('.cta-text').textContent;
+        const ctaText = this.mainCtaBtn.querySelector('.cta-text');
+        const ctaIcon = this.mainCtaBtn.querySelector('.cta-icon i');
+        
+        if (ctaText && ctaIcon) {
+            ctaText.textContent = 'Loading Services...';
+            ctaIcon.className = 'ri-loader-4-line';
+            ctaIcon.style.animation = 'spin 1s linear infinite';
+            
+            // Add loading styles
+            const loadingStyles = document.createElement('style');
+            loadingStyles.textContent = `
+                @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(loadingStyles);
+            
+            // Reset after navigation attempt
+            setTimeout(() => {
+                if (ctaText && ctaIcon) {
+                    ctaText.textContent = originalText;
+                    ctaIcon.className = 'ri-arrow-right-line';
+                    ctaIcon.style.animation = '';
+                }
+                loadingStyles.remove();
+            }, 1000);
+        }
+    }
+
+    triggerCTAHover() {
+        // Enhanced hover animation
+        const shimmer = this.mainCtaBtn.querySelector('.cta-shimmer');
+        if (shimmer) {
+            shimmer.style.transition = 'left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            shimmer.style.left = '100%';
+            
+            setTimeout(() => {
+                shimmer.style.transition = 'none';
+                shimmer.style.left = '-100%';
+            }, 800);
+        }
+    }
+
+    setupServiceTiles() {
+        this.serviceTiles.forEach((tile, index) => {
+            // Click handler for service tiles
+            tile.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleServiceTileClick(tile, index);
+            });
+
+            // Enhanced hover effects
+            tile.addEventListener('mouseenter', () => {
+                this.triggerTileHover(tile);
+            });
+
+            // Touch support
+            tile.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.handleServiceTileClick(tile, index);
+            });
+
+            // Keyboard support
+            tile.setAttribute('tabindex', '0');
+            tile.setAttribute('role', 'button');
+            tile.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.handleServiceTileClick(tile, index);
+                }
+            });
+        });
+    }
+
+    handleServiceTileClick(tile, index) {
+        const serviceName = tile.querySelector('.service-name').textContent;
+        console.log(`🎯 Service tile clicked: ${serviceName} (${index + 1})`);
+        
+        // Visual feedback
+        tile.style.transform = 'translateY(-10px) scale(0.98)';
+        
+        // Show service feedback
+        this.showServiceFeedback(serviceName);
+        
+        // Navigate to services.html with anchor or parameter
+        setTimeout(() => {
+            const serviceSlug = tile.dataset.service;
+            window.location.href = `services.html#${serviceSlug}`;
         }, 600);
     }
 
-    updateCounters() {
-        if (this.currentCounter) {
-            this.currentCounter.textContent = (this.currentIndex + 1).toString();
+    triggerTileHover(tile) {
+        // Enhanced tile hover animations
+        const glow = tile.querySelector('.tile-glow');
+        const corners = tile.querySelectorAll('.corner-ornament');
+        
+        if (glow) {
+            glow.style.opacity = '1';
         }
-    }
-
-    updateProgress() {
-        if (this.progressFill) {
-            const progress = ((this.currentIndex + 1) / this.totalSlides) * 100;
-            this.progressFill.style.width = `${progress}%`;
-        }
-    }
-
-    updateDots() {
-        this.progressDots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentIndex);
+        
+        corners.forEach(corner => {
+            corner.style.opacity = '0.8';
+            corner.style.transform = 'scale(1.1)';
         });
     }
 
-    startAutoplay() {
-        if (this.isAutoplay && !this.autoplayInterval && window.innerWidth > 768) {
-            this.autoplayInterval = setInterval(() => {
-                if (!document.hidden) {
-                    this.nextSlide();
+    showServiceFeedback(serviceName) {
+        // Create and show service feedback tooltip
+        const feedback = document.createElement('div');
+        feedback.className = 'service-feedback';
+        feedback.innerHTML = `
+            <div class="feedback-content">
+                <i class="ri-check-line"></i>
+                <span>Exploring ${serviceName}...</span>
+            </div>
+        `;
+        
+        // Feedback styles
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: linear-gradient(135deg, #FF8C00, #FFA500);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        `;
+        
+        feedback.querySelector('.feedback-content').style.cssText = `
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        `;
+        
+        document.body.appendChild(feedback);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        // Remove after delay
+        setTimeout(() => {
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            setTimeout(() => feedback.remove(), 400);
+        }, 2000);
+    }
+
+    setupAnimations() {
+        // Staggered animation for service tiles on scroll
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.animateServicesGrid();
+                    observer.unobserve(entry.target);
                 }
-            }, 4000);
-        }
-    }
-
-    pauseAutoplay() {
-        if (this.autoplayInterval) {
-            clearInterval(this.autoplayInterval);
-            this.autoplayInterval = null;
-        }
-    }
-
-    resumeAutoplay() {
-        if (this.isAutoplay && window.innerWidth > 768) {
-            this.startAutoplay();
-        }
-    }
-
-    scrollToContact() {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
-            
-            window.scrollTo({
-                top: elementPosition,
-                behavior: 'smooth'
             });
+        }, observerOptions);
+
+        const servicesGrid = this.section.querySelector('.services-grid');
+        if (servicesGrid) {
+            observer.observe(servicesGrid);
+        }
+    }
+
+    animateServicesGrid() {
+        this.serviceTiles.forEach((tile, index) => {
+            setTimeout(() => {
+                tile.style.opacity = '1';
+                tile.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+    }
+
+    setupAccessibility() {
+        // Enhanced accessibility features
+        this.serviceTiles.forEach((tile, index) => {
+            const serviceName = tile.querySelector('.service-name').textContent;
+            tile.setAttribute('aria-label', `Learn more about ${serviceName}`);
+        });
+
+        if (this.mainCtaBtn) {
+            this.mainCtaBtn.setAttribute('aria-label', 'View all services page');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && this.section.contains(document.activeElement)) {
+                this.highlightFocusedElement();
+            }
+        });
+    }
+
+    highlightFocusedElement() {
+        const focused = document.activeElement;
+        if (this.section.contains(focused)) {
+            focused.style.outline = '3px solid rgba(255, 140, 0, 0.6)';
+            focused.style.outlineOffset = '2px';
+            
+            setTimeout(() => {
+                focused.style.outline = '';
+                focused.style.outlineOffset = '';
+            }, 2000);
+        }
+    }
+
+    // Public methods for external access
+    navigateToServices() {
+        this.handleMainCTAClick();
+    }
+
+    highlightService(serviceType) {
+        const tile = document.querySelector(`[data-service="${serviceType}"]`);
+        if (tile) {
+            tile.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            this.triggerTileHover(tile);
+            
+            setTimeout(() => {
+                this.handleServiceTileClick(tile, Array.from(this.serviceTiles).indexOf(tile));
+            }, 1000);
         }
     }
 }
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    window.hermesServices = new HermesServicesSection();
+});
+
+// Alternative initialization for immediate script loading
+if (document.readyState !== 'loading') {
+    window.hermesServices = new HermesServicesSection();
+}
+
+// Global utility functions
+window.navigateToServices = () => {
+    if (window.hermesServices) {
+        window.hermesServices.navigateToServices();
+    } else {
+        window.location.href = 'services.html';
+    }
+};
+
+window.showService = (serviceType) => {
+    if (window.hermesServices) {
+        window.hermesServices.highlightService(serviceType);
+    } else {
+        window.location.href = `services.html#${serviceType}`;
+    }
+};
+
+// Analytics tracking (if needed)
+const trackServiceInteraction = (action, service = null) => {
+    console.log(`📊 Service Interaction: ${action}${service ? ` - ${service}` : ''}`);
+    
+    // Add your analytics tracking here
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'services_interaction', {
+            event_category: 'Services',
+            event_label: service || action,
+            value: 1
+        });
+    }
+    
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'ViewContent', {
+            content_type: 'services',
+            content_name: service || action
+        });
+    }
+};
+
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { HermesServicesSection, navigateToServices, showService };
+}
+
+console.log('🎨 Hermes Services Section Script Loaded Successfully!');
 
 /* ========================================
    RESULTS GALLERY - FIXED
@@ -1569,7 +1693,7 @@ class EviaAestheticsApp {
             this.components.set('mobileMenu', new MobileMenu());
             this.components.set('header', new LuxuryHeader());
             this.components.set('hero', new HeroSection());
-            this.components.set('servicesCarousel', new ServicesCarousel());
+            this.components.set('servicesCarousel', new HermesServicesSection());
             this.components.set('about', new AboutSection());
             this.components.set('results', new ResultsGallery());
             this.components.set('contact', new ContactSection());
