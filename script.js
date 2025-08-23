@@ -2179,7 +2179,7 @@ class EviaAestheticsApp {
             this.components.set('header', new LuxuryHeader());
             this.components.set('hero', new HeroSection());
             this.components.set('servicesCarousel', new HermesServicesSection());
-            this.components.set('about', new EviaElevatedAbout());
+            this.components.set('about', new AboutSection());
             this.components.set('results', new ResultsGallery());
             this.components.set('contact', new ContactSection());
             this.components.set('floatingButtons', new FloatingButtons());
