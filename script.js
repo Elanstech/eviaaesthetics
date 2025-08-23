@@ -1814,44 +1814,27 @@ class HeroSection {
 /* ========================================
    ABOUT SECTION - FIXED
    ======================================== */
-class ElevatedAboutSection {
+class EviaElevatedAbout {
     constructor() {
-        this.section = document.querySelector('.hermes-elevated-about');
-        this.learnMoreBtn = document.getElementById('learnMoreBtn');
-        this.consultationBtn = document.getElementById('consultationBtn');
-        this.profileCard = document.querySelector('.doctor-profile-card');
-        this.ctaCard = document.querySelector('.cta-card');
-        
-        // Animation states
-        this.isAnimating = false;
-        this.observerThreshold = 0.2;
+        this.section = document.querySelector('.evia-elevated-about');
+        this.learnMoreBtn = document.getElementById('eviaLearnMoreBtn');
+        this.consultationBtn = document.getElementById('eviaConsultationBtn');
         
         if (this.section) {
             this.init();
-            console.log('✅ Elevated About Section Initialized');
+            console.log('✅ Evia Elevated About Section Initialized');
         }
     }
 
     init() {
-        this.setupIntersectionObserver();
         this.bindEvents();
-        this.setupParallaxEffects();
         this.initializeCounters();
     }
 
-    /* ========================================
-       EVENT BINDINGS
-       ======================================== */
-    
     bindEvents() {
         // Learn More Button
         if (this.learnMoreBtn) {
             this.learnMoreBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleLearnMoreClick();
-            });
-            
-            this.learnMoreBtn.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 this.handleLearnMoreClick();
             });
@@ -1861,233 +1844,66 @@ class ElevatedAboutSection {
         if (this.consultationBtn) {
             this.consultationBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.handleConsultationClick();
-            });
-            
-            this.consultationBtn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                this.handleConsultationClick();
+                this.scrollToContact();
             });
         }
-
-        // Profile Card Interactions
-        if (this.profileCard) {
-            this.profileCard.addEventListener('mouseenter', () => {
-                this.triggerProfileCardAnimation();
-            });
-        }
-
-        // Expertise Tags Interactions
-        const expertiseTags = document.querySelectorAll('.expertise-tag');
-        expertiseTags.forEach(tag => {
-            tag.addEventListener('click', () => {
-                this.showExpertiseDetails(tag.textContent);
-            });
-        });
-
-        // Experience Items Hover
-        const experienceItems = document.querySelectorAll('.experience-item');
-        experienceItems.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                this.animateExperienceItem(item);
-            });
-        });
     }
 
-    /* ========================================
-       BUTTON HANDLERS
-       ======================================== */
-
     handleLearnMoreClick() {
-        if (this.isAnimating) return;
-        
-        console.log('📖 Learn More button clicked');
-        this.isAnimating = true;
-        
-        // Visual feedback
-        this.addClickFeedback(this.learnMoreBtn);
-        
-        // Show loading feedback
-        this.showActionFeedback('Loading Dr. Nano\'s profile...', 'ri-user-line');
-        
-        // Simulate navigation with delay for UX
+        this.showActionFeedback('Loading Dr. Nano\'s complete story...', 'ri-user-line');
         setTimeout(() => {
-            // Replace with actual about page URL
             window.location.href = 'about.html';
-            this.isAnimating = false;
         }, 1000);
     }
 
-    handleConsultationClick() {
-        if (this.isAnimating) return;
-        
-        console.log('📅 Consultation button clicked');
-        this.isAnimating = true;
-        
-        // Visual feedback
-        this.addClickFeedback(this.consultationBtn);
-        
-        // Show loading feedback
-        this.showActionFeedback('Opening consultation booking...', 'ri-calendar-check-line');
-        
-        // Scroll to contact section
-        setTimeout(() => {
-            this.scrollToContact();
-            this.isAnimating = false;
-        }, 800);
-    }
-
-    /* ========================================
-       VISUAL FEEDBACK FUNCTIONS
-       ======================================== */
-
-    addClickFeedback(element) {
-        if (!element) return;
-        
-        element.style.transform = 'scale(0.95)';
-        element.style.transition = 'transform 0.15s ease';
-        
-        setTimeout(() => {
-            element.style.transform = '';
-            element.style.transition = '';
-        }, 150);
+    scrollToContact() {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            const headerHeight = 80;
+            const elementPosition = contactSection.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: elementPosition,
+                behavior: 'smooth'
+            });
+        }
     }
 
     showActionFeedback(message, iconClass) {
-        const feedback = this.createFeedback(message, iconClass);
-        this.displayFeedback(feedback);
-    }
-
-    createFeedback(message, iconClass) {
         const feedback = document.createElement('div');
-        feedback.className = 'about-action-feedback';
-        feedback.innerHTML = `
-            <i class="${iconClass}"></i>
-            <span>${message}</span>
-        `;
-        
-        // Styles
+        feedback.innerHTML = `<i class="${iconClass}"></i><span>${message}</span>`;
         feedback.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background: linear-gradient(135deg, #FF8C00, #FFA500);
-            color: white;
-            padding: 18px 28px;
-            border-radius: 50px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 10001;
-            opacity: 0;
-            pointer-events: none;
-            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 240px;
-            justify-content: center;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #FF8C00, #FFA500); color: white;
+            padding: 18px 28px; border-radius: 50px; font-family: 'Inter', sans-serif;
+            font-size: 14px; font-weight: 600; z-index: 10001; opacity: 0;
+            display: flex; align-items: center; gap: 12px; justify-content: center;
+            transition: all 0.4s ease; box-shadow: 0 20px 60px rgba(255, 140, 0, 0.3);
         `;
         
-        return feedback;
-    }
-
-    displayFeedback(feedback) {
         document.body.appendChild(feedback);
         
-        // Animate in
         requestAnimationFrame(() => {
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
-        // Animate out and remove
         setTimeout(() => {
             feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
             setTimeout(() => feedback.remove(), 400);
         }, 2500);
     }
 
-    /* ========================================
-       ANIMATION FUNCTIONS
-       ======================================== */
-
-    triggerProfileCardAnimation() {
-        if (!this.profileCard) return;
-        
-        const image = this.profileCard.querySelector('.doctor-image');
-        const certBadge = this.profileCard.querySelector('.certification-badge');
-        
-        if (image) {
-            image.style.transform = 'scale(1.08) rotate(1deg)';
-        }
-        
-        if (certBadge) {
-            certBadge.style.animation = 'certificationFloat 2s ease-in-out';
-        }
-        
-        setTimeout(() => {
-            if (image) image.style.transform = '';
-            if (certBadge) certBadge.style.animation = '';
-        }, 2000);
-    }
-
-    animateExperienceItem(item) {
-        const icon = item.querySelector('.experience-icon');
-        const number = item.querySelector('.experience-number');
-        
-        if (icon) {
-            icon.style.transform = 'rotate(360deg) scale(1.1)';
-            icon.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        }
-        
-        if (number) {
-            number.style.color = '#FF8C00';
-            number.style.transform = 'scale(1.1)';
-            number.style.transition = 'all 0.3s ease';
-        }
-        
-        setTimeout(() => {
-            if (icon) {
-                icon.style.transform = '';
-                icon.style.transition = '';
-            }
-            if (number) {
-                number.style.color = '';
-                number.style.transform = '';
-                number.style.transition = '';
-            }
-        }, 600);
-    }
-
-    showExpertiseDetails(expertise) {
-        const details = {
-            'Injectable Artistry': 'Advanced techniques in Botox, dermal fillers, and facial contouring.',
-            'Medical Wellness': 'Comprehensive weight management and IV therapy programs.',
-            'Aesthetic Innovation': 'Latest treatments including PRP, microneedling, and chemical peels.'
-        };
-        
-        const detail = details[expertise] || 'Specialized expertise in aesthetic medicine.';
-        this.showActionFeedback(detail, 'ri-information-line');
-    }
-
-    /* ========================================
-       COUNTER ANIMATIONS
-       ======================================== */
-
     initializeCounters() {
         const counters = [
-            { element: document.querySelector('.experience-number'), target: 20, suffix: '+' },
+            { element: document.querySelector('.evia-experience-number'), target: 20, suffix: '+' },
             { 
-                element: document.querySelectorAll('.experience-number')[1], 
+                element: document.querySelectorAll('.evia-experience-number')[1], 
                 target: 5000, 
                 suffix: '+',
                 formatter: (num) => num >= 1000 ? (num/1000).toFixed(0) + 'K+' : num + '+'
             },
-            { element: document.querySelectorAll('.experience-number')[2], target: 98, suffix: '%' }
+            { element: document.querySelectorAll('.evia-experience-number')[2], target: 98, suffix: '%' }
         ];
         
         counters.forEach(counter => {
@@ -2112,9 +1928,8 @@ class ElevatedAboutSection {
 
     animateCounter(counter) {
         const duration = 2000;
-        const startValue = 0;
         const increment = counter.target / (duration / 16);
-        let current = startValue;
+        let current = 0;
         
         const updateCounter = () => {
             current += increment;
@@ -2135,6 +1950,16 @@ class ElevatedAboutSection {
         
         updateCounter();
     }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    window.eviaElevatedAbout = new EviaElevatedAbout();
+});
+
+if (document.readyState !== 'loading') {
+    window.eviaElevatedAbout = new EviaElevatedAbout();
+}
 
     /* ========================================
        SCROLL FUNCTIONS
