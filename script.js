@@ -160,12 +160,12 @@ class EviaAestheticsApp {
         // Initialize all components
         this.components.set('header', new LuxuryHeader());
         this.components.set('mobileMenu', new MobileMenu());
-        this.components.set('servicesCarousel', new HermesServicesCarousel());  
+        this.components.set('servicesCarousel', new HermesLuxuryServicesCarousel());  
         this.components.set('aboutSection', new HermesAboutSection());
         this.components.set('resultsGallery', new ResultsGallery());
         this.components.set('contactForm', new LuxuryContactSection());
         this.components.set('scrollIndicator', new ScrollIndicator());
-        this.components.set('servicesCarousel', new HermesFloatingButtons());
+        this.components.set('button', new HermesFloatingButtons());
     }
 
     getComponent(name) {
@@ -757,22 +757,26 @@ class MobileMenu {
    SERVICES CAROUSEL COMPONENT
    ======================================== */
 
-class HermesServicesCarousel {
+/* ========================================
+   HERMES LUXURY SERVICES CAROUSEL
+   ======================================== */
+
+class HermesLuxuryServicesCarousel {
     constructor() {
-        this.carousel = document.getElementById('servicesCarousel');
-        this.track = document.getElementById('carouselTrack');
-        this.prevBtn = document.getElementById('prevBtn');
-        this.nextBtn = document.getElementById('nextBtn');
-        this.autoplayBtn = document.getElementById('autoplayBtn');
-        this.currentCounter = document.querySelector('.counter-current');
-        this.totalCounter = document.querySelector('.counter-total');
-        this.progressFill = document.querySelector('.progress-fill');
+        this.carousel = document.getElementById('hermesLuxuryCarousel');
+        this.track = document.getElementById('hermesLuxuryTrack');
+        this.prevBtn = document.getElementById('hermesLuxuryPrevBtn');
+        this.nextBtn = document.getElementById('hermesLuxuryNextBtn');
+        this.currentCounter = document.getElementById('hermesLuxuryCurrentCounter');
+        this.totalCounter = document.getElementById('hermesLuxuryTotalCounter');
+        this.progressFill = document.getElementById('hermesLuxuryProgressFill');
+        this.progressDots = document.querySelectorAll('.hermes-luxury-progress-dot');
         
         // State management
         this.currentIndex = 0;
-        this.totalSlides = 0;
+        this.totalSlides = 3; // Only 3 cards
         this.slideWidth = 0;
-        this.gap = 24;
+        this.gap = 40;
         this.isAutoplay = true;
         this.autoplayInterval = null;
         this.isMobile = window.innerWidth <= 768;
@@ -789,7 +793,7 @@ class HermesServicesCarousel {
         
         // Performance optimization
         this.resizeTimeout = null;
-        this.lastScrollTime = 0;
+        this.scrollTimeout = null;
         
         if (this.carousel && this.track) {
             this.init();
@@ -801,32 +805,27 @@ class HermesServicesCarousel {
         this.bindEvents();
         this.updateCounters();
         this.updateProgress();
-        this.bindServiceNavigation();
-        this.initializeCards();
+        this.updateProgressDots();
         this.startAutoplay();
         this.setupIntersectionObserver();
+        this.initializeCards();
         
-        console.log('✨ Hermes Services Carousel Initialized with Luxury Experience');
+        console.log('✨ Hermes Luxury Services Carousel Initialized');
     }
 
     calculateDimensions() {
-        const cards = this.track.querySelectorAll('.hermes-service-card');
-        this.totalSlides = cards.length;
-        
-        if (this.totalCounter) {
-            this.totalCounter.textContent = String(this.totalSlides).padStart(2, '0');
-        }
+        const cards = this.track.querySelectorAll('.hermes-luxury-service-card');
         
         if (cards.length > 0 && !this.isMobile) {
             const cardRect = cards[0].getBoundingClientRect();
             this.slideWidth = cardRect.width;
             const trackStyles = window.getComputedStyle(this.track);
-            this.gap = parseInt(trackStyles.gap) || 24;
+            this.gap = parseInt(trackStyles.gap) || 40;
         }
     }
 
     bindEvents() {
-        // Navigation buttons with luxury feedback
+        // Navigation buttons with luxury interactions
         if (this.prevBtn) {
             this.prevBtn.addEventListener('click', (e) => {
                 this.addRippleEffect(e.currentTarget, e);
@@ -841,432 +840,99 @@ class HermesServicesCarousel {
             });
         }
 
-        // Autoplay toggle with enhanced feedback
-        if (this.autoplayBtn) {
-            this.autoplayBtn.addEventListener('click', (e) => {
-                this.addRippleEffect(e.currentTarget, e);
-                this.toggleAutoplay();
+        // Progress dots
+        this.progressDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                this.goToSlide(index);
             });
-        }
+            
+            dot.addEventListener('mouseenter', () => {
+                this.playLuxuryHoverSound();
+            });
+        });
 
-        // Enhanced touch events for mobile
+        // Touch events
         if (this.track) {
             this.bindTouchEvents();
         }
 
-        // Keyboard navigation with luxury feel
+        // Service card interactions
+        this.bindServiceCardEvents();
+
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => this.handleKeyboardNav(e));
 
-        // Optimized resize handler
-        window.addEventListener('resize', () => {
-            clearTimeout(this.resizeTimeout);
-            this.resizeTimeout = setTimeout(() => this.handleResize(), 250);
-        });
+        // Resize handler
+        window.addEventListener('resize', this.debounce(() => this.handleResize(), 250));
 
-        // Mouse enter/leave for sophisticated pause behavior
+        // Mouse enter/leave for pause behavior
         if (this.carousel) {
-            this.carousel.addEventListener('mouseenter', () => this.handleMouseEnter());
-            this.carousel.addEventListener('mouseleave', () => this.handleMouseLeave());
+            this.carousel.addEventListener('mouseenter', () => this.pauseAutoplay());
+            this.carousel.addEventListener('mouseleave', () => this.resumeAutoplay());
         }
+    }
 
-        // Focus management for accessibility
-        this.bindAccessibilityEvents();
+    bindServiceCardEvents() {
+        const serviceCards = document.querySelectorAll('.hermes-luxury-service-card');
+        
+        serviceCards.forEach(card => {
+            // Card hover effects
+            card.addEventListener('mouseenter', () => {
+                this.handleCardHover(card);
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                this.handleCardLeave(card);
+            });
+            
+            // Card click navigation (only if not clicking buttons)
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('button') && !e.target.closest('a')) {
+                    this.handleCardClick(card, e);
+                }
+            });
+        });
+        
+        // Secondary CTA buttons
+        const secondaryButtons = document.querySelectorAll('.hermes-luxury-secondary-cta');
+        secondaryButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                this.addButtonLoadingState(button);
+                e.stopPropagation();
+            });
+        });
     }
 
     bindTouchEvents() {
-        // Enhanced touch handling with scroll detection
         this.track.addEventListener('touchstart', (e) => {
-            this.handleTouchStart(e);
+            this.touchStartX = e.touches[0].clientX;
+            this.touchStartY = e.touches[0].clientY;
+            this.isScrolling = false;
         }, { passive: true });
 
         this.track.addEventListener('touchmove', (e) => {
-            this.handleTouchMove(e);
-        }, { passive: false });
+            if (!this.touchStartX || !this.touchStartY) return;
+
+            const touchX = e.touches[0].clientX;
+            const touchY = e.touches[0].clientY;
+            const diffX = this.touchStartX - touchX;
+            const diffY = this.touchStartY - touchY;
+
+            // Determine if this is a horizontal swipe
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                e.preventDefault();
+                this.isScrolling = false;
+            } else {
+                this.isScrolling = true;
+            }
+        });
 
         this.track.addEventListener('touchend', (e) => {
-            this.handleTouchEnd(e);
-        }, { passive: true });
-    }
-
-    bindServiceNavigation() {
-        // Enhanced service navigation with loading states
-        const learnBtns = document.querySelectorAll('.hermes-learn-btn');
-        learnBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.addButtonLoadingState(btn);
-                const serviceType = btn.dataset.service;
-                this.navigateToService(serviceType, 'learn_more_btn');
-            });
-        });
-
-        // Card click navigation with visual feedback
-        const serviceCards = document.querySelectorAll('.hermes-service-card');
-        serviceCards.forEach(card => {
-            card.addEventListener('click', (e) => {
-                // Only navigate if not clicking on interactive elements
-                if (!e.target.closest('button') && !e.target.closest('a')) {
-                    this.addCardPressEffect(card);
-                    const serviceType = card.dataset.service;
-                    this.navigateToService(serviceType, 'card_click');
-                }
-            });
-        });
-
-        // CTA buttons with enhanced tracking
-        const primaryCta = document.querySelector('.hermes-primary-cta');
-        const secondaryCta = document.querySelector('.hermes-secondary-cta');
-        
-        if (primaryCta) {
-            primaryCta.addEventListener('click', (e) => {
-                this.trackEvent('view_all_services_clicked', { source: 'primary_cta' });
-                this.addLinkLoadingFeedback('Exploring all services...');
-            });
-        }
-
-        if (secondaryCta) {
-            secondaryCta.addEventListener('click', (e) => {
-                this.trackEvent('schedule_consultation_clicked', { source: 'secondary_cta' });
-            });
-        }
-    }
-
-    initializeCards() {
-        // Add entrance animations and luxury touches
-        const cards = document.querySelectorAll('.hermes-service-card');
-        cards.forEach((card, index) => {
-            // Stagger entrance animations
-            setTimeout(() => {
-                card.classList.add('initialized');
-            }, index * 150);
-
-            // Add luxury hover sound effect preparation
-            card.addEventListener('mouseenter', () => {
-                this.playLuxuryHoverSound();
-            });
-        });
-    }
-
-    navigateToService(serviceType, source = 'unknown') {
-        // Enhanced navigation with luxury loading feedback
-        this.showLuxuryNavigationFeedback(serviceType);
-        
-        // Track the interaction with detailed analytics
-        this.trackEvent('service_navigation', { 
-            service: serviceType, 
-            source: source,
-            current_index: this.currentIndex,
-            timestamp: Date.now()
-        });
-        
-        // Service URL mapping
-        const serviceMapping = {
-            'botox': 'botox-fillers',
-            'weight-management': 'weight-management',
-            'iv-therapy': 'iv-therapy',
-            'microneedling': 'microneedling',
-            'prp': 'prp-therapy',
-            'chemical-peels': 'chemical-peels'
-        };
-        
-        const serviceHash = serviceMapping[serviceType] || serviceType;
-        
-        // Luxury transition timing
-        setTimeout(() => {
-            window.location.href = `services.html#${serviceHash}`;
-        }, 400);
-    }
-
-    showLuxuryNavigationFeedback(serviceType) {
-        const serviceNames = {
-            'botox': 'Botox & Fillers',
-            'weight-management': 'Weight Management',
-            'iv-therapy': 'IV Therapy',
-            'microneedling': 'Microneedling',
-            'prp': 'PRP Therapy',
-            'chemical-peels': 'Chemical Peels'
-        };
-
-        const feedback = document.createElement('div');
-        feedback.className = 'hermes-navigation-feedback';
-        feedback.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, 
-                rgba(255, 140, 0, 0.95) 0%, 
-                rgba(255, 165, 0, 0.95) 50%, 
-                rgba(255, 122, 0, 0.95) 100%);
-            color: white;
-            padding: 20px 32px;
-            border-radius: 60px;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            z-index: 10000;
-            pointer-events: none;
-            opacity: 0;
-            backdrop-filter: blur(40px);
-            box-shadow: 
-                0 20px 80px rgba(255, 140, 0, 0.4),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            letter-spacing: 0.5px;
-        `;
-        
-        feedback.innerHTML = `
-            <div class="hermes-loading-spinner" style="
-                width: 18px; 
-                height: 18px; 
-                border: 2px solid rgba(255,255,255,0.3); 
-                border-top: 2px solid white; 
-                border-radius: 50%; 
-                animation: luxurySpinner 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-            "></div>
-            <span>Loading ${serviceNames[serviceType] || 'service'} details...</span>
-        `;
-        
-        document.body.appendChild(feedback);
-        
-        requestAnimationFrame(() => {
-            feedback.style.transition = 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            feedback.style.opacity = '1';
-            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-        
-        setTimeout(() => {
-            if (feedback.parentNode) {
-                feedback.style.opacity = '0';
-                feedback.style.transform = 'translate(-50%, -50%) scale(0.95)';
-                setTimeout(() => feedback.remove(), 500);
-            }
-        }, 1200);
-    }
-
-    addButtonLoadingState(button) {
-        const originalContent = button.innerHTML;
-        button.style.pointerEvents = 'none';
-        button.style.opacity = '0.8';
-        
-        const spinner = document.createElement('div');
-        spinner.style.cssText = `
-            width: 16px; 
-            height: 16px; 
-            border: 2px solid rgba(255,255,255,0.3); 
-            border-top: 2px solid white; 
-            border-radius: 50%; 
-            animation: luxurySpinner 1s linear infinite;
-            margin-right: 8px;
-        `;
-        
-        button.innerHTML = '';
-        button.appendChild(spinner);
-        button.appendChild(document.createTextNode('Loading...'));
-        
-        setTimeout(() => {
-            button.innerHTML = originalContent;
-            button.style.pointerEvents = '';
-            button.style.opacity = '';
-        }, 400);
-    }
-
-    addCardPressEffect(card) {
-        card.style.transform = 'translateY(-8px) scale(0.98)';
-        setTimeout(() => {
-            card.style.transform = '';
-        }, 200);
-    }
-
-    addRippleEffect(element, event) {
-        const rect = element.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = event.clientX - rect.left - size / 2;
-        const y = event.clientY - rect.top - size / 2;
-        
-        const ripple = document.createElement('div');
-        ripple.style.cssText = `
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
-            width: ${size}px;
-            height: ${size}px;
-            left: ${x}px;
-            top: ${y}px;
-            transform: scale(0);
-            animation: hermesRipple 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            pointer-events: none;
-            z-index: 10;
-        `;
-        
-        element.style.position = 'relative';
-        element.appendChild(ripple);
-        
-        setTimeout(() => ripple.remove(), 800);
-    }
-
-    nextSlide() {
-        if (this.isTransitioning) return;
-        this.isTransitioning = true;
-        
-        this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
-        this.updateSlide();
-        this.restartAutoplay();
-        this.trackEvent('carousel_next', { index: this.currentIndex });
-        
-        setTimeout(() => this.isTransitioning = false, 600);
-    }
-
-    previousSlide() {
-        if (this.isTransitioning) return;
-        this.isTransitioning = true;
-        
-        this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
-        this.updateSlide();
-        this.restartAutoplay();
-        this.trackEvent('carousel_previous', { index: this.currentIndex });
-        
-        setTimeout(() => this.isTransitioning = false, 600);
-    }
-
-    updateSlide() {
-        if (!this.isMobile) {
-            const translateX = -(this.currentIndex * (this.slideWidth + this.gap));
-            this.track.style.transform = `translateX(${translateX}px)`;
-        }
-        
-        this.updateCounters();
-        this.updateProgress();
-        this.highlightActiveCard();
-        this.updateCardVisibility();
-    }
-
-    updateCounters() {
-        if (this.currentCounter) {
-            this.currentCounter.textContent = String(this.currentIndex + 1).padStart(2, '0');
-        }
-    }
-
-    updateProgress() {
-        if (this.progressFill) {
-            const progress = ((this.currentIndex + 1) / this.totalSlides) * 100;
-            this.progressFill.style.width = `${progress}%`;
-        }
-    }
-
-    highlightActiveCard() {
-        const cards = this.track.querySelectorAll('.hermes-service-card');
-        cards.forEach((card, index) => {
-            card.classList.toggle('active-slide', index === this.currentIndex);
+            if (!this.touchStartX || this.isScrolling) return;
             
-            // Add luxury glow effect to active card
-            if (index === this.currentIndex) {
-                card.style.boxShadow = '0 20px 80px rgba(255, 140, 0, 0.15), 0 8px 32px rgba(0, 0, 0, 0.1)';
-            } else {
-                card.style.boxShadow = '';
-            }
-        });
-    }
-
-    updateCardVisibility() {
-        // Optimize performance by managing card visibility
-        const cards = this.track.querySelectorAll('.hermes-service-card');
-        const viewportRange = 2; // Show 2 cards on each side of current
-        
-        cards.forEach((card, index) => {
-            const isVisible = Math.abs(index - this.currentIndex) <= viewportRange;
-            card.style.willChange = isVisible ? 'transform' : 'auto';
-        });
-    }
-
-    startAutoplay() {
-        if (this.isAutoplay && !this.isMobile && !this.autoplayInterval && !this.isPaused) {
-            this.autoplayInterval = setInterval(() => {
-                if (!document.hidden && this.isCarouselVisible()) {
-                    this.nextSlide();
-                }
-            }, 4500); // Slightly longer for luxury feel
-        }
-    }
-
-    stopAutoplay() {
-        if (this.autoplayInterval) {
-            clearInterval(this.autoplayInterval);
-            this.autoplayInterval = null;
-        }
-    }
-
-    pauseAutoplay() {
-        this.isPaused = true;
-        this.stopAutoplay();
-    }
-
-    resumeAutoplay() {
-        this.isPaused = false;
-        if (this.isAutoplay && !this.isMobile) {
-            setTimeout(() => this.startAutoplay(), 1500);
-        }
-    }
-
-    restartAutoplay() {
-        this.stopAutoplay();
-        if (this.isAutoplay && !this.isMobile) {
-            setTimeout(() => this.startAutoplay(), 3000);
-        }
-    }
-
-    toggleAutoplay() {
-        this.isAutoplay = !this.isAutoplay;
-        
-        if (this.autoplayBtn) {
-            const icon = this.autoplayBtn.querySelector('i');
-            if (icon) {
-                icon.className = this.isAutoplay ? 'ri-pause-line' : 'ri-play-line';
-            }
-        }
-
-        if (this.isAutoplay) {
-            this.resumeAutoplay();
-        } else {
-            this.pauseAutoplay();
-        }
-
-        this.trackEvent('autoplay_toggled', { enabled: this.isAutoplay });
-    }
-
-    handleTouchStart(e) {
-        this.touchStartX = e.touches[0].clientX;
-        this.touchStartY = e.touches[0].clientY;
-        this.isScrolling = false;
-    }
-
-    handleTouchMove(e) {
-        if (!this.touchStartX || !this.touchStartY) return;
-
-        const touchX = e.touches[0].clientX;
-        const touchY = e.touches[0].clientY;
-        const diffX = this.touchStartX - touchX;
-        const diffY = this.touchStartY - touchY;
-
-        // Determine if this is a horizontal swipe
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            // Horizontal swipe - prevent default to avoid page scroll
-            e.preventDefault();
-            this.isScrolling = false;
-        } else {
-            // Vertical scroll - allow default behavior
-            this.isScrolling = true;
-        }
-    }
-
-    handleTouchEnd(e) {
-        if (!this.touchStartX || this.isScrolling) return;
-
-        this.touchEndX = e.changedTouches[0].clientX;
-        this.handleSwipe();
+            this.touchEndX = e.changedTouches[0].clientX;
+            this.handleSwipe();
+        }, { passive: true });
     }
 
     handleSwipe() {
@@ -1287,6 +953,306 @@ class HermesServicesCarousel {
         this.touchEndY = 0;
     }
 
+    nextSlide() {
+        if (this.isTransitioning) return;
+        this.isTransitioning = true;
+        
+        this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+        this.updateSlide();
+        this.restartAutoplay();
+        this.trackEvent('carousel_next', { index: this.currentIndex });
+        
+        setTimeout(() => this.isTransitioning = false, 800);
+    }
+
+    previousSlide() {
+        if (this.isTransitioning) return;
+        this.isTransitioning = true;
+        
+        this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+        this.updateSlide();
+        this.restartAutoplay();
+        this.trackEvent('carousel_previous', { index: this.currentIndex });
+        
+        setTimeout(() => this.isTransitioning = false, 800);
+    }
+
+    goToSlide(index) {
+        if (index >= 0 && index < this.totalSlides && index !== this.currentIndex && !this.isTransitioning) {
+            this.currentIndex = index;
+            this.updateSlide();
+            this.restartAutoplay();
+            this.trackEvent('goto_slide', { target_index: index });
+        }
+    }
+
+    updateSlide() {
+        if (!this.isMobile) {
+            const translateX = -(this.currentIndex * (this.slideWidth + this.gap));
+            this.track.style.transform = `translateX(${translateX}px)`;
+        }
+        
+        this.updateCounters();
+        this.updateProgress();
+        this.updateProgressDots();
+        this.highlightActiveCard();
+        this.updateCardVisibility();
+    }
+
+    updateCounters() {
+        if (this.currentCounter) {
+            this.currentCounter.textContent = String(this.currentIndex + 1).padStart(2, '0');
+        }
+    }
+
+    updateProgress() {
+        if (this.progressFill) {
+            const progress = ((this.currentIndex + 1) / this.totalSlides) * 100;
+            this.progressFill.style.width = `${progress}%`;
+        }
+    }
+
+    updateProgressDots() {
+        this.progressDots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === this.currentIndex);
+        });
+    }
+
+    highlightActiveCard() {
+        const cards = this.track.querySelectorAll('.hermes-luxury-service-card');
+        cards.forEach((card, index) => {
+            const isActive = index === this.currentIndex;
+            card.style.zIndex = isActive ? 10 : 1;
+            
+            if (isActive) {
+                card.style.boxShadow = `
+                    0 35px 120px rgba(0, 0, 0, 0.15),
+                    0 15px 60px rgba(255, 140, 0, 0.12),
+                    0 0 0 1px rgba(255, 140, 0, 0.1)
+                `;
+            } else {
+                card.style.boxShadow = '';
+            }
+        });
+    }
+
+    updateCardVisibility() {
+        const cards = this.track.querySelectorAll('.hermes-luxury-service-card');
+        const viewportRange = 1;
+        
+        cards.forEach((card, index) => {
+            const isVisible = Math.abs(index - this.currentIndex) <= viewportRange;
+            card.style.willChange = isVisible ? 'transform' : 'auto';
+        });
+    }
+
+    initializeCards() {
+        const cards = document.querySelectorAll('.hermes-luxury-service-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('hermes-luxury-initialized');
+            }, index * 200);
+        });
+    }
+
+    handleCardHover(card) {
+        this.playLuxuryHoverSound();
+        
+        // Enhanced hover effect
+        const icon = card.querySelector('.hermes-luxury-service-icon');
+        if (icon) {
+            icon.style.transform = 'rotate(5deg) scale(1.05)';
+        }
+    }
+
+    handleCardLeave(card) {
+        const icon = card.querySelector('.hermes-luxury-service-icon');
+        if (icon) {
+            icon.style.transform = '';
+        }
+    }
+
+    handleCardClick(card, event) {
+        const serviceType = card.dataset.service;
+        this.addCardPressEffect(card);
+        this.showServiceNavigation(serviceType);
+        this.trackEvent('service_card_clicked', { service: serviceType });
+    }
+
+    addCardPressEffect(card) {
+        card.style.transform = 'translateY(-8px) scale(0.98)';
+        setTimeout(() => {
+            card.style.transform = '';
+        }, 200);
+    }
+
+    addButtonLoadingState(button) {
+        const originalContent = button.innerHTML;
+        button.style.pointerEvents = 'none';
+        button.style.opacity = '0.8';
+        
+        const spinner = document.createElement('div');
+        spinner.style.cssText = `
+            width: 16px; 
+            height: 16px; 
+            border: 2px solid rgba(255,255,255,0.3); 
+            border-top: 2px solid white; 
+            border-radius: 50%; 
+            animation: hermesLuxurySpinner 1s linear infinite;
+            margin-right: 8px;
+        `;
+        
+        button.innerHTML = '';
+        button.appendChild(spinner);
+        button.appendChild(document.createTextNode('Loading...'));
+        
+        setTimeout(() => {
+            if (button.parentNode) {
+                button.innerHTML = originalContent;
+                button.style.pointerEvents = '';
+                button.style.opacity = '';
+            }
+        }, 1000);
+    }
+
+    showServiceNavigation(serviceType) {
+        const serviceNames = {
+            'botox-fillers': 'Botox & Dermal Fillers',
+            'weight-management': 'Weight Management',
+            'iv-therapy': 'IV Therapy'
+        };
+
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, 
+                rgba(255, 140, 0, 0.98) 0%, 
+                rgba(255, 165, 0, 0.98) 50%, 
+                rgba(255, 122, 0, 0.98) 100%
+            );
+            color: white;
+            padding: 32px 48px;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(40px);
+            box-shadow: 
+                0 30px 120px rgba(255, 140, 0, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+            max-width: 400px;
+            min-width: 320px;
+        `;
+        
+        notification.innerHTML = `
+            <div style="
+                width: 24px; 
+                height: 24px; 
+                border: 3px solid rgba(255,255,255,0.3); 
+                border-top: 3px solid white; 
+                border-radius: 50%; 
+                animation: hermesLuxurySpinner 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            "></div>
+            <div>
+                <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">${serviceNames[serviceType]}</div>
+                <div style="font-size: 14px; opacity: 0.9;">Preparing your consultation booking...</div>
+            </div>
+            <div style="font-size: 13px; opacity: 0.8;">Redirecting to contact form...</div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        requestAnimationFrame(() => {
+            notification.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            notification.style.opacity = '1';
+            notification.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        // Auto-remove and scroll to contact
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translate(-50%, -50%) scale(0.95)';
+            setTimeout(() => {
+                notification.remove();
+                // Scroll to contact section
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 600);
+        }, 3000);
+    }
+
+    startAutoplay() {
+        if (this.isAutoplay && !this.isMobile && !this.autoplayInterval && !this.isPaused) {
+            this.autoplayInterval = setInterval(() => {
+                if (!document.hidden && this.isCarouselVisible()) {
+                    this.nextSlide();
+                }
+            }, 5000);
+        }
+    }
+
+    stopAutoplay() {
+        if (this.autoplayInterval) {
+            clearInterval(this.autoplayInterval);
+            this.autoplayInterval = null;
+        }
+    }
+
+    pauseAutoplay() {
+        this.isPaused = true;
+        this.stopAutoplay();
+    }
+
+    resumeAutoplay() {
+        this.isPaused = false;
+        if (this.isAutoplay && !this.isMobile) {
+            setTimeout(() => this.startAutoplay(), 2000);
+        }
+    }
+
+    restartAutoplay() {
+        this.stopAutoplay();
+        if (this.isAutoplay && !this.isMobile) {
+            setTimeout(() => this.startAutoplay(), 3000);
+        }
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.resumeAutoplay();
+                } else {
+                    this.pauseAutoplay();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (this.carousel) {
+            observer.observe(this.carousel);
+        }
+    }
+
+    isCarouselVisible() {
+        if (!this.carousel) return false;
+        const rect = this.carousel.getBoundingClientRect();
+        return rect.top < window.innerHeight && rect.bottom > 0;
+    }
+
     handleKeyboardNav(e) {
         if (!this.isCarouselVisible() || this.isTransitioning) return;
 
@@ -1303,137 +1269,90 @@ class HermesServicesCarousel {
                 e.preventDefault();
                 this.toggleAutoplay();
                 break;
-            case 'Enter':
-                if (document.activeElement.classList.contains('hermes-service-card')) {
-                    e.preventDefault();
-                    const serviceType = document.activeElement.dataset.service;
-                    this.navigateToService(serviceType, 'keyboard');
-                }
-                break;
         }
     }
 
-    handleMouseEnter() {
-        this.pauseAutoplay();
-    }
-
-    handleMouseLeave() {
-        this.resumeAutoplay();
-    }
-
-    setupIntersectionObserver() {
-        // Pause carousel when not visible
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.resumeAutoplay();
-                } else {
-                    this.pauseAutoplay();
-                }
-            });
-        }, { threshold: 0.5 });
-
-        if (this.carousel) {
-            observer.observe(this.carousel);
+    toggleAutoplay() {
+        this.isAutoplay = !this.isAutoplay;
+        
+        if (this.isAutoplay) {
+            this.resumeAutoplay();
+        } else {
+            this.pauseAutoplay();
         }
-    }
-
-    bindAccessibilityEvents() {
-        // Enhanced accessibility for service cards
-        const cards = document.querySelectorAll('.hermes-service-card');
-        cards.forEach(card => {
-            card.setAttribute('tabindex', '0');
-            card.setAttribute('role', 'button');
-            card.setAttribute('aria-label', `Learn more about ${card.querySelector('.hermes-service-title')?.textContent || 'service'}`);
-        });
-    }
-
-    isCarouselVisible() {
-        if (!this.carousel) return false;
-        const rect = this.carousel.getBoundingClientRect();
-        return rect.top < window.innerHeight && rect.bottom > 0;
+        
+        this.trackEvent('autoplay_toggled', { enabled: this.isAutoplay });
     }
 
     handleResize() {
-        const wasMobile = this.isMobile;
-        this.isMobile = window.innerWidth <= 768;
-        
-        if (wasMobile !== this.isMobile) {
-            this.calculateDimensions();
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            const wasMobile = this.isMobile;
+            this.isMobile = window.innerWidth <= 768;
             
-            if (this.isMobile) {
-                this.stopAutoplay();
-                this.track.style.transform = '';
-            } else {
-                if (this.isAutoplay) {
-                    this.startAutoplay();
+            if (wasMobile !== this.isMobile) {
+                this.calculateDimensions();
+                
+                if (this.isMobile) {
+                    this.stopAutoplay();
+                    this.track.style.transform = '';
+                } else {
+                    if (this.isAutoplay) {
+                        this.startAutoplay();
+                    }
+                    this.updateSlide();
                 }
+            } else if (!this.isMobile) {
+                this.calculateDimensions();
                 this.updateSlide();
             }
-        } else if (!this.isMobile) {
-            this.calculateDimensions();
-            this.updateSlide();
-        }
+        }, 250);
     }
 
-    addLinkLoadingFeedback(message) {
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #2A1B0A 0%, #5D4E37 100%);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 500;
-            z-index: 9999;
-            opacity: 0;
-            transform: translateX(100px);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    addRippleEffect(element, event) {
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+        
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.6) 0%, transparent 70%);
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            transform: scale(0);
+            animation: hermesLuxuryRipple 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: none;
+            z-index: 100;
         `;
         
-        feedback.textContent = message;
-        document.body.appendChild(feedback);
+        element.style.position = 'relative';
+        element.appendChild(ripple);
         
-        requestAnimationFrame(() => {
-            feedback.style.opacity = '1';
-            feedback.style.transform = 'translateX(0)';
-        });
-        
-        setTimeout(() => {
-            feedback.style.opacity = '0';
-            feedback.style.transform = 'translateX(100px)';
-            setTimeout(() => feedback.remove(), 400);
-        }, 2000);
+        setTimeout(() => ripple.remove(), 800);
     }
 
     playLuxuryHoverSound() {
         // Placeholder for luxury hover sound effect
-        // Could integrate with Web Audio API for subtle luxury sounds
-        if (window.AudioContext && this.isAutoplay) {
-            // Implement subtle luxury hover sound
+        if (window.AudioContext) {
+            // Could implement subtle luxury hover sounds
         }
     }
 
     trackEvent(eventName, eventData = {}) {
-        // Enhanced analytics tracking
         const analyticsData = {
-            event_category: 'Hermes Services Carousel',
-            event_label: eventData.service || 'general',
+            event_category: 'Hermes Luxury Services',
+            event_label: eventData.service || 'carousel',
             custom_parameters: {
                 carousel_state: {
                     current_index: this.currentIndex,
                     total_slides: this.totalSlides,
                     is_autoplay: this.isAutoplay,
                     is_mobile: this.isMobile
-                },
-                user_interaction: {
-                    timestamp: Date.now(),
-                    viewport_width: window.innerWidth,
-                    viewport_height: window.innerHeight
                 },
                 ...eventData
             }
@@ -1443,24 +1362,30 @@ class HermesServicesCarousel {
         if (typeof gtag !== 'undefined') {
             gtag('event', eventName, analyticsData);
         }
-
-        // Custom analytics endpoint (if available)
-        if (window.customAnalytics) {
-            window.customAnalytics.track(eventName, analyticsData);
-        }
         
         // Development logging
-        console.log(`📊 Hermes Carousel Event: ${eventName}`, analyticsData);
+        console.log(`📊 Hermes Services Event: ${eventName}`, analyticsData);
     }
 
-    // Public API methods for external control
-    goToSlide(index) {
-        if (index >= 0 && index < this.totalSlides && index !== this.currentIndex && !this.isTransitioning) {
-            this.currentIndex = index;
-            this.updateSlide();
-            this.restartAutoplay();
-            this.trackEvent('goto_slide', { target_index: index });
-        }
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Public API methods
+    getCurrentSlide() {
+        return this.currentIndex;
+    }
+
+    getTotalSlides() {
+        return this.totalSlides;
     }
 
     pause() {
@@ -1471,143 +1396,148 @@ class HermesServicesCarousel {
         this.resumeAutoplay();
     }
 
-    getCurrentSlide() {
-        return this.currentIndex;
-    }
-
-    getTotalSlides() {
-        return this.totalSlides;
-    }
-
     destroy() {
-        // Clean up all event listeners and intervals
         this.stopAutoplay();
         
         // Remove event listeners
-        if (this.prevBtn) this.prevBtn.removeEventListener('click', this.previousSlide);
-        if (this.nextBtn) this.nextBtn.removeEventListener('click', this.nextSlide);
-        if (this.autoplayBtn) this.autoplayBtn.removeEventListener('click', this.toggleAutoplay);
+        if (this.prevBtn) this.prevBtn.replaceWith(this.prevBtn.cloneNode(true));
+        if (this.nextBtn) this.nextBtn.replaceWith(this.nextBtn.cloneNode(true));
         
-        // Remove touch events
-        if (this.track) {
-            this.track.removeEventListener('touchstart', this.handleTouchStart);
-            this.track.removeEventListener('touchmove', this.handleTouchMove);
-            this.track.removeEventListener('touchend', this.handleTouchEnd);
-        }
+        this.progressDots.forEach(dot => {
+            dot.replaceWith(dot.cloneNode(true));
+        });
         
-        document.removeEventListener('keydown', this.handleKeyboardNav);
-        window.removeEventListener('resize', this.handleResize);
-        
-        // Clear timeouts
         if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
+        if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
         
-        console.log('✨ Hermes Services Carousel Destroyed');
+        console.log('✨ Hermes Luxury Services Carousel Destroyed');
     }
 }
 
-// Enhanced CSS animations for luxury effects
-const hermesLuxuryCSS = `
-<style>
-@keyframes luxurySpinner {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+/* ========================================
+   SERVICE DETAILS FUNCTION
+   ======================================== */
 
-@keyframes hermesRipple {
-    0% {
-        transform: scale(0);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(2);
-        opacity: 0;
-    }
-}
+function showServiceDetails(serviceType) {
+    const serviceInfo = {
+        'botox-fillers': {
+            title: 'Botox & Dermal Fillers',
+            description: 'Expert injectable treatments for natural facial enhancement and wrinkle reduction.',
+            features: ['FDA Approved Products', 'Natural-Looking Results', 'Minimal Downtime', 'Expert Injection Technique']
+        },
+        'weight-management': {
+            title: 'Weight Management',
+            description: 'Comprehensive medical weight management programs with personalized support.',
+            features: ['Medical Grade Treatment', 'Personalized Nutrition Plan', 'Ongoing Medical Support', 'Proven Long-term Results']
+        },
+        'iv-therapy': {
+            title: 'IV Therapy',
+            description: 'Premium vitamin and nutrient infusions for optimal wellness and energy.',
+            features: ['Custom Vitamin Blends', 'Immediate Wellness Effects', 'Immune System Support', 'Premium Grade Nutrients']
+        }
+    };
 
-.hermes-service-card.active-slide {
-    z-index: 5;
-}
-
-.hermes-service-card.initialized {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.hermes-service-card:not(.initialized) {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.hermes-navigation-feedback {
-    animation: luxuryFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
-
-@keyframes luxuryFadeIn {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.8);
-    }
-    100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-
-/* Luxury focus styles */
-.hermes-service-card:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.3);
-}
-
-.hermes-carousel-nav:focus,
-.hermes-autoplay-toggle:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.4);
-}
-</style>`;
-
-// Initialize the Hermes carousel when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Add luxury CSS animations
-    document.head.insertAdjacentHTML('beforeend', hermesLuxuryCSS);
+    const service = serviceInfo[serviceType];
     
-    // Initialize carousel with luxury enhancements
-    if (document.getElementById('servicesCarousel')) {
-        window.hermesServicesCarousel = new HermesServicesCarousel();
+    if (service) {
+        // Create luxury notification
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, 
+                rgba(255, 140, 0, 0.98) 0%, 
+                rgba(255, 165, 0, 0.98) 50%, 
+                rgba(255, 122, 0, 0.98) 100%
+            );
+            color: white;
+            padding: 36px 48px;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(40px);
+            box-shadow: 
+                0 30px 120px rgba(255, 140, 0, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+            max-width: 420px;
+            min-width: 320px;
+        `;
         
-        // Add global accessibility enhancements
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') {
-                document.body.classList.add('using-keyboard');
-            }
+        notification.innerHTML = `
+            <div style="
+                width: 28px; 
+                height: 28px; 
+                border: 3px solid rgba(255,255,255,0.3); 
+                border-top: 3px solid white; 
+                border-radius: 50%; 
+                animation: hermesLuxurySpinner 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            "></div>
+            <div>
+                <div style="font-size: 20px; font-weight: 700; margin-bottom: 12px; font-family: 'Playfair Display', serif;">${service.title}</div>
+                <div style="font-size: 15px; opacity: 0.9; line-height: 1.4; margin-bottom: 16px;">${service.description}</div>
+                <div style="font-size: 13px; opacity: 0.8;">Preparing consultation booking...</div>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        requestAnimationFrame(() => {
+            notification.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            notification.style.opacity = '1';
+            notification.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
-        document.addEventListener('mousedown', () => {
-            document.body.classList.remove('using-keyboard');
-        });
-        
-        console.log('🏛️ Hermes Luxury Experience Activated');
+        // Auto-remove and scroll to contact
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translate(-50%, -50%) scale(0.95)';
+            setTimeout(() => {
+                notification.remove();
+                // Scroll to contact section
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 600);
+        }, 3500);
+    }
+}
+
+/* ========================================
+   INITIALIZATION
+   ======================================== */
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize carousel
+    if (document.getElementById('hermesLuxuryCarousel')) {
+        window.hermesLuxuryServicesCarousel = new HermesLuxuryServicesCarousel();
+        console.log('🏛️ Hermes Luxury Services Experience Activated');
     }
 });
 
-// Export for external use and testing
+// Export for external use
 if (typeof window !== 'undefined') {
-    window.HermesServicesCarousel = HermesServicesCarousel;
+    window.HermesLuxuryServicesCarousel = HermesLuxuryServicesCarousel;
 }
 
-// Performance monitoring (optional)
-if ('performance' in window && 'mark' in performance) {
-    performance.mark('hermes-carousel-script-loaded');
-}
 
 /* ========================================
    ABOUT SECTION COMPONENT
    ======================================== */
-/**
- * Hermes About Section Component
- * Enhanced luxury about section with navigation and analytics
- */
+
 class HermesAboutSection {
     constructor() {
         this.section = document.querySelector('.hermes-about-showcase');
