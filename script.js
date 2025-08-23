@@ -162,7 +162,7 @@ class EviaAestheticsApp {
         this.components.set('servicesCarousel', new HermesServicesCarousel());  
         this.components.set('aboutSection', new HermesAboutSection());
         this.components.set('resultsGallery', new ResultsGallery());
-        this.components.set('contactForm', new ContactForm());
+        this.components.set('contactForm', new LuxuryContactSection());
         this.components.set('scrollIndicator', new ScrollIndicator());
         this.components.set('servicesCarousel', new HermesFloatingButtons());
     }
@@ -2653,145 +2653,491 @@ class ResultsGallery {
 /* ========================================
    CONTACT FORM COMPONENT
    ======================================== */
-class ContactForm {
+class LuxuryContactSection {
     constructor() {
-        this.form = document.getElementById('contactForm');
-        this.submitBtn = document.querySelector('.form-submit-btn');
+        this.section = document.querySelector('.luxury-contact-section');
+        this.isInitialized = false;
+        this.observers = new Map();
+        this.animationQueue = [];
         
-        if (this.form) {
+        if (this.section) {
             this.init();
         }
     }
 
     init() {
         this.bindEvents();
-        this.initScrollReveal();
+        this.initScrollAnimations();
+        this.initMapInteractions();
+        this.initFormEnhancements();
+        this.initParticleAnimations();
+        this.trackUserInteractions();
+        
+        this.isInitialized = true;
+        console.log('🏥 Luxury Contact Section Initialized');
     }
 
     bindEvents() {
-        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-        
-        // Input focus effects
-        const inputs = this.form.querySelectorAll('.form-input, .form-select, .form-textarea');
-        inputs.forEach(input => {
-            input.addEventListener('focus', () => this.onInputFocus(input));
-            input.addEventListener('blur', () => this.onInputBlur(input));
+        // Action buttons
+        const actionBtns = this.section.querySelectorAll('.action-btn');
+        actionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleActionClick(e, btn));
+            btn.addEventListener('mouseenter', (e) => this.handleActionHover(e, btn));
+            btn.addEventListener('mouseleave', (e) => this.handleActionLeave(e, btn));
         });
 
-        // Emergency contact buttons
-        const emergencyBtns = document.querySelectorAll('.emergency-btn');
+        // Emergency buttons
+        const emergencyBtns = this.section.querySelectorAll('.emergency-btn');
         emergencyBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                if (btn.classList.contains('primary')) {
-                    this.trackPhoneClick();
-                } else if (btn.classList.contains('secondary')) {
-                    this.trackTextClick();
-                }
-            });
+            btn.addEventListener('click', (e) => this.handleEmergencyClick(e, btn));
         });
+
+        // Contact method cards
+        const methodCards = this.section.querySelectorAll('.method-card');
+        methodCards.forEach(card => {
+            card.addEventListener('mouseenter', () => this.animateMethodCard(card, 'enter'));
+            card.addEventListener('mouseleave', () => this.animateMethodCard(card, 'leave'));
+        });
+
+        // Location and form cards
+        const cards = this.section.querySelectorAll('.location-card, .form-container, .emergency-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => this.addCardGlow(card));
+            card.addEventListener('mouseleave', () => this.removeCardGlow(card));
+        });
+
+        // Map interactions
+        const mapContainer = this.section.querySelector('.map-container');
+        if (mapContainer) {
+            mapContainer.addEventListener('click', () => this.handleMapClick());
+        }
+
+        // Resize handler
+        window.addEventListener('resize', this.debounce(() => this.handleResize(), 250));
+
+        // Badge interactions
+        const badge = this.section.querySelector('.luxury-badge');
+        if (badge) {
+            badge.addEventListener('mouseenter', () => this.animateBadge(badge, true));
+            badge.addEventListener('mouseleave', () => this.animateBadge(badge, false));
+        }
     }
 
-    initScrollReveal() {
-        const revealElements = document.querySelectorAll('[data-reveal]');
+    initScrollAnimations() {
+        const animatedElements = this.section.querySelectorAll('[data-aos]');
         
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('revealed');
-                    }, parseInt(entry.target.dataset.delay) || 0);
+                    this.animateElement(entry.target);
+                    observer.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        }, observerOptions);
+
+        animatedElements.forEach(el => observer.observe(el));
+        this.observers.set('scroll', observer);
+
+        // Title animation
+        this.initTitleAnimation();
+    }
+
+    initTitleAnimation() {
+        const titleAccent = this.section.querySelector('.title-accent');
+        if (titleAccent) {
+            // Add enhanced gradient animation
+            titleAccent.style.backgroundSize = '300% 300%';
+            
+            // Trigger animation on scroll
+            const titleObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        titleAccent.style.animation = 'gradientShift 4s ease-in-out infinite';
+                        titleObserver.unobserve(entry.target);
+                    }
+                });
+            });
+
+            titleObserver.observe(titleAccent);
+        }
+    }
+
+    initMapInteractions() {
+        const mapContainer = this.section.querySelector('.map-container');
+        const mapOverlay = this.section.querySelector('.map-overlay');
+        
+        if (mapContainer && mapOverlay) {
+            // Add hover effects
+            mapContainer.addEventListener('mouseenter', () => {
+                mapOverlay.style.transform = 'translateY(-5px) scale(1.02)';
+                mapOverlay.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.15)';
+            });
+            
+            mapContainer.addEventListener('mouseleave', () => {
+                mapOverlay.style.transform = 'translateY(0) scale(1)';
+                mapOverlay.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)';
+            });
+
+            // Enhanced map click interaction
+            mapContainer.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'IFRAME') {
+                    this.openDirections();
+                }
+            });
+        }
+    }
+
+    initFormEnhancements() {
+        const formWrapper = this.section.querySelector('.elfsight-form-wrapper');
+        if (formWrapper) {
+            // Monitor for Elfsight form load
+            this.waitForElfsightForm(formWrapper);
+        }
+
+        // Form container interactions
+        const formContainer = this.section.querySelector('.form-container');
+        if (formContainer) {
+            formContainer.addEventListener('focusin', () => {
+                formContainer.classList.add('form-focused');
+            });
+            
+            formContainer.addEventListener('focusout', () => {
+                formContainer.classList.remove('form-focused');
+            });
+        }
+    }
+
+    waitForElfsightForm(wrapper, attempts = 0) {
+        const maxAttempts = 50; // 10 seconds
+        
+        if (attempts > maxAttempts) return;
+        
+        const elfsightWidget = wrapper.querySelector('[class*="elfsight"]');
+        
+        if (elfsightWidget) {
+            this.enhanceElfsightForm(elfsightWidget);
+        } else {
+            setTimeout(() => {
+                this.waitForElfsightForm(wrapper, attempts + 1);
+            }, 200);
+        }
+    }
+
+    enhanceElfsightForm(widget) {
+        try {
+            // Add custom styling class
+            widget.classList.add('luxury-elfsight-form');
+            
+            // Monitor for form submission
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        // Check for success message
+                        const successMessage = widget.querySelector('[class*="success"], [class*="thank"]');
+                        if (successMessage) {
+                            this.handleFormSuccess();
+                        }
+                    }
+                });
+            });
+
+            observer.observe(widget, {
+                childList: true,
+                subtree: true
+            });
+
+            console.log('✅ Elfsight form enhanced successfully');
+        } catch (error) {
+            console.warn('Could not enhance Elfsight form:', error);
+        }
+    }
+
+    initParticleAnimations() {
+        const particles = this.section.querySelectorAll('.particle');
+        
+        particles.forEach((particle, index) => {
+            // Random animation delay
+            const delay = Math.random() * 25000;
+            particle.style.animationDelay = `-${delay}ms`;
+            
+            // Random horizontal drift
+            const drift = (Math.random() - 0.5) * 100;
+            particle.style.setProperty('--drift', `${drift}px`);
+        });
+    }
+
+    trackUserInteractions() {
+        // Track phone clicks
+        const phoneLinks = this.section.querySelectorAll('a[href^="tel:"]');
+        phoneLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                this.trackEvent('contact_phone_click', {
+                    location: 'contact_section',
+                    phone_number: link.href.replace('tel:', '')
+                });
+            });
         });
 
-        revealElements.forEach(element => observer.observe(element));
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this.form);
-        const data = Object.fromEntries(formData.entries());
-        
-        if (this.validateForm(data)) {
-            this.showSubmissionFeedback();
-            // Here you would send the data to your backend
-            // this.sendFormData(data);
-        }
-    }
-
-    validateForm(data) {
-        const requiredFields = ['name', 'email', 'phone'];
-        const missingFields = requiredFields.filter(field => !data[field] || data[field].trim() === '');
-        
-        if (missingFields.length > 0) {
-            this.showValidationError(`Please fill in: ${missingFields.join(', ')}`);
-            return false;
-        }
-        
-        if (!this.isValidEmail(data.email)) {
-            this.showValidationError('Please enter a valid email address');
-            return false;
-        }
-        
-        return true;
-    }
-
-    isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    showValidationError(message) {
-        const error = document.createElement('div');
-        error.style.cssText = `
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white; padding: 20px 32px; border-radius: 24px;
-            font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
-            z-index: 10000; pointer-events: none; opacity: 0;
-            backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(231, 76, 60, 0.4);
-            display: flex; align-items: center; gap: 12px; min-width: 280px; justify-content: center;
-        `;
-        
-        error.innerHTML = `
-            <i class="ri-error-warning-line" style="font-size: 18px;"></i>
-            <span>${message}</span>
-        `;
-        
-        document.body.appendChild(error);
-        
-        requestAnimationFrame(() => {
-            error.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            error.style.opacity = '1';
-            error.style.transform = 'translate(-50%, -50%) scale(1)';
+        // Track SMS clicks
+        const smsLinks = this.section.querySelectorAll('a[href^="sms:"]');
+        smsLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                this.trackEvent('contact_sms_click', {
+                    location: 'contact_section',
+                    phone_number: link.href.replace('sms:', '')
+                });
+            });
         });
+
+        // Track directions clicks
+        const directionsLinks = this.section.querySelectorAll('a[href*="maps.google"]');
+        directionsLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                this.trackEvent('directions_click', {
+                    location: 'contact_section'
+                });
+            });
+        });
+    }
+
+    // Event Handlers
+    handleActionClick(event, button) {
+        event.preventDefault();
+        
+        // Create ripple effect
+        this.createRippleEffect(button, event);
+        
+        // Handle navigation
+        const href = button.getAttribute('href');
+        if (href) {
+            setTimeout(() => {
+                if (href.startsWith('tel:') || href.startsWith('sms:')) {
+                    window.location.href = href;
+                } else if (href.includes('maps.google')) {
+                    window.open(href, '_blank');
+                }
+            }, 200);
+        }
+    }
+
+    handleActionHover(event, button) {
+        const icon = button.querySelector('i');
+        if (icon) {
+            icon.style.transform = 'rotate(15deg) scale(1.1)';
+        }
+    }
+
+    handleActionLeave(event, button) {
+        const icon = button.querySelector('i');
+        if (icon) {
+            icon.style.transform = 'rotate(0deg) scale(1)';
+        }
+    }
+
+    handleEmergencyClick(event, button) {
+        const isCall = button.classList.contains('call');
+        const isText = button.classList.contains('text');
+        
+        // Show feedback message
+        if (isCall) {
+            this.showFeedback('Initiating call...', 'ri-phone-line', '#27ae60');
+        } else if (isText) {
+            this.showFeedback('Opening message...', 'ri-message-3-line', '#3498db');
+        }
+        
+        // Create click effect
+        this.createButtonClickEffect(button);
+    }
+
+    handleMapClick() {
+        this.showFeedback('Opening directions...', 'ri-navigation-line', '#e74c3c');
+    }
+
+    handleFormSuccess() {
+        // Create success animation
+        this.showSuccessAnimation();
+        
+        // Track form submission
+        this.trackEvent('contact_form_submitted', {
+            form_type: 'elfsight',
+            location: 'contact_section'
+        });
+    }
+
+    handleResize() {
+        // Recalculate animations for mobile
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            this.optimizeForMobile();
+        } else {
+            this.optimizeForDesktop();
+        }
+    }
+
+    // Animation Methods
+    animateElement(element) {
+        const animationType = element.dataset.aos;
+        const delay = parseInt(element.dataset.aosDelay) || 0;
         
         setTimeout(() => {
-            error.style.opacity = '0';
-            error.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => error.remove(), 400);
-        }, 3000);
+            element.style.opacity = '1';
+            element.style.visibility = 'visible';
+            
+            switch (animationType) {
+                case 'fade-up':
+                    element.style.transform = 'translateY(0)';
+                    break;
+                case 'fade-down':
+                    element.style.transform = 'translateY(0)';
+                    break;
+                case 'fade-left':
+                    element.style.transform = 'translateX(0)';
+                    break;
+                case 'fade-right':
+                    element.style.transform = 'translateX(0)';
+                    break;
+                default:
+                    element.style.transform = 'none';
+            }
+        }, delay);
     }
 
-    showSubmissionFeedback() {
+    animateMethodCard(card, action) {
+        const icon = card.querySelector('.method-icon');
+        
+        if (action === 'enter') {
+            icon.style.transform = 'rotate(10deg) scale(1.1)';
+            icon.style.background = 'linear-gradient(135deg, #FF8C00 0%, #FFA500 100%)';
+            icon.style.color = 'white';
+        } else {
+            icon.style.transform = 'rotate(0deg) scale(1)';
+            icon.style.background = 'rgba(255, 140, 0, 0.1)';
+            icon.style.color = '#FF8C00';
+        }
+    }
+
+    animateBadge(badge, isHover) {
+        const glow = badge.querySelector('.badge-glow');
+        const icon = badge.querySelector('i');
+        
+        if (isHover) {
+            if (glow) glow.style.opacity = '1';
+            if (icon) icon.style.transform = 'rotate(15deg) scale(1.1)';
+        } else {
+            if (glow) glow.style.opacity = '0';
+            if (icon) icon.style.transform = 'rotate(0deg) scale(1)';
+        }
+    }
+
+    addCardGlow(card) {
+        const existingGlow = card.querySelector('.card-hover-glow');
+        if (!existingGlow) {
+            const glow = document.createElement('div');
+            glow.className = 'card-hover-glow';
+            glow.style.cssText = `
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle at center, rgba(255, 140, 0, 0.08), transparent 70%);
+                border-radius: inherit;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+                z-index: 1;
+            `;
+            card.appendChild(glow);
+            
+            requestAnimationFrame(() => {
+                glow.style.opacity = '1';
+            });
+        }
+    }
+
+    removeCardGlow(card) {
+        const glow = card.querySelector('.card-hover-glow');
+        if (glow) {
+            glow.style.opacity = '0';
+            setTimeout(() => {
+                if (glow.parentNode) {
+                    glow.parentNode.removeChild(glow);
+                }
+            }, 500);
+        }
+    }
+
+    createRippleEffect(element, event) {
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+        
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+            z-index: 100;
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(ripple);
+        
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 600);
+    }
+
+    createButtonClickEffect(button) {
+        button.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            button.style.transform = '';
+        }, 150);
+    }
+
+    showFeedback(message, icon, color = '#FF8C00') {
         const feedback = document.createElement('div');
         feedback.style.cssText = `
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-            color: white; padding: 20px 32px; border-radius: 24px;
-            font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
-            z-index: 10000; pointer-events: none; opacity: 0;
-            backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(39, 174, 96, 0.4);
-            display: flex; align-items: center; gap: 12px; min-width: 280px; justify-content: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, ${color} 0%, ${color}dd 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 250px;
+            justify-content: center;
         `;
         
         feedback.innerHTML = `
-            <i class="ri-check-line" style="font-size: 18px;"></i>
-            <span>Message sent! We'll contact you soon.</span>
+            <i class="${icon}" style="font-size: 16px;"></i>
+            <span>${message}</span>
         `;
         
         document.body.appendChild(feedback);
@@ -2802,33 +3148,228 @@ class ContactForm {
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
-        // Reset form
-        this.form.reset();
-        
         setTimeout(() => {
             feedback.style.opacity = '0';
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
             setTimeout(() => feedback.remove(), 400);
+        }, 2500);
+    }
+
+    showSuccessAnimation() {
+        const success = document.createElement('div');
+        success.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 20px 32px;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(39, 174, 96, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            justify-content: center;
+        `;
+        
+        success.innerHTML = `
+            <div style="
+                width: 24px; 
+                height: 24px; 
+                border-radius: 50%; 
+                background: white; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center;
+                color: #27ae60;
+                font-size: 14px;
+            ">
+                <i class="ri-check-line"></i>
+            </div>
+            <span>Message sent successfully! We'll contact you soon.</span>
+        `;
+        
+        document.body.appendChild(success);
+        
+        requestAnimationFrame(() => {
+            success.style.transition = 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            success.style.opacity = '1';
+            success.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        // Confetti effect
+        this.createConfettiEffect();
+        
+        setTimeout(() => {
+            success.style.opacity = '0';
+            success.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            setTimeout(() => success.remove(), 500);
         }, 4000);
     }
 
-    onInputFocus(input) {
-        input.parentElement.classList.add('focused');
+    createConfettiEffect() {
+        const colors = ['#FF8C00', '#FFA500', '#FFD700', '#27ae60', '#3498db'];
+        
+        for (let i = 0; i < 30; i++) {
+            const confetti = document.createElement('div');
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            confetti.style.cssText = `
+                position: fixed;
+                width: 6px;
+                height: 6px;
+                background: ${color};
+                top: 50%;
+                left: 50%;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                animation: confetti 2s ease-out forwards;
+            `;
+            
+            confetti.style.setProperty('--random-x', (Math.random() - 0.5) * 400 + 'px');
+            confetti.style.setProperty('--random-y', -(Math.random() * 200 + 100) + 'px');
+            
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => confetti.remove(), 2000);
+        }
     }
 
-    onInputBlur(input) {
-        input.parentElement.classList.remove('focused');
+    optimizeForMobile() {
+        // Reduce particle count on mobile
+        const particles = this.section.querySelectorAll('.particle');
+        particles.forEach((particle, index) => {
+            if (index > 1) {
+                particle.style.display = 'none';
+            }
+        });
     }
 
-    trackPhoneClick() {
-        console.log('Phone call initiated');
-        // Add analytics tracking here
+    optimizeForDesktop() {
+        // Restore all particles on desktop
+        const particles = this.section.querySelectorAll('.particle');
+        particles.forEach(particle => {
+            particle.style.display = '';
+        });
     }
 
-    trackTextClick() {
-        console.log('Text message initiated');
-        // Add analytics tracking here
+    openDirections() {
+        const address = '65 West 36th Street 10th Floor New York NY 10018';
+        const encodedAddress = encodeURIComponent(address);
+        const url = `https://maps.google.com/?q=${encodedAddress}`;
+        window.open(url, '_blank');
     }
+
+    trackEvent(eventName, parameters = {}) {
+        // Google Analytics tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, parameters);
+        }
+        
+        // Facebook Pixel tracking
+        if (typeof fbq !== 'undefined') {
+            fbq('track', eventName, parameters);
+        }
+        
+        // Console log for debugging
+        console.log('📊 Event tracked:', eventName, parameters);
+    }
+
+    // Utility Methods
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Public Methods
+    destroy() {
+        // Clean up observers
+        this.observers.forEach(observer => observer.disconnect());
+        this.observers.clear();
+        
+        // Remove event listeners
+        // Note: In a real implementation, you'd store references to remove them
+        
+        this.isInitialized = false;
+        console.log('🏥 Luxury Contact Section Destroyed');
+    }
+
+    refresh() {
+        if (this.isInitialized) {
+            this.destroy();
+            this.init();
+        }
+    }
+}
+
+// CSS Animations (to be added to the CSS)
+const additionalCSS = `
+<style>
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes confetti {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--random-x), var(--random-y)) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.form-focused {
+    border-color: rgba(255, 140, 0, 0.4) !important;
+    box-shadow: 
+        0 30px 100px rgba(0, 0, 0, 0.1),
+        0 15px 50px rgba(255, 140, 0, 0.15) !important;
+}
+
+.luxury-elfsight-form {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+</style>
+`;
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Add additional CSS
+    document.head.insertAdjacentHTML('beforeend', additionalCSS);
+    
+    // Initialize the contact section
+    window.luxuryContactSection = new LuxuryContactSection();
+});
+
+// Export for external use
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = LuxuryContactSection;
 }
 
 /* ========================================
