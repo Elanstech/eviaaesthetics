@@ -1057,6 +1057,7 @@ body.mobile-menu-open {
     transition: all var(--transition-medium);
     width: auto;
     margin: 0 auto;
+    margin-top: clamp(2rem, 4vh, 3rem);
     white-space: nowrap;
     min-height: 44px;
 }
