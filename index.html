@@ -289,171 +289,164 @@
     </div>
     
     <div class="hermes-carousel-wrapper">
-      <div class="hermes-carousel-track" id="hermesCarouselTrack">
-        
-        <!-- Service 1: Botox & Fillers -->
-        <div class="hermes-service-card hermes-active">
-          <div class="hermes-card-inner">
-            <div class="hermes-service-image">
-              <img src="https://images.unsplash.com/photo-1616391182219-e080b4d031f6?w=500&h=400&fit=crop&crop=face" alt="Botox and Fillers" loading="lazy">
-              <div class="hermes-image-overlay"></div>
-              <div class="hermes-service-number">01</div>
-            </div>
-            <div class="hermes-service-content">
-              <h3 class="hermes-service-name">Botox & Fillers</h3>
-              <p class="hermes-service-desc">Precision enhancement crafted with artistic excellence</p>
-              <div class="hermes-price-container">
-                <span class="hermes-price-label">Starting from</span>
-                <span class="hermes-price-value">$16<small>/unit</small></span>
+      <!-- Left Arrow -->
+      <button class="hermes-scroll-arrow hermes-scroll-left" id="hermesScrollLeft">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Scrollable Container -->
+      <div class="hermes-services-scroll-container" id="hermesScrollContainer">
+        <div class="hermes-services-grid">
+          
+          <!-- Service 1: Botox & Fillers -->
+          <div class="hermes-service-card">
+            <div class="hermes-card-inner">
+              <div class="hermes-service-image">
+                <img src="https://images.unsplash.com/photo-1616391182219-e080b4d031f6?w=500&h=400&fit=crop&crop=face" alt="Botox and Fillers" loading="lazy">
+                <div class="hermes-image-overlay"></div>
+                <div class="hermes-service-number">01</div>
               </div>
-              <button class="hermes-learn-btn" data-service="botox">
-                <span>Learn More</span>
-                <div class="hermes-btn-arrow">→</div>
-              </button>
+              <div class="hermes-service-content">
+                <h3 class="hermes-service-name">Botox & Fillers</h3>
+                <p class="hermes-service-desc">Precision enhancement crafted with artistic excellence</p>
+                <div class="hermes-price-container">
+                  <span class="hermes-price-label">Starting from</span>
+                  <span class="hermes-price-value">$16<small>/unit</small></span>
+                </div>
+                <button class="hermes-learn-btn" data-service="botox">
+                  <span>Learn More</span>
+                  <div class="hermes-btn-arrow">→</div>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Service 2: Weight Management -->
-        <div class="hermes-service-card">
-          <div class="hermes-card-inner">
-            <div class="hermes-service-image">
-              <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=400&fit=crop&crop=center" alt="Weight Management" loading="lazy">
-              <div class="hermes-image-overlay"></div>
-              <div class="hermes-service-number">02</div>
-            </div>
-            <div class="hermes-service-content">
-              <h3 class="hermes-service-name">Weight Management</h3>
-              <p class="hermes-service-desc">Bespoke wellness programs tailored to perfection</p>
-              <div class="hermes-price-container">
-                <span class="hermes-price-label">Exclusive</span>
-                <span class="hermes-price-value">Inquire Within</span>
+          <!-- Service 2: Weight Management -->
+          <div class="hermes-service-card">
+            <div class="hermes-card-inner">
+              <div class="hermes-service-image">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=400&fit=crop&crop=center" alt="Weight Management" loading="lazy">
+                <div class="hermes-image-overlay"></div>
+                <div class="hermes-service-number">02</div>
               </div>
-              <button class="hermes-learn-btn" data-service="weight">
-                <span>Learn More</span>
-                <div class="hermes-btn-arrow">→</div>
-              </button>
+              <div class="hermes-service-content">
+                <h3 class="hermes-service-name">Weight Management</h3>
+                <p class="hermes-service-desc">Bespoke wellness programs tailored to perfection</p>
+                <div class="hermes-price-container">
+                  <span class="hermes-price-label">Exclusive</span>
+                  <span class="hermes-price-value">Inquire Within</span>
+                </div>
+                <button class="hermes-learn-btn" data-service="weight">
+                  <span>Learn More</span>
+                  <div class="hermes-btn-arrow">→</div>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Service 3: IV Therapy -->
-        <div class="hermes-service-card">
-          <div class="hermes-card-inner">
-            <div class="hermes-service-image">
-              <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=500&h=400&fit=crop&crop=center" alt="IV Therapy" loading="lazy">
-              <div class="hermes-image-overlay"></div>
-              <div class="hermes-service-number">03</div>
-            </div>
-            <div class="hermes-service-content">
-              <h3 class="hermes-service-name">IV Therapy</h3>
-              <p class="hermes-service-desc">Luxury hydration and revitalization therapy</p>
-              <div class="hermes-price-container">
-                <span class="hermes-price-label">Starting from</span>
-                <span class="hermes-price-value">$350</span>
+          <!-- Service 3: IV Therapy -->
+          <div class="hermes-service-card">
+            <div class="hermes-card-inner">
+              <div class="hermes-service-image">
+                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=500&h=400&fit=crop&crop=center" alt="IV Therapy" loading="lazy">
+                <div class="hermes-image-overlay"></div>
+                <div class="hermes-service-number">03</div>
               </div>
-              <button class="hermes-learn-btn" data-service="iv">
-                <span>Learn More</span>
-                <div class="hermes-btn-arrow">→</div>
-              </button>
+              <div class="hermes-service-content">
+                <h3 class="hermes-service-name">IV Therapy</h3>
+                <p class="hermes-service-desc">Luxury hydration and revitalization therapy</p>
+                <div class="hermes-price-container">
+                  <span class="hermes-price-label">Starting from</span>
+                  <span class="hermes-price-value">$350</span>
+                </div>
+                <button class="hermes-learn-btn" data-service="iv">
+                  <span>Learn More</span>
+                  <div class="hermes-btn-arrow">→</div>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Service 4: Microneedling -->
-        <div class="hermes-service-card">
-          <div class="hermes-card-inner">
-            <div class="hermes-service-image">
-              <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=500&h=400&fit=crop&crop=center" alt="Microneedling" loading="lazy">
-              <div class="hermes-image-overlay"></div>
-              <div class="hermes-service-number">04</div>
-            </div>
-            <div class="hermes-service-content">
-              <h3 class="hermes-service-name">Microneedling</h3>
-              <p class="hermes-service-desc">SkinPen precision for radiant skin transformation</p>
-              <div class="hermes-price-container">
-                <span class="hermes-price-label">Starting from</span>
-                <span class="hermes-price-value">$700</span>
+          <!-- Service 4: Microneedling -->
+          <div class="hermes-service-card">
+            <div class="hermes-card-inner">
+              <div class="hermes-service-image">
+                <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=500&h=400&fit=crop&crop=center" alt="Microneedling" loading="lazy">
+                <div class="hermes-image-overlay"></div>
+                <div class="hermes-service-number">04</div>
               </div>
-              <button class="hermes-learn-btn" data-service="microneedling">
-                <span>Learn More</span>
-                <div class="hermes-btn-arrow">→</div>
-              </button>
+              <div class="hermes-service-content">
+                <h3 class="hermes-service-name">Microneedling</h3>
+                <p class="hermes-service-desc">SkinPen precision for radiant skin transformation</p>
+                <div class="hermes-price-container">
+                  <span class="hermes-price-label">Starting from</span>
+                  <span class="hermes-price-value">$700</span>
+                </div>
+                <button class="hermes-learn-btn" data-service="microneedling">
+                  <span>Learn More</span>
+                  <div class="hermes-btn-arrow">→</div>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Service 5: PRP -->
-        <div class="hermes-service-card">
-          <div class="hermes-card-inner">
-            <div class="hermes-service-image">
-              <img src="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=500&h=400&fit=crop&crop=center" alt="PRP Treatment" loading="lazy">
-              <div class="hermes-image-overlay"></div>
-              <div class="hermes-service-number">05</div>
-            </div>
-            <div class="hermes-service-content">
-              <h3 class="hermes-service-name">PRP Treatment</h3>
-              <p class="hermes-service-desc">Advanced regenerative therapy with natural healing</p>
-              <div class="hermes-price-container">
-                <span class="hermes-price-label">Starting from</span>
-                <span class="hermes-price-value">$800</span>
+          <!-- Service 5: PRP -->
+          <div class="hermes-service-card">
+            <div class="hermes-card-inner">
+              <div class="hermes-service-image">
+                <img src="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=500&h=400&fit=crop&crop=center" alt="PRP Treatment" loading="lazy">
+                <div class="hermes-image-overlay"></div>
+                <div class="hermes-service-number">05</div>
               </div>
-              <button class="hermes-learn-btn" data-service="prp">
-                <span>Learn More</span>
-                <div class="hermes-btn-arrow">→</div>
-              </button>
+              <div class="hermes-service-content">
+                <h3 class="hermes-service-name">PRP Treatment</h3>
+                <p class="hermes-service-desc">Advanced regenerative therapy with natural healing</p>
+                <div class="hermes-price-container">
+                  <span class="hermes-price-label">Starting from</span>
+                  <span class="hermes-price-value">$800</span>
+                </div>
+                <button class="hermes-learn-btn" data-service="prp">
+                  <span>Learn More</span>
+                  <div class="hermes-btn-arrow">→</div>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Service 6: Chemical Peels -->
-        <div class="hermes-service-card">
-          <div class="hermes-card-inner">
-            <div class="hermes-service-image">
-              <img src="https://images.unsplash.com/photo-1616391182219-e080b4d031f6?w=500&h=400&fit=crop&crop=face" alt="Chemical Peels" loading="lazy">
-              <div class="hermes-image-overlay"></div>
-              <div class="hermes-service-number">06</div>
-            </div>
-            <div class="hermes-service-content">
-              <h3 class="hermes-service-name">Chemical Peels</h3>
-              <p class="hermes-service-desc">Gentle skin renewal with professional expertise</p>
-              <div class="hermes-price-container">
-                <span class="hermes-price-label">Starting from</span>
-                <span class="hermes-price-value">$350</span>
+          <!-- Service 6: Chemical Peels -->
+          <div class="hermes-service-card">
+            <div class="hermes-card-inner">
+              <div class="hermes-service-image">
+                <img src="https://images.unsplash.com/photo-1616391182219-e080b4d031f6?w=500&h=400&fit=crop&crop=face" alt="Chemical Peels" loading="lazy">
+                <div class="hermes-image-overlay"></div>
+                <div class="hermes-service-number">06</div>
               </div>
-              <button class="hermes-learn-btn" data-service="peels">
-                <span>Learn More</span>
-                <div class="hermes-btn-arrow">→</div>
-              </button>
+              <div class="hermes-service-content">
+                <h3 class="hermes-service-name">Chemical Peels</h3>
+                <p class="hermes-service-desc">Gentle skin renewal with professional expertise</p>
+                <div class="hermes-price-container">
+                  <span class="hermes-price-label">Starting from</span>
+                  <span class="hermes-price-value">$350</span>
+                </div>
+                <button class="hermes-learn-btn" data-service="peels">
+                  <span>Learn More</span>
+                  <div class="hermes-btn-arrow">→</div>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
-      
-      <!-- Navigation Controls -->
-      <div class="hermes-carousel-controls">
-        <button class="hermes-nav-btn hermes-prev" id="hermesPrevBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        
-        <div class="hermes-dots-container" id="hermesDotsContainer">
-          <span class="hermes-dot hermes-dot-active" data-slide="0"></span>
-          <span class="hermes-dot" data-slide="1"></span>
-          <span class="hermes-dot" data-slide="2"></span>
-          <span class="hermes-dot" data-slide="3"></span>
-          <span class="hermes-dot" data-slide="4"></span>
-          <span class="hermes-dot" data-slide="5"></span>
-        </div>
-        
-        <button class="hermes-nav-btn hermes-next" id="hermesNextBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
+
+      <!-- Right Arrow -->
+      <button class="hermes-scroll-arrow hermes-scroll-right" id="hermesScrollRight">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </div>
   </div>
 </section>
