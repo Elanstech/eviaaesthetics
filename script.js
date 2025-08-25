@@ -2569,7 +2569,7 @@ class EviaAestheticsApp {
             this.components.set('mobileMenu', new MobileMenu());
             this.components.set('header', new LuxuryHeader());
             this.components.set('hero', new HeroSection());
-            this.components.set('servicesCarousel', new HermesServicesCarousel());
+            this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
             this.components.set('contact', new ContactSection());
@@ -2822,7 +2822,7 @@ window.addEventListener('load', () => {
 window.MobileMenu = MobileMenu;
 window.HermesFloatingButtons = HermesFloatingButtons;
 window.LuxuryHeader = LuxuryHeader;
-window.HermesServicesCarousel = HermesServicesCarousel;
+window.HermesServicesScroller = HermesServicesScroller;
 window.ContactSection = ContactSection;
 window.HeroSection = HeroSection;
 window.ElevatedAboutSection = ElevatedAboutSection;
@@ -2830,7 +2830,7 @@ window.HermesResultsShowcase = HermesResultsShowcase;
 
 // Legacy aliases for backward compatibility
 window.FloatingButtons = HermesFloatingButtons;
-window.HermesServicesCarousel = HermesServicesCarousel;
+window.HermesServicesScroller = HermesServicesScroller;
 window.AboutSection = ElevatedAboutSection;
 window.ResultsGallery = HermesResultsShowcase;
 
