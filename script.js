@@ -1,4 +1,3 @@
-
 /* ========================================
    EVIA AESTHETICS - COMPLETE WEBSITE SCRIPT
    Fixed for Mobile & All Functionality
@@ -340,7 +339,7 @@ class MobileMenu {
 /* ========================================
    FLOATING BUTTONS - COMPLETELY FIXED
    ======================================== */
-class FloatingButtons {
+class HermesFloatingButtons {
     constructor() {
         this.backToTopBtn = document.getElementById('backToTopBtn') || document.querySelector('.hermes-back-to-top');
         this.contactFabBtn = document.getElementById('contactFabBtn') || document.querySelector('.hermes-contact-fab');
@@ -353,8 +352,10 @@ class FloatingButtons {
         this.isBackToTopVisible = false;
         this.scrollThreshold = 400;
         this.lastScrollY = 0;
+        this.backToTopClicks = 0;
+        this.contactInteractions = {};
         
-        console.log('Floating Buttons elements found:', {
+        console.log('Hermes Floating Buttons elements found:', {
             backToTop: !!this.backToTopBtn,
             contactFab: !!this.contactFabBtn,
             mainContactBtn: !!this.mainContactBtn,
@@ -363,7 +364,7 @@ class FloatingButtons {
         
         if (this.backToTopBtn || this.contactFabBtn) {
             this.init();
-            console.log('✅ Floating Buttons Initialized Successfully');
+            console.log('✅ Hermes Floating Buttons Initialized Successfully');
         }
     }
 
@@ -525,6 +526,7 @@ class FloatingButtons {
 
     scrollToTop() {
         console.log('Scrolling to top');
+        this.backToTopClicks++;
         
         window.scrollTo({
             top: 0,
@@ -591,16 +593,19 @@ class FloatingButtons {
         this.contactOptions.forEach(option => {
             option.style.opacity = '0';
             option.style.visibility = 'hidden';
-            option.style.transform = 'translateY(20px) scale(0.8)';
+            option.style.transform = 'translateY(50px) scale(0.8)';
         });
     }
 
     handleContactClick(event, contactType, link) {
         console.log('Handling contact click:', contactType);
         
+        // Track interaction
+        this.contactInteractions[contactType] = (this.contactInteractions[contactType] || 0) + 1;
+        
         // Don't prevent default for tel:, mailto:, or external links
         const href = link.getAttribute('href');
-        if (href && (href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('http'))) {
+        if (href && (href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('sms:') || href.startsWith('http'))) {
             // Let the browser handle the link naturally
             console.log('Allowing default link behavior for:', href);
         } else {
@@ -611,7 +616,8 @@ class FloatingButtons {
         const messages = {
             call: 'Opening phone...',
             email: 'Opening email...',
-            instagram: 'Opening Instagram...'
+            instagram: 'Opening Instagram...',
+            text: 'Opening messages...'
         };
         
         this.showFeedback(messages[contactType] || 'Opening...', this.getIconForContactType(contactType));
@@ -626,7 +632,8 @@ class FloatingButtons {
         const icons = {
             call: 'ri-phone-line',
             email: 'ri-mail-line',
-            instagram: 'ri-instagram-line'
+            instagram: 'ri-instagram-line',
+            text: 'ri-message-line'
         };
         return icons[type] || 'ri-contacts-line';
     }
@@ -674,6 +681,36 @@ class FloatingButtons {
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
             setTimeout(() => feedback.remove(), 400);
         }, 2000);
+    }
+
+    // Public API methods
+    showBackToTop() {
+        this.toggleBackToTopVisibility(true);
+    }
+
+    hideBackToTop() {
+        this.toggleBackToTopVisibility(false);
+    }
+
+    openContactMenu() {
+        if (!this.isContactExpanded) {
+            this.openContactFab();
+        }
+    }
+
+    closeContactMenu() {
+        if (this.isContactExpanded) {
+            this.closeContactFab();
+        }
+    }
+
+    getInteractionStats() {
+        return {
+            backToTopClicks: this.backToTopClicks,
+            contactInteractions: { ...this.contactInteractions },
+            isContactExpanded: this.isContactExpanded,
+            isBackToTopVisible: this.isBackToTopVisible
+        };
     }
 }
 
@@ -768,7 +805,6 @@ class LuxuryHeader {
 /* ========================================
    SERVICES CAROUSEL - FIXED
    ======================================== */
-
 class RefinedServicesCarousel {
     constructor() {
         this.section = document.querySelector('.refined-hermes-services');
@@ -999,7 +1035,6 @@ class RefinedServicesCarousel {
         
         this.currentIndex = Math.min(this.currentIndex + 1, this.maxIndex);
         this.updateSlide();
-        this.trackInteraction('next_slide');
     }
 
     previousSlide() {
@@ -1007,7 +1042,6 @@ class RefinedServicesCarousel {
         
         this.currentIndex = Math.max(this.currentIndex - 1, 0);
         this.updateSlide();
-        this.trackInteraction('previous_slide');
     }
 
     goToSlide(index) {
@@ -1016,7 +1050,6 @@ class RefinedServicesCarousel {
         
         this.currentIndex = index;
         this.updateSlide();
-        this.trackInteraction('dot_navigation', index);
     }
 
     updateSlide() {
@@ -1095,9 +1128,6 @@ class RefinedServicesCarousel {
         // Show loading feedback
         this.showServiceFeedback(serviceName);
         
-        // Track interaction
-        this.trackInteraction('service_card_click', serviceSlug);
-        
         // Navigate to services page
         setTimeout(() => {
             window.location.href = `services.html#${serviceSlug}`;
@@ -1112,9 +1142,6 @@ class RefinedServicesCarousel {
         
         // Show loading state
         this.showCTALoadingState();
-        
-        // Track interaction
-        this.trackInteraction('main_cta_click');
         
         // Navigate
         setTimeout(() => {
@@ -1332,19 +1359,6 @@ class RefinedServicesCarousel {
         }
     }
 
-    trackInteraction(action, data = null) {
-        console.log(`📊 Refined Services: ${action}${data ? ` - ${data}` : ''}`);
-        
-        // Analytics integration
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'refined_services_interaction', {
-                event_category: 'Refined Services',
-                event_label: data || action,
-                value: this.currentIndex + 1
-            });
-        }
-    }
-
     // Utility function
     debounce(func, wait) {
         let timeout;
@@ -1378,49 +1392,9 @@ class RefinedServicesCarousel {
 
     destroy() {
         this.pauseAutoplay();
-        // Additional cleanup can be added here
         console.log('🗑️ Refined Services Carousel destroyed');
     }
 }
-
-// Initialize the carousel
-document.addEventListener('DOMContentLoaded', () => {
-    window.refinedServicesCarousel = new RefinedServicesCarousel();
-});
-
-// Alternative initialization
-if (document.readyState !== 'loading') {
-    window.refinedServicesCarousel = new RefinedServicesCarousel();
-}
-
-// Global utility functions
-window.navigateToRefinedServices = () => {
-    if (window.refinedServicesCarousel) {
-        window.refinedServicesCarousel.navigateToServices();
-    } else {
-        window.location.href = 'services.html';
-    }
-};
-
-window.showRefinedService = (serviceSlug) => {
-    if (window.refinedServicesCarousel) {
-        window.refinedServicesCarousel.goToService(serviceSlug);
-    } else {
-        window.location.href = `services.html#${serviceSlug}`;
-    }
-};
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { 
-        RefinedServicesCarousel, 
-        navigateToRefinedServices, 
-        showRefinedService 
-    };
-}
-
-console.log('✨ Refined Hermes Services Carousel Script Loaded Successfully!');
-
 
 /* ========================================
    RESULTS GALLERY - FIXED
@@ -1860,36 +1834,6 @@ class HermesResultsShowcase {
     }
 }
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.hermesResultsShowcase = new HermesResultsShowcase();
-});
-
-// Alternative initialization for dynamic loading
-if (document.readyState !== 'loading') {
-    window.hermesResultsShowcase = new HermesResultsShowcase();
-}
-
-// Global utility functions
-window.filterResults = (category) => {
-    if (window.hermesResultsShowcase) {
-        window.hermesResultsShowcase.filterByCategory(category);
-    }
-};
-
-window.resetSliders = () => {
-    if (window.hermesResultsShowcase) {
-        window.hermesResultsShowcase.resetAllSliders();
-    }
-};
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = HermesResultsShowcase;
-}
-
-console.log('✨ Hermes Results Showcase Script Loaded Successfully!');
-
 /* ========================================
    CONTACT SECTION - FIXED
    ======================================== */
@@ -2115,10 +2059,6 @@ class ElevatedAboutSection {
         this.initializeCounters();
     }
 
-    /* ========================================
-       EVENT BINDINGS
-       ======================================== */
-    
     bindEvents() {
         // Learn More Button
         if (this.learnMoreBtn) {
@@ -2170,10 +2110,6 @@ class ElevatedAboutSection {
         });
     }
 
-    /* ========================================
-       BUTTON HANDLERS
-       ======================================== */
-
     handleLearnMoreClick() {
         if (this.isAnimating) return;
         
@@ -2212,10 +2148,6 @@ class ElevatedAboutSection {
             this.isAnimating = false;
         }, 800);
     }
-
-    /* ========================================
-       VISUAL FEEDBACK FUNCTIONS
-       ======================================== */
 
     addClickFeedback(element) {
         if (!element) return;
@@ -2287,10 +2219,6 @@ class ElevatedAboutSection {
         }, 2500);
     }
 
-    /* ========================================
-       ANIMATION FUNCTIONS
-       ======================================== */
-
     triggerProfileCardAnimation() {
         if (!this.profileCard) return;
         
@@ -2350,10 +2278,6 @@ class ElevatedAboutSection {
         this.showActionFeedback(detail, 'ri-information-line');
     }
 
-    /* ========================================
-       COUNTER ANIMATIONS
-       ======================================== */
-
     initializeCounters() {
         const counters = [
             { element: document.querySelector('.experience-number'), target: 20, suffix: '+' },
@@ -2412,10 +2336,6 @@ class ElevatedAboutSection {
         updateCounter();
     }
 
-    /* ========================================
-       SCROLL FUNCTIONS
-       ======================================== */
-
     scrollToContact() {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
@@ -2428,10 +2348,6 @@ class ElevatedAboutSection {
             });
         }
     }
-
-    /* ========================================
-       INTERSECTION OBSERVER
-       ======================================== */
 
     setupIntersectionObserver() {
         const observeElements = [
@@ -2480,10 +2396,6 @@ class ElevatedAboutSection {
         });
     }
 
-    /* ========================================
-       PARALLAX EFFECTS
-       ======================================== */
-
     setupParallaxEffects() {
         const parallaxElements = document.querySelectorAll('.bg-orb');
         
@@ -2501,10 +2413,6 @@ class ElevatedAboutSection {
         }, { passive: true });
     }
 
-    /* ========================================
-       UTILITY FUNCTIONS
-       ======================================== */
-
     debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -2516,10 +2424,6 @@ class ElevatedAboutSection {
             timeout = setTimeout(later, wait);
         };
     }
-
-    /* ========================================
-       PUBLIC API
-       ======================================== */
 
     triggerLearnMore() {
         if (this.learnMoreBtn) {
@@ -2534,28 +2438,9 @@ class ElevatedAboutSection {
     }
 
     destroy() {
-        // Cleanup event listeners and observers
         console.log('🗑️ Elevated About Section destroyed');
     }
 }
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.elevatedAboutSection = new ElevatedAboutSection();
-});
-
-// Alternative initialization for dynamic loading
-if (document.readyState !== 'loading') {
-    window.elevatedAboutSection = new ElevatedAboutSection();
-}
-
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ElevatedAboutSection;
-}
-
-console.log('✨ Elevated About Section Script Loaded!');
-
 
 /* ========================================
    PRELOADER - FIXED
@@ -2629,11 +2514,11 @@ class EviaAestheticsApp {
             this.components.set('mobileMenu', new MobileMenu());
             this.components.set('header', new LuxuryHeader());
             this.components.set('hero', new HeroSection());
-            this.components.set('servicesCarousel', new HermesServicesSection());
-            this.components.set('about', new AboutSection());
-            this.components.set('results', new ResultsGallery());
+            this.components.set('servicesCarousel', new RefinedServicesCarousel());
+            this.components.set('about', new ElevatedAboutSection());
+            this.components.set('results', new HermesResultsShowcase());
             this.components.set('contact', new ContactSection());
-            this.components.set('floatingButtons', new FloatingButtons());
+            this.components.set('floatingButtons', new HermesFloatingButtons());
             
             this.isInitialized = true;
             console.log('✅ All components initialized successfully');
@@ -2853,7 +2738,7 @@ const initializeApp = () => {
             
             // Initialize critical components directly
             window.mobileMenu = new MobileMenu();
-            window.floatingButtons = new FloatingButtons();
+            window.hermesFloatingButtons = new HermesFloatingButtons();
             window.header = new LuxuryHeader();
             
             console.log('✅ Fallback initialization completed');
@@ -2880,12 +2765,18 @@ window.addEventListener('load', () => {
 
 // Make components globally accessible for debugging
 window.MobileMenu = MobileMenu;
-window.FloatingButtons = FloatingButtons;
+window.HermesFloatingButtons = HermesFloatingButtons;
 window.LuxuryHeader = LuxuryHeader;
-window.ServicesCarousel = RefinedServicesCarousel;
+window.RefinedServicesCarousel = RefinedServicesCarousel;
 window.ContactSection = ContactSection;
 window.HeroSection = HeroSection;
+window.ElevatedAboutSection = ElevatedAboutSection;
+window.HermesResultsShowcase = HermesResultsShowcase;
+
+// Legacy aliases for backward compatibility
+window.FloatingButtons = HermesFloatingButtons;
+window.ServicesCarousel = RefinedServicesCarousel;
 window.AboutSection = ElevatedAboutSection;
-window.ResultsGallery = ResultsGallery;
+window.ResultsGallery = HermesResultsShowcase;
 
 console.log('📱 Mobile-optimized Evia Aesthetics Script Loaded Successfully!');
