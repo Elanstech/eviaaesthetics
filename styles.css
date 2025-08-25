@@ -1386,7 +1386,7 @@ body.mobile-menu-open {
 /* ========================================
    SERVICES SECTION - COMPLETE
    ======================================== */
-
+/* Hermes Premium Services Section Styles */
 .hermes-services-section {
   padding: 140px 0;
   background: linear-gradient(135deg, #fefefe 0%, #f9f7f4 50%, #fefefe 100%);
@@ -1403,8 +1403,8 @@ body.mobile-menu-open {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 30%, rgba(255, 102, 0, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
+    radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 165, 0, 0.02) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -1429,8 +1429,8 @@ body.mobile-menu-open {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: rgba(255, 102, 0, 0.08);
-  border: 1px solid rgba(255, 102, 0, 0.2);
+  background: rgba(255, 140, 0, 0.08);
+  border: 1px solid rgba(255, 140, 0, 0.2);
   border-radius: 50px;
   padding: 12px 28px;
   margin-bottom: 32px;
@@ -1444,7 +1444,7 @@ body.mobile-menu-open {
 
 .hermes-badge-icon {
   font-size: 1.2rem;
-  color: #FF6600;
+  color: #FF8C00;
   font-weight: bold;
 }
 
@@ -1571,9 +1571,9 @@ body.mobile-menu-open {
   justify-content: center;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #FF6600;
+  color: #FF8C00;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 102, 0, 0.2);
+  border: 1px solid rgba(255, 140, 0, 0.2);
 }
 
 /* Service Content */
@@ -1615,7 +1615,7 @@ body.mobile-menu-open {
 .hermes-price-value {
   font-size: 1.375rem;
   font-weight: 300;
-  color: #FF6600;
+  color: #FF8C00;
   letter-spacing: -0.02em;
 }
 
@@ -1627,7 +1627,7 @@ body.mobile-menu-open {
 
 /* Learn More Button */
 .hermes-learn-btn {
-  background: linear-gradient(135deg, #FF6600 0%, #F37021 100%);
+  background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
   border: none;
   border-radius: 50px;
   padding: 16px 32px;
@@ -1660,7 +1660,7 @@ body.mobile-menu-open {
 .hermes-learn-btn:hover {
   transform: translateY(-2px);
   box-shadow: 
-    0 12px 24px rgba(255, 102, 0, 0.3),
+    0 12px 24px rgba(255, 140, 0, 0.3),
     0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -1690,9 +1690,9 @@ body.mobile-menu-open {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 102, 0, 0.2);
+  border: 1px solid rgba(255, 140, 0, 0.2);
   background: rgba(255, 255, 255, 0.9);
-  color: #FF6600;
+  color: #FF8C00;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1702,10 +1702,10 @@ body.mobile-menu-open {
 }
 
 .hermes-nav-btn:hover {
-  background: #FF6600;
+  background: #FF8C00;
   color: white;
   transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(255, 102, 0, 0.3);
+  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
 }
 
 .hermes-nav-btn:disabled {
