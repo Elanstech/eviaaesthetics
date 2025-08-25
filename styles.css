@@ -1419,7 +1419,7 @@ body.mobile-menu-open {
 /* Header Styles */
 .hermes-services-header {
   text-align: center;
-  margin-bottom: 100px;
+  margin-bottom: 80px;
   opacity: 0;
   transform: translateY(40px);
   animation: hermesSlideUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards;
@@ -1466,35 +1466,85 @@ body.mobile-menu-open {
   opacity: 0.9;
 }
 
-/* Carousel Wrapper */
+/* Carousel Wrapper with Side Arrows */
 .hermes-carousel-wrapper {
   position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 40px;
 }
 
-.hermes-carousel-track {
+/* Scroll Arrows */
+.hermes-scroll-arrow {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 140, 0, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  color: #FF8C00;
+  cursor: pointer;
   display: flex;
-  gap: 40px;
-  padding: 20px 0;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+  z-index: 10;
+}
+
+.hermes-scroll-arrow:hover {
+  background: #FF8C00;
+  color: white;
+  transform: scale(1.1);
+  border-color: transparent;
+  box-shadow: 
+    0 12px 40px rgba(255, 140, 0, 0.3),
+    0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.hermes-scroll-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.hermes-scroll-arrow:disabled:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: #FF8C00;
+  transform: none;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Scroll Container */
+.hermes-services-scroll-container {
+  flex: 1;
   overflow: hidden;
-  scroll-behavior: smooth;
-  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border-radius: 24px;
+}
+
+.hermes-services-grid {
+  display: flex;
+  gap: 32px;
+  padding: 24px 0;
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: transform;
 }
 
 /* Service Card Styles */
 .hermes-service-card {
   flex: 0 0 340px;
-  opacity: 0.6;
-  transform: scale(0.9) translateY(20px);
-  transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-  filter: blur(1px);
+  opacity: 1;
+  transform: none;
+  transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.hermes-service-card.hermes-active {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-  filter: blur(0);
+.hermes-service-card:hover {
+  transform: translateY(-12px) scale(1.03);
 }
 
 .hermes-card-inner {
@@ -1509,21 +1559,22 @@ body.mobile-menu-open {
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
-  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.hermes-service-card.hermes-active .hermes-card-inner {
-  transform: translateY(-8px);
+.hermes-service-card:hover .hermes-card-inner {
   box-shadow: 
     0 24px 64px rgba(0, 0, 0, 0.12),
-    0 8px 32px rgba(255, 102, 0, 0.08),
+    0 8px 32px rgba(255, 140, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 /* Service Image */
 .hermes-service-image {
   position: relative;
-  height: 280px;
+  height: 240px;
   overflow: hidden;
 }
 
@@ -1534,8 +1585,8 @@ body.mobile-menu-open {
   transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.hermes-service-card.hermes-active .hermes-service-image img {
-  transform: scale(1.05);
+.hermes-service-card:hover .hermes-service-image img {
+  transform: scale(1.08);
 }
 
 .hermes-image-overlay {
@@ -1546,7 +1597,7 @@ body.mobile-menu-open {
   bottom: 0;
   background: linear-gradient(
     135deg, 
-    rgba(255, 102, 0, 0.1) 0%, 
+    rgba(255, 140, 0, 0.1) 0%, 
     rgba(139, 69, 19, 0.2) 50%, 
     rgba(0, 0, 0, 0.3) 100%
   );
@@ -1554,16 +1605,16 @@ body.mobile-menu-open {
   transition: opacity 0.6s ease;
 }
 
-.hermes-service-card.hermes-active .hermes-image-overlay {
+.hermes-service-card:hover .hermes-image-overlay {
   opacity: 0.6;
 }
 
 .hermes-service-number {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 48px;
-  height: 48px;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 50%;
   display: flex;
@@ -1574,19 +1625,29 @@ body.mobile-menu-open {
   color: #FF8C00;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 140, 0, 0.2);
+  transition: all 0.4s ease;
+}
+
+.hermes-service-card:hover .hermes-service-number {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
 }
 
 /* Service Content */
 .hermes-service-content {
-  padding: 32px 28px 36px;
+  flex: 1;
+  padding: 28px 24px 32px;
+  display: flex;
+  flex-direction: column;
 }
 
 .hermes-service-name {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 400;
   color: #2c1810;
   margin: 0 0 12px 0;
   letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
 .hermes-service-desc {
@@ -1595,10 +1656,11 @@ body.mobile-menu-open {
   line-height: 1.6;
   margin: 0 0 24px 0;
   opacity: 0.9;
+  flex: 1;
 }
 
 .hermes-price-container {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -1613,7 +1675,7 @@ body.mobile-menu-open {
 }
 
 .hermes-price-value {
-  font-size: 1.375rem;
+  font-size: 1.3rem;
   font-weight: 300;
   color: #FF8C00;
   letter-spacing: -0.02em;
@@ -1630,7 +1692,7 @@ body.mobile-menu-open {
   background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
   border: none;
   border-radius: 50px;
-  padding: 16px 32px;
+  padding: 14px 28px;
   color: white;
   font-size: 0.9rem;
   font-weight: 500;
@@ -1639,11 +1701,12 @@ body.mobile-menu-open {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
   overflow: hidden;
+  margin-top: auto;
 }
 
 .hermes-learn-btn::before {
@@ -1677,64 +1740,6 @@ body.mobile-menu-open {
   transform: translateX(4px);
 }
 
-/* Navigation Controls */
-.hermes-carousel-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  margin-top: 60px;
-}
-
-.hermes-nav-btn {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 140, 0, 0.2);
-  background: rgba(255, 255, 255, 0.9);
-  color: #FF8C00;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  backdrop-filter: blur(10px);
-}
-
-.hermes-nav-btn:hover {
-  background: #FF8C00;
-  color: white;
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
-}
-
-.hermes-nav-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.hermes-dots-container {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.hermes-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 102, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.hermes-dot-active {
-  background: #FF6600;
-  transform: scale(1.5);
-  box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
-}
-
 /* Animations */
 @keyframes hermesSlideUp {
   from {
@@ -1748,6 +1753,21 @@ body.mobile-menu-open {
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .hermes-carousel-wrapper {
+    gap: 24px;
+  }
+  
+  .hermes-scroll-arrow {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .hermes-service-card {
+    flex: 0 0 320px;
+  }
+}
+
 @media (max-width: 768px) {
   .hermes-services-container {
     padding: 0 20px;
@@ -1761,36 +1781,39 @@ body.mobile-menu-open {
     margin-bottom: 60px;
   }
   
-  .hermes-service-card {
-    flex: 0 0 300px;
+  .hermes-carousel-wrapper {
+    gap: 16px;
   }
   
-  .hermes-carousel-track {
-    gap: 20px;
+  .hermes-scroll-arrow {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .hermes-service-card {
+    flex: 0 0 280px;
+  }
+  
+  .hermes-service-image {
+    height: 200px;
   }
   
   .hermes-service-content {
     padding: 24px 20px 28px;
   }
   
-  .hermes-carousel-controls {
-    margin-top: 40px;
+  .hermes-services-grid {
     gap: 20px;
-  }
-  
-  .hermes-nav-btn {
-    width: 48px;
-    height: 48px;
   }
 }
 
 @media (max-width: 480px) {
   .hermes-service-card {
-    flex: 0 0 280px;
+    flex: 0 0 260px;
   }
   
   .hermes-service-image {
-    height: 220px;
+    height: 180px;
   }
   
   .hermes-services-title {
