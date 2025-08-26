@@ -1535,501 +1535,827 @@ body.mobile-menu-open {
    WHAT'S HOT CAROUSEL SECTION
    ======================================== */
 /* ========================================
-   EVIA WHAT'S HOT CAROUSEL SECTION
+   EVIA PREMIUM WHAT'S HOT SECTION
    ======================================== */
 
-.evia-whats-hot-section {
-    padding: clamp(60px, 10vh, 100px) 0;
-    background: var(--cream-primary);
+.evia-premium-hot-section {
+    padding: clamp(80px, 12vh, 120px) 0;
+    background: linear-gradient(135deg, 
+        var(--cream-primary) 0%, 
+        var(--cream-light) 30%, 
+        var(--cream-soft) 70%, 
+        var(--cream-primary) 100%
+    );
     position: relative;
     overflow: hidden;
 }
 
-.evia-whats-hot-section::before {
+.evia-premium-hot-section::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(ellipse at center top, rgba(255, 140, 0, 0.03) 0%, transparent 60%);
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 140, 0, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 165, 0, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.02) 0%, transparent 70%);
     pointer-events: none;
 }
 
-/* Section Header */
-.evia-whats-hot-header {
+/* ========================================
+   PREMIUM SECTION HEADER
+   ======================================== */
+
+.evia-premium-hot-header {
     text-align: center;
-    margin-bottom: clamp(40px, 6vh, 60px);
+    margin-bottom: clamp(50px, 8vh, 80px);
     position: relative;
     z-index: 2;
 }
 
-.evia-hot-badge {
+.evia-hot-badge-premium {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
-    color: var(--white);
-    padding: 8px 20px;
+    gap: 12px;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.9) 0%, 
+        rgba(255, 255, 255, 0.7) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    color: var(--hermes-orange);
+    padding: 12px 24px;
     border-radius: var(--radius-full);
     font-family: var(--font-inter);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow-soft);
-    animation: eviaHotPulse 3s ease-in-out infinite;
+    letter-spacing: 1.2px;
+    margin-bottom: 24px;
+    box-shadow: 
+        0 8px 32px rgba(255, 140, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    position: relative;
+    animation: premiumBadgePulse 3s ease-in-out infinite;
 }
 
-.evia-hot-badge i {
-    font-size: 16px;
-    animation: eviaFireFlicker 2s ease-in-out infinite alternate;
+.badge-icon-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.evia-whats-hot-title {
+.badge-icon-container i {
+    font-size: 18px;
+    z-index: 2;
+    position: relative;
+    animation: fireFlicker 2s ease-in-out infinite alternate;
+}
+
+.badge-pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--hermes-orange);
+    border-radius: 50%;
+    opacity: 0;
+    animation: pulseRing 3s ease-out infinite;
+}
+
+.badge-sparkle {
+    position: absolute;
+    top: -2px;
+    right: 8px;
+    width: 6px;
+    height: 6px;
+    background: var(--hermes-orange);
+    border-radius: 50%;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+.evia-premium-hot-title {
     font-family: var(--font-playfair);
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 0.9;
     margin: 0;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    position: relative;
 }
 
-.evia-title-main {
+.title-line-1 {
     display: block;
     color: var(--text-primary);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: titleReveal 1s ease-out 0.5s forwards;
 }
 
-.evia-title-accent {
+.title-line-2 {
     display: block;
     background: var(--gradient-hermes-orange);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: eviaGradientShift 4s ease-in-out infinite;
+    animation: gradientShift 4s ease-in-out infinite;
     font-style: italic;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: titleReveal 1s ease-out 0.8s forwards, gradientShift 4s ease-in-out infinite;
 }
 
-/* Carousel Container */
-.evia-whats-hot-carousel {
+/* ========================================
+   PREMIUM TREATMENTS GRID
+   ======================================== */
+
+.evia-treatments-premium-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: clamp(24px, 4vw, 40px);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.evia-premium-treatment-card {
     position: relative;
-    max-width: 100%;
-    overflow: hidden;
-    margin-bottom: 40px;
-}
-
-.evia-carousel-track {
-    display: flex;
-    transition: transform var(--transition-slow);
-    gap: 20px;
-    padding: 20px 0;
-}
-
-.evia-hot-item {
-    flex: 0 0 280px;
     background: var(--white);
-    border-radius: var(--radius-xl);
-    padding: 30px 24px;
-    position: relative;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
     cursor: pointer;
-    transition: all var(--transition-slow);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.08),
+        0 4px 16px rgba(255, 140, 0, 0.05);
     border: 1px solid rgba(255, 140, 0, 0.1);
-    box-shadow: var(--shadow-soft);
+    height: 420px;
+}
+
+.evia-premium-treatment-card.featured {
+    transform: scale(1.05);
+    z-index: 2;
+}
+
+.evia-premium-treatment-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 
+        0 25px 60px rgba(0, 0, 0, 0.15),
+        0 8px 30px rgba(255, 140, 0, 0.2);
+    border-color: rgba(255, 140, 0, 0.3);
+}
+
+.evia-premium-treatment-card.featured:hover {
+    transform: translateY(-12px) scale(1.07);
+}
+
+/* ========================================
+   TREATMENT IMAGE CONTAINER
+   ======================================== */
+
+.treatment-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
     overflow: hidden;
 }
 
-.evia-hot-item:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: var(--shadow-luxury);
-    border-color: rgba(255, 140, 0, 0.2);
+.treatment-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.evia-hot-item-content {
+.evia-premium-treatment-card:hover .treatment-bg-image {
+    transform: scale(1.1);
+}
+
+.treatment-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(255, 140, 0, 0.3) 100%
+    );
+    opacity: 0.8;
+    transition: opacity 0.6s ease;
+}
+
+.evia-premium-treatment-card:hover .treatment-overlay {
+    opacity: 0.9;
+}
+
+.treatment-glow-effect {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 140, 0, 0.3) 0%,
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.evia-premium-treatment-card:hover .treatment-glow-effect {
+    opacity: 1;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
+    color: var(--white);
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-inter);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 3;
+    animation: featuredPulse 2s ease-in-out infinite;
+    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.4);
+}
+
+.featured-badge i {
+    font-size: 14px;
+    animation: starRotate 3s ease-in-out infinite;
+}
+
+/* ========================================
+   TREATMENT CONTENT
+   ======================================== */
+
+.treatment-content {
     position: relative;
     z-index: 2;
-    text-align: center;
+    padding: 24px;
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin-top: 200px;
+    background: var(--white);
 }
 
-.evia-hot-icon {
-    width: 64px;
-    height: 64px;
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(255, 165, 0, 0.15) 100%);
-    border-radius: var(--radius-full);
+.treatment-icon-container {
+    position: absolute;
+    top: -30px;
+    left: 24px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--white) 0%, #fafafa 100%);
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-    transition: all var(--transition-medium);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 4px 16px rgba(255, 140, 0, 0.1);
+    border: 2px solid rgba(255, 140, 0, 0.1);
+    transition: all 0.6s ease;
 }
 
-.evia-hot-item:hover .evia-hot-icon {
+.evia-premium-treatment-card:hover .treatment-icon-container {
     background: var(--gradient-hermes-orange);
+    border-color: var(--hermes-orange);
     transform: scale(1.1);
-    box-shadow: var(--shadow-glow);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        0 8px 24px rgba(255, 140, 0, 0.3);
 }
 
-.evia-hot-icon i {
+.treatment-icon {
     font-size: 28px;
     color: var(--hermes-orange);
-    transition: all var(--transition-medium);
+    transition: all 0.6s ease;
 }
 
-.evia-hot-item:hover .evia-hot-icon i {
+.evia-premium-treatment-card:hover .treatment-icon {
     color: var(--white);
     transform: scale(1.1);
 }
 
-.evia-hot-title {
+.icon-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-xl);
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.evia-premium-treatment-card:hover .icon-glow {
+    opacity: 1;
+}
+
+/* ========================================
+   TREATMENT INFO
+   ======================================== */
+
+.treatment-info {
+    flex-grow: 1;
+    margin-top: 36px;
+}
+
+.treatment-title {
     font-family: var(--font-playfair);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 600;
     color: var(--text-primary);
     margin: 0 0 12px 0;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    transition: color 0.3s ease;
 }
 
-.evia-hot-description {
+.treatment-description {
     font-family: var(--font-inter);
     font-size: 14px;
     color: var(--text-secondary);
     line-height: 1.6;
     margin: 0 0 20px 0;
-    flex-grow: 1;
 }
 
-.evia-hot-badge-mini {
-    display: inline-block;
-    background: rgba(255, 140, 0, 0.1);
-    color: var(--hermes-orange);
-    padding: 4px 12px;
-    border-radius: var(--radius-full);
+.treatment-stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label {
     font-family: var(--font-inter);
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    letter-spacing: 0.8px;
+    font-weight: 500;
 }
 
-.evia-learn-more-btn {
+.stat-value {
+    font-family: var(--font-inter);
+    font-size: 16px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* ========================================
+   TREATMENT CTA
+   ======================================== */
+
+.treatment-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.learn-more-premium-btn {
     background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
     color: var(--white);
     border: none;
     border-radius: var(--radius-full);
-    padding: 10px 20px;
+    padding: 12px 24px;
     font-family: var(--font-inter);
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: all var(--transition-medium);
-    margin-top: auto;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
 }
 
-.evia-learn-more-btn:hover {
+.learn-more-premium-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
 }
 
-.evia-learn-more-btn i {
-    font-size: 14px;
-    transition: transform var(--transition-medium);
+.learn-more-premium-btn i {
+    font-size: 16px;
+    transition: transform 0.3s ease;
 }
 
-.evia-learn-more-btn:hover i {
-    transform: translateX(3px);
+.learn-more-premium-btn:hover i {
+    transform: translateX(4px);
 }
 
-.evia-hot-glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity var(--transition-medium);
-    border-radius: var(--radius-xl);
-}
-
-.evia-hot-item:hover .evia-hot-glow {
-    opacity: 1;
-}
-
-/* Navigation Dots */
-.evia-carousel-dots {
+.popularity-indicator {
     display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 30px;
+    align-items: center;
+    gap: 8px;
 }
 
-.evia-dot {
-    width: 12px;
-    height: 12px;
+.popularity-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: rgba(255, 140, 0, 0.2);
-    border: none;
-    cursor: pointer;
-    transition: all var(--transition-medium);
-    position: relative;
+    transition: all 0.3s ease;
 }
 
-.evia-dot.active {
+.dot.active {
     background: var(--hermes-orange);
-    transform: scale(1.2);
+    animation: dotPulse 1.5s ease-in-out infinite;
 }
 
-.evia-dot:not(.active):hover {
-    background: rgba(255, 140, 0, 0.4);
-    transform: scale(1.1);
-}
-
-/* CTA Section */
-.evia-whats-hot-cta {
-    text-align: center;
-    margin-top: 40px;
-}
-
-.evia-cta-text {
+.popularity-text {
     font-family: var(--font-inter);
-    font-size: 16px;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
-}
-
-.evia-book-now-btn {
-    background: var(--gradient-hermes-orange);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-full);
-    padding: 14px 32px;
-    font-family: var(--font-inter);
-    font-size: 15px;
+    font-size: 12px;
+    color: var(--hermes-orange);
     font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all var(--transition-medium);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.evia-book-now-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-luxury);
+/* ========================================
+   PREMIUM CTA SECTION
+   ======================================== */
+
+.evia-premium-cta-section {
+    text-align: center;
+    margin-top: clamp(60px, 10vh, 80px);
 }
 
-.evia-book-now-btn i {
+.cta-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.cta-text {
+    font-family: var(--font-inter);
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+.evia-book-consultation-btn {
+    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 16px 32px;
+    font-family: var(--font-inter);
     font-size: 16px;
-    transition: transform var(--transition-medium);
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.4s ease;
+    box-shadow: 
+        0 8px 32px rgba(255, 140, 0, 0.3),
+        0 4px 16px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
-.evia-book-now-btn:hover i {
+.evia-book-consultation-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--hermes-orange-light) 0%, var(--hermes-orange) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.evia-book-consultation-btn:hover::before {
+    opacity: 1;
+}
+
+.evia-book-consultation-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 12px 40px rgba(255, 140, 0, 0.4),
+        0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.evia-book-consultation-btn span,
+.evia-book-consultation-btn i {
+    position: relative;
+    z-index: 2;
+}
+
+.evia-book-consultation-btn i {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.evia-book-consultation-btn:hover i {
     transform: translateX(4px);
 }
 
 /* ========================================
-   EVIA MODAL STYLES
+   PREMIUM MODAL STYLES
    ======================================== */
 
-.evia-modal-overlay {
+.evia-modal-overlay-premium {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
     z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transition: all var(--transition-medium);
+    transition: all 0.4s ease;
     padding: 20px;
 }
 
-.evia-modal-overlay.active {
+.evia-modal-overlay-premium.active {
     opacity: 1;
     visibility: visible;
 }
 
-.evia-treatment-modal {
+.evia-treatment-modal-premium {
     background: var(--white);
     border-radius: var(--radius-2xl);
-    max-width: 480px;
+    max-width: 600px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    box-shadow: var(--shadow-strong);
-    transform: scale(0.8) translateY(50px);
-    transition: all var(--transition-slow);
+    box-shadow: 
+        0 25px 80px rgba(0, 0, 0, 0.3),
+        0 12px 40px rgba(255, 140, 0, 0.1);
     border: 1px solid rgba(255, 140, 0, 0.1);
+    transform: scale(0.8) translateY(50px);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.evia-modal-overlay.active .evia-treatment-modal {
+.evia-modal-overlay-premium.active .evia-treatment-modal-premium {
     transform: scale(1) translateY(0);
 }
 
-.evia-modal-content {
-    padding: 0;
-    position: relative;
-}
-
-.evia-modal-close {
+.evia-modal-close-premium {
     position: absolute;
     top: 20px;
     right: 20px;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
     background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 140, 0, 0.2);
-    cursor: pointer;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     z-index: 10;
-    transition: all var(--transition-medium);
-    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    color: var(--text-primary);
 }
 
-.evia-modal-close:hover {
+.evia-modal-close-premium:hover {
     background: var(--hermes-orange);
+    color: var(--white);
     transform: scale(1.1);
 }
 
-.evia-modal-close i {
+.evia-modal-close-premium i {
     font-size: 18px;
-    color: var(--text-primary);
-    transition: color var(--transition-medium);
 }
 
-.evia-modal-close:hover i {
-    color: var(--white);
+/* ========================================
+   MODAL HEADER
+   ======================================== */
+
+.evia-modal-header-premium {
+    position: relative;
+    padding-bottom: 24px;
 }
 
-.evia-modal-header {
-    text-align: center;
-    padding: 40px 30px 30px;
-    background: linear-gradient(135deg, var(--cream-light) 0%, var(--cream-soft) 100%);
+.modal-image-container {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
     border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
-.evia-modal-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--gradient-hermes-orange);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    box-shadow: var(--shadow-glow);
+.modal-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.evia-modal-icon i {
-    font-size: 36px;
+.modal-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(255, 140, 0, 0.2) 100%
+    );
+}
+
+.modal-header-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px;
     color: var(--white);
 }
 
-.evia-modal-title {
-    font-family: var(--font-playfair);
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0 0 8px 0;
+.evia-modal-icon-premium {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.evia-modal-subtitle {
+.evia-modal-icon-premium.featured {
+    border-color: var(--hermes-orange);
+    background: var(--gradient-hermes-orange);
+}
+
+.evia-modal-icon-premium i {
+    font-size: 24px;
+    color: var(--hermes-orange);
+}
+
+.evia-modal-icon-premium.featured i {
+    color: var(--white);
+}
+
+.evia-modal-title-premium {
+    font-family: var(--font-playfair);
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    letter-spacing: -0.02em;
+}
+
+.modal-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.stars i {
+    font-size: 14px;
+    color: #FFD700;
+}
+
+.rating-text {
+    font-family: var(--font-inter);
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ========================================
+   MODAL BODY
+   ======================================== */
+
+.evia-modal-body-premium {
+    padding: 32px;
+}
+
+.modal-description h4 {
+    font-family: var(--font-inter);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+}
+
+.modal-description p {
     font-family: var(--font-inter);
     font-size: 14px;
     color: var(--text-secondary);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0;
-}
-
-.evia-modal-body {
-    padding: 30px;
-}
-
-.evia-modal-body p {
-    font-family: var(--font-inter);
-    font-size: 15px;
     line-height: 1.6;
-    color: var(--text-secondary);
-    margin-bottom: 30px;
+    margin: 0 0 24px 0;
 }
 
-.evia-modal-benefits {
-    margin-bottom: 30px;
+.benefit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
 }
 
-.evia-benefit-item {
+.benefit-list li {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
+    font-family: var(--font-inter);
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.5;
 }
 
-.evia-benefit-item i {
-    font-size: 18px;
+.benefit-list i {
+    font-size: 16px;
     color: var(--hermes-orange);
     flex-shrink: 0;
 }
 
-.evia-benefit-item span {
+.modal-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255, 140, 0, 0.05);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+}
+
+.detail-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 140, 0, 0.1);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.detail-icon i {
+    font-size: 18px;
+    color: var(--hermes-orange);
+}
+
+.detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.detail-label {
     font-family: var(--font-inter);
-    font-size: 14px;
-    color: var(--text-primary);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     font-weight: 500;
 }
 
-.evia-modal-pricing {
-    background: rgba(255, 140, 0, 0.05);
-    border: 1px solid rgba(255, 140, 0, 0.1);
-    border-radius: var(--radius-lg);
-    padding: 20px;
-    text-align: center;
-}
-
-.evia-price-label {
-    display: block;
+.detail-value {
     font-family: var(--font-inter);
-    font-size: 13px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-}
-
-.evia-price-value {
-    font-family: var(--font-playfair);
-    font-size: 2rem;
+    font-size: 16px;
+    color: var(--text-primary);
     font-weight: 600;
-    color: var(--hermes-orange);
-    letter-spacing: -0.02em;
 }
 
-.evia-modal-footer {
-    padding: 30px;
-    padding-top: 0;
+/* ========================================
+   MODAL FOOTER
+   ======================================== */
+
+.evia-modal-footer-premium {
+    padding: 24px 32px 32px;
 }
 
-.evia-modal-book-btn {
+.evia-modal-book-btn-premium {
     width: 100%;
     background: var(--gradient-hermes-orange);
     color: var(--white);
@@ -2037,109 +2363,211 @@ body.mobile-menu-open {
     border-radius: var(--radius-full);
     padding: 16px 24px;
     font-family: var(--font-inter);
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    transition: all var(--transition-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
-.evia-modal-book-btn:hover {
+.evia-modal-book-btn-premium::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--hermes-orange-light) 0%, var(--hermes-orange) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.evia-modal-book-btn-premium:hover::before {
+    opacity: 1;
+}
+
+.evia-modal-book-btn-premium:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-luxury);
+    box-shadow: 0 12px 32px rgba(255, 140, 0, 0.4);
 }
 
-.evia-modal-book-btn i {
+.evia-modal-book-btn-premium span,
+.evia-modal-book-btn-premium i {
+    position: relative;
+    z-index: 2;
+}
+
+.evia-modal-book-btn-premium i {
     font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.evia-modal-book-btn-premium:hover i {
+    transform: translateX(4px);
 }
 
 /* ========================================
-   EVIA ANIMATIONS
+   PREMIUM ANIMATIONS
    ======================================== */
 
-@keyframes eviaHotPulse {
+@keyframes premiumBadgePulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
 
-@keyframes eviaFireFlicker {
+@keyframes fireFlicker {
     0% { transform: scale(1) rotate(0deg); }
     100% { transform: scale(1.1) rotate(5deg); }
 }
 
-@keyframes eviaGradientShift {
+@keyframes pulseRing {
+    0% { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    50% { 
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.8);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes titleReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gradientShift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
+@keyframes featuredPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes starRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes dotPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
 /* ========================================
-   EVIA RESPONSIVE DESIGN
+   RESPONSIVE DESIGN
    ======================================== */
 
 @media (max-width: 768px) {
-    .evia-whats-hot-section {
-        padding: clamp(40px, 8vh, 60px) 0;
+    .evia-treatments-premium-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        max-width: 400px;
+    }
+
+    .evia-premium-treatment-card {
+        height: 400px;
     }
     
-    .evia-carousel-track {
-        gap: 16px;
-        padding: 16px 0;
+    .evia-premium-treatment-card.featured {
+        transform: none;
     }
     
-    .evia-hot-item {
-        flex: 0 0 260px;
-        padding: 24px 20px;
+    .evia-premium-treatment-card.featured:hover {
+        transform: translateY(-8px) scale(1.02);
     }
-    
-    .evia-modal-header {
-        padding: 30px 20px 24px;
-    }
-    
-    .evia-modal-body {
-        padding: 24px 20px;
-    }
-    
-    .evia-modal-footer {
+
+    .treatment-content {
         padding: 20px;
-        padding-top: 0;
     }
-    
-    .evia-modal-title {
-        font-size: 1.5rem;
+
+    .treatment-icon-container {
+        left: 20px;
+        width: 50px;
+        height: 50px;
     }
-    
-    .evia-price-value {
-        font-size: 1.6rem;
+
+    .treatment-icon {
+        font-size: 24px;
+    }
+
+    .treatment-stats {
+        gap: 16px;
+    }
+
+    .modal-details-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .evia-modal-body-premium {
+        padding: 24px;
+    }
+
+    .evia-modal-footer-premium {
+        padding: 20px 24px 24px;
     }
 }
 
 @media (max-width: 480px) {
-    .evia-hot-item {
-        flex: 0 0 240px;
-        padding: 20px 16px;
+    .evia-premium-hot-section {
+        padding: clamp(60px, 10vh, 80px) 0;
     }
-    
-    .evia-hot-icon {
-        width: 56px;
-        height: 56px;
+
+    .treatment-image-container {
+        height: 160px;
     }
-    
-    .evia-hot-icon i {
-        font-size: 24px;
+
+    .treatment-content {
+        margin-top: 160px;
+        padding: 16px;
     }
-    
-    .evia-modal-icon {
-        width: 70px;
-        height: 70px;
+
+    .treatment-icon-container {
+        top: -25px;
+        left: 16px;
+        width: 44px;
+        height: 44px;
     }
-    
-    .evia-modal-icon i {
-        font-size: 30px;
+
+    .treatment-icon {
+        font-size: 20px;
+    }
+
+    .treatment-title {
+        font-size: 1.4rem;
+    }
+
+    .treatment-description {
+        font-size: 13px;
+    }
+
+    .modal-image-container {
+        height: 200px;
+    }
+
+    .modal-header-content {
+        padding: 16px;
+    }
+
+    .evia-modal-title-premium {
+        font-size: 1.6rem;
     }
 }
 
