@@ -195,10 +195,6 @@ class Preloader {
     }
 }
 
-/* ========================================
-   LUXURY HEADER WITH MOBILE FUNCTIONALITY
-   ======================================== */
-
 class ModernLuxuryHeader {
     constructor() {
         this.header = document.getElementById('luxuryHeader') || document.querySelector('.luxury-floating-header');
@@ -207,20 +203,20 @@ class ModernLuxuryHeader {
         this.mobileCtaButton = document.querySelector('.mobile-cta-button');
         this.logoWrapper = document.querySelector('.logo-glow-wrapper');
         this.mobileLogoContainer = document.querySelector('.circle-logo-container');
+        this.mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.circle-menu-toggle');
         this.isScrolled = false;
         this.scrollThreshold = 100;
         
         if (this.header) {
             this.init();
+            console.log('✅ Modern Luxury Header Initialized');
         }
     }
 
     init() {
-        console.log('🚀 Initializing Modern Luxury Header');
         this.bindEvents();
         this.setupScrollHandler();
         this.setupIntersectionObserver();
-        console.log('✅ Modern Luxury Header Ready');
     }
 
     bindEvents() {
@@ -388,7 +384,7 @@ class ModernLuxuryHeader {
 }
 
 /* ========================================
-   MODERN MOBILE MENU
+   MOBILE MENU FUNCTIONALITY
    ======================================== */
 class ModernMobileMenu {
     constructor() {
@@ -399,20 +395,25 @@ class ModernMobileMenu {
         this.navLinks = document.querySelectorAll('.mobile-nav-link');
         this.ctaBtn = document.querySelector('.mobile-cta-button');
         this.isOpen = false;
-        this.isAnimating = false;
         this.body = document.body;
+        
+        console.log('Mobile Menu Elements:', {
+            toggle: !!this.toggle,
+            menu: !!this.menu,
+            backdrop: !!this.backdrop,
+            closeBtn: !!this.closeBtn
+        });
         
         if (this.toggle && this.menu && this.backdrop) {
             this.init();
+            console.log('✅ Modern Mobile Menu Initialized');
         }
     }
 
     init() {
-        console.log('📱 Initializing Modern Mobile Menu');
         this.setupInitialState();
         this.bindEvents();
         this.setupKeyboardNavigation();
-        console.log('✅ Modern Mobile Menu Ready');
     }
 
     setupInitialState() {
@@ -434,7 +435,6 @@ class ModernMobileMenu {
         
         this.body.classList.remove('mobile-menu-open');
         this.isOpen = false;
-        this.isAnimating = false;
     }
 
     bindEvents() {
@@ -449,6 +449,7 @@ class ModernMobileMenu {
             this.toggle.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                this.toggle();
             });
         }
 
@@ -538,8 +539,6 @@ class ModernMobileMenu {
     }
 
     toggle() {
-        if (this.isAnimating) return;
-        
         if (this.isOpen) {
             this.close();
         } else {
@@ -548,12 +547,10 @@ class ModernMobileMenu {
     }
 
     open() {
-        if (this.isOpen || this.isAnimating) return;
+        if (this.isOpen) return;
 
         console.log('📱 Opening Mobile Menu');
-        this.isAnimating = true;
         this.isOpen = true;
-        
         this.body.classList.add('mobile-menu-open');
         if (this.toggle) this.toggle.classList.add('active');
         this.menu.classList.add('active');
@@ -566,10 +563,7 @@ class ModernMobileMenu {
         this.backdrop.style.visibility = 'visible';
         
         // Animate menu items
-        setTimeout(() => {
-            this.animateMenuItems('in');
-            this.isAnimating = false;
-        }, 100);
+        this.animateMenuItems('in');
         
         // Focus first menu item
         setTimeout(() => {
@@ -579,31 +573,26 @@ class ModernMobileMenu {
     }
 
     close() {
-        if (!this.isOpen || this.isAnimating) return;
+        if (!this.isOpen) return;
 
         console.log('📱 Closing Mobile Menu');
-        this.isAnimating = true;
         this.isOpen = false;
-        
         this.body.classList.remove('mobile-menu-open');
         if (this.toggle) this.toggle.classList.remove('active');
         this.menu.classList.remove('active');
         this.backdrop.classList.remove('active');
         
-        // Animate menu items out first
-        this.animateMenuItems('out');
+        // Hide elements
+        this.menu.style.transform = 'translateX(100%)';
+        this.backdrop.style.opacity = '0';
+        this.backdrop.style.visibility = 'hidden';
         
         setTimeout(() => {
-            // Hide elements
-            this.menu.style.transform = 'translateX(100%)';
-            this.backdrop.style.opacity = '0';
-            this.backdrop.style.visibility = 'hidden';
-            
-            setTimeout(() => {
-                this.menu.style.visibility = 'hidden';
-                this.isAnimating = false;
-            }, 300);
-        }, 200);
+            this.menu.style.visibility = 'hidden';
+        }, 600);
+        
+        // Animate menu items
+        this.animateMenuItems('out');
         
         // Return focus to toggle button
         if (this.toggle) this.toggle.focus();
@@ -702,7 +691,7 @@ let luxuryHeader, mobileMenu;
 
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎨 Initializing Luxury Header System');
+    console.log('🎨 Initializing Header System');
     
     // Initialize components
     luxuryHeader = new ModernLuxuryHeader();
@@ -711,13 +700,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make mobile menu available globally
     window.mobileMenu = mobileMenu;
     
-    console.log('✨ All Header Systems Ready');
+    console.log('✨ Header System Ready');
     
     // Debug mode
     if (window.location.hash === '#debug') {
         window.luxuryHeader = luxuryHeader;
         window.mobileMenu = mobileMenu;
-        console.log('🐛 Debug mode - components available on window');
+        console.log('🐛 Debug mode enabled');
     }
 });
 
@@ -749,7 +738,7 @@ window.addEventListener('beforeunload', () => {
     document.body.classList.remove('mobile-menu-open');
 });
 
-console.log('🎭 Luxury Header Script Loaded Successfully');
+console.log('🎭 Header Script Loaded Successfully');
 
 
 /* ========================================
