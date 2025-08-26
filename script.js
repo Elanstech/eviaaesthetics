@@ -734,302 +734,615 @@ class ModernMobileMenu {
 /* ========================================
    EVIA WHAT'S HOT CAROUSEL
    ======================================== */
-class EviaWhatsHotCarousel {
+
+class EviaPremiumWhatsHot {
     constructor() {
-        this.carousel = document.getElementById('eviaWhatsHotCarousel');
-        this.track = document.getElementById('eviaCarouselTrack');
-        this.dots = document.querySelectorAll('.evia-dot');
-        this.hotItems = document.querySelectorAll('.evia-hot-item');
-        this.modalOverlay = document.getElementById('eviaModalOverlay');
-        this.currentSlide = 0;
-        this.itemWidth = 300; // 280px + 20px gap
-        this.autoPlayInterval = null;
-        this.autoPlayDelay = 4000;
+        this.section = document.getElementById('whatsHotSection');
+        this.treatmentCards = document.querySelectorAll('.evia-premium-treatment-card');
+        this.modalOverlay = document.querySelector('.evia-modal-overlay-premium');
+        this.modals = document.querySelectorAll('.evia-treatment-modal-premium');
+        this.closeButtons = document.querySelectorAll('.evia-modal-close-premium');
+        this.bookButtons = document.querySelectorAll('.evia-modal-book-btn-premium');
+        this.learnMoreButtons = document.querySelectorAll('.learn-more-premium-btn');
+        this.activeModal = null;
+        this.isModalOpen = false;
         
-        if (this.carousel && this.track) {
-            this.init();
-            console.log('✅ Evia What\'s Hot Carousel Initialized');
-        }
+        // Performance tracking
+        this.intersectionObserver = null;
+        this.animationFrameId = null;
+        
+        // Touch handling for mobile
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.isSwiping = false;
+        
+        this.init();
     }
     
     init() {
-        this.setupCarousel();
-        this.bindEvents();
-        this.startAutoPlay();
-        this.setupModals();
-        this.updateCarouselPosition();
-    }
-    
-    setupCarousel() {
-        // Calculate item width dynamically
-        if (this.hotItems.length > 0) {
-            const itemStyle = getComputedStyle(this.hotItems[0]);
-            const itemWidth = parseInt(itemStyle.width);
-            const gap = 20;
-            this.itemWidth = itemWidth + gap;
+        console.log('🔥 Initializing Evia Premium What\'s Hot Section');
+        
+        if (!this.section) {
+            console.warn('What\'s Hot section not found');
+            return;
         }
         
-        // Set initial active dot
-        if (this.dots.length > 0) {
-            this.dots[0].classList.add('active');
-        }
+        this.setupIntersectionObserver();
+        this.setupEventListeners();
+        this.setupAccessibility();
+        this.setupModalFunctionality();
+        this.setupPerformanceOptimizations();
+        this.setupTouchHandling();
+        
+        console.log('✅ Evia Premium What\'s Hot Section Initialized');
     }
     
-    bindEvents() {
-        // Dot navigation
-        this.dots.forEach((dot, index) => {
-            dot.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.goToSlide(index);
-            });
-        });
-        
-        // Touch/Mouse events for mobile swipe
-        let startX = 0;
-        let currentX = 0;
-        let isDragging = false;
-        
-        this.track.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-            this.pauseAutoPlay();
-        });
-        
-        this.track.addEventListener('mousedown', (e) => {
-            startX = e.clientX;
-            isDragging = true;
-            this.pauseAutoPlay();
-            e.preventDefault();
-        });
-        
-        this.track.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            currentX = e.touches[0].clientX;
-        });
-        
-        this.track.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            currentX = e.clientX;
-        });
-        
-        const handleEnd = () => {
-            if (!isDragging) return;
-            isDragging = false;
-            
-            const diff = startX - currentX;
-            const threshold = 50;
-            
-            if (Math.abs(diff) > threshold) {
-                if (diff > 0 && this.currentSlide < this.hotItems.length - 1) {
-                    this.nextSlide();
-                } else if (diff < 0 && this.currentSlide > 0) {
-                    this.prevSlide();
-                }
-            }
-            
-            this.startAutoPlay();
+    setupIntersectionObserver() {
+        const observerOptions = {
+            threshold: [0.1, 0.3, 0.6],
+            rootMargin: '0px 0px -50px 0px'
         };
         
-        this.track.addEventListener('touchend', handleEnd);
-        this.track.addEventListener('mouseup', handleEnd);
-        this.track.addEventListener('mouseleave', handleEnd);
+        this.intersectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.handleElementInView(entry.target, entry.intersectionRatio);
+                } else {
+                    this.handleElementOutOfView(entry.target);
+                }
+            });
+        }, observerOptions);
         
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                this.prevSlide();
-            } else if (e.key === 'ArrowRight') {
-                this.nextSlide();
-            }
+        // Observe treatment cards
+        this.treatmentCards.forEach(card => {
+            this.intersectionObserver.observe(card);
         });
         
-        // Pause autoplay on hover
-        this.carousel.addEventListener('mouseenter', () => {
-            this.pauseAutoPlay();
-        });
-        
-        this.carousel.addEventListener('mouseleave', () => {
-            this.startAutoPlay();
-        });
-    }
-    
-    goToSlide(index) {
-        if (index < 0 || index >= this.hotItems.length) return;
-        
-        this.currentSlide = index;
-        this.updateCarouselPosition();
-        this.updateDots();
-    }
-    
-    nextSlide() {
-        const nextIndex = (this.currentSlide + 1) % this.hotItems.length;
-        this.goToSlide(nextIndex);
-    }
-    
-    prevSlide() {
-        const prevIndex = (this.currentSlide - 1 + this.hotItems.length) % this.hotItems.length;
-        this.goToSlide(prevIndex);
-    }
-    
-    updateCarouselPosition() {
-        const translateX = -this.currentSlide * this.itemWidth;
-        this.track.style.transform = `translateX(${translateX}px)`;
-        
-        // Add staggered animation to items
-        this.hotItems.forEach((item, index) => {
-            item.style.transitionDelay = `${Math.abs(index - this.currentSlide) * 0.1}s`;
-        });
-    }
-    
-    updateDots() {
-        this.dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentSlide);
-        });
-    }
-    
-    startAutoPlay() {
-        this.pauseAutoPlay();
-        this.autoPlayInterval = setInterval(() => {
-            this.nextSlide();
-        }, this.autoPlayDelay);
-    }
-    
-    pauseAutoPlay() {
-        if (this.autoPlayInterval) {
-            clearInterval(this.autoPlayInterval);
-            this.autoPlayInterval = null;
+        // Observe section header
+        const header = this.section.querySelector('.evia-premium-hot-header');
+        if (header) {
+            this.intersectionObserver.observe(header);
         }
     }
     
-    // Modal functionality
-    setupModals() {
-        if (!this.modalOverlay) return;
+    handleElementInView(element, ratio) {
+        if (element.classList.contains('evia-premium-treatment-card')) {
+            // Staggered animation for cards
+            const index = Array.from(this.treatmentCards).indexOf(element);
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0) scale(1)';
+                element.classList.add('in-view');
+                
+                // Add extra scale for featured card
+                if (element.classList.contains('featured')) {
+                    element.style.transform = 'translateY(0) scale(1.05)';
+                }
+            }, index * 150);
+        }
         
-        // Open modals
-        this.hotItems.forEach(item => {
-            const learnMoreBtn = item.querySelector('.evia-learn-more-btn');
-            if (learnMoreBtn) {
-                learnMoreBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const modalId = item.dataset.modal;
-                    this.openModal(modalId);
-                });
-            }
+        if (element.classList.contains('evia-premium-hot-header')) {
+            element.classList.add('animate-in');
+        }
+    }
+    
+    handleElementOutOfView(element) {
+        // Optional: Add exit animations if needed
+        if (element.classList.contains('evia-premium-treatment-card')) {
+            element.classList.remove('in-view');
+        }
+    }
+    
+    setupEventListeners() {
+        // Card click handlers
+        this.treatmentCards.forEach((card, index) => {
+            // Hover effects
+            card.addEventListener('mouseenter', () => this.handleCardHover(card, true));
+            card.addEventListener('mouseleave', () => this.handleCardHover(card, false));
             
-            // Also allow clicking on the item itself to open modal
-            item.addEventListener('click', () => {
-                const modalId = item.dataset.modal;
-                this.openModal(modalId);
+            // Click to open modal
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                const modalId = card.getAttribute('data-modal');
+                if (modalId) {
+                    this.openModal(modalId);
+                }
+            });
+            
+            // Add tabindex for keyboard navigation
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const modalId = card.getAttribute('data-modal');
+                    if (modalId) {
+                        this.openModal(modalId);
+                    }
+                }
             });
         });
         
-        // Close modals
-        const closeButtons = document.querySelectorAll('.evia-modal-close');
-        closeButtons.forEach(btn => {
+        // Learn more button handlers
+        this.learnMoreButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.evia-premium-treatment-card');
+                if (card) {
+                    const modalId = card.getAttribute('data-modal');
+                    if (modalId) {
+                        this.openModal(modalId);
+                    }
+                }
+            });
+        });
+        
+        // Consultation button handler
+        const consultationBtn = document.querySelector('.evia-book-consultation-btn');
+        if (consultationBtn) {
+            consultationBtn.addEventListener('click', () => {
+                this.scrollToContact();
+                this.trackEvent('consultation_clicked', 'whats_hot_cta');
+            });
+        }
+    }
+    
+    handleCardHover(card, isHovering) {
+        if (isHovering) {
+            // Enhance hover effect
+            card.style.setProperty('--hover-scale', '1.02');
+            card.classList.add('hovering');
+            
+            // Add subtle rotation to icon
+            const icon = card.querySelector('.treatment-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+            }
+            
+            // Animate popularity dots
+            const dots = card.querySelectorAll('.dot.active');
+            dots.forEach((dot, index) => {
+                setTimeout(() => {
+                    dot.style.transform = 'scale(1.3)';
+                }, index * 100);
+            });
+        } else {
+            card.classList.remove('hovering');
+            
+            // Reset transformations
+            const icon = card.querySelector('.treatment-icon');
+            if (icon) {
+                icon.style.transform = '';
+            }
+            
+            const dots = card.querySelectorAll('.dot.active');
+            dots.forEach(dot => {
+                dot.style.transform = '';
+            });
+        }
+    }
+    
+    setupModalFunctionality() {
+        // Close button handlers
+        this.closeButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                const modalId = btn.dataset.close;
+                const modalId = btn.getAttribute('data-close');
                 this.closeModal(modalId);
             });
         });
         
-        // Close modal on overlay click
-        this.modalOverlay.addEventListener('click', (e) => {
-            if (e.target === this.modalOverlay) {
-                this.closeAllModals();
-            }
-        });
-        
-        // Close modal on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.closeAllModals();
-            }
-        });
-        
-        // Book treatment buttons
-        const bookButtons = document.querySelectorAll('.evia-modal-book-btn');
-        bookButtons.forEach(btn => {
+        // Book button handlers
+        this.bookButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                this.handleBookTreatment();
+                this.handleBooking();
             });
+        });
+        
+        // Overlay click to close
+        if (this.modalOverlay) {
+            this.modalOverlay.addEventListener('click', (e) => {
+                if (e.target === this.modalOverlay) {
+                    this.closeAllModals();
+                }
+            });
+        }
+        
+        // Keyboard handlers
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isModalOpen) {
+                this.closeAllModals();
+            }
         });
     }
     
     openModal(modalId) {
-        if (!modalId || !this.modalOverlay) return;
-        
-        this.pauseAutoPlay();
         const modal = document.getElementById(modalId);
-        if (!modal) return;
+        if (!modal || !this.modalOverlay) return;
         
-        // Hide all modals first
-        const allModals = document.querySelectorAll('.evia-treatment-modal');
-        allModals.forEach(m => m.style.display = 'none');
+        // Close any existing modal first
+        this.closeAllModals();
         
-        // Show the target modal
-        modal.style.display = 'block';
-        this.modalOverlay.classList.add('active');
+        // Prevent body scroll
         document.body.style.overflow = 'hidden';
         
-        // Add entrance animation
-        setTimeout(() => {
-            modal.style.transform = 'scale(1) translateY(0)';
-        }, 10);
+        // Show overlay and modal
+        this.modalOverlay.classList.add('active');
+        modal.style.display = 'block';
+        
+        // Animate modal in
+        requestAnimationFrame(() => {
+            modal.classList.add('active');
+        });
+        
+        this.activeModal = modal;
+        this.isModalOpen = true;
+        
+        // Focus management for accessibility
+        const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (firstFocusable) {
+            setTimeout(() => firstFocusable.focus(), 300);
+        }
+        
+        // Track modal view
+        this.trackEvent('modal_opened', modalId.replace('evia-', '').replace('-modal', ''));
+        
+        // Enhanced modal animations
+        this.animateModalContent(modal);
+        
+        console.log(`✅ Modal opened: ${modalId}`);
     }
     
     closeModal(modalId) {
         const modal = document.getElementById(modalId);
-        if (!modal || !this.modalOverlay) return;
+        if (!modal) return;
         
-        modal.style.transform = 'scale(0.8) translateY(50px)';
+        modal.classList.remove('active');
         
         setTimeout(() => {
             modal.style.display = 'none';
-            this.modalOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-            this.startAutoPlay();
+            this.checkAllModalsClosed();
         }, 300);
+        
+        this.trackEvent('modal_closed', modalId.replace('evia-', '').replace('-modal', ''));
     }
     
     closeAllModals() {
-        const allModals = document.querySelectorAll('.evia-treatment-modal');
-        allModals.forEach(modal => {
-            modal.style.transform = 'scale(0.8) translateY(50px)';
+        this.modals.forEach(modal => {
+            modal.classList.remove('active');
             setTimeout(() => {
                 modal.style.display = 'none';
             }, 300);
         });
         
-        if (this.modalOverlay) {
-            this.modalOverlay.classList.remove('active');
-        }
-        document.body.style.overflow = '';
-        this.startAutoPlay();
-    }
-    
-    handleBookTreatment() {
-        // Close modal first
-        this.closeAllModals();
-        
-        // Add your booking logic here
         setTimeout(() => {
-            const contactSection = document.getElementById('contact');
-            if (contactSection) {
-                const headerHeight = 80;
-                const elementPosition = contactSection.offsetTop - headerHeight;
-                window.scrollTo({
-                    top: elementPosition,
-                    behavior: 'smooth'
-                });
+            if (this.modalOverlay) {
+                this.modalOverlay.classList.remove('active');
             }
-        }, 500);
+            document.body.style.overflow = '';
+            this.activeModal = null;
+            this.isModalOpen = false;
+        }, 300);
     }
     
-    // Responsive handling
-    handleResize() {
-        this.setupCarousel();
-        this.updateCarouselPosition();
+    checkAllModalsClosed() {
+        const activeModals = Array.from(this.modals).some(modal => 
+            modal.classList.contains('active')
+        );
+        
+        if (!activeModals) {
+            if (this.modalOverlay) {
+                this.modalOverlay.classList.remove('active');
+            }
+            document.body.style.overflow = '';
+            this.activeModal = null;
+            this.isModalOpen = false;
+        }
     }
+    
+    animateModalContent(modal) {
+        // Animate modal elements
+        const elements = modal.querySelectorAll('.detail-item, .benefit-list li');
+        elements.forEach((element, index) => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                element.style.transition = 'all 0.4s ease';
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100 + (index * 50));
+        });
+        
+        // Animate rating stars
+        const stars = modal.querySelectorAll('.stars i');
+        stars.forEach((star, index) => {
+            setTimeout(() => {
+                star.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    star.style.transform = 'scale(1)';
+                }, 200);
+            }, index * 100);
+        });
+    }
+    
+    handleBooking() {
+        // Scroll to contact or handle booking logic
+        this.scrollToContact();
+        this.closeAllModals();
+        this.trackEvent('booking_clicked', 'modal_cta');
+        
+        // Show success message
+        this.showNotification('Redirecting to booking...', 'success');
+    }
+    
+    scrollToContact() {
+        const contactSection = document.getElementById('contact') || 
+                             document.querySelector('.contact-section') ||
+                             document.querySelector('[data-section="contact"]');
+        
+        if (contactSection) {
+            const headerHeight = 80;
+            const elementPosition = contactSection.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: elementPosition,
+                behavior: 'smooth'
+            });
+        } else {
+            // Fallback: scroll to bottom of page
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    }
+    
+    setupAccessibility() {
+        // Add ARIA labels and roles
+        this.treatmentCards.forEach((card, index) => {
+            const title = card.querySelector('.treatment-title')?.textContent || `Treatment ${index + 1}`;
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', `Learn more about ${title}`);
+            card.setAttribute('aria-describedby', `treatment-description-${index}`);
+            
+            const description = card.querySelector('.treatment-description');
+            if (description) {
+                description.setAttribute('id', `treatment-description-${index}`);
+            }
+        });
+        
+        // Modal accessibility
+        this.modals.forEach(modal => {
+            modal.setAttribute('role', 'dialog');
+            modal.setAttribute('aria-modal', 'true');
+            
+            const title = modal.querySelector('.evia-modal-title-premium');
+            if (title) {
+                const titleId = `modal-title-${modal.id}`;
+                title.setAttribute('id', titleId);
+                modal.setAttribute('aria-labelledby', titleId);
+            }
+        });
+    }
+    
+    setupPerformanceOptimizations() {
+        // Debounced resize handler
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                this.handleResize();
+            }, 250);
+        });
+        
+        // Preload images on hover
+        this.treatmentCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                this.preloadModalImages(card);
+            }, { once: true });
+        });
+    }
+    
+    preloadModalImages(card) {
+        const modalId = card.getAttribute('data-modal');
+        const modal = document.getElementById(modalId);
+        
+        if (modal) {
+            const img = modal.querySelector('img');
+            if (img && !img.dataset.preloaded) {
+                const preloadImg = new Image();
+                preloadImg.src = img.src;
+                img.dataset.preloaded = 'true';
+            }
+        }
+    }
+    
+    handleResize() {
+        // Handle responsive adjustments
+        const isMobile = window.innerWidth <= 768;
+        
+        this.treatmentCards.forEach(card => {
+            if (isMobile && card.classList.contains('featured')) {
+                card.style.transform = '';
+            }
+        });
+    }
+    
+    setupTouchHandling() {
+        this.treatmentCards.forEach(card => {
+            card.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
+            card.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: true });
+            card.addEventListener('touchend', this.handleTouchEnd.bind(this));
+        });
+    }
+    
+    handleTouchStart(e) {
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+        this.isSwiping = false;
+    }
+    
+    handleTouchMove(e) {
+        if (!this.touchStartX || !this.touchStartY) return;
+        
+        const touchCurrentX = e.touches[0].clientX;
+        const touchCurrentY = e.touches[0].clientY;
+        
+        const diffX = this.touchStartX - touchCurrentX;
+        const diffY = this.touchStartY - touchCurrentY;
+        
+        // Determine if user is swiping
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+            this.isSwiping = true;
+        }
+    }
+    
+    handleTouchEnd(e) {
+        if (this.isSwiping) {
+            // Handle swipe actions if needed
+            return;
+        }
+        
+        // Reset touch tracking
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.isSwiping = false;
+    }
+    
+    showNotification(message, type = 'info') {
+        // Create and show notification
+        const notification = document.createElement('div');
+        notification.className = `evia-notification evia-notification-${type}`;
+        notification.textContent = message;
+        
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--white);
+            color: var(--text-primary);
+            padding: 16px 24px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-luxury);
+            border-left: 4px solid var(--hermes-orange);
+            z-index: 10001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            font-family: var(--font-inter);
+            font-size: 14px;
+            font-weight: 500;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            notification.style.transform = 'translateX(0)';
+        });
+        
+        // Auto remove
+        setTimeout(() => {
+            notification.style.transform = 'translateX(400px)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+    
+    trackEvent(action, category) {
+        // Analytics tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                event_category: category,
+                event_label: 'whats_hot_section'
+            });
+        }
+        
+        console.log(`📊 Event tracked: ${action} - ${category}`);
+    }
+    
+    destroy() {
+        // Cleanup method
+        if (this.intersectionObserver) {
+            this.intersectionObserver.disconnect();
+        }
+        
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+        }
+        
+        // Remove event listeners
+        this.treatmentCards.forEach(card => {
+            card.replaceWith(card.cloneNode(true));
+        });
+        
+        console.log('🗑️ Evia Premium What\'s Hot Section destroyed');
+    }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    window.eviaPremiumWhatsHot = new EviaPremiumWhatsHot();
+});
+
+// Global scroll to contact function (for button clicks)
+function scrollToContact() {
+    if (window.eviaPremiumWhatsHot) {
+        window.eviaPremiumWhatsHot.scrollToContact();
+    }
+}
+
+// Utility function for smooth scrolling
+function smoothScrollTo(element, offset = 0) {
+    if (!element) return;
+    
+    const elementPosition = element.offsetTop - offset;
+    window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+    });
+}
+
+// Performance observer for monitoring
+if ('PerformanceObserver' in window) {
+    try {
+        const perfObserver = new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            entries.forEach(entry => {
+                if (entry.entryType === 'measure' && entry.name.includes('whats-hot')) {
+                    console.log(`⚡ Performance: ${entry.name} took ${entry.duration.toFixed(2)}ms`);
+                }
+            });
+        });
+        
+        perfObserver.observe({ entryTypes: ['measure'] });
+    } catch (e) {
+        // Silently handle browsers that don't support PerformanceObserver
+    }
+}
+
+// Global error handler for the section
+window.addEventListener('error', (e) => {
+    if (e.filename && e.filename.includes('whats-hot')) {
+        console.error('What\'s Hot Section Error:', e.error);
+        
+        // Graceful degradation
+        const cards = document.querySelectorAll('.evia-premium-treatment-card');
+        cards.forEach(card => {
+            card.style.opacity = '1';
+            card.style.transform = 'none';
+        });
+    }
+});
+
+// Support for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = EviaPremiumWhatsHot;
+}
+
+if (typeof define === 'function' && define.amd) {
+    define([], () => EviaPremiumWhatsHot);
 }
 
 /* ========================================
@@ -2882,7 +3195,7 @@ class EviaAestheticsApp {
             this.components.set('mobileMenu', new ModernMobileMenu());
             this.components.set('header', new ModernLuxuryHeader());
             this.components.set('hero', new HeroSection());
-            this.components.set('whatsHot', new EviaWhatsHotCarousel());
+            this.components.set('whatsHot', new EviaPremiumWhatsHot());
             this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
@@ -3073,7 +3386,7 @@ window.addEventListener('load', () => {
 
 // Make components globally accessible for debugging
 window.ModernMobileMenu = ModernMobileMenu;
-window.EviaWhatsHotCarousel = EviaWhatsHotCarousel;
+window.EviaPremiumWhatsHot = EviaPremiumWhatsHot;
 window.HermesFloatingButtons = HermesFloatingButtons;
 window.ModernLuxuryHeader = ModernLuxuryHeader;
 window.HermesServicesScroller = HermesServicesScroller;
