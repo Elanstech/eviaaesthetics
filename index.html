@@ -39,102 +39,92 @@
         </div>
     </div>
     
-    <!-- Luxury Med Spa Header -->
-<header class="luxury-floating-header" id="luxuryHeader">
-    <nav class="luxury-glass-container">
-        <!-- Logo Section -->
-        <div class="luxury-logo-section">
-            <div class="logo-glow-wrapper">
-                <img src="logo1.png" alt="Eviaesthetics" class="luxury-header-logo">
-                <div class="logo-ambient-glow"></div>
-            </div>
-        </div>
-        
-        <!-- Navigation Menu -->
-        <ul class="luxury-nav-menu">
-            <li class="nav-item">
-                <a href="#home" class="luxury-nav-link active" data-text="Home">
-                    <span class="nav-text">Home</span>
-                    <div class="nav-ripple"></div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#services" class="luxury-nav-link" data-text="Services">
-                    <span class="nav-text">Services</span>
-                    <div class="nav-ripple"></div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="luxury-nav-link" data-text="Shop Products">
-                    <span class="nav-text">Shop Products</span>
-                    <div class="nav-ripple"></div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#about" class="luxury-nav-link" data-text="About">
-                    <span class="nav-text">About</span>
-                    <div class="nav-ripple"></div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#results" class="luxury-nav-link" data-text="Results">
-                    <span class="nav-text">Results</span>
-                    <div class="nav-ripple"></div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#contact" class="luxury-nav-link" data-text="Contact">
-                    <span class="nav-text">Contact</span>
-                    <div class="nav-ripple"></div>
-                </a>
-            </li>
-        </ul>
-        
-        <!-- CTA Button -->
-        <div class="luxury-cta-wrapper">
-            <button class="luxury-cta-button" id="luxuryHeaderCTA" type="button">
-                <div class="cta-content">
-                    <span class="cta-text">Book Consultation</span>
-                    <div class="cta-icon">
-                        <i class="ri-calendar-check-line"></i>
-                    </div>
+ <!-- Modern Luxury Header -->
+    <header class="luxury-floating-header" id="luxuryHeader">
+        <nav class="luxury-glass-container">
+            <!-- Desktop Logo Section (unchanged) -->
+            <div class="luxury-logo-section desktop-only">
+                <div class="logo-glow-wrapper">
+                    <img src="logo.png" alt="Eviaesthetics" class="luxury-header-logo">
+                    <div class="logo-ambient-glow"></div>
                 </div>
-                <div class="cta-shimmer"></div>
-                <div class="cta-ambient-glow"></div>
-            </button>
-        </div>
-
-        <!-- Mobile Toggle -->
-        <button class="luxury-mobile-toggle" id="luxuryMobileToggle" type="button" aria-label="Toggle Menu">
-            <div class="toggle-content">
-                <span class="toggle-line"></span>
-                <span class="toggle-line"></span>
-                <span class="toggle-line"></span>
             </div>
-            <div class="toggle-ripple"></div>
-        </button>
-        
-        <!-- Header Ambient Background -->
-        <div class="header-ambient-bg">
-            <div class="ambient-orb orb-1"></div>
-            <div class="ambient-orb orb-2"></div>
-            <div class="ambient-orb orb-3"></div>
-        </div>
-    </nav>
-</header>
 
-    <!-- Mobile Menu -->
+            <!-- Mobile Left Circle - Logo -->
+            <div class="mobile-logo-circle mobile-only">
+                <div class="circle-logo-container">
+                    <img src="mobilelogo.png" alt="Eviaesthetics" class="mobile-circle-logo">
+                    <div class="logo-ripple-effect"></div>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation (unchanged) -->
+            <ul class="luxury-nav-menu desktop-only">
+                <li class="nav-item">
+                    <a href="#home" class="luxury-nav-link active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#services" class="luxury-nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="luxury-nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#portfolio" class="luxury-nav-link">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="luxury-nav-link">Contact</a>
+                </li>
+            </ul>
+
+            <!-- Desktop CTA (unchanged) -->
+            <div class="luxury-cta-wrapper desktop-only">
+                <button class="luxury-cta-button" id="luxuryHeaderCTA">
+                    <span class="cta-text">Book Consultation</span>
+                    <span class="cta-icon">✨</span>
+                    <div class="cta-ripple"></div>
+                </button>
+            </div>
+
+            <!-- Mobile Right Circle - Menu -->
+            <div class="mobile-menu-circle mobile-only">
+                <button class="circle-menu-toggle" id="mobileToggle" aria-label="Toggle Mobile Menu">
+                    <div class="medspa-menu-icon">
+                        <div class="icon-element center-dot"></div>
+                        <div class="icon-element top-arc"></div>
+                        <div class="icon-element bottom-arc"></div>
+                        <div class="icon-element left-line"></div>
+                        <div class="icon-element right-line"></div>
+                    </div>
+                    <div class="menu-ripple-effect"></div>
+                </button>
+            </div>
+
+            <!-- Header Ambient Background -->
+            <div class="header-ambient-bg">
+                <div class="ambient-orb orb-1"></div>
+                <div class="ambient-orb orb-2"></div>
+                <div class="ambient-orb orb-3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Backdrop -->
     <div class="modern-mobile-backdrop" id="mobileBackdrop"></div>
+
+    <!-- Modern Mobile Menu -->
     <div class="modern-mobile-menu" id="mobileMenu">
         <div class="mobile-menu-container">
             <div class="mobile-menu-header">
-                <img src="mobilelogo.png" alt="Eviaesthetics" class="mobile-menu-logo">
-                <button class="mobile-menu-close" id="mobileClose" type="button" aria-label="Close Menu">
-                    <span class="close-line"></span>
-                    <span class="close-line"></span>
+                <div class="mobile-header-logo">
+                    <img src="mobilelogo.png" alt="Eviaesthetics" class="mobile-menu-logo">
+                </div>
+                <button class="mobile-menu-close" id="mobileClose" aria-label="Close Mobile Menu">
+                    <div class="close-line"></div>
+                    <div class="close-line"></div>
                 </button>
             </div>
-            
+
             <nav class="mobile-navigation">
                 <a href="#home" class="mobile-nav-link active">
                     <span class="mobile-nav-number">01</span>
@@ -144,38 +134,38 @@
                     <span class="mobile-nav-number">02</span>
                     <span class="mobile-nav-text">Services</span>
                 </a>
-                <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="mobile-nav-link">
-                    <span class="mobile-nav-number">03</span>
-                    <span class="mobile-nav-text">Shop Products</span>
-                </a>
                 <a href="#about" class="mobile-nav-link">
-                    <span class="mobile-nav-number">04</span>
-                    <span class="mobile-nav-text">About</span>
+                    <span class="mobile-nav-number">03</span>
+                    <span class="mobile-nav-text">About Dr. Evia</span>
                 </a>
-                <a href="#results" class="mobile-nav-link">
+                <a href="#portfolio" class="mobile-nav-link">
+                    <span class="mobile-nav-number">04</span>
+                    <span class="mobile-nav-text">Results Gallery</span>
+                </a>
+                <a href="#testimonials" class="mobile-nav-link">
                     <span class="mobile-nav-number">05</span>
-                    <span class="mobile-nav-text">Results</span>
+                    <span class="mobile-nav-text">Testimonials</span>
                 </a>
                 <a href="#contact" class="mobile-nav-link">
                     <span class="mobile-nav-number">06</span>
                     <span class="mobile-nav-text">Contact</span>
                 </a>
             </nav>
-            
+
             <div class="mobile-menu-footer">
-                <button class="mobile-cta-button" type="button">
+                <button class="mobile-cta-button">
                     <span>Book Consultation</span>
-                    <span class="mobile-cta-icon">✨</span>
+                    <i class="ri-calendar-line"></i>
                 </button>
                 
                 <div class="mobile-contact-info">
                     <div class="contact-item">
-                        <span class="contact-label">Call</span>
-                        <span class="contact-value">(201) 639-4983</span>
+                        <div class="contact-label">Location</div>
+                        <div class="contact-value">Manhattan, NYC</div>
                     </div>
                     <div class="contact-item">
-                        <span class="contact-label">Location</span>
-                        <span class="contact-value">Manhattan, NYC</span>
+                        <div class="contact-label">Phone</div>
+                        <div class="contact-value">(212) XXX-XXXX</div>
                     </div>
                 </div>
             </div>
@@ -1238,18 +1228,18 @@
                     </div>
                     
                     <div class="hc-instant-actions">
-                        <a href="tel:+1234567890" class="hc-action-prime">
+                        <a href="tel:2016394983" class="hc-action-prime">
                             <i class="ri-phone-line"></i>
                             <div class="hc-action-content">
                                 <span class="hc-action-label">Call Now</span>
-                                <span class="hc-action-detail">(123) 456-7890</span>
+                                <span class="hc-action-detail">(201) 639-4983</span>
                             </div>
                             <div class="hc-action-arrow">
                                 <i class="ri-arrow-right-up-line"></i>
                             </div>
                         </a>
                         
-                        <a href="sms:+1234567890" class="hc-action-secondary">
+                        <a href="sms:2016394983" class="hc-action-secondary">
                             <i class="ri-message-line"></i>
                             <div class="hc-action-content">
                                 <span class="hc-action-label">Text Us</span>
@@ -1272,7 +1262,7 @@
                         <div class="hc-method-info">
                             <h4>Email Support</h4>
                             <p>Detailed responses within 2 hours</p>
-                            <a href="mailto:hello@yourdomain.com">hello@yourdomain.com</a>
+                            <a href="mailto:info@eviaesthetics.com">info@eviaesthetics.com</a>
                         </div>
                     </div>
 
