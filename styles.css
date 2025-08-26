@@ -1534,15 +1534,18 @@ body.mobile-menu-open {
 /* ========================================
    WHAT'S HOT CAROUSEL SECTION
    ======================================== */
+/* ========================================
+   EVIA WHAT'S HOT CAROUSEL SECTION
+   ======================================== */
 
-.whats-hot-section {
+.evia-whats-hot-section {
     padding: clamp(60px, 10vh, 100px) 0;
     background: var(--cream-primary);
     position: relative;
     overflow: hidden;
 }
 
-.whats-hot-section::before {
+.evia-whats-hot-section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1554,14 +1557,14 @@ body.mobile-menu-open {
 }
 
 /* Section Header */
-.whats-hot-header {
+.evia-whats-hot-header {
     text-align: center;
     margin-bottom: clamp(40px, 6vh, 60px);
     position: relative;
     z-index: 2;
 }
 
-.hot-badge {
+.evia-hot-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -1576,15 +1579,15 @@ body.mobile-menu-open {
     letter-spacing: 1px;
     margin-bottom: 20px;
     box-shadow: var(--shadow-soft);
-    animation: hotPulse 3s ease-in-out infinite;
+    animation: eviaHotPulse 3s ease-in-out infinite;
 }
 
-.hot-badge i {
+.evia-hot-badge i {
     font-size: 16px;
-    animation: fireFlicker 2s ease-in-out infinite alternate;
+    animation: eviaFireFlicker 2s ease-in-out infinite alternate;
 }
 
-.whats-hot-title {
+.evia-whats-hot-title {
     font-family: var(--font-playfair);
     font-size: clamp(2.2rem, 5vw, 3.5rem);
     font-weight: 700;
@@ -1593,39 +1596,39 @@ body.mobile-menu-open {
     letter-spacing: -0.02em;
 }
 
-.title-main {
+.evia-title-main {
     display: block;
     color: var(--text-primary);
     margin-bottom: 4px;
 }
 
-.title-accent {
+.evia-title-accent {
     display: block;
     background: var(--gradient-hermes-orange);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradientShift 4s ease-in-out infinite;
+    animation: eviaGradientShift 4s ease-in-out infinite;
     font-style: italic;
 }
 
 /* Carousel Container */
-.whats-hot-carousel {
+.evia-whats-hot-carousel {
     position: relative;
     max-width: 100%;
     overflow: hidden;
     margin-bottom: 40px;
 }
 
-.carousel-track {
+.evia-carousel-track {
     display: flex;
     transition: transform var(--transition-slow);
     gap: 20px;
     padding: 20px 0;
 }
 
-.hot-item {
+.evia-hot-item {
     flex: 0 0 280px;
     background: var(--white);
     border-radius: var(--radius-xl);
@@ -1638,13 +1641,13 @@ body.mobile-menu-open {
     overflow: hidden;
 }
 
-.hot-item:hover {
+.evia-hot-item:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: var(--shadow-luxury);
     border-color: rgba(255, 140, 0, 0.2);
 }
 
-.hot-item-content {
+.evia-hot-item-content {
     position: relative;
     z-index: 2;
     text-align: center;
@@ -1654,7 +1657,7 @@ body.mobile-menu-open {
     align-items: center;
 }
 
-.hot-icon {
+.evia-hot-icon {
     width: 64px;
     height: 64px;
     background: linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(255, 165, 0, 0.15) 100%);
@@ -1666,24 +1669,24 @@ body.mobile-menu-open {
     transition: all var(--transition-medium);
 }
 
-.hot-item:hover .hot-icon {
+.evia-hot-item:hover .evia-hot-icon {
     background: var(--gradient-hermes-orange);
     transform: scale(1.1);
     box-shadow: var(--shadow-glow);
 }
 
-.hot-icon i {
+.evia-hot-icon i {
     font-size: 28px;
     color: var(--hermes-orange);
     transition: all var(--transition-medium);
 }
 
-.hot-item:hover .hot-icon i {
+.evia-hot-item:hover .evia-hot-icon i {
     color: var(--white);
     transform: scale(1.1);
 }
 
-.hot-title {
+.evia-hot-title {
     font-family: var(--font-playfair);
     font-size: 1.4rem;
     font-weight: 600;
@@ -1692,7 +1695,7 @@ body.mobile-menu-open {
     letter-spacing: -0.01em;
 }
 
-.hot-description {
+.evia-hot-description {
     font-family: var(--font-inter);
     font-size: 14px;
     color: var(--text-secondary);
@@ -1701,7 +1704,7 @@ body.mobile-menu-open {
     flex-grow: 1;
 }
 
-.hot-badge-mini {
+.evia-hot-badge-mini {
     display: inline-block;
     background: rgba(255, 140, 0, 0.1);
     color: var(--hermes-orange);
@@ -1716,7 +1719,7 @@ body.mobile-menu-open {
     border: 1px solid rgba(255, 140, 0, 0.2);
 }
 
-.learn-more-btn {
+.evia-learn-more-btn {
     background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
     color: var(--white);
     border: none;
@@ -1733,21 +1736,21 @@ body.mobile-menu-open {
     margin-top: auto;
 }
 
-.learn-more-btn:hover {
+.evia-learn-more-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
 }
 
-.learn-more-btn i {
+.evia-learn-more-btn i {
     font-size: 14px;
     transition: transform var(--transition-medium);
 }
 
-.learn-more-btn:hover i {
+.evia-learn-more-btn:hover i {
     transform: translateX(3px);
 }
 
-.hot-glow {
+.evia-hot-glow {
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at center, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
@@ -1756,19 +1759,19 @@ body.mobile-menu-open {
     border-radius: var(--radius-xl);
 }
 
-.hot-item:hover .hot-glow {
+.evia-hot-item:hover .evia-hot-glow {
     opacity: 1;
 }
 
 /* Navigation Dots */
-.carousel-dots {
+.evia-carousel-dots {
     display: flex;
     justify-content: center;
     gap: 12px;
     margin-top: 30px;
 }
 
-.dot {
+.evia-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -1779,30 +1782,30 @@ body.mobile-menu-open {
     position: relative;
 }
 
-.dot.active {
+.evia-dot.active {
     background: var(--hermes-orange);
     transform: scale(1.2);
 }
 
-.dot:not(.active):hover {
+.evia-dot:not(.active):hover {
     background: rgba(255, 140, 0, 0.4);
     transform: scale(1.1);
 }
 
 /* CTA Section */
-.whats-hot-cta {
+.evia-whats-hot-cta {
     text-align: center;
     margin-top: 40px;
 }
 
-.cta-text {
+.evia-cta-text {
     font-family: var(--font-inter);
     font-size: 16px;
     color: var(--text-secondary);
     margin-bottom: 24px;
 }
 
-.book-now-btn {
+.evia-book-now-btn {
     background: var(--gradient-hermes-orange);
     color: var(--white);
     border: none;
@@ -1820,25 +1823,25 @@ body.mobile-menu-open {
     letter-spacing: 0.5px;
 }
 
-.book-now-btn:hover {
+.evia-book-now-btn:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-luxury);
 }
 
-.book-now-btn i {
+.evia-book-now-btn i {
     font-size: 16px;
     transition: transform var(--transition-medium);
 }
 
-.book-now-btn:hover i {
+.evia-book-now-btn:hover i {
     transform: translateX(4px);
 }
 
 /* ========================================
-   MODAL STYLES
+   EVIA MODAL STYLES
    ======================================== */
 
-.modal-overlay {
+.evia-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -1856,12 +1859,12 @@ body.mobile-menu-open {
     padding: 20px;
 }
 
-.modal-overlay.active {
+.evia-modal-overlay.active {
     opacity: 1;
     visibility: visible;
 }
 
-.treatment-modal {
+.evia-treatment-modal {
     background: var(--white);
     border-radius: var(--radius-2xl);
     max-width: 480px;
@@ -1875,16 +1878,16 @@ body.mobile-menu-open {
     border: 1px solid rgba(255, 140, 0, 0.1);
 }
 
-.modal-overlay.active .treatment-modal {
+.evia-modal-overlay.active .evia-treatment-modal {
     transform: scale(1) translateY(0);
 }
 
-.modal-content {
+.evia-modal-content {
     padding: 0;
     position: relative;
 }
 
-.modal-close {
+.evia-modal-close {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -1902,29 +1905,29 @@ body.mobile-menu-open {
     backdrop-filter: blur(10px);
 }
 
-.modal-close:hover {
+.evia-modal-close:hover {
     background: var(--hermes-orange);
     transform: scale(1.1);
 }
 
-.modal-close i {
+.evia-modal-close i {
     font-size: 18px;
     color: var(--text-primary);
     transition: color var(--transition-medium);
 }
 
-.modal-close:hover i {
+.evia-modal-close:hover i {
     color: var(--white);
 }
 
-.modal-header {
+.evia-modal-header {
     text-align: center;
     padding: 40px 30px 30px;
     background: linear-gradient(135deg, var(--cream-light) 0%, var(--cream-soft) 100%);
     border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
 }
 
-.modal-icon {
+.evia-modal-icon {
     width: 80px;
     height: 80px;
     background: var(--gradient-hermes-orange);
@@ -1936,12 +1939,12 @@ body.mobile-menu-open {
     box-shadow: var(--shadow-glow);
 }
 
-.modal-icon i {
+.evia-modal-icon i {
     font-size: 36px;
     color: var(--white);
 }
 
-.modal-title {
+.evia-modal-title {
     font-family: var(--font-playfair);
     font-size: 1.8rem;
     font-weight: 600;
@@ -1949,7 +1952,7 @@ body.mobile-menu-open {
     margin: 0 0 8px 0;
 }
 
-.modal-subtitle {
+.evia-modal-subtitle {
     font-family: var(--font-inter);
     font-size: 14px;
     color: var(--text-secondary);
@@ -1959,11 +1962,11 @@ body.mobile-menu-open {
     margin: 0;
 }
 
-.modal-body {
+.evia-modal-body {
     padding: 30px;
 }
 
-.modal-body p {
+.evia-modal-body p {
     font-family: var(--font-inter);
     font-size: 15px;
     line-height: 1.6;
@@ -1971,31 +1974,31 @@ body.mobile-menu-open {
     margin-bottom: 30px;
 }
 
-.modal-benefits {
+.evia-modal-benefits {
     margin-bottom: 30px;
 }
 
-.benefit-item {
+.evia-benefit-item {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-bottom: 16px;
 }
 
-.benefit-item i {
+.evia-benefit-item i {
     font-size: 18px;
     color: var(--hermes-orange);
     flex-shrink: 0;
 }
 
-.benefit-item span {
+.evia-benefit-item span {
     font-family: var(--font-inter);
     font-size: 14px;
     color: var(--text-primary);
     font-weight: 500;
 }
 
-.modal-pricing {
+.evia-modal-pricing {
     background: rgba(255, 140, 0, 0.05);
     border: 1px solid rgba(255, 140, 0, 0.1);
     border-radius: var(--radius-lg);
@@ -2003,7 +2006,7 @@ body.mobile-menu-open {
     text-align: center;
 }
 
-.price-label {
+.evia-price-label {
     display: block;
     font-family: var(--font-inter);
     font-size: 13px;
@@ -2013,7 +2016,7 @@ body.mobile-menu-open {
     margin-bottom: 4px;
 }
 
-.price-value {
+.evia-price-value {
     font-family: var(--font-playfair);
     font-size: 2rem;
     font-weight: 600;
@@ -2021,12 +2024,12 @@ body.mobile-menu-open {
     letter-spacing: -0.02em;
 }
 
-.modal-footer {
+.evia-modal-footer {
     padding: 30px;
     padding-top: 0;
 }
 
-.modal-book-btn {
+.evia-modal-book-btn {
     width: 100%;
     background: var(--gradient-hermes-orange);
     color: var(--white);
@@ -2046,96 +2049,96 @@ body.mobile-menu-open {
     letter-spacing: 0.5px;
 }
 
-.modal-book-btn:hover {
+.evia-modal-book-btn:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-luxury);
 }
 
-.modal-book-btn i {
+.evia-modal-book-btn i {
     font-size: 18px;
 }
 
 /* ========================================
-   ANIMATIONS
+   EVIA ANIMATIONS
    ======================================== */
 
-@keyframes hotPulse {
+@keyframes eviaHotPulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
 
-@keyframes fireFlicker {
+@keyframes eviaFireFlicker {
     0% { transform: scale(1) rotate(0deg); }
     100% { transform: scale(1.1) rotate(5deg); }
 }
 
-@keyframes gradientShift {
+@keyframes eviaGradientShift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
 /* ========================================
-   RESPONSIVE DESIGN
+   EVIA RESPONSIVE DESIGN
    ======================================== */
 
 @media (max-width: 768px) {
-    .whats-hot-section {
+    .evia-whats-hot-section {
         padding: clamp(40px, 8vh, 60px) 0;
     }
     
-    .carousel-track {
+    .evia-carousel-track {
         gap: 16px;
         padding: 16px 0;
     }
     
-    .hot-item {
+    .evia-hot-item {
         flex: 0 0 260px;
         padding: 24px 20px;
     }
     
-    .modal-header {
+    .evia-modal-header {
         padding: 30px 20px 24px;
     }
     
-    .modal-body {
+    .evia-modal-body {
         padding: 24px 20px;
     }
     
-    .modal-footer {
+    .evia-modal-footer {
         padding: 20px;
         padding-top: 0;
     }
     
-    .modal-title {
+    .evia-modal-title {
         font-size: 1.5rem;
     }
     
-    .price-value {
+    .evia-price-value {
         font-size: 1.6rem;
     }
 }
 
 @media (max-width: 480px) {
-    .hot-item {
+    .evia-hot-item {
         flex: 0 0 240px;
         padding: 20px 16px;
     }
     
-    .hot-icon {
+    .evia-hot-icon {
         width: 56px;
         height: 56px;
     }
     
-    .hot-icon i {
+    .evia-hot-icon i {
         font-size: 24px;
     }
     
-    .modal-icon {
+    .evia-modal-icon {
         width: 70px;
         height: 70px;
     }
     
-    .modal-icon i {
+    .evia-modal-icon i {
         font-size: 30px;
     }
 }
