@@ -1532,6 +1532,615 @@ body.mobile-menu-open {
 }
 
 /* ========================================
+   WHAT'S HOT CAROUSEL SECTION
+   ======================================== */
+
+.whats-hot-section {
+    padding: clamp(60px, 10vh, 100px) 0;
+    background: var(--cream-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.whats-hot-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center top, rgba(255, 140, 0, 0.03) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* Section Header */
+.whats-hot-header {
+    text-align: center;
+    margin-bottom: clamp(40px, 6vh, 60px);
+    position: relative;
+    z-index: 2;
+}
+
+.hot-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
+    color: var(--white);
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-soft);
+    animation: hotPulse 3s ease-in-out infinite;
+}
+
+.hot-badge i {
+    font-size: 16px;
+    animation: fireFlicker 2s ease-in-out infinite alternate;
+}
+
+.whats-hot-title {
+    font-family: var(--font-playfair);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.title-main {
+    display: block;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.title-accent {
+    display: block;
+    background: var(--gradient-hermes-orange);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease-in-out infinite;
+    font-style: italic;
+}
+
+/* Carousel Container */
+.whats-hot-carousel {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform var(--transition-slow);
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.hot-item {
+    flex: 0 0 280px;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: 30px 24px;
+    position: relative;
+    cursor: pointer;
+    transition: all var(--transition-slow);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+.hot-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--shadow-luxury);
+    border-color: rgba(255, 140, 0, 0.2);
+}
+
+.hot-item-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hot-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(255, 165, 0, 0.15) 100%);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: all var(--transition-medium);
+}
+
+.hot-item:hover .hot-icon {
+    background: var(--gradient-hermes-orange);
+    transform: scale(1.1);
+    box-shadow: var(--shadow-glow);
+}
+
+.hot-icon i {
+    font-size: 28px;
+    color: var(--hermes-orange);
+    transition: all var(--transition-medium);
+}
+
+.hot-item:hover .hot-icon i {
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+.hot-title {
+    font-family: var(--font-playfair);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+    letter-spacing: -0.01em;
+}
+
+.hot-description {
+    font-family: var(--font-inter);
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    flex-grow: 1;
+}
+
+.hot-badge-mini {
+    display: inline-block;
+    background: rgba(255, 140, 0, 0.1);
+    color: var(--hermes-orange);
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-inter);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 140, 0, 0.2);
+}
+
+.learn-more-btn {
+    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 10px 20px;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition-medium);
+    margin-top: auto;
+}
+
+.learn-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+}
+
+.learn-more-btn i {
+    font-size: 14px;
+    transition: transform var(--transition-medium);
+}
+
+.learn-more-btn:hover i {
+    transform: translateX(3px);
+}
+
+.hot-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+    border-radius: var(--radius-xl);
+}
+
+.hot-item:hover .hot-glow {
+    opacity: 1;
+}
+
+/* Navigation Dots */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 140, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    position: relative;
+}
+
+.dot.active {
+    background: var(--hermes-orange);
+    transform: scale(1.2);
+}
+
+.dot:not(.active):hover {
+    background: rgba(255, 140, 0, 0.4);
+    transform: scale(1.1);
+}
+
+/* CTA Section */
+.whats-hot-cta {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.cta-text {
+    font-family: var(--font-inter);
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.book-now-btn {
+    background: var(--gradient-hermes-orange);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 14px 32px;
+    font-family: var(--font-inter);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all var(--transition-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.book-now-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-luxury);
+}
+
+.book-now-btn i {
+    font-size: 16px;
+    transition: transform var(--transition-medium);
+}
+
+.book-now-btn:hover i {
+    transform: translateX(4px);
+}
+
+/* ========================================
+   MODAL STYLES
+   ======================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-medium);
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.treatment-modal {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    max-width: 480px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: var(--shadow-strong);
+    transform: scale(0.8) translateY(50px);
+    transition: all var(--transition-slow);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+}
+
+.modal-overlay.active .treatment-modal {
+    transform: scale(1) translateY(0);
+}
+
+.modal-content {
+    padding: 0;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all var(--transition-medium);
+    backdrop-filter: blur(10px);
+}
+
+.modal-close:hover {
+    background: var(--hermes-orange);
+    transform: scale(1.1);
+}
+
+.modal-close i {
+    font-size: 18px;
+    color: var(--text-primary);
+    transition: color var(--transition-medium);
+}
+
+.modal-close:hover i {
+    color: var(--white);
+}
+
+.modal-header {
+    text-align: center;
+    padding: 40px 30px 30px;
+    background: linear-gradient(135deg, var(--cream-light) 0%, var(--cream-soft) 100%);
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+}
+
+.modal-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-hermes-orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: var(--shadow-glow);
+}
+
+.modal-icon i {
+    font-size: 36px;
+    color: var(--white);
+}
+
+.modal-title {
+    font-family: var(--font-playfair);
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 8px 0;
+}
+
+.modal-subtitle {
+    font-family: var(--font-inter);
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-body p {
+    font-family: var(--font-inter);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.modal-benefits {
+    margin-bottom: 30px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.benefit-item i {
+    font-size: 18px;
+    color: var(--hermes-orange);
+    flex-shrink: 0;
+}
+
+.benefit-item span {
+    font-family: var(--font-inter);
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.modal-pricing {
+    background: rgba(255, 140, 0, 0.05);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    text-align: center;
+}
+
+.price-label {
+    display: block;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.price-value {
+    font-family: var(--font-playfair);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--hermes-orange);
+    letter-spacing: -0.02em;
+}
+
+.modal-footer {
+    padding: 30px;
+    padding-top: 0;
+}
+
+.modal-book-btn {
+    width: 100%;
+    background: var(--gradient-hermes-orange);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 16px 24px;
+    font-family: var(--font-inter);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all var(--transition-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.modal-book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-luxury);
+}
+
+.modal-book-btn i {
+    font-size: 18px;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes hotPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes fireFlicker {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(1.1) rotate(5deg); }
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .whats-hot-section {
+        padding: clamp(40px, 8vh, 60px) 0;
+    }
+    
+    .carousel-track {
+        gap: 16px;
+        padding: 16px 0;
+    }
+    
+    .hot-item {
+        flex: 0 0 260px;
+        padding: 24px 20px;
+    }
+    
+    .modal-header {
+        padding: 30px 20px 24px;
+    }
+    
+    .modal-body {
+        padding: 24px 20px;
+    }
+    
+    .modal-footer {
+        padding: 20px;
+        padding-top: 0;
+    }
+    
+    .modal-title {
+        font-size: 1.5rem;
+    }
+    
+    .price-value {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hot-item {
+        flex: 0 0 240px;
+        padding: 20px 16px;
+    }
+    
+    .hot-icon {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .hot-icon i {
+        font-size: 24px;
+    }
+    
+    .modal-icon {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .modal-icon i {
+        font-size: 30px;
+    }
+}
+
+/* ========================================
    SERVICES SECTION - COMPLETE
    ======================================== */
 /* Hermes Premium Services Section Styles */
