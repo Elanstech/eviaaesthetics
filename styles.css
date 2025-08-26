@@ -161,7 +161,6 @@ body {
 /* ========================================
    COMPLETE HEADER SECTION - LUXURY + MOBILE
    ======================================== */
-
 .luxury-floating-header {
     position: fixed;
     top: clamp(1rem, 3vh, 2rem);
