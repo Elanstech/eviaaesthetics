@@ -195,6 +195,9 @@ class Preloader {
     }
 }
 
+/* ========================================
+   MODERN LUXURY HEADER
+   ======================================== */
 class ModernLuxuryHeader {
     constructor() {
         this.header = document.getElementById('luxuryHeader') || document.querySelector('.luxury-floating-header');
@@ -384,36 +387,78 @@ class ModernLuxuryHeader {
 }
 
 /* ========================================
-   MOBILE MENU FUNCTIONALITY
+   MOBILE MENU FUNCTIONALITY - FIXED
    ======================================== */
 class ModernMobileMenu {
     constructor() {
-        this.toggle = document.getElementById('mobileToggle') || document.querySelector('.circle-menu-toggle');
-        this.menu = document.getElementById('mobileMenu') || document.querySelector('.modern-mobile-menu');
-        this.backdrop = document.getElementById('mobileBackdrop') || document.querySelector('.modern-mobile-backdrop');
-        this.closeBtn = document.getElementById('mobileClose') || document.querySelector('.mobile-menu-close');
+        // More flexible element selection
+        this.toggle = this.findElement([
+            '#mobileToggle',
+            '.circle-menu-toggle',
+            '[data-mobile-toggle]'
+        ]);
+        
+        this.menu = this.findElement([
+            '#mobileMenu',
+            '.modern-mobile-menu',
+            '[data-mobile-menu]'
+        ]);
+        
+        this.backdrop = this.findElement([
+            '#mobileBackdrop',
+            '.modern-mobile-backdrop',
+            '[data-mobile-backdrop]'
+        ]);
+        
+        this.closeBtn = this.findElement([
+            '#mobileClose',
+            '.mobile-menu-close',
+            '[data-mobile-close]'
+        ]);
+        
         this.navLinks = document.querySelectorAll('.mobile-nav-link');
         this.ctaBtn = document.querySelector('.mobile-cta-button');
         this.isOpen = false;
         this.body = document.body;
         
-        console.log('Mobile Menu Elements:', {
+        console.log('Mobile Menu Debug - Elements found:', {
             toggle: !!this.toggle,
             menu: !!this.menu,
             backdrop: !!this.backdrop,
-            closeBtn: !!this.closeBtn
+            closeBtn: !!this.closeBtn,
+            navLinks: this.navLinks.length
         });
         
-        if (this.toggle && this.menu && this.backdrop) {
+        if (this.toggle && this.menu) {
             this.init();
             console.log('✅ Modern Mobile Menu Initialized');
+        } else {
+            console.error('❌ Mobile Menu: Missing required elements');
+            this.debugElements();
         }
+    }
+
+    findElement(selectors) {
+        for (const selector of selectors) {
+            const element = document.querySelector(selector);
+            if (element) return element;
+        }
+        return null;
+    }
+
+    debugElements() {
+        console.log('Mobile Menu Debug - Available elements:');
+        console.log('All potential toggles:', document.querySelectorAll('[class*="toggle"], [class*="menu"], [id*="toggle"], [id*="menu"]'));
+        console.log('All potential menus:', document.querySelectorAll('[class*="mobile"], [class*="menu"]'));
     }
 
     init() {
         this.setupInitialState();
         this.bindEvents();
         this.setupKeyboardNavigation();
+        
+        // Make globally available immediately
+        window.mobileMenu = this;
     }
 
     setupInitialState() {
@@ -438,17 +483,26 @@ class ModernMobileMenu {
     }
 
     bindEvents() {
-        // Toggle button
+        // Toggle button - Multiple event types for better compatibility
         if (this.toggle) {
+            // Mouse events
             this.toggle.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                console.log('Mobile menu toggle clicked');
                 this.toggle();
+            });
+
+            // Touch events
+            this.toggle.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
             });
 
             this.toggle.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                console.log('Mobile menu toggle touched');
                 this.toggle();
             });
         }
@@ -500,6 +554,13 @@ class ModernMobileMenu {
                 this.close();
             }
         }, 250));
+
+        // Global click handler
+        document.addEventListener('click', (e) => {
+            if (this.isOpen && !this.menu.contains(e.target) && !this.toggle.contains(e.target)) {
+                this.close();
+            }
+        });
     }
 
     setupKeyboardNavigation() {
@@ -539,6 +600,7 @@ class ModernMobileMenu {
     }
 
     toggle() {
+        console.log('Toggle called, current state:', this.isOpen);
         if (this.isOpen) {
             this.close();
         } else {
@@ -552,24 +614,32 @@ class ModernMobileMenu {
         console.log('📱 Opening Mobile Menu');
         this.isOpen = true;
         this.body.classList.add('mobile-menu-open');
-        if (this.toggle) this.toggle.classList.add('active');
-        this.menu.classList.add('active');
-        this.backdrop.classList.add('active');
         
-        // Show elements
-        this.menu.style.transform = 'translateX(0)';
-        this.menu.style.visibility = 'visible';
-        this.backdrop.style.opacity = '1';
-        this.backdrop.style.visibility = 'visible';
+        if (this.toggle) this.toggle.classList.add('active');
+        if (this.menu) {
+            this.menu.classList.add('active');
+            this.menu.style.transform = 'translateX(0)';
+            this.menu.style.visibility = 'visible';
+        }
+        if (this.backdrop) {
+            this.backdrop.classList.add('active');
+            this.backdrop.style.opacity = '1';
+            this.backdrop.style.visibility = 'visible';
+        }
         
         // Animate menu items
         this.animateMenuItems('in');
         
         // Focus first menu item
         setTimeout(() => {
-            const firstLink = this.menu.querySelector('.mobile-nav-link');
+            const firstLink = this.menu?.querySelector('.mobile-nav-link');
             if (firstLink) firstLink.focus();
         }, 300);
+        
+        // Prevent body scroll
+        if (typeof window.preventBodyScroll === 'function') {
+            window.preventBodyScroll(true);
+        }
     }
 
     close() {
@@ -578,17 +648,20 @@ class ModernMobileMenu {
         console.log('📱 Closing Mobile Menu');
         this.isOpen = false;
         this.body.classList.remove('mobile-menu-open');
-        if (this.toggle) this.toggle.classList.remove('active');
-        this.menu.classList.remove('active');
-        this.backdrop.classList.remove('active');
         
-        // Hide elements
-        this.menu.style.transform = 'translateX(100%)';
-        this.backdrop.style.opacity = '0';
-        this.backdrop.style.visibility = 'hidden';
+        if (this.toggle) this.toggle.classList.remove('active');
+        if (this.menu) {
+            this.menu.classList.remove('active');
+            this.menu.style.transform = 'translateX(100%)';
+        }
+        if (this.backdrop) {
+            this.backdrop.classList.remove('active');
+            this.backdrop.style.opacity = '0';
+            this.backdrop.style.visibility = 'hidden';
+        }
         
         setTimeout(() => {
-            this.menu.style.visibility = 'hidden';
+            if (this.menu) this.menu.style.visibility = 'hidden';
         }, 600);
         
         // Animate menu items
@@ -596,10 +669,15 @@ class ModernMobileMenu {
         
         // Return focus to toggle button
         if (this.toggle) this.toggle.focus();
+        
+        // Restore body scroll
+        if (typeof window.preventBodyScroll === 'function') {
+            window.preventBodyScroll(false);
+        }
     }
 
     animateMenuItems(direction) {
-        const menuItems = this.menu.querySelectorAll('.mobile-nav-link');
+        const menuItems = this.menu?.querySelectorAll('.mobile-nav-link') || [];
         
         menuItems.forEach((item, index) => {
             if (direction === 'in') {
@@ -654,92 +732,305 @@ class ModernMobileMenu {
 }
 
 /* ========================================
-   CLICK RIPPLE EFFECT CSS
+   WHAT'S HOT CAROUSEL
    ======================================== */
-const rippleStyles = `
-.click-ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    transform: scale(0);
-    animation: rippleEffect 0.6s linear;
-    pointer-events: none;
-}
-
-@keyframes rippleEffect {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
-`;
-
-// Inject ripple styles
-if (!document.getElementById('ripple-styles')) {
-    const style = document.createElement('style');
-    style.id = 'ripple-styles';
-    style.textContent = rippleStyles;
-    document.head.appendChild(style);
-}
-
-/* ========================================
-   INITIALIZATION
-   ======================================== */
-
-// Global instances
-let luxuryHeader, mobileMenu;
-
-// Wait for DOM to be ready
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎨 Initializing Header System');
-    
-    // Initialize components
-    luxuryHeader = new ModernLuxuryHeader();
-    mobileMenu = new ModernMobileMenu();
-    
-    // Make mobile menu available globally
-    window.mobileMenu = mobileMenu;
-    
-    console.log('✨ Header System Ready');
-    
-    // Debug mode
-    if (window.location.hash === '#debug') {
-        window.luxuryHeader = luxuryHeader;
-        window.mobileMenu = mobileMenu;
-        console.log('🐛 Debug mode enabled');
-    }
-});
-
-/* ========================================
-   ERROR HANDLING
-   ======================================== */
-window.addEventListener('error', (e) => {
-    if (e.filename && e.filename.includes('header')) {
-        console.error('🚨 Header Error:', e.message);
+class WhatsHotCarousel {
+    constructor() {
+        this.carousel = document.getElementById('whatsHotCarousel');
+        this.track = document.getElementById('carouselTrack');
+        this.dots = document.querySelectorAll('.dot');
+        this.hotItems = document.querySelectorAll('.hot-item');
+        this.modalOverlay = document.getElementById('modalOverlay');
+        this.currentSlide = 0;
+        this.itemWidth = 300; // 280px + 20px gap
+        this.autoPlayInterval = null;
+        this.autoPlayDelay = 4000;
         
-        // Fallback: ensure menu can be closed
-        const backdrop = document.querySelector('.modern-mobile-backdrop');
-        const menu = document.querySelector('.modern-mobile-menu');
-        
-        if (backdrop && backdrop.classList.contains('active')) {
-            backdrop.classList.remove('active');
+        if (this.carousel && this.track) {
+            this.init();
+            console.log('✅ What\'s Hot Carousel Initialized');
+        }
+    }
+    
+    init() {
+        this.setupCarousel();
+        this.bindEvents();
+        this.startAutoPlay();
+        this.setupModals();
+        this.updateCarouselPosition();
+    }
+    
+    setupCarousel() {
+        // Calculate item width dynamically
+        if (this.hotItems.length > 0) {
+            const itemStyle = getComputedStyle(this.hotItems[0]);
+            const itemWidth = parseInt(itemStyle.width);
+            const gap = 20;
+            this.itemWidth = itemWidth + gap;
         }
         
-        if (menu && menu.classList.contains('active')) {
-            menu.classList.remove('active');
+        // Set initial active dot
+        if (this.dots.length > 0) {
+            this.dots[0].classList.add('active');
         }
-        
-        document.body.classList.remove('mobile-menu-open');
     }
-});
-
-// Clean state on page unload
-window.addEventListener('beforeunload', () => {
-    document.body.classList.remove('mobile-menu-open');
-});
-
-console.log('🎭 Header Script Loaded Successfully');
-
+    
+    bindEvents() {
+        // Dot navigation
+        this.dots.forEach((dot, index) => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.goToSlide(index);
+            });
+        });
+        
+        // Touch/Mouse events for mobile swipe
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+        
+        this.track.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            this.pauseAutoPlay();
+        });
+        
+        this.track.addEventListener('mousedown', (e) => {
+            startX = e.clientX;
+            isDragging = true;
+            this.pauseAutoPlay();
+            e.preventDefault();
+        });
+        
+        this.track.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+        });
+        
+        this.track.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            currentX = e.clientX;
+        });
+        
+        const handleEnd = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            const diff = startX - currentX;
+            const threshold = 50;
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0 && this.currentSlide < this.hotItems.length - 1) {
+                    this.nextSlide();
+                } else if (diff < 0 && this.currentSlide > 0) {
+                    this.prevSlide();
+                }
+            }
+            
+            this.startAutoPlay();
+        };
+        
+        this.track.addEventListener('touchend', handleEnd);
+        this.track.addEventListener('mouseup', handleEnd);
+        this.track.addEventListener('mouseleave', handleEnd);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                this.prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                this.nextSlide();
+            }
+        });
+        
+        // Pause autoplay on hover
+        this.carousel.addEventListener('mouseenter', () => {
+            this.pauseAutoPlay();
+        });
+        
+        this.carousel.addEventListener('mouseleave', () => {
+            this.startAutoPlay();
+        });
+    }
+    
+    goToSlide(index) {
+        if (index < 0 || index >= this.hotItems.length) return;
+        
+        this.currentSlide = index;
+        this.updateCarouselPosition();
+        this.updateDots();
+    }
+    
+    nextSlide() {
+        const nextIndex = (this.currentSlide + 1) % this.hotItems.length;
+        this.goToSlide(nextIndex);
+    }
+    
+    prevSlide() {
+        const prevIndex = (this.currentSlide - 1 + this.hotItems.length) % this.hotItems.length;
+        this.goToSlide(prevIndex);
+    }
+    
+    updateCarouselPosition() {
+        const translateX = -this.currentSlide * this.itemWidth;
+        this.track.style.transform = `translateX(${translateX}px)`;
+        
+        // Add staggered animation to items
+        this.hotItems.forEach((item, index) => {
+            item.style.transitionDelay = `${Math.abs(index - this.currentSlide) * 0.1}s`;
+        });
+    }
+    
+    updateDots() {
+        this.dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === this.currentSlide);
+        });
+    }
+    
+    startAutoPlay() {
+        this.pauseAutoPlay();
+        this.autoPlayInterval = setInterval(() => {
+            this.nextSlide();
+        }, this.autoPlayDelay);
+    }
+    
+    pauseAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+    }
+    
+    // Modal functionality
+    setupModals() {
+        if (!this.modalOverlay) return;
+        
+        // Open modals
+        this.hotItems.forEach(item => {
+            const learnMoreBtn = item.querySelector('.learn-more-btn');
+            if (learnMoreBtn) {
+                learnMoreBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const modalId = item.dataset.modal;
+                    this.openModal(modalId);
+                });
+            }
+            
+            // Also allow clicking on the item itself to open modal
+            item.addEventListener('click', () => {
+                const modalId = item.dataset.modal;
+                this.openModal(modalId);
+            });
+        });
+        
+        // Close modals
+        const closeButtons = document.querySelectorAll('.modal-close');
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modalId = btn.dataset.close;
+                this.closeModal(modalId);
+            });
+        });
+        
+        // Close modal on overlay click
+        this.modalOverlay.addEventListener('click', (e) => {
+            if (e.target === this.modalOverlay) {
+                this.closeAllModals();
+            }
+        });
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.closeAllModals();
+            }
+        });
+        
+        // Book treatment buttons
+        const bookButtons = document.querySelectorAll('.modal-book-btn');
+        bookButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.handleBookTreatment();
+            });
+        });
+    }
+    
+    openModal(modalId) {
+        if (!modalId || !this.modalOverlay) return;
+        
+        this.pauseAutoPlay();
+        const modal = document.getElementById(modalId);
+        if (!modal) return;
+        
+        // Hide all modals first
+        const allModals = document.querySelectorAll('.treatment-modal');
+        allModals.forEach(m => m.style.display = 'none');
+        
+        // Show the target modal
+        modal.style.display = 'block';
+        this.modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Add entrance animation
+        setTimeout(() => {
+            modal.style.transform = 'scale(1) translateY(0)';
+        }, 10);
+    }
+    
+    closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (!modal || !this.modalOverlay) return;
+        
+        modal.style.transform = 'scale(0.8) translateY(50px)';
+        
+        setTimeout(() => {
+            modal.style.display = 'none';
+            this.modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            this.startAutoPlay();
+        }, 300);
+    }
+    
+    closeAllModals() {
+        const allModals = document.querySelectorAll('.treatment-modal');
+        allModals.forEach(modal => {
+            modal.style.transform = 'scale(0.8) translateY(50px)';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        });
+        
+        if (this.modalOverlay) {
+            this.modalOverlay.classList.remove('active');
+        }
+        document.body.style.overflow = '';
+        this.startAutoPlay();
+    }
+    
+    handleBookTreatment() {
+        // Close modal first
+        this.closeAllModals();
+        
+        // Add your booking logic here
+        setTimeout(() => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                const headerHeight = 80;
+                const elementPosition = contactSection.offsetTop - headerHeight;
+                window.scrollTo({
+                    top: elementPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }, 500);
+    }
+    
+    // Responsive handling
+    handleResize() {
+        this.setupCarousel();
+        this.updateCarouselPosition();
+    }
+}
 
 /* ========================================
    HERO SECTION
@@ -2591,6 +2882,7 @@ class EviaAestheticsApp {
             this.components.set('mobileMenu', new ModernMobileMenu());
             this.components.set('header', new ModernLuxuryHeader());
             this.components.set('hero', new HeroSection());
+            this.components.set('whatsHot', new WhatsHotCarousel());
             this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
@@ -2600,7 +2892,9 @@ class EviaAestheticsApp {
             this.isInitialized = true;
             console.log('✅ All components initialized successfully');
             
+            // Make components globally accessible
             window.eviaComponents = this.components;
+            window.mobileMenu = this.components.get('mobileMenu');
             
         } catch (error) {
             console.error('❌ Error initializing components:', error);
@@ -2615,6 +2909,12 @@ class EviaAestheticsApp {
             if (wasMobile !== this.isMobile) {
                 console.log('📱 Screen size changed, mobile:', this.isMobile);
                 this.handleScreenSizeChange();
+            }
+            
+            // Handle carousel resize
+            const whatsHot = this.components.get('whatsHot');
+            if (whatsHot && typeof whatsHot.handleResize === 'function') {
+                whatsHot.handleResize();
             }
         }, 250));
 
@@ -2661,22 +2961,16 @@ class EviaAestheticsApp {
 }
 
 /* ========================================
-   MOBILE OPTIMIZATIONS
+   MOBILE OPTIMIZATIONS & UTILITIES
    ======================================== */
-document.addEventListener('DOMContentLoaded', () => {
-    // Prevent zoom on double tap for buttons
-    const buttons = document.querySelectorAll('button, .luxury-nav-link, .mobile-nav-link, .action-btn');
-    buttons.forEach(button => {
-        button.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            setTimeout(() => {
-                button.click();
-            }, 50);
-        });
-    });
 
+// Fix for phones that have hover states
+if ('ontouchstart' in window) {
+    document.documentElement.classList.add('touch-device');
+}
+
+// Mobile optimizations
+document.addEventListener('DOMContentLoaded', () => {
     // Fix iOS Safari viewport height issues
     const setVH = () => {
         const vh = window.innerHeight * 0.01;
@@ -2689,41 +2983,25 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(setVH, 500);
     });
 
-    // Improve scroll performance on mobile
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }, { passive: true });
-
-    // Fix modal/menu scroll issues
-    const preventBodyScroll = (isLocked) => {
+    // Prevent body scroll function
+    window.preventBodyScroll = (isLocked) => {
         if (isLocked) {
+            const scrollY = window.scrollY;
             document.body.style.position = 'fixed';
-            document.body.style.top = `-${window.scrollY}px`;
+            document.body.style.top = `-${scrollY}px`;
             document.body.style.width = '100%';
+            document.body.dataset.scrollY = scrollY;
         } else {
-            const scrollY = document.body.style.top;
+            const scrollY = document.body.dataset.scrollY;
             document.body.style.position = '';
             document.body.style.top = '';
             document.body.style.width = '';
             if (scrollY) {
-                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+                window.scrollTo(0, parseInt(scrollY || '0'));
             }
         }
     };
-
-    window.preventBodyScroll = preventBodyScroll;
 });
-
-// Fix for phones that have hover states
-if ('ontouchstart' in window) {
-    document.documentElement.classList.add('touch-device');
-}
 
 /* ========================================
    GLOBAL ERROR HANDLING
@@ -2743,7 +3021,7 @@ window.addEventListener('unhandledrejection', (event) => {
 });
 
 /* ========================================
-   INITIALIZE APPLICATION
+   INITIALIZATION
    ======================================== */
 let app;
 
@@ -2751,11 +3029,18 @@ const initializeApp = () => {
     try {
         app = new EviaAestheticsApp();
         window.eviaApp = app;
-        window.mobileMenu = app.getComponent('mobileMenu');
+        
+        // Ensure mobile menu is available globally
+        const mobileMenu = app.getComponent('mobileMenu');
+        if (mobileMenu) {
+            window.mobileMenu = mobileMenu;
+        }
+        
         console.log('🎉 Evia Aesthetics App Fully Loaded and Ready!');
     } catch (error) {
         console.error('❌ Failed to initialize app:', error);
         
+        // Fallback initialization
         try {
             console.log('🔄 Attempting fallback initialization...');
             
@@ -2770,12 +3055,15 @@ const initializeApp = () => {
     }
 };
 
+// Initialize when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeApp);
 } else {
+    // DOM is already ready
     initializeApp();
 }
 
+// Backup initialization on window load
 window.addEventListener('load', () => {
     if (!window.eviaApp) {
         console.log('🔄 App not initialized, retrying...');
@@ -2785,6 +3073,7 @@ window.addEventListener('load', () => {
 
 // Make components globally accessible for debugging
 window.ModernMobileMenu = ModernMobileMenu;
+window.WhatsHotCarousel = WhatsHotCarousel;
 window.HermesFloatingButtons = HermesFloatingButtons;
 window.ModernLuxuryHeader = ModernLuxuryHeader;
 window.HermesServicesScroller = HermesServicesScroller;
@@ -2793,11 +3082,4 @@ window.HeroSection = HeroSection;
 window.ElevatedAboutSection = ElevatedAboutSection;
 window.HermesResultsShowcase = HermesResultsShowcase;
 
-// Legacy aliases
-window.ModernMobileMenu = ModernMobileMenu;
-window.FloatingButtons = HermesFloatingButtons;
-window.LuxuryHeader = ModernLuxuryHeader;
-window.AboutSection = ElevatedAboutSection;
-window.ResultsGallery = HermesResultsShowcase;
-
-console.log('📱 Complete Organized Evia Aesthetics Script Loaded Successfully!');
+console.log('📱 Complete Evia Aesthetics Script with What\'s Hot Carousel Loaded Successfully!');
