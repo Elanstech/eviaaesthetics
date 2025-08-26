@@ -162,7 +162,6 @@ body {
    COMPLETE HEADER SECTION - LUXURY + MOBILE
    ======================================== */
 
-/* Main Header Container */
 .luxury-floating-header {
     position: fixed;
     top: clamp(1rem, 3vh, 2rem);
@@ -173,7 +172,7 @@ body {
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Glass Container - Luxury Desktop Design */
+/* Glass Container - Luxury Design */
 .luxury-glass-container {
     background: linear-gradient(135deg, 
         rgba(255, 255, 255, 0.95) 0%, 
@@ -212,55 +211,9 @@ body {
         0 0 0 1px rgba(255, 140, 0, 0.06);
 }
 
-/* Ambient Background Orbs */
-.luxury-glass-container::before {
-    content: '';
-    position: absolute;
-    top: -40px;
-    left: -40px;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, 
-        rgba(255, 140, 0, 0.08) 0%, 
-        rgba(255, 140, 0, 0.02) 50%, 
-        transparent 100%
-    );
-    border-radius: 50%;
-    filter: blur(20px);
-    animation: ambientFloat 15s ease-in-out infinite;
-    pointer-events: none;
-}
-
-.luxury-glass-container::after {
-    content: '';
-    position: absolute;
-    bottom: -30px;
-    right: -30px;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, 
-        rgba(255, 140, 0, 0.06) 0%, 
-        rgba(255, 140, 0, 0.01) 50%, 
-        transparent 100%
-    );
-    border-radius: 50%;
-    filter: blur(15px);
-    animation: ambientFloat 12s ease-in-out infinite reverse;
-    pointer-events: none;
-}
-
-@keyframes ambientFloat {
-    0%, 100% { 
-        transform: translate(0, 0) scale(1); 
-        opacity: 0.4; 
-    }
-    50% { 
-        transform: translate(10px, -8px) scale(1.1); 
-        opacity: 0.6; 
-    }
-}
-
-/* Logo Section */
+/* ========================================
+   DESKTOP LOGO SECTION (UNCHANGED)
+   ======================================== */
 .luxury-logo-section {
     position: relative;
     display: flex;
@@ -302,7 +255,78 @@ body {
     opacity: 1;
 }
 
-/* Navigation Menu */
+/* ========================================
+   MOBILE CIRCLE LOGO (LEFT)
+   ======================================== */
+.mobile-logo-circle {
+    position: relative;
+    z-index: 10;
+}
+
+.circle-logo-container {
+    position: relative;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.9) 0%, 
+        rgba(255, 248, 240, 0.8) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 140, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s var(--ease-luxury);
+    overflow: hidden;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.06),
+        0 3px 10px rgba(255, 140, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.circle-logo-container:hover {
+    transform: scale(1.08) translateY(-2px);
+    border-color: rgba(255, 140, 0, 0.3);
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.1),
+        0 5px 15px rgba(255, 140, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.mobile-circle-logo {
+    width: 2.2rem;
+    height: 2.2rem;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+}
+
+.logo-ripple-effect {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle, 
+        rgba(255, 140, 0, 0.15) 0%, 
+        rgba(255, 140, 0, 0.05) 40%, 
+        transparent 70%
+    );
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.6s var(--ease-luxury);
+    pointer-events: none;
+}
+
+.circle-logo-container:hover .logo-ripple-effect {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* ========================================
+   DESKTOP NAVIGATION (UNCHANGED)
+   ======================================== */
 .luxury-nav-menu {
     display: flex;
     align-items: center;
@@ -356,35 +380,17 @@ body {
 
 .luxury-nav-link:hover {
     color: var(--hermes-orange);
-    transform: translateY(-2px);
-    text-shadow: 0 2px 8px rgba(255, 140, 0, 0.15);
+    transform: translateY(-1px);
 }
 
 .luxury-nav-link.active {
     color: var(--hermes-orange);
-    background: linear-gradient(135deg, 
-        rgba(255, 140, 0, 0.08) 0%, 
-        rgba(255, 140, 0, 0.04) 100%
-    );
-    box-shadow: 
-        inset 0 1px 3px rgba(255, 140, 0, 0.1),
-        0 2px 8px rgba(255, 140, 0, 0.06);
+    font-weight: 600;
 }
 
-.nav-text {
-    position: relative;
-    z-index: 2;
-}
-
-.nav-ripple {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-/* CTA Wrapper and Button */
+/* ========================================
+   DESKTOP CTA (UNCHANGED)
+   ======================================== */
 .luxury-cta-wrapper {
     position: relative;
     z-index: 10;
@@ -394,167 +400,237 @@ body {
     position: relative;
     background: linear-gradient(135deg, 
         var(--hermes-orange) 0%, 
-        var(--hermes-orange-light) 50%, 
-        var(--hermes-orange-dark) 100%
+        var(--hermes-orange-light) 100%
     );
-    background-size: 200% 200%;
-    color: var(--white);
+    color: white;
     border: none;
+    padding: 0.9rem 1.8rem;
     border-radius: 1.5rem;
-    padding: 1rem 2rem;
     font-family: var(--font-inter);
-    font-size: 0.95rem;
     font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 
-        0 8px 32px rgba(255, 140, 0, 0.25),
-        inset 0 1px 2px rgba(255, 255, 255, 0.2);
-    letter-spacing: 0.02em;
-    animation: gradientShift 6s ease-in-out infinite;
-    z-index: 10;
-}
-
-.cta-content {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    position: relative;
-    z-index: 2;
-}
-
-.cta-shimmer {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.2), 
-        transparent
-    );
-    transition: left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    z-index: 1;
-}
-
-.cta-ambient-glow {
-    position: absolute;
-    inset: -4px;
-    background: radial-gradient(circle, rgba(255, 140, 0, 0.4) 0%, transparent 70%);
-    border-radius: inherit;
-    opacity: 0;
-    transition: all 0.4s ease;
-    z-index: 0;
+    gap: 0.5rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    box-shadow: 
+        0 8px 25px rgba(255, 140, 0, 0.3),
+        0 3px 10px rgba(255, 140, 0, 0.2);
 }
 
 .luxury-cta-button:hover {
-    transform: translateY(-3px) scale(1.02);
+    transform: translateY(-2px) scale(1.02);
     box-shadow: 
-        0 12px 40px rgba(255, 140, 0, 0.35),
-        inset 0 1px 2px rgba(255, 255, 255, 0.3);
+        0 12px 35px rgba(255, 140, 0, 0.4),
+        0 5px 15px rgba(255, 140, 0, 0.3);
 }
 
-.luxury-cta-button:hover .cta-shimmer {
-    left: 100%;
-}
-
-.luxury-cta-button:hover .cta-ambient-glow {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-/* Mobile Toggle */
-.luxury-mobile-toggle {
-    display: none;
-    position: relative;
-    width: 3rem;
-    height: 3rem;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(255, 140, 0, 0.15);
-    border-radius: 1rem;
-    cursor: pointer;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.06),
-        inset 0 1px 2px rgba(255, 255, 255, 0.8);
-    z-index: 10;
-}
-
-.luxury-mobile-toggle::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, 
-        rgba(255, 140, 0, 0.08) 0%, 
-        rgba(255, 140, 0, 0.04) 100%
-    );
-    border-radius: inherit;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.luxury-mobile-toggle:hover::before {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.luxury-mobile-toggle:hover {
-    transform: scale(1.05);
-    border-color: rgba(255, 140, 0, 0.3);
-}
-
-.toggle-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.3rem;
-    width: 100%;
-    height: 100%;
+.cta-text {
     position: relative;
     z-index: 2;
 }
 
-.toggle-line {
-    width: 1.4rem;
-    height: 2px;
-    background: var(--text-primary);
-    border-radius: 2px;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.cta-icon {
+    font-size: 1rem;
+    position: relative;
+    z-index: 2;
 }
 
-.luxury-mobile-toggle.active .toggle-line:nth-child(1) {
-    transform: rotate(45deg) translate(0.5rem, 0.5rem);
-    background: var(--hermes-orange);
-}
-
-.luxury-mobile-toggle.active .toggle-line:nth-child(2) {
-    opacity: 0;
-    transform: scale(0);
-}
-
-.luxury-mobile-toggle.active .toggle-line:nth-child(3) {
-    transform: rotate(-45deg) translate(0.5rem, -0.5rem);
-    background: var(--hermes-orange);
-}
-
-.toggle-ripple {
+.cta-ripple {
     position: absolute;
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
 }
 
-/* Header Ambient Background */
+/* ========================================
+   MOBILE CIRCLE MENU (RIGHT)
+   ======================================== */
+.mobile-menu-circle {
+    position: relative;
+    z-index: 10;
+}
+
+.circle-menu-toggle {
+    position: relative;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.9) 0%, 
+        rgba(255, 248, 240, 0.8) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 140, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s var(--ease-luxury);
+    overflow: hidden;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.06),
+        0 3px 10px rgba(255, 140, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.circle-menu-toggle:hover {
+    transform: scale(1.08) translateY(-2px);
+    border-color: rgba(255, 140, 0, 0.3);
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.1),
+        0 5px 15px rgba(255, 140, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.circle-menu-toggle:focus {
+    outline: none;
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.1),
+        0 5px 15px rgba(255, 140, 0, 0.2),
+        0 0 0 3px rgba(255, 140, 0, 0.3);
+}
+
+/* ========================================
+   ABSTRACT MED SPA MENU ICON
+   ======================================== */
+.medspa-menu-icon {
+    position: relative;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-element {
+    position: absolute;
+    background: var(--text-primary);
+    transition: all 0.4s var(--ease-luxury);
+    border-radius: var(--radius-sm);
+}
+
+/* Center dot - represents precision/focus */
+.center-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--hermes-orange);
+    z-index: 3;
+}
+
+/* Top arc - represents aesthetic curves */
+.top-arc {
+    width: 16px;
+    height: 2px;
+    top: 2px;
+    border-radius: 2px 2px 0 0;
+    transform-origin: center bottom;
+}
+
+/* Bottom arc - represents wellness foundation */
+.bottom-arc {
+    width: 16px;
+    height: 2px;
+    bottom: 2px;
+    border-radius: 0 0 2px 2px;
+    transform-origin: center top;
+}
+
+/* Left line - represents medical precision */
+.left-line {
+    width: 2px;
+    height: 12px;
+    left: 1px;
+    border-radius: 1px;
+    transform-origin: center center;
+}
+
+/* Right line - represents luxury service */
+.right-line {
+    width: 2px;
+    height: 12px;
+    right: 1px;
+    border-radius: 1px;
+    transform-origin: center center;
+}
+
+/* Hover state - elements animate to show interconnection */
+.circle-menu-toggle:hover .top-arc {
+    transform: rotate(-15deg);
+    background: var(--hermes-orange);
+}
+
+.circle-menu-toggle:hover .bottom-arc {
+    transform: rotate(15deg);
+    background: var(--hermes-orange);
+}
+
+.circle-menu-toggle:hover .left-line {
+    transform: rotate(-10deg);
+    background: var(--hermes-orange);
+}
+
+.circle-menu-toggle:hover .right-line {
+    transform: rotate(10deg);
+    background: var(--hermes-orange);
+}
+
+.circle-menu-toggle:hover .center-dot {
+    transform: scale(1.3);
+    box-shadow: 0 0 8px rgba(255, 140, 0, 0.4);
+}
+
+/* Active state - elements form X pattern */
+.circle-menu-toggle.active .top-arc,
+.circle-menu-toggle.active .bottom-arc {
+    width: 18px;
+    height: 2px;
+    top: 50%;
+    left: 50%;
+    background: var(--hermes-orange);
+}
+
+.circle-menu-toggle.active .top-arc {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.circle-menu-toggle.active .bottom-arc {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.circle-menu-toggle.active .left-line,
+.circle-menu-toggle.active .right-line,
+.circle-menu-toggle.active .center-dot {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.menu-ripple-effect {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle, 
+        rgba(255, 140, 0, 0.15) 0%, 
+        rgba(255, 140, 0, 0.05) 40%, 
+        transparent 70%
+    );
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.6s var(--ease-luxury);
+    pointer-events: none;
+}
+
+.circle-menu-toggle:hover .menu-ripple-effect {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* ========================================
+   HEADER AMBIENT BACKGROUND
+   ======================================== */
 .header-ambient-bg {
     position: absolute;
     inset: 0;
@@ -603,10 +679,8 @@ body {
 }
 
 /* ========================================
-   MOBILE MENU COMPONENT - PROPERLY HIDDEN
+   MOBILE MENU BACKDROP & MENU
    ======================================== */
-
-/* Mobile Menu Backdrop - HIDDEN BY DEFAULT */
 .modern-mobile-backdrop {
     position: fixed;
     top: 0;
@@ -628,7 +702,6 @@ body {
     pointer-events: auto;
 }
 
-/* Mobile Menu - HIDDEN BY DEFAULT */
 .modern-mobile-menu {
     position: fixed;
     top: 0;
@@ -835,7 +908,9 @@ body {
     color: var(--text-primary);
 }
 
-/* Responsive Breakpoints */
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
 @media (max-width: 992px) {
     .luxury-floating-header { 
         width: 95vw; 
@@ -854,8 +929,12 @@ body {
         display: none; 
     }
     
-    .luxury-mobile-toggle { 
-        display: flex; 
+    .desktop-only {
+        display: none;
+    }
+    
+    .mobile-only {
+        display: block;
     }
 }
 
@@ -864,8 +943,20 @@ body {
         padding: 0.875rem 1.25rem;
     }
     
-    .luxury-header-logo {
-        height: 2.2rem;
+    .circle-logo-container,
+    .circle-menu-toggle {
+        width: 3.2rem;
+        height: 3.2rem;
+    }
+    
+    .mobile-circle-logo {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    .medspa-menu-icon {
+        width: 1.6rem;
+        height: 1.6rem;
     }
 }
 
@@ -881,6 +972,14 @@ body.mobile-menu-open {
     .modern-mobile-menu,
     .modern-mobile-backdrop {
         display: none !important;
+    }
+    
+    .mobile-only {
+        display: none;
+    }
+    
+    .desktop-only {
+        display: block;
     }
 }
 
