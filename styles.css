@@ -1532,10 +1532,10 @@ body.mobile-menu-open {
 }
 
 /* ========================================
-   EVIA PREMIUM WHAT'S HOT SECTION - SCOPED STYLES
+   EVIA WHAT'S HOT CAROUSEL SECTION - SCOPED
    ======================================== */
 
-section.evia-premium-hot-section {
+section.evia-whats-hot-carousel-section {
     padding: clamp(80px, 12vh, 120px) 0;
     background: linear-gradient(135deg, 
         var(--cream-primary, #FFFCF8) 0%, 
@@ -1547,7 +1547,7 @@ section.evia-premium-hot-section {
     overflow: hidden;
 }
 
-section.evia-premium-hot-section::before {
+section.evia-whats-hot-carousel-section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1562,17 +1562,17 @@ section.evia-premium-hot-section::before {
 }
 
 /* ========================================
-   PREMIUM SECTION HEADER - SCOPED
+   SECTION HEADER - SCOPED
    ======================================== */
 
-section.evia-premium-hot-section .evia-premium-hot-header {
+section.evia-whats-hot-carousel-section .evia-whats-hot-header {
     text-align: center;
     margin-bottom: clamp(50px, 8vh, 80px);
     position: relative;
     z-index: 2;
 }
 
-section.evia-premium-hot-section .evia-hot-badge-premium {
+section.evia-whats-hot-carousel-section .evia-hot-badge-premium {
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -1595,24 +1595,24 @@ section.evia-premium-hot-section .evia-hot-badge-premium {
         0 8px 32px rgba(255, 140, 0, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
     position: relative;
-    animation: evia-premium-badge-pulse 3s ease-in-out infinite;
+    animation: evia-whats-hot-badge-pulse 3s ease-in-out infinite;
 }
 
-section.evia-premium-hot-section .badge-icon-container {
+section.evia-whats-hot-carousel-section .badge-icon-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-section.evia-premium-hot-section .badge-icon-container i {
+section.evia-whats-hot-carousel-section .badge-icon-container i {
     font-size: 18px;
     z-index: 2;
     position: relative;
-    animation: evia-premium-fire-flicker 2s ease-in-out infinite alternate;
+    animation: evia-whats-hot-fire-flicker 2s ease-in-out infinite alternate;
 }
 
-section.evia-premium-hot-section .badge-pulse-ring {
+section.evia-whats-hot-carousel-section .badge-pulse-ring {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1622,10 +1622,10 @@ section.evia-premium-hot-section .badge-pulse-ring {
     border: 2px solid var(--hermes-orange, #FF8C00);
     border-radius: 50%;
     opacity: 0;
-    animation: evia-premium-pulse-ring 3s ease-out infinite;
+    animation: evia-whats-hot-pulse-ring 3s ease-out infinite;
 }
 
-section.evia-premium-hot-section .badge-sparkle {
+section.evia-whats-hot-carousel-section .badge-sparkle {
     position: absolute;
     top: -2px;
     right: 8px;
@@ -1633,10 +1633,10 @@ section.evia-premium-hot-section .badge-sparkle {
     height: 6px;
     background: var(--hermes-orange, #FF8C00);
     border-radius: 50%;
-    animation: evia-premium-sparkle 2s ease-in-out infinite;
+    animation: evia-whats-hot-sparkle 2s ease-in-out infinite;
 }
 
-section.evia-premium-hot-section .evia-premium-hot-title {
+section.evia-whats-hot-carousel-section .evia-whats-hot-title {
     font-family: var(--font-playfair, 'Playfair Display', serif);
     font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 700;
@@ -1646,16 +1646,16 @@ section.evia-premium-hot-section .evia-premium-hot-title {
     position: relative;
 }
 
-section.evia-premium-hot-section .title-line-1 {
+section.evia-whats-hot-carousel-section .title-line-1 {
     display: block;
     color: var(--text-primary, #2A1B0A);
     margin-bottom: 8px;
     opacity: 0;
     transform: translateY(30px);
-    animation: evia-premium-title-reveal 1s ease-out 0.5s forwards;
+    animation: evia-whats-hot-title-reveal 1s ease-out 0.5s forwards;
 }
 
-section.evia-premium-hot-section .title-line-2 {
+section.evia-whats-hot-carousel-section .title-line-2 {
     display: block;
     background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
     background-size: 200% 200%;
@@ -1666,24 +1666,88 @@ section.evia-premium-hot-section .title-line-2 {
     opacity: 0;
     transform: translateY(30px);
     animation: 
-        evia-premium-title-reveal 1s ease-out 0.8s forwards, 
-        evia-premium-gradient-shift 4s ease-in-out infinite;
+        evia-whats-hot-title-reveal 1s ease-out 0.8s forwards, 
+        evia-whats-hot-gradient-shift 4s ease-in-out infinite;
 }
 
 /* ========================================
-   PREMIUM TREATMENTS GRID - SCOPED
+   CAROUSEL CONTAINER - SCOPED
    ======================================== */
 
-section.evia-premium-hot-section .evia-treatments-premium-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: clamp(24px, 4vw, 40px);
-    max-width: 1200px;
+section.evia-whats-hot-carousel-section .evia-carousel-container {
+    position: relative;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card {
+section.evia-whats-hot-carousel-section .evia-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(255, 255, 255, 0.9) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    color: var(--hermes-orange, #FF8C00);
+    font-size: 24px;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 4px 16px rgba(255, 140, 0, 0.1);
+}
+
+section.evia-whats-hot-carousel-section .evia-nav-prev {
+    left: -30px;
+}
+
+section.evia-whats-hot-carousel-section .evia-nav-next {
+    right: -30px;
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-nav:hover {
+    background: var(--hermes-orange, #FF8C00);
+    color: var(--white, #FFFFFF);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        0 8px 24px rgba(255, 140, 0, 0.3);
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-track-container {
+    overflow: hidden;
     position: relative;
+    border-radius: var(--radius-2xl, 2rem);
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    gap: 24px;
+    padding: 20px 0;
+}
+
+/* ========================================
+   TREATMENT CARDS - SCOPED
+   ======================================== */
+
+section.evia-whats-hot-carousel-section .evia-treatment-card {
+    flex: 0 0 340px;
     background: var(--white, #FFFFFF);
     border-radius: var(--radius-2xl, 2rem);
     overflow: hidden;
@@ -1693,15 +1757,17 @@ section.evia-premium-hot-section .evia-premium-treatment-card {
         0 10px 40px rgba(0, 0, 0, 0.08),
         0 4px 16px rgba(255, 140, 0, 0.05);
     border: 1px solid rgba(255, 140, 0, 0.1);
-    height: 420px;
+    height: 480px;
+    position: relative;
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card.featured {
+section.evia-whats-hot-carousel-section .evia-treatment-card.featured {
     transform: scale(1.05);
     z-index: 2;
+    border-color: rgba(255, 140, 0, 0.3);
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card:hover {
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover {
     transform: translateY(-12px) scale(1.02);
     box-shadow: 
         0 25px 60px rgba(0, 0, 0, 0.15),
@@ -1709,35 +1775,35 @@ section.evia-premium-hot-section .evia-premium-treatment-card:hover {
     border-color: rgba(255, 140, 0, 0.3);
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card.featured:hover {
+section.evia-whats-hot-carousel-section .evia-treatment-card.featured:hover {
     transform: translateY(-12px) scale(1.07);
 }
 
 /* ========================================
-   TREATMENT IMAGE CONTAINER - SCOPED
+   TREATMENT IMAGE - SCOPED
    ======================================== */
 
-section.evia-premium-hot-section .treatment-image-container {
+section.evia-whats-hot-carousel-section .treatment-image-container {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 200px;
+    height: 220px;
     overflow: hidden;
 }
 
-section.evia-premium-hot-section .treatment-bg-image {
+section.evia-whats-hot-carousel-section .treatment-bg-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-bg-image {
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-bg-image {
     transform: scale(1.1);
 }
 
-section.evia-premium-hot-section .treatment-overlay {
+section.evia-whats-hot-carousel-section .treatment-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -1750,11 +1816,11 @@ section.evia-premium-hot-section .treatment-overlay {
     transition: opacity 0.6s ease;
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-overlay {
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-overlay {
     opacity: 0.9;
 }
 
-section.evia-premium-hot-section .treatment-glow-effect {
+section.evia-whats-hot-carousel-section .treatment-glow-effect {
     position: absolute;
     inset: 0;
     background: radial-gradient(
@@ -1766,11 +1832,11 @@ section.evia-premium-hot-section .treatment-glow-effect {
     transition: opacity 0.6s ease;
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-glow-effect {
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-glow-effect {
     opacity: 1;
 }
 
-section.evia-premium-hot-section .featured-badge {
+section.evia-whats-hot-carousel-section .featured-badge {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -1785,34 +1851,34 @@ section.evia-premium-hot-section .featured-badge {
     align-items: center;
     gap: 6px;
     z-index: 3;
-    animation: evia-premium-featured-pulse 2s ease-in-out infinite;
+    animation: evia-whats-hot-featured-pulse 2s ease-in-out infinite;
     box-shadow: 0 4px 16px rgba(255, 140, 0, 0.4);
 }
 
-section.evia-premium-hot-section .featured-badge i {
+section.evia-whats-hot-carousel-section .featured-badge i {
     font-size: 14px;
-    animation: evia-premium-star-rotate 3s ease-in-out infinite;
+    animation: evia-whats-hot-star-rotate 3s ease-in-out infinite;
 }
 
 /* ========================================
    TREATMENT CONTENT - SCOPED
    ======================================== */
 
-section.evia-premium-hot-section .treatment-content {
+section.evia-whats-hot-carousel-section .treatment-content {
     position: relative;
     z-index: 2;
-    padding: 24px;
+    padding: 28px;
     height: 100%;
     display: flex;
     flex-direction: column;
-    margin-top: 200px;
+    margin-top: 220px;
     background: var(--white, #FFFFFF);
 }
 
-section.evia-premium-hot-section .treatment-icon-container {
+section.evia-whats-hot-carousel-section .treatment-icon-container {
     position: absolute;
     top: -30px;
-    left: 24px;
+    left: 28px;
     width: 60px;
     height: 60px;
     background: linear-gradient(135deg, var(--white, #FFFFFF) 0%, #fafafa 100%);
@@ -1827,7 +1893,7 @@ section.evia-premium-hot-section .treatment-icon-container {
     transition: all 0.6s ease;
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-icon-container {
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-icon-container {
     background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
     border-color: var(--hermes-orange, #FF8C00);
     transform: scale(1.1);
@@ -1836,18 +1902,18 @@ section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-i
         0 8px 24px rgba(255, 140, 0, 0.3);
 }
 
-section.evia-premium-hot-section .treatment-icon {
+section.evia-whats-hot-carousel-section .treatment-icon {
     font-size: 28px;
     color: var(--hermes-orange, #FF8C00);
     transition: all 0.6s ease;
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-icon {
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-icon {
     color: var(--white, #FFFFFF);
     transform: scale(1.1);
 }
 
-section.evia-premium-hot-section .icon-glow {
+section.evia-whats-hot-carousel-section .icon-glow {
     position: absolute;
     inset: 0;
     border-radius: var(--radius-xl, 1.5rem);
@@ -1856,7 +1922,7 @@ section.evia-premium-hot-section .icon-glow {
     transition: opacity 0.6s ease;
 }
 
-section.evia-premium-hot-section .evia-premium-treatment-card:hover .icon-glow {
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover .icon-glow {
     opacity: 1;
 }
 
@@ -1864,22 +1930,23 @@ section.evia-premium-hot-section .evia-premium-treatment-card:hover .icon-glow {
    TREATMENT INFO - SCOPED
    ======================================== */
 
-section.evia-premium-hot-section .treatment-info {
+section.evia-whats-hot-carousel-section .treatment-info {
     flex-grow: 1;
     margin-top: 36px;
+    margin-bottom: 20px;
 }
 
-section.evia-premium-hot-section .treatment-title {
+section.evia-whats-hot-carousel-section .treatment-title {
     font-family: var(--font-playfair, 'Playfair Display', serif);
     font-size: 1.6rem;
     font-weight: 600;
     color: var(--text-primary, #2A1B0A);
     margin: 0 0 12px 0;
     letter-spacing: -0.02em;
-    transition: color 0.3s ease;
+    line-height: 1.2;
 }
 
-section.evia-premium-hot-section .treatment-description {
+section.evia-whats-hot-carousel-section .treatment-description {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     color: var(--text-secondary, #5D4E37);
@@ -1887,19 +1954,26 @@ section.evia-premium-hot-section .treatment-description {
     margin: 0 0 20px 0;
 }
 
-section.evia-premium-hot-section .treatment-stats {
+section.evia-whats-hot-carousel-section .treatment-stats {
     display: flex;
     gap: 24px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
-section.evia-premium-hot-section .stat-item {
+section.evia-whats-hot-carousel-section .stat-item {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-section.evia-premium-hot-section .stat-label {
+section.evia-whats-hot-carousel-section .stat-value {
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 18px;
+    color: var(--text-primary, #2A1B0A);
+    font-weight: 700;
+}
+
+section.evia-whats-hot-carousel-section .stat-label {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 12px;
     color: var(--text-muted, #8B7355);
@@ -1908,67 +1982,19 @@ section.evia-premium-hot-section .stat-label {
     font-weight: 500;
 }
 
-section.evia-premium-hot-section .stat-value {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 16px;
-    color: var(--text-primary, #2A1B0A);
-    font-weight: 600;
-}
-
-/* ========================================
-   TREATMENT CTA - SCOPED
-   ======================================== */
-
-section.evia-premium-hot-section .treatment-cta {
+section.evia-whats-hot-carousel-section .popularity-indicator {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
 }
 
-section.evia-premium-hot-section .learn-more-premium-btn {
-    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
-    color: var(--white, #FFFFFF);
-    border: none;
-    border-radius: var(--radius-full, 9999px);
-    padding: 12px 24px;
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.4s ease;
-    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
-}
-
-section.evia-premium-hot-section .learn-more-premium-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
-}
-
-section.evia-premium-hot-section .learn-more-premium-btn i {
-    font-size: 16px;
-    transition: transform 0.3s ease;
-}
-
-section.evia-premium-hot-section .learn-more-premium-btn:hover i {
-    transform: translateX(4px);
-}
-
-section.evia-premium-hot-section .popularity-indicator {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-section.evia-premium-hot-section .popularity-dots {
+section.evia-whats-hot-carousel-section .popularity-dots {
     display: flex;
     gap: 4px;
 }
 
-section.evia-premium-hot-section .dot {
+section.evia-whats-hot-carousel-section .dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -1976,12 +2002,12 @@ section.evia-premium-hot-section .dot {
     transition: all 0.3s ease;
 }
 
-section.evia-premium-hot-section .dot.active {
+section.evia-whats-hot-carousel-section .dot.active {
     background: var(--hermes-orange, #FF8C00);
-    animation: evia-premium-dot-pulse 1.5s ease-in-out infinite;
+    animation: evia-whats-hot-dot-pulse 1.5s ease-in-out infinite;
 }
 
-section.evia-premium-hot-section .popularity-text {
+section.evia-whats-hot-carousel-section .popularity-text {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 12px;
     color: var(--hermes-orange, #FF8C00);
@@ -1991,20 +2017,90 @@ section.evia-premium-hot-section .popularity-text {
 }
 
 /* ========================================
-   PREMIUM CTA SECTION - SCOPED
+   LEARN MORE BUTTON - SCOPED
    ======================================== */
 
-section.evia-premium-hot-section .evia-premium-cta-section {
+section.evia-whats-hot-carousel-section .learn-more-btn {
+    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
+    color: var(--white, #FFFFFF);
+    border: none;
+    border-radius: var(--radius-full, 9999px);
+    padding: 14px 24px;
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+    margin-top: auto;
+    width: 100%;
+}
+
+section.evia-whats-hot-carousel-section .learn-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
+}
+
+section.evia-whats-hot-carousel-section .learn-more-btn i {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+section.evia-whats-hot-carousel-section .learn-more-btn:hover i {
+    transform: translateX(4px);
+}
+
+/* ========================================
+   CAROUSEL DOTS - SCOPED
+   ======================================== */
+
+section.evia-whats-hot-carousel-section .evia-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 40px;
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-dots .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 140, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-dots .dot.active {
+    background: var(--hermes-orange, #FF8C00);
+    transform: scale(1.2);
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-dots .dot:not(.active):hover {
+    background: rgba(255, 140, 0, 0.4);
+    transform: scale(1.1);
+}
+
+/* ========================================
+   CTA SECTION - SCOPED
+   ======================================== */
+
+section.evia-whats-hot-carousel-section .evia-premium-cta-section {
     text-align: center;
     margin-top: clamp(60px, 10vh, 80px);
 }
 
-section.evia-premium-hot-section .cta-content {
+section.evia-whats-hot-carousel-section .cta-content {
     max-width: 500px;
     margin: 0 auto;
 }
 
-section.evia-premium-hot-section .cta-text {
+section.evia-whats-hot-carousel-section .cta-text {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 18px;
     color: var(--text-secondary, #5D4E37);
@@ -2012,7 +2108,7 @@ section.evia-premium-hot-section .cta-text {
     line-height: 1.5;
 }
 
-section.evia-premium-hot-section .evia-book-consultation-btn {
+section.evia-whats-hot-carousel-section .evia-book-consultation-btn {
     background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
     color: var(--white, #FFFFFF);
     border: none;
@@ -2033,7 +2129,7 @@ section.evia-premium-hot-section .evia-book-consultation-btn {
     overflow: hidden;
 }
 
-section.evia-premium-hot-section .evia-book-consultation-btn::before {
+section.evia-whats-hot-carousel-section .evia-book-consultation-btn::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -2042,37 +2138,37 @@ section.evia-premium-hot-section .evia-book-consultation-btn::before {
     transition: opacity 0.3s ease;
 }
 
-section.evia-premium-hot-section .evia-book-consultation-btn:hover::before {
+section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover::before {
     opacity: 1;
 }
 
-section.evia-premium-hot-section .evia-book-consultation-btn:hover {
+section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover {
     transform: translateY(-3px);
     box-shadow: 
         0 12px 40px rgba(255, 140, 0, 0.4),
         0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-section.evia-premium-hot-section .evia-book-consultation-btn span,
-section.evia-premium-hot-section .evia-book-consultation-btn i {
+section.evia-whats-hot-carousel-section .evia-book-consultation-btn span,
+section.evia-whats-hot-carousel-section .evia-book-consultation-btn i {
     position: relative;
     z-index: 2;
 }
 
-section.evia-premium-hot-section .evia-book-consultation-btn i {
+section.evia-whats-hot-carousel-section .evia-book-consultation-btn i {
     font-size: 18px;
     transition: transform 0.3s ease;
 }
 
-section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
+section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     transform: translateX(4px);
 }
 
 /* ========================================
-   PREMIUM MODAL STYLES - SCOPED
+   MODAL STYLES - SCOPED
    ======================================== */
 
-.evia-modal-overlay-premium {
+.evia-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -2090,12 +2186,12 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     padding: 20px;
 }
 
-.evia-modal-overlay-premium.active {
+.evia-modal-overlay.active {
     opacity: 1;
     visibility: visible;
 }
 
-.evia-modal-overlay-premium .evia-treatment-modal-premium {
+.evia-modal-overlay .evia-treatment-modal {
     background: var(--white, #FFFFFF);
     border-radius: var(--radius-2xl, 2rem);
     max-width: 600px;
@@ -2111,11 +2207,11 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.evia-modal-overlay-premium.active .evia-treatment-modal-premium {
+.evia-modal-overlay.active .evia-treatment-modal {
     transform: scale(1) translateY(0);
 }
 
-.evia-modal-overlay-premium .evia-modal-close-premium {
+.evia-modal-overlay .evia-modal-close {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -2134,13 +2230,13 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     color: var(--text-primary, #2A1B0A);
 }
 
-.evia-modal-overlay-premium .evia-modal-close-premium:hover {
+.evia-modal-overlay .evia-modal-close:hover {
     background: var(--hermes-orange, #FF8C00);
     color: var(--white, #FFFFFF);
     transform: scale(1.1);
 }
 
-.evia-modal-overlay-premium .evia-modal-close-premium i {
+.evia-modal-overlay .evia-modal-close i {
     font-size: 18px;
 }
 
@@ -2148,25 +2244,25 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
    MODAL HEADER - SCOPED
    ======================================== */
 
-.evia-modal-overlay-premium .evia-modal-header-premium {
+.evia-modal-overlay .evia-modal-header {
     position: relative;
     padding-bottom: 24px;
 }
 
-.evia-modal-overlay-premium .modal-image-container {
+.evia-modal-overlay .modal-image-container {
     position: relative;
     height: 240px;
     overflow: hidden;
     border-radius: var(--radius-2xl, 2rem) var(--radius-2xl, 2rem) 0 0;
 }
 
-.evia-modal-overlay-premium .modal-image-container img {
+.evia-modal-overlay .modal-image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.evia-modal-overlay-premium .modal-image-overlay {
+.evia-modal-overlay .modal-image-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -2177,7 +2273,7 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     );
 }
 
-.evia-modal-overlay-premium .modal-header-content {
+.evia-modal-overlay .modal-header-content {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -2186,7 +2282,7 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     color: var(--white, #FFFFFF);
 }
 
-.evia-modal-overlay-premium .evia-modal-icon-premium {
+.evia-modal-overlay .evia-modal-icon {
     width: 60px;
     height: 60px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
@@ -2200,21 +2296,21 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.evia-modal-overlay-premium .evia-modal-icon-premium.featured {
+.evia-modal-overlay .evia-modal-icon.featured {
     border-color: var(--hermes-orange, #FF8C00);
     background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
 }
 
-.evia-modal-overlay-premium .evia-modal-icon-premium i {
+.evia-modal-overlay .evia-modal-icon i {
     font-size: 24px;
     color: var(--hermes-orange, #FF8C00);
 }
 
-.evia-modal-overlay-premium .evia-modal-icon-premium.featured i {
+.evia-modal-overlay .evia-modal-icon.featured i {
     color: var(--white, #FFFFFF);
 }
 
-.evia-modal-overlay-premium .evia-modal-title-premium {
+.evia-modal-overlay .evia-modal-title {
     font-family: var(--font-playfair, 'Playfair Display', serif);
     font-size: 2rem;
     font-weight: 600;
@@ -2222,23 +2318,23 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     letter-spacing: -0.02em;
 }
 
-.evia-modal-overlay-premium .modal-rating {
+.evia-modal-overlay .modal-rating {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.evia-modal-overlay-premium .stars {
+.evia-modal-overlay .stars {
     display: flex;
     gap: 2px;
 }
 
-.evia-modal-overlay-premium .stars i {
+.evia-modal-overlay .stars i {
     font-size: 14px;
     color: #FFD700;
 }
 
-.evia-modal-overlay-premium .rating-text {
+.evia-modal-overlay .rating-text {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     color: rgba(255, 255, 255, 0.8);
@@ -2248,11 +2344,11 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
    MODAL BODY - SCOPED
    ======================================== */
 
-.evia-modal-overlay-premium .evia-modal-body-premium {
+.evia-modal-overlay .evia-modal-body {
     padding: 32px;
 }
 
-.evia-modal-overlay-premium .modal-description h4 {
+.evia-modal-overlay .modal-description h4 {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 16px;
     font-weight: 600;
@@ -2260,7 +2356,7 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     margin: 0 0 12px 0;
 }
 
-.evia-modal-overlay-premium .modal-description p {
+.evia-modal-overlay .modal-description p {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     color: var(--text-secondary, #5D4E37);
@@ -2268,13 +2364,13 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     margin: 0 0 24px 0;
 }
 
-.evia-modal-overlay-premium .benefit-list {
+.evia-modal-overlay .benefit-list {
     list-style: none;
     padding: 0;
     margin: 0 0 32px 0;
 }
 
-.evia-modal-overlay-premium .benefit-list li {
+.evia-modal-overlay .benefit-list li {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -2285,19 +2381,19 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     line-height: 1.5;
 }
 
-.evia-modal-overlay-premium .benefit-list i {
+.evia-modal-overlay .benefit-list i {
     font-size: 16px;
     color: var(--hermes-orange, #FF8C00);
     flex-shrink: 0;
 }
 
-.evia-modal-overlay-premium .modal-details-grid {
+.evia-modal-overlay .modal-details-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
 }
 
-.evia-modal-overlay-premium .detail-item {
+.evia-modal-overlay .detail-item {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -2307,7 +2403,7 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     border: 1px solid rgba(255, 140, 0, 0.1);
 }
 
-.evia-modal-overlay-premium .detail-icon {
+.evia-modal-overlay .detail-icon {
     width: 40px;
     height: 40px;
     background: rgba(255, 140, 0, 0.1);
@@ -2318,18 +2414,18 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     flex-shrink: 0;
 }
 
-.evia-modal-overlay-premium .detail-icon i {
+.evia-modal-overlay .detail-icon i {
     font-size: 18px;
     color: var(--hermes-orange, #FF8C00);
 }
 
-.evia-modal-overlay-premium .detail-content {
+.evia-modal-overlay .detail-content {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.evia-modal-overlay-premium .detail-label {
+.evia-modal-overlay .detail-label {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 12px;
     color: var(--text-muted, #8B7355);
@@ -2338,7 +2434,7 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     font-weight: 500;
 }
 
-.evia-modal-overlay-premium .detail-value {
+.evia-modal-overlay .detail-value {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 16px;
     color: var(--text-primary, #2A1B0A);
@@ -2349,11 +2445,11 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
    MODAL FOOTER - SCOPED
    ======================================== */
 
-.evia-modal-overlay-premium .evia-modal-footer-premium {
+.evia-modal-overlay .evia-modal-footer {
     padding: 24px 32px 32px;
 }
 
-.evia-modal-overlay-premium .evia-modal-book-btn-premium {
+.evia-modal-overlay .evia-modal-book-btn {
     width: 100%;
     background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
     color: var(--white, #FFFFFF);
@@ -2374,7 +2470,7 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     overflow: hidden;
 }
 
-.evia-modal-overlay-premium .evia-modal-book-btn-premium::before {
+.evia-modal-overlay .evia-modal-book-btn::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -2383,45 +2479,45 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     transition: opacity 0.3s ease;
 }
 
-.evia-modal-overlay-premium .evia-modal-book-btn-premium:hover::before {
+.evia-modal-overlay .evia-modal-book-btn:hover::before {
     opacity: 1;
 }
 
-.evia-modal-overlay-premium .evia-modal-book-btn-premium:hover {
+.evia-modal-overlay .evia-modal-book-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 32px rgba(255, 140, 0, 0.4);
 }
 
-.evia-modal-overlay-premium .evia-modal-book-btn-premium span,
-.evia-modal-overlay-premium .evia-modal-book-btn-premium i {
+.evia-modal-overlay .evia-modal-book-btn span,
+.evia-modal-overlay .evia-modal-book-btn i {
     position: relative;
     z-index: 2;
 }
 
-.evia-modal-overlay-premium .evia-modal-book-btn-premium i {
+.evia-modal-overlay .evia-modal-book-btn i {
     font-size: 18px;
     transition: transform 0.3s ease;
 }
 
-.evia-modal-overlay-premium .evia-modal-book-btn-premium:hover i {
+.evia-modal-overlay .evia-modal-book-btn:hover i {
     transform: translateX(4px);
 }
 
 /* ========================================
-   PREMIUM ANIMATIONS - SCOPED
+   ANIMATIONS - SCOPED
    ======================================== */
 
-@keyframes evia-premium-badge-pulse {
+@keyframes evia-whats-hot-badge-pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
 
-@keyframes evia-premium-fire-flicker {
+@keyframes evia-whats-hot-fire-flicker {
     0% { transform: scale(1) rotate(0deg); }
     100% { transform: scale(1.1) rotate(5deg); }
 }
 
-@keyframes evia-premium-pulse-ring {
+@keyframes evia-whats-hot-pulse-ring {
     0% { 
         opacity: 0;
         transform: translate(-50%, -50%) scale(0.8);
@@ -2436,34 +2532,34 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     }
 }
 
-@keyframes evia-premium-sparkle {
+@keyframes evia-whats-hot-sparkle {
     0%, 100% { opacity: 0; transform: scale(0.8); }
     50% { opacity: 1; transform: scale(1.2); }
 }
 
-@keyframes evia-premium-title-reveal {
+@keyframes evia-whats-hot-title-reveal {
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes evia-premium-gradient-shift {
+@keyframes evia-whats-hot-gradient-shift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
-@keyframes evia-premium-featured-pulse {
+@keyframes evia-whats-hot-featured-pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
 
-@keyframes evia-premium-star-rotate {
+@keyframes evia-whats-hot-star-rotate {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-@keyframes evia-premium-dot-pulse {
+@keyframes evia-whats-hot-dot-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
 }
@@ -2472,99 +2568,114 @@ section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
    RESPONSIVE DESIGN - SCOPED
    ======================================== */
 
-@media (max-width: 768px) {
-    section.evia-premium-hot-section .evia-treatments-premium-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        max-width: 400px;
-    }
-
-    section.evia-premium-hot-section .evia-premium-treatment-card {
-        height: 400px;
+@media (max-width: 1200px) {
+    section.evia-whats-hot-carousel-section .evia-nav-prev {
+        left: -20px;
     }
     
-    section.evia-premium-hot-section .evia-premium-treatment-card.featured {
+    section.evia-whats-hot-carousel-section .evia-nav-next {
+        right: -20px;
+    }
+}
+
+@media (max-width: 768px) {
+    section.evia-whats-hot-carousel-section {
+        padding: clamp(60px, 10vh, 80px) 0;
+    }
+
+    section.evia-whats-hot-carousel-section .evia-carousel-nav {
+        display: none;
+    }
+
+    section.evia-whats-hot-carousel-section .evia-treatment-card {
+        flex: 0 0 300px;
+        height: 450px;
+    }
+
+    section.evia-whats-hot-carousel-section .evia-treatment-card.featured {
         transform: none;
     }
-    
-    section.evia-premium-hot-section .evia-premium-treatment-card.featured:hover {
-        transform: translateY(-8px) scale(1.02);
+
+    section.evia-whats-hot-carousel-section .treatment-image-container {
+        height: 180px;
     }
 
-    section.evia-premium-hot-section .treatment-content {
+    section.evia-whats-hot-carousel-section .treatment-content {
+        margin-top: 180px;
         padding: 20px;
     }
 
-    section.evia-premium-hot-section .treatment-icon-container {
+    section.evia-whats-hot-carousel-section .treatment-icon-container {
         left: 20px;
         width: 50px;
         height: 50px;
     }
 
-    section.evia-premium-hot-section .treatment-icon {
+    section.evia-whats-hot-carousel-section .treatment-icon {
         font-size: 24px;
     }
 
-    section.evia-premium-hot-section .treatment-stats {
+    section.evia-whats-hot-carousel-section .treatment-stats {
         gap: 16px;
     }
 
-    .evia-modal-overlay-premium .modal-details-grid {
+    .evia-modal-overlay .modal-details-grid {
         grid-template-columns: 1fr;
         gap: 16px;
     }
 
-    .evia-modal-overlay-premium .evia-modal-body-premium {
+    .evia-modal-overlay .evia-modal-body {
         padding: 24px;
     }
 
-    .evia-modal-overlay-premium .evia-modal-footer-premium {
+    .evia-modal-overlay .evia-modal-footer {
         padding: 20px 24px 24px;
     }
 }
 
 @media (max-width: 480px) {
-    section.evia-premium-hot-section {
-        padding: clamp(60px, 10vh, 80px) 0;
+    section.evia-whats-hot-carousel-section .evia-treatment-card {
+        flex: 0 0 280px;
+        height: 420px;
     }
 
-    section.evia-premium-hot-section .treatment-image-container {
+    section.evia-whats-hot-carousel-section .treatment-image-container {
         height: 160px;
     }
 
-    section.evia-premium-hot-section .treatment-content {
+    section.evia-whats-hot-carousel-section .treatment-content {
         margin-top: 160px;
         padding: 16px;
     }
 
-    section.evia-premium-hot-section .treatment-icon-container {
+    section.evia-whats-hot-carousel-section .treatment-icon-container {
         top: -25px;
         left: 16px;
         width: 44px;
         height: 44px;
     }
 
-    section.evia-premium-hot-section .treatment-icon {
+    section.evia-whats-hot-carousel-section .treatment-icon {
         font-size: 20px;
     }
 
-    section.evia-premium-hot-section .treatment-title {
+    section.evia-whats-hot-carousel-section .treatment-title {
         font-size: 1.4rem;
     }
 
-    section.evia-premium-hot-section .treatment-description {
+    section.evia-whats-hot-carousel-section .treatment-description {
         font-size: 13px;
     }
 
-    .evia-modal-overlay-premium .modal-image-container {
+    .evia-modal-overlay .modal-image-container {
         height: 200px;
     }
 
-    .evia-modal-overlay-premium .modal-header-content {
+    .evia-modal-overlay .modal-header-content {
         padding: 16px;
     }
 
-    .evia-modal-overlay-premium .evia-modal-title-premium {
+    .evia-modal-overlay .evia-modal-title {
         font-size: 1.6rem;
     }
 }
