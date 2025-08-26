@@ -196,8 +196,9 @@ class Preloader {
 }
 
 /* ========================================
-   HEADER WITH MODERN MOBILE DESIGN
+   LUXURY HEADER WITH MOBILE FUNCTIONALITY
    ======================================== */
+
 class ModernLuxuryHeader {
     constructor() {
         this.header = document.getElementById('luxuryHeader') || document.querySelector('.luxury-floating-header');
@@ -206,20 +207,20 @@ class ModernLuxuryHeader {
         this.mobileCtaButton = document.querySelector('.mobile-cta-button');
         this.logoWrapper = document.querySelector('.logo-glow-wrapper');
         this.mobileLogoContainer = document.querySelector('.circle-logo-container');
-        this.mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.circle-menu-toggle');
         this.isScrolled = false;
         this.scrollThreshold = 100;
         
         if (this.header) {
             this.init();
-            console.log('✅ Modern Luxury Header Initialized');
         }
     }
 
     init() {
+        console.log('🚀 Initializing Modern Luxury Header');
         this.bindEvents();
         this.setupScrollHandler();
         this.setupIntersectionObserver();
+        console.log('✅ Modern Luxury Header Ready');
     }
 
     bindEvents() {
@@ -387,281 +388,142 @@ class ModernLuxuryHeader {
 }
 
 /* ========================================
-   HERMES MOBILE HEADER FUNCTIONALITY
+   MODERN MOBILE MENU
    ======================================== */
-
-class HermesMobileHeader {
+class ModernMobileMenu {
     constructor() {
-        this.mobileToggle = document.getElementById('mobileMenuToggle');
-        this.mobileMenu = document.getElementById('mobileSlideMenu');
-        this.backdrop = document.getElementById('mobileBackdrop');
-        this.closeBtn = document.getElementById('mobileMenuClose');
-        this.navLinks = document.querySelectorAll('.mobile-nav-item');
-        this.desktopNavLinks = document.querySelectorAll('.luxury-nav-link');
-        this.body = document.body;
-        this.isMenuOpen = false;
+        this.toggle = document.getElementById('mobileToggle') || document.querySelector('.circle-menu-toggle');
+        this.menu = document.getElementById('mobileMenu') || document.querySelector('.modern-mobile-menu');
+        this.backdrop = document.getElementById('mobileBackdrop') || document.querySelector('.modern-mobile-backdrop');
+        this.closeBtn = document.getElementById('mobileClose') || document.querySelector('.mobile-menu-close');
+        this.navLinks = document.querySelectorAll('.mobile-nav-link');
+        this.ctaBtn = document.querySelector('.mobile-cta-button');
+        this.isOpen = false;
         this.isAnimating = false;
+        this.body = document.body;
         
-        this.init();
+        if (this.toggle && this.menu && this.backdrop) {
+            this.init();
+        }
     }
 
     init() {
-        console.log('🚀 Initializing Hermes Mobile Header');
-        
-        // Mobile toggle button
-        if (this.mobileToggle) {
-            this.mobileToggle.addEventListener('click', (e) => this.toggleMenu(e));
-            console.log('📱 Mobile toggle connected');
+        console.log('📱 Initializing Modern Mobile Menu');
+        this.setupInitialState();
+        this.bindEvents();
+        this.setupKeyboardNavigation();
+        console.log('✅ Modern Mobile Menu Ready');
+    }
+
+    setupInitialState() {
+        if (this.menu) {
+            this.menu.classList.remove('active');
+            this.menu.style.transform = 'translateX(100%)';
+            this.menu.style.visibility = 'hidden';
         }
         
+        if (this.backdrop) {
+            this.backdrop.classList.remove('active');
+            this.backdrop.style.opacity = '0';
+            this.backdrop.style.visibility = 'hidden';
+        }
+        
+        if (this.toggle) {
+            this.toggle.classList.remove('active');
+        }
+        
+        this.body.classList.remove('mobile-menu-open');
+        this.isOpen = false;
+        this.isAnimating = false;
+    }
+
+    bindEvents() {
+        // Toggle button
+        if (this.toggle) {
+            this.toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.toggle();
+            });
+
+            this.toggle.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        }
+
         // Close button
         if (this.closeBtn) {
-            this.closeBtn.addEventListener('click', (e) => this.closeMenu(e));
-            console.log('❌ Close button connected');
+            this.closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.close();
+            });
         }
-        
+
         // Backdrop click
         if (this.backdrop) {
-            this.backdrop.addEventListener('click', (e) => this.closeMenu(e));
-            console.log('🎭 Backdrop click connected');
+            this.backdrop.addEventListener('click', () => {
+                this.close();
+            });
         }
-        
+
         // Navigation links
-        this.setupNavigationLinks();
-        
-        // Keyboard controls
-        this.setupKeyboardControls();
-        
-        // Window resize handler
-        this.setupResizeHandler();
-        
-        // Initial entrance animation for floating controls
-        this.setupEntranceAnimation();
-        
-        console.log('✅ Mobile Header System Ready');
-    }
-
-    setupNavigationLinks() {
-        // Mobile navigation links
-        this.navLinks.forEach((link, index) => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href && href.startsWith('#')) {
-                    e.preventDefault();
-                    
-                    // Close menu first
-                    this.closeMenu();
-                    
-                    // Smooth scroll after menu closes
-                    setTimeout(() => {
-                        this.smoothScrollToSection(href);
-                        this.updateActiveNavigation(href);
-                    }, 300);
-                }
-            });
-        });
-
-        // Desktop navigation links (sync with mobile)
-        this.desktopNavLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href && href.startsWith('#')) {
-                    e.preventDefault();
-                    this.smoothScrollToSection(href);
-                    this.updateActiveNavigation(href);
-                }
-            });
-        });
-        
-        console.log('🔗 Navigation links connected');
-    }
-
-    setupKeyboardControls() {
-        document.addEventListener('keydown', (e) => {
-            // Close menu on Escape
-            if (e.key === 'Escape' && this.isMenuOpen) {
-                this.closeMenu();
-            }
-            
-            // Prevent tab from leaving menu when open
-            if (this.isMenuOpen && e.key === 'Tab') {
-                this.trapFocus(e);
-            }
-        });
-        
-        console.log('⌨️ Keyboard controls ready');
-    }
-
-    setupResizeHandler() {
-        window.addEventListener('resize', debounce(() => {
-            // Close mobile menu if window becomes desktop size
-            if (window.innerWidth > 992 && this.isMenuOpen) {
-                this.closeMenu();
-            }
-        }, 100));
-        
-        console.log('📏 Resize handler ready');
-    }
-
-    setupEntranceAnimation() {
-        setTimeout(() => {
-            const floatingControls = document.querySelector('.mobile-floating-controls');
-            if (floatingControls) {
-                floatingControls.style.opacity = '1';
-                floatingControls.style.transform = 'translateY(0)';
-            }
-        }, 400);
-    }
-
-    toggleMenu(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        if (this.isAnimating) return;
-        
-        if (this.isMenuOpen) {
-            this.closeMenu();
-        } else {
-            this.openMenu();
-        }
-    }
-
-    openMenu() {
-        if (this.isMenuOpen || this.isAnimating) return;
-        
-        console.log('📱 Opening Mobile Menu');
-        this.isAnimating = true;
-        this.isMenuOpen = true;
-        
-        // Add active class to toggle button
-        if (this.mobileToggle) {
-            this.mobileToggle.classList.add('active');
-        }
-        
-        // Show backdrop
-        if (this.backdrop) {
-            this.backdrop.classList.add('active');
-        }
-        
-        // Show menu
-        if (this.mobileMenu) {
-            this.mobileMenu.classList.add('active');
-        }
-        
-        // Prevent body scroll
-        this.body.classList.add('menu-open');
-        
-        // Animate navigation items in
-        setTimeout(() => {
-            this.animateNavItems(true);
-            this.isAnimating = false;
-            
-            // Set focus to close button for accessibility
-            if (this.closeBtn) {
-                this.closeBtn.focus();
-            }
-        }, 200);
-    }
-
-    closeMenu(e) {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        
-        if (!this.isMenuOpen || this.isAnimating) return;
-        
-        console.log('📱 Closing Mobile Menu');
-        this.isAnimating = true;
-        this.isMenuOpen = false;
-        
-        // Remove active class from toggle button
-        if (this.mobileToggle) {
-            this.mobileToggle.classList.remove('active');
-        }
-        
-        // Animate nav items out first
-        this.animateNavItems(false);
-        
-        setTimeout(() => {
-            // Hide backdrop
-            if (this.backdrop) {
-                this.backdrop.classList.remove('active');
-            }
-            
-            // Hide menu
-            if (this.mobileMenu) {
-                this.mobileMenu.classList.remove('active');
-            }
-            
-            // Allow body scroll
-            this.body.classList.remove('menu-open');
-            
-            this.isAnimating = false;
-        }, 300);
-    }
-
-    animateNavItems(entering) {
-        this.navLinks.forEach((link, index) => {
-            setTimeout(() => {
-                if (entering) {
-                    link.style.opacity = '1';
-                    link.style.transform = 'translateX(0)';
-                } else {
-                    link.style.opacity = '0';
-                    link.style.transform = 'translateX(30px)';
-                }
-            }, index * 60);
-        });
-    }
-
-    smoothScrollToSection(href) {
-        const target = document.querySelector(href);
-        if (target) {
-            // Calculate offset for fixed header
-            const headerHeight = 80;
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-            
-            console.log(`🎯 Scrolling to ${href}`);
-        }
-    }
-
-    updateActiveNavigation(activeHref) {
-        // Update mobile nav
         this.navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === activeHref) {
-                link.classList.add('active');
-            }
+            link.addEventListener('click', () => {
+                setTimeout(() => this.close(), 150);
+            });
         });
-        
-        // Update desktop nav
-        this.desktopNavLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === activeHref) {
-                link.classList.add('active');
+
+        // CTA button
+        if (this.ctaBtn) {
+            this.ctaBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.scrollToContact();
+                this.close();
+            });
+        }
+
+        // Prevent scrolling when menu is open
+        if (this.menu) {
+            this.menu.addEventListener('touchmove', (e) => {
+                if (this.isOpen) {
+                    e.stopPropagation();
+                }
+            });
+        }
+
+        // Handle resize - close menu on desktop
+        window.addEventListener('resize', this.debounce(() => {
+            if (window.innerWidth >= 993 && this.isOpen) {
+                this.close();
             }
-        });
-        
-        console.log(`🎯 Updated active nav to ${activeHref}`);
+        }, 250));
     }
 
-    trapFocus(e) {
-        if (!this.mobileMenu) return;
-        
-        const focusableElements = this.mobileMenu.querySelectorAll(
+    setupKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            if (!this.isOpen) return;
+
+            switch (e.key) {
+                case 'Escape':
+                    this.close();
+                    break;
+                case 'Tab':
+                    this.handleTabNavigation(e);
+                    break;
+            }
+        });
+    }
+
+    handleTabNavigation(e) {
+        const focusableElements = this.menu.querySelectorAll(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
         
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
-        
+
         if (e.shiftKey) {
             if (document.activeElement === firstElement) {
                 lastElement.focus();
@@ -674,376 +536,201 @@ class HermesMobileHeader {
             }
         }
     }
-}
 
-/* ========================================
-   FLOATING CIRCLES CONTROLLER
-   ======================================== */
-
-class FloatingCirclesController {
-    constructor() {
-        this.logoCircle = document.querySelector('.logo-circle');
-        this.menuCircle = document.querySelector('.menu-circle');
-        this.floatingControls = document.querySelector('.mobile-floating-controls');
+    toggle() {
+        if (this.isAnimating) return;
         
-        this.init();
-    }
-
-    init() {
-        console.log('🎯 Initializing Floating Circles');
-        
-        // Logo circle interactions
-        if (this.logoCircle) {
-            this.logoCircle.addEventListener('mouseenter', () => {
-                this.animateLogoHover(true);
-            });
-            
-            this.logoCircle.addEventListener('mouseleave', () => {
-                this.animateLogoHover(false);
-            });
-            
-            // Optional: Logo click action (could scroll to top)
-            this.logoCircle.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        }
-        
-        // Add subtle floating animation on load
-        this.addFloatingAnimation();
-        
-        console.log('✅ Floating Circles Ready');
-    }
-
-    animateLogoHover(isHovering) {
-        const img = this.logoCircle?.querySelector('.mobile-logo-img');
-        if (img) {
-            if (isHovering) {
-                img.style.transform = 'scale(1.1) rotate(5deg)';
-            } else {
-                img.style.transform = 'scale(1) rotate(0deg)';
-            }
-        }
-    }
-
-    addFloatingAnimation() {
-        if (this.floatingControls) {
-            // Add subtle breathing animation
-            setInterval(() => {
-                if (!document.querySelector('.mobile-slide-menu.active')) {
-                    const circles = this.floatingControls.querySelectorAll('.float-circle');
-                    circles.forEach((circle, index) => {
-                        setTimeout(() => {
-                            circle.style.transform += ' scale(1.02)';
-                            setTimeout(() => {
-                                circle.style.transform = circle.style.transform.replace(' scale(1.02)', '');
-                            }, 800);
-                        }, index * 200);
-                    });
-                }
-            }, 5000);
-        }
-    }
-}
-
-/* ========================================
-   SCROLL CONTROLLER
-   ======================================== */
-
-class ScrollController {
-    constructor() {
-        this.header = document.querySelector('.hermes-header');
-        this.lastScrollY = 0;
-        this.scrollThreshold = 50;
-        this.isScrollingDown = false;
-        
-        this.init();
-    }
-
-    init() {
-        window.addEventListener('scroll', debounce(() => {
-            this.handleScroll();
-        }, 10), { passive: true });
-        
-        console.log('📜 Scroll Controller Ready');
-    }
-
-    handleScroll() {
-        const currentScrollY = window.pageYOffset;
-        
-        if (!this.header) return;
-        
-        // Determine scroll direction
-        this.isScrollingDown = currentScrollY > this.lastScrollY;
-        
-        // Update header opacity based on scroll
-        if (currentScrollY > this.scrollThreshold) {
-            if (this.isScrollingDown) {
-                // Scrolling down - subtle fade for mobile circles
-                this.header.style.opacity = '0.95';
-            } else {
-                // Scrolling up - full opacity
-                this.header.style.opacity = '1';
-            }
+        if (this.isOpen) {
+            this.close();
         } else {
-            this.header.style.opacity = '1';
-        }
-        
-        this.lastScrollY = currentScrollY;
-    }
-}
-
-/* ========================================
-   INTERSECTION OBSERVER FOR ACTIVE NAV
-   ======================================== */
-
-class ActiveNavController {
-    constructor() {
-        this.sections = document.querySelectorAll('section[id], div[id]');
-        this.navLinks = document.querySelectorAll('.mobile-nav-item, .luxury-nav-link');
-        
-        if (this.sections.length > 0) {
-            this.init();
+            this.open();
         }
     }
 
-    init() {
-        const observerOptions = {
-            root: null,
-            rootMargin: '-20% 0px -70% 0px',
-            threshold: 0.1
-        };
+    open() {
+        if (this.isOpen || this.isAnimating) return;
 
-        this.observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.id;
-                    this.updateActiveNav(`#${id}`);
-                }
-            });
-        }, observerOptions);
-
-        this.sections.forEach(section => {
-            this.observer.observe(section);
-        });
+        console.log('📱 Opening Mobile Menu');
+        this.isAnimating = true;
+        this.isOpen = true;
         
-        console.log('👀 Active Nav Observer Ready');
-    }
-
-    updateActiveNav(activeHref) {
-        this.navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === activeHref) {
-                link.classList.add('active');
-            }
-        });
-    }
-}
-
-/* ========================================
-   TOUCH GESTURE CONTROLLER
-   ======================================== */
-
-class TouchGestureController {
-    constructor() {
-        this.mobileMenu = document.getElementById('mobileSlideMenu');
-        this.mobileHeader = null; // Will be set from main init
-        this.startX = 0;
-        this.startY = 0;
-        this.currentX = 0;
-        this.currentY = 0;
-        this.isDragging = false;
-        this.threshold = 50;
+        this.body.classList.add('mobile-menu-open');
+        if (this.toggle) this.toggle.classList.add('active');
+        this.menu.classList.add('active');
+        this.backdrop.classList.add('active');
         
-        if (this.mobileMenu) {
-            this.init();
-        }
-    }
-
-    init() {
-        // Swipe to close menu
-        this.mobileMenu.addEventListener('touchstart', (e) => {
-            this.startX = e.touches[0].clientX;
-            this.startY = e.touches[0].clientY;
-            this.isDragging = true;
-        }, { passive: true });
-
-        this.mobileMenu.addEventListener('touchmove', (e) => {
-            if (!this.isDragging) return;
-            
-            this.currentX = e.touches[0].clientX;
-            this.currentY = e.touches[0].clientY;
-            
-            const deltaX = this.currentX - this.startX;
-            const deltaY = Math.abs(this.currentY - this.startY);
-            
-            // If swiping right and not too much vertical movement
-            if (deltaX > this.threshold && deltaY < 100) {
-                if (this.mobileHeader && this.mobileHeader.isMenuOpen) {
-                    this.mobileHeader.closeMenu();
-                }
-                this.isDragging = false;
-            }
-        }, { passive: true });
-
-        this.mobileMenu.addEventListener('touchend', () => {
-            this.isDragging = false;
-        }, { passive: true });
+        // Show elements
+        this.menu.style.transform = 'translateX(0)';
+        this.menu.style.visibility = 'visible';
+        this.backdrop.style.opacity = '1';
+        this.backdrop.style.visibility = 'visible';
         
-        console.log('👆 Touch Gestures Ready');
-    }
-
-    setMobileHeaderInstance(instance) {
-        this.mobileHeader = instance;
-    }
-}
-
-/* ========================================
-   PERFORMANCE UTILITIES
-   ======================================== */
-
-// Debounce function for performance optimization
-function debounce(func, wait, immediate) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            if (!immediate) func(...args);
-        };
-        const callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func(...args);
-    };
-}
-
-// Throttle function for scroll events
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    }
-}
-
-// Check if device supports hover
-function supportsHover() {
-    return window.matchMedia('(hover: hover)').matches;
-}
-
-/* ========================================
-   ENHANCED ANIMATIONS
-   ======================================== */
-
-class AnimationController {
-    constructor() {
-        this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        this.init();
-    }
-
-    init() {
-        if (!this.prefersReducedMotion) {
-            this.addMicroInteractions();
-        }
-        console.log('🎬 Animations Ready');
-    }
-
-    addMicroInteractions() {
-        // Floating circles pulse on page load
-        const circles = document.querySelectorAll('.float-circle');
-        circles.forEach((circle, index) => {
-            setTimeout(() => {
-                circle.style.animation = 'floatCirclePulse 0.6s ease-out';
-            }, index * 200);
-        });
-
-        // Remove animation after completion
+        // Animate menu items
         setTimeout(() => {
-            circles.forEach(circle => {
-                circle.style.animation = '';
+            this.animateMenuItems('in');
+            this.isAnimating = false;
+        }, 100);
+        
+        // Focus first menu item
+        setTimeout(() => {
+            const firstLink = this.menu.querySelector('.mobile-nav-link');
+            if (firstLink) firstLink.focus();
+        }, 300);
+    }
+
+    close() {
+        if (!this.isOpen || this.isAnimating) return;
+
+        console.log('📱 Closing Mobile Menu');
+        this.isAnimating = true;
+        this.isOpen = false;
+        
+        this.body.classList.remove('mobile-menu-open');
+        if (this.toggle) this.toggle.classList.remove('active');
+        this.menu.classList.remove('active');
+        this.backdrop.classList.remove('active');
+        
+        // Animate menu items out first
+        this.animateMenuItems('out');
+        
+        setTimeout(() => {
+            // Hide elements
+            this.menu.style.transform = 'translateX(100%)';
+            this.backdrop.style.opacity = '0';
+            this.backdrop.style.visibility = 'hidden';
+            
+            setTimeout(() => {
+                this.menu.style.visibility = 'hidden';
+                this.isAnimating = false;
+            }, 300);
+        }, 200);
+        
+        // Return focus to toggle button
+        if (this.toggle) this.toggle.focus();
+    }
+
+    animateMenuItems(direction) {
+        const menuItems = this.menu.querySelectorAll('.mobile-nav-link');
+        
+        menuItems.forEach((item, index) => {
+            if (direction === 'in') {
+                item.style.transform = 'translateX(50px)';
+                item.style.opacity = '0';
+                
+                setTimeout(() => {
+                    item.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    item.style.transform = 'translateX(0)';
+                    item.style.opacity = '1';
+                }, index * 50);
+            } else {
+                setTimeout(() => {
+                    item.style.transition = 'all 0.3s ease';
+                    item.style.transform = 'translateX(50px)';
+                    item.style.opacity = '0';
+                }, index * 30);
+                
+                setTimeout(() => {
+                    item.style.transition = '';
+                    item.style.transform = '';
+                    item.style.opacity = '';
+                }, 500);
+            }
+        });
+    }
+
+    scrollToContact() {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            const headerHeight = 80;
+            const elementPosition = contactSection.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: elementPosition,
+                behavior: 'smooth'
             });
-        }, 1000);
+        }
+    }
+
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
     }
 }
 
-// Add CSS for pulse animation via JavaScript
-const pulseStyles = `
-@keyframes floatCirclePulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+/* ========================================
+   CLICK RIPPLE EFFECT CSS
+   ======================================== */
+const rippleStyles = `
+.click-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: rippleEffect 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes rippleEffect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
 }
 `;
 
-// Inject pulse animation styles
-if (!document.getElementById('pulse-animations')) {
+// Inject ripple styles
+if (!document.getElementById('ripple-styles')) {
     const style = document.createElement('style');
-    style.id = 'pulse-animations';
-    style.textContent = pulseStyles;
+    style.id = 'ripple-styles';
+    style.textContent = rippleStyles;
     document.head.appendChild(style);
 }
 
 /* ========================================
-   MAIN INITIALIZATION
+   INITIALIZATION
    ======================================== */
 
 // Global instances
-let hermesHeader, floatingCircles, scrollController, touchGestures, activeNavController, animationController;
+let luxuryHeader, mobileMenu;
 
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎨 Initializing Complete Hermes Header System');
+    console.log('🎨 Initializing Luxury Header System');
     
-    // Initialize all components
-    hermesHeader = new HermesMobileHeader();
-    floatingCircles = new FloatingCirclesController();
-    scrollController = new ScrollController();
-    touchGestures = new TouchGestureController();
-    activeNavController = new ActiveNavController();
-    animationController = new AnimationController();
+    // Initialize components
+    luxuryHeader = new ModernLuxuryHeader();
+    mobileMenu = new ModernMobileMenu();
     
-    // Connect touch gestures to mobile header
-    if (touchGestures && hermesHeader) {
-        touchGestures.setMobileHeaderInstance(hermesHeader);
-    }
+    // Make mobile menu available globally
+    window.mobileMenu = mobileMenu;
     
-    // Add global click handler for CTA buttons
-    document.addEventListener('click', (e) => {
-        if (e.target.matches('.mobile-cta-btn, .luxury-cta-button')) {
-            console.log('🎯 CTA Button Clicked');
-            // Add your CTA action here (e.g., open booking modal)
-        }
-    });
+    console.log('✨ All Header Systems Ready');
     
-    console.log('✨ All Hermes Header Systems Initialized Successfully');
-    
-    // Debug mode for development
+    // Debug mode
     if (window.location.hash === '#debug') {
-        window.hermesHeader = hermesHeader;
-        window.floatingCircles = floatingCircles;
-        console.log('🐛 Debug mode enabled - components available on window object');
+        window.luxuryHeader = luxuryHeader;
+        window.mobileMenu = mobileMenu;
+        console.log('🐛 Debug mode - components available on window');
     }
 });
 
 /* ========================================
-   ERROR HANDLING & FALLBACKS
+   ERROR HANDLING
    ======================================== */
-
-// Global error handler for header functionality
 window.addEventListener('error', (e) => {
-    if (e.filename && e.filename.includes('mobile-header')) {
-        console.error('🚨 Mobile Header Error:', e.message);
+    if (e.filename && e.filename.includes('header')) {
+        console.error('🚨 Header Error:', e.message);
         
-        // Fallback: ensure menu can always be closed
-        const backdrop = document.getElementById('mobileBackdrop');
-        const menu = document.getElementById('mobileSlideMenu');
+        // Fallback: ensure menu can be closed
+        const backdrop = document.querySelector('.modern-mobile-backdrop');
+        const menu = document.querySelector('.modern-mobile-menu');
         
         if (backdrop && backdrop.classList.contains('active')) {
             backdrop.classList.remove('active');
@@ -1053,53 +740,17 @@ window.addEventListener('error', (e) => {
             menu.classList.remove('active');
         }
         
-        document.body.classList.remove('menu-open');
+        document.body.classList.remove('mobile-menu-open');
     }
 });
 
-// Ensure clean state on page unload
+// Clean state on page unload
 window.addEventListener('beforeunload', () => {
-    document.body.classList.remove('menu-open');
+    document.body.classList.remove('mobile-menu-open');
 });
 
-/* ========================================
-   ACCESSIBILITY ENHANCEMENTS
-   ======================================== */
+console.log('🎭 Luxury Header Script Loaded Successfully');
 
-// Enhanced focus management
-document.addEventListener('focusin', (e) => {
-    const mobileMenu = document.getElementById('mobileSlideMenu');
-    if (mobileMenu && mobileMenu.classList.contains('active')) {
-        // Ensure focus stays within menu
-        if (!mobileMenu.contains(e.target)) {
-            const firstFocusable = mobileMenu.querySelector('button, a, [tabindex]:not([tabindex="-1"])');
-            if (firstFocusable) {
-                firstFocusable.focus();
-            }
-        }
-    }
-});
-
-// Announce menu state to screen readers
-function announceMenuState(isOpen) {
-    const announcement = document.createElement('div');
-    announcement.setAttribute('aria-live', 'polite');
-    announcement.setAttribute('aria-atomic', 'true');
-    announcement.textContent = isOpen ? 'Navigation menu opened' : 'Navigation menu closed';
-    announcement.style.position = 'absolute';
-    announcement.style.left = '-10000px';
-    announcement.style.width = '1px';
-    announcement.style.height = '1px';
-    announcement.style.overflow = 'hidden';
-    
-    document.body.appendChild(announcement);
-    
-    setTimeout(() => {
-        document.body.removeChild(announcement);
-    }, 1000);
-}
-
-console.log('🎭 Hermes Mobile Header Script Loaded Successfully');
 
 /* ========================================
    HERO SECTION
