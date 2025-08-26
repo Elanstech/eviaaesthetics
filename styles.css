@@ -172,7 +172,7 @@ body {
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Glass Container - Luxury Design */
+/* Glass Container - Luxury Desktop Design */
 .luxury-glass-container {
     background: linear-gradient(135deg, 
         rgba(255, 255, 255, 0.95) 0%, 
@@ -209,6 +209,54 @@ body {
         0 12px 40px rgba(255, 140, 0, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.95),
         0 0 0 1px rgba(255, 140, 0, 0.06);
+}
+
+/* Ambient Background Orbs */
+.luxury-glass-container::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, 
+        rgba(255, 140, 0, 0.08) 0%, 
+        rgba(255, 140, 0, 0.02) 50%, 
+        transparent 100%
+    );
+    border-radius: 50%;
+    filter: blur(20px);
+    animation: ambientFloat 15s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.luxury-glass-container::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    right: -30px;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, 
+        rgba(255, 140, 0, 0.06) 0%, 
+        rgba(255, 140, 0, 0.01) 50%, 
+        transparent 100%
+    );
+    border-radius: 50%;
+    filter: blur(15px);
+    animation: ambientFloat 12s ease-in-out infinite reverse;
+    pointer-events: none;
+}
+
+@keyframes ambientFloat {
+    0%, 100% { 
+        transform: translate(0, 0) scale(1); 
+        opacity: 0.4; 
+    }
+    50% { 
+        transform: translate(10px, -8px) scale(1.1); 
+        opacity: 0.6; 
+    }
 }
 
 /* ========================================
@@ -446,7 +494,7 @@ body {
 }
 
 /* ========================================
-   MOBILE CIRCLE MENU (RIGHT)
+   MOBILE CIRCLE MENU (RIGHT) - SIMPLIFIED
    ======================================== */
 .mobile-menu-circle {
     position: relative;
@@ -494,118 +542,78 @@ body {
 }
 
 /* ========================================
-   ABSTRACT MED SPA MENU ICON
+   SIMPLE HAMBURGER MENU ICON WITH ACCENT
    ======================================== */
-.medspa-menu-icon {
+.simple-menu-icon {
     position: relative;
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 1.5rem;
+    height: 1.2rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.icon-element {
-    position: absolute;
+.menu-line {
+    height: 2px;
     background: var(--text-primary);
-    transition: all 0.4s var(--ease-luxury);
-    border-radius: var(--radius-sm);
-}
-
-/* Center dot - represents precision/focus */
-.center-dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--hermes-orange);
-    z-index: 3;
-}
-
-/* Top arc - represents aesthetic curves */
-.top-arc {
-    width: 16px;
-    height: 2px;
-    top: 2px;
-    border-radius: 2px 2px 0 0;
-    transform-origin: center bottom;
-}
-
-/* Bottom arc - represents wellness foundation */
-.bottom-arc {
-    width: 16px;
-    height: 2px;
-    bottom: 2px;
-    border-radius: 0 0 2px 2px;
-    transform-origin: center top;
-}
-
-/* Left line - represents medical precision */
-.left-line {
-    width: 2px;
-    height: 12px;
-    left: 1px;
     border-radius: 1px;
-    transform-origin: center center;
+    transition: all 0.3s var(--ease-luxury);
 }
 
-/* Right line - represents luxury service */
-.right-line {
-    width: 2px;
-    height: 12px;
-    right: 1px;
-    border-radius: 1px;
-    transform-origin: center center;
+.menu-line:nth-child(1) {
+    width: 100%;
 }
 
-/* Hover state - elements animate to show interconnection */
-.circle-menu-toggle:hover .top-arc {
-    transform: rotate(-15deg);
-    background: var(--hermes-orange);
+.menu-line:nth-child(2) {
+    width: 75%;
+    position: relative;
 }
 
-.circle-menu-toggle:hover .bottom-arc {
-    transform: rotate(15deg);
-    background: var(--hermes-orange);
+.menu-line:nth-child(3) {
+    width: 100%;
 }
 
-.circle-menu-toggle:hover .left-line {
-    transform: rotate(-10deg);
-    background: var(--hermes-orange);
-}
-
-.circle-menu-toggle:hover .right-line {
-    transform: rotate(10deg);
-    background: var(--hermes-orange);
-}
-
-.circle-menu-toggle:hover .center-dot {
-    transform: scale(1.3);
-    box-shadow: 0 0 8px rgba(255, 140, 0, 0.4);
-}
-
-/* Active state - elements form X pattern */
-.circle-menu-toggle.active .top-arc,
-.circle-menu-toggle.active .bottom-arc {
-    width: 18px;
-    height: 2px;
+/* Accent dot next to middle line */
+.menu-line:nth-child(2)::after {
+    content: '';
+    position: absolute;
+    right: -8px;
     top: 50%;
-    left: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 3px;
+    background: var(--hermes-orange);
+    border-radius: 50%;
+    transition: all 0.3s var(--ease-luxury);
+}
+
+/* Hover state */
+.circle-menu-toggle:hover .menu-line {
     background: var(--hermes-orange);
 }
 
-.circle-menu-toggle.active .top-arc {
-    transform: translate(-50%, -50%) rotate(45deg);
+.circle-menu-toggle:hover .menu-line:nth-child(2) {
+    width: 100%;
 }
 
-.circle-menu-toggle.active .bottom-arc {
-    transform: translate(-50%, -50%) rotate(-45deg);
+.circle-menu-toggle:hover .menu-line:nth-child(2)::after {
+    transform: translateY(-50%) scale(1.5);
 }
 
-.circle-menu-toggle.active .left-line,
-.circle-menu-toggle.active .right-line,
-.circle-menu-toggle.active .center-dot {
+/* Active state - transforms to X */
+.circle-menu-toggle.active .menu-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+    background: var(--hermes-orange);
+}
+
+.circle-menu-toggle.active .menu-line:nth-child(2) {
     opacity: 0;
     transform: scale(0);
+}
+
+.circle-menu-toggle.active .menu-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+    background: var(--hermes-orange);
 }
 
 .menu-ripple-effect {
