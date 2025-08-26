@@ -1532,22 +1532,22 @@ body.mobile-menu-open {
 }
 
 /* ========================================
-   EVIA PREMIUM WHAT'S HOT SECTION
+   EVIA PREMIUM WHAT'S HOT SECTION - SCOPED STYLES
    ======================================== */
 
-.evia-premium-hot-section {
+section.evia-premium-hot-section {
     padding: clamp(80px, 12vh, 120px) 0;
     background: linear-gradient(135deg, 
-        var(--cream-primary) 0%, 
-        var(--cream-light) 30%, 
-        var(--cream-soft) 70%, 
-        var(--cream-primary) 100%
+        var(--cream-primary, #FFFCF8) 0%, 
+        var(--cream-light, #FFFEF9) 30%, 
+        var(--cream-soft, #FFF8F0) 70%, 
+        var(--cream-primary, #FFFCF8) 100%
     );
     position: relative;
     overflow: hidden;
 }
 
-.evia-premium-hot-section::before {
+section.evia-premium-hot-section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1562,17 +1562,17 @@ body.mobile-menu-open {
 }
 
 /* ========================================
-   PREMIUM SECTION HEADER
+   PREMIUM SECTION HEADER - SCOPED
    ======================================== */
 
-.evia-premium-hot-header {
+section.evia-premium-hot-section .evia-premium-hot-header {
     text-align: center;
     margin-bottom: clamp(50px, 8vh, 80px);
     position: relative;
     z-index: 2;
 }
 
-.evia-hot-badge-premium {
+section.evia-premium-hot-section .evia-hot-badge-premium {
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -1582,10 +1582,10 @@ body.mobile-menu-open {
     );
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 140, 0, 0.2);
-    color: var(--hermes-orange);
+    color: var(--hermes-orange, #FF8C00);
     padding: 12px 24px;
-    border-radius: var(--radius-full);
-    font-family: var(--font-inter);
+    border-radius: var(--radius-full, 9999px);
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
@@ -1595,49 +1595,49 @@ body.mobile-menu-open {
         0 8px 32px rgba(255, 140, 0, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
     position: relative;
-    animation: premiumBadgePulse 3s ease-in-out infinite;
+    animation: evia-premium-badge-pulse 3s ease-in-out infinite;
 }
 
-.badge-icon-container {
+section.evia-premium-hot-section .badge-icon-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.badge-icon-container i {
+section.evia-premium-hot-section .badge-icon-container i {
     font-size: 18px;
     z-index: 2;
     position: relative;
-    animation: fireFlicker 2s ease-in-out infinite alternate;
+    animation: evia-premium-fire-flicker 2s ease-in-out infinite alternate;
 }
 
-.badge-pulse-ring {
+section.evia-premium-hot-section .badge-pulse-ring {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 24px;
     height: 24px;
-    border: 2px solid var(--hermes-orange);
+    border: 2px solid var(--hermes-orange, #FF8C00);
     border-radius: 50%;
     opacity: 0;
-    animation: pulseRing 3s ease-out infinite;
+    animation: evia-premium-pulse-ring 3s ease-out infinite;
 }
 
-.badge-sparkle {
+section.evia-premium-hot-section .badge-sparkle {
     position: absolute;
     top: -2px;
     right: 8px;
     width: 6px;
     height: 6px;
-    background: var(--hermes-orange);
+    background: var(--hermes-orange, #FF8C00);
     border-radius: 50%;
-    animation: sparkle 2s ease-in-out infinite;
+    animation: evia-premium-sparkle 2s ease-in-out infinite;
 }
 
-.evia-premium-hot-title {
-    font-family: var(--font-playfair);
+section.evia-premium-hot-section .evia-premium-hot-title {
+    font-family: var(--font-playfair, 'Playfair Display', serif);
     font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 700;
     line-height: 0.9;
@@ -1646,34 +1646,35 @@ body.mobile-menu-open {
     position: relative;
 }
 
-.title-line-1 {
+section.evia-premium-hot-section .title-line-1 {
     display: block;
-    color: var(--text-primary);
+    color: var(--text-primary, #2A1B0A);
     margin-bottom: 8px;
     opacity: 0;
     transform: translateY(30px);
-    animation: titleReveal 1s ease-out 0.5s forwards;
+    animation: evia-premium-title-reveal 1s ease-out 0.5s forwards;
 }
 
-.title-line-2 {
+section.evia-premium-hot-section .title-line-2 {
     display: block;
-    background: var(--gradient-hermes-orange);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradientShift 4s ease-in-out infinite;
     font-style: italic;
     opacity: 0;
     transform: translateY(30px);
-    animation: titleReveal 1s ease-out 0.8s forwards, gradientShift 4s ease-in-out infinite;
+    animation: 
+        evia-premium-title-reveal 1s ease-out 0.8s forwards, 
+        evia-premium-gradient-shift 4s ease-in-out infinite;
 }
 
 /* ========================================
-   PREMIUM TREATMENTS GRID
+   PREMIUM TREATMENTS GRID - SCOPED
    ======================================== */
 
-.evia-treatments-premium-grid {
+section.evia-premium-hot-section .evia-treatments-premium-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: clamp(24px, 4vw, 40px);
@@ -1681,10 +1682,10 @@ body.mobile-menu-open {
     margin: 0 auto;
 }
 
-.evia-premium-treatment-card {
+section.evia-premium-hot-section .evia-premium-treatment-card {
     position: relative;
-    background: var(--white);
-    border-radius: var(--radius-2xl);
+    background: var(--white, #FFFFFF);
+    border-radius: var(--radius-2xl, 2rem);
     overflow: hidden;
     cursor: pointer;
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1695,12 +1696,12 @@ body.mobile-menu-open {
     height: 420px;
 }
 
-.evia-premium-treatment-card.featured {
+section.evia-premium-hot-section .evia-premium-treatment-card.featured {
     transform: scale(1.05);
     z-index: 2;
 }
 
-.evia-premium-treatment-card:hover {
+section.evia-premium-hot-section .evia-premium-treatment-card:hover {
     transform: translateY(-12px) scale(1.02);
     box-shadow: 
         0 25px 60px rgba(0, 0, 0, 0.15),
@@ -1708,15 +1709,15 @@ body.mobile-menu-open {
     border-color: rgba(255, 140, 0, 0.3);
 }
 
-.evia-premium-treatment-card.featured:hover {
+section.evia-premium-hot-section .evia-premium-treatment-card.featured:hover {
     transform: translateY(-12px) scale(1.07);
 }
 
 /* ========================================
-   TREATMENT IMAGE CONTAINER
+   TREATMENT IMAGE CONTAINER - SCOPED
    ======================================== */
 
-.treatment-image-container {
+section.evia-premium-hot-section .treatment-image-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -1725,18 +1726,18 @@ body.mobile-menu-open {
     overflow: hidden;
 }
 
-.treatment-bg-image {
+section.evia-premium-hot-section .treatment-bg-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.evia-premium-treatment-card:hover .treatment-bg-image {
+section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-bg-image {
     transform: scale(1.1);
 }
 
-.treatment-overlay {
+section.evia-premium-hot-section .treatment-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -1749,11 +1750,11 @@ body.mobile-menu-open {
     transition: opacity 0.6s ease;
 }
 
-.evia-premium-treatment-card:hover .treatment-overlay {
+section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-overlay {
     opacity: 0.9;
 }
 
-.treatment-glow-effect {
+section.evia-premium-hot-section .treatment-glow-effect {
     position: absolute;
     inset: 0;
     background: radial-gradient(
@@ -1765,39 +1766,39 @@ body.mobile-menu-open {
     transition: opacity 0.6s ease;
 }
 
-.evia-premium-treatment-card:hover .treatment-glow-effect {
+section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-glow-effect {
     opacity: 1;
 }
 
-.featured-badge {
+section.evia-premium-hot-section .featured-badge {
     position: absolute;
     top: 16px;
     right: 16px;
-    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
-    color: var(--white);
+    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
+    color: var(--white, #FFFFFF);
     padding: 8px 16px;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-full, 9999px);
     font-size: 12px;
     font-weight: 600;
-    font-family: var(--font-inter);
+    font-family: var(--font-inter, 'Inter', sans-serif);
     display: flex;
     align-items: center;
     gap: 6px;
     z-index: 3;
-    animation: featuredPulse 2s ease-in-out infinite;
+    animation: evia-premium-featured-pulse 2s ease-in-out infinite;
     box-shadow: 0 4px 16px rgba(255, 140, 0, 0.4);
 }
 
-.featured-badge i {
+section.evia-premium-hot-section .featured-badge i {
     font-size: 14px;
-    animation: starRotate 3s ease-in-out infinite;
+    animation: evia-premium-star-rotate 3s ease-in-out infinite;
 }
 
 /* ========================================
-   TREATMENT CONTENT
+   TREATMENT CONTENT - SCOPED
    ======================================== */
 
-.treatment-content {
+section.evia-premium-hot-section .treatment-content {
     position: relative;
     z-index: 2;
     padding: 24px;
@@ -1805,17 +1806,17 @@ body.mobile-menu-open {
     display: flex;
     flex-direction: column;
     margin-top: 200px;
-    background: var(--white);
+    background: var(--white, #FFFFFF);
 }
 
-.treatment-icon-container {
+section.evia-premium-hot-section .treatment-icon-container {
     position: absolute;
     top: -30px;
     left: 24px;
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, var(--white) 0%, #fafafa 100%);
-    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--white, #FFFFFF) 0%, #fafafa 100%);
+    border-radius: var(--radius-xl, 1.5rem);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1826,112 +1827,112 @@ body.mobile-menu-open {
     transition: all 0.6s ease;
 }
 
-.evia-premium-treatment-card:hover .treatment-icon-container {
-    background: var(--gradient-hermes-orange);
-    border-color: var(--hermes-orange);
+section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-icon-container {
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
+    border-color: var(--hermes-orange, #FF8C00);
     transform: scale(1.1);
     box-shadow: 
         0 12px 40px rgba(0, 0, 0, 0.15),
         0 8px 24px rgba(255, 140, 0, 0.3);
 }
 
-.treatment-icon {
+section.evia-premium-hot-section .treatment-icon {
     font-size: 28px;
-    color: var(--hermes-orange);
+    color: var(--hermes-orange, #FF8C00);
     transition: all 0.6s ease;
 }
 
-.evia-premium-treatment-card:hover .treatment-icon {
-    color: var(--white);
+section.evia-premium-hot-section .evia-premium-treatment-card:hover .treatment-icon {
+    color: var(--white, #FFFFFF);
     transform: scale(1.1);
 }
 
-.icon-glow {
+section.evia-premium-hot-section .icon-glow {
     position: absolute;
     inset: 0;
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-xl, 1.5rem);
     background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
     opacity: 0;
     transition: opacity 0.6s ease;
 }
 
-.evia-premium-treatment-card:hover .icon-glow {
+section.evia-premium-hot-section .evia-premium-treatment-card:hover .icon-glow {
     opacity: 1;
 }
 
 /* ========================================
-   TREATMENT INFO
+   TREATMENT INFO - SCOPED
    ======================================== */
 
-.treatment-info {
+section.evia-premium-hot-section .treatment-info {
     flex-grow: 1;
     margin-top: 36px;
 }
 
-.treatment-title {
-    font-family: var(--font-playfair);
+section.evia-premium-hot-section .treatment-title {
+    font-family: var(--font-playfair, 'Playfair Display', serif);
     font-size: 1.6rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-primary, #2A1B0A);
     margin: 0 0 12px 0;
     letter-spacing: -0.02em;
     transition: color 0.3s ease;
 }
 
-.treatment-description {
-    font-family: var(--font-inter);
+section.evia-premium-hot-section .treatment-description {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--text-secondary, #5D4E37);
     line-height: 1.6;
     margin: 0 0 20px 0;
 }
 
-.treatment-stats {
+section.evia-premium-hot-section .treatment-stats {
     display: flex;
     gap: 24px;
     margin-bottom: 24px;
 }
 
-.stat-item {
+section.evia-premium-hot-section .stat-item {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.stat-label {
-    font-family: var(--font-inter);
+section.evia-premium-hot-section .stat-label {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--text-muted, #8B7355);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     font-weight: 500;
 }
 
-.stat-value {
-    font-family: var(--font-inter);
+section.evia-premium-hot-section .stat-value {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 16px;
-    color: var(--text-primary);
+    color: var(--text-primary, #2A1B0A);
     font-weight: 600;
 }
 
 /* ========================================
-   TREATMENT CTA
+   TREATMENT CTA - SCOPED
    ======================================== */
 
-.treatment-cta {
+section.evia-premium-hot-section .treatment-cta {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
 }
 
-.learn-more-premium-btn {
-    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
-    color: var(--white);
+section.evia-premium-hot-section .learn-more-premium-btn {
+    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
+    color: var(--white, #FFFFFF);
     border: none;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-full, 9999px);
     padding: 12px 24px;
-    font-family: var(--font-inter);
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -1942,32 +1943,32 @@ body.mobile-menu-open {
     box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
 }
 
-.learn-more-premium-btn:hover {
+section.evia-premium-hot-section .learn-more-premium-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
 }
 
-.learn-more-premium-btn i {
+section.evia-premium-hot-section .learn-more-premium-btn i {
     font-size: 16px;
     transition: transform 0.3s ease;
 }
 
-.learn-more-premium-btn:hover i {
+section.evia-premium-hot-section .learn-more-premium-btn:hover i {
     transform: translateX(4px);
 }
 
-.popularity-indicator {
+section.evia-premium-hot-section .popularity-indicator {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.popularity-dots {
+section.evia-premium-hot-section .popularity-dots {
     display: flex;
     gap: 4px;
 }
 
-.dot {
+section.evia-premium-hot-section .dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -1975,49 +1976,49 @@ body.mobile-menu-open {
     transition: all 0.3s ease;
 }
 
-.dot.active {
-    background: var(--hermes-orange);
-    animation: dotPulse 1.5s ease-in-out infinite;
+section.evia-premium-hot-section .dot.active {
+    background: var(--hermes-orange, #FF8C00);
+    animation: evia-premium-dot-pulse 1.5s ease-in-out infinite;
 }
 
-.popularity-text {
-    font-family: var(--font-inter);
+section.evia-premium-hot-section .popularity-text {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 12px;
-    color: var(--hermes-orange);
+    color: var(--hermes-orange, #FF8C00);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 /* ========================================
-   PREMIUM CTA SECTION
+   PREMIUM CTA SECTION - SCOPED
    ======================================== */
 
-.evia-premium-cta-section {
+section.evia-premium-hot-section .evia-premium-cta-section {
     text-align: center;
     margin-top: clamp(60px, 10vh, 80px);
 }
 
-.cta-content {
+section.evia-premium-hot-section .cta-content {
     max-width: 500px;
     margin: 0 auto;
 }
 
-.cta-text {
-    font-family: var(--font-inter);
+section.evia-premium-hot-section .cta-text {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 18px;
-    color: var(--text-secondary);
+    color: var(--text-secondary, #5D4E37);
     margin-bottom: 32px;
     line-height: 1.5;
 }
 
-.evia-book-consultation-btn {
-    background: linear-gradient(135deg, var(--hermes-orange) 0%, var(--hermes-orange-light) 100%);
-    color: var(--white);
+section.evia-premium-hot-section .evia-book-consultation-btn {
+    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
+    color: var(--white, #FFFFFF);
     border: none;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-full, 9999px);
     padding: 16px 32px;
-    font-family: var(--font-inter);
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -2032,43 +2033,43 @@ body.mobile-menu-open {
     overflow: hidden;
 }
 
-.evia-book-consultation-btn::before {
+section.evia-premium-hot-section .evia-book-consultation-btn::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--hermes-orange-light) 0%, var(--hermes-orange) 100%);
+    background: linear-gradient(135deg, var(--hermes-orange-light, #FFA500) 0%, var(--hermes-orange, #FF8C00) 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-.evia-book-consultation-btn:hover::before {
+section.evia-premium-hot-section .evia-book-consultation-btn:hover::before {
     opacity: 1;
 }
 
-.evia-book-consultation-btn:hover {
+section.evia-premium-hot-section .evia-book-consultation-btn:hover {
     transform: translateY(-3px);
     box-shadow: 
         0 12px 40px rgba(255, 140, 0, 0.4),
         0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-.evia-book-consultation-btn span,
-.evia-book-consultation-btn i {
+section.evia-premium-hot-section .evia-book-consultation-btn span,
+section.evia-premium-hot-section .evia-book-consultation-btn i {
     position: relative;
     z-index: 2;
 }
 
-.evia-book-consultation-btn i {
+section.evia-premium-hot-section .evia-book-consultation-btn i {
     font-size: 18px;
     transition: transform 0.3s ease;
 }
 
-.evia-book-consultation-btn:hover i {
+section.evia-premium-hot-section .evia-book-consultation-btn:hover i {
     transform: translateX(4px);
 }
 
 /* ========================================
-   PREMIUM MODAL STYLES
+   PREMIUM MODAL STYLES - SCOPED
    ======================================== */
 
 .evia-modal-overlay-premium {
@@ -2094,9 +2095,9 @@ body.mobile-menu-open {
     visibility: visible;
 }
 
-.evia-treatment-modal-premium {
-    background: var(--white);
-    border-radius: var(--radius-2xl);
+.evia-modal-overlay-premium .evia-treatment-modal-premium {
+    background: var(--white, #FFFFFF);
+    border-radius: var(--radius-2xl, 2rem);
     max-width: 600px;
     width: 100%;
     max-height: 90vh;
@@ -2114,7 +2115,7 @@ body.mobile-menu-open {
     transform: scale(1) translateY(0);
 }
 
-.evia-modal-close-premium {
+.evia-modal-overlay-premium .evia-modal-close-premium {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -2130,42 +2131,42 @@ body.mobile-menu-open {
     cursor: pointer;
     z-index: 10;
     transition: all 0.3s ease;
-    color: var(--text-primary);
+    color: var(--text-primary, #2A1B0A);
 }
 
-.evia-modal-close-premium:hover {
-    background: var(--hermes-orange);
-    color: var(--white);
+.evia-modal-overlay-premium .evia-modal-close-premium:hover {
+    background: var(--hermes-orange, #FF8C00);
+    color: var(--white, #FFFFFF);
     transform: scale(1.1);
 }
 
-.evia-modal-close-premium i {
+.evia-modal-overlay-premium .evia-modal-close-premium i {
     font-size: 18px;
 }
 
 /* ========================================
-   MODAL HEADER
+   MODAL HEADER - SCOPED
    ======================================== */
 
-.evia-modal-header-premium {
+.evia-modal-overlay-premium .evia-modal-header-premium {
     position: relative;
     padding-bottom: 24px;
 }
 
-.modal-image-container {
+.evia-modal-overlay-premium .modal-image-container {
     position: relative;
     height: 240px;
     overflow: hidden;
-    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+    border-radius: var(--radius-2xl, 2rem) var(--radius-2xl, 2rem) 0 0;
 }
 
-.modal-image-container img {
+.evia-modal-overlay-premium .modal-image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.modal-image-overlay {
+.evia-modal-overlay-premium .modal-image-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -2176,21 +2177,21 @@ body.mobile-menu-open {
     );
 }
 
-.modal-header-content {
+.evia-modal-overlay-premium .modal-header-content {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     padding: 24px;
-    color: var(--white);
+    color: var(--white, #FFFFFF);
 }
 
-.evia-modal-icon-premium {
+.evia-modal-overlay-premium .evia-modal-icon-premium {
     width: 60px;
     height: 60px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
     backdrop-filter: blur(10px);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-xl, 1.5rem);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2199,167 +2200,167 @@ body.mobile-menu-open {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.evia-modal-icon-premium.featured {
-    border-color: var(--hermes-orange);
-    background: var(--gradient-hermes-orange);
+.evia-modal-overlay-premium .evia-modal-icon-premium.featured {
+    border-color: var(--hermes-orange, #FF8C00);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
 }
 
-.evia-modal-icon-premium i {
+.evia-modal-overlay-premium .evia-modal-icon-premium i {
     font-size: 24px;
-    color: var(--hermes-orange);
+    color: var(--hermes-orange, #FF8C00);
 }
 
-.evia-modal-icon-premium.featured i {
-    color: var(--white);
+.evia-modal-overlay-premium .evia-modal-icon-premium.featured i {
+    color: var(--white, #FFFFFF);
 }
 
-.evia-modal-title-premium {
-    font-family: var(--font-playfair);
+.evia-modal-overlay-premium .evia-modal-title-premium {
+    font-family: var(--font-playfair, 'Playfair Display', serif);
     font-size: 2rem;
     font-weight: 600;
     margin: 0 0 12px 0;
     letter-spacing: -0.02em;
 }
 
-.modal-rating {
+.evia-modal-overlay-premium .modal-rating {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.stars {
+.evia-modal-overlay-premium .stars {
     display: flex;
     gap: 2px;
 }
 
-.stars i {
+.evia-modal-overlay-premium .stars i {
     font-size: 14px;
     color: #FFD700;
 }
 
-.rating-text {
-    font-family: var(--font-inter);
+.evia-modal-overlay-premium .rating-text {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     color: rgba(255, 255, 255, 0.8);
 }
 
 /* ========================================
-   MODAL BODY
+   MODAL BODY - SCOPED
    ======================================== */
 
-.evia-modal-body-premium {
+.evia-modal-overlay-premium .evia-modal-body-premium {
     padding: 32px;
 }
 
-.modal-description h4 {
-    font-family: var(--font-inter);
+.evia-modal-overlay-premium .modal-description h4 {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 16px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-primary, #2A1B0A);
     margin: 0 0 12px 0;
 }
 
-.modal-description p {
-    font-family: var(--font-inter);
+.evia-modal-overlay-premium .modal-description p {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--text-secondary, #5D4E37);
     line-height: 1.6;
     margin: 0 0 24px 0;
 }
 
-.benefit-list {
+.evia-modal-overlay-premium .benefit-list {
     list-style: none;
     padding: 0;
     margin: 0 0 32px 0;
 }
 
-.benefit-list li {
+.evia-modal-overlay-premium .benefit-list li {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-family: var(--font-inter);
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--text-secondary, #5D4E37);
     margin-bottom: 8px;
     line-height: 1.5;
 }
 
-.benefit-list i {
+.evia-modal-overlay-premium .benefit-list i {
     font-size: 16px;
-    color: var(--hermes-orange);
+    color: var(--hermes-orange, #FF8C00);
     flex-shrink: 0;
 }
 
-.modal-details-grid {
+.evia-modal-overlay-premium .modal-details-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
 }
 
-.detail-item {
+.evia-modal-overlay-premium .detail-item {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 16px;
     background: rgba(255, 140, 0, 0.05);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-lg, 1rem);
     border: 1px solid rgba(255, 140, 0, 0.1);
 }
 
-.detail-icon {
+.evia-modal-overlay-premium .detail-icon {
     width: 40px;
     height: 40px;
     background: rgba(255, 140, 0, 0.1);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-md, 0.5rem);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
 
-.detail-icon i {
+.evia-modal-overlay-premium .detail-icon i {
     font-size: 18px;
-    color: var(--hermes-orange);
+    color: var(--hermes-orange, #FF8C00);
 }
 
-.detail-content {
+.evia-modal-overlay-premium .detail-content {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.detail-label {
-    font-family: var(--font-inter);
+.evia-modal-overlay-premium .detail-label {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--text-muted, #8B7355);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 500;
 }
 
-.detail-value {
-    font-family: var(--font-inter);
+.evia-modal-overlay-premium .detail-value {
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 16px;
-    color: var(--text-primary);
+    color: var(--text-primary, #2A1B0A);
     font-weight: 600;
 }
 
 /* ========================================
-   MODAL FOOTER
+   MODAL FOOTER - SCOPED
    ======================================== */
 
-.evia-modal-footer-premium {
+.evia-modal-overlay-premium .evia-modal-footer-premium {
     padding: 24px 32px 32px;
 }
 
-.evia-modal-book-btn-premium {
+.evia-modal-overlay-premium .evia-modal-book-btn-premium {
     width: 100%;
-    background: var(--gradient-hermes-orange);
-    color: var(--white);
+    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
+    color: var(--white, #FFFFFF);
     border: none;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-full, 9999px);
     padding: 16px 24px;
-    font-family: var(--font-inter);
+    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -2373,54 +2374,54 @@ body.mobile-menu-open {
     overflow: hidden;
 }
 
-.evia-modal-book-btn-premium::before {
+.evia-modal-overlay-premium .evia-modal-book-btn-premium::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--hermes-orange-light) 0%, var(--hermes-orange) 100%);
+    background: linear-gradient(135deg, var(--hermes-orange-light, #FFA500) 0%, var(--hermes-orange, #FF8C00) 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-.evia-modal-book-btn-premium:hover::before {
+.evia-modal-overlay-premium .evia-modal-book-btn-premium:hover::before {
     opacity: 1;
 }
 
-.evia-modal-book-btn-premium:hover {
+.evia-modal-overlay-premium .evia-modal-book-btn-premium:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 32px rgba(255, 140, 0, 0.4);
 }
 
-.evia-modal-book-btn-premium span,
-.evia-modal-book-btn-premium i {
+.evia-modal-overlay-premium .evia-modal-book-btn-premium span,
+.evia-modal-overlay-premium .evia-modal-book-btn-premium i {
     position: relative;
     z-index: 2;
 }
 
-.evia-modal-book-btn-premium i {
+.evia-modal-overlay-premium .evia-modal-book-btn-premium i {
     font-size: 18px;
     transition: transform 0.3s ease;
 }
 
-.evia-modal-book-btn-premium:hover i {
+.evia-modal-overlay-premium .evia-modal-book-btn-premium:hover i {
     transform: translateX(4px);
 }
 
 /* ========================================
-   PREMIUM ANIMATIONS
+   PREMIUM ANIMATIONS - SCOPED
    ======================================== */
 
-@keyframes premiumBadgePulse {
+@keyframes evia-premium-badge-pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
 
-@keyframes fireFlicker {
+@keyframes evia-premium-fire-flicker {
     0% { transform: scale(1) rotate(0deg); }
     100% { transform: scale(1.1) rotate(5deg); }
 }
 
-@keyframes pulseRing {
+@keyframes evia-premium-pulse-ring {
     0% { 
         opacity: 0;
         transform: translate(-50%, -50%) scale(0.8);
@@ -2435,135 +2436,135 @@ body.mobile-menu-open {
     }
 }
 
-@keyframes sparkle {
+@keyframes evia-premium-sparkle {
     0%, 100% { opacity: 0; transform: scale(0.8); }
     50% { opacity: 1; transform: scale(1.2); }
 }
 
-@keyframes titleReveal {
+@keyframes evia-premium-title-reveal {
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes gradientShift {
+@keyframes evia-premium-gradient-shift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
-@keyframes featuredPulse {
+@keyframes evia-premium-featured-pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
 
-@keyframes starRotate {
+@keyframes evia-premium-star-rotate {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-@keyframes dotPulse {
+@keyframes evia-premium-dot-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
 }
 
 /* ========================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN - SCOPED
    ======================================== */
 
 @media (max-width: 768px) {
-    .evia-treatments-premium-grid {
+    section.evia-premium-hot-section .evia-treatments-premium-grid {
         grid-template-columns: 1fr;
         gap: 24px;
         max-width: 400px;
     }
 
-    .evia-premium-treatment-card {
+    section.evia-premium-hot-section .evia-premium-treatment-card {
         height: 400px;
     }
     
-    .evia-premium-treatment-card.featured {
+    section.evia-premium-hot-section .evia-premium-treatment-card.featured {
         transform: none;
     }
     
-    .evia-premium-treatment-card.featured:hover {
+    section.evia-premium-hot-section .evia-premium-treatment-card.featured:hover {
         transform: translateY(-8px) scale(1.02);
     }
 
-    .treatment-content {
+    section.evia-premium-hot-section .treatment-content {
         padding: 20px;
     }
 
-    .treatment-icon-container {
+    section.evia-premium-hot-section .treatment-icon-container {
         left: 20px;
         width: 50px;
         height: 50px;
     }
 
-    .treatment-icon {
+    section.evia-premium-hot-section .treatment-icon {
         font-size: 24px;
     }
 
-    .treatment-stats {
+    section.evia-premium-hot-section .treatment-stats {
         gap: 16px;
     }
 
-    .modal-details-grid {
+    .evia-modal-overlay-premium .modal-details-grid {
         grid-template-columns: 1fr;
         gap: 16px;
     }
 
-    .evia-modal-body-premium {
+    .evia-modal-overlay-premium .evia-modal-body-premium {
         padding: 24px;
     }
 
-    .evia-modal-footer-premium {
+    .evia-modal-overlay-premium .evia-modal-footer-premium {
         padding: 20px 24px 24px;
     }
 }
 
 @media (max-width: 480px) {
-    .evia-premium-hot-section {
+    section.evia-premium-hot-section {
         padding: clamp(60px, 10vh, 80px) 0;
     }
 
-    .treatment-image-container {
+    section.evia-premium-hot-section .treatment-image-container {
         height: 160px;
     }
 
-    .treatment-content {
+    section.evia-premium-hot-section .treatment-content {
         margin-top: 160px;
         padding: 16px;
     }
 
-    .treatment-icon-container {
+    section.evia-premium-hot-section .treatment-icon-container {
         top: -25px;
         left: 16px;
         width: 44px;
         height: 44px;
     }
 
-    .treatment-icon {
+    section.evia-premium-hot-section .treatment-icon {
         font-size: 20px;
     }
 
-    .treatment-title {
+    section.evia-premium-hot-section .treatment-title {
         font-size: 1.4rem;
     }
 
-    .treatment-description {
+    section.evia-premium-hot-section .treatment-description {
         font-size: 13px;
     }
 
-    .modal-image-container {
+    .evia-modal-overlay-premium .modal-image-container {
         height: 200px;
     }
 
-    .modal-header-content {
+    .evia-modal-overlay-premium .modal-header-content {
         padding: 16px;
     }
 
-    .evia-modal-title-premium {
+    .evia-modal-overlay-premium .evia-modal-title-premium {
         font-size: 1.6rem;
     }
 }
