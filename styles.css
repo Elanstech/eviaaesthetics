@@ -376,13 +376,16 @@ body {
    ======================================== */
 .luxury-nav-menu {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     list-style: none;
     margin: 0;
     padding: 0;
     position: relative;
     z-index: 10;
+    flex-wrap: nowrap;
 }
 
 .nav-item {
