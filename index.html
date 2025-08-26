@@ -40,136 +40,143 @@
     </div>
     
  <!-- Modern Luxury Header -->
-    <header class="luxury-floating-header" id="luxuryHeader">
-        <nav class="luxury-glass-container">
-            <!-- Desktop Logo Section (unchanged) -->
-            <div class="luxury-logo-section desktop-only">
-                <div class="logo-glow-wrapper">
-                    <img src="logo1.png" alt="Eviaesthetics" class="luxury-header-logo">
-                    <div class="logo-ambient-glow"></div>
-                </div>
-            </div>
-
-            <!-- Mobile Left Circle - Logo -->
-            <div class="mobile-logo-circle mobile-only">
-                <div class="circle-logo-container">
-                    <img src="mobilelogo.png" alt="Eviaesthetics" class="mobile-circle-logo">
-                    <div class="logo-ripple-effect"></div>
-                </div>
-            </div>
-
-            <!-- Desktop Navigation (unchanged) -->
-            <ul class="luxury-nav-menu desktop-only">
-                <li class="nav-item">
-                    <a href="#home" class="luxury-nav-link active">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#services" class="luxury-nav-link">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about" class="luxury-nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#portfolio" class="luxury-nav-link">Portfolio</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="luxury-nav-link">Contact</a>
-                </li>
-            </ul>
-
-            <!-- Desktop CTA (unchanged) -->
-            <div class="luxury-cta-wrapper desktop-only">
-                <button class="luxury-cta-button" id="luxuryHeaderCTA">
-                    <span class="cta-text">Book Consultation</span>
-                    <span class="cta-icon">✨</span>
-                    <div class="cta-ripple"></div>
-                </button>
-            </div>
-
-            <!-- Mobile Right Circle - Menu -->
-            <div class="mobile-menu-circle mobile-only">
-                <button class="circle-menu-toggle" id="mobileToggle" aria-label="Toggle Mobile Menu">
-                    <div class="simple-menu-icon">
-                        <div class="menu-line"></div>
-                        <div class="menu-line"></div>
-                        <div class="menu-line"></div>
+    <!-- Fixed Mobile Header -->
+<header class="hermes-header" id="hermesHeader">
+    <nav class="header-container">
+        <!-- Desktop Header (unchanged) -->
+        <div class="desktop-header desktop-only">
+            <div class="luxury-glass-container">
+                <!-- Desktop Logo Section -->
+                <div class="luxury-logo-section">
+                    <div class="logo-glow-wrapper">
+                        <img src="logo1.png" alt="Eviaesthetics" class="luxury-header-logo">
+                        <div class="logo-ambient-glow"></div>
                     </div>
-                    <div class="menu-ripple-effect"></div>
-                </button>
-            </div>
-
-            <!-- Header Ambient Background -->
-            <div class="header-ambient-bg">
-                <div class="ambient-orb orb-1"></div>
-                <div class="ambient-orb orb-2"></div>
-                <div class="ambient-orb orb-3"></div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Mobile Menu Backdrop -->
-    <div class="modern-mobile-backdrop" id="mobileBackdrop"></div>
-
-    <!-- Modern Mobile Menu -->
-    <div class="modern-mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-container">
-            <div class="mobile-menu-header">
-                <div class="mobile-header-logo">
-                    <img src="mobilelogo.png" alt="Eviaesthetics" class="mobile-menu-logo">
                 </div>
-                <button class="mobile-menu-close" id="mobileClose" aria-label="Close Mobile Menu">
-                    <div class="close-line"></div>
-                    <div class="close-line"></div>
-                </button>
-            </div>
 
-            <nav class="mobile-navigation">
-                <a href="#home" class="mobile-nav-link active">
-                    <span class="mobile-nav-number">01</span>
-                    <span class="mobile-nav-text">Home</span>
-                </a>
-                <a href="#services" class="mobile-nav-link">
-                    <span class="mobile-nav-number">02</span>
-                    <span class="mobile-nav-text">Services</span>
-                </a>
-                <a href="#about" class="mobile-nav-link">
-                    <span class="mobile-nav-number">03</span>
-                    <span class="mobile-nav-text">About Dr. Evia</span>
-                </a>
-                <a href="#portfolio" class="mobile-nav-link">
-                    <span class="mobile-nav-number">04</span>
-                    <span class="mobile-nav-text">Results Gallery</span>
-                </a>
-                <a href="#testimonials" class="mobile-nav-link">
-                    <span class="mobile-nav-number">05</span>
-                    <span class="mobile-nav-text">Testimonials</span>
-                </a>
-                <a href="#contact" class="mobile-nav-link">
-                    <span class="mobile-nav-number">06</span>
-                    <span class="mobile-nav-text">Contact</span>
-                </a>
-            </nav>
+                <!-- Desktop Navigation -->
+                <ul class="luxury-nav-menu">
+                    <li class="nav-item">
+                        <a href="#home" class="luxury-nav-link active">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#services" class="luxury-nav-link">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="luxury-nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#portfolio" class="luxury-nav-link">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" class="luxury-nav-link">Contact</a>
+                    </li>
+                </ul>
 
-            <div class="mobile-menu-footer">
-                <button class="mobile-cta-button">
-                    <span>Book Consultation</span>
-                    <i class="ri-calendar-line"></i>
-                </button>
-                
-                <div class="mobile-contact-info">
-                    <div class="contact-item">
-                        <div class="contact-label">Location</div>
-                        <div class="contact-value">Manhattan, NYC</div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-label">Phone</div>
-                        <div class="contact-value">(212) XXX-XXXX</div>
-                    </div>
+                <!-- Desktop CTA -->
+                <div class="luxury-cta-wrapper">
+                    <button class="luxury-cta-button" id="luxuryHeaderCTA">
+                        <span class="cta-text">Book Consultation</span>
+                        <span class="cta-icon">✨</span>
+                        <div class="cta-ripple"></div>
+                    </button>
                 </div>
             </div>
         </div>
+
+        <!-- Mobile Floating Controls - NEW SIMPLIFIED APPROACH -->
+        <div class="mobile-floating-controls mobile-only">
+            <!-- Left Floating Logo Circle -->
+            <div class="mobile-float-logo">
+                <div class="float-circle logo-circle">
+                    <img src="mobilelogo.png" alt="Eviaesthetics" class="mobile-logo-img">
+                    <div class="circle-glow"></div>
+                </div>
+            </div>
+
+            <!-- Right Floating Menu Circle -->
+            <div class="mobile-float-menu">
+                <button class="float-circle menu-circle" id="mobileMenuToggle" aria-label="Toggle Mobile Menu">
+                    <div class="hamburger-icon">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </div>
+                    <div class="circle-glow"></div>
+                </button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Mobile Menu Backdrop -->
+<div class="mobile-menu-backdrop" id="mobileBackdrop"></div>
+
+<!-- Mobile Slide-Out Menu -->
+<div class="mobile-slide-menu" id="mobileSlideMenu">
+    <div class="mobile-menu-content">
+        <!-- Menu Header -->
+        <div class="mobile-menu-header">
+            <div class="mobile-header-logo">
+                <img src="mobilelogo.png" alt="Eviaesthetics" class="menu-logo-img">
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close Mobile Menu">
+                <div class="close-line"></div>
+                <div class="close-line"></div>
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="mobile-nav-list">
+            <a href="#home" class="mobile-nav-item active">
+                <span class="nav-number">01</span>
+                <span class="nav-text">Home</span>
+                <i class="ri-arrow-right-line nav-arrow"></i>
+            </a>
+            <a href="#services" class="mobile-nav-item">
+                <span class="nav-number">02</span>
+                <span class="nav-text">Services</span>
+                <i class="ri-arrow-right-line nav-arrow"></i>
+            </a>
+            <a href="#about" class="mobile-nav-item">
+                <span class="nav-number">03</span>
+                <span class="nav-text">About</span>
+                <i class="ri-arrow-right-line nav-arrow"></i>
+            </a>
+            <a href="#portfolio" class="mobile-nav-item">
+                <span class="nav-number">04</span>
+                <span class="nav-text">Portfolio</span>
+                <i class="ri-arrow-right-line nav-arrow"></i>
+            </a>
+            <a href="#contact" class="mobile-nav-item">
+                <span class="nav-number">05</span>
+                <span class="nav-text">Contact</span>
+                <i class="ri-arrow-right-line nav-arrow"></i>
+            </a>
+        </nav>
+
+        <!-- Mobile CTA -->
+        <div class="mobile-menu-cta">
+            <button class="mobile-cta-btn">
+                <span>Book Consultation</span>
+                <i class="ri-calendar-line"></i>
+            </button>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="mobile-contact-quick">
+            <div class="contact-item">
+                <span class="contact-label">Phone</span>
+                <a href="tel:+12016394983" class="contact-link">(201) 639-4983</a>
+            </div>
+            <div class="contact-item">
+                <span class="contact-label">Location</span>
+                <span class="contact-text">Manhattan, NY</span>
+            </div>
+        </div>
     </div>
-   
+</div>
+    
     <!-- Hero Section -->
     <section class="cinematic-hero" id="home">
         <div class="hero-video-container">
