@@ -267,11 +267,11 @@
         </div>
     </section>
 
-<!-- Enhanced What's Hot Section -->
-<section class="evia-premium-hot-section" id="whatsHotSection">
+<!-- Enhanced What's Hot Carousel Section -->
+<section class="evia-whats-hot-carousel-section" id="whatsHotSection">
     <div class="container">
         <!-- Premium Section Header -->
-        <div class="evia-premium-hot-header" data-aos="fade-up">
+        <div class="evia-whats-hot-header" data-aos="fade-up">
             <div class="evia-hot-badge-premium">
                 <div class="badge-icon-container">
                     <i class="ri-fire-fill"></i>
@@ -280,154 +280,255 @@
                 <span class="badge-text">What's Hot Now</span>
                 <div class="badge-sparkle"></div>
             </div>
-            <h2 class="evia-premium-hot-title">
+            <h2 class="evia-whats-hot-title">
                 <span class="title-line-1">Trending</span>
                 <span class="title-line-2">This Week</span>
             </h2>
         </div>
 
-        <!-- Premium Treatment Grid -->
-        <div class="evia-treatments-premium-grid" data-aos="fade-up" data-aos-delay="200">
+        <!-- Carousel Container with Navigation -->
+        <div class="evia-carousel-container" data-aos="fade-up" data-aos-delay="200">
             
-            <!-- NAD+ Drip -->
-            <div class="evia-premium-treatment-card" data-modal="evia-nad-modal" data-treatment="nad">
-                <div class="treatment-image-container">
-                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="NAD+ IV Therapy" class="treatment-bg-image">
-                    <div class="treatment-overlay"></div>
-                    <div class="treatment-glow-effect"></div>
-                </div>
-                <div class="treatment-content">
-                    <div class="treatment-icon-container">
-                        <i class="ri-drop-line treatment-icon"></i>
-                        <div class="icon-glow"></div>
-                    </div>
-                    <div class="treatment-info">
-                        <h3 class="treatment-title">NAD+ Drip</h3>
-                        <p class="treatment-description">Cellular regeneration and energy boost therapy</p>
-                        <div class="treatment-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Duration</span>
-                                <span class="stat-value">90 min</span>
+            <!-- Navigation Arrows -->
+            <button class="evia-carousel-nav evia-nav-prev" id="prevBtn">
+                <i class="ri-arrow-left-line"></i>
+            </button>
+            <button class="evia-carousel-nav evia-nav-next" id="nextBtn">
+                <i class="ri-arrow-right-line"></i>
+            </button>
+
+            <!-- Carousel Track -->
+            <div class="evia-carousel-track-container">
+                <div class="evia-carousel-track" id="carouselTrack">
+                    
+                    <!-- NAD+ Drip Card -->
+                    <div class="evia-treatment-card" data-treatment="nad">
+                        <div class="treatment-image-container">
+                            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="NAD+ IV Therapy" class="treatment-bg-image">
+                            <div class="treatment-overlay"></div>
+                            <div class="treatment-glow-effect"></div>
+                        </div>
+                        <div class="treatment-content">
+                            <div class="treatment-icon-container">
+                                <i class="ri-drop-line treatment-icon"></i>
+                                <div class="icon-glow"></div>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Price</span>
-                                <span class="stat-value">$450</span>
+                            <div class="treatment-info">
+                                <h3 class="treatment-title">NAD+ Drip</h3>
+                                <p class="treatment-description">Cellular regeneration and energy boost therapy for enhanced mental clarity</p>
+                                <div class="treatment-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-value">$450</span>
+                                        <span class="stat-label">Investment</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-value">90 min</span>
+                                        <span class="stat-label">Duration</span>
+                                    </div>
+                                </div>
+                                <div class="popularity-indicator">
+                                    <div class="popularity-dots">
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot"></div>
+                                    </div>
+                                    <span class="popularity-text">Hot</span>
+                                </div>
                             </div>
+                            <button class="learn-more-btn" data-treatment="nad">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="treatment-cta">
-                        <button class="learn-more-premium-btn">
-                            <span>Learn More</span>
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
-                        <div class="popularity-indicator">
-                            <div class="popularity-dots">
-                                <div class="dot active"></div>
-                                <div class="dot active"></div>
-                                <div class="dot active"></div>
-                                <div class="dot active"></div>
-                                <div class="dot"></div>
+
+                    <!-- Vitamin C Glow Card -->
+                    <div class="evia-treatment-card featured" data-treatment="vitamin">
+                        <div class="treatment-image-container">
+                            <img src="https://images.unsplash.com/photo-1570019668-21b8d8c4a7a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Vitamin C Therapy" class="treatment-bg-image">
+                            <div class="treatment-overlay"></div>
+                            <div class="treatment-glow-effect"></div>
+                            <div class="featured-badge">
+                                <i class="ri-star-fill"></i>
+                                <span>Most Popular</span>
                             </div>
-                            <span class="popularity-text">Hot</span>
+                        </div>
+                        <div class="treatment-content">
+                            <div class="treatment-icon-container">
+                                <i class="ri-sun-line treatment-icon"></i>
+                                <div class="icon-glow"></div>
+                            </div>
+                            <div class="treatment-info">
+                                <h3 class="treatment-title">Vitamin C Glow</h3>
+                                <p class="treatment-description">Radiant skin brightening and immune support for that healthy glow</p>
+                                <div class="treatment-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-value">$180</span>
+                                        <span class="stat-label">Investment</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-value">45 min</span>
+                                        <span class="stat-label">Duration</span>
+                                    </div>
+                                </div>
+                                <div class="popularity-indicator">
+                                    <div class="popularity-dots">
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                    </div>
+                                    <span class="popularity-text">Trending</span>
+                                </div>
+                            </div>
+                            <button class="learn-more-btn" data-treatment="vitamin">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
                         </div>
                     </div>
+
+                    <!-- Hydration Plus Card -->
+                    <div class="evia-treatment-card" data-treatment="hydration">
+                        <div class="treatment-image-container">
+                            <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Hydration Therapy" class="treatment-bg-image">
+                            <div class="treatment-overlay"></div>
+                            <div class="treatment-glow-effect"></div>
+                        </div>
+                        <div class="treatment-content">
+                            <div class="treatment-icon-container">
+                                <i class="ri-water-percent-line treatment-icon"></i>
+                                <div class="icon-glow"></div>
+                            </div>
+                            <div class="treatment-info">
+                                <h3 class="treatment-title">Hydration Plus</h3>
+                                <p class="treatment-description">Ultimate hydration and mineral replenishment for recovery</p>
+                                <div class="treatment-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-value">$120</span>
+                                        <span class="stat-label">Investment</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-value">30 min</span>
+                                        <span class="stat-label">Duration</span>
+                                    </div>
+                                </div>
+                                <div class="popularity-indicator">
+                                    <div class="popularity-dots">
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot"></div>
+                                        <div class="dot"></div>
+                                    </div>
+                                    <span class="popularity-text">New</span>
+                                </div>
+                            </div>
+                            <button class="learn-more-btn" data-treatment="hydration">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Energy Boost Card -->
+                    <div class="evia-treatment-card" data-treatment="energy">
+                        <div class="treatment-image-container">
+                            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Energy Boost Therapy" class="treatment-bg-image">
+                            <div class="treatment-overlay"></div>
+                            <div class="treatment-glow-effect"></div>
+                        </div>
+                        <div class="treatment-content">
+                            <div class="treatment-icon-container">
+                                <i class="ri-flashlight-line treatment-icon"></i>
+                                <div class="icon-glow"></div>
+                            </div>
+                            <div class="treatment-info">
+                                <h3 class="treatment-title">Energy Boost</h3>
+                                <p class="treatment-description">B-vitamin complex for sustained energy and mental focus</p>
+                                <div class="treatment-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-value">$150</span>
+                                        <span class="stat-label">Investment</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-value">20 min</span>
+                                        <span class="stat-label">Duration</span>
+                                    </div>
+                                </div>
+                                <div class="popularity-indicator">
+                                    <div class="popularity-dots">
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot"></div>
+                                    </div>
+                                    <span class="popularity-text">Popular</span>
+                                </div>
+                            </div>
+                            <button class="learn-more-btn" data-treatment="energy">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Immunity Shield Card -->
+                    <div class="evia-treatment-card" data-treatment="immunity">
+                        <div class="treatment-image-container">
+                            <img src="https://images.unsplash.com/photo-1559757175-8a7a5b09e789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Immunity Therapy" class="treatment-bg-image">
+                            <div class="treatment-overlay"></div>
+                            <div class="treatment-glow-effect"></div>
+                        </div>
+                        <div class="treatment-content">
+                            <div class="treatment-icon-container">
+                                <i class="ri-shield-check-line treatment-icon"></i>
+                                <div class="icon-glow"></div>
+                            </div>
+                            <div class="treatment-info">
+                                <h3 class="treatment-title">Immunity Shield</h3>
+                                <p class="treatment-description">High-dose vitamin C and zinc for immune system support</p>
+                                <div class="treatment-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-value">$200</span>
+                                        <span class="stat-label">Investment</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-value">60 min</span>
+                                        <span class="stat-label">Duration</span>
+                                    </div>
+                                </div>
+                                <div class="popularity-indicator">
+                                    <div class="popularity-dots">
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot"></div>
+                                        <div class="dot"></div>
+                                    </div>
+                                    <span class="popularity-text">Seasonal</span>
+                                </div>
+                            </div>
+                            <button class="learn-more-btn" data-treatment="immunity">
+                                <span>Learn More</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <!-- Vitamin C Glow -->
-            <div class="evia-premium-treatment-card featured" data-modal="evia-vitamin-modal" data-treatment="vitamin">
-                <div class="treatment-image-container">
-                    <img src="https://images.unsplash.com/photo-1570019668-21b8d8c4a7a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Vitamin C Therapy" class="treatment-bg-image">
-                    <div class="treatment-overlay"></div>
-                    <div class="treatment-glow-effect"></div>
-                    <div class="featured-badge">
-                        <i class="ri-star-fill"></i>
-                        <span>Most Popular</span>
-                    </div>
-                </div>
-                <div class="treatment-content">
-                    <div class="treatment-icon-container">
-                        <i class="ri-sun-line treatment-icon"></i>
-                        <div class="icon-glow"></div>
-                    </div>
-                    <div class="treatment-info">
-                        <h3 class="treatment-title">Vitamin C Glow</h3>
-                        <p class="treatment-description">Radiant skin brightening and immune support</p>
-                        <div class="treatment-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Duration</span>
-                                <span class="stat-value">45 min</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Price</span>
-                                <span class="stat-value">$180</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="treatment-cta">
-                        <button class="learn-more-premium-btn">
-                            <span>Learn More</span>
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
-                        <div class="popularity-indicator">
-                            <div class="popularity-dots">
-                                <div class="dot active"></div>
-                                <div class="dot active"></div>
-                                <div class="dot active"></div>
-                                <div class="dot active"></div>
-                                <div class="dot active"></div>
-                            </div>
-                            <span class="popularity-text">Trending</span>
-                        </div>
-                    </div>
-                </div>
+            <!-- Carousel Dots -->
+            <div class="evia-carousel-dots" id="carouselDots">
+                <button class="dot active" data-slide="0"></button>
+                <button class="dot" data-slide="1"></button>
+                <button class="dot" data-slide="2"></button>
             </div>
-
-            <!-- Hydration Plus -->
-            <div class="evia-premium-treatment-card" data-modal="evia-hydration-modal" data-treatment="hydration">
-                <div class="treatment-image-container">
-                    <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Hydration Therapy" class="treatment-bg-image">
-                    <div class="treatment-overlay"></div>
-                    <div class="treatment-glow-effect"></div>
-                </div>
-                <div class="treatment-content">
-                    <div class="treatment-icon-container">
-                        <i class="ri-water-percent-line treatment-icon"></i>
-                        <div class="icon-glow"></div>
-                    </div>
-                    <div class="treatment-info">
-                        <h3 class="treatment-title">Hydration Plus</h3>
-                        <p class="treatment-description">Ultimate hydration and mineral replenishment</p>
-                        <div class="treatment-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Duration</span>
-                                <span class="stat-value">30 min</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Price</span>
-                                <span class="stat-value">$120</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="treatment-cta">
-                        <button class="learn-more-premium-btn">
-                            <span>Learn More</span>
-                            <i class="ri-arrow-right-line"></i>
-                        </button>
-                        <div class="popularity-indicator">
-                            <div class="popularity-dots">
-                                <div class="dot active"></div>
-                                <div class="dot active"></div>
-                                <div class="dot active"></div>
-                                <div class="dot"></div>
-                                <div class="dot"></div>
-                            </div>
-                            <span class="popularity-text">New</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <!-- Premium CTA Section -->
@@ -443,24 +544,25 @@
     </div>
 </section>
 
-<!-- Enhanced Modal Overlay -->
-<div class="evia-modal-overlay-premium" id="eviaModalOverlay">
+<!-- Treatment Modals -->
+<div class="evia-modal-overlay" id="modalOverlay">
+    
     <!-- NAD+ Modal -->
-    <div class="evia-treatment-modal-premium" id="evia-nad-modal">
-        <button class="evia-modal-close-premium" data-close="evia-nad-modal">
+    <div class="evia-treatment-modal" id="modal-nad">
+        <button class="evia-modal-close">
             <i class="ri-close-line"></i>
         </button>
         
-        <div class="evia-modal-header-premium">
+        <div class="evia-modal-header">
             <div class="modal-image-container">
                 <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="NAD+ Treatment">
                 <div class="modal-image-overlay"></div>
             </div>
             <div class="modal-header-content">
-                <div class="evia-modal-icon-premium">
+                <div class="evia-modal-icon">
                     <i class="ri-drop-line"></i>
                 </div>
-                <h3 class="evia-modal-title-premium">NAD+ Drip Therapy</h3>
+                <h3 class="evia-modal-title">NAD+ Drip Therapy</h3>
                 <div class="modal-rating">
                     <div class="stars">
                         <i class="ri-star-fill"></i>
@@ -474,7 +576,7 @@
             </div>
         </div>
         
-        <div class="evia-modal-body-premium">
+        <div class="evia-modal-body">
             <div class="modal-description">
                 <h4>What it does</h4>
                 <p>NAD+ (Nicotinamide adenine dinucleotide) is a coenzyme that plays a crucial role in cellular energy production and DNA repair. Our premium NAD+ drip therapy delivers this powerful molecule directly to your bloodstream for maximum absorption and effectiveness.</p>
@@ -514,8 +616,8 @@
             </div>
         </div>
         
-        <div class="evia-modal-footer-premium">
-            <button class="evia-modal-book-btn-premium">
+        <div class="evia-modal-footer">
+            <button class="evia-modal-book-btn" onclick="scrollToContact()">
                 <span>Book Now</span>
                 <i class="ri-calendar-check-line"></i>
             </button>
@@ -523,21 +625,21 @@
     </div>
 
     <!-- Vitamin C Modal -->
-    <div class="evia-treatment-modal-premium" id="evia-vitamin-modal">
-        <button class="evia-modal-close-premium" data-close="evia-vitamin-modal">
+    <div class="evia-treatment-modal" id="modal-vitamin">
+        <button class="evia-modal-close">
             <i class="ri-close-line"></i>
         </button>
         
-        <div class="evia-modal-header-premium">
+        <div class="evia-modal-header">
             <div class="modal-image-container">
                 <img src="https://images.unsplash.com/photo-1570019668-21b8d8c4a7a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Vitamin C Treatment">
                 <div class="modal-image-overlay"></div>
             </div>
             <div class="modal-header-content">
-                <div class="evia-modal-icon-premium featured">
+                <div class="evia-modal-icon featured">
                     <i class="ri-sun-line"></i>
                 </div>
-                <h3 class="evia-modal-title-premium">Vitamin C Glow</h3>
+                <h3 class="evia-modal-title">Vitamin C Glow</h3>
                 <div class="modal-rating">
                     <div class="stars">
                         <i class="ri-star-fill"></i>
@@ -551,7 +653,7 @@
             </div>
         </div>
         
-        <div class="evia-modal-body-premium">
+        <div class="evia-modal-body">
             <div class="modal-description">
                 <h4>What it does</h4>
                 <p>Our high-dose Vitamin C therapy delivers powerful antioxidants directly to your system, promoting collagen production, immune support, and that coveted healthy glow from within.</p>
@@ -591,8 +693,8 @@
             </div>
         </div>
         
-        <div class="evia-modal-footer-premium">
-            <button class="evia-modal-book-btn-premium">
+        <div class="evia-modal-footer">
+            <button class="evia-modal-book-btn" onclick="scrollToContact()">
                 <span>Book Now</span>
                 <i class="ri-calendar-check-line"></i>
             </button>
@@ -600,21 +702,21 @@
     </div>
 
     <!-- Hydration Modal -->
-    <div class="evia-treatment-modal-premium" id="evia-hydration-modal">
-        <button class="evia-modal-close-premium" data-close="evia-hydration-modal">
+    <div class="evia-treatment-modal" id="modal-hydration">
+        <button class="evia-modal-close">
             <i class="ri-close-line"></i>
         </button>
         
-        <div class="evia-modal-header-premium">
+        <div class="evia-modal-header">
             <div class="modal-image-container">
                 <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Hydration Treatment">
                 <div class="modal-image-overlay"></div>
             </div>
             <div class="modal-header-content">
-                <div class="evia-modal-icon-premium">
+                <div class="evia-modal-icon">
                     <i class="ri-water-percent-line"></i>
                 </div>
-                <h3 class="evia-modal-title-premium">Hydration Plus</h3>
+                <h3 class="evia-modal-title">Hydration Plus</h3>
                 <div class="modal-rating">
                     <div class="stars">
                         <i class="ri-star-fill"></i>
@@ -628,7 +730,7 @@
             </div>
         </div>
         
-        <div class="evia-modal-body-premium">
+        <div class="evia-modal-body">
             <div class="modal-description">
                 <h4>What it does</h4>
                 <p>Our signature hydration therapy combines essential electrolytes, vitamins, and minerals to restore optimal hydration levels and support overall wellness.</p>
@@ -668,8 +770,162 @@
             </div>
         </div>
         
-        <div class="evia-modal-footer-premium">
-            <button class="evia-modal-book-btn-premium">
+        <div class="evia-modal-footer">
+            <button class="evia-modal-book-btn" onclick="scrollToContact()">
+                <span>Book Now</span>
+                <i class="ri-calendar-check-line"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Energy Modal -->
+    <div class="evia-treatment-modal" id="modal-energy">
+        <button class="evia-modal-close">
+            <i class="ri-close-line"></i>
+        </button>
+        
+        <div class="evia-modal-header">
+            <div class="modal-image-container">
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Energy Treatment">
+                <div class="modal-image-overlay"></div>
+            </div>
+            <div class="modal-header-content">
+                <div class="evia-modal-icon">
+                    <i class="ri-flashlight-line"></i>
+                </div>
+                <h3 class="evia-modal-title">Energy Boost</h3>
+                <div class="modal-rating">
+                    <div class="stars">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <span class="rating-text">4.8 (156 reviews)</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="evia-modal-body">
+            <div class="modal-description">
+                <h4>What it does</h4>
+                <p>Our energy boost therapy combines B-vitamins, amino acids, and minerals to naturally enhance energy levels and support mental focus throughout your day.</p>
+                
+                <h4>Benefits include:</h4>
+                <ul class="benefit-list">
+                    <li><i class="ri-check-line"></i> Sustained energy boost</li>
+                    <li><i class="ri-check-line"></i> Enhanced mental focus</li>
+                    <li><i class="ri-check-line"></i> Improved mood</li>
+                    <li><i class="ri-check-line"></i> Reduced fatigue</li>
+                    <li><i class="ri-check-line"></i> Better workout performance</li>
+                </ul>
+            </div>
+            
+            <div class="modal-details-grid">
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="ri-time-line"></i></div>
+                    <div class="detail-content">
+                        <span class="detail-label">Duration</span>
+                        <span class="detail-value">20 minutes</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="ri-money-dollar-circle-line"></i></div>
+                    <div class="detail-content">
+                        <span class="detail-label">Investment</span>
+                        <span class="detail-value">$150</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="ri-refresh-line"></i></div>
+                    <div class="detail-content">
+                        <span class="detail-label">Frequency</span>
+                        <span class="detail-value">Weekly</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="evia-modal-footer">
+            <button class="evia-modal-book-btn" onclick="scrollToContact()">
+                <span>Book Now</span>
+                <i class="ri-calendar-check-line"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Immunity Modal -->
+    <div class="evia-treatment-modal" id="modal-immunity">
+        <button class="evia-modal-close">
+            <i class="ri-close-line"></i>
+        </button>
+        
+        <div class="evia-modal-header">
+            <div class="modal-image-container">
+                <img src="https://images.unsplash.com/photo-1559757175-8a7a5b09e789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Immunity Treatment">
+                <div class="modal-image-overlay"></div>
+            </div>
+            <div class="modal-header-content">
+                <div class="evia-modal-icon">
+                    <i class="ri-shield-check-line"></i>
+                </div>
+                <h3 class="evia-modal-title">Immunity Shield</h3>
+                <div class="modal-rating">
+                    <div class="stars">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <span class="rating-text">4.9 (92 reviews)</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="evia-modal-body">
+            <div class="modal-description">
+                <h4>What it does</h4>
+                <p>Our immunity shield therapy delivers high-dose vitamin C, zinc, and other immune-supporting nutrients to strengthen your body's natural defense systems.</p>
+                
+                <h4>Benefits include:</h4>
+                <ul class="benefit-list">
+                    <li><i class="ri-check-line"></i> Enhanced immune function</li>
+                    <li><i class="ri-check-line"></i> Faster illness recovery</li>
+                    <li><i class="ri-check-line"></i> Antioxidant protection</li>
+                    <li><i class="ri-check-line"></i> Seasonal support</li>
+                    <li><i class="ri-check-line"></i> Overall wellness boost</li>
+                </ul>
+            </div>
+            
+            <div class="modal-details-grid">
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="ri-time-line"></i></div>
+                    <div class="detail-content">
+                        <span class="detail-label">Duration</span>
+                        <span class="detail-value">60 minutes</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="ri-money-dollar-circle-line"></i></div>
+                    <div class="detail-content">
+                        <span class="detail-label">Investment</span>
+                        <span class="detail-value">$200</span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="ri-refresh-line"></i></div>
+                    <div class="detail-content">
+                        <span class="detail-label">Frequency</span>
+                        <span class="detail-value">Monthly</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="evia-modal-footer">
+            <button class="evia-modal-book-btn" onclick="scrollToContact()">
                 <span>Book Now</span>
                 <i class="ri-calendar-check-line"></i>
             </button>
