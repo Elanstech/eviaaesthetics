@@ -732,15 +732,15 @@ class ModernMobileMenu {
 }
 
 /* ========================================
-   WHAT'S HOT CAROUSEL
+   EVIA WHAT'S HOT CAROUSEL
    ======================================== */
-class WhatsHotCarousel {
+class EviaWhatsHotCarousel {
     constructor() {
-        this.carousel = document.getElementById('whatsHotCarousel');
-        this.track = document.getElementById('carouselTrack');
-        this.dots = document.querySelectorAll('.dot');
-        this.hotItems = document.querySelectorAll('.hot-item');
-        this.modalOverlay = document.getElementById('modalOverlay');
+        this.carousel = document.getElementById('eviaWhatsHotCarousel');
+        this.track = document.getElementById('eviaCarouselTrack');
+        this.dots = document.querySelectorAll('.evia-dot');
+        this.hotItems = document.querySelectorAll('.evia-hot-item');
+        this.modalOverlay = document.getElementById('eviaModalOverlay');
         this.currentSlide = 0;
         this.itemWidth = 300; // 280px + 20px gap
         this.autoPlayInterval = null;
@@ -748,7 +748,7 @@ class WhatsHotCarousel {
         
         if (this.carousel && this.track) {
             this.init();
-            console.log('✅ What\'s Hot Carousel Initialized');
+            console.log('✅ Evia What\'s Hot Carousel Initialized');
         }
     }
     
@@ -907,7 +907,7 @@ class WhatsHotCarousel {
         
         // Open modals
         this.hotItems.forEach(item => {
-            const learnMoreBtn = item.querySelector('.learn-more-btn');
+            const learnMoreBtn = item.querySelector('.evia-learn-more-btn');
             if (learnMoreBtn) {
                 learnMoreBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -924,7 +924,7 @@ class WhatsHotCarousel {
         });
         
         // Close modals
-        const closeButtons = document.querySelectorAll('.modal-close');
+        const closeButtons = document.querySelectorAll('.evia-modal-close');
         closeButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const modalId = btn.dataset.close;
@@ -947,7 +947,7 @@ class WhatsHotCarousel {
         });
         
         // Book treatment buttons
-        const bookButtons = document.querySelectorAll('.modal-book-btn');
+        const bookButtons = document.querySelectorAll('.evia-modal-book-btn');
         bookButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 this.handleBookTreatment();
@@ -963,7 +963,7 @@ class WhatsHotCarousel {
         if (!modal) return;
         
         // Hide all modals first
-        const allModals = document.querySelectorAll('.treatment-modal');
+        const allModals = document.querySelectorAll('.evia-treatment-modal');
         allModals.forEach(m => m.style.display = 'none');
         
         // Show the target modal
@@ -992,7 +992,7 @@ class WhatsHotCarousel {
     }
     
     closeAllModals() {
-        const allModals = document.querySelectorAll('.treatment-modal');
+        const allModals = document.querySelectorAll('.evia-treatment-modal');
         allModals.forEach(modal => {
             modal.style.transform = 'scale(0.8) translateY(50px)';
             setTimeout(() => {
@@ -2882,7 +2882,7 @@ class EviaAestheticsApp {
             this.components.set('mobileMenu', new ModernMobileMenu());
             this.components.set('header', new ModernLuxuryHeader());
             this.components.set('hero', new HeroSection());
-            this.components.set('whatsHot', new WhatsHotCarousel());
+            this.components.set('whatsHot', new EviaWhatsHotCarousel());
             this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
@@ -3073,7 +3073,7 @@ window.addEventListener('load', () => {
 
 // Make components globally accessible for debugging
 window.ModernMobileMenu = ModernMobileMenu;
-window.WhatsHotCarousel = WhatsHotCarousel;
+window.EviaWhatsHotCarousel = EviaWhatsHotCarousel;
 window.HermesFloatingButtons = HermesFloatingButtons;
 window.ModernLuxuryHeader = ModernLuxuryHeader;
 window.HermesServicesScroller = HermesServicesScroller;
