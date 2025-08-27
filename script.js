@@ -589,7 +589,7 @@ class ModernMobileMenu {
                 e.preventDefault();
                 e.stopPropagation();
                 console.log('Mobile menu toggle clicked');
-                this.toggle();
+                this.toggleMenu();
             });
 
             // Touch events
@@ -602,7 +602,7 @@ class ModernMobileMenu {
                 e.preventDefault();
                 e.stopPropagation();
                 console.log('Mobile menu toggle touched');
-                this.toggle();
+                this.toggleMenu();
             });
         }
 
@@ -698,14 +698,14 @@ class ModernMobileMenu {
         }
     }
 
-    toggle() {
-        console.log('Toggle called, current state:', this.isOpen);
-        if (this.isOpen) {
-            this.close();
-        } else {
-            this.open();
-        }
+    toggleMenu() {
+    console.log('Toggle called, current state:', this.isOpen);
+    if (this.isOpen) {
+        this.close();
+    } else {
+        this.open();
     }
+}
 
     open() {
         if (this.isOpen) return;
