@@ -805,17 +805,18 @@ class EnhancedWhatsHotCarousel {
                 learnMoreBtn.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    const modalId = card.dataset.modal;
                     const treatmentType = card.dataset.treatment;
-                    this.openModal(treatmentType, modalId);
+                    this.openModal(treatmentType);
                 });
             }
 
             // Card click to open modal
-            card.addEventListener('click', () => {
+            card.addEventListener('click', (e) => {
+                // Don't open modal if clicking on the learn more button
+                if (e.target.closest('.learn-more-btn')) return;
+                
                 const treatmentType = card.dataset.treatment;
-                const modalId = card.dataset.modal;
-                this.openModal(treatmentType, modalId);
+                this.openModal(treatmentType);
             });
         });
     }
@@ -1066,7 +1067,7 @@ class EnhancedWhatsHotCarousel {
         }
     }
 
-    openModal(treatmentType, modalId) {
+    openModal(treatmentType) {
         if (!this.modalOverlay) return;
 
         const treatmentData = this.getTreatmentData(treatmentType);
@@ -1083,6 +1084,16 @@ class EnhancedWhatsHotCarousel {
         if (modal) {
             modal.style.animation = 'modalSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         }
+
+        // Add fade-in effect to modal image
+        const modalImage = document.getElementById('modalImage');
+        if (modalImage) {
+            modalImage.style.opacity = '0';
+            modalImage.onload = () => {
+                modalImage.style.transition = 'opacity 0.5s ease';
+                modalImage.style.opacity = '1';
+            };
+        }
     }
 
     closeModal() {
@@ -1098,18 +1109,19 @@ class EnhancedWhatsHotCarousel {
     getTreatmentData(treatmentType) {
         const treatmentDatabase = {
             'nad-drip': {
-                title: 'NAD+ Drip',
+                title: 'NAD+ Drip Therapy',
                 icon: 'ri-drop-line',
                 image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-nad-vial.jpg',
                 price: '$450',
                 duration: '90 min',
-                description: 'NAD+ (Nicotinamide Adenine Dinucleotide) IV therapy is a cutting-edge treatment that delivers this essential coenzyme directly into your bloodstream. NAD+ plays a crucial role in cellular energy production, DNA repair, and anti-aging processes. This therapy can help boost mental clarity, increase energy levels, and support overall cellular health.',
+                description: 'NAD+ (Nicotinamide Adenine Dinucleotide) IV therapy is our most advanced cellular regeneration treatment. This essential coenzyme is delivered directly into your bloodstream, bypassing the digestive system for maximum bioavailability. NAD+ plays a crucial role in cellular energy production, DNA repair, and anti-aging processes at the molecular level.',
                 benefits: [
-                    'Enhanced mental clarity and focus',
-                    'Increased energy and reduced fatigue',
-                    'Improved cellular repair and regeneration',
-                    'Better sleep quality and mood stability',
-                    'Anti-aging benefits at the cellular level'
+                    'Enhanced mental clarity and cognitive function',
+                    'Significant increase in natural energy levels',
+                    'Accelerated cellular repair and regeneration',
+                    'Improved sleep quality and mood stability',
+                    'Anti-aging benefits at the cellular level',
+                    'Enhanced metabolic function and fat burning'
                 ],
                 details: [
                     { icon: 'ri-time-line', label: 'Duration', value: '90 Minutes' },
@@ -1119,19 +1131,20 @@ class EnhancedWhatsHotCarousel {
                 ]
             },
             'vitamin-c': {
-                title: 'Vitamin C Glow',
+                title: 'Vitamin C Glow Infusion',
                 icon: 'ri-sun-line',
                 image: 'https://images-cdn.u-buy.com.ng/675d1e49fb876a53e42dfee6-vial-vitamin-c-vial-10-ml-mccm.jpg',
                 price: '$180',
                 duration: '45 min',
                 featured: true,
-                description: 'Our Vitamin C Glow IV therapy delivers a powerful dose of vitamin C directly to your cells, bypassing the digestive system for maximum absorption. This treatment supports immune function, promotes collagen production, and gives your skin a radiant, healthy glow from the inside out.',
+                description: 'Our signature Vitamin C Glow IV therapy delivers a concentrated dose of pharmaceutical-grade vitamin C directly to your cells for maximum absorption. This treatment supports robust immune function, promotes natural collagen production, and delivers that coveted healthy glow from within. Perfect for those seeking radiant skin and enhanced vitality.',
                 benefits: [
-                    'Brightens and evens skin tone',
-                    'Boosts immune system function',
-                    'Promotes natural collagen production',
-                    'Provides powerful antioxidant protection',
-                    'Enhances natural radiance and glow'
+                    'Dramatic improvement in skin brightness and tone',
+                    'Powerful immune system support and protection',
+                    'Natural collagen synthesis for youthful skin',
+                    'Antioxidant protection against free radical damage',
+                    'Enhanced natural radiance and healthy glow',
+                    'Improved skin texture and reduced fine lines'
                 ],
                 details: [
                     { icon: 'ri-time-line', label: 'Duration', value: '45 Minutes' },
@@ -1141,18 +1154,19 @@ class EnhancedWhatsHotCarousel {
                 ]
             },
             'hydration': {
-                title: 'Hydration Plus',
+                title: 'Hydration Plus Recovery',
                 icon: 'ri-water-percent-line',
                 image: 'https://naturaldripiv.com/wp-content/uploads/2022/07/Natural-Drip-Natural-Buzz-Injection.png',
                 price: '$120',
                 duration: '30 min',
-                description: 'Our Hydration Plus IV therapy is the ultimate solution for rapid rehydration and mineral replenishment. Perfect for recovery from workouts, travel, or illness, this treatment delivers essential electrolytes and fluids directly to your cells for immediate hydration.',
+                description: 'Our Hydration Plus IV therapy is the ultimate solution for rapid cellular rehydration and complete mineral replenishment. This carefully formulated blend of electrolytes, minerals, and fluids is delivered directly to your bloodstream for immediate absorption and maximum effectiveness. Ideal for recovery, performance, and overall wellness.',
                 benefits: [
-                    'Rapid rehydration and recovery',
-                    'Restores essential electrolyte balance',
-                    'Relieves symptoms of dehydration',
-                    'Improves energy and mental clarity',
-                    'Supports optimal physical performance'
+                    'Rapid rehydration at the cellular level',
+                    'Complete electrolyte balance restoration',
+                    'Immediate relief from dehydration symptoms',
+                    'Enhanced energy and mental clarity',
+                    'Optimal physical performance support',
+                    'Accelerated recovery from exercise or illness'
                 ],
                 details: [
                     { icon: 'ri-time-line', label: 'Duration', value: '30 Minutes' },
@@ -1162,18 +1176,19 @@ class EnhancedWhatsHotCarousel {
                 ]
             },
             'energy': {
-                title: 'Energy Boost',
+                title: 'Energy Boost Complex',
                 icon: 'ri-flashlight-line',
                 image: 'https://ivymenshealth.com/wp-content/uploads/2023/01/energy-1024x1024.png',
                 price: '$150',
                 duration: '20 min',
-                description: 'Our Energy Boost IV therapy combines a powerful blend of B-vitamins, amino acids, and minerals to naturally increase your energy levels and mental focus. This treatment is perfect for combating fatigue, improving concentration, and supporting overall vitality.',
+                description: 'Our Energy Boost IV therapy combines a powerful synergy of B-vitamins, amino acids, and essential minerals to naturally elevate your energy levels and sharpen mental focus. This treatment is specifically formulated to combat fatigue, enhance concentration, and support sustained vitality throughout your day.',
                 benefits: [
-                    'Increased natural energy levels',
-                    'Enhanced mental focus and clarity',
+                    'Sustained natural energy without crashes',
+                    'Enhanced mental focus and concentration',
                     'Reduced fatigue and brain fog',
                     'Improved mood and motivation',
-                    'Support for healthy metabolism'
+                    'Healthy metabolism support',
+                    'Increased productivity and performance'
                 ],
                 details: [
                     { icon: 'ri-time-line', label: 'Duration', value: '20 Minutes' },
@@ -1183,18 +1198,19 @@ class EnhancedWhatsHotCarousel {
                 ]
             },
             'immunity': {
-                title: 'Immunity Shield',
+                title: 'Immunity Shield Defense',
                 icon: 'ri-shield-check-line',
                 image: 'https://www.olympiapharmacy.com/wp-content/uploads/2022/11/Tri-Immune-scaled.jpg',
                 price: '$200',
                 duration: '60 min',
-                description: 'Our Immunity Shield IV therapy provides your body with a concentrated dose of immune-supporting nutrients including high-dose vitamin C, zinc, and glutathione. This powerful combination helps strengthen your natural defenses and protect against illness.',
+                description: 'Our Immunity Shield IV therapy provides comprehensive immune system support through a concentrated blend of immune-boosting nutrients including high-dose vitamin C, zinc, and powerful antioxidants like glutathione. This advanced formulation helps strengthen your natural defenses and provides robust protection against environmental stressors.',
                 benefits: [
-                    'Strengthens immune system function',
-                    'Provides powerful antioxidant protection',
-                    'Supports rapid recovery from illness',
-                    'Reduces oxidative stress and inflammation',
-                    'Enhances overall wellness and vitality'
+                    'Comprehensive immune system strengthening',
+                    'Powerful antioxidant protection against illness',
+                    'Accelerated recovery from minor illnesses',
+                    'Reduced oxidative stress and inflammation',
+                    'Enhanced overall wellness and vitality',
+                    'Seasonal protection and support'
                 ],
                 details: [
                     { icon: 'ri-time-line', label: 'Duration', value: '60 Minutes' },
