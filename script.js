@@ -668,243 +668,128 @@ class HeroSection {
 /* ========================================
    WHATS HOT SECTION
    ======================================== */
-const TREATMENT_DATA = {
-    nad: {
-        title: 'NAD+ Drip Therapy',
-        icon: 'ri-drop-line',
-        image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$450',
-        duration: '90 minutes',
-        frequency: 'Weekly',
-        rating: '5.0 (127 reviews)',
-        description: 'NAD+ (Nicotinamide adenine dinucleotide) is a coenzyme that plays a crucial role in cellular energy production and DNA repair. Our premium NAD+ drip therapy delivers this powerful molecule directly to your bloodstream for maximum absorption and effectiveness.',
-        benefits: [
-            'Enhanced mental clarity and focus',
-            'Increased energy levels',
-            'Improved cellular repair',
-            'Anti-aging support',
-            'Better sleep quality'
-        ],
-        featured: false
-    },
-    vitamin: {
-        title: 'Vitamin C Glow',
-        icon: 'ri-sun-line',
-        image: 'https://images.unsplash.com/photo-1570019668-21b8d8c4a7a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$180',
-        duration: '45 minutes',
-        frequency: 'Bi-weekly',
-        rating: '5.0 (203 reviews)',
-        description: 'Our high-dose Vitamin C therapy delivers powerful antioxidants directly to your system, promoting collagen production, immune support, and that coveted healthy glow from within.',
-        benefits: [
-            'Radiant, glowing skin',
-            'Enhanced immune function',
-            'Collagen production boost',
-            'Antioxidant protection',
-            'Faster recovery'
-        ],
-        featured: true
-    },
-    hydration: {
-        title: 'Hydration Plus',
-        icon: 'ri-water-percent-line',
-        image: 'https://images.unsplash.com/photo-1504813184591-01572f98c85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$120',
-        duration: '30 minutes',
-        frequency: 'As needed',
-        rating: '4.9 (89 reviews)',
-        description: 'Our signature hydration therapy combines essential electrolytes, vitamins, and minerals to restore optimal hydration levels and support overall wellness.',
-        benefits: [
-            'Rapid rehydration',
-            'Electrolyte balance',
-            'Improved energy',
-            'Better recovery',
-            'Mental clarity'
-        ],
-        featured: false
-    },
-    energy: {
-        title: 'Energy Boost',
-        icon: 'ri-flashlight-line',
-        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$150',
-        duration: '20 minutes',
-        frequency: 'Weekly',
-        rating: '4.8 (156 reviews)',
-        description: 'Our energy boost therapy combines B-vitamins, amino acids, and minerals to naturally enhance energy levels and support mental focus throughout your day.',
-        benefits: [
-            'Sustained energy boost',
-            'Enhanced mental focus',
-            'Improved mood',
-            'Reduced fatigue',
-            'Better workout performance'
-        ],
-        featured: false
-    },
-    immunity: {
-        title: 'Immunity Shield',
-        icon: 'ri-shield-check-line',
-        image: 'https://images.unsplash.com/photo-1559757175-8a7a5b09e789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$200',
-        duration: '60 minutes',
-        frequency: 'Monthly',
-        rating: '4.9 (92 reviews)',
-        description: 'Our immunity shield therapy delivers high-dose vitamin C, zinc, and other immune-supporting nutrients to strengthen your body\'s natural defense systems.',
-        benefits: [
-            'Enhanced immune function',
-            'Faster illness recovery',
-            'Antioxidant protection',
-            'Seasonal support',
-            'Overall wellness boost'
-        ],
-        featured: false
-    }
-};
-
-class EviaWhatsHotCarousel {
+class EnhancedWhatsHotCarousel {
     constructor() {
-        this.section = document.querySelector('.evia-whats-hot-section');
-        this.carousel = document.getElementById('eviaWhatsHotCarousel');
-        this.track = document.getElementById('eviaCarouselTrack');
-        this.leftArrow = document.getElementById('eviaScrollLeft');
-        this.rightArrow = document.getElementById('eviaScrollRight');
-        this.dots = document.querySelectorAll('.evia-dot');
-        this.hotItems = document.querySelectorAll('.evia-hot-item');
-        this.learnMoreBtns = document.querySelectorAll('.evia-learn-more-btn');
-        this.modalOverlay = document.getElementById('eviaModalOverlay');
-        this.modals = document.querySelectorAll('.evia-treatment-modal');
-        this.closeButtons = document.querySelectorAll('.evia-modal-close');
-        this.bookButtons = document.querySelectorAll('.evia-modal-book-btn');
-
         this.currentSlide = 0;
-        this.cardWidth = 280;
-        this.gap = 20;
-        this.itemWidth = this.cardWidth + this.gap;
         this.itemsPerView = 1;
         this.maxSlide = 0;
-        this.isTransitioning = false;
+        this.isAutoplay = true;
         this.autoplayInterval = null;
-        this.autoplayDelay = 4000;
-        this.touchStartX = 0;
-        this.touchEndX = 0;
+        this.isTransitioning = false;
         this.isDragging = false;
-        this.dragThreshold = 50;
-        this.activeModal = null;
-        this.isModalOpen = false;
+        this.startPos = 0;
+        this.currentTranslate = 0;
+        this.prevTranslate = 0;
+        this.animationId;
 
-        if (this.carousel && this.track) {
-            this.init();
-        }
+        // DOM Elements
+        this.section = document.getElementById('whatsHotSection');
+        this.track = document.getElementById('hotCarouselTrack');
+        this.prevBtn = document.getElementById('hotPrevBtn');
+        this.nextBtn = document.getElementById('hotNextBtn');
+        this.dotsContainer = document.getElementById('hotCarouselDots');
+        this.cards = document.querySelectorAll('.evia-treatment-card');
+        this.modalOverlay = document.getElementById('treatmentModalOverlay');
+
+        this.init();
     }
 
     init() {
-        this.calculateLayout();
-        this.setupCarousel();
-        this.bindEvents();
-        this.setupModalFunctionality();
-        this.setupResponsive();
-        this.updateCarousel();
-        this.startAutoplay();
-    }
-
-    calculateLayout() {
-        if (this.section) {
-            const containerWidth = this.section.offsetWidth;
-            const cardPadding = 40;
-            const availableWidth = containerWidth - cardPadding;
-            
-            if (availableWidth >= 900) {
-                this.itemsPerView = 3;
-                this.cardWidth = (availableWidth - (this.gap * 2)) / 3;
-            } else if (availableWidth >= 600) {
-                this.itemsPerView = 2;
-                this.cardWidth = (availableWidth - this.gap) / 2;
-            } else {
-                this.itemsPerView = 1;
-                this.cardWidth = availableWidth;
-            }
-            
-            this.itemWidth = this.cardWidth + this.gap;
-            this.maxSlide = Math.max(0, this.hotItems.length - this.itemsPerView);
+        if (!this.track || !this.cards.length) {
+            console.warn('What\'s Hot Carousel: Required elements not found');
+            return;
         }
+
+        this.setupCarousel();
+        this.setupEventListeners();
+        this.setupModals();
+        this.startAutoplay();
+        this.createDots();
+
+        console.log('✨ Enhanced What\'s Hot Carousel Initialized');
     }
 
     setupCarousel() {
-        if (this.hotItems.length > 0) {
-            this.hotItems.forEach(item => {
-                item.style.minWidth = `${this.cardWidth}px`;
-                item.style.width = `${this.cardWidth}px`;
-            });
-        }
+        this.calculateDimensions();
+        this.updateCarousel();
         
-        if (this.dots.length > 0) {
-            this.dots[0].classList.add('active');
-        }
+        // Add intersection observer for performance
+        this.setupIntersectionObserver();
         
-        if (this.leftArrow && this.rightArrow) {
-            this.updateArrowStates();
-        }
+        // Initialize card animations
+        this.cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
     }
 
-    bindEvents() {
-        if (this.leftArrow) {
-            this.leftArrow.addEventListener('click', () => this.prevSlide());
+    calculateDimensions() {
+        const containerWidth = this.track.parentElement.offsetWidth;
+        const cardWidth = 340; // Base card width
+        const gap = 32;
+
+        if (window.innerWidth > 1200) {
+            this.itemsPerView = Math.min(3, this.cards.length);
+        } else if (window.innerWidth > 768) {
+            this.itemsPerView = Math.min(2, this.cards.length);
+        } else {
+            this.itemsPerView = 1;
+        }
+
+        this.maxSlide = Math.max(0, this.cards.length - this.itemsPerView);
+        this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
+    }
+
+    updateCarousel() {
+        if (!this.track) return;
+
+        const cardWidth = this.cards[0]?.offsetWidth || 340;
+        const gap = 32;
+        const moveDistance = this.currentSlide * (cardWidth + gap);
+
+        this.track.style.transform = `translateX(-${moveDistance}px)`;
+        this.updateDots();
+        this.updateNavigation();
+    }
+
+    setupEventListeners() {
+        // Navigation buttons
+        if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', () => this.prevSlide());
         }
         
-        if (this.rightArrow) {
-            this.rightArrow.addEventListener('click', () => this.nextSlide());
+        if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', () => this.nextSlide());
         }
 
-        this.dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => this.goToSlide(index));
-        });
-
-        this.hotItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                if (!e.target.closest('.evia-learn-more-btn')) {
-                    const modalId = item.getAttribute('data-modal');
-                    if (modalId) {
-                        this.openModalById(modalId);
-                    }
-                }
-            });
-        });
-
-        this.learnMoreBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const treatment = btn.getAttribute('data-treatment');
-                this.openModal(treatment);
-            });
-        });
-
+        // Touch/swipe support
         if (this.track) {
             this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
             this.track.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: true });
             this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
 
+            // Mouse drag support
             this.track.addEventListener('mousedown', (e) => this.handleMouseDown(e));
             this.track.addEventListener('mousemove', (e) => this.handleMouseMove(e));
             this.track.addEventListener('mouseup', (e) => this.handleMouseUp(e));
             this.track.addEventListener('mouseleave', (e) => this.handleMouseUp(e));
+
+            // Prevent default drag behavior
+            this.track.addEventListener('dragstart', (e) => e.preventDefault());
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (!this.isModalOpen) {
-                if (e.key === 'ArrowLeft') this.prevSlide();
-                if (e.key === 'ArrowRight') this.nextSlide();
-            }
-            if (e.key === 'Escape' && this.isModalOpen) {
-                this.closeModal();
-            }
-        });
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
 
+        // Pause autoplay on hover
         if (this.section) {
             this.section.addEventListener('mouseenter', () => this.pauseAutoplay());
-            this.section.addEventListener('mouseleave', () => this.startAutoplay());
+            this.section.addEventListener('mouseleave', () => this.resumeAutoplay());
         }
 
+        // Window resize handler
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
@@ -912,267 +797,189 @@ class EviaWhatsHotCarousel {
                 this.handleResize();
             }, 250);
         });
-    }
 
-    setupModalFunctionality() {
-        this.closeButtons.forEach(btn => {
-            btn.addEventListener('click', () => this.closeModal());
-        });
+        // Learn more button clicks
+        this.cards.forEach(card => {
+            const learnMoreBtn = card.querySelector('.learn-more-btn');
+            if (learnMoreBtn) {
+                learnMoreBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const modalId = card.dataset.modal;
+                    const treatmentType = card.dataset.treatment;
+                    this.openModal(treatmentType, modalId);
+                });
+            }
 
-        if (this.modalOverlay) {
-            this.modalOverlay.addEventListener('click', (e) => {
-                if (e.target === this.modalOverlay) {
-                    this.closeModal();
-                }
+            // Card click to open modal
+            card.addEventListener('click', () => {
+                const treatmentType = card.dataset.treatment;
+                const modalId = card.dataset.modal;
+                this.openModal(treatmentType, modalId);
             });
-        }
-
-        this.bookButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                this.handleBooking();
-            });
         });
     }
 
-    setupResponsive() {
-        this.calculateLayout();
-        this.maxSlide = Math.max(0, this.hotItems.length - this.itemsPerView);
-        this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
-    }
-
+    // Navigation Methods
     nextSlide() {
         if (this.isTransitioning) return;
+        
         if (this.currentSlide < this.maxSlide) {
             this.goToSlide(this.currentSlide + 1);
         } else {
-            this.goToSlide(0);
+            this.goToSlide(0); // Loop back to beginning
         }
     }
 
     prevSlide() {
         if (this.isTransitioning) return;
+        
         if (this.currentSlide > 0) {
             this.goToSlide(this.currentSlide - 1);
         } else {
-            this.goToSlide(this.maxSlide);
+            this.goToSlide(this.maxSlide); // Loop to end
         }
     }
 
     goToSlide(slideIndex) {
         if (this.isTransitioning || slideIndex === this.currentSlide) return;
-
-        this.currentSlide = Math.max(0, Math.min(slideIndex, this.maxSlide));
-        this.updateCarousel();
-    }
-
-    updateCarousel() {
-        if (!this.track) return;
-
+        
         this.isTransitioning = true;
+        this.currentSlide = Math.max(0, Math.min(slideIndex, this.maxSlide));
+        
+        this.updateCarousel();
+        this.addRippleEffect();
 
-        const translateX = -this.currentSlide * this.itemWidth;
-        this.track.style.transform = `translateX(${translateX}px)`;
-
-        this.updateDots();
-        this.updateArrowStates();
-
+        // Reset transition flag after animation
         setTimeout(() => {
             this.isTransitioning = false;
         }, 600);
     }
 
-    updateDots() {
-        this.dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentSlide);
-        });
-    }
-
-    updateArrowStates() {
-        if (this.leftArrow && this.rightArrow) {
-            this.leftArrow.disabled = this.currentSlide <= 0;
-            this.rightArrow.disabled = this.currentSlide >= this.maxSlide;
-            
-            this.leftArrow.classList.toggle('disabled', this.leftArrow.disabled);
-            this.rightArrow.classList.toggle('disabled', this.rightArrow.disabled);
-        }
-    }
-
+    // Touch/Mouse Handlers
     handleTouchStart(e) {
-        this.touchStartX = e.touches[0].clientX;
         this.isDragging = true;
+        this.startPos = e.touches[0].clientX;
         this.pauseAutoplay();
     }
 
     handleTouchMove(e) {
         if (!this.isDragging) return;
-        this.touchEndX = e.touches[0].clientX;
+        
+        const currentPos = e.touches[0].clientX;
+        const diff = this.startPos - currentPos;
+        
+        if (Math.abs(diff) > 5) {
+            e.preventDefault();
+        }
     }
 
     handleTouchEnd(e) {
         if (!this.isDragging) return;
-
-        const diff = this.touchStartX - this.touchEndX;
-
-        if (Math.abs(diff) > this.dragThreshold) {
+        
+        this.isDragging = false;
+        const endPos = e.changedTouches[0].clientX;
+        const diff = this.startPos - endPos;
+        
+        if (Math.abs(diff) > 50) {
             if (diff > 0) {
                 this.nextSlide();
             } else {
                 this.prevSlide();
             }
         }
-
-        this.isDragging = false;
-        this.startAutoplay();
+        
+        this.resumeAutoplay();
     }
 
     handleMouseDown(e) {
-        if (e.target.closest('.evia-learn-more-btn')) return;
-        
-        this.touchStartX = e.clientX;
         this.isDragging = true;
+        this.startPos = e.clientX;
+        this.track.style.cursor = 'grabbing';
         this.pauseAutoplay();
-        e.preventDefault();
     }
 
     handleMouseMove(e) {
         if (!this.isDragging) return;
-        this.touchEndX = e.clientX;
+        e.preventDefault();
     }
 
     handleMouseUp(e) {
         if (!this.isDragging) return;
-
-        const diff = this.touchStartX - this.touchEndX;
-
-        if (Math.abs(diff) > this.dragThreshold) {
+        
+        this.isDragging = false;
+        this.track.style.cursor = 'grab';
+        
+        const endPos = e.clientX;
+        const diff = this.startPos - endPos;
+        
+        if (Math.abs(diff) > 50) {
             if (diff > 0) {
                 this.nextSlide();
             } else {
                 this.prevSlide();
             }
         }
-
-        this.isDragging = false;
-        this.startAutoplay();
+        
+        this.resumeAutoplay();
     }
 
-    openModal(treatmentType) {
-        if (this.isModalOpen) return;
-
-        const modal = document.getElementById(`evia-${treatmentType}-modal`);
-        if (!modal || !this.modalOverlay) {
-            console.warn(`Modal not found for treatment: ${treatmentType}`);
-            return;
-        }
-
-        document.body.style.overflow = 'hidden';
-
-        this.modalOverlay.style.display = 'flex';
-        this.modalOverlay.classList.add('active');
-        this.modalOverlay.style.opacity = '1';
-        this.modalOverlay.style.visibility = 'visible';
+    handleKeyboard(e) {
+        if (e.target.closest('.evia-enhanced-modal')) return;
         
-        modal.style.display = 'block';
-        modal.classList.add('active');
-        
-        this.activeModal = modal;
-        this.isModalOpen = true;
-
-        const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        if (firstFocusable) {
-            setTimeout(() => firstFocusable.focus(), 300);
+        switch (e.key) {
+            case 'ArrowLeft':
+                this.prevSlide();
+                break;
+            case 'ArrowRight':
+                this.nextSlide();
+                break;
         }
-
-        this.animateModalContent(modal);
     }
 
-    openModalById(modalId) {
-        if (this.isModalOpen) return;
-
-        const modal = document.getElementById(modalId);
-        if (!modal || !this.modalOverlay) {
-            console.warn(`Modal not found with ID: ${modalId}`);
-            return;
-        }
-
-        document.body.style.overflow = 'hidden';
-
-        this.modalOverlay.style.display = 'flex';
-        this.modalOverlay.classList.add('active');
-        this.modalOverlay.style.opacity = '1';
-        this.modalOverlay.style.visibility = 'visible';
+    // Dots Navigation
+    createDots() {
+        if (!this.dotsContainer) return;
         
-        modal.style.display = 'block';
-        modal.classList.add('active');
+        this.dotsContainer.innerHTML = '';
         
-        this.activeModal = modal;
-        this.isModalOpen = true;
-
-        const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        if (firstFocusable) {
-            setTimeout(() => firstFocusable.focus(), 300);
+        for (let i = 0; i <= this.maxSlide; i++) {
+            const dot = document.createElement('button');
+            dot.className = `dot ${i === 0 ? 'active' : ''}`;
+            dot.setAttribute('data-slide', i);
+            dot.addEventListener('click', () => this.goToSlide(i));
+            this.dotsContainer.appendChild(dot);
         }
-
-        this.animateModalContent(modal);
     }
 
-    closeModal() {
-        if (!this.isModalOpen || !this.activeModal) return;
-
-        this.activeModal.style.display = 'none';
-        this.activeModal.classList.remove('active');
+    updateDots() {
+        if (!this.dotsContainer) return;
         
-        this.modalOverlay.classList.remove('active');
-        this.modalOverlay.style.opacity = '0';
-        this.modalOverlay.style.visibility = 'hidden';
-        
-        setTimeout(() => {
-            this.modalOverlay.style.display = 'none';
-        }, 300);
-
-        document.body.style.overflow = '';
-
-        this.activeModal = null;
-        this.isModalOpen = false;
-    }
-
-    animateModalContent(modal) {
-        const benefits = modal.querySelectorAll('.benefit-list li');
-        benefits.forEach((benefit, index) => {
-            benefit.style.opacity = '0';
-            benefit.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                benefit.style.transition = 'all 0.4s ease';
-                benefit.style.opacity = '1';
-                benefit.style.transform = 'translateY(0)';
-            }, 100 + (index * 50));
-        });
-
-        const stars = modal.querySelectorAll('.stars i');
-        stars.forEach((star, index) => {
-            setTimeout(() => {
-                star.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    star.style.transform = 'scale(1)';
-                }, 200);
-            }, index * 100);
+        const dots = this.dotsContainer.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === this.currentSlide);
         });
     }
 
-    handleBooking() {
-        this.closeModal();
-        this.scrollToContact();
-        this.showNotification('Redirecting to booking...', 'success');
+    updateNavigation() {
+        if (this.prevBtn) {
+            this.prevBtn.style.opacity = this.maxSlide > 0 ? '1' : '0.5';
+        }
+        
+        if (this.nextBtn) {
+            this.nextBtn.style.opacity = this.maxSlide > 0 ? '1' : '0.5';
+        }
     }
 
+    // Autoplay Methods
     startAutoplay() {
-        if (this.isModalOpen) return;
+        if (!this.isAutoplay || this.maxSlide === 0) return;
         
-        this.pauseAutoplay();
         this.autoplayInterval = setInterval(() => {
-            this.nextSlide();
-        }, this.autoplayDelay);
+            if (!this.isDragging && !document.hidden) {
+                this.nextSlide();
+            }
+        }, 5000);
     }
 
     pauseAutoplay() {
@@ -1182,76 +989,378 @@ class EviaWhatsHotCarousel {
         }
     }
 
-    handleResize() {
-        this.calculateLayout();
-        this.setupCarousel();
-        this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
-        this.updateCarousel();
+    resumeAutoplay() {
+        if (this.isAutoplay) {
+            setTimeout(() => {
+                this.startAutoplay();
+            }, 1000);
+        }
     }
 
-    scrollToContact() {
-        const contactSection = document.getElementById('contact') || 
-                             document.querySelector('.contact-section') ||
-                             document.querySelector('[data-section="contact"]');
-        
-        if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
-            
-            window.scrollTo({
-                top: elementPosition,
-                behavior: 'smooth'
+    // Visual Effects
+    addRippleEffect() {
+        const ripples = document.querySelectorAll('.nav-ripple');
+        ripples.forEach(ripple => {
+            ripple.style.animation = 'none';
+            setTimeout(() => {
+                ripple.style.animation = 'navRipple 0.6s ease-out';
+            }, 10);
+        });
+    }
+
+    // Intersection Observer for Performance
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.resumeAutoplay();
+                } else {
+                    this.pauseAutoplay();
+                }
             });
-        } else {
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
+        }, { threshold: 0.5 });
+
+        if (this.section) {
+            observer.observe(this.section);
+        }
+    }
+
+    // Resize Handler
+    handleResize() {
+        this.calculateDimensions();
+        this.updateCarousel();
+        this.createDots();
+    }
+
+    // Modal System
+    setupModals() {
+        // Modal close handlers
+        const closeBtn = document.getElementById('modalCloseBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => this.closeModal());
+        }
+
+        // Overlay click to close
+        if (this.modalOverlay) {
+            this.modalOverlay.addEventListener('click', (e) => {
+                if (e.target === this.modalOverlay) {
+                    this.closeModal();
+                }
+            });
+        }
+
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modalOverlay?.classList.contains('active')) {
+                this.closeModal();
+            }
+        });
+
+        // Book treatment button
+        const bookBtn = document.getElementById('bookTreatmentBtn');
+        if (bookBtn) {
+            bookBtn.addEventListener('click', () => {
+                this.closeModal();
+                this.scrollToContact();
             });
         }
     }
 
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `evia-carousel-notification evia-notification-${type}`;
-        notification.textContent = message;
+    openModal(treatmentType, modalId) {
+        if (!this.modalOverlay) return;
+
+        const treatmentData = this.getTreatmentData(treatmentType);
+        this.populateModal(treatmentData);
         
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--white, #FFFFFF);
-            color: var(--text-primary, #2A1B0A);
-            padding: 16px 24px;
-            border-radius: var(--radius-lg, 1rem);
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08), 0 12px 40px rgba(255, 140, 0, 0.08);
-            border-left: 4px solid var(--hermes-orange, #FF8C00);
-            z-index: 10001;
-            transform: translateX(400px);
-            transition: transform 0.4s ease;
-            font-family: var(--font-inter, 'Inter', sans-serif);
-            font-size: 14px;
-            font-weight: 500;
-            max-width: 300px;
-        `;
+        this.modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
         
-        document.body.appendChild(notification);
-        
-        requestAnimationFrame(() => {
-            notification.style.transform = 'translateX(0)';
-        });
-        
-        setTimeout(() => {
-            notification.style.transform = 'translateX(400px)';
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 400);
-        }, 3000);
+        // Pause carousel autoplay when modal is open
+        this.pauseAutoplay();
+
+        // Add opening animation
+        const modal = this.modalOverlay.querySelector('.evia-enhanced-modal');
+        if (modal) {
+            modal.style.animation = 'modalSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        }
     }
 
-    static getInstance() {
-        return window.eviaWhatsHotCarousel;
+    closeModal() {
+        if (!this.modalOverlay) return;
+
+        this.modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        // Resume autoplay when modal closes
+        this.resumeAutoplay();
+    }
+
+    getTreatmentData(treatmentType) {
+        const treatmentDatabase = {
+            'nad-drip': {
+                title: 'NAD+ Drip',
+                icon: 'ri-drop-line',
+                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-nad-vial.jpg',
+                price: '$450',
+                duration: '90 min',
+                description: 'NAD+ (Nicotinamide Adenine Dinucleotide) IV therapy is a cutting-edge treatment that delivers this essential coenzyme directly into your bloodstream. NAD+ plays a crucial role in cellular energy production, DNA repair, and anti-aging processes. This therapy can help boost mental clarity, increase energy levels, and support overall cellular health.',
+                benefits: [
+                    'Enhanced mental clarity and focus',
+                    'Increased energy and reduced fatigue',
+                    'Improved cellular repair and regeneration',
+                    'Better sleep quality and mood stability',
+                    'Anti-aging benefits at the cellular level'
+                ],
+                details: [
+                    { icon: 'ri-time-line', label: 'Duration', value: '90 Minutes' },
+                    { icon: 'ri-money-dollar-circle-line', label: 'Investment', value: '$450' },
+                    { icon: 'ri-refresh-line', label: 'Frequency', value: 'Weekly' },
+                    { icon: 'ri-shield-check-line', label: 'Safety', value: 'FDA Approved' }
+                ]
+            },
+            'vitamin-c': {
+                title: 'Vitamin C Glow',
+                icon: 'ri-sun-line',
+                image: 'https://images-cdn.u-buy.com.ng/675d1e49fb876a53e42dfee6-vial-vitamin-c-vial-10-ml-mccm.jpg',
+                price: '$180',
+                duration: '45 min',
+                featured: true,
+                description: 'Our Vitamin C Glow IV therapy delivers a powerful dose of vitamin C directly to your cells, bypassing the digestive system for maximum absorption. This treatment supports immune function, promotes collagen production, and gives your skin a radiant, healthy glow from the inside out.',
+                benefits: [
+                    'Brightens and evens skin tone',
+                    'Boosts immune system function',
+                    'Promotes natural collagen production',
+                    'Provides powerful antioxidant protection',
+                    'Enhances natural radiance and glow'
+                ],
+                details: [
+                    { icon: 'ri-time-line', label: 'Duration', value: '45 Minutes' },
+                    { icon: 'ri-money-dollar-circle-line', label: 'Investment', value: '$180' },
+                    { icon: 'ri-refresh-line', label: 'Frequency', value: 'Bi-weekly' },
+                    { icon: 'ri-star-line', label: 'Rating', value: '5.0 Stars' }
+                ]
+            },
+            'hydration': {
+                title: 'Hydration Plus',
+                icon: 'ri-water-percent-line',
+                image: 'https://naturaldripiv.com/wp-content/uploads/2022/07/Natural-Drip-Natural-Buzz-Injection.png',
+                price: '$120',
+                duration: '30 min',
+                description: 'Our Hydration Plus IV therapy is the ultimate solution for rapid rehydration and mineral replenishment. Perfect for recovery from workouts, travel, or illness, this treatment delivers essential electrolytes and fluids directly to your cells for immediate hydration.',
+                benefits: [
+                    'Rapid rehydration and recovery',
+                    'Restores essential electrolyte balance',
+                    'Relieves symptoms of dehydration',
+                    'Improves energy and mental clarity',
+                    'Supports optimal physical performance'
+                ],
+                details: [
+                    { icon: 'ri-time-line', label: 'Duration', value: '30 Minutes' },
+                    { icon: 'ri-money-dollar-circle-line', label: 'Investment', value: '$120' },
+                    { icon: 'ri-refresh-line', label: 'Frequency', value: 'As needed' },
+                    { icon: 'ri-heart-pulse-line', label: 'Benefits', value: 'Immediate' }
+                ]
+            },
+            'energy': {
+                title: 'Energy Boost',
+                icon: 'ri-flashlight-line',
+                image: 'https://ivymenshealth.com/wp-content/uploads/2023/01/energy-1024x1024.png',
+                price: '$150',
+                duration: '20 min',
+                description: 'Our Energy Boost IV therapy combines a powerful blend of B-vitamins, amino acids, and minerals to naturally increase your energy levels and mental focus. This treatment is perfect for combating fatigue, improving concentration, and supporting overall vitality.',
+                benefits: [
+                    'Increased natural energy levels',
+                    'Enhanced mental focus and clarity',
+                    'Reduced fatigue and brain fog',
+                    'Improved mood and motivation',
+                    'Support for healthy metabolism'
+                ],
+                details: [
+                    { icon: 'ri-time-line', label: 'Duration', value: '20 Minutes' },
+                    { icon: 'ri-money-dollar-circle-line', label: 'Investment', value: '$150' },
+                    { icon: 'ri-refresh-line', label: 'Frequency', value: 'Weekly' },
+                    { icon: 'ri-lightning-line', label: 'Effect', value: 'Immediate' }
+                ]
+            },
+            'immunity': {
+                title: 'Immunity Shield',
+                icon: 'ri-shield-check-line',
+                image: 'https://www.olympiapharmacy.com/wp-content/uploads/2022/11/Tri-Immune-scaled.jpg',
+                price: '$200',
+                duration: '60 min',
+                description: 'Our Immunity Shield IV therapy provides your body with a concentrated dose of immune-supporting nutrients including high-dose vitamin C, zinc, and glutathione. This powerful combination helps strengthen your natural defenses and protect against illness.',
+                benefits: [
+                    'Strengthens immune system function',
+                    'Provides powerful antioxidant protection',
+                    'Supports rapid recovery from illness',
+                    'Reduces oxidative stress and inflammation',
+                    'Enhances overall wellness and vitality'
+                ],
+                details: [
+                    { icon: 'ri-time-line', label: 'Duration', value: '60 Minutes' },
+                    { icon: 'ri-money-dollar-circle-line', label: 'Investment', value: '$200' },
+                    { icon: 'ri-refresh-line', label: 'Frequency', value: 'Monthly' },
+                    { icon: 'ri-shield-check-line', label: 'Protection', value: 'Advanced' }
+                ]
+            }
+        };
+
+        return treatmentDatabase[treatmentType] || treatmentDatabase['vitamin-c'];
+    }
+
+    populateModal(data) {
+        if (!data) return;
+
+        // Update modal image
+        const modalImage = document.getElementById('modalImage');
+        if (modalImage) {
+            modalImage.src = data.image;
+            modalImage.alt = data.title;
+        }
+
+        // Update modal icon
+        const modalIcon = document.getElementById('modalIcon');
+        const modalIconSymbol = document.getElementById('modalIconSymbol');
+        if (modalIcon && modalIconSymbol) {
+            modalIconSymbol.className = data.icon;
+            modalIcon.classList.toggle('featured', data.featured || false);
+        }
+
+        // Update modal title
+        const modalTitle = document.getElementById('modalTitle');
+        if (modalTitle) {
+            modalTitle.textContent = data.title;
+        }
+
+        // Update modal description
+        const modalDescription = document.getElementById('modalDescription');
+        if (modalDescription) {
+            modalDescription.textContent = data.description;
+        }
+
+        // Update benefits list
+        const modalBenefits = document.getElementById('modalBenefits');
+        if (modalBenefits && data.benefits) {
+            modalBenefits.innerHTML = data.benefits.map(benefit => `
+                <li>
+                    <i class="ri-check-circle-fill"></i>
+                    ${benefit}
+                </li>
+            `).join('');
+        }
+
+        // Update details grid
+        const modalDetails = document.getElementById('modalDetails');
+        if (modalDetails && data.details) {
+            modalDetails.innerHTML = data.details.map(detail => `
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="${detail.icon}"></i>
+                    </div>
+                    <div class="detail-content">
+                        <span class="detail-label">${detail.label}</span>
+                        <span class="detail-value">${detail.value}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    scrollToContact() {
+        const contactSection = document.getElementById('contact') || document.querySelector('.contact-section');
+        if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+}
+
+// Initialize carousel when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    new EnhancedWhatsHotCarousel();
+});
+
+// Add CSS animations dynamically
+const addCustomAnimations = () => {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes modalSlideIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes navRipple {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+        }
+
+        .evia-treatment-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Enhanced hover states */
+        .evia-treatment-card:hover .treatment-bg-image {
+            filter: brightness(1.1);
+        }
+
+        .evia-treatment-card:hover .treatment-title {
+            text-shadow: 0 2px 8px rgba(255, 140, 0, 0.3);
+        }
+
+        /* Focus states for accessibility */
+        .evia-treatment-card:focus,
+        .evia-carousel-nav:focus,
+        .learn-more-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.4);
+        }
+
+        /* Loading states */
+        .modal-loading .evia-enhanced-modal-body {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Smooth scrolling enhancement */
+        html {
+            scroll-behavior: smooth;
+        }
+    `;
+    
+    document.head.appendChild(style);
+};
+
+// Initialize animations
+document.addEventListener('DOMContentLoaded', addCustomAnimations);
+
+// Utility function for smooth scrolling to contact section
+function scrollToContact() {
+    const contactSection = document.getElementById('contact') || 
+                          document.querySelector('.contact-section') ||
+                          document.querySelector('[id*="contact"]');
+    
+    if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        // Fallback - try to scroll to bottom of page if no contact section found
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 }
 
@@ -2989,7 +3098,7 @@ class EviaAestheticsApp {
             this.components.set('mobileMenu', new ModernMobileMenu());
             this.components.set('header', new ModernLuxuryHeader());
             this.components.set('hero', new HeroSection());
-            this.components.set('whatsHot', new EviaWhatsHotCarousel());
+            this.components.set('whatsHot', new EnhancedWhatsHotCarousel());
             this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
@@ -3278,7 +3387,7 @@ window.addEventListener('unhandledrejection', (event) => {
 });
 
 window.ModernMobileMenu = ModernMobileMenu;
-window.EviaWhatsHotCarousel = EviaWhatsHotCarousel;
+window.EnhancedWhatsHotCarousel = EnhancedWhatsHotCarousel;
 window.HermesFloatingButtons = HermesFloatingButtons;
 window.ModernLuxuryHeader = ModernLuxuryHeader;
 window.HermesServicesScroller = HermesServicesScroller;
