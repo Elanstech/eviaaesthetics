@@ -735,6 +735,107 @@ class ModernMobileMenu {
    EVIA WHAT'S HOT CAROUSEL
    ======================================== */
 
+/* ========================================
+   TREATMENT DATA
+   ======================================== */
+
+const TREATMENT_DATA = {
+    nad: {
+        title: 'NAD+ Drip Therapy',
+        icon: 'ri-drop-line',
+        image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$450',
+        duration: '90 minutes',
+        frequency: 'Weekly',
+        rating: '5.0 (127 reviews)',
+        description: 'NAD+ (Nicotinamide adenine dinucleotide) is a coenzyme that plays a crucial role in cellular energy production and DNA repair. Our premium NAD+ drip therapy delivers this powerful molecule directly to your bloodstream for maximum absorption and effectiveness.',
+        benefits: [
+            'Enhanced mental clarity and focus',
+            'Increased energy levels',
+            'Improved cellular repair',
+            'Anti-aging support',
+            'Better sleep quality'
+        ],
+        featured: false
+    },
+    vitamin: {
+        title: 'Vitamin C Glow',
+        icon: 'ri-sun-line',
+        image: 'https://images.unsplash.com/photo-1570019668-21b8d8c4a7a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$180',
+        duration: '45 minutes',
+        frequency: 'Bi-weekly',
+        rating: '5.0 (203 reviews)',
+        description: 'Our high-dose Vitamin C therapy delivers powerful antioxidants directly to your system, promoting collagen production, immune support, and that coveted healthy glow from within.',
+        benefits: [
+            'Radiant, glowing skin',
+            'Enhanced immune function',
+            'Collagen production boost',
+            'Antioxidant protection',
+            'Faster recovery'
+        ],
+        featured: true
+    },
+    hydration: {
+        title: 'Hydration Plus',
+        icon: 'ri-water-percent-line',
+        image: 'https://images.unsplash.com/photo-1504813184591-01572f98c85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$120',
+        duration: '30 minutes',
+        frequency: 'As needed',
+        rating: '4.9 (89 reviews)',
+        description: 'Our signature hydration therapy combines essential electrolytes, vitamins, and minerals to restore optimal hydration levels and support overall wellness.',
+        benefits: [
+            'Rapid rehydration',
+            'Electrolyte balance',
+            'Improved energy',
+            'Better recovery',
+            'Mental clarity'
+        ],
+        featured: false
+    },
+    energy: {
+        title: 'Energy Boost',
+        icon: 'ri-flashlight-line',
+        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$150',
+        duration: '20 minutes',
+        frequency: 'Weekly',
+        rating: '4.8 (156 reviews)',
+        description: 'Our energy boost therapy combines B-vitamins, amino acids, and minerals to naturally enhance energy levels and support mental focus throughout your day.',
+        benefits: [
+            'Sustained energy boost',
+            'Enhanced mental focus',
+            'Improved mood',
+            'Reduced fatigue',
+            'Better workout performance'
+        ],
+        featured: false
+    },
+    immunity: {
+        title: 'Immunity Shield',
+        icon: 'ri-shield-check-line',
+        image: 'https://images.unsplash.com/photo-1559757175-8a7a5b09e789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$200',
+        duration: '60 minutes',
+        frequency: 'Monthly',
+        rating: '4.9 (92 reviews)',
+        description: 'Our immunity shield therapy delivers high-dose vitamin C, zinc, and other immune-supporting nutrients to strengthen your body\'s natural defense systems.',
+        benefits: [
+            'Enhanced immune function',
+            'Faster illness recovery',
+            'Antioxidant protection',
+            'Seasonal support',
+            'Overall wellness boost'
+        ],
+        featured: false
+    }
+};
+
+/* ========================================
+   EVIA WHAT'S HOT CAROUSEL CONTROLLER
+   ======================================== */
+
 class EviaWhatsHotCarousel {
     constructor() {
         this.section = document.getElementById('whatsHotSection');
@@ -745,9 +846,8 @@ class EviaWhatsHotCarousel {
         this.cards = document.querySelectorAll('.evia-treatment-card');
         this.learnMoreBtns = document.querySelectorAll('.learn-more-btn');
         this.modalOverlay = document.getElementById('modalOverlay');
-        this.modals = document.querySelectorAll('.evia-treatment-modal');
-        this.closeButtons = document.querySelectorAll('.evia-modal-close');
-        this.bookButtons = document.querySelectorAll('.evia-modal-book-btn');
+        this.enhancedModal = document.getElementById('enhancedModal');
+        this.closeButton = document.querySelector('.evia-modal-close');
 
         // Carousel state
         this.currentSlide = 0;
@@ -765,8 +865,8 @@ class EviaWhatsHotCarousel {
         this.dragThreshold = 50;
 
         // Modal state
-        this.activeModal = null;
         this.isModalOpen = false;
+        this.currentTreatment = null;
 
         this.init();
     }
@@ -780,7 +880,7 @@ class EviaWhatsHotCarousel {
         console.log('🔥 Initializing What\'s Hot Carousel');
 
         this.setupEventListeners();
-        this.setupModalFunctionality();
+        this.setupEnhancedModal();
         this.setupResponsive();
         this.setupAccessibility();
         this.updateCarousel();
@@ -858,27 +958,22 @@ class EviaWhatsHotCarousel {
         });
     }
 
-    setupModalFunctionality() {
-        // Close button handlers
-        this.closeButtons.forEach(btn => {
-            btn.addEventListener('click', () => this.closeModal());
-        });
+    setupEnhancedModal() {
+        if (!this.modalOverlay || !this.enhancedModal) return;
 
-        // Overlay click to close
-        if (this.modalOverlay) {
-            this.modalOverlay.addEventListener('click', (e) => {
-                if (e.target === this.modalOverlay) {
-                    this.closeModal();
-                }
-            });
+        // Close button handler
+        if (this.closeButton) {
+            this.closeButton.addEventListener('click', () => this.closeModal());
         }
 
-        // Book button handlers
-        this.bookButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                this.handleBooking();
-            });
+        // Overlay click to close
+        this.modalOverlay.addEventListener('click', (e) => {
+            if (e.target === this.modalOverlay) {
+                this.closeModal();
+            }
         });
+
+        console.log('✅ Enhanced modal functionality initialized');
     }
 
     setupResponsive() {
@@ -900,10 +995,10 @@ class EviaWhatsHotCarousel {
         });
 
         // Modal accessibility
-        this.modals.forEach(modal => {
-            modal.setAttribute('role', 'dialog');
-            modal.setAttribute('aria-modal', 'true');
-        });
+        if (this.enhancedModal) {
+            this.enhancedModal.setAttribute('role', 'dialog');
+            this.enhancedModal.setAttribute('aria-modal', 'true');
+        }
     }
 
     // Carousel Navigation Methods
@@ -1028,97 +1123,233 @@ class EviaWhatsHotCarousel {
         this.startAutoplay();
     }
 
-    // Modal Methods
+    // Enhanced Modal Methods
     openModal(treatmentType) {
-        if (this.isModalOpen) return;
+        if (this.isModalOpen || !TREATMENT_DATA[treatmentType]) return;
 
-        const modal = document.getElementById(`modal-${treatmentType}`);
-        if (!modal || !this.modalOverlay) {
-            console.warn(`Modal not found for treatment: ${treatmentType}`);
-            return;
-        }
+        console.log(`🔓 Opening enhanced modal for: ${treatmentType}`);
 
-        console.log(`Opening modal for: ${treatmentType}`);
+        const treatment = TREATMENT_DATA[treatmentType];
+        this.currentTreatment = treatmentType;
+
+        // Populate modal content
+        this.populateModalContent(treatment);
+        this.populateOtherServices(treatmentType);
 
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
 
-        // Show overlay
+        // Show modal
         this.modalOverlay.classList.add('active');
-        
-        // Show specific modal
-        modal.style.display = 'block';
-        
-        // Set active modal
-        this.activeModal = modal;
         this.isModalOpen = true;
 
         // Focus management
-        const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const firstFocusable = this.enhancedModal.querySelector('button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
         if (firstFocusable) {
             setTimeout(() => firstFocusable.focus(), 300);
         }
 
-        // Animate modal content
-        this.animateModalContent(modal);
+        // Animate content
+        this.animateModalContent();
 
         // Track modal open
-        this.trackEvent('modal_opened', treatmentType);
+        this.trackEvent('enhanced_modal_opened', treatmentType);
+    }
+
+    populateModalContent(treatment) {
+        // Update image
+        const modalImage = document.getElementById('modalImage');
+        if (modalImage) {
+            modalImage.src = treatment.image;
+            modalImage.alt = treatment.title;
+        }
+
+        // Update icon
+        const modalIcon = document.getElementById('modalIcon');
+        const modalIconElement = document.getElementById('modalIconElement');
+        if (modalIconElement) {
+            modalIconElement.className = treatment.icon;
+        }
+        if (modalIcon && treatment.featured) {
+            modalIcon.classList.add('featured');
+        } else if (modalIcon) {
+            modalIcon.classList.remove('featured');
+        }
+
+        // Update title
+        const modalTitle = document.getElementById('modalTitle');
+        if (modalTitle) {
+            modalTitle.textContent = treatment.title;
+        }
+
+        // Update rating
+        const modalRating = document.getElementById('modalRating');
+        if (modalRating) {
+            modalRating.textContent = treatment.rating;
+        }
+
+        // Update description
+        const modalDescription = document.getElementById('modalDescription');
+        if (modalDescription) {
+            modalDescription.textContent = treatment.description;
+        }
+
+        // Update benefits
+        const modalBenefits = document.getElementById('modalBenefits');
+        if (modalBenefits && treatment.benefits) {
+            modalBenefits.innerHTML = treatment.benefits
+                .map(benefit => `<li><i class="ri-check-line"></i> ${benefit}</li>`)
+                .join('');
+        }
+
+        // Update details
+        const modalDuration = document.getElementById('modalDuration');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalFrequency = document.getElementById('modalFrequency');
+        
+        if (modalDuration) modalDuration.textContent = treatment.duration;
+        if (modalPrice) modalPrice.textContent = treatment.price;
+        if (modalFrequency) modalFrequency.textContent = treatment.frequency;
+
+        // Update book button
+        const bookThisBtn = document.getElementById('bookThisBtn');
+        if (bookThisBtn) {
+            const span = bookThisBtn.querySelector('span');
+            if (span) {
+                span.textContent = `Book ${treatment.title}`;
+            }
+        }
+    }
+
+    populateOtherServices(currentTreatment) {
+        const otherServicesGrid = document.getElementById('otherServicesGrid');
+        if (!otherServicesGrid) return;
+
+        // Get other treatments (exclude current one)
+        const otherTreatments = Object.entries(TREATMENT_DATA)
+            .filter(([key]) => key !== currentTreatment)
+            .slice(0, 4); // Limit to 4 other services
+
+        otherServicesGrid.innerHTML = otherTreatments
+            .map(([key, treatment]) => `
+                <div class="other-service-item" onclick="window.eviaWhatsHotCarousel.switchToTreatment('${key}')">
+                    <div class="other-service-header">
+                        <div class="other-service-icon">
+                            <i class="${treatment.icon}"></i>
+                        </div>
+                        <div class="other-service-info">
+                            <h5>${treatment.title}</h5>
+                        </div>
+                    </div>
+                    <div class="other-service-price">${treatment.price}</div>
+                </div>
+            `).join('');
+    }
+
+    switchToTreatment(treatmentType) {
+        if (!TREATMENT_DATA[treatmentType] || treatmentType === this.currentTreatment) return;
+
+        console.log(`🔄 Switching to treatment: ${treatmentType}`);
+
+        const treatment = TREATMENT_DATA[treatmentType];
+        this.currentTreatment = treatmentType;
+
+        // Update modal content with smooth transition
+        this.enhancedModal.style.opacity = '0.7';
+        this.enhancedModal.style.transform = 'scale(0.98)';
+
+        setTimeout(() => {
+            this.populateModalContent(treatment);
+            this.populateOtherServices(treatmentType);
+
+            this.enhancedModal.style.opacity = '1';
+            this.enhancedModal.style.transform = 'scale(1)';
+
+            // Re-animate content
+            this.animateModalContent();
+        }, 200);
+
+        // Track treatment switch
+        this.trackEvent('treatment_switched', treatmentType);
     }
 
     closeModal() {
-        if (!this.isModalOpen || !this.activeModal) return;
+        if (!this.isModalOpen) return;
 
-        console.log('Closing modal');
+        console.log('🔒 Closing enhanced modal');
 
-        // Hide specific modal
-        this.activeModal.style.display = 'none';
-        
-        // Hide overlay
+        // Hide modal
         this.modalOverlay.classList.remove('active');
 
         // Restore body scroll
         document.body.style.overflow = '';
 
         // Reset state
-        this.activeModal = null;
         this.isModalOpen = false;
+        this.currentTreatment = null;
 
         // Track modal close
-        this.trackEvent('modal_closed', 'user_action');
+        this.trackEvent('enhanced_modal_closed', 'user_action');
     }
 
-    animateModalContent(modal) {
+    animateModalContent() {
         // Animate benefit list items
-        const benefits = modal.querySelectorAll('.benefit-list li');
+        const benefits = this.enhancedModal.querySelectorAll('.benefit-list li');
         benefits.forEach((benefit, index) => {
             benefit.style.opacity = '0';
             benefit.style.transform = 'translateY(20px)';
             
             setTimeout(() => {
-                benefit.style.transition = 'all 0.4s ease';
+                benefit.style.transition = 'all 0.5s ease';
                 benefit.style.opacity = '1';
                 benefit.style.transform = 'translateY(0)';
-            }, 100 + (index * 50));
+            }, 100 + (index * 75));
+        });
+
+        // Animate other service items
+        const otherServices = this.enhancedModal.querySelectorAll('.other-service-item');
+        otherServices.forEach((service, index) => {
+            service.style.opacity = '0';
+            service.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                service.style.transition = 'all 0.4s ease';
+                service.style.opacity = '1';
+                service.style.transform = 'translateY(0)';
+            }, 200 + (index * 100));
         });
 
         // Animate stars
-        const stars = modal.querySelectorAll('.stars i');
+        const stars = this.enhancedModal.querySelectorAll('.stars i');
         stars.forEach((star, index) => {
             setTimeout(() => {
-                star.style.transform = 'scale(1.2)';
+                star.style.transform = 'scale(1.3) rotate(10deg)';
                 setTimeout(() => {
-                    star.style.transform = 'scale(1)';
-                }, 200);
-            }, index * 100);
+                    star.style.transform = 'scale(1) rotate(0deg)';
+                }, 300);
+            }, index * 120);
+        });
+
+        // Animate detail items
+        const detailItems = this.enhancedModal.querySelectorAll('.detail-item');
+        detailItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-20px)';
+            
+            setTimeout(() => {
+                item.style.transition = 'all 0.4s ease';
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            }, 300 + (index * 100));
         });
     }
 
+    // Modal Methods (updated for enhanced modal)
     handleBooking() {
-        console.log('Booking button clicked');
+        console.log('📞 Booking button clicked from enhanced modal');
         this.closeModal();
         this.scrollToContact();
-        this.trackEvent('booking_clicked', 'modal_cta');
+        this.trackEvent('booking_clicked', `enhanced_modal_${this.currentTreatment}`);
         this.showNotification('Redirecting to booking...', 'success');
     }
 
