@@ -490,9 +490,11 @@ class ModernMobileMenu {
     constructor() {
         // More flexible element selection
         this.toggle = this.findElement([
-            '#mobileToggle',
-            '.circle-menu-toggle',
-            '[data-mobile-toggle]'
+       '#luxuryMobileToggle',
+       '#mobileToggle',
+       '.luxury-mobile-toggle',
+       '[data-mobile-toggle]'
+         
         ]);
         
         this.menu = this.findElement([
