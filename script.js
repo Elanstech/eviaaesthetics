@@ -1255,6 +1255,10 @@ class EviaWhatsHotCarousel {
     }
 }
 
+/* ========================================
+   UTILITY FUNCTIONS
+   ======================================== */
+
 function scrollToContact() {
     const carousel = EviaWhatsHotCarousel.getInstance();
     if (carousel) {
@@ -1282,6 +1286,10 @@ function scrollToContact() {
     }
 }
 
+/* ========================================
+   INITIALIZATION
+   ======================================== */
+
 // Initialize when DOM is ready
 function initEviaWhatsHotCarousel() {
     if (document.readyState === 'loading') {
@@ -1295,6 +1303,10 @@ function initEviaWhatsHotCarousel() {
 
 // Auto-initialize
 initEviaWhatsHotCarousel();
+
+/* ========================================
+   INTERSECTION OBSERVER FOR PERFORMANCE
+   ======================================== */
 
 // Lazy load carousel functionality when section comes into view
 if ('IntersectionObserver' in window) {
@@ -1338,6 +1350,10 @@ if ('IntersectionObserver' in window) {
     });
 }
 
+/* ========================================
+   ERROR HANDLING & DEBUGGING
+   ======================================== */
+
 // Global error handler for carousel-related errors
 window.addEventListener('error', (e) => {
     if (e.filename && e.filename.includes('whats-hot') || 
@@ -1380,78 +1396,6 @@ if (typeof define === 'function' && define.amd) {
 
 // Make available globally
 window.EviaWhatsHotCarousel = EviaWhatsHotCarousel;
-
-/* ========================================
-   HERO SECTION
-   ======================================== */
-class HeroSection {
-    constructor() {
-        this.hero = document.querySelector('.cinematic-hero');
-        this.ctaBtn = document.querySelector('.hero-cta-signature');
-        this.scrollIndicator = document.querySelector('.hero-scroll-indicator-elegant');
-        
-        if (this.hero) {
-            this.init();
-            console.log('✅ Hero Section Initialized');
-        }
-    }
-
-    init() {
-        this.bindEvents();
-    }
-
-    bindEvents() {
-        if (this.ctaBtn) {
-            this.ctaBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.scrollToContact();
-            });
-            
-            this.ctaBtn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                this.scrollToContact();
-            });
-        }
-
-        if (this.scrollIndicator) {
-            this.scrollIndicator.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.scrollToServices();
-            });
-            
-            this.scrollIndicator.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                this.scrollToServices();
-            });
-        }
-    }
-
-    scrollToContact() {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
-            
-            window.scrollTo({
-                top: elementPosition,
-                behavior: 'smooth'
-            });
-        }
-    }
-
-    scrollToServices() {
-        const servicesSection = document.getElementById('services');
-        if (servicesSection) {
-            const headerHeight = 80;
-            const elementPosition = servicesSection.offsetTop - headerHeight;
-            
-            window.scrollTo({
-                top: elementPosition,
-                behavior: 'smooth'
-            });
-        }
-    }
-}
 
 /* ========================================
    SERVICES CAROUSEL
