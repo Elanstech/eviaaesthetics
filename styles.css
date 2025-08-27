@@ -531,7 +531,7 @@ body {
 
 .mobile-menu-circle {
     position: relative;
-    z-index: 10;
+    z-index: 1001;
 }
 
 .circle-menu-toggle {
@@ -739,7 +739,7 @@ body {
 .modern-mobile-menu {
     position: fixed;
     top: 0;
-    right: -100%;
+    right: 0;
     width: min(400px, 85vw);
     height: 100vh;
     background: linear-gradient(135deg, 
@@ -748,7 +748,7 @@ body {
     );
     backdrop-filter: blur(60px) saturate(180%);
     z-index: 1999;
-    transition: right var(--transition-slow);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: -20px 0 40px rgba(0, 0, 0, 0.1);
     border-left: 1px solid rgba(255, 140, 0, 0.2);
     border-radius: 2rem 0 0 2rem;
@@ -757,7 +757,6 @@ body {
 }
 
 .modern-mobile-menu.active { 
-    right: 0; 
     transform: translateX(0);
     visibility: visible;
 }
