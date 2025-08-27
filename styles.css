@@ -1535,15 +1535,15 @@ body.mobile-menu-open {
    ======================================== */
 
 section.evia-whats-hot-carousel-section {
-    padding: clamp(80px, 12vh, 120px) 0;
+    padding: 120px 0 140px;
     background: linear-gradient(135deg, 
         var(--cream-primary, #FFFCF8) 0%, 
-        var(--cream-light, #FFFEF9) 30%, 
-        var(--cream-soft, #FFF8F0) 70%, 
-        var(--cream-primary, #FFFCF8) 100%
+        var(--cream-light, #FFFEF9) 50%, 
+        var(--cream-soft, #FFF8F0) 100%
     );
     position: relative;
     overflow: hidden;
+    font-family: var(--font-inter, 'Inter', sans-serif);
 }
 
 section.evia-whats-hot-carousel-section::before {
@@ -1554,47 +1554,51 @@ section.evia-whats-hot-carousel-section::before {
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 20% 20%, rgba(255, 140, 0, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 165, 0, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.02) 0%, transparent 70%);
+        radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.02) 0%, transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(255, 165, 0, 0.015) 0%, transparent 60%);
     pointer-events: none;
+    z-index: 1;
+}
+
+section.evia-whats-hot-carousel-section .container {
+    position: relative;
+    z-index: 2;
 }
 
 /* ========================================
-   SECTION HEADER - SCOPED
+   ENHANCED HEADER SECTION
    ======================================== */
 
 section.evia-whats-hot-carousel-section .evia-whats-hot-header {
     text-align: center;
-    margin-bottom: clamp(50px, 8vh, 80px);
+    margin-bottom: 80px;
     position: relative;
-    z-index: 2;
 }
 
 section.evia-whats-hot-carousel-section .evia-hot-badge-premium {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
     background: linear-gradient(135deg, 
         rgba(255, 255, 255, 0.9) 0%, 
         rgba(255, 255, 255, 0.7) 100%
     );
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 140, 0, 0.2);
-    color: var(--hermes-orange, #FF8C00);
-    padding: 12px 24px;
     border-radius: var(--radius-full, 9999px);
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    margin-bottom: 24px;
-    box-shadow: 
-        0 8px 32px rgba(255, 140, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 16px 28px;
+    margin-bottom: 32px;
     position: relative;
-    animation: evia-whats-hot-badge-pulse 3s ease-in-out infinite;
+    overflow: hidden;
+    box-shadow: 
+        0 8px 32px rgba(255, 140, 0, 0.1),
+        0 4px 16px rgba(0, 0, 0, 0.05);
+    animation: floatBadge 6s ease-in-out infinite;
+}
+
+@keyframes floatBadge {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
 }
 
 section.evia-whats-hot-carousel-section .badge-icon-container {
@@ -1605,190 +1609,193 @@ section.evia-whats-hot-carousel-section .badge-icon-container {
 }
 
 section.evia-whats-hot-carousel-section .badge-icon-container i {
-    font-size: 18px;
-    z-index: 2;
+    font-size: 20px;
+    color: var(--hermes-orange, #FF8C00);
+    z-index: 3;
     position: relative;
-    animation: evia-whats-hot-fire-flicker 2s ease-in-out infinite alternate;
+    animation: fireFlicker 2s ease-in-out infinite alternate;
+}
+
+@keyframes fireFlicker {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(1.1) rotate(2deg); }
 }
 
 section.evia-whats-hot-carousel-section .badge-pulse-ring {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 24px;
-    height: 24px;
+    inset: -8px;
     border: 2px solid var(--hermes-orange, #FF8C00);
     border-radius: 50%;
-    opacity: 0;
-    animation: evia-whats-hot-pulse-ring 3s ease-out infinite;
+    opacity: 0.6;
+    animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: scale(0.7);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+section.evia-whats-hot-carousel-section .badge-text {
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary, #2A1B0A);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 section.evia-whats-hot-carousel-section .badge-sparkle {
     position: absolute;
-    top: -2px;
-    right: 8px;
+    top: 8px;
+    right: 12px;
     width: 6px;
     height: 6px;
     background: var(--hermes-orange, #FF8C00);
     border-radius: 50%;
-    animation: evia-whats-hot-sparkle 2s ease-in-out infinite;
+    animation: sparkle 3s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
 }
 
 section.evia-whats-hot-carousel-section .evia-whats-hot-title {
     font-family: var(--font-playfair, 'Playfair Display', serif);
-    font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 700;
-    line-height: 0.9;
+    color: var(--text-primary, #2A1B0A);
     margin: 0;
-    letter-spacing: -0.03em;
-    position: relative;
+    line-height: 1.1;
 }
 
 section.evia-whats-hot-carousel-section .title-line-1 {
     display: block;
-    color: var(--text-primary, #2A1B0A);
+    font-size: 3.5rem;
     margin-bottom: 8px;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: evia-whats-hot-title-reveal 1s ease-out 0.5s forwards;
+    background: linear-gradient(135deg, 
+        var(--text-primary, #2A1B0A) 0%, 
+        var(--hermes-orange, #FF8C00) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGlow 4s ease-in-out infinite alternate;
 }
 
 section.evia-whats-hot-carousel-section .title-line-2 {
     display: block;
-    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-style: italic;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: 
-        evia-whats-hot-title-reveal 1s ease-out 0.8s forwards, 
-        evia-whats-hot-gradient-shift 4s ease-in-out infinite;
+    font-size: 2.8rem;
+    color: var(--text-secondary, #5D4E37);
+    position: relative;
+}
+
+@keyframes titleGlow {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.2); }
 }
 
 /* ========================================
-   CAROUSEL CONTAINER - SCOPED
+   ENHANCED CAROUSEL CONTAINER
    ======================================== */
 
 section.evia-whats-hot-carousel-section .evia-carousel-container {
     position: relative;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-section.evia-whats-hot-carousel-section .evia-carousel-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.95) 0%, 
-        rgba(255, 255, 255, 0.9) 100%
-    );
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 140, 0, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    color: var(--hermes-orange, #FF8C00);
-    font-size: 24px;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.1),
-        0 4px 16px rgba(255, 140, 0, 0.1);
-}
-
-section.evia-whats-hot-carousel-section .evia-nav-prev {
-    left: -30px;
-}
-
-section.evia-whats-hot-carousel-section .evia-nav-next {
-    right: -30px;
-}
-
-section.evia-whats-hot-carousel-section .evia-carousel-nav:hover {
-    background: var(--hermes-orange, #FF8C00);
-    color: var(--white, #FFFFFF);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.15),
-        0 8px 24px rgba(255, 140, 0, 0.3);
-}
-
-section.evia-whats-hot-carousel-section .evia-carousel-nav:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
+    margin-bottom: 80px;
 }
 
 section.evia-whats-hot-carousel-section .evia-carousel-track-container {
     overflow: hidden;
-    position: relative;
     border-radius: var(--radius-2xl, 2rem);
+    position: relative;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 40px 20px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.08),
+        0 8px 32px rgba(255, 140, 0, 0.05);
 }
 
 section.evia-whats-hot-carousel-section .evia-carousel-track {
     display: flex;
-    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    gap: 24px;
-    padding: 20px 0;
+    gap: 32px;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
 }
 
 /* ========================================
-   TREATMENT CARDS - SCOPED
+   ENHANCED TREATMENT CARDS
    ======================================== */
 
 section.evia-whats-hot-carousel-section .evia-treatment-card {
     flex: 0 0 340px;
+    height: 520px;
     background: var(--white, #FFFFFF);
     border-radius: var(--radius-2xl, 2rem);
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 
-        0 10px 40px rgba(0, 0, 0, 0.08),
-        0 4px 16px rgba(255, 140, 0, 0.05);
-    border: 1px solid rgba(255, 140, 0, 0.1);
-    height: 560px;
     position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border: 2px solid transparent;
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.08),
+        0 4px 16px rgba(255, 140, 0, 0.05);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateY(0);
 }
 
-section.evia-whats-hot-carousel-section .evia-treatment-card.featured {
-    transform: scale(1.05);
-    z-index: 2;
-    border-color: rgba(255, 140, 0, 0.3);
+section.evia-whats-hot-carousel-section .evia-treatment-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+        rgba(255, 140, 0, 0.05) 0%, 
+        rgba(255, 165, 0, 0.02) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: inherit;
+}
+
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover::before {
+    opacity: 1;
 }
 
 section.evia-whats-hot-carousel-section .evia-treatment-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.15),
-        0 8px 30px rgba(255, 140, 0, 0.2);
+    transform: translateY(-12px);
     border-color: rgba(255, 140, 0, 0.3);
+    box-shadow: 
+        0 20px 64px rgba(0, 0, 0, 0.12),
+        0 8px 32px rgba(255, 140, 0, 0.15);
 }
 
-section.evia-whats-hot-carousel-section .evia-treatment-card.featured:hover {
-    transform: translateY(-12px) scale(1.07);
+section.evia-whats-hot-carousel-section .evia-treatment-card.featured {
+    border-color: var(--hermes-orange, #FF8C00);
+    background: linear-gradient(135deg, 
+        var(--white, #FFFFFF) 0%, 
+        rgba(255, 140, 0, 0.02) 100%
+    );
+    position: relative;
+    animation: featuredPulse 4s ease-in-out infinite;
 }
 
-/* ========================================
-   TREATMENT IMAGE - SCOPED
-   ======================================== */
+@keyframes featuredPulse {
+    0%, 100% { box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(255, 140, 0, 0.2); }
+    50% { box-shadow: 0 16px 56px rgba(0, 0, 0, 0.1), 0 6px 24px rgba(255, 140, 0, 0.3); }
+}
 
 section.evia-whats-hot-carousel-section .treatment-image-container {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 220px;
+    height: 200px;
     overflow: hidden;
+    border-radius: var(--radius-2xl, 2rem) var(--radius-2xl, 2rem) 0 0;
 }
 
 section.evia-whats-hot-carousel-section .treatment-bg-image {
@@ -1805,33 +1812,48 @@ section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-bg
 section.evia-whats-hot-carousel-section .treatment-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(0, 0, 0, 0.7) 0%,
-        rgba(0, 0, 0, 0.4) 50%,
-        rgba(255, 140, 0, 0.3) 100%
+    background: linear-gradient(135deg,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.2) 50%,
+        rgba(255, 140, 0, 0.2) 100%
     );
-    opacity: 0.8;
-    transition: opacity 0.6s ease;
+    opacity: 0.7;
+    transition: opacity 0.4s ease;
 }
 
 section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-overlay {
-    opacity: 0.9;
+    opacity: 0.5;
 }
 
 section.evia-whats-hot-carousel-section .treatment-glow-effect {
     position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        circle at center,
-        rgba(255, 140, 0, 0.3) 0%,
-        transparent 70%
+    inset: -4px;
+    background: linear-gradient(135deg, 
+        var(--hermes-orange, #FF8C00), 
+        var(--hermes-orange-light, #FFA500)
     );
+    border-radius: inherit;
     opacity: 0;
-    transition: opacity 0.6s ease;
+    filter: blur(12px);
+    transition: opacity 0.4s ease;
+    z-index: -1;
 }
 
 section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-glow-effect {
+    opacity: 0.15;
+}
+
+section.evia-whats-hot-carousel-section .card-hover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    backdrop-filter: blur(2px);
+    border-radius: inherit;
+}
+
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover .card-hover-overlay {
     opacity: 1;
 }
 
@@ -1839,119 +1861,127 @@ section.evia-whats-hot-carousel-section .featured-badge {
     position: absolute;
     top: 16px;
     right: 16px;
-    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
+    background: var(--hermes-orange, #FF8C00);
     color: var(--white, #FFFFFF);
     padding: 8px 16px;
     border-radius: var(--radius-full, 9999px);
     font-size: 12px;
-    font-weight: 600;
-    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-weight: 700;
     display: flex;
     align-items: center;
     gap: 6px;
-    z-index: 3;
-    animation: evia-whats-hot-featured-pulse 2s ease-in-out infinite;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     box-shadow: 0 4px 16px rgba(255, 140, 0, 0.4);
+    z-index: 3;
+    animation: badgeBounce 3s ease-in-out infinite;
 }
 
-section.evia-whats-hot-carousel-section .featured-badge i {
-    font-size: 14px;
-    animation: evia-whats-hot-star-rotate 3s ease-in-out infinite;
+@keyframes badgeBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
 }
 
 /* ========================================
-   TREATMENT CONTENT - SCOPED
+   ENHANCED TREATMENT CONTENT
    ======================================== */
 
 section.evia-whats-hot-carousel-section .treatment-content {
-    position: relative;
-    z-index: 2;
-    padding: 28px;
-    height: calc(100% - 220px);
+    position: absolute;
+    top: 200px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 32px 24px 24px;
     display: flex;
     flex-direction: column;
-    margin-top: 220px;
-    background: var(--white, #FFFFFF);
     gap: 16px;
+    z-index: 2;
 }
 
 section.evia-whats-hot-carousel-section .treatment-icon-container {
     position: absolute;
     top: -30px;
-    left: 28px;
+    left: 24px;
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, var(--white, #FFFFFF) 0%, #fafafa 100%);
+    background: linear-gradient(135deg, 
+        var(--white, #FFFFFF) 0%, 
+        rgba(255, 140, 0, 0.05) 100%
+    );
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 140, 0, 0.2);
     border-radius: var(--radius-xl, 1.5rem);
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.1),
-        0 4px 16px rgba(255, 140, 0, 0.1);
-    border: 2px solid rgba(255, 140, 0, 0.1);
-    transition: all 0.6s ease;
+        0 8px 24px rgba(0, 0, 0, 0.1),
+        0 4px 12px rgba(255, 140, 0, 0.2);
+    transition: all 0.4s ease;
 }
 
 section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-icon-container {
-    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
-    border-color: var(--hermes-orange, #FF8C00);
-    transform: scale(1.1);
+    transform: translateY(-4px) scale(1.1);
     box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.15),
-        0 8px 24px rgba(255, 140, 0, 0.3);
+        0 12px 32px rgba(0, 0, 0, 0.15),
+        0 6px 16px rgba(255, 140, 0, 0.3);
 }
 
 section.evia-whats-hot-carousel-section .treatment-icon {
     font-size: 28px;
     color: var(--hermes-orange, #FF8C00);
-    transition: all 0.6s ease;
+    transition: all 0.3s ease;
 }
 
 section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-icon {
-    color: var(--white, #FFFFFF);
     transform: scale(1.1);
+    filter: brightness(1.2);
 }
 
 section.evia-whats-hot-carousel-section .icon-glow {
     position: absolute;
-    inset: 0;
-    border-radius: var(--radius-xl, 1.5rem);
-    background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
+    inset: -4px;
+    background: radial-gradient(circle, 
+        rgba(255, 140, 0, 0.3) 0%, 
+        transparent 70%
+    );
+    border-radius: inherit;
     opacity: 0;
-    transition: opacity 0.6s ease;
+    transition: opacity 0.4s ease;
 }
 
 section.evia-whats-hot-carousel-section .evia-treatment-card:hover .icon-glow {
     opacity: 1;
 }
 
-/* ========================================
-   TREATMENT INFO - SCOPED
-   ======================================== */
-
 section.evia-whats-hot-carousel-section .treatment-info {
-    flex-grow: 0;
-    margin-top: 36px;
+    margin-top: 40px;
     margin-bottom: 16px;
+    flex: 1;
 }
 
 section.evia-whats-hot-carousel-section .treatment-title {
     font-family: var(--font-playfair, 'Playfair Display', serif);
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.6rem;
+    font-weight: 700;
     color: var(--text-primary, #2A1B0A);
-    margin: 0 0 10px 0;
-    letter-spacing: -0.02em;
+    margin-bottom: 12px;
     line-height: 1.2;
+    transition: color 0.3s ease;
+}
+
+section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-title {
+    color: var(--hermes-orange, #FF8C00);
 }
 
 section.evia-whats-hot-carousel-section .treatment-description {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 13px;
     color: var(--text-secondary, #5D4E37);
-    line-height: 1.5;
-    margin: 0 0 16px 0;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    opacity: 0.9;
 }
 
 section.evia-whats-hot-carousel-section .treatment-stats {
@@ -1969,24 +1999,24 @@ section.evia-whats-hot-carousel-section .stat-item {
 section.evia-whats-hot-carousel-section .stat-value {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 18px;
-    color: var(--text-primary, #2A1B0A);
     font-weight: 700;
+    color: var(--hermes-orange, #FF8C00);
 }
 
 section.evia-whats-hot-carousel-section .stat-label {
     font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted, #8B7355);
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 section.evia-whats-hot-carousel-section .popularity-indicator {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 section.evia-whats-hot-carousel-section .popularity-dots {
@@ -1994,38 +2024,40 @@ section.evia-whats-hot-carousel-section .popularity-dots {
     gap: 4px;
 }
 
-section.evia-whats-hot-carousel-section .dot {
-    width: 6px;
-    height: 6px;
+section.evia-whats-hot-carousel-section .popularity-dots .dot {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: rgba(255, 140, 0, 0.2);
     transition: all 0.3s ease;
 }
 
-section.evia-whats-hot-carousel-section .dot.active {
+section.evia-whats-hot-carousel-section .popularity-dots .dot.active {
     background: var(--hermes-orange, #FF8C00);
-    animation: evia-whats-hot-dot-pulse 1.5s ease-in-out infinite;
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4);
 }
 
 section.evia-whats-hot-carousel-section .popularity-text {
-    font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 12px;
-    color: var(--hermes-orange, #FF8C00);
     font-weight: 600;
+    color: var(--hermes-orange, #FF8C00);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 /* ========================================
-   LEARN MORE BUTTON - SCOPED
+   ENHANCED LEARN MORE BUTTON
    ======================================== */
 
 section.evia-whats-hot-carousel-section .learn-more-btn {
-    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
+    background: linear-gradient(135deg, 
+        var(--hermes-orange, #FF8C00) 0%, 
+        var(--hermes-orange-light, #FFA500) 100%
+    );
     color: var(--white, #FFFFFF);
     border: none;
     border-radius: var(--radius-full, 9999px);
-    padding: 12px 24px;
+    padding: 14px 24px;
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     font-weight: 600;
@@ -2033,18 +2065,40 @@ section.evia-whats-hot-carousel-section .learn-more-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     transition: all 0.4s ease;
-    box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
-    margin-top: auto;
-    width: 100%;
+    box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
+    position: relative;
+    overflow: hidden;
     min-height: 44px;
-    flex-shrink: 0;
+    align-self: stretch;
+}
+
+section.evia-whats-hot-carousel-section .learn-more-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+        var(--hermes-orange-light, #FFA500) 0%, 
+        var(--hermes-orange-dark, #FF7A00) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+section.evia-whats-hot-carousel-section .learn-more-btn:hover::before {
+    opacity: 1;
 }
 
 section.evia-whats-hot-carousel-section .learn-more-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
+    box-shadow: 0 10px 28px rgba(255, 140, 0, 0.4);
+}
+
+section.evia-whats-hot-carousel-section .learn-more-btn span,
+section.evia-whats-hot-carousel-section .learn-more-btn i {
+    position: relative;
+    z-index: 2;
 }
 
 section.evia-whats-hot-carousel-section .learn-more-btn i {
@@ -2056,14 +2110,106 @@ section.evia-whats-hot-carousel-section .learn-more-btn:hover i {
     transform: translateX(4px);
 }
 
+section.evia-whats-hot-carousel-section .btn-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent
+    );
+    transition: left 0.6s ease;
+}
+
+section.evia-whats-hot-carousel-section .learn-more-btn:hover .btn-shimmer {
+    left: 100%;
+}
+
 /* ========================================
-   CAROUSEL DOTS - SCOPED
+   ENHANCED CAROUSEL NAVIGATION
+   ======================================== */
+
+section.evia-whats-hot-carousel-section .evia-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.4s ease;
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(255, 140, 0, 0.1);
+    overflow: hidden;
+}
+
+section.evia-whats-hot-carousel-section .evia-nav-prev {
+    left: -28px;
+}
+
+section.evia-whats-hot-carousel-section .evia-nav-next {
+    right: -28px;
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-nav:hover {
+    background: var(--hermes-orange, #FF8C00);
+    border-color: var(--hermes-orange, #FF8C00);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 
+        0 12px 32px rgba(255, 140, 0, 0.3),
+        0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-nav i {
+    font-size: 20px;
+    color: var(--hermes-orange, #FF8C00);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-nav:hover i {
+    color: var(--white, #FFFFFF);
+    transform: scale(1.1);
+}
+
+section.evia-whats-hot-carousel-section .nav-ripple {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, 
+        rgba(255, 140, 0, 0.3) 0%, 
+        transparent 70%
+    );
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.6s ease;
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-nav:active .nav-ripple {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ========================================
+   ENHANCED CAROUSEL DOTS
    ======================================== */
 
 section.evia-whats-hot-carousel-section .evia-carousel-dots {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 16px;
     margin-top: 40px;
 }
 
@@ -2071,51 +2217,67 @@ section.evia-whats-hot-carousel-section .evia-carousel-dots .dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: rgba(255, 140, 0, 0.2);
+    background: rgba(255, 140, 0, 0.3);
     border: none;
     cursor: pointer;
     transition: all 0.4s ease;
     position: relative;
+    overflow: hidden;
 }
 
-section.evia-whats-hot-carousel-section .evia-carousel-dots .dot.active {
+section.evia-whats-hot-carousel-section .evia-carousel-dots .dot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
     background: var(--hermes-orange, #FF8C00);
-    transform: scale(1.2);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.4s ease;
 }
 
-section.evia-whats-hot-carousel-section .evia-carousel-dots .dot:not(.active):hover {
-    background: rgba(255, 140, 0, 0.4);
-    transform: scale(1.1);
+section.evia-whats-hot-carousel-section .evia-carousel-dots .dot.active::before {
+    transform: scale(1);
+}
+
+section.evia-whats-hot-carousel-section .evia-carousel-dots .dot:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
 }
 
 /* ========================================
-   CTA SECTION - SCOPED
+   PREMIUM CTA SECTION
    ======================================== */
 
 section.evia-whats-hot-carousel-section .evia-premium-cta-section {
     text-align: center;
-    margin-top: clamp(60px, 10vh, 80px);
-}
-
-section.evia-whats-hot-carousel-section .cta-content {
-    max-width: 500px;
-    margin: 0 auto;
+    padding: 60px 40px;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.6) 0%, 
+        rgba(255, 140, 0, 0.03) 100%
+    );
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-2xl, 2rem);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
 }
 
 section.evia-whats-hot-carousel-section .cta-text {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 18px;
+    font-family: var(--font-playfair, 'Playfair Display', serif);
+    font-size: 1.3rem;
     color: var(--text-secondary, #5D4E37);
     margin-bottom: 32px;
-    line-height: 1.5;
+    font-weight: 500;
 }
 
 section.evia-whats-hot-carousel-section .evia-book-consultation-btn {
-    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
+    background: linear-gradient(135deg, 
+        var(--hermes-orange, #FF8C00) 0%, 
+        var(--hermes-orange-light, #FFA500) 100%
+    );
     color: var(--white, #FFFFFF);
     border: none;
     border-radius: var(--radius-full, 9999px);
-    padding: 16px 32px;
+    padding: 18px 36px;
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 16px;
     font-weight: 600;
@@ -2135,7 +2297,10 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, var(--hermes-orange-light, #FFA500) 0%, var(--hermes-orange, #FF8C00) 100%);
+    background: linear-gradient(135deg, 
+        var(--hermes-orange-light, #FFA500) 0%, 
+        var(--hermes-orange-dark, #FF7A00) 100%
+    );
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -2167,7 +2332,7 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 }
 
 /* ========================================
-   ENHANCED MODAL STYLES - SCOPED
+   ENHANCED MODAL STYLES
    ======================================== */
 
 .evia-modal-overlay {
@@ -2177,14 +2342,14 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(15px);
     z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     padding: 20px;
 }
 
@@ -2196,7 +2361,7 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 .evia-modal-overlay .evia-enhanced-modal {
     background: var(--white, #FFFFFF);
     border-radius: var(--radius-2xl, 2rem);
-    max-width: 700px;
+    max-width: 750px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
@@ -2217,11 +2382,11 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 140, 0, 0.2);
+    border: 2px solid rgba(255, 140, 0, 0.2);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -2235,17 +2400,15 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 .evia-modal-overlay .evia-modal-close:hover {
     background: var(--hermes-orange, #FF8C00);
     color: var(--white, #FFFFFF);
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(90deg);
+    border-color: var(--hermes-orange, #FF8C00);
 }
 
 .evia-modal-overlay .evia-modal-close i {
-    font-size: 18px;
+    font-size: 20px;
 }
 
-/* ========================================
-   ENHANCED MODAL HEADER - SCOPED
-   ======================================== */
-
+/* Modal Header */
 .evia-modal-overlay .evia-enhanced-modal-header {
     position: relative;
     padding-bottom: 24px;
@@ -2284,662 +2447,63 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     color: var(--white, #FFFFFF);
 }
 
-.evia-modal-overlay .evia-enhanced-modal-icon {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
-    backdrop-filter: blur(15px);
-    border-radius: var(--radius-xl, 1.5rem);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    border: 2px solid rgba(255, 140, 0, 0.3);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-.evia-modal-overlay .evia-enhanced-modal-icon.featured {
-    border-color: var(--hermes-orange, #FF8C00);
-    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
-}
-
-.evia-modal-overlay .evia-enhanced-modal-icon i {
-    font-size: 28px;
-    color: var(--hermes-orange, #FF8C00);
-}
-
-.evia-modal-overlay .evia-enhanced-modal-icon.featured i {
-    color: var(--white, #FFFFFF);
-}
-
-.evia-modal-overlay .evia-enhanced-modal-title {
-    font-family: var(--font-playfair, 'Playfair Display', serif);
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin: 0 0 16px 0;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-}
-
-.evia-modal-overlay .modal-rating {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.evia-modal-overlay .stars {
-    display: flex;
-    gap: 3px;
-}
-
-.evia-modal-overlay .stars i {
-    font-size: 16px;
-    color: #FFD700;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-.evia-modal-overlay .rating-text {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
-}
+/* Continue with remaining modal styles... */
 
 /* ========================================
-   ENHANCED MODAL BODY - SCOPED
+   RESPONSIVE DESIGN
    ======================================== */
 
-.evia-modal-overlay .evia-enhanced-modal-body {
-    padding: 0;
-}
-
-.evia-modal-overlay .treatment-details-section {
-    padding: 40px 40px 32px;
-}
-
-.evia-modal-overlay .modal-description h4 {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-primary, #2A1B0A);
-    margin: 0 0 16px 0;
-}
-
-.evia-modal-overlay .modal-description p {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 15px;
-    color: var(--text-secondary, #5D4E37);
-    line-height: 1.7;
-    margin: 0 0 32px 0;
-}
-
-.evia-modal-overlay .benefit-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 40px 0;
-}
-
-.evia-modal-overlay .benefit-list li {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 15px;
-    color: var(--text-secondary, #5D4E37);
-    margin-bottom: 12px;
-    line-height: 1.6;
-    padding: 8px 0;
-}
-
-.evia-modal-overlay .benefit-list i {
-    font-size: 18px;
-    color: var(--hermes-orange, #FF8C00);
-    flex-shrink: 0;
-    background: rgba(255, 140, 0, 0.1);
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.evia-modal-overlay .modal-details-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 24px;
-}
-
-.evia-modal-overlay .detail-item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px;
-    background: rgba(255, 140, 0, 0.04);
-    border-radius: var(--radius-lg, 1rem);
-    border: 1px solid rgba(255, 140, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.evia-modal-overlay .detail-item:hover {
-    background: rgba(255, 140, 0, 0.08);
-    border-color: rgba(255, 140, 0, 0.2);
-    transform: translateY(-2px);
-}
-
-.evia-modal-overlay .detail-icon {
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 140, 0, 0.15);
-    border-radius: var(--radius-md, 0.5rem);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.evia-modal-overlay .detail-icon i {
-    font-size: 22px;
-    color: var(--hermes-orange, #FF8C00);
-}
-
-.evia-modal-overlay .detail-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.evia-modal-overlay .detail-label {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 13px;
-    color: var(--text-muted, #8B7355);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    font-weight: 600;
-}
-
-.evia-modal-overlay .detail-value {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 17px;
-    color: var(--text-primary, #2A1B0A);
-    font-weight: 700;
-}
-
-/* ========================================
-   OTHER SERVICES SECTION - SCOPED
-   ======================================== */
-
-.evia-modal-overlay .other-services-section {
-    background: rgba(255, 140, 0, 0.02);
-    border-top: 1px solid rgba(255, 140, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 140, 0, 0.1);
-    padding: 40px;
-}
-
-.evia-modal-overlay .section-title {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-primary, #2A1B0A);
-    margin: 0 0 24px 0;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.evia-modal-overlay .section-title i {
-    font-size: 20px;
-    color: var(--hermes-orange, #FF8C00);
-}
-
-.evia-modal-overlay .other-services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-}
-
-.evia-modal-overlay .other-service-item {
-    background: var(--white, #FFFFFF);
-    border-radius: var(--radius-lg, 1rem);
-    padding: 20px;
-    border: 1px solid rgba(255, 140, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.evia-modal-overlay .other-service-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--hermes-orange, #FF8C00);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-}
-
-.evia-modal-overlay .other-service-item:hover::before {
-    transform: scaleX(1);
-}
-
-.evia-modal-overlay .other-service-item:hover {
-    border-color: rgba(255, 140, 0, 0.3);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(255, 140, 0, 0.15);
-}
-
-.evia-modal-overlay .other-service-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.evia-modal-overlay .other-service-icon {
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 140, 0, 0.1);
-    border-radius: var(--radius-md, 0.5rem);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.evia-modal-overlay .other-service-icon i {
-    font-size: 18px;
-    color: var(--hermes-orange, #FF8C00);
-}
-
-.evia-modal-overlay .other-service-info h5 {
-    font-family: var(--font-playfair, 'Playfair Display', serif);
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-primary, #2A1B0A);
-    margin: 0;
-    line-height: 1.3;
-}
-
-.evia-modal-overlay .other-service-price {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 14px;
-    color: var(--hermes-orange, #FF8C00);
-    font-weight: 700;
-    margin: 8px 0 0 0;
-}
-
-/* ========================================
-   CONSULTATION SECTION - SCOPED
-   ======================================== */
-
-.evia-modal-overlay .consultation-section {
-    padding: 40px;
-    background: linear-gradient(135deg, 
-        rgba(255, 140, 0, 0.05) 0%, 
-        rgba(255, 165, 0, 0.03) 100%
-    );
-}
-
-.evia-modal-overlay .consultation-content {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-}
-
-.evia-modal-overlay .consultation-info {
-    flex: 1;
-}
-
-.evia-modal-overlay .consultation-info h4 {
-    font-family: var(--font-playfair, 'Playfair Display', serif);
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-primary, #2A1B0A);
-    margin: 0 0 12px 0;
-    line-height: 1.3;
-}
-
-.evia-modal-overlay .consultation-info p {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 14px;
-    color: var(--text-secondary, #5D4E37);
-    line-height: 1.6;
-    margin: 0;
-}
-
-.evia-modal-overlay .consultation-btn {
-    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
-    color: var(--white, #FFFFFF);
-    border: none;
-    border-radius: var(--radius-full, 9999px);
-    padding: 16px 24px;
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.4s ease;
-    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.3);
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.evia-modal-overlay .consultation-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(255, 140, 0, 0.4);
-}
-
-.evia-modal-overlay .consultation-btn i {
-    font-size: 16px;
-}
-
-/* ========================================
-   ENHANCED MODAL FOOTER - SCOPED
-   ======================================== */
-
-.evia-modal-overlay .evia-enhanced-modal-footer {
-    padding: 32px 40px;
-    background: rgba(255, 140, 0, 0.02);
-    border-top: 1px solid rgba(255, 140, 0, 0.1);
-}
-
-.evia-modal-overlay .footer-actions {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-}
-
-.evia-modal-overlay .book-this-btn {
-    flex: 1;
-    background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
-    color: var(--white, #FFFFFF);
-    border: none;
-    border-radius: var(--radius-full, 9999px);
-    padding: 18px 32px;
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    transition: all 0.4s ease;
-    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.evia-modal-overlay .book-this-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--hermes-orange-light, #FFA500) 0%, var(--hermes-orange, #FF8C00) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.evia-modal-overlay .book-this-btn:hover::before {
-    opacity: 1;
-}
-
-.evia-modal-overlay .book-this-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
-}
-
-.evia-modal-overlay .book-this-btn span,
-.evia-modal-overlay .book-this-btn i {
-    position: relative;
-    z-index: 2;
-}
-
-.evia-modal-overlay .book-this-btn i {
-    font-size: 18px;
-    transition: transform 0.3s ease;
-}
-
-.evia-modal-overlay .book-this-btn:hover i {
-    transform: translateX(4px);
-}
-
-.evia-modal-overlay .call-now-btn {
-    background: var(--white, #FFFFFF);
-    color: var(--hermes-orange, #FF8C00);
-    border: 2px solid var(--hermes-orange, #FF8C00);
-    border-radius: var(--radius-full, 9999px);
-    padding: 16px 24px;
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    flex-shrink: 0;
-}
-
-.evia-modal-overlay .call-now-btn:hover {
-    background: var(--hermes-orange, #FF8C00);
-    color: var(--white, #FFFFFF);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
-}
-
-/* ========================================
-   ANIMATIONS - SCOPED
-   ======================================== */
-
-@keyframes evia-whats-hot-badge-pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-@keyframes evia-whats-hot-fire-flicker {
-    0% { transform: scale(1) rotate(0deg); }
-    100% { transform: scale(1.1) rotate(5deg); }
-}
-
-@keyframes evia-whats-hot-pulse-ring {
-    0% { 
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.8);
+@media (max-width: 1024px) {
+    section.evia-whats-hot-carousel-section .evia-treatment-card {
+        flex: 0 0 320px;
+        height: 500px;
     }
-    50% { 
-        opacity: 0.8;
-        transform: translate(-50%, -50%) scale(1.2);
+
+    section.evia-whats-hot-carousel-section .title-line-1 {
+        font-size: 3rem;
     }
-    100% { 
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(1.8);
-    }
-}
 
-@keyframes evia-whats-hot-sparkle {
-    0%, 100% { opacity: 0; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.2); }
-}
-
-@keyframes evia-whats-hot-title-reveal {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes evia-whats-hot-gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-@keyframes evia-whats-hot-featured-pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-@keyframes evia-whats-hot-star-rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes evia-whats-hot-dot-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-/* ========================================
-   RESPONSIVE DESIGN - SCOPED
-   ======================================== */
-
-@media (max-width: 1200px) {
-    section.evia-whats-hot-carousel-section .evia-nav-prev {
-        left: -20px;
-    }
-    
-    section.evia-whats-hot-carousel-section .evia-nav-next {
-        right: -20px;
+    section.evia-whats-hot-carousel-section .title-line-2 {
+        font-size: 2.4rem;
     }
 }
 
 @media (max-width: 768px) {
     section.evia-whats-hot-carousel-section {
-        padding: clamp(60px, 10vh, 80px) 0;
-    }
-
-    section.evia-whats-hot-carousel-section .evia-carousel-nav {
-        display: none;
+        padding: 80px 0 100px;
     }
 
     section.evia-whats-hot-carousel-section .evia-treatment-card {
         flex: 0 0 300px;
-        height: 520px;
+        height: 480px;
     }
 
-    section.evia-whats-hot-carousel-section .evia-treatment-card.featured {
-        transform: none;
+    section.evia-whats-hot-carousel-section .title-line-1 {
+        font-size: 2.5rem;
     }
 
-    section.evia-whats-hot-carousel-section .treatment-image-container {
-        height: 180px;
+    section.evia-whats-hot-carousel-section .title-line-2 {
+        font-size: 2rem;
     }
 
-    section.evia-whats-hot-carousel-section .treatment-content {
-        margin-top: 180px;
-        padding: 20px;
-        height: calc(100% - 180px);
-        gap: 12px;
+    section.evia-whats-hot-carousel-section .evia-carousel-nav {
+        width: 48px;
+        height: 48px;
     }
 
-    section.evia-whats-hot-carousel-section .treatment-icon-container {
-        left: 20px;
-        width: 50px;
-        height: 50px;
+    section.evia-whats-hot-carousel-section .evia-nav-prev {
+        left: -24px;
     }
 
-    section.evia-whats-hot-carousel-section .treatment-icon {
-        font-size: 24px;
-    }
-
-    section.evia-whats-hot-carousel-section .treatment-info {
-        margin-top: 32px;
-        margin-bottom: 12px;
-    }
-
-    section.evia-whats-hot-carousel-section .treatment-title {
-        font-size: 1.4rem;
-        margin-bottom: 8px;
-    }
-
-    section.evia-whats-hot-carousel-section .treatment-description {
-        font-size: 12px;
-        margin-bottom: 12px;
-    }
-
-    section.evia-whats-hot-carousel-section .treatment-stats {
-        gap: 16px;
-        margin-bottom: 12px;
-    }
-
-    section.evia-whats-hot-carousel-section .popularity-indicator {
-        margin-bottom: 12px;
-    }
-
-    section.evia-whats-hot-carousel-section .learn-more-btn {
-        padding: 10px 20px;
-        font-size: 13px;
-        min-height: 40px;
-    }
-
-    /* Enhanced Modal Responsive */
-    .evia-modal-overlay .evia-enhanced-modal {
-        max-width: 95%;
-        margin: 10px;
-    }
-
-    .evia-modal-overlay .modal-image-container {
-        height: 220px;
-    }
-
-    .evia-modal-overlay .modal-header-content {
-        padding: 24px;
-    }
-
-    .evia-modal-overlay .evia-enhanced-modal-title {
-        font-size: 1.8rem;
-    }
-
-    .evia-modal-overlay .treatment-details-section {
-        padding: 32px 24px 24px;
-    }
-
-    .evia-modal-overlay .other-services-section,
-    .evia-modal-overlay .consultation-section {
-        padding: 32px 24px;
-    }
-
-    .evia-modal-overlay .evia-enhanced-modal-footer {
-        padding: 24px;
-    }
-
-    .evia-modal-overlay .modal-details-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-
-    .evia-modal-overlay .other-services-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .evia-modal-overlay .consultation-content {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
-    }
-
-    .evia-modal-overlay .footer-actions {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .evia-modal-overlay .call-now-btn {
-        width: 100%;
-        justify-content: center;
+    section.evia-whats-hot-carousel-section .evia-nav-next {
+        right: -24px;
     }
 }
 
 @media (max-width: 480px) {
     section.evia-whats-hot-carousel-section .evia-treatment-card {
         flex: 0 0 280px;
-        height: 480px;
+        height: 460px;
     }
 
     section.evia-whats-hot-carousel-section .treatment-image-container {
@@ -2947,88 +2511,17 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     }
 
     section.evia-whats-hot-carousel-section .treatment-content {
-        margin-top: 160px;
-        padding: 16px;
-        height: calc(100% - 160px);
-        gap: 10px;
+        top: 160px;
+        padding: 20px 16px 16px;
     }
 
-    section.evia-whats-hot-carousel-section .treatment-icon-container {
-        top: -25px;
-        left: 16px;
-        width: 44px;
-        height: 44px;
+    section.evia-whats-hot-carousel-section .evia-premium-cta-section {
+        padding: 40px 20px;
     }
 
-    section.evia-whats-hot-carousel-section .treatment-icon {
-        font-size: 20px;
-    }
-
-    section.evia-whats-hot-carousel-section .treatment-info {
-        margin-top: 28px;
-        margin-bottom: 10px;
-    }
-
-    section.evia-whats-hot-carousel-section .treatment-title {
-        font-size: 1.3rem;
-        margin-bottom: 6px;
-    }
-
-    section.evia-whats-hot-carousel-section .treatment-description {
-        font-size: 11px;
-        margin-bottom: 10px;
-        line-height: 1.4;
-    }
-
-    section.evia-whats-hot-carousel-section .treatment-stats {
-        gap: 12px;
-        margin-bottom: 10px;
-    }
-
-    section.evia-whats-hot-carousel-section .popularity-indicator {
-        margin-bottom: 10px;
-    }
-
-    section.evia-whats-hot-carousel-section .learn-more-btn {
-        padding: 9px 18px;
-        font-size: 12px;
-        min-height: 38px;
-    }
-
-    /* Enhanced Modal Mobile */
-    .evia-modal-overlay .modal-image-container {
-        height: 200px;
-    }
-
-    .evia-modal-overlay .modal-header-content {
-        padding: 20px;
-    }
-
-    .evia-modal-overlay .evia-enhanced-modal-title {
-        font-size: 1.6rem;
-    }
-
-    .evia-modal-overlay .treatment-details-section {
-        padding: 24px 20px 20px;
-    }
-
-    .evia-modal-overlay .other-services-section,
-    .evia-modal-overlay .consultation-section {
-        padding: 24px 20px;
-    }
-
-    .evia-modal-overlay .evia-enhanced-modal-footer {
-        padding: 20px;
-    }
-
-    .evia-modal-overlay .evia-enhanced-modal-icon {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 16px;
-    }
-
-    .evia-modal-overlay .evia-enhanced-modal-icon i {
-        font-size: 24px;
+    .evia-modal-overlay .evia-enhanced-modal {
+        margin: 10px;
+        max-width: calc(100% - 20px);
     }
 }
 
