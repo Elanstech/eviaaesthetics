@@ -1,217 +1,7 @@
 /* ========================================
-   EVIA AESTHETICS - COMPLETE INTEGRATED SCRIPT
+   EVIA AESTHETICS - COMPLETE SCRIPT
    Manhattan Med Spa - Luxury Experience
    ======================================== */
-
-/* ========================================
-   TREATMENT DATA
-   ======================================== */
-
-const TREATMENT_DATA = {
-    nad: {
-        title: 'NAD+ Drip Therapy',
-        icon: 'ri-drop-line',
-        image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$450',
-        duration: '90 minutes',
-        frequency: 'Weekly',
-        rating: '5.0 (127 reviews)',
-        description: 'NAD+ (Nicotinamide adenine dinucleotide) is a coenzyme that plays a crucial role in cellular energy production and DNA repair. Our premium NAD+ drip therapy delivers this powerful molecule directly to your bloodstream for maximum absorption and effectiveness.',
-        benefits: [
-            'Enhanced mental clarity and focus',
-            'Increased energy levels',
-            'Improved cellular repair',
-            'Anti-aging support',
-            'Better sleep quality'
-        ],
-        featured: false
-    },
-    vitamin: {
-        title: 'Vitamin C Glow',
-        icon: 'ri-sun-line',
-        image: 'https://images.unsplash.com/photo-1570019668-21b8d8c4a7a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$180',
-        duration: '45 minutes',
-        frequency: 'Bi-weekly',
-        rating: '5.0 (203 reviews)',
-        description: 'Our high-dose Vitamin C therapy delivers powerful antioxidants directly to your system, promoting collagen production, immune support, and that coveted healthy glow from within.',
-        benefits: [
-            'Radiant, glowing skin',
-            'Enhanced immune function',
-            'Collagen production boost',
-            'Antioxidant protection',
-            'Faster recovery'
-        ],
-        featured: true
-    },
-    hydration: {
-        title: 'Hydration Plus',
-        icon: 'ri-water-percent-line',
-        image: 'https://images.unsplash.com/photo-1504813184591-01572f98c85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$120',
-        duration: '30 minutes',
-        frequency: 'As needed',
-        rating: '4.9 (89 reviews)',
-        description: 'Our signature hydration therapy combines essential electrolytes, vitamins, and minerals to restore optimal hydration levels and support overall wellness.',
-        benefits: [
-            'Rapid rehydration',
-            'Electrolyte balance',
-            'Improved energy',
-            'Better recovery',
-            'Mental clarity'
-        ],
-        featured: false
-    },
-    energy: {
-        title: 'Energy Boost',
-        icon: 'ri-flashlight-line',
-        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$150',
-        duration: '20 minutes',
-        frequency: 'Weekly',
-        rating: '4.8 (156 reviews)',
-        description: 'Our energy boost therapy combines B-vitamins, amino acids, and minerals to naturally enhance energy levels and support mental focus throughout your day.',
-        benefits: [
-            'Sustained energy boost',
-            'Enhanced mental focus',
-            'Improved mood',
-            'Reduced fatigue',
-            'Better workout performance'
-        ],
-        featured: false
-    },
-    immunity: {
-        title: 'Immunity Shield',
-        icon: 'ri-shield-check-line',
-        image: 'https://images.unsplash.com/photo-1559757175-8a7a5b09e789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-        price: '$200',
-        duration: '60 minutes',
-        frequency: 'Monthly',
-        rating: '4.9 (92 reviews)',
-        description: 'Our immunity shield therapy delivers high-dose vitamin C, zinc, and other immune-supporting nutrients to strengthen your body\'s natural defense systems.',
-        benefits: [
-            'Enhanced immune function',
-            'Faster illness recovery',
-            'Antioxidant protection',
-            'Seasonal support',
-            'Overall wellness boost'
-        ],
-        featured: false
-    }
-};
-
-// Initialize AOS and ensure content visibility
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out-cubic',
-            once: true,
-            offset: 100,
-            delay: 0
-        });
-        
-        setTimeout(() => AOS.refresh(), 500);
-    }
-    
-    // Ensure hero content is visible
-    const heroContent = document.querySelector('.hero-content-stack');
-    if (heroContent) {
-        heroContent.style.opacity = '1';
-        heroContent.style.visibility = 'visible';
-        heroContent.style.zIndex = '100';
-    }
-    
-    // Force video to load properly
-    const heroVideo = document.querySelector('.hero-video');
-    if (heroVideo) {
-        heroVideo.load();
-        heroVideo.play().catch(e => console.log('Video autoplay prevented:', e));
-    }
-});
-
-// Add CSS overrides to prevent conflicts
-const globalStyles = document.createElement('style');
-globalStyles.textContent = `
-    .hero-content-stack {
-        opacity: 1 !important;
-        visibility: visible !important;
-        z-index: 100 !important;
-    }
-    
-    .services-title, .services-header, .services-subtitle {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    
-    .hero-headline-primary, .hero-headline-secondary, .hero-subheadline-elegant {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    
-    .modern-mobile-menu {
-        transform: translateX(100%);
-        visibility: hidden;
-        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    
-    .modern-mobile-menu.active {
-        transform: translateX(0);
-        visibility: visible;
-    }
-    
-    .modern-mobile-backdrop {
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    
-    .modern-mobile-backdrop.active {
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .click-ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.6);
-        transform: scale(0);
-        animation: ripple 0.6s linear;
-        pointer-events: none;
-    }
-    
-    @keyframes ripple {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-    
-    .luxury-nav-link:focus,
-    .mobile-nav-link:focus,
-    .circle-logo-container:focus,
-    .circle-menu-toggle:focus {
-        outline: 2px solid var(--hermes-orange);
-        outline-offset: 2px;
-    }
-    
-    .touch-device *:hover {
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    @supports(padding: max(0px)) {
-        .hermes-floating-controls {
-            padding-bottom: max(20px, env(safe-area-inset-bottom));
-            padding-left: max(20px, env(safe-area-inset-left));
-            padding-right: max(20px, env(safe-area-inset-right));
-        }
-        
-        .modern-mobile-menu {
-            padding-bottom: max(20px, env(safe-area-inset-bottom));
-        }
-    }
-`;
-document.head.appendChild(globalStyles);
 
 /* ========================================
    PRELOADER
@@ -225,7 +15,6 @@ class Preloader {
         
         if (this.preloader) {
             this.init();
-            console.log('✅ Preloader Initialized');
         }
     }
 
@@ -233,7 +22,6 @@ class Preloader {
         this.startLoadingSequence();
         this.simulateLoading();
         
-        // Also hide on window load
         window.addEventListener('load', () => {
             setTimeout(() => this.hidePreloader(), 500);
         });
@@ -287,13 +75,11 @@ class Preloader {
                 this.preloader.remove();
             }
         }, 600);
-        
-        console.log('🎉 Preloader Complete');
     }
 }
 
 /* ========================================
-   MODERN LUXURY HEADER
+   HEADER
    ======================================== */
 class ModernLuxuryHeader {
     constructor() {
@@ -303,13 +89,11 @@ class ModernLuxuryHeader {
         this.mobileCtaButton = document.querySelector('.mobile-cta-button');
         this.logoWrapper = document.querySelector('.logo-glow-wrapper');
         this.mobileLogoContainer = document.querySelector('.circle-logo-container');
-        this.mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.circle-menu-toggle');
         this.isScrolled = false;
         this.scrollThreshold = 100;
         
         if (this.header) {
             this.init();
-            console.log('✅ Modern Luxury Header Initialized');
         }
     }
 
@@ -320,7 +104,6 @@ class ModernLuxuryHeader {
     }
 
     bindEvents() {
-        // Navigation links
         this.navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
@@ -329,7 +112,6 @@ class ModernLuxuryHeader {
                     this.scrollToSection(href);
                     this.setActiveNavLink(link);
                     
-                    // Close mobile menu if open
                     if (window.mobileMenu && window.mobileMenu.isOpen) {
                         window.mobileMenu.close();
                     }
@@ -337,7 +119,6 @@ class ModernLuxuryHeader {
             });
         });
 
-        // Desktop CTA button
         if (this.desktopCtaButton) {
             this.desktopCtaButton.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -346,7 +127,6 @@ class ModernLuxuryHeader {
             });
         }
 
-        // Mobile CTA button
         if (this.mobileCtaButton) {
             this.mobileCtaButton.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -357,7 +137,6 @@ class ModernLuxuryHeader {
             });
         }
 
-        // Logo click handlers
         if (this.logoWrapper) {
             this.logoWrapper.addEventListener('click', () => {
                 this.scrollToTop();
@@ -370,7 +149,6 @@ class ModernLuxuryHeader {
             });
         }
 
-        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && window.mobileMenu && window.mobileMenu.isOpen) {
                 window.mobileMenu.close();
@@ -484,17 +262,15 @@ class ModernLuxuryHeader {
 }
 
 /* ========================================
-   MOBILE MENU FUNCTIONALITY - FIXED
+   MOBILE MENU
    ======================================== */
 class ModernMobileMenu {
     constructor() {
-        // More flexible element selection
         this.toggle = this.findElement([
-       '#luxuryMobileToggle',
-       '#mobileToggle',
-       '.luxury-mobile-toggle',
-       '[data-mobile-toggle]'
-         
+            '#luxuryMobileToggle',
+            '#mobileToggle',
+            '.luxury-mobile-toggle',
+            '[data-mobile-toggle]'
         ]);
         
         this.menu = this.findElement([
@@ -520,20 +296,8 @@ class ModernMobileMenu {
         this.isOpen = false;
         this.body = document.body;
         
-        console.log('Mobile Menu Debug - Elements found:', {
-            toggle: !!this.toggle,
-            menu: !!this.menu,
-            backdrop: !!this.backdrop,
-            closeBtn: !!this.closeBtn,
-            navLinks: this.navLinks.length
-        });
-        
         if (this.toggle && this.menu) {
             this.init();
-            console.log('✅ Modern Mobile Menu Initialized');
-        } else {
-            console.error('❌ Mobile Menu: Missing required elements');
-            this.debugElements();
         }
     }
 
@@ -545,18 +309,10 @@ class ModernMobileMenu {
         return null;
     }
 
-    debugElements() {
-        console.log('Mobile Menu Debug - Available elements:');
-        console.log('All potential toggles:', document.querySelectorAll('[class*="toggle"], [class*="menu"], [id*="toggle"], [id*="menu"]'));
-        console.log('All potential menus:', document.querySelectorAll('[class*="mobile"], [class*="menu"]'));
-    }
-
     init() {
         this.setupInitialState();
         this.bindEvents();
         this.setupKeyboardNavigation();
-        
-        // Make globally available immediately
         window.mobileMenu = this;
     }
 
@@ -582,17 +338,13 @@ class ModernMobileMenu {
     }
 
     bindEvents() {
-        // Toggle button - Multiple event types for better compatibility
         if (this.toggle) {
-            // Mouse events
             this.toggle.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Mobile menu toggle clicked');
                 this.toggleMenu();
             });
 
-            // Touch events
             this.toggle.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -601,12 +353,10 @@ class ModernMobileMenu {
             this.toggle.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Mobile menu toggle touched');
                 this.toggleMenu();
             });
         }
 
-        // Close button
         if (this.closeBtn) {
             this.closeBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -615,21 +365,18 @@ class ModernMobileMenu {
             });
         }
 
-        // Backdrop click
         if (this.backdrop) {
             this.backdrop.addEventListener('click', () => {
                 this.close();
             });
         }
 
-        // Navigation links
         this.navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 setTimeout(() => this.close(), 150);
             });
         });
 
-        // CTA button
         if (this.ctaBtn) {
             this.ctaBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -638,7 +385,6 @@ class ModernMobileMenu {
             });
         }
 
-        // Prevent scrolling when menu is open
         if (this.menu) {
             this.menu.addEventListener('touchmove', (e) => {
                 if (this.isOpen) {
@@ -647,14 +393,12 @@ class ModernMobileMenu {
             });
         }
 
-        // Handle resize - close menu on desktop
         window.addEventListener('resize', this.debounce(() => {
             if (window.innerWidth >= 993 && this.isOpen) {
                 this.close();
             }
         }, 250));
 
-        // Global click handler
         document.addEventListener('click', (e) => {
             if (this.isOpen && !this.menu.contains(e.target) && !this.toggle.contains(e.target)) {
                 this.close();
@@ -699,18 +443,16 @@ class ModernMobileMenu {
     }
 
     toggleMenu() {
-    console.log('Toggle called, current state:', this.isOpen);
-    if (this.isOpen) {
-        this.close();
-    } else {
-        this.open();
+        if (this.isOpen) {
+            this.close();
+        } else {
+            this.open();
+        }
     }
-}
 
     open() {
         if (this.isOpen) return;
 
-        console.log('📱 Opening Mobile Menu');
         this.isOpen = true;
         this.body.classList.add('mobile-menu-open');
         
@@ -726,16 +468,13 @@ class ModernMobileMenu {
             this.backdrop.style.visibility = 'visible';
         }
         
-        // Animate menu items
         this.animateMenuItems('in');
         
-        // Focus first menu item
         setTimeout(() => {
             const firstLink = this.menu?.querySelector('.mobile-nav-link');
             if (firstLink) firstLink.focus();
         }, 300);
         
-        // Prevent body scroll
         if (typeof window.preventBodyScroll === 'function') {
             window.preventBodyScroll(true);
         }
@@ -744,7 +483,6 @@ class ModernMobileMenu {
     close() {
         if (!this.isOpen) return;
 
-        console.log('📱 Closing Mobile Menu');
         this.isOpen = false;
         this.body.classList.remove('mobile-menu-open');
         
@@ -763,13 +501,10 @@ class ModernMobileMenu {
             if (this.menu) this.menu.style.visibility = 'hidden';
         }, 600);
         
-        // Animate menu items
         this.animateMenuItems('out');
         
-        // Return focus to toggle button
         if (this.toggle) this.toggle.focus();
         
-        // Restore body scroll
         if (typeof window.preventBodyScroll === 'function') {
             window.preventBodyScroll(false);
         }
@@ -831,14 +566,208 @@ class ModernMobileMenu {
 }
 
 /* ========================================
-   EVIA WHAT'S HOT CAROUSEL - FIXED
+   HERO SECTION
    ======================================== */
+class HeroSection {
+    constructor() {
+        this.heroSection = document.querySelector('.cinematic-hero');
+        this.ctaButton = document.getElementById('luxuryHeroCTA') || document.querySelector('.hero-cta-signature');
+        this.scrollIndicator = document.querySelector('.hero-scroll-indicator-elegant');
+        this.videoElement = document.querySelector('.hero-video');
+        
+        if (this.heroSection) {
+            this.init();
+        }
+    }
+
+    init() {
+        this.bindEvents();
+        this.setupVideoHandling();
+        this.setupScrollIndicator();
+        this.ensureContentVisibility();
+    }
+
+    ensureContentVisibility() {
+        const heroContent = document.querySelector('.hero-content-stack');
+        if (heroContent) {
+            heroContent.style.opacity = '1';
+            heroContent.style.visibility = 'visible';
+            heroContent.style.zIndex = '100';
+        }
+    }
+
+    bindEvents() {
+        if (this.ctaButton) {
+            this.ctaButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.scrollToContact();
+            });
+        }
+
+        if (this.scrollIndicator) {
+            this.scrollIndicator.addEventListener('click', () => {
+                this.scrollToNextSection();
+            });
+        }
+    }
+
+    setupVideoHandling() {
+        if (!this.videoElement) return;
+
+        this.videoElement.addEventListener('loadeddata', () => {
+            console.log('Hero video loaded');
+        });
+
+        this.videoElement.addEventListener('error', (e) => {
+            console.warn('Hero video failed to load:', e);
+        });
+
+        if (this.videoElement) {
+            this.videoElement.load();
+            this.videoElement.play().catch(e => console.log('Video autoplay prevented:', e));
+        }
+    }
+
+    setupScrollIndicator() {
+        if (!this.scrollIndicator) return;
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.pageYOffset;
+            const opacity = Math.max(0, 1 - (scrollY / 300));
+            this.scrollIndicator.style.opacity = opacity;
+        }, { passive: true });
+    }
+
+    scrollToNextSection() {
+        const nextSection = this.heroSection.nextElementSibling;
+        if (nextSection) {
+            const headerHeight = 80;
+            const targetPosition = nextSection.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    scrollToContact() {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            const headerHeight = 80;
+            const elementPosition = contactSection.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: elementPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+}
+
+/* ========================================
+   WHATS HOT SECTION
+   ======================================== */
+const TREATMENT_DATA = {
+    nad: {
+        title: 'NAD+ Drip Therapy',
+        icon: 'ri-drop-line',
+        image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$450',
+        duration: '90 minutes',
+        frequency: 'Weekly',
+        rating: '5.0 (127 reviews)',
+        description: 'NAD+ (Nicotinamide adenine dinucleotide) is a coenzyme that plays a crucial role in cellular energy production and DNA repair. Our premium NAD+ drip therapy delivers this powerful molecule directly to your bloodstream for maximum absorption and effectiveness.',
+        benefits: [
+            'Enhanced mental clarity and focus',
+            'Increased energy levels',
+            'Improved cellular repair',
+            'Anti-aging support',
+            'Better sleep quality'
+        ],
+        featured: false
+    },
+    vitamin: {
+        title: 'Vitamin C Glow',
+        icon: 'ri-sun-line',
+        image: 'https://images.unsplash.com/photo-1570019668-21b8d8c4a7a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$180',
+        duration: '45 minutes',
+        frequency: 'Bi-weekly',
+        rating: '5.0 (203 reviews)',
+        description: 'Our high-dose Vitamin C therapy delivers powerful antioxidants directly to your system, promoting collagen production, immune support, and that coveted healthy glow from within.',
+        benefits: [
+            'Radiant, glowing skin',
+            'Enhanced immune function',
+            'Collagen production boost',
+            'Antioxidant protection',
+            'Faster recovery'
+        ],
+        featured: true
+    },
+    hydration: {
+        title: 'Hydration Plus',
+        icon: 'ri-water-percent-line',
+        image: 'https://images.unsplash.com/photo-1504813184591-01572f98c85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$120',
+        duration: '30 minutes',
+        frequency: 'As needed',
+        rating: '4.9 (89 reviews)',
+        description: 'Our signature hydration therapy combines essential electrolytes, vitamins, and minerals to restore optimal hydration levels and support overall wellness.',
+        benefits: [
+            'Rapid rehydration',
+            'Electrolyte balance',
+            'Improved energy',
+            'Better recovery',
+            'Mental clarity'
+        ],
+        featured: false
+    },
+    energy: {
+        title: 'Energy Boost',
+        icon: 'ri-flashlight-line',
+        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$150',
+        duration: '20 minutes',
+        frequency: 'Weekly',
+        rating: '4.8 (156 reviews)',
+        description: 'Our energy boost therapy combines B-vitamins, amino acids, and minerals to naturally enhance energy levels and support mental focus throughout your day.',
+        benefits: [
+            'Sustained energy boost',
+            'Enhanced mental focus',
+            'Improved mood',
+            'Reduced fatigue',
+            'Better workout performance'
+        ],
+        featured: false
+    },
+    immunity: {
+        title: 'Immunity Shield',
+        icon: 'ri-shield-check-line',
+        image: 'https://images.unsplash.com/photo-1559757175-8a7a5b09e789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$200',
+        duration: '60 minutes',
+        frequency: 'Monthly',
+        rating: '4.9 (92 reviews)',
+        description: 'Our immunity shield therapy delivers high-dose vitamin C, zinc, and other immune-supporting nutrients to strengthen your body\'s natural defense systems.',
+        benefits: [
+            'Enhanced immune function',
+            'Faster illness recovery',
+            'Antioxidant protection',
+            'Seasonal support',
+            'Overall wellness boost'
+        ],
+        featured: false
+    }
+};
+
 class EviaWhatsHotCarousel {
     constructor() {
-        // Match the actual HTML structure from your files
         this.section = document.querySelector('.evia-whats-hot-section');
         this.carousel = document.getElementById('eviaWhatsHotCarousel');
         this.track = document.getElementById('eviaCarouselTrack');
+        this.leftArrow = document.getElementById('eviaScrollLeft');
+        this.rightArrow = document.getElementById('eviaScrollRight');
         this.dots = document.querySelectorAll('.evia-dot');
         this.hotItems = document.querySelectorAll('.evia-hot-item');
         this.learnMoreBtns = document.querySelectorAll('.evia-learn-more-btn');
@@ -847,32 +776,29 @@ class EviaWhatsHotCarousel {
         this.closeButtons = document.querySelectorAll('.evia-modal-close');
         this.bookButtons = document.querySelectorAll('.evia-modal-book-btn');
 
-        // Carousel state
         this.currentSlide = 0;
-        this.itemWidth = 300; // 280px + 20px gap
-        this.itemsPerView = this.getItemsPerView();
-        this.maxSlide = Math.max(0, this.hotItems.length - this.itemsPerView);
+        this.cardWidth = 280;
+        this.gap = 20;
+        this.itemWidth = this.cardWidth + this.gap;
+        this.itemsPerView = 1;
+        this.maxSlide = 0;
         this.isTransitioning = false;
         this.autoplayInterval = null;
         this.autoplayDelay = 4000;
-
-        // Touch handling
         this.touchStartX = 0;
         this.touchEndX = 0;
         this.isDragging = false;
         this.dragThreshold = 50;
-
-        // Modal state
         this.activeModal = null;
         this.isModalOpen = false;
 
         if (this.carousel && this.track) {
             this.init();
-            console.log('✅ Evia What\'s Hot Carousel Initialized');
         }
     }
 
     init() {
+        this.calculateLayout();
         this.setupCarousel();
         this.bindEvents();
         this.setupModalFunctionality();
@@ -881,42 +807,58 @@ class EviaWhatsHotCarousel {
         this.startAutoplay();
     }
 
-    getItemsPerView() {
-        const containerWidth = this.section?.offsetWidth || window.innerWidth;
-        if (containerWidth >= 1200) return 3;
-        if (containerWidth >= 768) return 2;
-        return 1;
+    calculateLayout() {
+        if (this.section) {
+            const containerWidth = this.section.offsetWidth;
+            const cardPadding = 40;
+            const availableWidth = containerWidth - cardPadding;
+            
+            if (availableWidth >= 900) {
+                this.itemsPerView = 3;
+                this.cardWidth = (availableWidth - (this.gap * 2)) / 3;
+            } else if (availableWidth >= 600) {
+                this.itemsPerView = 2;
+                this.cardWidth = (availableWidth - this.gap) / 2;
+            } else {
+                this.itemsPerView = 1;
+                this.cardWidth = availableWidth;
+            }
+            
+            this.itemWidth = this.cardWidth + this.gap;
+            this.maxSlide = Math.max(0, this.hotItems.length - this.itemsPerView);
+        }
     }
 
     setupCarousel() {
-        // Calculate item width dynamically
         if (this.hotItems.length > 0) {
-            const itemStyle = getComputedStyle(this.hotItems[0]);
-            const itemWidth = parseInt(itemStyle.width);
-            const gap = 20;
-            this.itemWidth = itemWidth + gap;
+            this.hotItems.forEach(item => {
+                item.style.minWidth = `${this.cardWidth}px`;
+                item.style.width = `${this.cardWidth}px`;
+            });
         }
         
-        // Set initial active dot
         if (this.dots.length > 0) {
             this.dots[0].classList.add('active');
         }
         
-        console.log('Carousel setup complete:', {
-            items: this.hotItems.length,
-            itemWidth: this.itemWidth,
-            itemsPerView: this.itemsPerView,
-            maxSlide: this.maxSlide
-        });
+        if (this.leftArrow && this.rightArrow) {
+            this.updateArrowStates();
+        }
     }
 
     bindEvents() {
-        // Dot navigation
+        if (this.leftArrow) {
+            this.leftArrow.addEventListener('click', () => this.prevSlide());
+        }
+        
+        if (this.rightArrow) {
+            this.rightArrow.addEventListener('click', () => this.nextSlide());
+        }
+
         this.dots.forEach((dot, index) => {
             dot.addEventListener('click', () => this.goToSlide(index));
         });
 
-        // Hot item clicks (opens modal)
         this.hotItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 if (!e.target.closest('.evia-learn-more-btn')) {
@@ -928,7 +870,6 @@ class EviaWhatsHotCarousel {
             });
         });
 
-        // Learn More buttons
         this.learnMoreBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -938,20 +879,17 @@ class EviaWhatsHotCarousel {
             });
         });
 
-        // Touch/Swipe support
         if (this.track) {
             this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
             this.track.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: true });
             this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
 
-            // Mouse drag support
             this.track.addEventListener('mousedown', (e) => this.handleMouseDown(e));
             this.track.addEventListener('mousemove', (e) => this.handleMouseMove(e));
             this.track.addEventListener('mouseup', (e) => this.handleMouseUp(e));
             this.track.addEventListener('mouseleave', (e) => this.handleMouseUp(e));
         }
 
-        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (!this.isModalOpen) {
                 if (e.key === 'ArrowLeft') this.prevSlide();
@@ -962,13 +900,11 @@ class EviaWhatsHotCarousel {
             }
         });
 
-        // Pause autoplay on hover
         if (this.section) {
             this.section.addEventListener('mouseenter', () => this.pauseAutoplay());
             this.section.addEventListener('mouseleave', () => this.startAutoplay());
         }
 
-        // Window resize handler
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
@@ -979,12 +915,10 @@ class EviaWhatsHotCarousel {
     }
 
     setupModalFunctionality() {
-        // Close button handlers
         this.closeButtons.forEach(btn => {
             btn.addEventListener('click', () => this.closeModal());
         });
 
-        // Overlay click to close
         if (this.modalOverlay) {
             this.modalOverlay.addEventListener('click', (e) => {
                 if (e.target === this.modalOverlay) {
@@ -993,29 +927,24 @@ class EviaWhatsHotCarousel {
             });
         }
 
-        // Book button handlers
         this.bookButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 this.handleBooking();
             });
         });
-
-        console.log('✅ Modal functionality setup complete');
     }
 
     setupResponsive() {
-        this.itemsPerView = this.getItemsPerView();
+        this.calculateLayout();
         this.maxSlide = Math.max(0, this.hotItems.length - this.itemsPerView);
         this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
     }
 
-    // Carousel Navigation Methods
     nextSlide() {
         if (this.isTransitioning) return;
         if (this.currentSlide < this.maxSlide) {
             this.goToSlide(this.currentSlide + 1);
         } else {
-            // Loop back to beginning
             this.goToSlide(0);
         }
     }
@@ -1025,7 +954,6 @@ class EviaWhatsHotCarousel {
         if (this.currentSlide > 0) {
             this.goToSlide(this.currentSlide - 1);
         } else {
-            // Loop to end
             this.goToSlide(this.maxSlide);
         }
     }
@@ -1042,14 +970,12 @@ class EviaWhatsHotCarousel {
 
         this.isTransitioning = true;
 
-        // Calculate transform
         const translateX = -this.currentSlide * this.itemWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
 
-        // Update dots
         this.updateDots();
+        this.updateArrowStates();
 
-        // Reset transition flag
         setTimeout(() => {
             this.isTransitioning = false;
         }, 600);
@@ -1061,7 +987,16 @@ class EviaWhatsHotCarousel {
         });
     }
 
-    // Touch/Mouse Handling
+    updateArrowStates() {
+        if (this.leftArrow && this.rightArrow) {
+            this.leftArrow.disabled = this.currentSlide <= 0;
+            this.rightArrow.disabled = this.currentSlide >= this.maxSlide;
+            
+            this.leftArrow.classList.toggle('disabled', this.leftArrow.disabled);
+            this.rightArrow.classList.toggle('disabled', this.rightArrow.disabled);
+        }
+    }
+
     handleTouchStart(e) {
         this.touchStartX = e.touches[0].clientX;
         this.isDragging = true;
@@ -1121,7 +1056,6 @@ class EviaWhatsHotCarousel {
         this.startAutoplay();
     }
 
-    // Modal Methods - Fixed to work with your HTML structure
     openModal(treatmentType) {
         if (this.isModalOpen) return;
 
@@ -1131,32 +1065,25 @@ class EviaWhatsHotCarousel {
             return;
         }
 
-        console.log(`Opening modal for: ${treatmentType}`);
-
-        // Prevent body scroll
         document.body.style.overflow = 'hidden';
 
-        // Show overlay
+        this.modalOverlay.style.display = 'flex';
         this.modalOverlay.classList.add('active');
+        this.modalOverlay.style.opacity = '1';
+        this.modalOverlay.style.visibility = 'visible';
         
-        // Show specific modal
         modal.style.display = 'block';
+        modal.classList.add('active');
         
-        // Set active modal
         this.activeModal = modal;
         this.isModalOpen = true;
 
-        // Focus management
         const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
         if (firstFocusable) {
             setTimeout(() => firstFocusable.focus(), 300);
         }
 
-        // Animate modal content
         this.animateModalContent(modal);
-
-        // Track modal open
-        this.trackEvent('modal_opened', treatmentType);
     }
 
     openModalById(modalId) {
@@ -1168,58 +1095,48 @@ class EviaWhatsHotCarousel {
             return;
         }
 
-        console.log(`Opening modal with ID: ${modalId}`);
-
-        // Prevent body scroll
         document.body.style.overflow = 'hidden';
 
-        // Show overlay
+        this.modalOverlay.style.display = 'flex';
         this.modalOverlay.classList.add('active');
+        this.modalOverlay.style.opacity = '1';
+        this.modalOverlay.style.visibility = 'visible';
         
-        // Show specific modal
         modal.style.display = 'block';
+        modal.classList.add('active');
         
-        // Set active modal
         this.activeModal = modal;
         this.isModalOpen = true;
 
-        // Focus management
         const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
         if (firstFocusable) {
             setTimeout(() => firstFocusable.focus(), 300);
         }
 
-        // Animate modal content
         this.animateModalContent(modal);
-
-        // Track modal open
-        this.trackEvent('modal_opened', modalId);
     }
 
     closeModal() {
         if (!this.isModalOpen || !this.activeModal) return;
 
-        console.log('Closing modal');
-
-        // Hide specific modal
         this.activeModal.style.display = 'none';
+        this.activeModal.classList.remove('active');
         
-        // Hide overlay
         this.modalOverlay.classList.remove('active');
+        this.modalOverlay.style.opacity = '0';
+        this.modalOverlay.style.visibility = 'hidden';
+        
+        setTimeout(() => {
+            this.modalOverlay.style.display = 'none';
+        }, 300);
 
-        // Restore body scroll
         document.body.style.overflow = '';
 
-        // Reset state
         this.activeModal = null;
         this.isModalOpen = false;
-
-        // Track modal close
-        this.trackEvent('modal_closed', 'user_action');
     }
 
     animateModalContent(modal) {
-        // Animate benefit list items
         const benefits = modal.querySelectorAll('.benefit-list li');
         benefits.forEach((benefit, index) => {
             benefit.style.opacity = '0';
@@ -1232,7 +1149,6 @@ class EviaWhatsHotCarousel {
             }, 100 + (index * 50));
         });
 
-        // Animate stars
         const stars = modal.querySelectorAll('.stars i');
         stars.forEach((star, index) => {
             setTimeout(() => {
@@ -1245,14 +1161,11 @@ class EviaWhatsHotCarousel {
     }
 
     handleBooking() {
-        console.log('Booking button clicked');
         this.closeModal();
         this.scrollToContact();
-        this.trackEvent('booking_clicked', 'modal_cta');
         this.showNotification('Redirecting to booking...', 'success');
     }
 
-    // Autoplay Methods
     startAutoplay() {
         if (this.isModalOpen) return;
         
@@ -1269,15 +1182,11 @@ class EviaWhatsHotCarousel {
         }
     }
 
-    // Utility Methods
     handleResize() {
-        const newItemsPerView = this.getItemsPerView();
-        if (newItemsPerView !== this.itemsPerView) {
-            this.itemsPerView = newItemsPerView;
-            this.maxSlide = Math.max(0, this.hotItems.length - this.itemsPerView);
-            this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
-            this.updateCarousel();
-        }
+        this.calculateLayout();
+        this.setupCarousel();
+        this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
+        this.updateCarousel();
     }
 
     scrollToContact() {
@@ -1294,7 +1203,6 @@ class EviaWhatsHotCarousel {
                 behavior: 'smooth'
             });
         } else {
-            // Fallback: scroll to bottom
             window.scrollTo({
                 top: document.body.scrollHeight,
                 behavior: 'smooth'
@@ -1328,12 +1236,10 @@ class EviaWhatsHotCarousel {
         
         document.body.appendChild(notification);
         
-        // Animate in
         requestAnimationFrame(() => {
             notification.style.transform = 'translateX(0)';
         });
         
-        // Auto remove
         setTimeout(() => {
             notification.style.transform = 'translateX(400px)';
             setTimeout(() => {
@@ -1344,645 +1250,532 @@ class EviaWhatsHotCarousel {
         }, 3000);
     }
 
-    trackEvent(action, category) {
-        // Analytics tracking
-        if (typeof gtag !== 'undefined') {
-            gtag('event', action, {
-                event_category: category,
-                event_label: 'evia_whats_hot_carousel'
-            });
-        }
-        
-        console.log(`📊 Event tracked: ${action} - ${category}`);
-    }
-
-    // Static methods for external control
     static getInstance() {
         return window.eviaWhatsHotCarousel;
     }
 }
 
 /* ========================================
-   HERO SECTION
+   SERVICES SECTION
    ======================================== */
-class HeroSection {
+class HermesServicesScroller {
     constructor() {
-        this.heroSection = document.querySelector('.cinematic-hero');
-        this.ctaButton = document.getElementById('luxuryHeroCTA') || document.querySelector('.hero-cta-signature');
-        this.scrollIndicator = document.querySelector('.hero-scroll-indicator-elegant');
-        this.videoElement = document.querySelector('.hero-video');
+        this.scrollContainer = document.getElementById('hermesScrollContainer');
+        this.scrollGrid = document.querySelector('.hermes-services-grid');
+        this.leftArrow = document.getElementById('hermesScrollLeft');
+        this.rightArrow = document.getElementById('hermesScrollRight');
+        this.serviceCards = document.querySelectorAll('.hermes-service-card');
+        this.learnBtns = document.querySelectorAll('.hermes-learn-btn');
         
-        if (this.heroSection) {
+        this.scrollAmount = 360;
+        this.isScrolling = false;
+        this.animationFrame = null;
+        
+        if (this.scrollContainer && this.scrollGrid) {
             this.init();
-            console.log('✅ Hero Section Initialized');
         }
     }
 
     init() {
-        this.bindEvents();
-        this.setupVideoHandling();
-        this.setupScrollIndicator();
-    }
-
-    bindEvents() {
-        if (this.ctaButton) {
-            this.ctaButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.scrollToContact();
-            });
-        }
-
-        if (this.scrollIndicator) {
-            this.scrollIndicator.addEventListener('click', () => {
-                this.scrollToNextSection();
-            });
-        }
-    }
-
-    setupVideoHandling() {
-        if (!this.videoElement) return;
-
-        this.videoElement.addEventListener('loadeddata', () => {
-            console.log('Hero video loaded');
-        });
-
-        this.videoElement.addEventListener('error', (e) => {
-            console.warn('Hero video failed to load:', e);
-        });
-    }
-
-    setupScrollIndicator() {
-        if (!this.scrollIndicator) return;
-
-        window.addEventListener('scroll', () => {
-            const scrollY = window.pageYOffset;
-            const opacity = Math.max(0, 1 - (scrollY / 300));
-            this.scrollIndicator.style.opacity = opacity;
-        }, { passive: true });
-    }
-
-    scrollToNextSection() {
-        const nextSection = this.heroSection.nextElementSibling;
-        if (nextSection) {
-            const headerHeight = 80;
-            const targetPosition = nextSection.offsetTop - headerHeight;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
-    }
-
-    scrollToContact() {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
-            
-            window.scrollTo({
-                top: elementPosition,
-                behavior: 'smooth'
-            });
-        }
-    }
-}
-
-/* ========================================
-   SERVICES CAROUSEL
-   ======================================== */
-class HermesServicesScroller {
-  constructor() {
-    this.scrollContainer = document.getElementById('hermesScrollContainer');
-    this.scrollGrid = document.querySelector('.hermes-services-grid');
-    this.leftArrow = document.getElementById('hermesScrollLeft');
-    this.rightArrow = document.getElementById('hermesScrollRight');
-    this.serviceCards = document.querySelectorAll('.hermes-service-card');
-    this.learnBtns = document.querySelectorAll('.hermes-learn-btn');
-    
-    this.scrollAmount = 360;
-    this.isScrolling = false;
-    this.animationFrame = null;
-    this.observerOptions = {
-      threshold: 0.1,
-      rootMargin: '50px'
-    };
-    
-    if (this.scrollContainer && this.scrollGrid) {
         this.initializeElements();
         this.setupCardAnimations();
         this.bindEvents();
         this.updateArrowStates();
         this.initializeIntersectionObserver();
-        console.log('✅ Hermes Services Scroller Initialized');
-    }
-  }
-
-  initializeElements() {
-    this.calculateScrollAmount();
-  }
-
-  setupCardAnimations() {
-    this.serviceCards.forEach((card, index) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(40px)';
-      card.style.transition = 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)';
-      
-      setTimeout(() => {
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, 200 + (index * 150));
-    });
-
-    this.setupCardHoverEffects();
-  }
-
-  setupCardHoverEffects() {
-    this.serviceCards.forEach((card) => {
-      const cardInner = card.querySelector('.hermes-card-inner');
-      const serviceImage = card.querySelector('.hermes-service-image img');
-      const serviceNumber = card.querySelector('.hermes-service-number');
-      const learnBtn = card.querySelector('.hermes-learn-btn');
-
-      card.addEventListener('mouseenter', () => {
-        this.activateCardHover(card, cardInner, serviceImage, serviceNumber, learnBtn);
-      });
-
-      card.addEventListener('mouseleave', () => {
-        this.deactivateCardHover(card, cardInner, serviceImage, serviceNumber, learnBtn);
-      });
-
-      card.addEventListener('touchstart', () => {
-        this.activateCardTouch(card);
-      }, { passive: true });
-
-      card.addEventListener('touchend', () => {
-        this.deactivateCardTouch(card);
-      }, { passive: true });
-    });
-  }
-
-  activateCardHover(card, cardInner, serviceImage, serviceNumber, learnBtn) {
-    if (cardInner) {
-        cardInner.style.transform = 'translateY(-12px) scale(1.03)';
-        cardInner.style.boxShadow = `
-          0 24px 64px rgba(0, 0, 0, 0.12),
-          0 8px 32px rgba(255, 140, 0, 0.08),
-          inset 0 1px 0 rgba(255, 255, 255, 0.9)
-        `;
     }
 
-    if (serviceImage) {
-      serviceImage.style.transform = 'scale(1.08)';
+    initializeElements() {
+        this.calculateScrollAmount();
     }
 
-    if (serviceNumber) {
-      serviceNumber.style.transform = 'scale(1.1)';
-      serviceNumber.style.boxShadow = '0 8px 20px rgba(255, 140, 0, 0.3)';
+    setupCardAnimations() {
+        this.serviceCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(40px)';
+            card.style.transition = 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 200 + (index * 150));
+        });
+
+        this.setupCardHoverEffects();
     }
 
-    if (learnBtn) {
-      learnBtn.style.transform = 'translateY(-2px)';
-      learnBtn.style.boxShadow = `
-        0 12px 24px rgba(255, 140, 0, 0.3),
-        0 4px 12px rgba(0, 0, 0, 0.1)
-      `;
-    }
-
-    card.classList.add('hermes-card-hovering');
-  }
-
-  deactivateCardHover(card, cardInner, serviceImage, serviceNumber, learnBtn) {
-    if (cardInner) {
-        cardInner.style.transform = '';
-        cardInner.style.boxShadow = '';
-    }
-
-    if (serviceImage) {
-      serviceImage.style.transform = '';
-    }
-
-    if (serviceNumber) {
-      serviceNumber.style.transform = '';
-      serviceNumber.style.boxShadow = '';
-    }
-
-    if (learnBtn) {
-      learnBtn.style.transform = '';
-      learnBtn.style.boxShadow = '';
-    }
-
-    card.classList.remove('hermes-card-hovering');
-  }
-
-  activateCardTouch(card) {
-    card.style.transform = 'scale(0.98)';
-    card.style.transition = 'transform 0.2s ease';
-  }
-
-  deactivateCardTouch(card) {
-    card.style.transform = '';
-    setTimeout(() => {
-      card.style.transition = '';
-    }, 200);
-  }
-
-  bindEvents() {
-    if (this.leftArrow) {
-      this.leftArrow.addEventListener('click', () => this.scrollLeft());
-    }
-    if (this.rightArrow) {
-      this.rightArrow.addEventListener('click', () => this.scrollRight());
-    }
-
-    this.learnBtns.forEach((btn) => {
-      btn.addEventListener('click', (e) => this.handleLearnMore(e));
-      btn.addEventListener('mouseenter', () => this.activateButtonHover(btn));
-      btn.addEventListener('mouseleave', () => this.deactivateButtonHover(btn));
-    });
-
-    if (this.scrollContainer) {
-      this.scrollContainer.addEventListener('scroll', () => {
-        this.handleScroll();
-      });
-    }
-
-    this.bindEnhancedTouchEvents();
-    document.addEventListener('keydown', (e) => this.handleKeyboard(e));
-    window.addEventListener('resize', () => this.handleResize());
-    this.bindAccessibilityEvents();
-  }
-
-  bindEnhancedTouchEvents() {
-    if (!this.scrollContainer) return;
-
-    let touchState = {
-      startX: 0,
-      startY: 0,
-      startTime: 0,
-      isScrolling: false,
-      isSwiping: false,
-      velocity: 0
-    };
-
-    this.scrollContainer.addEventListener('touchstart', (e) => {
-      const touch = e.touches[0];
-      touchState.startX = touch.clientX;
-      touchState.startY = touch.clientY;
-      touchState.startTime = Date.now();
-      touchState.isScrolling = false;
-      touchState.isSwiping = false;
-      
-      this.cancelScrollAnimation();
-    }, { passive: true });
-
-    this.scrollContainer.addEventListener('touchmove', (e) => {
-      if (!touchState.startX || !touchState.startY) return;
-
-      const touch = e.touches[0];
-      const currentX = touch.clientX;
-      const currentY = touch.clientY;
-      const diffX = touchState.startX - currentX;
-      const diffY = touchState.startY - currentY;
-
-      if (!touchState.isScrolling && !touchState.isSwiping) {
-        if (Math.abs(diffY) > Math.abs(diffX)) {
-          touchState.isScrolling = true;
-        } else if (Math.abs(diffX) > 10) {
-          touchState.isSwiping = true;
-          e.preventDefault();
-        }
-      }
-
-      if (touchState.isSwiping) {
-        e.preventDefault();
-        const currentTime = Date.now();
-        const timeDiff = currentTime - touchState.startTime;
-        touchState.velocity = Math.abs(diffX) / timeDiff;
-      }
-    }, { passive: false });
-
-    this.scrollContainer.addEventListener('touchend', (e) => {
-      if (!touchState.startX || touchState.isScrolling) {
-        this.resetTouchState(touchState);
-        return;
-      }
-
-      const touch = e.changedTouches[0];
-      const endX = touch.clientX;
-      const diffX = touchState.startX - endX;
-      const minSwipeDistance = 50;
-      const minSwipeVelocity = 0.3;
-
-      if (Math.abs(diffX) > minSwipeDistance || touchState.velocity > minSwipeVelocity) {
-        if (diffX > 0) {
-          this.scrollRight();
-        } else {
-          this.scrollLeft();
-        }
-      }
-
-      this.resetTouchState(touchState);
-    }, { passive: true });
-  }
-
-  resetTouchState(touchState) {
-    touchState.startX = 0;
-    touchState.startY = 0;
-    touchState.startTime = 0;
-    touchState.isScrolling = false;
-    touchState.isSwiping = false;
-    touchState.velocity = 0;
-  }
-
-  bindAccessibilityEvents() {
-    this.serviceCards.forEach((card, index) => {
-      card.setAttribute('tabindex', '0');
-      card.addEventListener('focus', () => {
-        card.classList.add('hermes-card-focused');
-        this.scrollCardIntoView(card);
-      });
-      card.addEventListener('blur', () => {
-        card.classList.remove('hermes-card-focused');
-      });
-
-      card.addEventListener('keydown', (e) => {
-        switch(e.key) {
-          case 'ArrowRight':
-            e.preventDefault();
-            if (index < this.serviceCards.length - 1) {
-              this.serviceCards[index + 1].focus();
-            }
-            break;
-          case 'ArrowLeft':
-            e.preventDefault();
-            if (index > 0) {
-              this.serviceCards[index - 1].focus();
-            }
-            break;
-          case 'Enter':
-          case ' ':
-            e.preventDefault();
+    setupCardHoverEffects() {
+        this.serviceCards.forEach((card) => {
+            const cardInner = card.querySelector('.hermes-card-inner');
+            const serviceImage = card.querySelector('.hermes-service-image img');
+            const serviceNumber = card.querySelector('.hermes-service-number');
             const learnBtn = card.querySelector('.hermes-learn-btn');
-            if (learnBtn) learnBtn.click();
-            break;
+
+            card.addEventListener('mouseenter', () => {
+                this.activateCardHover(card, cardInner, serviceImage, serviceNumber, learnBtn);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                this.deactivateCardHover(card, cardInner, serviceImage, serviceNumber, learnBtn);
+            });
+
+            card.addEventListener('touchstart', () => {
+                this.activateCardTouch(card);
+            }, { passive: true });
+
+            card.addEventListener('touchend', () => {
+                this.deactivateCardTouch(card);
+            }, { passive: true });
+        });
+    }
+
+    activateCardHover(card, cardInner, serviceImage, serviceNumber, learnBtn) {
+        if (cardInner) {
+            cardInner.style.transform = 'translateY(-12px) scale(1.03)';
+            cardInner.style.boxShadow = `
+              0 24px 64px rgba(0, 0, 0, 0.12),
+              0 8px 32px rgba(255, 140, 0, 0.08),
+              inset 0 1px 0 rgba(255, 255, 255, 0.9)
+            `;
         }
-      });
-    });
-  }
 
-  activateButtonHover(btn) {
-    const arrow = btn.querySelector('.hermes-btn-arrow');
-    if (arrow) {
-      arrow.style.transform = 'translateX(4px)';
-    }
-  }
-
-  deactivateButtonHover(btn) {
-    const arrow = btn.querySelector('.hermes-btn-arrow');
-    if (arrow) {
-      arrow.style.transform = '';
-    }
-  }
-
-  handleScroll() {
-    clearTimeout(this.scrollTimeout);
-    this.scrollTimeout = setTimeout(() => {
-      this.updateArrowStates();
-      this.updateCardVisibility();
-    }, 16);
-  }
-
-  updateCardVisibility() {
-    if (!this.scrollContainer) return;
-
-    const containerRect = this.scrollContainer.getBoundingClientRect();
-    
-    this.serviceCards.forEach((card) => {
-      const cardRect = card.getBoundingClientRect();
-      const isVisible = cardRect.left < containerRect.right && cardRect.right > containerRect.left;
-      
-      card.classList.toggle('hermes-card-visible', isVisible);
-    });
-  }
-
-  handleKeyboard(e) {
-    const servicesSection = document.querySelector('.hermes-services-section');
-    if (!servicesSection || !this.isElementInViewport(servicesSection)) return;
-
-    switch(e.key) {
-      case 'ArrowLeft':
-        if (e.ctrlKey || e.metaKey) {
-          e.preventDefault();
-          this.scrollLeft();
+        if (serviceImage) {
+            serviceImage.style.transform = 'scale(1.08)';
         }
-        break;
-      case 'ArrowRight':
-        if (e.ctrlKey || e.metaKey) {
-          e.preventDefault();
-          this.scrollRight();
+
+        if (serviceNumber) {
+            serviceNumber.style.transform = 'scale(1.1)';
+            serviceNumber.style.boxShadow = '0 8px 20px rgba(255, 140, 0, 0.3)';
         }
-        break;
-      case 'Home':
-        e.preventDefault();
-        this.scrollToStart();
-        break;
-      case 'End':
-        e.preventDefault();
-        this.scrollToEnd();
-        break;
+
+        if (learnBtn) {
+            learnBtn.style.transform = 'translateY(-2px)';
+            learnBtn.style.boxShadow = `
+                0 12px 24px rgba(255, 140, 0, 0.3),
+                0 4px 12px rgba(0, 0, 0, 0.1)
+            `;
+        }
+
+        card.classList.add('hermes-card-hovering');
     }
-  }
 
-  handleResize() {
-    clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(() => {
-      this.calculateScrollAmount();
-      this.updateArrowStates();
-      this.updateCardVisibility();
-    }, 250);
-  }
+    deactivateCardHover(card, cardInner, serviceImage, serviceNumber, learnBtn) {
+        if (cardInner) {
+            cardInner.style.transform = '';
+            cardInner.style.boxShadow = '';
+        }
 
-  calculateScrollAmount() {
-    if (!this.scrollGrid) return;
+        if (serviceImage) {
+            serviceImage.style.transform = '';
+        }
 
-    const cards = this.scrollGrid.querySelectorAll('.hermes-service-card');
-    if (cards.length > 0) {
-      const cardWidth = cards[0].offsetWidth;
-      const computedStyle = window.getComputedStyle(this.scrollGrid);
-      const gap = parseInt(computedStyle.gap) || 32;
-      this.scrollAmount = cardWidth + gap;
+        if (serviceNumber) {
+            serviceNumber.style.transform = '';
+            serviceNumber.style.boxShadow = '';
+        }
+
+        if (learnBtn) {
+            learnBtn.style.transform = '';
+            learnBtn.style.boxShadow = '';
+        }
+
+        card.classList.remove('hermes-card-hovering');
     }
-  }
 
-  scrollLeft() {
-    if (this.isScrolling || !this.scrollContainer) return;
-    
-    this.calculateScrollAmount();
-    const currentScroll = this.scrollContainer.scrollLeft;
-    const targetScroll = Math.max(0, currentScroll - this.scrollAmount);
-    
-    this.smoothScrollTo(targetScroll);
-  }
+    activateCardTouch(card) {
+        card.style.transform = 'scale(0.98)';
+        card.style.transition = 'transform 0.2s ease';
+    }
 
-  scrollRight() {
-    if (this.isScrolling || !this.scrollContainer) return;
-    
-    this.calculateScrollAmount();
-    const currentScroll = this.scrollContainer.scrollLeft;
-    const maxScroll = this.scrollContainer.scrollWidth - this.scrollContainer.clientWidth;
-    const targetScroll = Math.min(maxScroll, currentScroll + this.scrollAmount);
-    
-    this.smoothScrollTo(targetScroll);
-  }
+    deactivateCardTouch(card) {
+        card.style.transform = '';
+        setTimeout(() => {
+            card.style.transition = '';
+        }, 200);
+    }
 
-  smoothScrollTo(targetScroll) {
-    if (!this.scrollContainer) return;
+    bindEvents() {
+        if (this.leftArrow) {
+            this.leftArrow.addEventListener('click', () => this.scrollLeft());
+        }
+        if (this.rightArrow) {
+            this.rightArrow.addEventListener('click', () => this.scrollRight());
+        }
 
-    this.isScrolling = true;
-    const startScroll = this.scrollContainer.scrollLeft;
-    const distance = targetScroll - startScroll;
-    const duration = 600;
-    let startTime = null;
+        this.learnBtns.forEach((btn) => {
+            btn.addEventListener('click', (e) => this.handleLearnMore(e));
+            btn.addEventListener('mouseenter', () => this.activateButtonHover(btn));
+            btn.addEventListener('mouseleave', () => this.deactivateButtonHover(btn));
+        });
 
-    const animateScroll = (currentTime) => {
-      if (startTime === null) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      const progress = Math.min(timeElapsed / duration, 1);
-      
-      const easeProgress = this.easeOutCubic(progress);
-      this.scrollContainer.scrollLeft = startScroll + (distance * easeProgress);
+        if (this.scrollContainer) {
+            this.scrollContainer.addEventListener('scroll', () => {
+                this.handleScroll();
+            });
+        }
 
-      if (progress < 1) {
+        this.bindEnhancedTouchEvents();
+        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+        window.addEventListener('resize', () => this.handleResize());
+        this.bindAccessibilityEvents();
+    }
+
+    bindEnhancedTouchEvents() {
+        if (!this.scrollContainer) return;
+
+        let touchState = {
+            startX: 0,
+            startY: 0,
+            startTime: 0,
+            isScrolling: false,
+            isSwiping: false,
+            velocity: 0
+        };
+
+        this.scrollContainer.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            touchState.startX = touch.clientX;
+            touchState.startY = touch.clientY;
+            touchState.startTime = Date.now();
+            touchState.isScrolling = false;
+            touchState.isSwiping = false;
+            
+            this.cancelScrollAnimation();
+        }, { passive: true });
+
+        this.scrollContainer.addEventListener('touchmove', (e) => {
+            if (!touchState.startX || !touchState.startY) return;
+
+            const touch = e.touches[0];
+            const currentX = touch.clientX;
+            const currentY = touch.clientY;
+            const diffX = touchState.startX - currentX;
+            const diffY = touchState.startY - currentY;
+
+            if (!touchState.isScrolling && !touchState.isSwiping) {
+                if (Math.abs(diffY) > Math.abs(diffX)) {
+                    touchState.isScrolling = true;
+                } else if (Math.abs(diffX) > 10) {
+                    touchState.isSwiping = true;
+                    e.preventDefault();
+                }
+            }
+
+            if (touchState.isSwiping) {
+                e.preventDefault();
+                const currentTime = Date.now();
+                const timeDiff = currentTime - touchState.startTime;
+                touchState.velocity = Math.abs(diffX) / timeDiff;
+            }
+        }, { passive: false });
+
+        this.scrollContainer.addEventListener('touchend', (e) => {
+            if (!touchState.startX || touchState.isScrolling) {
+                this.resetTouchState(touchState);
+                return;
+            }
+
+            const diff = touchState.startX - touchState.touchEndX;
+
+            if (Math.abs(diff) > 50 || touchState.velocity > 0.3) {
+                if (diff > 0) {
+                    this.scrollRight();
+                } else {
+                    this.scrollLeft();
+                }
+            }
+
+            this.resetTouchState(touchState);
+        }, { passive: true });
+    }
+
+    resetTouchState(touchState) {
+        touchState.startX = 0;
+        touchState.startY = 0;
+        touchState.startTime = 0;
+        touchState.isScrolling = false;
+        touchState.isSwiping = false;
+        touchState.velocity = 0;
+    }
+
+    bindAccessibilityEvents() {
+        this.serviceCards.forEach((card, index) => {
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('focus', () => {
+                card.classList.add('hermes-card-focused');
+                this.scrollCardIntoView(card);
+            });
+            card.addEventListener('blur', () => {
+                card.classList.remove('hermes-card-focused');
+            });
+
+            card.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        if (index < this.serviceCards.length - 1) {
+                            this.serviceCards[index + 1].focus();
+                        }
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        if (index > 0) {
+                            this.serviceCards[index - 1].focus();
+                        }
+                        break;
+                    case 'Enter':
+                    case ' ':
+                        e.preventDefault();
+                        const learnBtn = card.querySelector('.hermes-learn-btn');
+                        if (learnBtn) learnBtn.click();
+                        break;
+                }
+            });
+        });
+    }
+
+    activateButtonHover(btn) {
+        const arrow = btn.querySelector('.hermes-btn-arrow');
+        if (arrow) {
+            arrow.style.transform = 'translateX(4px)';
+        }
+    }
+
+    deactivateButtonHover(btn) {
+        const arrow = btn.querySelector('.hermes-btn-arrow');
+        if (arrow) {
+            arrow.style.transform = '';
+        }
+    }
+
+    handleScroll() {
+        clearTimeout(this.scrollTimeout);
+        this.scrollTimeout = setTimeout(() => {
+            this.updateArrowStates();
+            this.updateCardVisibility();
+        }, 16);
+    }
+
+    updateCardVisibility() {
+        if (!this.scrollContainer) return;
+
+        const containerRect = this.scrollContainer.getBoundingClientRect();
+        
+        this.serviceCards.forEach((card) => {
+            const cardRect = card.getBoundingClientRect();
+            const isVisible = cardRect.left < containerRect.right && cardRect.right > containerRect.left;
+            
+            card.classList.toggle('hermes-card-visible', isVisible);
+        });
+    }
+
+    handleKeyboard(e) {
+        const servicesSection = document.querySelector('.hermes-services-section');
+        if (!servicesSection || !this.isElementInViewport(servicesSection)) return;
+
+        switch(e.key) {
+            case 'ArrowLeft':
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    this.scrollLeft();
+                }
+                break;
+            case 'ArrowRight':
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    this.scrollRight();
+                }
+                break;
+            case 'Home':
+                e.preventDefault();
+                this.scrollToStart();
+                break;
+            case 'End':
+                e.preventDefault();
+                this.scrollToEnd();
+                break;
+        }
+    }
+
+    handleResize() {
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            this.calculateScrollAmount();
+            this.updateArrowStates();
+            this.updateCardVisibility();
+        }, 250);
+    }
+
+    calculateScrollAmount() {
+        if (!this.scrollGrid) return;
+
+        const cards = this.scrollGrid.querySelectorAll('.hermes-service-card');
+        if (cards.length > 0) {
+            const cardWidth = cards[0].offsetWidth;
+            const computedStyle = window.getComputedStyle(this.scrollGrid);
+            const gap = parseInt(computedStyle.gap) || 32;
+            this.scrollAmount = cardWidth + gap;
+        }
+    }
+
+    scrollLeft() {
+        if (this.isScrolling || !this.scrollContainer) return;
+        
+        this.calculateScrollAmount();
+        const currentScroll = this.scrollContainer.scrollLeft;
+        const targetScroll = Math.max(0, currentScroll - this.scrollAmount);
+        
+        this.smoothScrollTo(targetScroll);
+    }
+
+    scrollRight() {
+        if (this.isScrolling || !this.scrollContainer) return;
+        
+        this.calculateScrollAmount();
+        const currentScroll = this.scrollContainer.scrollLeft;
+        const maxScroll = this.scrollContainer.scrollWidth - this.scrollContainer.clientWidth;
+        const targetScroll = Math.min(maxScroll, currentScroll + this.scrollAmount);
+        
+        this.smoothScrollTo(targetScroll);
+    }
+
+    smoothScrollTo(targetScroll) {
+        if (!this.scrollContainer) return;
+
+        this.isScrolling = true;
+        const startScroll = this.scrollContainer.scrollLeft;
+        const distance = targetScroll - startScroll;
+        const duration = 600;
+        let startTime = null;
+
+        const animateScroll = (currentTime) => {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            
+            const easeProgress = this.easeOutCubic(progress);
+            this.scrollContainer.scrollLeft = startScroll + (distance * easeProgress);
+
+            if (progress < 1) {
+                this.animationFrame = requestAnimationFrame(animateScroll);
+            } else {
+                this.isScrolling = false;
+                this.updateArrowStates();
+                this.updateCardVisibility();
+            }
+        };
+
         this.animationFrame = requestAnimationFrame(animateScroll);
-      } else {
-        this.isScrolling = false;
-        this.updateArrowStates();
-        this.updateCardVisibility();
-      }
-    };
-
-    this.animationFrame = requestAnimationFrame(animateScroll);
-  }
-
-  cancelScrollAnimation() {
-    if (this.animationFrame) {
-      cancelAnimationFrame(this.animationFrame);
-      this.animationFrame = null;
-      this.isScrolling = false;
     }
-  }
 
-  easeOutCubic(t) {
-    return 1 - Math.pow(1 - t, 3);
-  }
-
-  updateArrowStates() {
-    if (!this.scrollContainer || !this.leftArrow || !this.rightArrow) return;
-
-    const scrollLeft = this.scrollContainer.scrollLeft;
-    const maxScroll = this.scrollContainer.scrollWidth - this.scrollContainer.clientWidth;
-    
-    this.leftArrow.disabled = scrollLeft <= 5;
-    this.rightArrow.disabled = scrollLeft >= maxScroll - 5;
-
-    this.leftArrow.classList.toggle('hermes-arrow-disabled', this.leftArrow.disabled);
-    this.rightArrow.classList.toggle('hermes-arrow-disabled', this.rightArrow.disabled);
-  }
-
-  scrollCardIntoView(card) {
-    if (!this.scrollContainer || !card) return;
-
-    const containerRect = this.scrollContainer.getBoundingClientRect();
-    const cardRect = card.getBoundingClientRect();
-    
-    if (cardRect.left < containerRect.left || cardRect.right > containerRect.right) {
-      const cardIndex = Array.from(this.serviceCards).indexOf(card);
-      this.scrollToCard(cardIndex);
-    }
-  }
-
-  handleLearnMore(e) {
-    const btn = e.currentTarget;
-    const service = btn.dataset.service;
-    
-    btn.style.transform = 'scale(0.95)';
-    btn.style.transition = 'transform 0.15s ease';
-    
-    btn.classList.add('hermes-btn-clicked');
-    
-    setTimeout(() => {
-      btn.style.transform = '';
-      btn.classList.remove('hermes-btn-clicked');
-    }, 150);
-
-    setTimeout(() => {
-      document.body.style.transition = 'opacity 0.3s ease';
-      document.body.style.opacity = '0.8';
-      
-      setTimeout(() => {
-        window.location.href = `services.html#${service}`;
-      }, 150);
-    }, 200);
-  }
-
-  initializeIntersectionObserver() {
-    if (!('IntersectionObserver' in window)) return;
-
-    this.intersectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('hermes-card-in-viewport');
-        } else {
-          entry.target.classList.remove('hermes-card-in-viewport');
+    cancelScrollAnimation() {
+        if (this.animationFrame) {
+            cancelAnimationFrame(this.animationFrame);
+            this.animationFrame = null;
+            this.isScrolling = false;
         }
-      });
-    }, this.observerOptions);
-
-    this.serviceCards.forEach(card => {
-      this.intersectionObserver.observe(card);
-    });
-  }
-
-  isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-  }
-
-  scrollToStart() {
-    this.smoothScrollTo(0);
-  }
-
-  scrollToEnd() {
-    if (!this.scrollContainer) return;
-    const maxScroll = this.scrollContainer.scrollWidth - this.scrollContainer.clientWidth;
-    this.smoothScrollTo(maxScroll);
-  }
-
-  scrollToCard(cardIndex) {
-    if (cardIndex < 0 || cardIndex >= this.serviceCards.length) return;
-    
-    this.calculateScrollAmount();
-    const targetScroll = cardIndex * this.scrollAmount;
-    this.smoothScrollTo(targetScroll);
-  }
-
-  destroy() {
-    this.cancelScrollAnimation();
-    
-    if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
     }
-    
-    clearTimeout(this.resizeTimeout);
-    clearTimeout(this.scrollTimeout);
-    console.log('🗑️ Hermes Services Scroller destroyed');
-  }
+
+    easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+    }
+
+    updateArrowStates() {
+        if (!this.scrollContainer || !this.leftArrow || !this.rightArrow) return;
+
+        const scrollLeft = this.scrollContainer.scrollLeft;
+        const maxScroll = this.scrollContainer.scrollWidth - this.scrollContainer.clientWidth;
+        
+        this.leftArrow.disabled = scrollLeft <= 5;
+        this.rightArrow.disabled = scrollLeft >= maxScroll - 5;
+
+        this.leftArrow.classList.toggle('hermes-arrow-disabled', this.leftArrow.disabled);
+        this.rightArrow.classList.toggle('hermes-arrow-disabled', this.rightArrow.disabled);
+    }
+
+    scrollCardIntoView(card) {
+        if (!this.scrollContainer || !card) return;
+
+        const containerRect = this.scrollContainer.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+        
+        if (cardRect.left < containerRect.left || cardRect.right > containerRect.right) {
+            const cardIndex = Array.from(this.serviceCards).indexOf(card);
+            this.scrollToCard(cardIndex);
+        }
+    }
+
+    handleLearnMore(e) {
+        const btn = e.currentTarget;
+        const service = btn.dataset.service;
+        
+        btn.style.transform = 'scale(0.95)';
+        btn.style.transition = 'transform 0.15s ease';
+        
+        btn.classList.add('hermes-btn-clicked');
+        
+        setTimeout(() => {
+            btn.style.transform = '';
+            btn.classList.remove('hermes-btn-clicked');
+        }, 150);
+
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 0.3s ease';
+            document.body.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                window.location.href = `services.html#${service}`;
+            }, 150);
+        }, 200);
+    }
+
+    initializeIntersectionObserver() {
+        if (!('IntersectionObserver' in window)) return;
+
+        this.intersectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('hermes-card-in-viewport');
+                } else {
+                    entry.target.classList.remove('hermes-card-in-viewport');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
+
+        this.serviceCards.forEach(card => {
+            this.intersectionObserver.observe(card);
+        });
+    }
+
+    isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+    scrollToStart() {
+        this.smoothScrollTo(0);
+    }
+
+    scrollToEnd() {
+        if (!this.scrollContainer) return;
+        const maxScroll = this.scrollContainer.scrollWidth - this.scrollContainer.clientWidth;
+        this.smoothScrollTo(maxScroll);
+    }
+
+    scrollToCard(cardIndex) {
+        if (cardIndex < 0 || cardIndex >= this.serviceCards.length) return;
+        
+        this.calculateScrollAmount();
+        const targetScroll = cardIndex * this.scrollAmount;
+        this.smoothScrollTo(targetScroll);
+    }
 }
 
 /* ========================================
@@ -2001,7 +1794,6 @@ class ElevatedAboutSection {
         
         if (this.section) {
             this.init();
-            console.log('✅ Elevated About Section Initialized');
         }
     }
 
@@ -2061,7 +1853,6 @@ class ElevatedAboutSection {
     handleLearnMoreClick() {
         if (this.isAnimating) return;
         
-        console.log('📖 Learn More button clicked');
         this.isAnimating = true;
         
         this.addClickFeedback(this.learnMoreBtn);
@@ -2076,7 +1867,6 @@ class ElevatedAboutSection {
     handleConsultationClick() {
         if (this.isAnimating) return;
         
-        console.log('📅 Consultation button clicked');
         this.isAnimating = true;
         
         this.addClickFeedback(this.consultationBtn);
@@ -2107,7 +1897,6 @@ class ElevatedAboutSection {
 
     createFeedback(message, iconClass) {
         const feedback = document.createElement('div');
-        feedback.className = 'about-action-feedback';
         feedback.innerHTML = `
             <i class="${iconClass}"></i>
             <span>${message}</span>
@@ -2348,22 +2137,10 @@ class ElevatedAboutSection {
             }
         }, { passive: true });
     }
-
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
 }
 
 /* ========================================
-   RESULTS GALLERY
+   RESULTS SECTION
    ======================================== */
 class HermesResultsShowcase {
     constructor() {
@@ -2380,7 +2157,6 @@ class HermesResultsShowcase {
         
         if (this.section) {
             this.init();
-            console.log('✅ Hermes Results Showcase Initialized');
         }
     }
    
@@ -2538,7 +2314,6 @@ class HermesResultsShowcase {
     handleFilterChange(filter, button) {
         if (filter === this.activeFilter) return;
         
-        console.log(`🔍 Filtering results: ${filter}`);
         this.isAnimating = true;
         
         this.filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -2622,8 +2397,6 @@ class HermesResultsShowcase {
     }
 
     handleCtaClick() {
-        console.log('📅 Results CTA clicked - Scheduling consultation');
-        
         this.addCtaFeedback();
         this.showActionFeedback('Opening consultation booking...', 'ri-calendar-check-line');
         
@@ -2679,7 +2452,7 @@ class HermesResultsShowcase {
             setTimeout(() => feedback.remove(), 400);
         }, 2500);
     }
-   
+
     setupKeyboardNavigation() {
         document.addEventListener('keydown', (e) => {
             if (!this.section.contains(document.activeElement)) return;
@@ -2758,7 +2531,6 @@ class ContactSection {
         
         if (this.section) {
             this.init();
-            console.log('✅ Contact Section Initialized');
         }
     }
 
@@ -2771,7 +2543,6 @@ class ContactSection {
         this.actionBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const href = btn.getAttribute('href');
-                console.log('Action button clicked:', href);
                 
                 if (href.startsWith('tel:') || href.startsWith('http')) {
                     this.showFeedback('Opening...', 'ri-external-link-line');
@@ -2784,7 +2555,6 @@ class ContactSection {
         this.emergencyBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const href = btn.getAttribute('href');
-                console.log('Emergency button clicked:', href);
                 
                 if (href.startsWith('tel:')) {
                     this.showFeedback('Calling...', 'ri-phone-line');
@@ -2811,7 +2581,7 @@ class ContactSection {
         const checkForForm = () => {
             const elfsightWidget = this.section.querySelector('[class*="elfsight"]');
             if (elfsightWidget) {
-                console.log('✅ Elfsight form found and enhanced');
+                console.log('Elfsight form enhanced');
             } else {
                 setTimeout(checkForForm, 500);
             }
@@ -2881,16 +2651,8 @@ class HermesFloatingButtons {
         this.backToTopClicks = 0;
         this.contactInteractions = {};
         
-        console.log('Hermes Floating Buttons elements found:', {
-            backToTop: !!this.backToTopBtn,
-            contactFab: !!this.contactFabBtn,
-            mainContactBtn: !!this.mainContactBtn,
-            contactOptions: this.contactOptions.length
-        });
-        
         if (this.backToTopBtn || this.contactFabBtn) {
             this.init();
-            console.log('✅ Hermes Floating Buttons Initialized');
         }
     }
 
@@ -2925,14 +2687,12 @@ class HermesFloatingButtons {
             this.backToTopBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Back to top clicked');
                 this.scrollToTop();
             });
             
             this.backToTopBtn.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Back to top touched');
                 this.scrollToTop();
             });
         }
@@ -2941,21 +2701,18 @@ class HermesFloatingButtons {
             this.mainContactBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Contact FAB clicked, current state:', this.isContactExpanded);
                 this.toggleContactFab();
             });
             
             this.mainContactBtn.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Contact FAB touched');
                 this.toggleContactFab();
             });
         }
 
         if (this.contactBackdrop) {
             this.contactBackdrop.addEventListener('click', (e) => {
-                console.log('Contact backdrop clicked');
                 this.closeContactFab();
             });
             
@@ -2970,12 +2727,10 @@ class HermesFloatingButtons {
             
             if (link && contactType) {
                 link.addEventListener('click', (e) => {
-                    console.log('Contact option clicked:', contactType);
                     this.handleContactClick(e, contactType, link);
                 });
                 
                 link.addEventListener('touchend', (e) => {
-                    console.log('Contact option touched:', contactType);
                     setTimeout(() => this.closeContactFab(), 500);
                 });
             }
@@ -3023,8 +2778,6 @@ class HermesFloatingButtons {
     toggleBackToTopVisibility(shouldShow) {
         if (!this.backToTopBtn) return;
         
-        console.log('Toggle back to top visibility:', shouldShow);
-        
         if (shouldShow) {
             this.backToTopBtn.classList.add('visible');
             this.backToTopBtn.style.opacity = '1';
@@ -3039,7 +2792,6 @@ class HermesFloatingButtons {
     }
 
     scrollToTop() {
-        console.log('Scrolling to top');
         this.backToTopClicks++;
         
         window.scrollTo({
@@ -3050,9 +2802,7 @@ class HermesFloatingButtons {
         this.showFeedback('Scrolling to top...', 'ri-arrow-up-line');
     }
 
-    toggleContactFab() {
-        console.log('Toggle contact FAB, current state:', this.isContactExpanded);
-        
+    toggleContactFab() {        
         if (this.isContactExpanded) {
             this.closeContactFab();
         } else {
@@ -3061,7 +2811,6 @@ class HermesFloatingButtons {
     }
 
     openContactFab() {
-        console.log('Opening contact FAB');
         this.isContactExpanded = true;
         
         if (this.contactFabBtn) {
@@ -3084,7 +2833,6 @@ class HermesFloatingButtons {
     }
 
     closeContactFab() {
-        console.log('Closing contact FAB');
         this.isContactExpanded = false;
         
         if (this.contactFabBtn) {
@@ -3105,13 +2853,11 @@ class HermesFloatingButtons {
     }
 
     handleContactClick(event, contactType, link) {
-        console.log('Handling contact click:', contactType);
-        
         this.contactInteractions[contactType] = (this.contactInteractions[contactType] || 0) + 1;
         
         const href = link.getAttribute('href');
         if (href && (href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('sms:') || href.startsWith('http'))) {
-            console.log('Allowing default link behavior for:', href);
+            // Allow default behavior
         } else {
             event.preventDefault();
         }
@@ -3184,27 +2930,16 @@ class HermesFloatingButtons {
             setTimeout(() => feedback.remove(), 400);
         }, 2000);
     }
-
-    getInteractionStats() {
-        return {
-            backToTopClicks: this.backToTopClicks,
-            contactInteractions: { ...this.contactInteractions },
-            isContactExpanded: this.isContactExpanded,
-            isBackToTopVisible: this.isBackToTopVisible
-        };
-    }
 }
 
 /* ========================================
-   UTILITY FUNCTIONS
+   UTILITIES
    ======================================== */
-
 function scrollToContact() {
     const carousel = EviaWhatsHotCarousel.getInstance();
     if (carousel) {
         carousel.scrollToContact();
     } else {
-        // Fallback implementation
         const contactSection = document.getElementById('contact') || 
                              document.querySelector('.contact-section') ||
                              document.querySelector('[data-section="contact"]');
@@ -3227,7 +2962,7 @@ function scrollToContact() {
 }
 
 /* ========================================
-   MAIN APPLICATION CLASS
+   MAIN APP
    ======================================== */
 class EviaAestheticsApp {
     constructor() {
@@ -3235,7 +2970,6 @@ class EviaAestheticsApp {
         this.isMobile = window.innerWidth <= 768;
         this.isInitialized = false;
         
-        console.log('🚀 Initializing Evia Aesthetics App');
         this.init();
     }
 
@@ -3251,8 +2985,6 @@ class EviaAestheticsApp {
 
     initializeComponents() {
         try {
-            console.log('📱 Initializing all components...');
-            
             this.components.set('preloader', new Preloader());
             this.components.set('mobileMenu', new ModernMobileMenu());
             this.components.set('header', new ModernLuxuryHeader());
@@ -3265,15 +2997,23 @@ class EviaAestheticsApp {
             this.components.set('floatingButtons', new HermesFloatingButtons());
             
             this.isInitialized = true;
-            console.log('✅ All components initialized successfully');
             
-            // Make components globally accessible
             window.eviaComponents = this.components;
             window.mobileMenu = this.components.get('mobileMenu');
             window.eviaWhatsHotCarousel = this.components.get('whatsHot');
             
         } catch (error) {
-            console.error('❌ Error initializing components:', error);
+            console.error('Error initializing components:', error);
+            
+            try {
+                window.mobileMenu = new ModernMobileMenu();
+                window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
+                window.hermesFloatingButtons = new HermesFloatingButtons();
+                window.header = new ModernLuxuryHeader();
+                
+            } catch (fallbackError) {
+                console.error('Fallback initialization failed:', fallbackError);
+            }
         }
     }
 
@@ -3283,11 +3023,9 @@ class EviaAestheticsApp {
             this.isMobile = window.innerWidth <= 768;
             
             if (wasMobile !== this.isMobile) {
-                console.log('📱 Screen size changed, mobile:', this.isMobile);
                 this.handleScreenSizeChange();
             }
             
-            // Handle carousel resize
             const whatsHot = this.components.get('whatsHot');
             if (whatsHot && typeof whatsHot.handleResize === 'function') {
                 whatsHot.handleResize();
@@ -3337,17 +3075,34 @@ class EviaAestheticsApp {
 }
 
 /* ========================================
-   MOBILE OPTIMIZATIONS & UTILITIES
+   INITIALIZATION
    ======================================== */
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 100,
+            delay: 0
+        });
+        
+        setTimeout(() => AOS.refresh(), 500);
+    }
+    
+    const heroContent = document.querySelector('.hero-content-stack');
+    if (heroContent) {
+        heroContent.style.opacity = '1';
+        heroContent.style.visibility = 'visible';
+        heroContent.style.zIndex = '100';
+    }
+    
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+        heroVideo.load();
+        heroVideo.play().catch(e => console.log('Video autoplay prevented:', e));
+    }
 
-// Fix for phones that have hover states
-if ('ontouchstart' in window) {
-    document.documentElement.classList.add('touch-device');
-}
-
-// Mobile optimizations
-document.addEventListener('DOMContentLoaded', () => {
-    // Fix iOS Safari viewport height issues
     const setVH = () => {
         const vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -3359,7 +3114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(setVH, 500);
     });
 
-    // Prevent body scroll function
     window.preventBodyScroll = (isLocked) => {
         if (isLocked) {
             const scrollY = window.scrollY;
@@ -3379,56 +3133,136 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 });
 
-/* ========================================
-   INTERSECTION OBSERVER FOR PERFORMANCE
-   ======================================== */
-
-// Lazy load carousel functionality when section comes into view
-if ('IntersectionObserver' in window) {
-    const carouselObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Trigger any additional animations or lazy loading here
-                const cards = entry.target.querySelectorAll('.evia-hot-item, .evia-treatment-card');
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-                
-                // Unobserve after first intersection
-                carouselObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    // Observe the section when it's available
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'childList') {
-                const whatsHotSection = document.querySelector('.evia-whats-hot-section') || 
-                                       document.getElementById('whatsHotSection');
-                if (whatsHotSection) {
-                    carouselObserver.observe(whatsHotSection);
-                    observer.disconnect();
-                }
-            }
-        });
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
+if ('ontouchstart' in window) {
+    document.documentElement.classList.add('touch-device');
 }
 
-/* ========================================
-   GLOBAL ERROR HANDLING
-   ======================================== */
+const globalStyles = document.createElement('style');
+globalStyles.textContent = `
+    .hero-content-stack {
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: 100 !important;
+    }
+    
+    .services-title, .services-header, .services-subtitle {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .hero-headline-primary, .hero-headline-secondary, .hero-subheadline-elegant {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .modern-mobile-menu {
+        transform: translateX(100%);
+        visibility: hidden;
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .modern-mobile-menu.active {
+        transform: translateX(0);
+        visibility: visible;
+    }
+    
+    .modern-mobile-backdrop {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .modern-mobile-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .click-ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple 0.6s linear;
+        pointer-events: none;
+    }
+    
+    @keyframes ripple {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+    
+    .luxury-nav-link:focus,
+    .mobile-nav-link:focus,
+    .circle-logo-container:focus,
+    .circle-menu-toggle:focus {
+        outline: 2px solid var(--hermes-orange);
+        outline-offset: 2px;
+    }
+    
+    .touch-device *:hover {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    @supports(padding: max(0px)) {
+        .hermes-floating-controls {
+            padding-bottom: max(20px, env(safe-area-inset-bottom));
+            padding-left: max(20px, env(safe-area-inset-left));
+            padding-right: max(20px, env(safe-area-inset-right));
+        }
+        
+        .modern-mobile-menu {
+            padding-bottom: max(20px, env(safe-area-inset-bottom));
+        }
+    }
+`;
+document.head.appendChild(globalStyles);
+
+let app;
+
+const initializeApp = () => {
+    try {
+        app = new EviaAestheticsApp();
+        window.eviaApp = app;
+        
+        const mobileMenu = app.getComponent('mobileMenu');
+        if (mobileMenu) {
+            window.mobileMenu = mobileMenu;
+        }
+        
+        const whatsHot = app.getComponent('whatsHot');
+        if (whatsHot) {
+            window.eviaWhatsHotCarousel = whatsHot;
+        }
+        
+    } catch (error) {
+        console.error('Failed to initialize app:', error);
+        
+        try {
+            window.mobileMenu = new ModernMobileMenu();
+            window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
+            window.hermesFloatingButtons = new HermesFloatingButtons();
+            window.header = new ModernLuxuryHeader();
+            
+        } catch (fallbackError) {
+            console.error('Fallback initialization failed:', fallbackError);
+        }
+    }
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    initializeApp();
+}
+
+window.addEventListener('load', () => {
+    if (!window.eviaApp) {
+        setTimeout(initializeApp, 100);
+    }
+});
+
 window.addEventListener('error', (event) => {
     console.error('Global JavaScript Error:', {
         message: event.message,
@@ -3443,65 +3277,6 @@ window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled Promise Rejection:', event.reason);
 });
 
-/* ========================================
-   INITIALIZATION
-   ======================================== */
-let app;
-
-const initializeApp = () => {
-    try {
-        app = new EviaAestheticsApp();
-        window.eviaApp = app;
-        
-        // Ensure mobile menu is available globally
-        const mobileMenu = app.getComponent('mobileMenu');
-        if (mobileMenu) {
-            window.mobileMenu = mobileMenu;
-        }
-        
-        // Ensure What's Hot carousel is available globally
-        const whatsHot = app.getComponent('whatsHot');
-        if (whatsHot) {
-            window.eviaWhatsHotCarousel = whatsHot;
-        }
-        
-        console.log('🎉 Evia Aesthetics App Fully Loaded and Ready!');
-    } catch (error) {
-        console.error('❌ Failed to initialize app:', error);
-        
-        // Fallback initialization
-        try {
-            console.log('🔄 Attempting fallback initialization...');
-            
-            window.mobileMenu = new ModernMobileMenu();
-            window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
-            window.hermesFloatingButtons = new HermesFloatingButtons();
-            window.header = new ModernLuxuryHeader();
-            
-            console.log('✅ Fallback initialization completed');
-        } catch (fallbackError) {
-            console.error('❌ Fallback initialization failed:', fallbackError);
-        }
-    }
-};
-
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeApp);
-} else {
-    // DOM is already ready
-    initializeApp();
-}
-
-// Backup initialization on window load
-window.addEventListener('load', () => {
-    if (!window.eviaApp) {
-        console.log('🔄 App not initialized, retrying...');
-        setTimeout(initializeApp, 100);
-    }
-});
-
-// Make components globally accessible for debugging
 window.ModernMobileMenu = ModernMobileMenu;
 window.EviaWhatsHotCarousel = EviaWhatsHotCarousel;
 window.HermesFloatingButtons = HermesFloatingButtons;
@@ -3511,5 +3286,3 @@ window.ContactSection = ContactSection;
 window.HeroSection = HeroSection;
 window.ElevatedAboutSection = ElevatedAboutSection;
 window.HermesResultsShowcase = HermesResultsShowcase;
-
-console.log('📱 Complete Evia Aesthetics Script Loaded Successfully!');
