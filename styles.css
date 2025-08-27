@@ -1757,7 +1757,7 @@ section.evia-whats-hot-carousel-section .evia-treatment-card {
         0 10px 40px rgba(0, 0, 0, 0.08),
         0 4px 16px rgba(255, 140, 0, 0.05);
     border: 1px solid rgba(255, 140, 0, 0.1);
-    height: 480px;
+    height: 520px;
     position: relative;
 }
 
@@ -1868,11 +1868,12 @@ section.evia-whats-hot-carousel-section .treatment-content {
     position: relative;
     z-index: 2;
     padding: 28px;
-    height: 100%;
+    height: calc(100% - 220px);
     display: flex;
     flex-direction: column;
     margin-top: 220px;
     background: var(--white, #FFFFFF);
+    gap: 16px;
 }
 
 section.evia-whats-hot-carousel-section .treatment-icon-container {
@@ -1931,33 +1932,33 @@ section.evia-whats-hot-carousel-section .evia-treatment-card:hover .icon-glow {
    ======================================== */
 
 section.evia-whats-hot-carousel-section .treatment-info {
-    flex-grow: 1;
+    flex-grow: 0;
     margin-top: 36px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 section.evia-whats-hot-carousel-section .treatment-title {
     font-family: var(--font-playfair, 'Playfair Display', serif);
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-primary, #2A1B0A);
-    margin: 0 0 12px 0;
+    margin: 0 0 10px 0;
     letter-spacing: -0.02em;
     line-height: 1.2;
 }
 
 section.evia-whats-hot-carousel-section .treatment-description {
     font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-secondary, #5D4E37);
-    line-height: 1.6;
-    margin: 0 0 20px 0;
+    line-height: 1.5;
+    margin: 0 0 16px 0;
 }
 
 section.evia-whats-hot-carousel-section .treatment-stats {
     display: flex;
     gap: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 section.evia-whats-hot-carousel-section .stat-item {
@@ -2589,7 +2590,7 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 
     section.evia-whats-hot-carousel-section .evia-treatment-card {
         flex: 0 0 300px;
-        height: 450px;
+        height: 480px;
     }
 
     section.evia-whats-hot-carousel-section .evia-treatment-card.featured {
@@ -2603,6 +2604,8 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     section.evia-whats-hot-carousel-section .treatment-content {
         margin-top: 180px;
         padding: 20px;
+        height: calc(100% - 180px);
+        gap: 12px;
     }
 
     section.evia-whats-hot-carousel-section .treatment-icon-container {
@@ -2615,8 +2618,34 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         font-size: 24px;
     }
 
+    section.evia-whats-hot-carousel-section .treatment-info {
+        margin-top: 32px;
+        margin-bottom: 12px;
+    }
+
+    section.evia-whats-hot-carousel-section .treatment-title {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+
+    section.evia-whats-hot-carousel-section .treatment-description {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
     section.evia-whats-hot-carousel-section .treatment-stats {
         gap: 16px;
+        margin-bottom: 12px;
+    }
+
+    section.evia-whats-hot-carousel-section .popularity-indicator {
+        margin-bottom: 12px;
+    }
+
+    section.evia-whats-hot-carousel-section .learn-more-btn {
+        padding: 10px 20px;
+        font-size: 13px;
+        min-height: 40px;
     }
 
     .evia-modal-overlay .modal-details-grid {
@@ -2636,7 +2665,7 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 @media (max-width: 480px) {
     section.evia-whats-hot-carousel-section .evia-treatment-card {
         flex: 0 0 280px;
-        height: 420px;
+        height: 450px;
     }
 
     section.evia-whats-hot-carousel-section .treatment-image-container {
@@ -2646,6 +2675,8 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     section.evia-whats-hot-carousel-section .treatment-content {
         margin-top: 160px;
         padding: 16px;
+        height: calc(100% - 160px);
+        gap: 10px;
     }
 
     section.evia-whats-hot-carousel-section .treatment-icon-container {
@@ -2659,12 +2690,35 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         font-size: 20px;
     }
 
+    section.evia-whats-hot-carousel-section .treatment-info {
+        margin-top: 28px;
+        margin-bottom: 10px;
+    }
+
     section.evia-whats-hot-carousel-section .treatment-title {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
+        margin-bottom: 6px;
     }
 
     section.evia-whats-hot-carousel-section .treatment-description {
-        font-size: 13px;
+        font-size: 11px;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+
+    section.evia-whats-hot-carousel-section .treatment-stats {
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    section.evia-whats-hot-carousel-section .popularity-indicator {
+        margin-bottom: 10px;
+    }
+
+    section.evia-whats-hot-carousel-section .learn-more-btn {
+        padding: 9px 18px;
+        font-size: 12px;
+        min-height: 38px;
     }
 
     .evia-modal-overlay .modal-image-container {
