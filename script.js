@@ -1,7 +1,104 @@
 /* ========================================
-   EVIA AESTHETICS - COMPLETE ORGANIZED SCRIPT
+   EVIA AESTHETICS - COMPLETE INTEGRATED SCRIPT
    Manhattan Med Spa - Luxury Experience
    ======================================== */
+
+/* ========================================
+   TREATMENT DATA
+   ======================================== */
+
+const TREATMENT_DATA = {
+    nad: {
+        title: 'NAD+ Drip Therapy',
+        icon: 'ri-drop-line',
+        image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$450',
+        duration: '90 minutes',
+        frequency: 'Weekly',
+        rating: '5.0 (127 reviews)',
+        description: 'NAD+ (Nicotinamide adenine dinucleotide) is a coenzyme that plays a crucial role in cellular energy production and DNA repair. Our premium NAD+ drip therapy delivers this powerful molecule directly to your bloodstream for maximum absorption and effectiveness.',
+        benefits: [
+            'Enhanced mental clarity and focus',
+            'Increased energy levels',
+            'Improved cellular repair',
+            'Anti-aging support',
+            'Better sleep quality'
+        ],
+        featured: false
+    },
+    vitamin: {
+        title: 'Vitamin C Glow',
+        icon: 'ri-sun-line',
+        image: 'https://images.unsplash.com/photo-1570019668-21b8d8c4a7a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$180',
+        duration: '45 minutes',
+        frequency: 'Bi-weekly',
+        rating: '5.0 (203 reviews)',
+        description: 'Our high-dose Vitamin C therapy delivers powerful antioxidants directly to your system, promoting collagen production, immune support, and that coveted healthy glow from within.',
+        benefits: [
+            'Radiant, glowing skin',
+            'Enhanced immune function',
+            'Collagen production boost',
+            'Antioxidant protection',
+            'Faster recovery'
+        ],
+        featured: true
+    },
+    hydration: {
+        title: 'Hydration Plus',
+        icon: 'ri-water-percent-line',
+        image: 'https://images.unsplash.com/photo-1504813184591-01572f98c85f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$120',
+        duration: '30 minutes',
+        frequency: 'As needed',
+        rating: '4.9 (89 reviews)',
+        description: 'Our signature hydration therapy combines essential electrolytes, vitamins, and minerals to restore optimal hydration levels and support overall wellness.',
+        benefits: [
+            'Rapid rehydration',
+            'Electrolyte balance',
+            'Improved energy',
+            'Better recovery',
+            'Mental clarity'
+        ],
+        featured: false
+    },
+    energy: {
+        title: 'Energy Boost',
+        icon: 'ri-flashlight-line',
+        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$150',
+        duration: '20 minutes',
+        frequency: 'Weekly',
+        rating: '4.8 (156 reviews)',
+        description: 'Our energy boost therapy combines B-vitamins, amino acids, and minerals to naturally enhance energy levels and support mental focus throughout your day.',
+        benefits: [
+            'Sustained energy boost',
+            'Enhanced mental focus',
+            'Improved mood',
+            'Reduced fatigue',
+            'Better workout performance'
+        ],
+        featured: false
+    },
+    immunity: {
+        title: 'Immunity Shield',
+        icon: 'ri-shield-check-line',
+        image: 'https://images.unsplash.com/photo-1559757175-8a7a5b09e789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+        price: '$200',
+        duration: '60 minutes',
+        frequency: 'Monthly',
+        rating: '4.9 (92 reviews)',
+        description: 'Our immunity shield therapy delivers high-dose vitamin C, zinc, and other immune-supporting nutrients to strengthen your body\'s natural defense systems.',
+        benefits: [
+            'Enhanced immune function',
+            'Faster illness recovery',
+            'Antioxidant protection',
+            'Seasonal support',
+            'Overall wellness boost'
+        ],
+        featured: false
+    }
+};
 
 // Initialize AOS and ensure content visibility
 document.addEventListener('DOMContentLoaded', function() {
@@ -732,31 +829,30 @@ class ModernMobileMenu {
 }
 
 /* ========================================
-   EVIA WHAT'S HOT CAROUSEL
+   EVIA WHAT'S HOT CAROUSEL - FIXED
    ======================================== */
-
 class EviaWhatsHotCarousel {
     constructor() {
-        this.section = document.getElementById('whatsHotSection');
-        this.track = document.getElementById('carouselTrack');
-        this.prevBtn = document.getElementById('prevBtn');
-        this.nextBtn = document.getElementById('nextBtn');
-        this.dots = document.querySelectorAll('#carouselDots .dot');
-        this.cards = document.querySelectorAll('.evia-treatment-card');
-        this.learnMoreBtns = document.querySelectorAll('.learn-more-btn');
-        this.modalOverlay = document.getElementById('modalOverlay');
+        // Match the actual HTML structure from your files
+        this.section = document.querySelector('.evia-whats-hot-section');
+        this.carousel = document.getElementById('eviaWhatsHotCarousel');
+        this.track = document.getElementById('eviaCarouselTrack');
+        this.dots = document.querySelectorAll('.evia-dot');
+        this.hotItems = document.querySelectorAll('.evia-hot-item');
+        this.learnMoreBtns = document.querySelectorAll('.evia-learn-more-btn');
+        this.modalOverlay = document.getElementById('eviaModalOverlay');
         this.modals = document.querySelectorAll('.evia-treatment-modal');
         this.closeButtons = document.querySelectorAll('.evia-modal-close');
         this.bookButtons = document.querySelectorAll('.evia-modal-book-btn');
 
         // Carousel state
         this.currentSlide = 0;
-        this.cardWidth = 364; // 340px + 24px gap
-        this.cardsPerView = this.getCardsPerView();
-        this.maxSlide = Math.max(0, this.cards.length - this.cardsPerView);
+        this.itemWidth = 300; // 280px + 20px gap
+        this.itemsPerView = this.getItemsPerView();
+        this.maxSlide = Math.max(0, this.hotItems.length - this.itemsPerView);
         this.isTransitioning = false;
         this.autoplayInterval = null;
-        this.autoplayDelay = 5000;
+        this.autoplayDelay = 4000;
 
         // Touch handling
         this.touchStartX = 0;
@@ -768,44 +864,66 @@ class EviaWhatsHotCarousel {
         this.activeModal = null;
         this.isModalOpen = false;
 
-        this.init();
+        if (this.carousel && this.track) {
+            this.init();
+            console.log('✅ Evia What\'s Hot Carousel Initialized');
+        }
     }
 
     init() {
-        if (!this.section || !this.track) {
-            console.warn('What\'s Hot carousel elements not found');
-            return;
-        }
-
-        console.log('🔥 Initializing What\'s Hot Carousel');
-
-        this.setupEventListeners();
+        this.setupCarousel();
+        this.bindEvents();
         this.setupModalFunctionality();
         this.setupResponsive();
-        this.setupAccessibility();
         this.updateCarousel();
         this.startAutoplay();
-
-        console.log('✅ What\'s Hot Carousel initialized successfully');
     }
 
-    getCardsPerView() {
+    getItemsPerView() {
         const containerWidth = this.section?.offsetWidth || window.innerWidth;
         if (containerWidth >= 1200) return 3;
         if (containerWidth >= 768) return 2;
         return 1;
     }
 
-    setupEventListeners() {
-        // Navigation buttons
-        if (this.prevBtn && this.nextBtn) {
-            this.prevBtn.addEventListener('click', () => this.prevSlide());
-            this.nextBtn.addEventListener('click', () => this.nextSlide());
+    setupCarousel() {
+        // Calculate item width dynamically
+        if (this.hotItems.length > 0) {
+            const itemStyle = getComputedStyle(this.hotItems[0]);
+            const itemWidth = parseInt(itemStyle.width);
+            const gap = 20;
+            this.itemWidth = itemWidth + gap;
         }
+        
+        // Set initial active dot
+        if (this.dots.length > 0) {
+            this.dots[0].classList.add('active');
+        }
+        
+        console.log('Carousel setup complete:', {
+            items: this.hotItems.length,
+            itemWidth: this.itemWidth,
+            itemsPerView: this.itemsPerView,
+            maxSlide: this.maxSlide
+        });
+    }
 
+    bindEvents() {
         // Dot navigation
         this.dots.forEach((dot, index) => {
             dot.addEventListener('click', () => this.goToSlide(index));
+        });
+
+        // Hot item clicks (opens modal)
+        this.hotItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (!e.target.closest('.evia-learn-more-btn')) {
+                    const modalId = item.getAttribute('data-modal');
+                    if (modalId) {
+                        this.openModalById(modalId);
+                    }
+                }
+            });
         });
 
         // Learn More buttons
@@ -879,31 +997,14 @@ class EviaWhatsHotCarousel {
                 this.handleBooking();
             });
         });
+
+        console.log('✅ Modal functionality setup complete');
     }
 
     setupResponsive() {
-        this.cardsPerView = this.getCardsPerView();
-        this.maxSlide = Math.max(0, this.cards.length - this.cardsPerView);
+        this.itemsPerView = this.getItemsPerView();
+        this.maxSlide = Math.max(0, this.hotItems.length - this.itemsPerView);
         this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
-    }
-
-    setupAccessibility() {
-        // Add ARIA labels
-        if (this.prevBtn) this.prevBtn.setAttribute('aria-label', 'Previous treatments');
-        if (this.nextBtn) this.nextBtn.setAttribute('aria-label', 'Next treatments');
-
-        // Card accessibility
-        this.cards.forEach((card, index) => {
-            card.setAttribute('role', 'button');
-            card.setAttribute('tabindex', '0');
-            card.setAttribute('aria-label', `View details for treatment ${index + 1}`);
-        });
-
-        // Modal accessibility
-        this.modals.forEach(modal => {
-            modal.setAttribute('role', 'dialog');
-            modal.setAttribute('aria-modal', 'true');
-        });
     }
 
     // Carousel Navigation Methods
@@ -940,11 +1041,8 @@ class EviaWhatsHotCarousel {
         this.isTransitioning = true;
 
         // Calculate transform
-        const translateX = -this.currentSlide * this.cardWidth;
+        const translateX = -this.currentSlide * this.itemWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
-
-        // Update navigation buttons
-        this.updateNavButtons();
 
         // Update dots
         this.updateDots();
@@ -953,13 +1051,6 @@ class EviaWhatsHotCarousel {
         setTimeout(() => {
             this.isTransitioning = false;
         }, 600);
-    }
-
-    updateNavButtons() {
-        if (this.prevBtn && this.nextBtn) {
-            this.prevBtn.disabled = false;
-            this.nextBtn.disabled = false;
-        }
     }
 
     updateDots() {
@@ -998,7 +1089,7 @@ class EviaWhatsHotCarousel {
     }
 
     handleMouseDown(e) {
-        if (e.target.closest('.learn-more-btn')) return;
+        if (e.target.closest('.evia-learn-more-btn')) return;
         
         this.touchStartX = e.clientX;
         this.isDragging = true;
@@ -1028,11 +1119,11 @@ class EviaWhatsHotCarousel {
         this.startAutoplay();
     }
 
-    // Modal Methods
+    // Modal Methods - Fixed to work with your HTML structure
     openModal(treatmentType) {
         if (this.isModalOpen) return;
 
-        const modal = document.getElementById(`modal-${treatmentType}`);
+        const modal = document.getElementById(`evia-${treatmentType}-modal`);
         if (!modal || !this.modalOverlay) {
             console.warn(`Modal not found for treatment: ${treatmentType}`);
             return;
@@ -1064,6 +1155,43 @@ class EviaWhatsHotCarousel {
 
         // Track modal open
         this.trackEvent('modal_opened', treatmentType);
+    }
+
+    openModalById(modalId) {
+        if (this.isModalOpen) return;
+
+        const modal = document.getElementById(modalId);
+        if (!modal || !this.modalOverlay) {
+            console.warn(`Modal not found with ID: ${modalId}`);
+            return;
+        }
+
+        console.log(`Opening modal with ID: ${modalId}`);
+
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+
+        // Show overlay
+        this.modalOverlay.classList.add('active');
+        
+        // Show specific modal
+        modal.style.display = 'block';
+        
+        // Set active modal
+        this.activeModal = modal;
+        this.isModalOpen = true;
+
+        // Focus management
+        const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (firstFocusable) {
+            setTimeout(() => firstFocusable.focus(), 300);
+        }
+
+        // Animate modal content
+        this.animateModalContent(modal);
+
+        // Track modal open
+        this.trackEvent('modal_opened', modalId);
     }
 
     closeModal() {
@@ -1141,10 +1269,10 @@ class EviaWhatsHotCarousel {
 
     // Utility Methods
     handleResize() {
-        const newCardsPerView = this.getCardsPerView();
-        if (newCardsPerView !== this.cardsPerView) {
-            this.cardsPerView = newCardsPerView;
-            this.maxSlide = Math.max(0, this.cards.length - this.cardsPerView);
+        const newItemsPerView = this.getItemsPerView();
+        if (newItemsPerView !== this.itemsPerView) {
+            this.itemsPerView = newItemsPerView;
+            this.maxSlide = Math.max(0, this.hotItems.length - this.itemsPerView);
             this.currentSlide = Math.min(this.currentSlide, this.maxSlide);
             this.updateCarousel();
         }
@@ -1219,34 +1347,11 @@ class EviaWhatsHotCarousel {
         if (typeof gtag !== 'undefined') {
             gtag('event', action, {
                 event_category: category,
-                event_label: 'whats_hot_carousel'
+                event_label: 'evia_whats_hot_carousel'
             });
         }
         
         console.log(`📊 Event tracked: ${action} - ${category}`);
-    }
-
-    // Public API Methods
-    destroy() {
-        console.log('🗑️ Destroying What\'s Hot Carousel');
-        
-        this.pauseAutoplay();
-        
-        // Remove all event listeners by cloning and replacing elements
-        if (this.prevBtn) {
-            this.prevBtn.replaceWith(this.prevBtn.cloneNode(true));
-        }
-        if (this.nextBtn) {
-            this.nextBtn.replaceWith(this.nextBtn.cloneNode(true));
-        }
-        
-        this.dots.forEach(dot => {
-            dot.replaceWith(dot.cloneNode(true));
-        });
-        
-        this.learnMoreBtns.forEach(btn => {
-            btn.replaceWith(btn.cloneNode(true));
-        });
     }
 
     // Static methods for external control
@@ -1256,19 +1361,79 @@ class EviaWhatsHotCarousel {
 }
 
 /* ========================================
-   UTILITY FUNCTIONS
+   HERO SECTION
    ======================================== */
-
-function scrollToContact() {
-    const carousel = EviaWhatsHotCarousel.getInstance();
-    if (carousel) {
-        carousel.scrollToContact();
-    } else {
-        // Fallback implementation
-        const contactSection = document.getElementById('contact') || 
-                             document.querySelector('.contact-section') ||
-                             document.querySelector('[data-section="contact"]');
+class HeroSection {
+    constructor() {
+        this.heroSection = document.querySelector('.cinematic-hero');
+        this.ctaButton = document.getElementById('luxuryHeroCTA') || document.querySelector('.hero-cta-signature');
+        this.scrollIndicator = document.querySelector('.hero-scroll-indicator-elegant');
+        this.videoElement = document.querySelector('.hero-video');
         
+        if (this.heroSection) {
+            this.init();
+            console.log('✅ Hero Section Initialized');
+        }
+    }
+
+    init() {
+        this.bindEvents();
+        this.setupVideoHandling();
+        this.setupScrollIndicator();
+    }
+
+    bindEvents() {
+        if (this.ctaButton) {
+            this.ctaButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.scrollToContact();
+            });
+        }
+
+        if (this.scrollIndicator) {
+            this.scrollIndicator.addEventListener('click', () => {
+                this.scrollToNextSection();
+            });
+        }
+    }
+
+    setupVideoHandling() {
+        if (!this.videoElement) return;
+
+        this.videoElement.addEventListener('loadeddata', () => {
+            console.log('Hero video loaded');
+        });
+
+        this.videoElement.addEventListener('error', (e) => {
+            console.warn('Hero video failed to load:', e);
+        });
+    }
+
+    setupScrollIndicator() {
+        if (!this.scrollIndicator) return;
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.pageYOffset;
+            const opacity = Math.max(0, 1 - (scrollY / 300));
+            this.scrollIndicator.style.opacity = opacity;
+        }, { passive: true });
+    }
+
+    scrollToNextSection() {
+        const nextSection = this.heroSection.nextElementSibling;
+        if (nextSection) {
+            const headerHeight = 80;
+            const targetPosition = nextSection.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    scrollToContact() {
+        const contactSection = document.getElementById('contact');
         if (contactSection) {
             const headerHeight = 80;
             const elementPosition = contactSection.offsetTop - headerHeight;
@@ -1277,125 +1442,9 @@ function scrollToContact() {
                 top: elementPosition,
                 behavior: 'smooth'
             });
-        } else {
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
-            });
         }
     }
 }
-
-/* ========================================
-   INITIALIZATION
-   ======================================== */
-
-// Initialize when DOM is ready
-function initEviaWhatsHotCarousel() {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
-        });
-    } else {
-        window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
-    }
-}
-
-// Auto-initialize
-initEviaWhatsHotCarousel();
-
-/* ========================================
-   INTERSECTION OBSERVER FOR PERFORMANCE
-   ======================================== */
-
-// Lazy load carousel functionality when section comes into view
-if ('IntersectionObserver' in window) {
-    const carouselObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && entry.target.id === 'whatsHotSection') {
-                // Trigger any additional animations or lazy loading here
-                const cards = entry.target.querySelectorAll('.evia-treatment-card');
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-                
-                // Unobserve after first intersection
-                carouselObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    // Observe the section when it's available
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'childList') {
-                const whatsHotSection = document.getElementById('whatsHotSection');
-                if (whatsHotSection) {
-                    carouselObserver.observe(whatsHotSection);
-                    observer.disconnect();
-                }
-            }
-        });
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-}
-
-/* ========================================
-   ERROR HANDLING & DEBUGGING
-   ======================================== */
-
-// Global error handler for carousel-related errors
-window.addEventListener('error', (e) => {
-    if (e.filename && e.filename.includes('whats-hot') || 
-        e.message.includes('carousel') || 
-        e.message.includes('modal')) {
-        console.error('What\'s Hot Carousel Error:', e.error);
-        
-        // Graceful degradation - ensure basic functionality
-        const cards = document.querySelectorAll('.evia-treatment-card');
-        cards.forEach(card => {
-            card.style.opacity = '1';
-            card.style.transform = 'none';
-        });
-    }
-});
-
-// Performance monitoring
-if (typeof performance !== 'undefined' && performance.mark) {
-    performance.mark('whats-hot-carousel-start');
-    
-    window.addEventListener('load', () => {
-        performance.mark('whats-hot-carousel-end');
-        performance.measure('whats-hot-carousel-load', 'whats-hot-carousel-start', 'whats-hot-carousel-end');
-        
-        const measure = performance.getEntriesByName('whats-hot-carousel-load')[0];
-        if (measure) {
-            console.log(`⚡ What's Hot Carousel loaded in ${measure.duration.toFixed(2)}ms`);
-        }
-    });
-}
-
-// Support for module systems
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EviaWhatsHotCarousel;
-}
-
-if (typeof define === 'function' && define.amd) {
-    define([], () => EviaWhatsHotCarousel);
-}
-
-// Make available globally
-window.EviaWhatsHotCarousel = EviaWhatsHotCarousel;
 
 /* ========================================
    SERVICES CAROUSEL
@@ -3145,6 +3194,37 @@ class HermesFloatingButtons {
 }
 
 /* ========================================
+   UTILITY FUNCTIONS
+   ======================================== */
+
+function scrollToContact() {
+    const carousel = EviaWhatsHotCarousel.getInstance();
+    if (carousel) {
+        carousel.scrollToContact();
+    } else {
+        // Fallback implementation
+        const contactSection = document.getElementById('contact') || 
+                             document.querySelector('.contact-section') ||
+                             document.querySelector('[data-section="contact"]');
+        
+        if (contactSection) {
+            const headerHeight = 80;
+            const elementPosition = contactSection.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: elementPosition,
+                behavior: 'smooth'
+            });
+        } else {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    }
+}
+
+/* ========================================
    MAIN APPLICATION CLASS
    ======================================== */
 class EviaAestheticsApp {
@@ -3188,6 +3268,7 @@ class EviaAestheticsApp {
             // Make components globally accessible
             window.eviaComponents = this.components;
             window.mobileMenu = this.components.get('mobileMenu');
+            window.eviaWhatsHotCarousel = this.components.get('whatsHot');
             
         } catch (error) {
             console.error('❌ Error initializing components:', error);
@@ -3297,6 +3378,53 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ========================================
+   INTERSECTION OBSERVER FOR PERFORMANCE
+   ======================================== */
+
+// Lazy load carousel functionality when section comes into view
+if ('IntersectionObserver' in window) {
+    const carouselObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Trigger any additional animations or lazy loading here
+                const cards = entry.target.querySelectorAll('.evia-hot-item, .evia-treatment-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+                
+                // Unobserve after first intersection
+                carouselObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    // Observe the section when it's available
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList') {
+                const whatsHotSection = document.querySelector('.evia-whats-hot-section') || 
+                                       document.getElementById('whatsHotSection');
+                if (whatsHotSection) {
+                    carouselObserver.observe(whatsHotSection);
+                    observer.disconnect();
+                }
+            }
+        });
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+/* ========================================
    GLOBAL ERROR HANDLING
    ======================================== */
 window.addEventListener('error', (event) => {
@@ -3329,6 +3457,12 @@ const initializeApp = () => {
             window.mobileMenu = mobileMenu;
         }
         
+        // Ensure What's Hot carousel is available globally
+        const whatsHot = app.getComponent('whatsHot');
+        if (whatsHot) {
+            window.eviaWhatsHotCarousel = whatsHot;
+        }
+        
         console.log('🎉 Evia Aesthetics App Fully Loaded and Ready!');
     } catch (error) {
         console.error('❌ Failed to initialize app:', error);
@@ -3338,6 +3472,7 @@ const initializeApp = () => {
             console.log('🔄 Attempting fallback initialization...');
             
             window.mobileMenu = new ModernMobileMenu();
+            window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
             window.hermesFloatingButtons = new HermesFloatingButtons();
             window.header = new ModernLuxuryHeader();
             
@@ -3375,4 +3510,4 @@ window.HeroSection = HeroSection;
 window.ElevatedAboutSection = ElevatedAboutSection;
 window.HermesResultsShowcase = HermesResultsShowcase;
 
-console.log('📱 Complete Evia Aesthetics Script with What\'s Hot Carousel Loaded Successfully!');
+console.log('📱 Complete Evia Aesthetics Script Loaded Successfully!');
