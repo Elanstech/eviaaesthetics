@@ -286,27 +286,30 @@
             </h2>
         </div>
 
-        <!-- Carousel Container with Navigation -->
+        <!-- Enhanced Carousel Container -->
         <div class="evia-carousel-container" data-aos="fade-up" data-aos-delay="200">
             
             <!-- Navigation Arrows -->
-            <button class="evia-carousel-nav evia-nav-prev" id="prevBtn">
+            <button class="evia-carousel-nav evia-nav-prev" id="hotPrevBtn" aria-label="Previous treatments">
                 <i class="ri-arrow-left-line"></i>
+                <span class="nav-ripple"></span>
             </button>
-            <button class="evia-carousel-nav evia-nav-next" id="nextBtn">
+            <button class="evia-carousel-nav evia-nav-next" id="hotNextBtn" aria-label="Next treatments">
                 <i class="ri-arrow-right-line"></i>
+                <span class="nav-ripple"></span>
             </button>
 
-            <!-- Carousel Track -->
+            <!-- Carousel Track Container -->
             <div class="evia-carousel-track-container">
-                <div class="evia-carousel-track" id="carouselTrack">
+                <div class="evia-carousel-track" id="hotCarouselTrack">
                     
                     <!-- NAD+ Drip Card -->
-                    <div class="evia-treatment-card" data-treatment="nad">
+                    <div class="evia-treatment-card" data-treatment="nad-drip" data-modal="nadModal">
                         <div class="treatment-image-container">
                             <img src="https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-nad-vial.jpg" alt="NAD+ IV Therapy" class="treatment-bg-image">
                             <div class="treatment-overlay"></div>
                             <div class="treatment-glow-effect"></div>
+                            <div class="card-hover-overlay"></div>
                         </div>
                         <div class="treatment-content">
                             <div class="treatment-icon-container">
@@ -337,19 +340,21 @@
                                     <span class="popularity-text">Hot</span>
                                 </div>
                             </div>
-                            <button class="learn-more-btn" data-treatment="nad">
+                            <button class="learn-more-btn" data-treatment="nad-drip" data-modal="nadModal">
                                 <span>Learn More</span>
                                 <i class="ri-arrow-right-line"></i>
+                                <div class="btn-shimmer"></div>
                             </button>
                         </div>
                     </div>
 
                     <!-- Vitamin C Glow Card -->
-                    <div class="evia-treatment-card featured" data-treatment="vitamin">
+                    <div class="evia-treatment-card featured" data-treatment="vitamin-c" data-modal="vitaminModal">
                         <div class="treatment-image-container">
                             <img src="https://images-cdn.u-buy.com.ng/675d1e49fb876a53e42dfee6-vial-vitamin-c-vial-10-ml-mccm.jpg" alt="Vitamin C Therapy" class="treatment-bg-image">
                             <div class="treatment-overlay"></div>
                             <div class="treatment-glow-effect"></div>
+                            <div class="card-hover-overlay"></div>
                             <div class="featured-badge">
                                 <i class="ri-star-fill"></i>
                                 <span>Most Popular</span>
@@ -384,19 +389,21 @@
                                     <span class="popularity-text">Trending</span>
                                 </div>
                             </div>
-                            <button class="learn-more-btn" data-treatment="vitamin">
+                            <button class="learn-more-btn" data-treatment="vitamin-c" data-modal="vitaminModal">
                                 <span>Learn More</span>
                                 <i class="ri-arrow-right-line"></i>
+                                <div class="btn-shimmer"></div>
                             </button>
                         </div>
                     </div>
 
                     <!-- Hydration Plus Card -->
-                    <div class="evia-treatment-card" data-treatment="hydration">
+                    <div class="evia-treatment-card" data-treatment="hydration" data-modal="hydrationModal">
                         <div class="treatment-image-container">
                             <img src="https://naturaldripiv.com/wp-content/uploads/2022/07/Natural-Drip-Natural-Buzz-Injection.png" alt="Hydration Therapy" class="treatment-bg-image">
                             <div class="treatment-overlay"></div>
                             <div class="treatment-glow-effect"></div>
+                            <div class="card-hover-overlay"></div>
                         </div>
                         <div class="treatment-content">
                             <div class="treatment-icon-container">
@@ -427,19 +434,21 @@
                                     <span class="popularity-text">New</span>
                                 </div>
                             </div>
-                            <button class="learn-more-btn" data-treatment="hydration">
+                            <button class="learn-more-btn" data-treatment="hydration" data-modal="hydrationModal">
                                 <span>Learn More</span>
                                 <i class="ri-arrow-right-line"></i>
+                                <div class="btn-shimmer"></div>
                             </button>
                         </div>
                     </div>
 
                     <!-- Energy Boost Card -->
-                    <div class="evia-treatment-card" data-treatment="energy">
+                    <div class="evia-treatment-card" data-treatment="energy" data-modal="energyModal">
                         <div class="treatment-image-container">
                             <img src="https://ivymenshealth.com/wp-content/uploads/2023/01/energy-1024x1024.png" alt="Energy Boost Therapy" class="treatment-bg-image">
                             <div class="treatment-overlay"></div>
                             <div class="treatment-glow-effect"></div>
+                            <div class="card-hover-overlay"></div>
                         </div>
                         <div class="treatment-content">
                             <div class="treatment-icon-container">
@@ -470,19 +479,21 @@
                                     <span class="popularity-text">Popular</span>
                                 </div>
                             </div>
-                            <button class="learn-more-btn" data-treatment="energy">
+                            <button class="learn-more-btn" data-treatment="energy" data-modal="energyModal">
                                 <span>Learn More</span>
                                 <i class="ri-arrow-right-line"></i>
+                                <div class="btn-shimmer"></div>
                             </button>
                         </div>
                     </div>
 
                     <!-- Immunity Shield Card -->
-                    <div class="evia-treatment-card" data-treatment="immunity">
+                    <div class="evia-treatment-card" data-treatment="immunity" data-modal="immunityModal">
                         <div class="treatment-image-container">
                             <img src="https://www.olympiapharmacy.com/wp-content/uploads/2022/11/Tri-Immune-scaled.jpg" alt="Immunity Therapy" class="treatment-bg-image">
                             <div class="treatment-overlay"></div>
                             <div class="treatment-glow-effect"></div>
+                            <div class="card-hover-overlay"></div>
                         </div>
                         <div class="treatment-content">
                             <div class="treatment-icon-container">
@@ -513,9 +524,10 @@
                                     <span class="popularity-text">Seasonal</span>
                                 </div>
                             </div>
-                            <button class="learn-more-btn" data-treatment="immunity">
+                            <button class="learn-more-btn" data-treatment="immunity" data-modal="immunityModal">
                                 <span>Learn More</span>
                                 <i class="ri-arrow-right-line"></i>
+                                <div class="btn-shimmer"></div>
                             </button>
                         </div>
                     </div>
@@ -523,12 +535,8 @@
                 </div>
             </div>
 
-            <!-- Carousel Dots -->
-            <div class="evia-carousel-dots" id="carouselDots">
-                <button class="dot active" data-slide="0"></button>
-                <button class="dot" data-slide="1"></button>
-                <button class="dot" data-slide="2"></button>
-            </div>
+            <!-- Enhanced Carousel Dots -->
+            <div class="evia-carousel-dots" id="hotCarouselDots"></div>
         </div>
 
         <!-- Premium CTA Section -->
@@ -544,113 +552,104 @@
     </div>
 </section>
 
-<!-- Enhanced Treatment Modal -->
-<div class="evia-modal-overlay" id="modalOverlay">
-    
-    <!-- Single Universal Modal -->
-    <div class="evia-enhanced-modal" id="enhancedModal">
-        <button class="evia-modal-close">
+<!-- Enhanced Treatment Modals -->
+<div class="evia-modal-overlay" id="treatmentModalOverlay">
+    <div class="evia-enhanced-modal" id="treatmentModal">
+        <button class="evia-modal-close" id="modalCloseBtn">
             <i class="ri-close-line"></i>
         </button>
         
-        <!-- Modal Header with Image and Info -->
         <div class="evia-enhanced-modal-header">
             <div class="modal-image-container">
-                <img id="modalImage" src="" alt="Treatment" class="modal-bg-image">
+                <img id="modalImage" src="" alt="" class="modal-bg-image">
                 <div class="modal-image-overlay"></div>
-            </div>
-            <div class="modal-header-content">
-                <div class="evia-enhanced-modal-icon" id="modalIcon">
-                    <i id="modalIconElement" class="ri-drop-line"></i>
-                </div>
-                <h3 class="evia-enhanced-modal-title" id="modalTitle">Treatment Name</h3>
-                <div class="modal-rating">
-                    <div class="stars">
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
+                <div class="modal-header-content">
+                    <div class="evia-enhanced-modal-icon" id="modalIcon">
+                        <i id="modalIconSymbol" class="ri-drop-line"></i>
                     </div>
-                    <span class="rating-text" id="modalRating">5.0 (127 reviews)</span>
+                    <h2 class="evia-enhanced-modal-title" id="modalTitle">Treatment Title</h2>
+                    <div class="modal-rating">
+                        <div class="stars">
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                        </div>
+                        <span class="rating-text">5.0 (100+ reviews)</span>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Modal Body -->
+
         <div class="evia-enhanced-modal-body">
-            
-            <!-- Treatment Details Section -->
             <div class="treatment-details-section">
                 <div class="modal-description">
-                    <h4>What it does</h4>
-                    <p id="modalDescription">Treatment description will appear here.</p>
-                    
-                    <h4>Benefits include:</h4>
-                    <ul class="benefit-list" id="modalBenefits">
-                        <!-- Benefits will be populated by JS -->
-                    </ul>
+                    <h4>About This Treatment</h4>
+                    <p id="modalDescription">Treatment description will be loaded here...</p>
                 </div>
-                
-                <div class="modal-details-grid">
-                    <div class="detail-item">
-                        <div class="detail-icon"><i class="ri-time-line"></i></div>
-                        <div class="detail-content">
-                            <span class="detail-label">Duration</span>
-                            <span class="detail-value" id="modalDuration">45 minutes</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-icon"><i class="ri-money-dollar-circle-line"></i></div>
-                        <div class="detail-content">
-                            <span class="detail-label">Investment</span>
-                            <span class="detail-value" id="modalPrice">$180</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-icon"><i class="ri-refresh-line"></i></div>
-                        <div class="detail-content">
-                            <span class="detail-label">Frequency</span>
-                            <span class="detail-value" id="modalFrequency">Bi-weekly</span>
-                        </div>
-                    </div>
+
+                <ul class="benefit-list" id="modalBenefits">
+                    <!-- Benefits will be loaded dynamically -->
+                </ul>
+
+                <div class="modal-details-grid" id="modalDetails">
+                    <!-- Details will be loaded dynamically -->
                 </div>
             </div>
 
-            <!-- Other Services Section -->
             <div class="other-services-section">
-                <h4 class="section-title">
-                    <i class="ri-star-line"></i>
+                <h3 class="section-title">
+                    <i class="ri-heart-pulse-line"></i>
                     Other Popular Services
-                </h4>
-                <div class="other-services-grid" id="otherServicesGrid">
-                    <!-- Other services will be populated by JS -->
+                </h3>
+                <div class="other-services-grid">
+                    <div class="other-service-item">
+                        <div class="other-service-header">
+                            <div class="other-service-icon">
+                                <i class="ri-sun-line"></i>
+                            </div>
+                            <div class="other-service-info">
+                                <h5>Vitamin C Glow</h5>
+                            </div>
+                        </div>
+                        <div class="other-service-price">From $180</div>
+                    </div>
+                    <div class="other-service-item">
+                        <div class="other-service-header">
+                            <div class="other-service-icon">
+                                <i class="ri-flashlight-line"></i>
+                            </div>
+                            <div class="other-service-info">
+                                <h5>Energy Boost</h5>
+                            </div>
+                        </div>
+                        <div class="other-service-price">From $150</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Consultation Section -->
             <div class="consultation-section">
                 <div class="consultation-content">
                     <div class="consultation-info">
-                        <h4>Not sure which treatment is right for you?</h4>
-                        <p>Book a free consultation with Dr. Evia to discuss your wellness goals and get personalized recommendations.</p>
+                        <h4>Free Consultation Available</h4>
+                        <p>Speak with our wellness experts to find the perfect treatment plan for your needs.</p>
                     </div>
                     <button class="consultation-btn" onclick="scrollToContact()">
-                        <i class="ri-calendar-check-line"></i>
-                        <span>Free Consultation</span>
+                        <span>Book Consultation</span>
+                        <i class="ri-calendar-line"></i>
                     </button>
                 </div>
             </div>
         </div>
-        
-        <!-- Modal Footer -->
+
         <div class="evia-enhanced-modal-footer">
             <div class="footer-actions">
-                <button class="book-this-btn" id="bookThisBtn" onclick="scrollToContact()">
+                <button class="book-this-btn" id="bookTreatmentBtn">
                     <span>Book This Treatment</span>
                     <i class="ri-arrow-right-line"></i>
                 </button>
-                <button class="call-now-btn" onclick="window.open('tel:2016394983', '_self')">
+                <button class="call-now-btn" onclick="window.open('tel:+1234567890', '_self')">
                     <i class="ri-phone-line"></i>
                     <span>Call Now</span>
                 </button>
