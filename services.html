@@ -167,49 +167,149 @@
         </div>
     </div>
 
-    <!-- Services Hero Section -->
+    <!-- Services Hero Section with Video Background -->
     <section class="services-hero-section">
-        <div class="services-hero-ambient">
-            <div class="ambient-orb orb-1"></div>
-            <div class="ambient-orb orb-2"></div>
-            <div class="ambient-orb orb-3"></div>
-            <div class="floating-particles">
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
+        <!-- Video Background Collage -->
+        <div class="services-video-background">
+            <div class="video-collage-container">
+                <!-- Desktop Video Collage -->
+                <div class="desktop-video-layout">
+                    <div class="video-panel video-main">
+                        <video autoplay muted loop playsinline preload="metadata" poster="video-poster-1.jpg">
+                            <source src="hydropeeling-facial-treatment.mp4" type="video/mp4">
+                            <!-- Fallback for browsers that don't support video -->
+                            <img src="video-poster-1.jpg" alt="Professional Hydropeeling Facial Treatment">
+                        </video>
+                        <div class="video-overlay"></div>
+                    </div>
+                    <div class="video-panel video-secondary">
+                        <video autoplay muted loop playsinline preload="metadata" poster="video-poster-2.jpg">
+                            <source src="rf-lifting-ultrasound-treatment.mp4" type="video/mp4">
+                            <!-- Fallback for browsers that don't support video -->
+                            <img src="video-poster-2.jpg" alt="RF Lifting and Ultrasound Facial Treatment">
+                        </video>
+                        <div class="video-overlay"></div>
+                    </div>
+                    <div class="video-panel video-tertiary">
+                        <video autoplay muted loop playsinline preload="metadata" poster="video-poster-3.jpg">
+                            <source src="woman-facial-treatment-salon.mp4" type="video/mp4">
+                            <!-- Fallback for browsers that don't support video -->
+                            <img src="video-poster-3.jpg" alt="Woman Getting Facial Treatment in Salon">
+                        </video>
+                        <div class="video-overlay"></div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Video Layout -->
+                <div class="mobile-video-layout">
+                    <video autoplay muted loop playsinline preload="metadata" poster="video-poster-1.jpg">
+                        <source src="hydropeeling-facial-treatment.mp4" type="video/mp4">
+                        <!-- Fallback for browsers that don't support video -->
+                        <img src="video-poster-1.jpg" alt="Professional Hydropeeling Facial Treatment">
+                    </video>
+                    <div class="video-overlay-mobile"></div>
+                </div>
             </div>
+            
+            <!-- Video Background Overlay -->
+            <div class="services-hero-overlay"></div>
         </div>
         
         <div class="container">
             <div class="services-hero-content" data-aos="fade-up">
                 <div class="services-hero-badge">
                     <div class="badge-glow"></div>
-                    <i class="ri-sparkle-2-line"></i>
-                    <span>Complete Aesthetic Solutions</span>
+                    <i class="ri-list-check-3"></i>
+                    <span>Complete Services Directory</span>
                 </div>
                 
                 <h1 class="services-hero-title">
-                    <span class="title-main">Comprehensive</span>
+                    <span class="title-main">Our Complete</span>
                     <span class="title-accent">Services Menu</span>
                 </h1>
                 
                 <p class="services-hero-subtitle">
-                    Discover our complete range of <span class="highlight">Dr. Evia Alikaj Nano's</span> signature treatments, 
-                    each meticulously designed to enhance your natural beauty with unparalleled precision and artistry.
+                    Explore every treatment offered by <span class="highlight">Dr. Evia A Nano, MD</span> - 
+                    from signature injectables to advanced wellness therapies, each service designed for exceptional results.
                 </p>
 
-                <div class="consultation-notice" data-aos="fade-up" data-aos-delay="200">
+                <!-- Navigation Guide -->
+                <div class="services-navigation-guide" data-aos="fade-up" data-aos-delay="200">
+                    <div class="guide-header">
+                        <div class="guide-icon">
+                            <i class="ri-guide-line"></i>
+                        </div>
+                        <h3>How to Navigate Our Services</h3>
+                    </div>
+                    
+                    <div class="guide-steps">
+                        <div class="guide-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <span class="step-title">Browse Categories</span>
+                                <span class="step-description">Explore our 6 main service categories below</span>
+                            </div>
+                        </div>
+                        
+                        <div class="guide-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <span class="step-title">Click "View Services"</span>
+                                <span class="step-description">See detailed pricing and treatment information</span>
+                            </div>
+                        </div>
+                        
+                        <div class="guide-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <span class="step-title">Review Pre/Post Care</span>
+                                <span class="step-description">Get comprehensive treatment guidelines</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consultation Notice -->
+                <div class="consultation-notice" data-aos="fade-up" data-aos-delay="400">
                     <div class="consultation-icon">
                         <i class="ri-user-heart-line"></i>
                     </div>
                     <div class="consultation-text">
                         <span class="consultation-title">Initial Consultation</span>
-                        <span class="consultation-price">$200 <small>(Credited towards your service)</small></span>
+                        <span class="consultation-price">$200 <small>(Credited towards your first service)</small></span>
+                    </div>
+                    <div class="consultation-cta">
+                        <a href="tel:+12016394983" class="consultation-btn">
+                            <span>Book Now</span>
+                            <i class="ri-phone-line"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Services Quick Stats -->
+                <div class="services-quick-stats" data-aos="fade-up" data-aos-delay="600">
+                    <div class="stat-item">
+                        <span class="stat-number">18</span>
+                        <span class="stat-label">Services</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">Categories</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">$16</span>
+                        <span class="stat-label">Starting Price</span>
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="services-scroll-indicator" data-aos="fade-up" data-aos-delay="800">
+            <div class="scroll-icon">
+                <i class="ri-arrow-down-line"></i>
+            </div>
+            <span class="scroll-text">Explore All Services</span>
         </div>
     </section>
 
