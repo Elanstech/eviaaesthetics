@@ -256,9 +256,9 @@ class ServicesPageManager {
         const checkVideoLayout = () => {
             if (window.innerWidth <= mobileBreakpoint) {
                 if (desktopLayout) desktopLayout.style.display = 'none';
-                if (mobileLayout) mobileLayout.style.display = 'block';
+                if (mobileLayout) mobileLayout.style.display = 'flex';
             } else {
-                if (desktopLayout) desktopLayout.style.display = 'grid';
+                if (desktopLayout) desktopLayout.style.display = 'flex';
                 if (mobileLayout) mobileLayout.style.display = 'none';
             }
         };
