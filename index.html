@@ -74,18 +74,29 @@
                 </a>
                 <a href="#book" class="book-consultation-btn">Book Consultation</a>
             </div>
+            
+            <!-- Desktop Hamburger (appears on scroll) -->
+            <div class="desktop-hamburger-circle" id="desktopHamburger">
+                <div class="desktop-hamburger-lines">
+                    <span class="desktop-hamburger-line"></span>
+                    <span class="desktop-hamburger-line"></span>
+                    <span class="desktop-hamburger-line"></span>
+                </div>
+            </div>
         </div>
         
         <!-- Mobile Navigation -->
         <div class="mobile-nav">
-            <!-- Mobile Logo -->
+            <!-- Mobile Logo Circle -->
             <div class="mobile-logo-section">
-                <a href="/" class="mobile-logo-link">
-                    <img src="images/mobilelogo.png" alt="Eviaesthetics" class="mobile-logo">
-                </a>
+                <div class="mobile-logo-circle">
+                    <a href="/" class="mobile-logo-link">
+                        <img src="images/mobilelogo.png" alt="Eviaesthetics" class="mobile-logo">
+                    </a>
+                </div>
             </div>
             
-            <!-- Mobile Menu Toggle -->
+            <!-- Mobile Menu Toggle Circle -->
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
                 <span class="toggle-line"></span>
                 <span class="toggle-line"></span>
@@ -160,65 +171,6 @@
         </div>
     </div>
 </header>
-
-<!-- Mobile Menu Backdrop -->
-<div class="modern-mobile-backdrop" id="mobileBackdrop"></div>
-
-<!-- Modern Mobile Menu -->
-<div class="modern-mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-container">
-        <div class="mobile-menu-header">
-            <div class="mobile-header-logo">
-                <img src="images/mobilelogo.png" alt="Eviaesthetics" class="mobile-menu-logo">
-            </div>
-            <button class="mobile-menu-close" id="mobileClose" aria-label="Close Mobile Menu">
-                <div class="close-line"></div>
-                <div class="close-line"></div>
-            </button>
-        </div>
-
-        <nav class="mobile-navigation">
-            <a href="#home" class="mobile-nav-link active">
-                <span class="mobile-nav-number">01</span>
-                <span class="mobile-nav-text">Home</span>
-            </a>
-            <a href="#services" class="mobile-nav-link">
-                <span class="mobile-nav-number">02</span>
-                <span class="mobile-nav-text">Services</span>
-            </a>
-            <a href="#about" class="mobile-nav-link">
-                <span class="mobile-nav-number">03</span>
-                <span class="mobile-nav-text">About</span>
-            </a>
-            <a href="#portfolio" class="mobile-nav-link">
-                <span class="mobile-nav-number">04</span>
-                <span class="mobile-nav-text">Portfolio</span>
-            </a>
-            <a href="#contact" class="mobile-nav-link">
-                <span class="mobile-nav-number">05</span>
-                <span class="mobile-nav-text">Contact</span>
-            </a>
-        </nav>
-
-        <div class="mobile-menu-footer">
-            <button class="mobile-cta-button">
-                <span>Book Consultation</span>
-                <i class="ri-calendar-line"></i>
-            </button>
-
-            <div class="mobile-contact-info">
-                <div class="contact-item">
-                    <span class="contact-label">Phone</span>
-                    <span class="contact-value">(201) 639-4983</span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-label">Location</span>
-                    <span class="contact-value">Manhattan, NY</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
     
     <!-- Hero Section -->
     <section class="cinematic-hero" id="home">
