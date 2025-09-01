@@ -2,49 +2,1184 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon - Finishing Touches</title>
-    <link rel="stylesheet" href="coming-soon.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>About Dr. Evia A Nano - Manhattan's Leading Aesthetic Physician | Eviaesthetics</title>
+    
+    <meta name="description" content="Meet Dr. Evia A Nano, Manhattan's premier aesthetic physician with 20+ years experience. Discover her story, qualifications, and approach to luxury medical aesthetics.">
+    <meta name="keywords" content="Dr. Evia Nano, Manhattan aesthetic physician, board certified doctor, medical spa NYC, botox expert Manhattan, dermal filler specialist, luxury medical aesthetics">
+    <meta name="author" content="Dr. Evia A Nano">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="About Dr. Evia A Nano - Manhattan's Leading Aesthetic Physician">
+    <meta property="og:description" content="Meet Dr. Evia A Nano, Manhattan's premier aesthetic physician with 20+ years experience in luxury medical aesthetics.">
+    <meta property="og:image" content="images/eviaherself.jpg">
+    <meta property="og:url" content="https://eviaesthetics.com/about.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Dr. Evia A Nano - Manhattan's Leading Aesthetic Physician">
+    <meta name="twitter:description" content="Meet Dr. Evia A Nano, Manhattan's premier aesthetic physician with 20+ years experience.">
+    <meta name="twitter:image" content="images/eviaherself.jpg">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dr. Evia A Nano",
+        "jobTitle": "Aesthetic Physician",
+        "description": "Board certified physician specializing in aesthetic medicine and medical spa treatments",
+        "worksFor": {
+            "@type": "MedicalBusiness",
+            "name": "Eviaesthetics",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "65 W 36th St. 10th Floor",
+                "addressLocality": "New York",
+                "addressRegion": "NY",
+                "postalCode": "10018",
+                "addressCountry": "US"
+            },
+            "telephone": "(201) 639-4983"
+        },
+        "url": "https://eviaesthetics.com",
+        "image": "https://eviaesthetics.com/images/eviaherself.jpg"
+    }
+    </script>
+    
+    <link rel="canonical" href="https://eviaesthetics.com/about.html">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
+    <link rel="shortcut icon" href="icons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+    <link rel="manifest" href="icons/site.webmanifest" />
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="about.css">
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="logo-area">
-                <div class="logo-placeholder"></div>
-            </div>
-            
-            <div class="main-content">
-                <h1 class="title">We're Adding the Finishing Touches</h1>
-                <p class="subtitle">Something beautiful is coming soon</p>
-                
-                <div class="progress-indicator">
-                    <div class="progress-bar">
+
+    <!-- Preloader -->
+    <div class="evia-modern-preloader" id="preloader">
+        <div class="desktop-corner-notification">
+            <div class="corner-notification">
+                <div class="logo-container">
+                    <img src="images/mobilelogo.png" alt="Eviaesthetics" class="preloader-logo">
+                </div>
+                <div class="loading-content">
+                    <div class="loading-text">Preparing luxury experience</div>
+                    <div class="brand-text">Eviaesthetics</div>
+                    <div class="progress-indicator">
                         <div class="progress-fill"></div>
                     </div>
-                    <span class="progress-text">95% Complete</span>
-                </div>
-                
-                <div class="cta-section">
-                    <p class="redirect-text">In the meantime, explore our main experience</p>
-                    <a href="index.html" class="cta-button" id="ctaButton">
-                        <span>Visit Main Page</span>
-                        <div class="button-shine"></div>
-                    </a>
                 </div>
             </div>
-            
-            <div class="floating-elements">
-                <div class="float-element float-1"></div>
-                <div class="float-element float-2"></div>
-                <div class="float-element float-3"></div>
+        </div>
+    </div>
+
+    <!-- Luxury Med Spa Header -->
+    <header class="luxury-floating-header" id="luxuryHeader">
+        <nav class="luxury-glass-container">
+            <!-- Desktop Logo Section -->
+            <div class="luxury-logo-section desktop-only">
+                <div class="logo-glow-wrapper">
+                    <img src="images/logo1.png" alt="Eviaesthetics" class="luxury-header-logo">
+                    <div class="logo-ambient-glow"></div>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <ul class="luxury-nav-menu desktop-only">
+                <li class="nav-item">
+                    <a href="index.html" class="luxury-nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="services.html" class="luxury-nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="luxury-nav-link active">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="portfolio.html" class="luxury-nav-link">Our Work</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="luxury-nav-link">Contact</a>
+                </li>
+            </ul>
+
+            <!-- Desktop CTA -->
+            <div class="luxury-cta-wrapper desktop-only">
+                <button class="luxury-cta-button" id="luxuryHeaderCTA">
+                    <span class="cta-text">Book Consultation</span>
+                    <span class="cta-icon">✨</span>
+                    <div class="cta-ripple"></div>
+                </button>
+            </div>
+
+           <!-- Mobile Left Circle - Logo -->
+            <div class="mobile-logo-circle mobile-only">
+                <div class="circle-logo-container">
+                    <img src="images/mobilelogo.png" alt="Eviaesthetics" class="mobile-circle-logo">
+                    <div class="logo-ripple-effect"></div>
+                </div>
+            </div>
+
+            <!-- Mobile Right Circle - Menu -->
+            <div class="mobile-menu-circle mobile-only">
+                <button class="circle-menu-toggle" id="mobileToggle" aria-label="Toggle Mobile Menu">
+                    <div class="simple-menu-icon">
+                        <div class="menu-line"></div>
+                        <div class="menu-line"></div>
+                        <div class="menu-line"></div>
+                    </div>
+                    <div class="menu-ripple-effect"></div>
+                </button>
+            </div>
+
+            <!-- Header Ambient Background -->
+            <div class="header-ambient-bg">
+                <div class="ambient-orb orb-1"></div>
+                <div class="ambient-orb orb-2"></div>
+                <div class="ambient-orb orb-3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Backdrop -->
+    <div class="modern-mobile-backdrop" id="mobileBackdrop"></div>
+
+    <!-- Modern Mobile Menu -->
+    <div class="modern-mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-container">
+            <div class="mobile-menu-header">
+                <div class="mobile-header-logo">
+                    <img src="images/mobilelogo.png" alt="Eviaesthetics" class="mobile-menu-logo">
+                </div>
+                <button class="mobile-menu-close" id="mobileClose" aria-label="Close Mobile Menu">
+                    <div class="close-line"></div>
+                    <div class="close-line"></div>
+                </button>
+            </div>
+
+            <nav class="mobile-navigation">
+                <a href="index.html" class="mobile-nav-link">
+                    <span class="mobile-nav-number">01</span>
+                    <span class="mobile-nav-text">Home</span>
+                </a>
+                <a href="services.html" class="mobile-nav-link">
+                    <span class="mobile-nav-number">02</span>
+                    <span class="mobile-nav-text">Services</span>
+                </a>
+                <a href="about.html" class="mobile-nav-link active">
+                    <span class="mobile-nav-number">03</span>
+                    <span class="mobile-nav-text">About</span>
+                </a>
+                <a href="portfolio.html" class="mobile-nav-link">
+                    <span class="mobile-nav-number">04</span>
+                    <span class="mobile-nav-text">Portfolio</span>
+                </a>
+                <a href="contact.html" class="mobile-nav-link">
+                    <span class="mobile-nav-number">05</span>
+                    <span class="mobile-nav-text">Contact</span>
+                </a>
+            </nav>
+
+            <div class="mobile-menu-footer">
+                <button class="mobile-cta-button">
+                    <span>Book Consultation</span>
+                    <i class="ri-calendar-line"></i>
+                </button>
+
+                <div class="mobile-contact-info">
+                    <div class="contact-item">
+                        <span class="contact-label">Phone</span>
+                        <span class="contact-value">(201) 639-4983</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">Location</span>
+                        <span class="contact-value">Manhattan, NY</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Hero Section -->
+    <section class="about-hero-section" id="aboutHero">
+        <div class="about-hero-background">
+            <div class="hero-ambient-orbs">
+                <div class="hero-orb hero-orb-1"></div>
+                <div class="hero-orb hero-orb-2"></div>
+                <div class="hero-orb hero-orb-3"></div>
+            </div>
+            <div class="hero-gradient-mesh"></div>
+        </div>
+
+        <div class="about-hero-container">
+            <div class="about-hero-content" data-aos="fade-up">
+                <div class="about-hero-badge">
+                    <div class="badge-shimmer-effect"></div>
+                    <i class="ri-user-star-line"></i>
+                    <span>Meet Your Expert</span>
+                </div>
+
+                <h1 class="about-hero-title">
+                    <span class="title-main">Dr. Evia A Nano</span>
+                    <span class="title-accent">Board Certified Aesthetic Physician</span>
+                </h1>
+
+                <p class="about-hero-subtitle">
+                    Where medical excellence meets artistic precision in Manhattan's most trusted aesthetic practice
+                </p>
+
+                <div class="about-hero-stats">
+                    <div class="hero-stat-item">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat-item">
+                        <div class="stat-number">5000+</div>
+                        <div class="stat-label">Satisfied Clients</div>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-hero-image" data-aos="fade-left" data-aos-delay="200">
+                <div class="hero-image-frame">
+                    <img src="images/eviaherself.jpg" alt="Dr. Evia A Nano" class="hero-doctor-image">
+                    <div class="image-glow-effect"></div>
+                    <div class="image-floating-elements">
+                        <div class="floating-element element-1"></div>
+                        <div class="floating-element element-2"></div>
+                        <div class="floating-element element-3"></div>
+                    </div>
+                </div>
+                
+                <div class="hero-credentials-badge">
+                    <i class="ri-shield-check-line"></i>
+                    <span>Board Certified MD</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctor Profile Section -->
+    <section class="doctor-profile-section" id="doctorProfile">
+        <div class="profile-container">
+            <div class="profile-content-grid">
+                
+                <!-- Left Column - Main Profile -->
+                <div class="profile-main-column" data-aos="fade-right">
+                    <div class="profile-card-luxury">
+                        <div class="profile-card-glow"></div>
+                        
+                        <div class="profile-header">
+                            <div class="profile-badge-collection">
+                                <div class="profile-badge primary-badge">
+                                    <i class="ri-award-line"></i>
+                                    <span>Board Certified Physician</span>
+                                </div>
+                                <div class="profile-badge secondary-badge">
+                                    <i class="ri-map-pin-line"></i>
+                                    <span>Manhattan Based</span>
+                                </div>
+                            </div>
+                            
+                            <h2 class="profile-title">Meet Dr. Evia A Nano</h2>
+                            <h3 class="profile-subtitle">MD • Aesthetic Medicine Specialist</h3>
+                        </div>
+
+                        <div class="profile-story">
+                            <div class="story-section">
+                                <h4 class="story-title">Philosophy & Approach</h4>
+                                <p class="story-text">
+                                    Dr. Nano believes that true beauty enhancement comes from understanding each client's unique features and crafting treatments that enhance natural radiance while maintaining authenticity. Her approach combines medical precision with artistic vision, ensuring results that look natural and feel confidence-inspiring.
+                                </p>
+                            </div>
+
+                            <div class="story-section">
+                                <h4 class="story-title">Medical Excellence</h4>
+                                <p class="story-text">
+                                    With over two decades of experience in aesthetic medicine, Dr. Nano has perfected the art of subtle transformation. Her board certification and continuous education in the latest techniques ensure that every treatment meets the highest standards of safety and efficacy.
+                                </p>
+                            </div>
+
+                            <div class="story-section">
+                                <h4 class="story-title">Personalized Care</h4>
+                                <p class="story-text">
+                                    Every client receives a completely customized treatment plan. Dr. Nano takes time to understand your aesthetic goals, lifestyle, and preferences to create a approach that enhances your natural beauty while respecting your individual style.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Expertise & Credentials -->
+                <div class="profile-expertise-column" data-aos="fade-left" data-aos-delay="200">
+                    
+                    <!-- Specializations Card -->
+                    <div class="expertise-card specializations-card">
+                        <div class="card-ornament-frame">
+                            <div class="ornament-corner corner-tl"></div>
+                            <div class="ornament-corner corner-tr"></div>
+                            <div class="ornament-corner corner-bl"></div>
+                            <div class="ornament-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="expertise-header">
+                            <div class="expertise-icon">
+                                <i class="ri-heart-pulse-line"></i>
+                            </div>
+                            <h4>Core Specializations</h4>
+                        </div>
+
+                        <div class="specialization-list">
+                            <div class="specialization-item">
+                                <div class="spec-icon">
+                                    <i class="ri-syringe-line"></i>
+                                </div>
+                                <div class="spec-content">
+                                    <h5>Advanced Injectable Techniques</h5>
+                                    <p>Botox, dermal fillers, and neurotoxin applications</p>
+                                </div>
+                            </div>
+
+                            <div class="specialization-item">
+                                <div class="spec-icon">
+                                    <i class="ri-scale-line"></i>
+                                </div>
+                                <div class="spec-content">
+                                    <h5>Medical Weight Management</h5>
+                                    <p>GLP-1 therapy and comprehensive wellness programs</p>
+                                </div>
+                            </div>
+
+                            <div class="specialization-item">
+                                <div class="spec-icon">
+                                    <i class="ri-drop-line"></i>
+                                </div>
+                                <div class="spec-content">
+                                    <h5>IV Therapy & Wellness</h5>
+                                    <p>NAD+, vitamin infusions, and hydration therapy</p>
+                                </div>
+                            </div>
+
+                            <div class="specialization-item">
+                                <div class="spec-icon">
+                                    <i class="ri-sparkling-line"></i>
+                                </div>
+                                <div class="spec-content">
+                                    <h5>Advanced Skin Treatments</h5>
+                                    <p>Microneedling, PRP, and chemical peels</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Credentials Card -->
+                    <div class="expertise-card credentials-card">
+                        <div class="card-ornament-frame">
+                            <div class="ornament-corner corner-tl"></div>
+                            <div class="ornament-corner corner-tr"></div>
+                            <div class="ornament-corner corner-bl"></div>
+                            <div class="ornament-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="expertise-header">
+                            <div class="expertise-icon">
+                                <i class="ri-graduation-cap-line"></i>
+                            </div>
+                            <h4>Education & Certifications</h4>
+                        </div>
+
+                        <div class="credentials-list">
+                            <div class="credential-item">
+                                <div class="credential-year">MD</div>
+                                <div class="credential-details">
+                                    <h5>Doctor of Medicine</h5>
+                                    <p>Board Certified Physician</p>
+                                </div>
+                            </div>
+
+                            <div class="credential-item">
+                                <div class="credential-year">2024</div>
+                                <div class="credential-details">
+                                    <h5>Advanced Aesthetic Medicine</h5>
+                                    <p>Latest injection techniques & safety protocols</p>
+                                </div>
+                            </div>
+
+                            <div class="credential-item">
+                                <div class="credential-year">2023</div>
+                                <div class="credential-details">
+                                    <h5>GLP-1 Weight Management</h5>
+                                    <p>Specialized certification in medical weight loss</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievement Stats -->
+                    <div class="expertise-card achievements-card">
+                        <div class="card-ornament-frame">
+                            <div class="ornament-corner corner-tl"></div>
+                            <div class="ornament-corner corner-tr"></div>
+                            <div class="ornament-corner corner-bl"></div>
+                            <div class="ornament-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="expertise-header">
+                            <div class="expertise-icon">
+                                <i class="ri-trophy-line"></i>
+                            </div>
+                            <h4>Achievements</h4>
+                        </div>
+
+                        <div class="achievement-grid">
+                            <div class="achievement-item">
+                                <div class="achievement-number">5000+</div>
+                                <div class="achievement-label">Procedures Completed</div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-number">98%</div>
+                                <div class="achievement-label">Client Satisfaction</div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-number">5.0★</div>
+                                <div class="achievement-label">Google Rating</div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-number">Zero</div>
+                                <div class="achievement-label">Complications</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clinic Experience Section -->
+    <section class="clinic-experience-section" id="clinicExperience">
+        <div class="clinic-background">
+            <div class="clinic-ambient-orbs">
+                <div class="clinic-orb clinic-orb-1"></div>
+                <div class="clinic-orb clinic-orb-2"></div>
+                <div class="clinic-orb clinic-orb-3"></div>
+            </div>
+            <div class="clinic-gradient-mesh"></div>
+        </div>
+
+        <div class="clinic-container">
+            <!-- Section Header -->
+            <div class="clinic-header" data-aos="fade-up">
+                <div class="clinic-badge">
+                    <div class="badge-shimmer"></div>
+                    <i class="ri-building-line"></i>
+                    <span>Our Manhattan Sanctuary</span>
+                </div>
+                
+                <h2 class="clinic-title">
+                    <span class="title-main">A Space Designed</span>
+                    <span class="title-accent">For Transformation</span>
+                </h2>
+                
+                <p class="clinic-subtitle">
+                    Step into Manhattan's most sophisticated medical spa, where luxury meets cutting-edge aesthetic medicine
+                </p>
+            </div>
+
+            <!-- Clinic Features Grid -->
+            <div class="clinic-features-grid" data-aos="fade-up" data-aos-delay="200">
+                
+                <!-- Private Treatment Rooms -->
+                <div class="clinic-feature-card">
+                    <div class="feature-card-glow"></div>
+                    <div class="feature-icon">
+                        <i class="ri-door-lock-line"></i>
+                    </div>
+                    <h3 class="feature-title">Private Treatment Rooms</h3>
+                    <p class="feature-description">
+                        Luxuriously appointed private suites designed for comfort and discretion, ensuring your complete privacy and relaxation.
+                    </p>
+                </div>
+
+                <!-- State-of-the-Art Technology -->
+                <div class="clinic-feature-card">
+                    <div class="feature-card-glow"></div>
+                    <div class="feature-icon">
+                        <i class="ri-microscope-line"></i>
+                    </div>
+                    <h3 class="feature-title">Advanced Technology</h3>
+                    <p class="feature-description">
+                        The latest in aesthetic technology, from precision injection systems to advanced skin analysis equipment.
+                    </p>
+                </div>
+
+                <!-- Sterile Environment -->
+                <div class="clinic-feature-card">
+                    <div class="feature-card-glow"></div>
+                    <div class="feature-icon">
+                        <i class="ri-shield-check-line"></i>
+                    </div>
+                    <h3 class="feature-title">Medical-Grade Safety</h3>
+                    <p class="feature-description">
+                        Hospital-level sterility and safety protocols ensure the highest standards of cleanliness and protection.
+                    </p>
+                </div>
+
+                <!-- Comfort Amenities -->
+                <div class="clinic-feature-card">
+                    <div class="feature-card-glow"></div>
+                    <div class="feature-icon">
+                        <i class="ri-heart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Comfort-First Design</h3>
+                    <p class="feature-description">
+                        Every detail crafted for your comfort, from ambient lighting to temperature control and luxury amenities.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Get Here Section -->
+    <section class="directions-section" id="directionsSection">
+        <div class="directions-background">
+            <div class="directions-orbs">
+                <div class="direction-orb direction-orb-1"></div>
+                <div class="direction-orb direction-orb-2"></div>
+            </div>
+        </div>
+
+        <div class="directions-container">
+            <!-- Section Header -->
+            <div class="directions-header" data-aos="fade-up">
+                <div class="directions-badge">
+                    <div class="badge-shimmer"></div>
+                    <i class="ri-map-pin-line"></i>
+                    <span>Visit Our Clinic</span>
+                </div>
+                
+                <h2 class="directions-title">
+                    <span class="title-main">How to Get</span>
+                    <span class="title-accent">To Us</span>
+                </h2>
+                
+                <p class="directions-subtitle">
+                    Located in the heart of Manhattan, our clinic is easily accessible by subway, taxi, or car
+                </p>
+            </div>
+
+            <!-- Directions Content -->
+            <div class="directions-content-grid" data-aos="fade-up" data-aos-delay="200">
+                
+                <!-- Video Section -->
+                <div class="directions-video-section">
+                    <div class="video-container-luxury">
+                        <div class="video-frame-ornaments">
+                            <div class="video-corner corner-tl"></div>
+                            <div class="video-corner corner-tr"></div>
+                            <div class="video-corner corner-bl"></div>
+                            <div class="video-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="video-wrapper">
+                            <video class="directions-video" controls poster="images/video-poster.jpg">
+                                <source src="https://github.com/Elanstech/eviaesthetics/releases/download/v1/howtoget.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="video-overlay-effects">
+                                <div class="video-glow"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="video-caption">
+                            <i class="ri-play-circle-line"></i>
+                            <span>Visual directions to our Manhattan clinic</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address & Transportation -->
+                <div class="directions-info-section">
+                    
+                    <!-- Address Card -->
+                    <div class="info-card address-card">
+                        <div class="info-card-glow"></div>
+                        <div class="info-header">
+                            <div class="info-icon">
+                                <i class="ri-building-line"></i>
+                            </div>
+                            <h4>Our Address</h4>
+                        </div>
+                        
+                        <div class="address-details">
+                            <div class="address-line primary-address">
+                                65 W 36th St. 10th Floor
+                            </div>
+                            <div class="address-line secondary-address">
+                                New York, NY 10018
+                            </div>
+                            <div class="address-line neighborhood">
+                                Midtown Manhattan
+                            </div>
+                        </div>
+
+                        <button class="get-directions-btn" onclick="window.open('https://www.google.com/maps/place/evia+esthetics/data=!4m2!3m1!1s0x89c2599c16876481:0xdcb2158feac2dd75?sa=X&ved=1t:242&ictx=111', '_blank')">
+                            <span>Get Directions</span>
+                            <i class="ri-navigation-line"></i>
+                        </button>
+                    </div>
+
+                    <!-- Transportation Options -->
+                    <div class="info-card transport-card">
+                        <div class="info-card-glow"></div>
+                        <div class="info-header">
+                            <div class="info-icon">
+                                <i class="ri-subway-line"></i>
+                            </div>
+                            <h4>Transportation</h4>
+                        </div>
+                        
+                        <div class="transport-options">
+                            <div class="transport-option">
+                                <div class="transport-icon subway-icon">
+                                    <i class="ri-train-line"></i>
+                                </div>
+                                <div class="transport-details">
+                                    <h5>Subway</h5>
+                                    <p>Herald Square Station (B,D,F,M,N,Q,R,W) - 2 min walk</p>
+                                </div>
+                            </div>
+
+                            <div class="transport-option">
+                                <div class="transport-icon taxi-icon">
+                                    <i class="ri-taxi-line"></i>
+                                </div>
+                                <div class="transport-details">
+                                    <h5>Taxi & Rideshare</h5>
+                                    <p>Drop-off available directly in front of building</p>
+                                </div>
+                            </div>
+
+                            <div class="transport-option">
+                                <div class="transport-icon parking-icon">
+                                    <i class="ri-car-line"></i>
+                                </div>
+                                <div class="transport-details">
+                                    <h5>Parking</h5>
+                                    <p>Multiple parking garages within 1 block</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hours Card -->
+                    <div class="info-card hours-card">
+                        <div class="info-card-glow"></div>
+                        <div class="info-header">
+                            <div class="info-icon">
+                                <i class="ri-time-line"></i>
+                            </div>
+                            <h4>Clinic Hours</h4>
+                        </div>
+                        
+                        <div class="hours-list">
+                            <div class="hours-item">
+                                <span class="day">Monday - Friday</span>
+                                <span class="time">9:00 AM - 7:00 PM</span>
+                            </div>
+                            <div class="hours-item">
+                                <span class="day">Saturday</span>
+                                <span class="time">10:00 AM - 5:00 PM</span>
+                            </div>
+                            <div class="hours-item">
+                                <span class="day">Sunday</span>
+                                <span class="time">By Appointment Only</span>
+                            </div>
+                        </div>
+
+                        <div class="emergency-note">
+                            <i class="ri-alert-line"></i>
+                            <span>Emergency consultations available 24/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Dr. Nano Section -->
+    <section class="why-choose-section" id="whyChoose">
+        <div class="why-choose-background">
+            <div class="choice-ambient-orbs">
+                <div class="choice-orb choice-orb-1"></div>
+                <div class="choice-orb choice-orb-2"></div>
+                <div class="choice-orb choice-orb-3"></div>
+            </div>
+        </div>
+
+        <div class="why-choose-container">
+            <!-- Section Header -->
+            <div class="why-choose-header" data-aos="fade-up">
+                <div class="why-choose-badge">
+                    <div class="badge-shimmer"></div>
+                    <i class="ri-star-line"></i>
+                    <span>The Eviaesthetics Difference</span>
+                </div>
+                
+                <h2 class="why-choose-title">
+                    <span class="title-main">Why Manhattan's Elite</span>
+                    <span class="title-accent">Choose Dr. Nano</span>
+                </h2>
+            </div>
+
+            <!-- Reasons Grid -->
+            <div class="reasons-showcase" data-aos="fade-up" data-aos-delay="200">
+                
+                <div class="reason-card reason-card-1">
+                    <div class="reason-number">01</div>
+                    <div class="reason-icon">
+                        <i class="ri-eye-line"></i>
+                    </div>
+                    <h3 class="reason-title">Artistic Vision</h3>
+                    <p class="reason-description">
+                        Dr. Nano's keen eye for facial harmony and proportion ensures results that enhance your natural beauty rather than creating an artificial look.
+                    </p>
+                </div>
+
+                <div class="reason-card reason-card-2">
+                    <div class="reason-number">02</div>
+                    <div class="reason-icon">
+                        <i class="ri-shield-check-line"></i>
+                    </div>
+                    <h3 class="reason-title">Safety First</h3>
+                    <p class="reason-description">
+                        Board certification and 20+ years of experience mean you're in the safest hands possible for any aesthetic procedure.
+                    </p>
+                </div>
+
+                <div class="reason-card reason-card-3">
+                    <div class="reason-number">03</div>
+                    <div class="reason-icon">
+                        <i class="ri-user-heart-line"></i>
+                    </div>
+                    <h3 class="reason-title">Personalized Care</h3>
+                    <p class="reason-description">
+                        Every treatment plan is completely customized to your unique features, goals, and lifestyle preferences.
+                    </p>
+                </div>
+
+                <div class="reason-card reason-card-4">
+                    <div class="reason-number">04</div>
+                    <div class="reason-icon">
+                        <i class="ri-time-line"></i>
+                    </div>
+                    <h3 class="reason-title">Proven Results</h3>
+                    <p class="reason-description">
+                        A 98% satisfaction rate and thousands of successful treatments speak to Dr. Nano's consistent excellence.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Consultation CTA Section -->
+    <section class="consultation-cta-section" id="consultationCTA">
+        <div class="cta-ambient-background">
+            <div class="cta-floating-orbs">
+                <div class="cta-orb cta-orb-1"></div>
+                <div class="cta-orb cta-orb-2"></div>
+                <div class="cta-orb cta-orb-3"></div>
+            </div>
+            <div class="cta-gradient-overlay"></div>
+        </div>
+
+        <div class="consultation-cta-container">
+            <div class="cta-content-frame" data-aos="fade-up">
+                <div class="cta-frame-ornaments">
+                    <div class="cta-corner cta-corner-tl"></div>
+                    <div class="cta-corner cta-corner-tr"></div>
+                    <div class="cta-corner cta-corner-bl"></div>
+                    <div class="cta-corner cta-corner-br"></div>
+                </div>
+                
+                <div class="cta-content">
+                    <div class="cta-badge">
+                        <i class="ri-calendar-check-line"></i>
+                        <span>Ready to Begin?</span>
+                    </div>
+                    
+                    <h2 class="cta-title">
+                        <span class="cta-title-main">Schedule Your</span>
+                        <span class="cta-title-accent">Personal Consultation</span>
+                    </h2>
+                    
+                    <p class="cta-description">
+                        Take the first step toward your aesthetic goals with a comprehensive consultation. 
+                        Dr. Nano will assess your needs and create a personalized treatment plan just for you.
+                    </p>
+                    
+                    <div class="cta-benefits">
+                        <div class="benefit-item">
+                            <i class="ri-check-line"></i>
+                            <span>Complimentary consultation</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="ri-check-line"></i>
+                            <span>Personalized treatment plan</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="ri-check-line"></i>
+                            <span>No pressure, honest advice</span>
+                        </div>
+                    </div>
+                    
+                    <div class="cta-actions">
+                        <button class="primary-cta-btn" onclick="window.location.href='contact.html'">
+                            <div class="btn-shimmer"></div>
+                            <span>Book Free Consultation</span>
+                            <i class="ri-arrow-right-line"></i>
+                        </button>
+                        
+                        <button class="secondary-cta-btn" onclick="window.open('tel:+12016394983', '_self')">
+                            <i class="ri-phone-line"></i>
+                            <span>Call (201) 639-4983</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REDESIGNED LUXURY FOOTER SECTION -->
+    <footer class="premium-footer">
+        <div class="footer-upper">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Branding Column - Enlarged Logo -->
+                    <div class="footer-brand-column">
+                        <div class="footer-logo-container">
+                            <img src="images/logo1.png" alt="Eviaesthetics" class="footer-logo">
+                        </div>
+                        <h3 class="brand-name">Eviaesthetics</h3>
+                        <p class="brand-tagline">Manhattan's Premier Luxury Medical Spa</p>
+                        <div class="footer-contact-info">
+                            <div class="contact-item">
+                                <i class="ri-phone-fill"></i>
+                                <span>(201) 639-4983</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="ri-map-pin-fill"></i>
+                                <span>65 W 36th St. 10th Floor, New York, NY 10018</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Links Column -->
+                    <div class="footer-links-column">
+                        <h4 class="footer-column-title">Quick Links</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="services.html">Services</a></li>
+                            <li><a href="about.html">About Dr. Nano</a></li>
+                            <li><a href="portfolio.html">Before & After</a></li>
+                            <li><a href="contact.html">Book Consultation</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Services Column -->
+                    <div class="footer-services-column">
+                        <h4 class="footer-column-title">Our Services</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="services.html">Botox & Fillers</a></li>
+                            <li><a href="services.html">Weight Management</a></li>
+                            <li><a href="services.html">IV Therapy</a></li>
+                            <li><a href="services.html">Microneedling</a></li>
+                            <li><a href="services.html">PRP Therapy</a></li>
+                            <li><a href="services.html">Chemical Peels</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Social & Newsletter Column -->
+                    <div class="footer-social-column">
+                        <h4 class="footer-column-title">Connect With Us</h4>
+                        <div class="social-media-links">
+                            <a href="https://www.instagram.com/eviaesthetics/?hl=en" class="social-media-link" aria-label="Instagram">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                            <a href="#" class="social-media-link" aria-label="Facebook">
+                                <i class="ri-facebook-line"></i>
+                            </a>
+                            <a href="#" class="social-media-link" aria-label="YouTube">
+                                <i class="ri-youtube-line"></i>
+                            </a>
+                            <a href="#" class="social-media-link" aria-label="Twitter">
+                                <i class="ri-twitter-x-line"></i>
+                            </a>
+                        </div>
+                        
+                        <!-- Newsletter Subscription -->
+                        <div class="newsletter-subscription">
+                            <h5 class="newsletter-title">Join Our Newsletter</h5>
+                            <p class="newsletter-subtitle">Exclusive offers & beauty tips</p>
+                            <form class="newsletter-form">
+                                <div class="form-input-group">
+                                    <input type="email" placeholder="Your Email" class="newsletter-input">
+                                    <button type="submit" class="newsletter-submit">
+                                        <i class="ri-arrow-right-line"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <footer class="footer">
-            <p>&copy; 2025 - Crafted with precision</p>
-        </footer>
+        <!-- Trust Badges Section -->
+        <div class="trust-badges-section">
+            <div class="container">
+                <div class="trust-badges-wrapper">
+                    <!-- Payment Methods -->
+                    <div class="trust-badge-group payment-methods">
+                        <h5 class="badge-group-title">Secure Payments</h5>
+                        <div class="badge-icons">
+                            <div class="badge-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width="60">
+                            </div>
+                            <div class="badge-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width="60">
+                            </div>
+                            <div class="badge-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="American Express" width="60">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certifications -->
+                    <div class="trust-badge-group certifications">
+                        <h5 class="badge-group-title">Verified & Certified</h5>
+                        <div class="badge-icons">
+                            <div class="badge-icon">
+                                <img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified" width="100">
+                            </div>
+                            <div class="badge-icon">
+                                <img src="https://www.currentware.com/wp-content/uploads/2019/12/hipaa-compliance-1.jpg" alt="HIPAA Compliant" width="80">
+                            </div>
+                            <div class="badge-icon">
+                                <img src="https://www.amst.com/user/pages/35485/imghero-f.jpg?t=1718395933" alt="Google Partner" width="80">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews -->
+                    <div class="trust-badge-group reviews">
+                        <h5 class="badge-group-title">Trusted By Clients</h5>
+                        <div class="badge-icons">
+                            <div class="badge-icon rating">
+                                <div class="rating-stars">
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                </div>
+                                <div class="rating-text">5.0 Rating on Google</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Legal Section -->
+        <div class="footer-legal">
+            <div class="container">
+                <div class="legal-flex">
+                    <div class="legal-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cancellation Policy</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                    <div class="copyright-text">
+                        &copy; 2024 Eviaesthetics. All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Design Credit -->
+        <div class="design-credit">
+            <div class="container">
+                <a href="https://elanstechworld.com" class="designer-link" target="_blank" rel="noopener">
+                    <span>Designed by</span>
+                    <div class="designer-logo">
+                        <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="30">
+                        <span>Elan's Tech World</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hermes Floating Action Buttons -->
+    <div class="hermes-floating-controls">
+        
+        <!-- Back to Top Button -->
+        <div class="hermes-back-to-top" id="backToTopBtn">
+            <div class="btn-frame-ornaments">
+                <div class="frame-corner corner-tl"></div>
+                <div class="frame-corner corner-tr"></div>
+                <div class="frame-corner corner-bl"></div>
+                <div class="frame-corner corner-br"></div>
+            </div>
+            
+            <div class="btn-content">
+                <div class="btn-icon">
+                    <i class="ri-arrow-up-line"></i>
+                </div>
+                <div class="btn-ambient-glow"></div>
+            </div>
+            
+            <div class="btn-tooltip">
+                <span>Back to Top</span>
+                <div class="tooltip-arrow"></div>
+            </div>
+        </div>
+
+        <!-- Contact Fan-Out Button -->
+        <div class="hermes-contact-fab" id="contactFabBtn">
+            <div class="contact-fab-backdrop" id="contactBackdrop"></div>
+            
+            <!-- Main Contact Button -->
+            <div class="main-contact-btn">
+                <div class="btn-frame-ornaments">
+                    <div class="frame-corner corner-tl"></div>
+                    <div class="frame-corner corner-tr"></div>
+                    <div class="frame-corner corner-bl"></div>
+                    <div class="frame-corner corner-br"></div>
+                </div>
+                
+                <div class="btn-content">
+                    <div class="btn-icon main-icon">
+                        <i class="ri-contacts-line"></i>
+                    </div>
+                    <div class="btn-close-icon">
+                        <i class="ri-close-line"></i>
+                    </div>
+                    <div class="btn-ambient-glow"></div>
+                </div>
+                
+                <div class="btn-tooltip">
+                    <span>Contact Us</span>
+                    <div class="tooltip-arrow"></div>
+                </div>
+            </div>
+
+            <!-- Contact Options -->
+            <div class="contact-options">
+                
+                <!-- Call Option -->
+                <div class="contact-option" data-contact="call">
+                    <a href="tel:+12016394983" class="contact-link">
+                        <div class="option-frame-ornaments">
+                            <div class="frame-corner corner-tl"></div>
+                            <div class="frame-corner corner-tr"></div>
+                            <div class="frame-corner corner-bl"></div>
+                            <div class="frame-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="option-content">
+                            <div class="option-icon call-icon">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            <div class="option-ambient-glow"></div>
+                        </div>
+                        
+                        <div class="option-tooltip">
+                            <span>Call Now</span>
+                            <div class="option-number">(201) 639-4983</div>
+                            <div class="tooltip-arrow"></div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Instagram Option -->
+                <div class="contact-option" data-contact="instagram">
+                    <a href="https://www.instagram.com/eviaesthetics/?hl=en" target="_blank" rel="noopener noreferrer" class="contact-link">
+                        <div class="option-frame-ornaments">
+                            <div class="frame-corner corner-tl"></div>
+                            <div class="frame-corner corner-tr"></div>
+                            <div class="frame-corner corner-bl"></div>
+                            <div class="frame-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="option-content">
+                            <div class="option-icon instagram-icon">
+                                <i class="ri-instagram-line"></i>
+                            </div>
+                            <div class="option-ambient-glow"></div>
+                        </div>
+                        
+                        <div class="option-tooltip">
+                            <span>Follow Us</span>
+                            <div class="option-handle">@eviaesthetics</div>
+                            <div class="tooltip-arrow"></div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Email Option -->
+                <div class="contact-option" data-contact="email">
+                    <a href="mailto:info@eviaesthetics.com" class="contact-link">
+                        <div class="option-frame-ornaments">
+                            <div class="frame-corner corner-tl"></div>
+                            <div class="frame-corner corner-tr"></div>
+                            <div class="frame-corner corner-bl"></div>
+                            <div class="frame-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="option-content">
+                            <div class="option-icon email-icon">
+                                <i class="ri-mail-line"></i>
+                            </div>
+                            <div class="option-ambient-glow"></div>
+                        </div>
+                        
+                        <div class="option-tooltip">
+                            <span>Email Us</span>
+                            <div class="option-email">info@eviaesthetics.com</div>
+                            <div class="tooltip-arrow"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <script src="coming-soon.js"></script>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="script.js"></script>
+    <script src="about.js"></script>
 </body>
 </html>
