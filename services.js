@@ -426,22 +426,29 @@ class ServicesPageManager {
                     
                     <div class="care-instructions">
                         <div class="care-section">
-                            <h4><i class="ri-arrow-right-line"></i> Before Treatment</h4>
+                            <h4><i class="ri-arrow-right-line"></i> Pre-Treatment Care</h4>
                             <ul class="care-list">
-                                <li>Avoid alcohol 24 hours before</li>
-                                <li>No blood thinners (if medically safe)</li>
-                                <li>Arrive with clean skin</li>
-                                <li>Avoid aspirin for 1 week</li>
+                                <li>Avoid alcohol 24 hours before treatment</li>
+                                <li>Discontinue blood thinners if medically safe (consult your physician)</li>
+                                <li>Arrive with clean, makeup-free skin</li>
+                                <li>Inform us of any medications, supplements, or medical conditions</li>
+                                <li>Avoid aspirin and anti-inflammatory medications for 1 week</li>
+                                <li>Stay hydrated and eat a light meal before your appointment</li>
+                                <li>Avoid waxing or threading in treatment areas for 48 hours</li>
                             </ul>
                         </div>
                         
                         <div class="care-section">
-                            <h4><i class="ri-arrow-left-line"></i> After Treatment</h4>
+                            <h4><i class="ri-arrow-left-line"></i> Post-Treatment Care</h4>
                             <ul class="care-list">
-                                <li>Don't touch treated areas for 4-6 hours</li>
-                                <li>No exercise for 24 hours</li>
-                                <li>Stay upright for 4 hours</li>
-                                <li>Avoid heat/saunas for 24 hours</li>
+                                <li>Avoid touching treated areas for 4-6 hours</li>
+                                <li>No strenuous exercise for 24 hours</li>
+                                <li>Stay upright for 4 hours post-treatment</li>
+                                <li>Results visible in 3-7 days for Botox, immediate for fillers</li>
+                                <li>Avoid saunas, hot yoga, and excessive heat for 24 hours</li>
+                                <li>Apply ice if swelling occurs (10 minutes on, 10 minutes off)</li>
+                                <li>Schedule follow-up appointment as recommended</li>
+                                <li>Contact office immediately if unusual symptoms occur</li>
                             </ul>
                         </div>
                     </div>
@@ -474,22 +481,29 @@ class ServicesPageManager {
                     
                     <div class="care-instructions">
                         <div class="care-section">
-                            <h4><i class="ri-arrow-right-line"></i> Program Preparation</h4>
+                            <h4><i class="ri-arrow-right-line"></i> Pre-Program Preparation</h4>
                             <ul class="care-list">
-                                <li>Complete medical history review</li>
-                                <li>Comprehensive lab work</li>
-                                <li>Goal setting consultation</li>
-                                <li>Nutritional assessment</li>
+                                <li>Complete medical history review and physical examination</li>
+                                <li>Comprehensive lab work evaluation (included in program)</li>
+                                <li>Goal setting consultation with realistic timelines</li>
+                                <li>Nutritional assessment and current dietary analysis</li>
+                                <li>Current medication review and potential interactions</li>
+                                <li>Baseline measurements and body composition analysis</li>
+                                <li>Discuss any previous weight loss attempts and challenges</li>
                             </ul>
                         </div>
                         
                         <div class="care-section">
-                            <h4><i class="ri-arrow-left-line"></i> Ongoing Support</h4>
+                            <h4><i class="ri-arrow-left-line"></i> Program Support & Monitoring</h4>
                             <ul class="care-list">
-                                <li>Weekly check-ins initially</li>
-                                <li>Monthly monitoring appointments</li>
-                                <li>Nutritional guidance</li>
-                                <li>Exercise recommendations</li>
+                                <li>Weekly check-ins during initial 4-week phase</li>
+                                <li>Monthly monitoring appointments for ongoing support</li>
+                                <li>Nutritional guidance and personalized meal planning</li>
+                                <li>Exercise recommendations tailored to your fitness level</li>
+                                <li>Lifestyle modification coaching and behavioral support</li>
+                                <li>Access to program resources and educational materials</li>
+                                <li>24/7 support line for questions and concerns</li>
+                                <li>Regular lab work monitoring as needed</li>
                             </ul>
                         </div>
                     </div>
@@ -538,22 +552,29 @@ class ServicesPageManager {
                     
                     <div class="care-instructions">
                         <div class="care-section">
-                            <h4><i class="ri-arrow-right-line"></i> Before Treatment</h4>
+                            <h4><i class="ri-arrow-right-line"></i> Pre-Treatment Preparation</h4>
                             <ul class="care-list">
-                                <li>Stay well-hydrated (16-20oz water)</li>
-                                <li>Eat light meal 2 hours prior</li>
-                                <li>Wear comfortable clothing</li>
-                                <li>List all medications</li>
+                                <li>Stay well-hydrated before arrival (drink 16-20oz water)</li>
+                                <li>Eat a light meal 2 hours prior to prevent lightheadedness</li>
+                                <li>Wear comfortable clothing with easy arm access</li>
+                                <li>List all current medications and supplements</li>
+                                <li>Avoid excessive caffeine on treatment day</li>
+                                <li>Bring entertainment for longer NAD+ sessions (2-3 hours)</li>
+                                <li>Get adequate sleep the night before treatment</li>
                             </ul>
                         </div>
                         
                         <div class="care-section">
-                            <h4><i class="ri-arrow-left-line"></i> After Treatment</h4>
+                            <h4><i class="ri-arrow-left-line"></i> Post-Treatment Care</h4>
                             <ul class="care-list">
-                                <li>Continue hydrating (32oz more water)</li>
-                                <li>Avoid alcohol for 12 hours</li>
-                                <li>Light activity only for 2 hours</li>
-                                <li>Effects peak at 24-48 hours</li>
+                                <li>Continue hydrating throughout day (additional 32oz water)</li>
+                                <li>Avoid alcohol for 12 hours to maximize benefits</li>
+                                <li>Light activity recommended, avoid intense exercise for 2 hours</li>
+                                <li>Effects typically felt within hours and peak at 24-48 hours</li>
+                                <li>Monitor injection site for any unusual reactions</li>
+                                <li>Schedule follow-up sessions as recommended</li>
+                                <li>Maintain healthy diet to support vitamin absorption</li>
+                                <li>Rest and allow your body to process the nutrients</li>
                             </ul>
                         </div>
                     </div>
@@ -594,22 +615,30 @@ class ServicesPageManager {
                     
                     <div class="care-instructions">
                         <div class="care-section">
-                            <h4><i class="ri-arrow-right-line"></i> Before Treatment</h4>
+                            <h4><i class="ri-arrow-right-line"></i> Pre-Treatment Preparation</h4>
                             <ul class="care-list">
-                                <li>Avoid retinoids 5-7 days prior</li>
-                                <li>No sun exposure 48 hours before</li>
-                                <li>Clean, product-free skin</li>
-                                <li>No waxing for 1 week</li>
+                                <li>Avoid retinoids and strong acids 5-7 days prior to treatment</li>
+                                <li>No sun exposure or tanning 48 hours before appointment</li>
+                                <li>Discontinue skincare acids (AHA, BHA, glycolic) for 1 week</li>
+                                <li>Arrive with clean, product-free skin (gentle cleanser only)</li>
+                                <li>Avoid waxing or aggressive exfoliation for 1 week</li>
+                                <li>Inform us of any active skin conditions or infections</li>
+                                <li>Avoid blood-thinning medications if medically safe</li>
+                                <li>Stay well-hydrated and maintain healthy skin barrier</li>
                             </ul>
                         </div>
                         
                         <div class="care-section">
-                            <h4><i class="ri-arrow-left-line"></i> After Treatment</h4>
+                            <h4><i class="ri-arrow-left-line"></i> Post-Treatment Care</h4>
                             <ul class="care-list">
-                                <li>Gentle cleansing for 72 hours</li>
-                                <li>SPF 30+ for 2 weeks minimum</li>
-                                <li>No makeup for 24 hours</li>
-                                <li>Healing complete in 3-5 days</li>
+                                <li>Gentle cleansing only for 72 hours (no harsh scrubbing)</li>
+                                <li>SPF 30+ daily protection essential for 2 weeks minimum</li>
+                                <li>Avoid makeup for 24 hours post-treatment</li>
+                                <li>Healing typically complete in 3-5 days</li>
+                                <li>Use only recommended gentle, fragrance-free moisturizers</li>
+                                <li>Avoid retinoids and acids for 1 week post-treatment</li>
+                                <li>No swimming, saunas, or excessive sweating for 48 hours</li>
+                                <li>Schedule follow-up treatments 4-6 weeks apart for optimal results</li>
                             </ul>
                         </div>
                     </div>
@@ -658,22 +687,30 @@ class ServicesPageManager {
                     
                     <div class="care-instructions">
                         <div class="care-section">
-                            <h4><i class="ri-arrow-right-line"></i> Before Treatment</h4>
+                            <h4><i class="ri-arrow-right-line"></i> Pre-Treatment Preparation</h4>
                             <ul class="care-list">
-                                <li>No anti-inflammatory meds 1 week prior</li>
-                                <li>Stay well-hydrated</li>
-                                <li>Healthy diet rich in nutrients</li>
-                                <li>Adequate sleep before treatment</li>
+                                <li>Avoid anti-inflammatory medications 1 week prior (if medically safe)</li>
+                                <li>Stay well-hydrated leading up to treatment</li>
+                                <li>Maintain healthy diet rich in nutrients and antioxidants</li>
+                                <li>No blood thinners if medically safe (consult your physician)</li>
+                                <li>Avoid excessive alcohol consumption 48 hours prior</li>
+                                <li>Get adequate sleep before treatment day</li>
+                                <li>Discontinue supplements that affect blood clotting</li>
+                                <li>Arrive well-rested and properly nourished</li>
                             </ul>
                         </div>
                         
                         <div class="care-section">
-                            <h4><i class="ri-arrow-left-line"></i> After Treatment</h4>
+                            <h4><i class="ri-arrow-left-line"></i> Post-Treatment Care</h4>
                             <ul class="care-list">
-                                <li>Avoid sun exposure for 48 hours</li>
-                                <li>Gentle skincare for 1 week</li>
-                                <li>No intense exercise for 24 hours</li>
-                                <li>Results develop over 2-4 weeks</li>
+                                <li>Avoid direct sun exposure for 48 hours minimum</li>
+                                <li>Use gentle skincare routine for 1 week</li>
+                                <li>No intense exercise for 24 hours post-treatment</li>
+                                <li>Results develop progressively over 2-4 weeks</li>
+                                <li>Apply SPF 30+ daily for optimal healing</li>
+                                <li>Avoid saunas, steam rooms for 48 hours</li>
+                                <li>Follow recommended treatment series for best results</li>
+                                <li>Stay hydrated to support natural healing process</li>
                             </ul>
                         </div>
                     </div>
@@ -722,22 +759,30 @@ class ServicesPageManager {
                     
                     <div class="care-instructions">
                         <div class="care-section">
-                            <h4><i class="ri-arrow-right-line"></i> Before Treatment</h4>
+                            <h4><i class="ri-arrow-right-line"></i> Pre-Treatment Preparation</h4>
                             <ul class="care-list">
-                                <li>Avoid retinoids 7 days prior</li>
-                                <li>No waxing for 5 days</li>
-                                <li>Sun avoidance for 2 weeks</li>
-                                <li>Clean, product-free skin</li>
+                                <li>Avoid retinoids and strong acids 7 days prior to treatment</li>
+                                <li>No waxing or aggressive exfoliation for 5 days before</li>
+                                <li>Sun avoidance for 2 weeks before treatment</li>
+                                <li>Discontinue certain medications as advised by our team</li>
+                                <li>Arrive with completely clean, product-free skin</li>
+                                <li>Avoid active breakouts in treatment area</li>
+                                <li>No recent cosmetic procedures in treatment area</li>
+                                <li>Inform us of any skin sensitivities or allergies</li>
                             </ul>
                         </div>
                         
                         <div class="care-section">
-                            <h4><i class="ri-arrow-left-line"></i> After Treatment</h4>
+                            <h4><i class="ri-arrow-left-line"></i> Post-Treatment Care</h4>
                             <ul class="care-list">
-                                <li>Gentle cleansing only</li>
-                                <li>SPF 50+ for 2 weeks</li>
-                                <li>No picking or peeling</li>
-                                <li>Avoid makeup 24-48 hours</li>
+                                <li>Gentle cleansing only with mild, fragrance-free products</li>
+                                <li>Strict sun protection (SPF 50+) for 2 weeks minimum</li>
+                                <li>No picking or peeling of treated skin - let it shed naturally</li>
+                                <li>Peeling process typically occurs 3-7 days post-treatment</li>
+                                <li>Use only recommended moisturizers and serums</li>
+                                <li>Avoid makeup for 24-48 hours as tolerated</li>
+                                <li>No retinoids or acids for 1-2 weeks post-treatment</li>
+                                <li>Schedule follow-up treatments 4-6 weeks apart</li>
                             </ul>
                         </div>
                     </div>
