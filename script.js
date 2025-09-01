@@ -2467,90 +2467,195 @@ class ElevatedAboutSection {
 /* ========================================
    RESULTS SECTION
    ======================================== */
+
 class HermesResultsShowcase {
     constructor() {
-        this.section = document.querySelector('.hermes-results-showcase');
-        this.filterButtons = document.querySelectorAll('.hermes-filter-btn');
-        this.resultItems = document.querySelectorAll('.hermes-result-item');
-        this.ctaButton = document.getElementById('hermesResultsCtaBtn');
+        this.section = document.querySelector('.hermes-results-showcase-section');
+        this.showcaseContainer = document.querySelector('.results-showcase-container');
+        this.portfolioBtn = document.getElementById('showcasePortfolioBtn');
+        this.consultationBtn = document.getElementById('showcaseConsultationBtn');
+        this.resultCards = document.querySelectorAll('.showcase-result-card');
+        this.comparisonSliders = document.querySelectorAll('.showcase-comparison-slider');
         
-        this.comparisons = document.querySelectorAll('.result-comparison-wrapper');
-        this.activeComparison = null;
-        
-        this.activeFilter = 'all';
+        this.activeSlider = null;
         this.isAnimating = false;
+        this.isDragging = false;
+        this.touchStartX = 0;
+        this.touchEndX = 0;
+        this.sliderPositions = new Map();
+        this.intersectionObserver = null;
+        
+        this.animationDuration = 600;
+        this.observerThreshold = 0.2;
+        this.sliderSensitivity = 0.8;
+        this.autoResetDelay = 3000;
         
         if (this.section) {
             this.init();
         }
     }
-   
+
     init() {
-        this.initializeComparisons();
-        this.bindEvents();
-        this.setupIntersectionObserver();
-        this.setupKeyboardNavigation();
+        try {
+            this.setupInitialState();
+            this.initializeBeforeAfterSliders();
+            this.bindEvents();
+            this.setupIntersectionObserver();
+            this.setupAccessibilityFeatures();
+            this.initializeAnimations();
+            this.preloadImages();
+            
+            window.hermesResultsShowcase = this;
+            
+            console.log('Hermes Results Showcase initialized successfully');
+        } catch (error) {
+            console.error('Results Showcase initialization failed:', error);
+            this.setupFallbackBehavior();
+        }
     }
 
-    initializeComparisons() {
-        this.comparisons.forEach(comparison => {
-            const slider = comparison.querySelector('.result-slider');
-            const afterImage = comparison.querySelector('.result-after');
-            
-            if (slider && afterImage) {
-                let isActive = false;
-                let currentPosition = 50;
-                
-                this.updateSliderPosition(comparison, currentPosition);
-                
-                slider.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    isActive = true;
-                    this.activeComparison = comparison;
-                    comparison.classList.add('dragging');
-                    document.body.style.cursor = 'ew-resize';
-                    this.updateSliderPosition(comparison, this.getPositionFromEvent(e, comparison));
-                });
-                
-                comparison.addEventListener('mousemove', (e) => {
-                    if (isActive && this.activeComparison === comparison) {
-                        this.updateSliderPosition(comparison, this.getPositionFromEvent(e, comparison));
-                    }
-                });
-                
-                slider.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    isActive = true;
-                    this.activeComparison = comparison;
-                    comparison.classList.add('dragging');
-                    this.updateSliderPosition(comparison, this.getPositionFromEvent(e.touches[0], comparison));
-                }, { passive: false });
-                
-                comparison.addEventListener('touchmove', (e) => {
-                    if (isActive && this.activeComparison === comparison) {
-                        e.preventDefault();
-                        this.updateSliderPosition(comparison, this.getPositionFromEvent(e.touches[0], comparison));
-                    }
-                }, { passive: false });
-                
-                document.addEventListener('mouseup', () => this.endDragging());
-                document.addEventListener('touchend', () => this.endDragging());
-                
-                comparison.addEventListener('mouseenter', () => {
-                    if (!isActive) {
-                        comparison.classList.add('hover');
-                    }
-                });
-                
-                comparison.addEventListener('mouseleave', () => {
-                    comparison.classList.remove('hover');
-                });
-                
-                comparison.addEventListener('dblclick', () => {
-                    this.animateSliderTo(comparison, 50);
-                });
-            }
+    setupInitialState() {
+        this.comparisonSliders.forEach((slider, index) => {
+            const initialPosition = 50;
+            this.sliderPositions.set(slider, initialPosition);
+            this.updateSliderPosition(slider, initialPosition);
         });
+        
+        this.resultCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(40px)';
+            card.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        });
+    }
+
+    initializeBeforeAfterSliders() {
+        this.comparisonSliders.forEach((slider, index) => {
+            const container = slider.closest('.showcase-comparison-container');
+            const beforeImage = container.querySelector('.showcase-before-image');
+            const afterImage = container.querySelector('.showcase-after-image');
+            const handle = slider.querySelector('.showcase-slider-handle');
+            
+            if (!container || !beforeImage || !afterImage || !handle) {
+                console.warn(`Slider ${index}: Missing required elements`);
+                return;
+            }
+            
+            let currentPosition = 50;
+            let isActive = false;
+            let startPosition = 0;
+            let animationFrame = null;
+            
+            slider.showcaseData = {
+                container,
+                beforeImage,
+                afterImage,
+                handle,
+                currentPosition,
+                isActive,
+                startPosition,
+                animationFrame
+            };
+            
+            this.updateSliderPosition(slider, currentPosition);
+            this.bindSliderEvents(slider);
+            this.setupSliderAccessibility(slider, index);
+        });
+    }
+
+    bindSliderEvents(slider) {
+        const data = slider.showcaseData;
+        const { container, handle } = data;
+        
+        handle.addEventListener('mousedown', (e) => this.startSliderDrag(e, slider));
+        document.addEventListener('mousemove', (e) => this.handleSliderDrag(e, slider));
+        document.addEventListener('mouseup', () => this.endSliderDrag(slider));
+        
+        handle.addEventListener('touchstart', (e) => this.startSliderTouch(e, slider), { passive: false });
+        document.addEventListener('touchmove', (e) => this.handleSliderTouch(e, slider), { passive: false });
+        document.addEventListener('touchend', () => this.endSliderDrag(slider));
+        
+        container.addEventListener('click', (e) => this.handleSliderClick(e, slider));
+        
+        container.addEventListener('mouseenter', () => this.enhanceSliderVisually(slider));
+        container.addEventListener('mouseleave', () => this.resetSliderVisuals(slider));
+        
+        container.addEventListener('dblclick', () => this.animateSliderTo(slider, 50));
+    }
+
+    startSliderDrag(e, slider) {
+        e.preventDefault();
+        const data = slider.showcaseData;
+        
+        data.isActive = true;
+        data.startPosition = this.getPositionFromEvent(e, data.container);
+        
+        this.activeSlider = slider;
+        this.isDragging = true;
+        
+        data.handle.style.cursor = 'grabbing';
+        data.container.style.userSelect = 'none';
+        data.handle.style.transform = 'translate(-50%, -50%) scale(1.1)';
+        
+        this.pauseAutoAnimations();
+    }
+
+    startSliderTouch(e, slider) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const data = slider.showcaseData;
+        
+        data.isActive = true;
+        data.startPosition = this.getPositionFromEvent(touch, data.container);
+        
+        this.activeSlider = slider;
+        this.isDragging = true;
+        this.touchStartX = touch.clientX;
+        
+        data.handle.style.transform = 'translate(-50%, -50%) scale(1.1)';
+        data.container.style.userSelect = 'none';
+        
+        this.pauseAutoAnimations();
+    }
+
+    handleSliderDrag(e, slider) {
+        if (!slider.showcaseData.isActive || slider !== this.activeSlider) return;
+        
+        const position = this.getPositionFromEvent(e, slider.showcaseData.container);
+        this.updateSliderPosition(slider, position);
+    }
+
+    handleSliderTouch(e, slider) {
+        if (!slider.showcaseData.isActive || slider !== this.activeSlider) return;
+        
+        e.preventDefault();
+        const touch = e.touches[0];
+        const position = this.getPositionFromEvent(touch, slider.showcaseData.container);
+        this.updateSliderPosition(slider, position);
+    }
+
+    endSliderDrag(slider) {
+        if (!slider || !slider.showcaseData) return;
+        
+        const data = slider.showcaseData;
+        
+        data.isActive = false;
+        this.activeSlider = null;
+        this.isDragging = false;
+        
+        data.handle.style.cursor = 'ew-resize';
+        data.container.style.userSelect = '';
+        data.handle.style.transform = 'translate(-50%, -50%)';
+        
+        this.resumeAutoAnimations();
+        
+        this.addSliderRippleEffect(slider);
+    }
+
+    handleSliderClick(e, slider) {
+        if (e.target.closest('.showcase-slider-handle')) return;
+        
+        const position = this.getPositionFromEvent(e, slider.showcaseData.container);
+        this.animateSliderTo(slider, position);
     }
 
     getPositionFromEvent(event, container) {
@@ -2560,20 +2665,29 @@ class HermesResultsShowcase {
         return percentage;
     }
 
-    updateSliderPosition(container, percentage) {
-        const slider = container.querySelector('.result-slider');
-        const afterImage = container.querySelector('.result-after');
+    updateSliderPosition(slider, percentage) {
+        if (!slider.showcaseData) return;
         
-        if (slider && afterImage) {
-            slider.style.left = `${percentage}%`;
-            afterImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-            slider.dataset.position = percentage;
+        const { container, beforeImage } = slider.showcaseData;
+        
+        slider.style.left = percentage + '%';
+        
+        beforeImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+        
+        slider.setAttribute('data-position', percentage);
+        this.sliderPositions.set(slider, percentage);
+        
+        const handle = slider.showcaseData.handle;
+        if (handle) {
+            handle.setAttribute('aria-valuenow', Math.round(percentage));
         }
     }
 
-    animateSliderTo(container, targetPercentage) {
-        const currentPercentage = parseFloat(container.querySelector('.result-slider').dataset.position) || 50;
-        const duration = 600;
+    animateSliderTo(slider, targetPercentage) {
+        if (!slider.showcaseData) return;
+        
+        const currentPercentage = this.sliderPositions.get(slider) || 50;
+        const duration = this.animationDuration;
         const startTime = Date.now();
         
         const animate = () => {
@@ -2584,185 +2698,293 @@ class HermesResultsShowcase {
             const easedProgress = easeInOutCubic(progress);
             
             const currentPos = currentPercentage + (targetPercentage - currentPercentage) * easedProgress;
-            this.updateSliderPosition(container, currentPos);
+            this.updateSliderPosition(slider, currentPos);
             
             if (progress < 1) {
-                requestAnimationFrame(animate);
+                slider.showcaseData.animationFrame = requestAnimationFrame(animate);
+            } else {
+                this.addSliderCompletionEffect(slider);
             }
         };
         
-        animate();
+        if (slider.showcaseData.animationFrame) {
+            cancelAnimationFrame(slider.showcaseData.animationFrame);
+        }
+        
+        slider.showcaseData.animationFrame = requestAnimationFrame(animate);
     }
 
-    endDragging() {
-        if (this.activeComparison) {
-            this.activeComparison.classList.remove('dragging');
-            this.activeComparison = null;
-            document.body.style.cursor = '';
-        }
+    addSliderRippleEffect(slider) {
+        const handle = slider.showcaseData?.handle;
+        if (!handle) return;
+        
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 140, 0, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            pointer-events: none;
+            z-index: 1000;
+        `;
+        
+        handle.appendChild(ripple);
+        
+        requestAnimationFrame(() => {
+            ripple.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
+            ripple.style.transform = 'translate(-50%, -50%) scale(8)';
+            ripple.style.opacity = '0';
+        });
+        
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.remove();
+            }
+        }, 600);
+    }
+
+    addSliderCompletionEffect(slider) {
+        const handle = slider.showcaseData?.handle;
+        if (!handle) return;
+        
+        handle.style.boxShadow = `
+            0 12px 35px rgba(0, 0, 0, 0.2),
+            0 6px 20px rgba(255, 140, 0, 0.4),
+            0 0 20px rgba(255, 140, 0, 0.3)
+        `;
+        
+        setTimeout(() => {
+            handle.style.boxShadow = '';
+        }, 800);
+    }
+
+    enhanceSliderVisually(slider) {
+        const data = slider.showcaseData;
+        if (!data || data.isActive) return;
+        
+        const { beforeImage, afterImage, handle } = data;
+        
+        [beforeImage, afterImage].forEach(img => {
+            const imgElement = img.querySelector('img');
+            if (imgElement) {
+                imgElement.style.transform = 'scale(1.05)';
+                imgElement.style.filter = 'brightness(1.1) contrast(1.05)';
+            }
+        });
+        
+        handle.style.transform = 'translate(-50%, -50%) scale(1.05)';
+        handle.style.boxShadow = `
+            0 12px 35px rgba(0, 0, 0, 0.2),
+            0 6px 20px rgba(255, 140, 0, 0.3)
+        `;
+    }
+
+    resetSliderVisuals(slider) {
+        const data = slider.showcaseData;
+        if (!data || data.isActive) return;
+        
+        const { beforeImage, afterImage, handle } = data;
+        
+        [beforeImage, afterImage].forEach(img => {
+            const imgElement = img.querySelector('img');
+            if (imgElement) {
+                imgElement.style.transform = '';
+                imgElement.style.filter = '';
+            }
+        });
+        
+        handle.style.transform = 'translate(-50%, -50%)';
+        handle.style.boxShadow = '';
+    }
+
+    setupSliderAccessibility(slider, index) {
+        const handle = slider.showcaseData?.handle;
+        if (!handle) return;
+        
+        handle.setAttribute('tabindex', '0');
+        handle.setAttribute('role', 'slider');
+        handle.setAttribute('aria-label', `Before and after comparison slider ${index + 1}`);
+        handle.setAttribute('aria-valuemin', '0');
+        handle.setAttribute('aria-valuemax', '100');
+        handle.setAttribute('aria-valuenow', '50');
+        handle.setAttribute('aria-orientation', 'horizontal');
     }
 
     bindEvents() {
-        this.filterButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
+        if (this.portfolioBtn) {
+            this.portfolioBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (this.isAnimating) return;
-                
-                const filter = button.dataset.filter;
-                this.handleFilterChange(filter, button);
-            });
-        });
-
-        if (this.ctaButton) {
-            this.ctaButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleCtaClick();
+                this.handlePortfolioClick();
             });
             
-            this.ctaButton.addEventListener('touchend', (e) => {
+            this.portfolioBtn.addEventListener('touchend', (e) => {
                 e.preventDefault();
-                this.handleCtaClick();
+                this.handlePortfolioClick();
             });
         }
 
-        this.resultItems.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                this.enhanceItemVisually(item);
+        if (this.consultationBtn) {
+            this.consultationBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleConsultationClick();
             });
             
-            item.addEventListener('mouseleave', () => {
-                this.resetItemVisuals(item);
+            this.consultationBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.handleConsultationClick();
             });
+        }
+
+        this.resultCards.forEach((card, index) => {
+            this.setupCardInteractions(card, index);
+        });
+
+        this.setupKeyboardNavigation();
+        
+        this.setupWindowEvents();
+    }
+
+    setupCardInteractions(card, index) {
+        card.addEventListener('mouseenter', () => {
+            this.enhanceCardVisually(card);
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            this.resetCardVisuals(card);
+        });
+        
+        card.addEventListener('touchstart', () => {
+            this.addCardTouchFeedback(card);
+        }, { passive: true });
+        
+        card.addEventListener('touchend', () => {
+            this.removeCardTouchFeedback(card);
+        }, { passive: true });
+        
+        card.setAttribute('tabindex', '0');
+        card.addEventListener('focus', () => {
+            this.focusCard(card);
+        });
+        
+        card.addEventListener('blur', () => {
+            this.blurCard(card);
         });
     }
 
-    handleFilterChange(filter, button) {
-        if (filter === this.activeFilter) return;
+    handlePortfolioClick() {
+        if (this.isAnimating) return;
         
         this.isAnimating = true;
         
-        this.filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+        this.addClickFeedback(this.portfolioBtn);
+        this.showActionFeedback('Loading portfolio gallery...', 'ri-gallery-line');
         
-        this.addButtonFeedback(button);
-        
-        this.filterResults(filter).then(() => {
-            this.activeFilter = filter;
-            this.isAnimating = false;
-        });
-    }
-
-    async filterResults(filter) {
-        const hidePromises = Array.from(this.resultItems).map((item, index) => {
-            return new Promise(resolve => {
-                const categories = item.dataset.category.split(' ');
-                const shouldShow = filter === 'all' || categories.includes(filter);
-                
-                if (!shouldShow) {
-                    setTimeout(() => {
-                        item.classList.add('hidden');
-                        resolve();
-                    }, index * 50);
-                } else {
-                    resolve();
-                }
-            });
-        });
-        
-        await Promise.all(hidePromises);
-        
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
-        const showPromises = Array.from(this.resultItems).map((item, index) => {
-            return new Promise(resolve => {
-                const categories = item.dataset.category.split(' ');
-                const shouldShow = filter === 'all' || categories.includes(filter);
-                
-                if (shouldShow) {
-                    setTimeout(() => {
-                        item.classList.remove('hidden');
-                        resolve();
-                    }, index * 100);
-                } else {
-                    resolve();
-                }
-            });
-        });
-        
-        await Promise.all(showPromises);
-    }
-   
-    enhanceItemVisually(item) {
-        const comparison = item.querySelector('.result-comparison-wrapper');
-        if (comparison) {
-            const images = comparison.querySelectorAll('.result-image img');
-            images.forEach(img => {
-                img.style.transform = 'scale(1.05)';
-                img.style.filter = 'brightness(1.1) contrast(1.05)';
-            });
-        }
-    }
-
-    resetItemVisuals(item) {
-        const comparison = item.querySelector('.result-comparison-wrapper');
-        if (comparison) {
-            const images = comparison.querySelectorAll('.result-image img');
-            images.forEach(img => {
-                img.style.transform = '';
-                img.style.filter = '';
-            });
-        }
-    }
-
-    addButtonFeedback(button) {
-        button.style.transform = 'translateY(-2px) scale(0.98)';
         setTimeout(() => {
-            button.style.transform = '';
-        }, 200);
+            document.body.style.transition = 'opacity 0.4s ease';
+            document.body.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                window.location.href = 'portfolio.html';
+            }, 200);
+        }, 800);
     }
 
-    handleCtaClick() {
-        this.addCtaFeedback();
+    handleConsultationClick() {
+        if (this.isAnimating) return;
+        
+        this.isAnimating = true;
+        
+        this.addClickFeedback(this.consultationBtn);
         this.showActionFeedback('Opening consultation booking...', 'ri-calendar-check-line');
         
         setTimeout(() => {
-            this.scrollToContact();
+            this.openBookingModal();
+            this.isAnimating = false;
         }, 1000);
     }
 
-    addCtaFeedback() {
-        if (this.ctaButton) {
-            this.ctaButton.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.ctaButton.style.transform = '';
-            }, 150);
-        }
+    addClickFeedback(element) {
+        if (!element) return;
+        
+        element.style.transform = 'scale(0.95)';
+        element.style.transition = 'transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        
+        this.createClickRipple(element);
+        
+        setTimeout(() => {
+            element.style.transform = '';
+            element.style.transition = '';
+        }, 200);
     }
 
-    scrollToContact() {
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            const Height = 80;
-            const elementPosition = contactSection.offsetTop - Height;
-            
-            window.scrollTo({
-                top: elementPosition,
-                behavior: 'smooth'
-            });
-        }
+    createClickRipple(element) {
+        const ripple = document.createElement('div');
+        ripple.className = 'showcase-click-ripple';
+        
+        ripple.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            pointer-events: none;
+            z-index: 1000;
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(ripple);
+        
+        requestAnimationFrame(() => {
+            ripple.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
+            ripple.style.transform = 'translate(-50%, -50%) scale(6)';
+            ripple.style.opacity = '0';
+        });
+        
+        setTimeout(() => {
+            if (ripple.parentNode) {
+                ripple.remove();
+            }
+        }, 600);
     }
 
     showActionFeedback(message, iconClass) {
         const feedback = document.createElement('div');
-        feedback.innerHTML = `<i class="${iconClass}"></i><span>${message}</span>`;
+        feedback.className = 'showcase-action-feedback';
+        
+        feedback.innerHTML = `
+            <i class="${iconClass}"></i>
+            <span>${message}</span>
+        `;
+        
         feedback.style.cssText = `
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #FF8C00, #FFA500); color: white;
-            padding: 18px 28px; border-radius: 50px; font-family: 'Inter', sans-serif;
-            font-size: 14px; font-weight: 600; z-index: 10001; opacity: 0;
-            display: flex; align-items: center; gap: 12px; justify-content: center;
-            transition: all 0.4s ease; box-shadow: 0 20px 60px rgba(255, 140, 0, 0.3);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: var(--gradient-hermes-orange);
+            color: white;
+            padding: 18px 28px;
+            border-radius: 50px;
+            font-family: var(--font-inter);
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 25px 80px rgba(255, 140, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
             min-width: 280px;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         `;
         
         document.body.appendChild(feedback);
@@ -2774,73 +2996,689 @@ class HermesResultsShowcase {
         
         setTimeout(() => {
             feedback.style.opacity = '0';
-            setTimeout(() => feedback.remove(), 400);
-        }, 2500);
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.remove();
+                }
+            }, 500);
+        }, 3000);
+    }
+
+    openBookingModal() {
+        const bookingModal = document.getElementById('bookingModal');
+        if (bookingModal) {
+            bookingModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        } else {
+            this.scrollToContact();
+        }
+    }
+
+    scrollToContact() {
+        const contactSection = document.getElementById('contact') || 
+                             document.querySelector('.contact-section') ||
+                             document.querySelector('[data-section="contact"]');
+        
+        if (contactSection) {
+            const headerHeight = 80;
+            const additionalOffset = 20;
+            const targetPosition = contactSection.offsetTop - headerHeight - additionalOffset;
+            
+            window.scrollTo({
+                top: Math.max(0, targetPosition),
+                behavior: 'smooth'
+            });
+            
+            this.showActionFeedback('Scrolling to contact...', 'ri-arrow-down-line');
+        }
+    }
+
+    enhanceCardVisually(card) {
+        if (this.isDragging) return;
+        
+        const comparison = card.querySelector('.showcase-comparison-container');
+        if (!comparison) return;
+        
+        const images = comparison.querySelectorAll('.showcase-before-image img, .showcase-after-image img');
+        images.forEach(img => {
+            img.style.transform = 'scale(1.05)';
+            img.style.filter = 'brightness(1.1) contrast(1.05)';
+            img.style.transition = 'all 0.4s var(--ease-luxury)';
+        });
+        
+        const details = card.querySelector('.showcase-result-details');
+        if (details) {
+            details.style.transform = 'translateY(-2px)';
+            details.style.transition = 'transform 0.4s var(--ease-luxury)';
+        }
+        
+        const badge = card.querySelector('.showcase-treatment-badge');
+        if (badge) {
+            badge.style.boxShadow = '0 4px 12px rgba(255, 140, 0, 0.3)';
+            badge.style.transition = 'box-shadow 0.4s var(--ease-luxury)';
+        }
+    }
+
+    resetCardVisuals(card) {
+        if (this.isDragging) return;
+        
+        const comparison = card.querySelector('.showcase-comparison-container');
+        if (!comparison) return;
+        
+        const images = comparison.querySelectorAll('.showcase-before-image img, .showcase-after-image img');
+        images.forEach(img => {
+            img.style.transform = '';
+            img.style.filter = '';
+        });
+        
+        const details = card.querySelector('.showcase-result-details');
+        if (details) {
+            details.style.transform = '';
+        }
+        
+        const badge = card.querySelector('.showcase-treatment-badge');
+        if (badge) {
+            badge.style.boxShadow = '';
+        }
+    }
+
+    addCardTouchFeedback(card) {
+        card.style.transform = 'scale(0.98)';
+        card.style.transition = 'transform 0.2s ease';
+    }
+
+    removeCardTouchFeedback(card) {
+        card.style.transform = '';
+        setTimeout(() => {
+            card.style.transition = '';
+        }, 200);
+    }
+
+    focusCard(card) {
+        card.style.outline = '3px solid rgba(255, 140, 0, 0.5)';
+        card.style.outlineOffset = '4px';
+        
+        this.scrollCardIntoView(card);
+    }
+
+    blurCard(card) {
+        card.style.outline = '';
+        card.style.outlineOffset = '';
+    }
+
+    scrollCardIntoView(card) {
+        const cardRect = card.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        if (cardRect.top < 100 || cardRect.bottom > windowHeight - 100) {
+            card.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
     }
 
     setupKeyboardNavigation() {
         document.addEventListener('keydown', (e) => {
             if (!this.section.contains(document.activeElement)) return;
             
-            switch(e.key) {
-                case 'ArrowLeft':
-                case 'ArrowRight':
-                    if (this.activeComparison) {
-                        e.preventDefault();
-                        const currentPos = parseFloat(this.activeComparison.querySelector('.result-slider').dataset.position) || 50;
-                        const newPos = e.key === 'ArrowLeft' ? 
-                            Math.max(0, currentPos - 5) : 
-                            Math.min(100, currentPos + 5);
-                        this.updateSliderPosition(this.activeComparison, newPos);
-                    }
-                    break;
-                case 'Enter':
-                case ' ':
-                    if (document.activeElement.classList.contains('result-comparison-wrapper')) {
-                        e.preventDefault();
-                        this.animateSliderTo(document.activeElement, 50);
-                    }
-                    break;
+            const activeElement = document.activeElement;
+            
+            if (activeElement.closest('.showcase-comparison-slider')) {
+                this.handleSliderKeyboard(e, activeElement.closest('.showcase-comparison-slider'));
+            } else if (activeElement.classList.contains('showcase-result-card')) {
+                this.handleCardKeyboard(e, activeElement);
             }
-        });
-    }
-   
-    setupIntersectionObserver() {
-        const observeElements = [
-            '.hermes-result-item',
-            '.hermes-results-cta'
-        ];
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    this.triggerItemAnimation(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        });
-        
-        observeElements.forEach(selector => {
-            const elements = document.querySelectorAll(selector);
-            elements.forEach(el => observer.observe(el));
         });
     }
 
-    triggerItemAnimation(element) {
-        if (element.classList.contains('hermes-result-item')) {
-            const slider = element.querySelector('.result-slider');
-            if (slider) {
+    handleSliderKeyboard(e, slider) {
+        if (!slider.showcaseData) return;
+        
+        let currentPosition = this.sliderPositions.get(slider) || 50;
+        let newPosition = currentPosition;
+        
+        switch(e.key) {
+            case 'ArrowLeft':
+                e.preventDefault();
+                newPosition = Math.max(0, currentPosition - 5);
+                break;
+            case 'ArrowRight':
+                e.preventDefault();
+                newPosition = Math.min(100, currentPosition + 5);
+                break;
+            case 'Home':
+                e.preventDefault();
+                newPosition = 0;
+                break;
+            case 'End':
+                e.preventDefault();
+                newPosition = 100;
+                break;
+            case ' ':
+            case 'Enter':
+                e.preventDefault();
+                newPosition = 50;
+                break;
+        }
+        
+        if (newPosition !== currentPosition) {
+            this.animateSliderTo(slider, newPosition);
+        }
+    }
+
+    handleCardKeyboard(e, card) {
+        const cardIndex = Array.from(this.resultCards).indexOf(card);
+        
+        switch(e.key) {
+            case 'ArrowDown':
+            case 'ArrowRight':
+                e.preventDefault();
+                if (cardIndex < this.resultCards.length - 1) {
+                    this.resultCards[cardIndex + 1].focus();
+                }
+                break;
+            case 'ArrowUp':
+            case 'ArrowLeft':
+                e.preventDefault();
+                if (cardIndex > 0) {
+                    this.resultCards[cardIndex - 1].focus();
+                }
+                break;
+            case 'Enter':
+            case ' ':
+                e.preventDefault();
+                const slider = card.querySelector('.showcase-comparison-slider .showcase-slider-handle');
+                if (slider) {
+                    slider.focus();
+                }
+                break;
+        }
+    }
+
+    setupIntersectionObserver() {
+        const observerOptions = {
+            threshold: this.observerThreshold,
+            rootMargin: '50px 0px -50px 0px'
+        };
+        
+        this.intersectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.triggerElementAnimation(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        this.resultCards.forEach(card => {
+            this.intersectionObserver.observe(card);
+        });
+        
+        const ctaSections = [
+            document.querySelector('.showcase-portfolio-cta'),
+            document.querySelector('.showcase-consultation-cta')
+        ];
+        
+        ctaSections.forEach(section => {
+            if (section) {
+                this.intersectionObserver.observe(section);
+            }
+        });
+    }
+
+    triggerElementAnimation(element) {
+        if (element.classList.contains('showcase-result-card')) {
+            this.animateCardEntrance(element);
+        }
+        
+        if (element.classList.contains('showcase-portfolio-cta') || 
+            element.classList.contains('showcase-consultation-cta')) {
+            this.animateCtaEntrance(element);
+        }
+    }
+
+    animateCardEntrance(card) {
+        const cardIndex = Array.from(this.resultCards).indexOf(card);
+        
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+            
+            card.style.boxShadow = `
+                0 40px 100px rgba(0, 0, 0, 0.12),
+                0 20px 60px rgba(255, 140, 0, 0.15)
+            `;
+            
+            setTimeout(() => {
+                card.style.boxShadow = '';
+            }, 1000);
+            
+            const slider = card.querySelector('.showcase-comparison-slider');
+            if (slider && !this.isDragging) {
                 setTimeout(() => {
-                    this.animateSliderTo(element.querySelector('.result-comparison-wrapper'), 60);
+                    this.demonstrateSlider(slider);
+                }, 800 + (cardIndex * 400));
+            }
+        }, cardIndex * 200);
+    }
+
+    animateCtaEntrance(ctaElement) {
+        ctaElement.style.opacity = '1';
+        ctaElement.style.transform = 'translateY(0)';
+        
+        const wrapper = ctaElement.querySelector('.showcase-portfolio-wrapper, .showcase-consultation-wrapper');
+        if (wrapper) {
+            setTimeout(() => {
+                wrapper.style.animation = 'showcasePulse 2s ease-in-out';
+            }, 300);
+        }
+    }
+
+    demonstrateSlider(slider) {
+        if (this.isDragging || !slider.showcaseData) return;
+        
+        this.animateSliderTo(slider, 75);
+        
+        setTimeout(() => {
+            if (!this.isDragging) {
+                this.animateSliderTo(slider, 50);
+            }
+        }, 1200);
+    }
+
+    initializeAnimations() {
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes showcasePulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+            }
+            
+            @keyframes showcaseGlow {
+                0%, 100% { 
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06),
+                               0 8px 25px rgba(255, 140, 0, 0.04);
+                }
+                50% { 
+                    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.08),
+                               0 12px 30px rgba(255, 140, 0, 0.12);
+                }
+            }
+            
+            .showcase-animate-in {
+                animation: showcaseSlideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            
+            @keyframes showcaseSlideUp {
+                0% {
+                    opacity: 0;
+                    transform: translateY(40px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .showcase-result-card:focus {
+                outline: 3px solid rgba(255, 140, 0, 0.5);
+                outline-offset: 4px;
+            }
+            
+            .showcase-slider-handle:focus {
+                outline: 3px solid rgba(255, 140, 0, 0.6);
+                outline-offset: 2px;
+                box-shadow: 
+                    0 12px 35px rgba(0, 0, 0, 0.2),
+                    0 6px 20px rgba(255, 140, 0, 0.4);
+            }
+            
+            @media (prefers-reduced-motion: reduce) {
+                .showcase-result-card,
+                .showcase-slider-handle,
+                .showcase-portfolio-btn,
+                .showcase-consultation-btn {
+                    animation: none !important;
+                    transition: none !important;
+                }
+            }
+        `;
+        
+        document.head.appendChild(styleSheet);
+    }
+
+    pauseAutoAnimations() {
+        this.comparisonSliders.forEach(slider => {
+            if (slider.showcaseData?.animationFrame) {
+                cancelAnimationFrame(slider.showcaseData.animationFrame);
+                slider.showcaseData.animationFrame = null;
+            }
+        });
+    }
+
+    resumeAutoAnimations() {
+        setTimeout(() => {
+            if (!this.isDragging) {
+                this.comparisonSliders.forEach((slider, index) => {
                     setTimeout(() => {
-                        this.animateSliderTo(element.querySelector('.result-comparison-wrapper'), 50);
-                    }, 800);
-                }, Math.random() * 500);
+                        this.demonstrateSlider(slider);
+                    }, index * 800);
+                });
+            }
+        }, this.autoResetDelay);
+    }
+
+    setupWindowEvents() {
+        window.addEventListener('resize', this.debounce(() => {
+            this.handleResize();
+        }, 250));
+        
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.pauseAutoAnimations();
+            } else {
+                this.resumeAutoAnimations();
+            }
+        });
+        
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                this.handleResize();
+                this.refreshSliderPositions();
+            }, 500);
+        });
+    }
+
+    handleResize() {
+        this.refreshSliderPositions();
+        
+        this.updateCardLayout();
+        
+        if (typeof AOS !== 'undefined') {
+            AOS.refresh();
+        }
+    }
+
+    refreshSliderPositions() {
+        this.comparisonSliders.forEach(slider => {
+            const position = this.sliderPositions.get(slider) || 50;
+            this.updateSliderPosition(slider, position);
+        });
+    }
+
+    updateCardLayout() {
+        const grid = document.querySelector('.results-showcase-grid');
+        if (grid) {
+            grid.style.display = 'none';
+            grid.offsetHeight;
+            grid.style.display = '';
+        }
+    }
+
+    preloadImages() {
+        const images = document.querySelectorAll('.showcase-before-image img, .showcase-after-image img');
+        
+        images.forEach(img => {
+            if (img.dataset.src) {
+                const imageObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const image = entry.target;
+                            image.src = image.dataset.src;
+                            image.classList.add('showcase-loaded');
+                            imageObserver.unobserve(image);
+                        }
+                    });
+                });
+                
+                imageObserver.observe(img);
+            } else {
+                const preloadImg = new Image();
+                preloadImg.src = img.src;
+            }
+        });
+    }
+
+    setupAccessibilityFeatures() {
+        this.setupScreenReaderSupport();
+        
+        this.setupHighContrastSupport();
+        
+        this.setupReducedMotionSupport();
+    }
+
+    setupScreenReaderSupport() {
+        const liveRegion = document.createElement('div');
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.setAttribute('aria-atomic', 'true');
+        liveRegion.style.cssText = `
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        `;
+        
+        this.section.appendChild(liveRegion);
+        this.liveRegion = liveRegion;
+    }
+
+    announceSliderChange(slider, position) {
+        if (!this.liveRegion) return;
+        
+        const cardTitle = slider.closest('.showcase-result-card')
+                               ?.querySelector('.showcase-result-name')
+                               ?.textContent || 'Treatment';
+        
+        const percentage = Math.round(position);
+        let announcement;
+        
+        if (percentage < 25) {
+            announcement = `${cardTitle}: Showing mostly before image`;
+        } else if (percentage > 75) {
+            announcement = `${cardTitle}: Showing mostly after image`;
+        } else {
+            announcement = `${cardTitle}: Showing equal before and after`;
+        }
+        
+        this.liveRegion.textContent = announcement;
+    }
+
+    setupHighContrastSupport() {
+        const mediaQuery = window.matchMedia('(prefers-contrast: high)');
+        
+        const updateContrast = (e) => {
+            document.documentElement.classList.toggle('high-contrast', e.matches);
+        };
+        
+        updateContrast(mediaQuery);
+        mediaQuery.addListener(updateContrast);
+    }
+
+    setupReducedMotionSupport() {
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        
+        const updateMotion = (e) => {
+            document.documentElement.classList.toggle('reduced-motion', e.matches);
+            
+            if (e.matches) {
+                this.pauseAutoAnimations();
+            }
+        };
+        
+        updateMotion(mediaQuery);
+        mediaQuery.addListener(updateMotion);
+    }
+
+    setupFallbackBehavior() {
+        this.comparisonSliders.forEach(slider => {
+            const container = slider.closest('.showcase-comparison-container');
+            if (!container) return;
+            
+            container.addEventListener('click', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentage = (x / rect.width) * 100;
+                
+                slider.style.left = percentage + '%';
+                const beforeImage = container.querySelector('.showcase-before-image');
+                if (beforeImage) {
+                    beforeImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+                }
+            });
+        });
+        
+        if (this.portfolioBtn) {
+            this.portfolioBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'portfolio.html';
+            });
+        }
+        
+        if (this.consultationBtn) {
+            this.consultationBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.scrollToContact();
+            });
+        }
+    }
+
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    throttle(func, wait) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, wait);
+            }
+        };
+    }
+
+    resetAllSliders() {
+        this.comparisonSliders.forEach(slider => {
+            this.animateSliderTo(slider, 50);
+        });
+    }
+
+    navigateToPortfolio() {
+        this.handlePortfolioClick();
+    }
+
+    openConsultationBooking() {
+        this.handleConsultationClick();
+    }
+
+    destroy() {
+        if (this.intersectionObserver) {
+            this.intersectionObserver.disconnect();
+        }
+        
+        this.pauseAutoAnimations();
+        
+        window.removeEventListener('resize', this.handleResize);
+        document.removeEventListener('keydown', this.handleKeyboard);
+        
+        console.log('Hermes Results Showcase destroyed');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        try {
+            const hermesResults = new HermesResultsShowcase();
+            
+            window.HermesResultsShowcase = HermesResultsShowcase;
+            window.hermesResultsShowcase = hermesResults;
+            
+            console.log('Hermes Results Showcase System Loaded');
+        } catch (error) {
+            console.error('Failed to initialize Results Showcase:', error);
+        }
+    }, 150);
+});
+
+window.addEventListener('load', function() {
+    if (!window.hermesResultsShowcase) {
+        setTimeout(() => {
+            try {
+                window.hermesResultsShowcase = new HermesResultsShowcase();
+            } catch (error) {
+                console.error('Fallback Results Showcase initialization failed:', error);
+            }
+        }, 100);
+    }
+});
+
+window.hermesResultsUtils = {
+    scrollToPortfolio: () => {
+        if (window.hermesResultsShowcase) {
+            window.hermesResultsShowcase.navigateToPortfolio();
+        } else {
+            window.location.href = 'portfolio.html';
+        }
+    },
+    
+    openBooking: () => {
+        if (window.hermesResultsShowcase) {
+            window.hermesResultsShowcase.openConsultationBooking();
+        } else {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
             }
         }
+    },
+    
+    resetSliders: () => {
+        if (window.hermesResultsShowcase) {
+            window.hermesResultsShowcase.resetAllSliders();
+        }
+    }
+};
+
+window.addEventListener('error', (event) => {
+    if (event.filename && event.filename.includes('results')) {
+        console.error('Results Showcase Error:', {
+            message: event.message,
+            filename: event.filename,
+            lineno: event.lineno,
+            error: event.error
+        });
+    }
+});
+
+if ('PerformanceObserver' in window) {
+    try {
+        const observer = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+                if (entry.name.includes('results') && entry.duration > 100) {
+                    console.warn(`Slow Results operation: ${entry.name} took ${entry.duration}ms`);
+                }
+            }
+        });
+        
+        observer.observe({ entryTypes: ['measure', 'navigation'] });
+    } catch (e) {
+        
     }
 }
 
