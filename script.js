@@ -3773,7 +3773,7 @@ class LuxuryCarouselController {
                     shopBtn.style.transform = 'scale(0.95) translateY(-4px)';
                     setTimeout(() => {
                         shopBtn.style.transform = '';
-                        window.open(url, '_blank');
+                        window.open(url, 'https://us.alumiermd.com/products?code=54T7P4HH');
                     }, 150);
                 }
             });
