@@ -2848,19 +2848,20 @@ class HermesResultsShowcase {
    PRODUCTS SECTION
    ======================================== */
 
-// Featured Products Carousel Implementation
-class ProductsCarousel {
+class LuxuryCarouselController {
     constructor() {
-        this.track = document.getElementById('carouselTrack');
-        this.slides = document.querySelectorAll('.carousel-slide');
-        this.prevBtn = document.getElementById('carouselPrev');
-        this.nextBtn = document.getElementById('carouselNext');
-        this.indicators = document.querySelectorAll('.indicator');
-        this.carousel = document.getElementById('productsCarousel');
+        this.track = document.getElementById('luxuryCarouselTrack');
+        this.slides = document.querySelectorAll('.luxury-carousel-slide');
+        this.prevBtn = document.getElementById('luxuryCarouselPrev');
+        this.nextBtn = document.getElementById('luxuryCarouselNext');
+        this.progressBar = document.getElementById('luxuryCarouselProgress');
+        this.currentSlideElement = document.querySelector('.luxury-carousel-current');
+        this.totalSlidesElement = document.querySelector('.luxury-carousel-total');
         
         this.currentIndex = 0;
         this.slidesPerView = this.getSlidesPerView();
-        this.maxIndex = Math.max(0, this.slides.length - this.slidesPerView);
+        this.totalSlides = this.slides.length;
+        this.maxIndex = Math.max(0, this.totalSlides - this.slidesPerView);
         this.isAutoPlaying = true;
         this.autoPlayInterval = null;
         this.touchStartX = 0;
@@ -2871,10 +2872,10 @@ class ProductsCarousel {
     
     init() {
         this.setupEventListeners();
-        this.updateCarousel();
+        this.updateDisplay();
         this.startAutoPlay();
-        this.setupResponsive();
-        this.setupProductLinks();
+        this.setupProductInteractions();
+        this.initializeCounter();
     }
     
     getSlidesPerView() {
@@ -2884,40 +2885,59 @@ class ProductsCarousel {
         return 3;
     }
     
+    initializeCounter() {
+        if (this.totalSlidesElement) {
+            this.totalSlidesElement.textContent = this.totalSlides;
+        }
+        this.updateCounter();
+    }
+    
     setupEventListeners() {
         // Navigation buttons
         this.prevBtn?.addEventListener('click', () => this.prevSlide());
         this.nextBtn?.addEventListener('click', () => this.nextSlide());
         
-        // Indicators
-        this.indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => this.goToSlide(index));
-        });
+        // Touch events
+        this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
+        this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
         
-        // Touch events for mobile
-        this.carousel.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
-        this.carousel.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
-        
-        // Pause auto-play on hover
-        this.carousel.addEventListener('mouseenter', () => this.pauseAutoPlay());
-        this.carousel.addEventListener('mouseleave', () => this.resumeAutoPlay());
+        // Mouse events for auto-play control
+        const section = document.querySelector('.luxury-carousel-section');
+        section.addEventListener('mouseenter', () => this.pauseAutoPlay());
+        section.addEventListener('mouseleave', () => this.resumeAutoPlay());
         
         // Keyboard navigation
         document.addEventListener('keydown', (e) => this.handleKeyPress(e));
         
         // Window resize
         window.addEventListener('resize', () => this.handleResize());
+        
+        // Page visibility
+        document.addEventListener('visibilitychange', () => this.handleVisibilityChange());
     }
     
-    setupProductLinks() {
-        // Handle explore all button
-        const exploreBtn = document.querySelector('.explore-all-btn');
+    setupProductInteractions() {
+        // Product card hover effects
+        this.slides.forEach((slide, index) => {
+            const card = slide.querySelector('.luxury-carousel-product-card');
+            if (card) {
+                card.addEventListener('click', () => this.handleProductClick(index));
+            }
+        });
+        
+        // Explore catalog button
+        const exploreBtn = document.querySelector('.luxury-carousel-explore-btn');
         if (exploreBtn) {
             exploreBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const url = exploreBtn.dataset.url;
                 if (url) {
-                    window.open(url, '_blank');
+                    // Add luxury click animation
+                    exploreBtn.style.transform = 'scale(0.95) translateY(-4px)';
+                    setTimeout(() => {
+                        exploreBtn.style.transform = '';
+                        window.open(url, '_blank');
+                    }, 150);
                 }
             });
         }
@@ -2926,70 +2946,89 @@ class ProductsCarousel {
     prevSlide() {
         if (this.currentIndex > 0) {
             this.currentIndex--;
-            this.updateCarousel();
+        } else {
+            this.currentIndex = this.maxIndex; // Loop to end
         }
+        this.updateDisplay();
+        this.resetAutoPlay();
     }
     
     nextSlide() {
         if (this.currentIndex < this.maxIndex) {
             this.currentIndex++;
-            this.updateCarousel();
         } else {
-            // Loop back to beginning
-            this.currentIndex = 0;
-            this.updateCarousel();
+            this.currentIndex = 0; // Loop to beginning
         }
+        this.updateDisplay();
+        this.resetAutoPlay();
     }
     
-    goToSlide(index) {
-        const maxIndicatorIndex = Math.ceil(this.slides.length / this.slidesPerView) - 1;
-        if (index <= maxIndicatorIndex) {
-            this.currentIndex = Math.min(index * this.slidesPerView, this.maxIndex);
-            this.updateCarousel();
-        }
-    }
-    
-    updateCarousel() {
+    updateDisplay() {
         const slideWidth = 100 / this.slidesPerView;
         const translateX = -(this.currentIndex * slideWidth);
         
         this.track.style.transform = `translateX(${translateX}%)`;
-        this.updateIndicators();
-        this.updateNavigationButtons();
-        
-        // Add animation class
-        this.track.classList.add('transitioning');
-        setTimeout(() => {
-            this.track.classList.remove('transitioning');
-        }, 600);
+        this.updateProgressBar();
+        this.updateCounter();
+        this.updateNavigationState();
+        this.animateCards();
     }
     
-    updateIndicators() {
-        const currentIndicatorIndex = Math.floor(this.currentIndex / this.slidesPerView);
-        this.indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === currentIndicatorIndex);
-        });
-    }
-    
-    updateNavigationButtons() {
-        if (this.prevBtn) {
-            this.prevBtn.disabled = this.currentIndex === 0;
+    updateProgressBar() {
+        if (this.progressBar) {
+            const progress = ((this.currentIndex + 1) / this.totalSlides);
+            this.progressBar.style.transform = `scaleX(${progress})`;
         }
-        if (this.nextBtn) {
-            this.nextBtn.disabled = this.currentIndex >= this.maxIndex;
+    }
+    
+    updateCounter() {
+        if (this.currentSlideElement) {
+            this.currentSlideElement.textContent = this.currentIndex + 1;
+        }
+    }
+    
+    updateNavigationState() {
+        // For infinite loop, never disable buttons
+        if (this.prevBtn) this.prevBtn.disabled = false;
+        if (this.nextBtn) this.nextBtn.disabled = false;
+    }
+    
+    animateCards() {
+        // Add stagger animation to visible cards
+        const visibleStart = this.currentIndex;
+        const visibleEnd = Math.min(visibleStart + this.slidesPerView, this.totalSlides);
+        
+        for (let i = visibleStart; i < visibleEnd; i++) {
+            const card = this.slides[i]?.querySelector('.luxury-carousel-product-card');
+            if (card) {
+                card.style.animationDelay = `${(i - visibleStart) * 0.1}s`;
+                card.classList.add('card-animate');
+                
+                setTimeout(() => {
+                    card.classList.remove('card-animate');
+                }, 600);
+            }
+        }
+    }
+    
+    handleProductClick(index) {
+        // Add luxury product selection feedback
+        const card = this.slides[index]?.querySelector('.luxury-carousel-product-card');
+        if (card) {
+            card.style.transform = 'scale(0.98)';
+            card.style.transition = 'transform 0.15s ease';
+            setTimeout(() => {
+                card.style.transform = '';
+                card.style.transition = '';
+            }, 200);
         }
     }
     
     startAutoPlay() {
-        if (this.isAutoPlaying) {
+        if (this.isAutoPlaying && this.totalSlides > this.slidesPerView) {
             this.autoPlayInterval = setInterval(() => {
-                if (this.currentIndex >= this.maxIndex) {
-                    this.currentIndex = 0;
-                } else {
-                    this.currentIndex++;
-                }
-                this.updateCarousel();
-            }, 4000);
+                this.nextSlide();
+            }, 5000);
         }
     }
     
@@ -3006,6 +3045,11 @@ class ProductsCarousel {
         }
     }
     
+    resetAutoPlay() {
+        this.pauseAutoPlay();
+        setTimeout(() => this.resumeAutoPlay(), 2000);
+    }
+    
     handleTouchStart(e) {
         this.touchStartX = e.changedTouches[0].screenX;
         this.pauseAutoPlay();
@@ -3014,29 +3058,35 @@ class ProductsCarousel {
     handleTouchEnd(e) {
         this.touchEndX = e.changedTouches[0].screenX;
         this.handleSwipe();
-        setTimeout(() => this.resumeAutoPlay(), 1000);
+        this.resetAutoPlay();
     }
     
     handleSwipe() {
-        const swipeThreshold = 50;
+        const swipeThreshold = 60;
         const diff = this.touchStartX - this.touchEndX;
         
         if (Math.abs(diff) > swipeThreshold) {
             if (diff > 0) {
-                // Swiped left - next slide
                 this.nextSlide();
             } else {
-                // Swiped right - previous slide
                 this.prevSlide();
             }
         }
     }
     
     handleKeyPress(e) {
-        if (e.key === 'ArrowLeft') {
-            this.prevSlide();
-        } else if (e.key === 'ArrowRight') {
-            this.nextSlide();
+        const section = document.querySelector('.luxury-carousel-section');
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isVisible) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                this.prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                this.nextSlide();
+            }
         }
     }
     
@@ -3044,97 +3094,110 @@ class ProductsCarousel {
         const newSlidesPerView = this.getSlidesPerView();
         if (newSlidesPerView !== this.slidesPerView) {
             this.slidesPerView = newSlidesPerView;
-            this.maxIndex = Math.max(0, this.slides.length - this.slidesPerView);
+            this.maxIndex = Math.max(0, this.totalSlides - this.slidesPerView);
             this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
-            this.updateCarousel();
+            this.updateDisplay();
+        }
+    }
+    
+    handleVisibilityChange() {
+        if (document.hidden) {
+            this.pauseAutoPlay();
+        } else {
+            this.resumeAutoPlay();
         }
     }
     
     destroy() {
         this.pauseAutoPlay();
-        // Remove event listeners if needed
+        window.removeEventListener('resize', this.handleResize);
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     }
 }
 
-// Enhanced Animation Effects
-function initCarouselAnimations() {
-    const cards = document.querySelectorAll('.carousel-product-card');
+// Enhanced luxury animations
+function initLuxuryCarouselAnimations() {
+    const section = document.querySelector('.luxury-carousel-section');
+    const cards = document.querySelectorAll('.luxury-carousel-product-card');
     
-    cards.forEach((card, index) => {
-        // Stagger the initial animation
-        card.style.animationDelay = `${index * 0.1}s`;
-        
-        // Add intersection observer for scroll animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '50px'
+    // Section entrance animation
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('section-visible');
+                
+                // Stagger card animations with luxury timing
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 120);
+                });
+            }
         });
-        
-        observer.observe(card);
+    }, {
+        threshold: 0.1,
+        rootMargin: '50px'
+    });
+    
+    if (section) {
+        sectionObserver.observe(section);
+    }
+    
+    // Initialize card states for entrance animation
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
     });
 }
 
-// Smooth Scroll Enhancement
-function enhanceScrolling() {
-    const featuredSection = document.querySelector('.featured-products-section');
-    
-    if (featuredSection) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('section-visible');
-                }
-            });
-        }, {
-            threshold: 0.2
-        });
-        
-        observer.observe(featuredSection);
-    }
-}
-
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Wait a bit for AOS to load if it exists
-    setTimeout(() => {
-        const carousel = new ProductsCarousel();
-        initCarouselAnimations();
-        enhanceScrolling();
-        
-        // Store carousel instance globally for debugging
-        window.productsCarousel = carousel;
-    }, 100);
-});
-
-// Handle page visibility changes (pause when tab is hidden)
-document.addEventListener('visibilitychange', function() {
-    if (window.productsCarousel) {
-        if (document.hidden) {
-            window.productsCarousel.pauseAutoPlay();
-        } else {
-            window.productsCarousel.resumeAutoPlay();
-        }
-    }
-});
-
-// Preload images for smooth transitions
-function preloadCarouselImages() {
-    const images = document.querySelectorAll('.carousel-product-card .product-img');
+// Performance optimizations
+function optimizeLuxuryCarousel() {
+    // Preload product images
+    const images = document.querySelectorAll('.luxury-carousel-image');
     images.forEach(img => {
         const imageUrl = img.src;
         const preloadImg = new Image();
         preloadImg.src = imageUrl;
     });
+    
+    // Add performance hints
+    const track = document.getElementById('luxuryCarouselTrack');
+    if (track) {
+        track.style.willChange = 'transform';
+        
+        // Clean up will-change
+        track.addEventListener('transitionend', () => {
+            setTimeout(() => {
+                track.style.willChange = 'auto';
+            }, 100);
+        });
+    }
 }
 
-// Call preload on page load
-window.addEventListener('load', preloadCarouselImages);
+// Initialize luxury carousel system
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait for fonts and AOS to load
+    setTimeout(() => {
+        const luxuryCarousel = new LuxuryCarouselController();
+        initLuxuryCarouselAnimations();
+        optimizeLuxuryCarousel();
+        
+        // Store globally for debugging
+        window.luxuryCarousel = luxuryCarousel;
+        
+        console.log('🏺 Hermes Luxury Carousel system initialized');
+    }, 150);
+});
+
+// Final load optimizations
+window.addEventListener('load', function() {
+    const section = document.querySelector('.luxury-carousel-section');
+    if (section) {
+        section.style.opacity = '1';
+    }
+});
 
 
 /* ========================================
@@ -3610,7 +3673,7 @@ class EviaAestheticsApp {
             this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
-            this.components.set('products', new ProductsCarousel());
+            this.components.set('products', new LuxuryCarouselController());
             this.components.set('contact', new ContactSection());
             this.components.set('floatingButtons', new HermesFloatingButtons());
             
@@ -3895,7 +3958,7 @@ window.addEventListener('unhandledrejection', (event) => {
 window.EnhancedWhatsHotCarousel = EnhancedWhatsHotCarousel;
 window.HermesFloatingButtons = HermesFloatingButtons;
 window.ModernHermesHeader = ModernHermesHeader;
-window.ProductsCarousel = ProductsCarousel;
+window.LuxuryCarouselController = LuxuryCarouselController;
 window.HermesServicesScroller = HermesServicesScroller;
 window.ContactSection = ContactSection;
 window.HeroSection = HeroSection;
