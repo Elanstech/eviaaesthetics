@@ -2847,7 +2847,6 @@ class HermesResultsShowcase {
 /* ========================================
    PRODUCTS SECTION
    ======================================== */
-
 class LuxuryCarouselController {
     constructor() {
         this.track = document.getElementById('luxuryCarouselTrack');
@@ -2925,19 +2924,47 @@ class LuxuryCarouselController {
             }
         });
         
-        // Explore catalog button
-        const exploreBtn = document.querySelector('.luxury-carousel-explore-btn');
-        if (exploreBtn) {
-            exploreBtn.addEventListener('click', (e) => {
+        // Shop now button
+        const shopBtn = document.querySelector('.luxury-carousel-shop-btn');
+        if (shopBtn) {
+            shopBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                const url = exploreBtn.dataset.url;
+                const url = shopBtn.dataset.url;
                 if (url) {
                     // Add luxury click animation
-                    exploreBtn.style.transform = 'scale(0.95) translateY(-4px)';
+                    shopBtn.style.transform = 'scale(0.95) translateY(-4px)';
                     setTimeout(() => {
-                        exploreBtn.style.transform = '';
+                        shopBtn.style.transform = '';
                         window.open(url, '_blank');
                     }, 150);
+                }
+            });
+        }
+        
+        // Consultation button
+        const consultBtn = document.querySelector('.luxury-carousel-consult-btn');
+        if (consultBtn) {
+            consultBtn.addEventListener('click', (e) => {
+                // Add click animation
+                consultBtn.style.transform = 'scale(0.95) translateY(-4px)';
+                setTimeout(() => {
+                    consultBtn.style.transform = '';
+                }, 150);
+            });
+        }
+        
+        // Consultation link in partnership note
+        const consultLink = document.querySelector('.consultation-link');
+        if (consultLink) {
+            consultLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Smooth scroll to consultation section
+                const consultSection = document.querySelector('#book-consultation');
+                if (consultSection) {
+                    consultSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
         }
@@ -3198,7 +3225,6 @@ window.addEventListener('load', function() {
         section.style.opacity = '1';
     }
 });
-
 
 /* ========================================
    CONTACT SECTION
