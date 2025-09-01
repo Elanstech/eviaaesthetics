@@ -467,7 +467,7 @@ class ModernHermesHeader {
         
         // Redirect after animations
         setTimeout(() => {
-            window.location.href = '/shop';
+            window.location.href = 'https://us.alumiermd.com/products?code=54T7P4HH';
         }, this.isMobileMenuOpen ? 600 : 300);
     }
 
@@ -750,7 +750,7 @@ window.hermesHeaderUtils = {
         if (header) {
             header.handleShopRedirect(document.querySelector('.shop-now-btn'));
         } else {
-            window.location.href = '/shop';
+            window.location.href = 'https://us.alumiermd.com/products?code=54T7P4HH';
         }
     },
     
