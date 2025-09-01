@@ -3,21 +3,25 @@
    Enhanced for 9:16 Videos & Extended Hero
    ======================================== */
 
-/* Services Hero Section - Extended */
+/* Services Hero Section - Clean Video Showcase */
 .services-hero-section {
     position: relative;
-    min-height: 120vh; /* Extended height */
+    min-height: 120vh;
     display: flex;
     align-items: center;
     overflow: hidden;
     padding-top: 120px;
-    padding-bottom: 80px; /* Extra space for scroll indicator */
+    padding-bottom: 80px;
+    background: linear-gradient(135deg, var(--cream-light) 0%, var(--cream-primary) 100%);
 }
 
-/* Enhanced Video Background Collage - Optimized for 9:16 */
+/* Clean Video Background - No Heavy Overlays */
 .services-video-background {
     position: absolute;
-    inset: 0;
+    top: 120px;
+    left: 0;
+    right: 0;
+    height: 60vh;
     z-index: 1;
 }
 
@@ -25,43 +29,55 @@
     position: relative;
     width: 100%;
     height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
 }
 
-/* Desktop Video Layout - Creative Asymmetrical Design for 9:16 Videos */
+/* Desktop Video Layout - Three Equal Vertical Videos */
 .desktop-video-layout {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    grid-template-columns: 0.8fr 0.6fr 0.8fr;
-    grid-template-rows: 0.6fr 1fr;
-    gap: 3px;
-    padding: 20px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
 }
 
 .video-panel {
     position: relative;
-    overflow: hidden;
+    width: 280px;
+    height: 500px;
     border-radius: 24px;
-    background: rgba(42, 27, 10, 0.1);
+    overflow: hidden;
+    background: var(--cream-soft);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.6s var(--ease-luxury);
 }
 
 .video-main {
-    grid-row: 1 / 3;
-    grid-column: 2;
+    width: 320px;
+    height: 570px;
     border-radius: 32px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+    z-index: 2;
 }
 
-.video-secondary-top {
-    grid-row: 1;
-    grid-column: 1;
-    border-radius: 20px 20px 8px 8px;
-}
-
+.video-secondary-top,
 .video-secondary-bottom {
-    grid-row: 1;
-    grid-column: 3;
-    border-radius: 20px 20px 8px 8px;
+    width: 280px;
+    height: 500px;
+}
+
+.video-panel:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 35px 70px rgba(255, 140, 0, 0.2);
+}
+
+.video-main:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 40px 80px rgba(255, 140, 0, 0.25);
 }
 
 .video-panel video {
@@ -79,16 +95,16 @@
     object-position: center;
 }
 
-/* Video Loading Indicators */
+/* Minimal Video Loading Indicators */
 .video-loading-indicator {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border: 3px solid rgba(255, 140, 0, 0.3);
-    border-top: 3px solid var(--hermes-orange);
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 140, 0, 0.3);
+    border-top: 2px solid var(--hermes-orange);
     border-radius: 50%;
     animation: videoLoading 1s linear infinite;
     opacity: 1;
@@ -106,67 +122,63 @@
     pointer-events: none;
 }
 
+/* Subtle Video Overlay - Minimal */
 .video-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
-        135deg,
-        rgba(255, 140, 0, 0.15) 0%,
-        rgba(42, 27, 10, 0.3) 50%,
-        rgba(0, 0, 0, 0.2) 100%
+        180deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(0, 0, 0, 0.1) 100%
     );
+    opacity: 0.5;
     transition: opacity 0.6s ease;
 }
 
 .video-panel:hover .video-overlay {
-    background: linear-gradient(
-        135deg,
-        rgba(255, 140, 0, 0.1) 0%,
-        rgba(42, 27, 10, 0.2) 50%,
-        rgba(0, 0, 0, 0.1) 100%
-    );
+    opacity: 0.2;
 }
 
-/* Mobile Video Layout */
+/* Mobile Video Layout - Single Showcase */
 .mobile-video-layout {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: none;
-    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
 }
 
 .mobile-video-layout video {
     width: 100%;
-    height: 100%;
+    max-width: 350px;
+    height: 600px;
     object-fit: cover;
     object-position: center;
     border-radius: 32px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
 }
 
 .video-overlay-mobile {
     position: absolute;
-    inset: 20px;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 140, 0, 0.2) 0%,
-        rgba(42, 27, 10, 0.4) 100%
-    );
-    border-radius: 32px;
-}
-
-/* Main Hero Overlay */
-.services-hero-overlay {
-    position: absolute;
     inset: 0;
     background: linear-gradient(
-        135deg,
-        rgba(255, 248, 240, 0.6) 0%,
-        rgba(255, 252, 248, 0.4) 50%,
-        rgba(255, 248, 240, 0.5) 100%
+        180deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(0, 0, 0, 0.1) 100%
     );
-    backdrop-filter: blur(2px);
-    z-index: 2;
+    border-radius: 32px;
+    opacity: 0.3;
+}
+
+/* No Main Hero Overlay */
+.services-hero-overlay {
+    display: none;
 }
 
 .services-hero-content {
@@ -176,6 +188,13 @@
     max-width: 900px;
     margin: 0 auto;
     padding: 0 20px;
+    margin-top: 480px; /* Push content below videos */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 48px 40px;
+    border: 1px solid rgba(255, 140, 0, 0.2);
+    box-shadow: 0 25px 50px rgba(255, 140, 0, 0.1);
 }
 
 .services-hero-badge {
@@ -1620,9 +1639,22 @@
 /* Mobile Responsiveness for Hero Section */
 @media (max-width: 1200px) {
     .desktop-video-layout {
-        grid-template-columns: 0.7fr 0.8fr 0.7fr;
-        padding: 15px;
-        gap: 2px;
+        gap: 16px;
+    }
+    
+    .video-panel {
+        width: 240px;
+        height: 420px;
+    }
+    
+    .video-main {
+        width: 280px;
+        height: 500px;
+    }
+    
+    .services-hero-content {
+        margin-top: 440px;
+        padding: 40px 32px;
     }
     
     .categories-grid {
@@ -1637,21 +1669,38 @@
         padding-bottom: 60px;
     }
     
+    .services-video-background {
+        top: 100px;
+        height: 50vh;
+    }
+    
+    .video-collage-container {
+        padding: 0 20px;
+    }
+    
     .desktop-video-layout {
         display: none;
     }
     
     .mobile-video-layout {
-        display: block;
+        display: flex;
+    }
+    
+    .mobile-video-layout video {
+        max-width: 280px;
+        height: 500px;
     }
     
     .services-hero-content {
-        padding: 0 20px;
+        margin-top: 360px;
+        padding: 32px 24px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
     
     .services-quick-stats {
         flex-direction: column;
-        gap: 32px;
+        gap: 24px;
         padding: 24px;
         margin: 32px 0;
     }
@@ -1759,6 +1808,22 @@
     .services-hero-section {
         min-height: 95vh;
         padding-bottom: 40px;
+    }
+    
+    .services-video-background {
+        height: 45vh;
+    }
+    
+    .mobile-video-layout video {
+        max-width: 250px;
+        height: 450px;
+    }
+    
+    .services-hero-content {
+        margin-top: 320px;
+        padding: 28px 20px;
+        margin-left: 5px;
+        margin-right: 5px;
     }
     
     .services-quick-stats {
