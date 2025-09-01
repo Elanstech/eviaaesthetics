@@ -3686,7 +3686,7 @@ if ('PerformanceObserver' in window) {
    PRODUCTS SECTION
    ======================================== */
 class LuxuryCarouselController {
-    constructor() {
+        constructor() {
         this.track = document.getElementById('luxuryCarouselTrack');
         this.slides = document.querySelectorAll('.luxury-carousel-slide');
         this.prevBtn = document.getElementById('luxuryCarouselPrev');
