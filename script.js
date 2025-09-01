@@ -3311,7 +3311,6 @@ class EviaAestheticsApp {
     initializeComponents() {
         try {
             this.components.set('preloader', new Preloader());
-            this.components.set('mobileMenu', new ModernMobileMenu());
             this.components.set('header', new ModernHermesHeader());
             this.components.set('hero', new HeroSection());
             this.components.set('whatsHot', new EnhancedWhatsHotCarousel());
@@ -3331,7 +3330,6 @@ class EviaAestheticsApp {
             console.error('Error initializing components:', error);
             
             try {
-                window.mobileMenu = new ModernMobileMenu();
                 window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
                 window.hermesFloatingButtons = new HermesFloatingButtons();
                 window.header = new ModernHermesHeader();
@@ -3565,7 +3563,6 @@ const initializeApp = () => {
         console.error('Failed to initialize app:', error);
         
         try {
-            window.mobileMenu = new ModernMobileMenu();
             window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
             window.hermesFloatingButtons = new HermesFloatingButtons();
             window.header = new ModernHermesHeader();
@@ -3602,7 +3599,6 @@ window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled Promise Rejection:', event.reason);
 });
 
-window.ModernMobileMenu = ModernMobileMenu;
 window.EnhancedWhatsHotCarousel = EnhancedWhatsHotCarousel;
 window.HermesFloatingButtons = HermesFloatingButtons;
 window.ModernHermesHeader = ModernHermesHeader;
