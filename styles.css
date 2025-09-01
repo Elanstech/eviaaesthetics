@@ -162,6 +162,10 @@ body {
    MODERN HERMES HEADER
    ======================================== */
 
+/* ========================================
+   MODERN HERMES HEADER
+   ======================================== */
+
 .hermes-modern-header {
     position: fixed;
     top: 0;
@@ -248,6 +252,12 @@ body {
     box-shadow: 
         0 12px 40px rgba(0, 0, 0, 0.15),
         0 4px 16px rgba(255, 140, 0, 0.25);
+}
+
+/* Switch to mobile logo on desktop scroll */
+.hermes-modern-header.scrolled .desktop-logo {
+    content: url('images/mobilelogo.png');
+    height: 50px;
 }
 
 .hermes-modern-header.scrolled .nav-links-container,
