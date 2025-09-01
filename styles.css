@@ -231,33 +231,27 @@ body {
 
 /* Circle Design for Scrolled Desktop */
 .hermes-modern-header.scrolled .logo-section {
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
     background: rgba(255, 255, 255, 0.95);
-    border: 2px solid rgba(255, 140, 0, 0.2);
+    border: 2px solid rgba(255, 140, 0, 0.3);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(40px);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.1),
-        0 2px 8px rgba(255, 140, 0, 0.1);
     transition: all 0.4s var(--ease-luxury);
 }
 
 .hermes-modern-header.scrolled .logo-section:hover {
     transform: scale(1.05);
     border-color: var(--hermes-orange);
-    box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.15),
-        0 4px 16px rgba(255, 140, 0, 0.25);
 }
 
 /* Switch to mobile logo on desktop scroll */
 .hermes-modern-header.scrolled .desktop-logo {
     content: url('images/mobilelogo.png');
-    height: 50px;
+    height: 45px;
 }
 
 .hermes-modern-header.scrolled .nav-links-container,
@@ -294,18 +288,15 @@ body {
 /* Desktop Hamburger Menu (appears on scroll) */
 .desktop-hamburger-circle {
     display: none;
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
     background: rgba(255, 255, 255, 0.95);
-    border: 2px solid rgba(255, 140, 0, 0.2);
+    border: 2px solid rgba(255, 140, 0, 0.3);
     border-radius: 50%;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     backdrop-filter: blur(40px);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.1),
-        0 2px 8px rgba(255, 140, 0, 0.1);
     transition: all 0.4s var(--ease-luxury);
     margin-left: auto;
 }
@@ -317,9 +308,6 @@ body {
 .desktop-hamburger-circle:hover {
     transform: scale(1.05);
     border-color: var(--hermes-orange);
-    box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.15),
-        0 4px 16px rgba(255, 140, 0, 0.25);
 }
 
 .desktop-hamburger-lines {
@@ -329,7 +317,7 @@ body {
 }
 
 .desktop-hamburger-line {
-    width: 24px;
+    width: 22px;
     height: 2px;
     background: var(--text-secondary);
     border-radius: 1px;
@@ -522,17 +510,14 @@ body {
 
 /* Mobile Menu Toggle - Circle Design */
 .mobile-menu-toggle {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     background: rgba(255, 255, 255, 0.95);
-    border: 3px solid rgba(255, 140, 0, 0.3);
+    border: 2px solid rgba(255, 140, 0, 0.3);
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.4s var(--ease-luxury);
     backdrop-filter: blur(40px);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.1),
-        0 2px 8px rgba(255, 140, 0, 0.15);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -544,13 +529,10 @@ body {
     background: rgba(255, 140, 0, 0.1);
     border-color: var(--hermes-orange);
     transform: scale(1.05);
-    box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.15),
-        0 4px 16px rgba(255, 140, 0, 0.3);
 }
 
 .toggle-line {
-    width: 24px;
+    width: 22px;
     height: 3px;
     background: var(--text-secondary);
     border-radius: 2px;
@@ -908,43 +890,57 @@ body {
         display: none;
     }
     
-    /* Mobile circle sizes */
+    /* Mobile circle adjustments - tighter, no shadows */
     .mobile-logo-circle {
-        width: 75px;
-        height: 75px;
+        width: 65px;
+        height: 65px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 2px solid rgba(255, 140, 0, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(40px);
+        transition: all 0.4s var(--ease-luxury);
     }
     
     .mobile-logo {
-        height: 50px;
+        height: 40px;
+        width: auto;
+        object-fit: contain;
     }
     
     .mobile-menu-toggle {
-        width: 75px;
-        height: 75px;
+        width: 65px;
+        height: 65px;
     }
     
     .toggle-line {
-        width: 26px;
+        width: 22px;
         height: 3px;
     }
     
-    /* Scrolled state on mobile */
+    /* Scrolled state on mobile - slightly smaller */
     .hermes-modern-header.scrolled .mobile-nav {
         padding: 15px 20px;
     }
     
     .hermes-modern-header.scrolled .mobile-logo-circle {
-        width: 65px;
-        height: 65px;
+        width: 60px;
+        height: 60px;
     }
     
     .hermes-modern-header.scrolled .mobile-menu-toggle {
-        width: 65px;
-        height: 65px;
+        width: 60px;
+        height: 60px;
     }
     
     .hermes-modern-header.scrolled .mobile-logo {
-        height: 42px;
+        height: 36px;
+    }
+    
+    .hermes-modern-header.scrolled .toggle-line {
+        width: 20px;
     }
 }
 
@@ -954,21 +950,22 @@ body {
     }
     
     .mobile-logo-circle {
-        width: 70px;
-        height: 70px;
+        width: 62px;
+        height: 62px;
     }
     
     .mobile-menu-toggle {
-        width: 70px;
-        height: 70px;
+        width: 62px;
+        height: 62px;
     }
     
     .mobile-logo {
-        height: 45px;
+        height: 38px;
     }
     
     .toggle-line {
-        width: 24px;
+        width: 20px;
+        height: 2px;
     }
     
     .mobile-menu-container {
