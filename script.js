@@ -2845,6 +2845,299 @@ class HermesResultsShowcase {
 }
 
 /* ========================================
+   PRODUCTS SECTION
+   ======================================== */
+
+// Featured Products Carousel Implementation
+class ProductsCarousel {
+    constructor() {
+        this.track = document.getElementById('carouselTrack');
+        this.slides = document.querySelectorAll('.carousel-slide');
+        this.prevBtn = document.getElementById('carouselPrev');
+        this.nextBtn = document.getElementById('carouselNext');
+        this.indicators = document.querySelectorAll('.indicator');
+        this.carousel = document.getElementById('productsCarousel');
+        
+        this.currentIndex = 0;
+        this.slidesPerView = this.getSlidesPerView();
+        this.maxIndex = Math.max(0, this.slides.length - this.slidesPerView);
+        this.isAutoPlaying = true;
+        this.autoPlayInterval = null;
+        this.touchStartX = 0;
+        this.touchEndX = 0;
+        
+        this.init();
+    }
+    
+    init() {
+        this.setupEventListeners();
+        this.updateCarousel();
+        this.startAutoPlay();
+        this.setupResponsive();
+        this.setupProductLinks();
+    }
+    
+    getSlidesPerView() {
+        const width = window.innerWidth;
+        if (width <= 768) return 1;
+        if (width <= 1024) return 2;
+        return 3;
+    }
+    
+    setupEventListeners() {
+        // Navigation buttons
+        this.prevBtn?.addEventListener('click', () => this.prevSlide());
+        this.nextBtn?.addEventListener('click', () => this.nextSlide());
+        
+        // Indicators
+        this.indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => this.goToSlide(index));
+        });
+        
+        // Touch events for mobile
+        this.carousel.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
+        this.carousel.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
+        
+        // Pause auto-play on hover
+        this.carousel.addEventListener('mouseenter', () => this.pauseAutoPlay());
+        this.carousel.addEventListener('mouseleave', () => this.resumeAutoPlay());
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => this.handleKeyPress(e));
+        
+        // Window resize
+        window.addEventListener('resize', () => this.handleResize());
+    }
+    
+    setupProductLinks() {
+        // Handle explore all button
+        const exploreBtn = document.querySelector('.explore-all-btn');
+        if (exploreBtn) {
+            exploreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const url = exploreBtn.dataset.url;
+                if (url) {
+                    window.open(url, '_blank');
+                }
+            });
+        }
+    }
+    
+    prevSlide() {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+            this.updateCarousel();
+        }
+    }
+    
+    nextSlide() {
+        if (this.currentIndex < this.maxIndex) {
+            this.currentIndex++;
+            this.updateCarousel();
+        } else {
+            // Loop back to beginning
+            this.currentIndex = 0;
+            this.updateCarousel();
+        }
+    }
+    
+    goToSlide(index) {
+        const maxIndicatorIndex = Math.ceil(this.slides.length / this.slidesPerView) - 1;
+        if (index <= maxIndicatorIndex) {
+            this.currentIndex = Math.min(index * this.slidesPerView, this.maxIndex);
+            this.updateCarousel();
+        }
+    }
+    
+    updateCarousel() {
+        const slideWidth = 100 / this.slidesPerView;
+        const translateX = -(this.currentIndex * slideWidth);
+        
+        this.track.style.transform = `translateX(${translateX}%)`;
+        this.updateIndicators();
+        this.updateNavigationButtons();
+        
+        // Add animation class
+        this.track.classList.add('transitioning');
+        setTimeout(() => {
+            this.track.classList.remove('transitioning');
+        }, 600);
+    }
+    
+    updateIndicators() {
+        const currentIndicatorIndex = Math.floor(this.currentIndex / this.slidesPerView);
+        this.indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentIndicatorIndex);
+        });
+    }
+    
+    updateNavigationButtons() {
+        if (this.prevBtn) {
+            this.prevBtn.disabled = this.currentIndex === 0;
+        }
+        if (this.nextBtn) {
+            this.nextBtn.disabled = this.currentIndex >= this.maxIndex;
+        }
+    }
+    
+    startAutoPlay() {
+        if (this.isAutoPlaying) {
+            this.autoPlayInterval = setInterval(() => {
+                if (this.currentIndex >= this.maxIndex) {
+                    this.currentIndex = 0;
+                } else {
+                    this.currentIndex++;
+                }
+                this.updateCarousel();
+            }, 4000);
+        }
+    }
+    
+    pauseAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+    }
+    
+    resumeAutoPlay() {
+        if (this.isAutoPlaying && !this.autoPlayInterval) {
+            this.startAutoPlay();
+        }
+    }
+    
+    handleTouchStart(e) {
+        this.touchStartX = e.changedTouches[0].screenX;
+        this.pauseAutoPlay();
+    }
+    
+    handleTouchEnd(e) {
+        this.touchEndX = e.changedTouches[0].screenX;
+        this.handleSwipe();
+        setTimeout(() => this.resumeAutoPlay(), 1000);
+    }
+    
+    handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = this.touchStartX - this.touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swiped left - next slide
+                this.nextSlide();
+            } else {
+                // Swiped right - previous slide
+                this.prevSlide();
+            }
+        }
+    }
+    
+    handleKeyPress(e) {
+        if (e.key === 'ArrowLeft') {
+            this.prevSlide();
+        } else if (e.key === 'ArrowRight') {
+            this.nextSlide();
+        }
+    }
+    
+    handleResize() {
+        const newSlidesPerView = this.getSlidesPerView();
+        if (newSlidesPerView !== this.slidesPerView) {
+            this.slidesPerView = newSlidesPerView;
+            this.maxIndex = Math.max(0, this.slides.length - this.slidesPerView);
+            this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
+            this.updateCarousel();
+        }
+    }
+    
+    destroy() {
+        this.pauseAutoPlay();
+        // Remove event listeners if needed
+    }
+}
+
+// Enhanced Animation Effects
+function initCarouselAnimations() {
+    const cards = document.querySelectorAll('.carousel-product-card');
+    
+    cards.forEach((card, index) => {
+        // Stagger the initial animation
+        card.style.animationDelay = `${index * 0.1}s`;
+        
+        // Add intersection observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
+        
+        observer.observe(card);
+    });
+}
+
+// Smooth Scroll Enhancement
+function enhanceScrolling() {
+    const featuredSection = document.querySelector('.featured-products-section');
+    
+    if (featuredSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('section-visible');
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+        
+        observer.observe(featuredSection);
+    }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait a bit for AOS to load if it exists
+    setTimeout(() => {
+        const carousel = new ProductsCarousel();
+        initCarouselAnimations();
+        enhanceScrolling();
+        
+        // Store carousel instance globally for debugging
+        window.productsCarousel = carousel;
+    }, 100);
+});
+
+// Handle page visibility changes (pause when tab is hidden)
+document.addEventListener('visibilitychange', function() {
+    if (window.productsCarousel) {
+        if (document.hidden) {
+            window.productsCarousel.pauseAutoPlay();
+        } else {
+            window.productsCarousel.resumeAutoPlay();
+        }
+    }
+});
+
+// Preload images for smooth transitions
+function preloadCarouselImages() {
+    const images = document.querySelectorAll('.carousel-product-card .product-img');
+    images.forEach(img => {
+        const imageUrl = img.src;
+        const preloadImg = new Image();
+        preloadImg.src = imageUrl;
+    });
+}
+
+// Call preload on page load
+window.addEventListener('load', preloadCarouselImages);
+
+
+/* ========================================
    CONTACT SECTION
    ======================================== */
 class ContactSection {
@@ -3317,6 +3610,7 @@ class EviaAestheticsApp {
             this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
+            this.components.set('products', new ProductsCarousel());
             this.components.set('contact', new ContactSection());
             this.components.set('floatingButtons', new HermesFloatingButtons());
             
@@ -3598,10 +3892,10 @@ window.addEventListener('error', (event) => {
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled Promise Rejection:', event.reason);
 });
-
 window.EnhancedWhatsHotCarousel = EnhancedWhatsHotCarousel;
 window.HermesFloatingButtons = HermesFloatingButtons;
 window.ModernHermesHeader = ModernHermesHeader;
+window.ProductsCarousel = ProductsCarousel;
 window.HermesServicesScroller = HermesServicesScroller;
 window.ContactSection = ContactSection;
 window.HeroSection = HeroSection;
