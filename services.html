@@ -200,9 +200,39 @@
                     </div>
                 </div>
                 
-                <!-- Mobile Single Video -->
+                <!-- Mobile Three Video Layout -->
                 <div class="mobile-video-layout" id="mobileVideoLayout">
-                    <div class="video-panel video-mobile">
+                    <div class="video-panel video-mobile-left" data-video-id="1">
+                        <video muted loop playsinline preload="metadata" data-sync-group="mobile">
+                            <source src="https://github.com/Elanstech/eviaesthetics/releases/download/v1/rf-lifting-ultrasound-treatment.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-loading-overlay">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="video-panel video-mobile-center" data-video-id="2">
+                        <video muted loop playsinline preload="metadata" data-sync-group="mobile">
+                            <source src="https://github.com/Elanstech/eviaesthetics/releases/download/v1/hydropeeling-facial-treatment.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-loading-overlay">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="video-panel video-mobile-right" data-video-id="3">
+                        <video muted loop playsinline preload="metadata" data-sync-group="mobile">
+                            <source src="https://github.com/Elanstech/eviaesthetics/releases/download/v1/woman-facial-treatment-salon.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-loading-overlay">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ultra Mobile Single Video (for very weak devices) -->
+                <div class="ultra-mobile-layout" id="ultraMobileLayout" style="display: none;">
+                    <div class="video-panel video-single">
                         <video muted loop playsinline preload="metadata">
                             <source src="https://github.com/Elanstech/eviaesthetics/releases/download/v1/hydropeeling-facial-treatment.mp4" type="video/mp4">
                         </video>
