@@ -159,8 +159,9 @@ body {
 }
 
 /* ========================================
-   ORIGINAL DESKTOP HEADER - UNCHANGED
+   MODERN HERMES HEADER
    ======================================== */
+
 .hermes-modern-header {
     position: fixed;
     top: 0;
@@ -195,17 +196,16 @@ body {
     transition: opacity 0.4s ease;
 }
 
-/* Header States */
+/* Header States - Circle Design on Scroll */
 .hermes-modern-header.scrolled .header-glass-container {
-    background: rgba(255, 255, 255, 0.95);
-    border-bottom-color: rgba(255, 140, 0, 0.15);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.08),
-        0 2px 8px rgba(0, 0, 0, 0.04);
+    background: transparent;
+    backdrop-filter: none;
+    border-bottom: none;
+    box-shadow: none;
 }
 
 .hermes-modern-header.scrolled .header-glass-container::before {
-    opacity: 1;
+    opacity: 0;
 }
 
 /* Desktop Navigation */
@@ -215,16 +215,50 @@ body {
     justify-content: space-between;
     padding: 0 clamp(1rem, 3vw, 2rem);
     height: 80px;
-    transition: height 0.4s var(--ease-luxury);
+    transition: all 0.4s var(--ease-luxury);
 }
 
 .hermes-modern-header.scrolled .desktop-nav {
-    height: 70px;
+    height: 90px;
+    padding: 20px clamp(2rem, 4vw, 3rem);
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+/* Circle Design for Scrolled Desktop */
+.hermes-modern-header.scrolled .logo-section {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(40px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(255, 140, 0, 0.1);
+    transition: all 0.4s var(--ease-luxury);
+}
+
+.hermes-modern-header.scrolled .logo-section:hover {
+    transform: scale(1.05);
+    border-color: var(--hermes-orange);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        0 4px 16px rgba(255, 140, 0, 0.25);
+}
+
+.hermes-modern-header.scrolled .nav-links-container,
+.hermes-modern-header.scrolled .header-cta-section {
+    display: none;
 }
 
 /* Logo Section */
 .logo-section {
     flex-shrink: 0;
+    transition: all 0.4s var(--ease-luxury);
 }
 
 .logo-link {
@@ -244,7 +278,78 @@ body {
 }
 
 .hermes-modern-header.scrolled .desktop-logo {
-    height: 40px;
+    height: 50px;
+}
+
+/* Desktop Hamburger Menu (appears on scroll) */
+.desktop-hamburger-circle {
+    display: none;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(40px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(255, 140, 0, 0.1);
+    transition: all 0.4s var(--ease-luxury);
+    margin-left: auto;
+}
+
+.hermes-modern-header.scrolled .desktop-hamburger-circle {
+    display: flex;
+}
+
+.desktop-hamburger-circle:hover {
+    transform: scale(1.05);
+    border-color: var(--hermes-orange);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        0 4px 16px rgba(255, 140, 0, 0.25);
+}
+
+.desktop-hamburger-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.desktop-hamburger-line {
+    width: 24px;
+    height: 2px;
+    background: var(--text-secondary);
+    border-radius: 1px;
+    transition: all 0.3s var(--ease-luxury);
+    transform-origin: center;
+}
+
+.desktop-hamburger-circle:hover .desktop-hamburger-line {
+    background: var(--hermes-orange);
+}
+
+/* Desktop Hamburger Active State */
+.desktop-hamburger-circle.active {
+    background: rgba(255, 140, 0, 0.15);
+    border-color: var(--hermes-orange);
+}
+
+.desktop-hamburger-circle.active .desktop-hamburger-line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+    background: var(--hermes-orange);
+}
+
+.desktop-hamburger-circle.active .desktop-hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.desktop-hamburger-circle.active .desktop-hamburger-line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+    background: var(--hermes-orange);
 }
 
 /* Navigation Links */
@@ -405,45 +510,52 @@ body {
     filter: drop-shadow(0 2px 8px rgba(255, 140, 0, 0.1));
 }
 
-/* Mobile Menu Toggle */
+/* Mobile Menu Toggle - Circle Design */
 .mobile-menu-toggle {
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid rgba(255, 140, 0, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.4s var(--ease-luxury);
+    backdrop-filter: blur(40px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(255, 140, 0, 0.15);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid rgba(255, 140, 0, 0.15);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s var(--ease-luxury);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    gap: 4px;
 }
 
 .mobile-menu-toggle:hover {
     background: rgba(255, 140, 0, 0.1);
     border-color: var(--hermes-orange);
     transform: scale(1.05);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        0 4px 16px rgba(255, 140, 0, 0.3);
 }
 
 .toggle-line {
-    width: 20px;
-    height: 2px;
+    width: 24px;
+    height: 3px;
     background: var(--text-secondary);
-    border-radius: 1px;
+    border-radius: 2px;
     transition: all 0.3s var(--ease-luxury);
     transform-origin: center;
 }
 
-.toggle-line:nth-child(2) {
-    margin: 4px 0;
+/* Toggle Animation */
+.mobile-menu-toggle.active {
+    background: rgba(255, 140, 0, 0.15);
+    border-color: var(--hermes-orange);
 }
 
-/* Toggle Animation */
 .mobile-menu-toggle.active .toggle-line:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
+    transform: translateY(7px) rotate(45deg);
     background: var(--hermes-orange);
 }
 
@@ -453,7 +565,7 @@ body {
 }
 
 .mobile-menu-toggle.active .toggle-line:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
+    transform: translateY(-7px) rotate(-45deg);
     background: var(--hermes-orange);
 }
 
@@ -763,45 +875,95 @@ body {
 }
 
 @media (max-width: 768px) {
+    /* Hide desktop nav, show mobile */
     .desktop-nav {
         display: none;
     }
     
     .mobile-nav {
         display: flex;
+        background: transparent;
+        padding: 20px;
     }
     
-    .hermes-modern-header.scrolled .mobile-nav {
-        height: 60px;
+    /* Remove all header backgrounds on mobile */
+    .hermes-modern-header .header-glass-container {
+        background: transparent;
+        backdrop-filter: none;
+        border-bottom: none;
+        box-shadow: none;
+    }
+    
+    .hermes-modern-header .header-glass-container::before {
+        display: none;
+    }
+    
+    /* Mobile circle sizes */
+    .mobile-logo-circle {
+        width: 75px;
+        height: 75px;
     }
     
     .mobile-logo {
-        height: 30px;
+        height: 50px;
+    }
+    
+    .mobile-menu-toggle {
+        width: 75px;
+        height: 75px;
+    }
+    
+    .toggle-line {
+        width: 26px;
+        height: 3px;
+    }
+    
+    /* Scrolled state on mobile */
+    .hermes-modern-header.scrolled .mobile-nav {
+        padding: 15px 20px;
+    }
+    
+    .hermes-modern-header.scrolled .mobile-logo-circle {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .hermes-modern-header.scrolled .mobile-menu-toggle {
+        width: 65px;
+        height: 65px;
     }
     
     .hermes-modern-header.scrolled .mobile-logo {
-        height: 28px;
+        height: 42px;
     }
 }
 
 @media (max-width: 480px) {
-    .mobile-menu-container {
-        width: 100%;
-        max-width: none;
+    .mobile-nav {
+        padding: 15px;
     }
     
-    .mobile-nav {
-        padding: 0 1rem;
-        height: 65px;
+    .mobile-logo-circle {
+        width: 70px;
+        height: 70px;
     }
     
     .mobile-menu-toggle {
-        width: 40px;
-        height: 40px;
+        width: 70px;
+        height: 70px;
+    }
+    
+    .mobile-logo {
+        height: 45px;
     }
     
     .toggle-line {
-        width: 18px;
+        width: 24px;
+    }
+    
+    .mobile-menu-container {
+        width: 100%;
+        max-width: none;
     }
 }
 
