@@ -351,7 +351,7 @@ function initializeSpecializationAnimations() {
             const icon = this.querySelector('.spec-icon');
             if (icon) {
                 icon.style.transform = 'scale(1.1) rotate(5deg)';
-                icon.style.background = 'rgba(168, 85, 247, 0.2)';
+                icon.style.background = 'rgba(255, 140, 0, 0.2)';
             }
         });
         
@@ -359,7 +359,7 @@ function initializeSpecializationAnimations() {
             const icon = this.querySelector('.spec-icon');
             if (icon) {
                 icon.style.transform = 'scale(1) rotate(0deg)';
-                icon.style.background = 'rgba(168, 85, 247, 0.1)';
+                icon.style.background = 'rgba(255, 140, 0, 0.1)';
             }
         });
     });
@@ -403,7 +403,7 @@ function initializeAchievementCounters() {
                     if (hasNumber) {
                         setTimeout(() => {
                             numberEl.style.transform = 'scale(1.2)';
-                            numberEl.style.color = 'rgba(168, 85, 247, 1)';
+                            numberEl.style.color = 'rgba(255, 140, 0, 1)';
                             
                             setTimeout(() => {
                                 numberEl.style.transform = 'scale(1)';
@@ -433,7 +433,7 @@ function initializeClinicFeatures() {
             const icon = this.querySelector('.feature-icon');
             if (icon) {
                 icon.style.transform = 'scale(1.15) rotate(5deg)';
-                icon.style.boxShadow = '0 10px 30px rgba(168, 85, 247, 0.3)';
+                icon.style.boxShadow = '0 10px 30px rgba(255, 140, 0, 0.3)';
             }
         });
         
@@ -460,13 +460,13 @@ function initializeReasonCards() {
             const icon = this.querySelector('.reason-icon');
             
             if (number) {
-                number.style.color = 'rgba(168, 85, 247, 0.4)';
-                number.style.textShadow = '0 0 20px rgba(168, 85, 247, 0.5)';
+                number.style.color = 'rgba(255, 140, 0, 0.4)';
+                number.style.textShadow = '0 0 20px rgba(255, 140, 0, 0.5)';
             }
             
             if (icon) {
                 icon.style.transform = 'scale(1.1) rotate(-5deg)';
-                icon.style.boxShadow = '0 10px 30px rgba(168, 85, 247, 0.4)';
+                icon.style.boxShadow = '0 10px 30px rgba(255, 140, 0, 0.4)';
             }
         });
         
