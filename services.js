@@ -1,167 +1,590 @@
 /* ========================================
-   SERVICES PAGE - ENHANCED INTERACTIVE FUNCTIONALITY
-   Optimized for Video Loading & Extended Hero Experience
+   SERVICES PAGE - ENHANCED LUXURY EXPERIENCE
+   Synchronized Videos & Soft Med Spa Interactions
    ======================================== */
 
 class ServicesPageManager {
     constructor() {
-        this.activeCategory = null;
-        this.isTransitioning = false;
-        this.categoryCards = [];
-        this.detailsPanels = [];
         this.videos = [];
-        this.videoLoadedCount = 0;
-        this.totalVideos = 0;
-        this.heroLoaded = false;
+        this.syncedVideos = [];
+        this.videoLoadPromises = [];
+        this.currentCategory = null;
+        this.isModalOpen = false;
+        this.animationQueue = [];
         
+        this.serviceData = this.initServiceData();
         this.init();
     }
 
     init() {
         this.cacheElements();
-        this.setupVideoPreloading();
+        this.initVideoSynchronization();
         this.bindEvents();
-        this.initAnimations();
-        this.setupIntersectionObservers();
-        this.initVideoBackground();
-        this.setupPanelCloseButtons();
+        this.initSoftAnimations();
+        this.setupResponsiveHandling();
+        this.initAccessibility();
         
-        console.log('🏛️ Services Page - Enhanced Luxury Experience Activated');
+        console.log('✨ Services Page - Enhanced Experience Initialized');
     }
 
     cacheElements() {
-        // Category elements
-        this.categoryCards = document.querySelectorAll('.category-card');
-        this.categoryExpandBtns = document.querySelectorAll('.category-expand-btn');
-        this.detailsPanels = document.querySelectorAll('.service-details-panel');
+        // Video elements
+        this.videoContainer = document.querySelector('.video-collage-container');
+        this.videoPanels = document.querySelectorAll('.video-panel');
+        this.syncedVideos = document.querySelectorAll('[data-sync-group="hero"]');
+        this.mobileVideo = document.querySelector('.mobile-video-layout video');
         
         // Hero elements
         this.heroContent = document.querySelector('.services-hero-content');
-        this.navigationGuide = document.querySelector('.services-navigation-guide');
-        this.consultationNotice = document.querySelector('.consultation-notice');
-        this.consultationBtn = document.querySelector('.consultation-btn');
-        this.quickStats = document.querySelectorAll('.stat-item');
-        this.scrollIndicator = document.querySelector('.services-scroll-indicator');
+        this.scrollIndicator = document.querySelector('.scroll-indicator');
+        this.statCards = document.querySelectorAll('.stat-card');
+        this.consultationCard = document.querySelector('.consultation-card');
         
-        // Video elements
-        this.videos = document.querySelectorAll('.services-video-background video');
-        this.videoContainer = document.querySelector('.video-collage-container');
-        this.videoPanels = document.querySelectorAll('.video-panel');
-        this.videoLoadingIndicators = document.querySelectorAll('.video-loading-indicator');
+        // Category elements
+        this.categoryCards = document.querySelectorAll('.category-card');
+        this.exploreButtons = document.querySelectorAll('.explore-btn');
         
-        // CTA elements
-        this.ctaBtns = document.querySelectorAll('.primary-cta-btn, .secondary-cta-btn');
+        // Modal elements
+        this.modal = document.getElementById('serviceDetailsModal');
+        this.modalBackdrop = document.getElementById('modalBackdrop');
+        this.modalClose = document.getElementById('modalClose');
+        this.modalContent = document.getElementById('modalContent');
+        this.modalCategoryName = document.getElementById('modalCategoryName');
         
-        // Close buttons
-        this.panelCloseBtns = document.querySelectorAll('.panel-close-btn');
+        // Sections
+        this.categoriesSection = document.getElementById('serviceCategories');
     }
 
-    setupVideoPreloading() {
-        this.totalVideos = this.videos.length;
-        this.videoLoadedCount = 0;
+    initServiceData() {
+        return {
+            'botox-fillers': {
+                title: 'Botox & Fillers',
+                subtitle: 'Precision injectables for natural enhancement and therapeutic treatments',
+                icon: 'ri-syringe-line',
+                services: [
+                    {
+                        name: 'Botox (Neurotoxin Injectables)',
+                        duration: '30 minutes',
+                        results: '3-7 days',
+                        price: '$16/unit',
+                        typical: '$300-600',
+                        description: 'FDA-approved neurotoxin for wrinkle reduction, prevention, and muscle relaxation. Ideal for forehead lines, crow\'s feet, and frown lines.',
+                        features: [
+                            'Immediate consultation included',
+                            'Precision mapping techniques',
+                            'Natural-looking results guaranteed',
+                            'Multiple injection sites available'
+                        ]
+                    },
+                    {
+                        name: 'Dermal Fillers',
+                        duration: '45 minutes',
+                        results: 'Immediate',
+                        price: '$800/syringe',
+                        typical: '$800-2400',
+                        description: 'Premium hyaluronic acid fillers for volume restoration, lip enhancement, and facial contouring using multiple premium brands.',
+                        features: [
+                            'Multiple premium brands available',
+                            'Completely reversible treatments',
+                            'Artistic enhancement approach',
+                            'Immediate visible results'
+                        ]
+                    },
+                    {
+                        name: 'Hyperhidrosis - Hands',
+                        duration: '60 minutes',
+                        results: '1-2 weeks',
+                        price: '$1,000/hand',
+                        typical: 'Both hands: $2,000',
+                        description: 'Specialized excessive sweating treatment for hands using targeted neurotoxin injections. Results typically last 6-12 months.',
+                        features: [
+                            'Long-lasting 6-12 month results',
+                            'Minimal discomfort during treatment',
+                            'Return to normal activities immediately',
+                            'Life-changing confidence boost'
+                        ]
+                    },
+                    {
+                        name: 'Hyperhidrosis - Underarms',
+                        duration: '45 minutes',
+                        results: '1-2 weeks',
+                        price: '$750/arm',
+                        typical: 'Both arms: $1,500',
+                        description: 'Most popular hyperhidrosis treatment with excellent patient satisfaction for underarm excessive sweating.',
+                        features: [
+                            '6-12 month treatment duration',
+                            'Quick recovery process',
+                            'Life-changing results',
+                            'High patient satisfaction rate'
+                        ]
+                    },
+                    {
+                        name: 'Hyperhidrosis - Head/Scalp',
+                        duration: '90 minutes',
+                        results: '1-2 weeks',
+                        price: '$2,000',
+                        typical: 'Complete treatment',
+                        description: 'Complex specialized treatment for excessive head and scalp sweating requiring expert technique and precision mapping.',
+                        features: [
+                            'Expert-level specialized procedure',
+                            'Comprehensive mapping technique',
+                            'Specialized aftercare protocol',
+                            'Dramatic improvement in quality of life'
+                        ]
+                    }
+                ],
+                precare: [
+                    'Avoid alcohol 24 hours before treatment',
+                    'Discontinue blood thinners if medically safe',
+                    'Arrive with clean, makeup-free skin',
+                    'Avoid aspirin for 1 week prior',
+                    'Stay hydrated and eat light meal',
+                    'List all medications and supplements'
+                ],
+                aftercare: [
+                    'Avoid touching treated areas for 4-6 hours',
+                    'No strenuous exercise for 24 hours',
+                    'Stay upright for 4 hours post-treatment',
+                    'Results visible in 3-7 days for Botox',
+                    'Avoid heat and saunas for 24 hours',
+                    'Schedule follow-up as recommended'
+                ]
+            },
+            'weight-management': {
+                title: 'Weight Management Program',
+                subtitle: 'Comprehensive medical weight loss with ongoing support',
+                icon: 'ri-heart-pulse-line',
+                services: [
+                    {
+                        name: 'Personalized Weight Management Program',
+                        duration: 'Ongoing',
+                        results: 'Customized Timeline',
+                        price: 'Inquire Within',
+                        typical: 'Custom pricing based on individual needs',
+                        description: 'Medically supervised comprehensive program with evaluation, personalized meal planning, exercise guidance, and regular monitoring.',
+                        features: [
+                            'Complete medical evaluation and lab work',
+                            'Personalized nutrition and exercise plans',
+                            'Regular monitoring and plan adjustments',
+                            'Lifestyle modification coaching',
+                            'Ongoing medical supervision',
+                            'Support group access and resources'
+                        ]
+                    }
+                ],
+                precare: [
+                    'Complete medical history review and physical exam',
+                    'Comprehensive lab work evaluation (included)',
+                    'Goal setting consultation with realistic timelines',
+                    'Nutritional assessment and dietary analysis',
+                    'Current medication review and interactions',
+                    'Baseline measurements and body composition'
+                ],
+                aftercare: [
+                    'Weekly check-ins during initial phase',
+                    'Monthly monitoring appointments ongoing',
+                    'Nutritional guidance and meal planning support',
+                    'Exercise recommendations tailored to fitness level',
+                    'Lifestyle modification coaching and behavioral support',
+                    'Access to program resources and educational materials'
+                ]
+            },
+            'iv-therapy': {
+                title: 'IV Therapy & Wellness',
+                subtitle: 'Premium intravenous hydration and vitamin therapy',
+                icon: 'ri-drop-line',
+                services: [
+                    {
+                        name: 'Standard IV Therapy',
+                        duration: '45-60 minutes',
+                        results: 'Immediate',
+                        price: '$350',
+                        typical: 'Single session',
+                        description: 'Customized vitamin and mineral cocktails for hydration, energy boost, immune support, or recovery. Formulations tailored to your specific needs.',
+                        features: [
+                            'Custom vitamin formulations',
+                            'Comfortable private treatment rooms',
+                            'Immediate energy and hydration boost',
+                            'Multiple formula options available'
+                        ]
+                    },
+                    {
+                        name: 'NAD+ IV Therapy',
+                        duration: '2-3 hours',
+                        results: 'Progressive',
+                        price: '$600',
+                        typical: 'Single infusion',
+                        description: 'Advanced anti-aging cellular regeneration therapy promoting cellular repair, energy production, and cognitive enhancement.',
+                        features: [
+                            'Cellular regeneration support',
+                            'Anti-aging benefits',
+                            'Enhanced energy and mental clarity',
+                            'Cutting-edge longevity therapy'
+                        ]
+                    },
+                    {
+                        name: 'Vitamin Injections',
+                        duration: '15 minutes',
+                        results: 'Immediate',
+                        price: '$50/injection',
+                        typical: 'Per vitamin type',
+                        description: 'Targeted intramuscular vitamin supplementation including B12, B-complex, Vitamin D, and other essential nutrients.',
+                        features: [
+                            'Quick and convenient treatment',
+                            'High absorption rate compared to oral',
+                            'Various vitamin options available',
+                            'Immediate bioavailability'
+                        ]
+                    }
+                ],
+                precare: [
+                    'Stay well-hydrated before arrival (16-20oz water)',
+                    'Eat light meal 2 hours prior to prevent lightheadedness',
+                    'Wear comfortable clothing with easy arm access',
+                    'List all current medications and supplements',
+                    'Avoid excessive caffeine on treatment day',
+                    'Bring entertainment for longer NAD+ sessions'
+                ],
+                aftercare: [
+                    'Continue hydrating (additional 32oz water throughout day)',
+                    'Avoid alcohol for 12 hours to maximize benefits',
+                    'Light activity recommended, avoid intense exercise for 2 hours',
+                    'Effects typically felt within hours, peak at 24-48 hours',
+                    'Monitor injection site for any unusual reactions',
+                    'Schedule follow-up sessions as recommended'
+                ]
+            },
+            'microneedling': {
+                title: 'Microneedling & Exosome Therapy',
+                subtitle: 'Advanced collagen induction with cutting-edge enhancement',
+                icon: 'ri-focus-3-line',
+                services: [
+                    {
+                        name: 'SkinPen Microneedling',
+                        duration: '60-90 minutes',
+                        results: '2-4 weeks',
+                        price: '$700/area',
+                        typical: '3-session package: $1,890',
+                        description: 'FDA-approved microneedling device creating controlled micro-injuries to stimulate natural collagen production. Package deals available.',
+                        features: [
+                            'FDA-approved SkinPen device',
+                            'Adjustable needle depths for customization',
+                            'Comprehensive series packages available',
+                            'Proven collagen induction results'
+                        ]
+                    },
+                    {
+                        name: 'Exosome Therapy',
+                        duration: 'Add-on service',
+                        results: 'Enhanced healing',
+                        price: '$600',
+                        typical: 'Add-on or standalone',
+                        description: 'Cutting-edge regenerative enhancement using exosomes to accelerate healing and maximize microneedling results.',
+                        features: [
+                            'Latest regenerative technology',
+                            'Enhanced healing response',
+                            'Superior results when combined with microneedling',
+                            'Advanced cellular communication therapy'
+                        ]
+                    }
+                ],
+                precare: [
+                    'Avoid retinoids and acids 5-7 days prior to treatment',
+                    'No sun exposure or tanning 48 hours before appointment',
+                    'Discontinue skincare acids (AHA, BHA, glycolic)',
+                    'Arrive with clean, product-free skin',
+                    'Avoid waxing or aggressive exfoliation for 1 week',
+                    'Inform us of any active skin conditions'
+                ],
+                aftercare: [
+                    'Gentle cleansing only for 72 hours (no harsh scrubbing)',
+                    'SPF 30+ daily protection essential for 2 weeks minimum',
+                    'Avoid makeup for 24 hours post-treatment',
+                    'Healing typically complete in 3-5 days',
+                    'Use only recommended gentle moisturizers',
+                    'Schedule follow-up treatments 4-6 weeks apart'
+                ]
+            },
+            'prp-therapy': {
+                title: 'PRP & Regenerative Therapy',
+                subtitle: 'Natural healing using your body\'s own regenerative factors',
+                icon: 'ri-dna-line',
+                services: [
+                    {
+                        name: 'PRP (Platelet-Rich Plasma)',
+                        duration: '90 minutes',
+                        results: '2-4 weeks',
+                        price: '$800',
+                        typical: 'Single session',
+                        description: 'Advanced regenerative therapy using your own concentrated platelets to stimulate healing, collagen production, and tissue regeneration.',
+                        features: [
+                            'Uses your own blood platelets',
+                            'Natural regenerative healing process',
+                            'Multiple application areas available',
+                            'No risk of allergic reactions'
+                        ]
+                    },
+                    {
+                        name: 'Profhilo Treatment',
+                        duration: '45 minutes',
+                        results: '4-6 weeks',
+                        price: '$600',
+                        typical: '2-session series recommended',
+                        description: 'Revolutionary bio-remodeling therapy improving skin quality, hydration, and elasticity through specialized hyaluronic acid.',
+                        features: [
+                            'Revolutionary bio-remodeling technology',
+                            'Significant improvement in skin quality',
+                            'Natural hydration boost',
+                            'Long-lasting skin enhancement'
+                        ]
+                    },
+                    {
+                        name: 'Salmon Sperm DNA Therapy',
+                        duration: '60 minutes',
+                        results: '3-4 weeks',
+                        price: '$600',
+                        typical: '3-session series optimal',
+                        description: 'Innovative DNA repair and regeneration treatment using polynucleotides for cellular repair and skin quality enhancement.',
+                        features: [
+                            'Advanced DNA repair technology',
+                            'Cellular regeneration support',
+                            'Long-lasting skin improvements',
+                            'Cutting-edge aesthetic innovation'
+                        ]
+                    }
+                ],
+                precare: [
+                    'Avoid anti-inflammatory medications 1 week prior (if medically safe)',
+                    'Stay well-hydrated leading up to treatment',
+                    'Maintain healthy diet rich in nutrients',
+                    'No blood thinners if medically safe',
+                    'Avoid excessive alcohol consumption 48 hours prior',
+                    'Get adequate sleep before treatment day'
+                ],
+                aftercare: [
+                    'Avoid direct sun exposure for 48 hours minimum',
+                    'Use gentle skincare routine for 1 week',
+                    'No intense exercise for 24 hours post-treatment',
+                    'Results develop progressively over 2-4 weeks',
+                    'Apply SPF 30+ daily for optimal healing',
+                    'Follow recommended treatment series for best results'
+                ]
+            },
+            'chemical-peels': {
+                title: 'Chemical Peels & Mesotherapy',
+                subtitle: 'Professional skin resurfacing for radiant complexion',
+                icon: 'ri-contrast-drop-line',
+                services: [
+                    {
+                        name: 'Chemical Peel - Single Treatment',
+                        duration: '60 minutes',
+                        results: '1-2 weeks',
+                        price: '$350',
+                        typical: 'Single session',
+                        description: 'Professional-grade chemical resurfacing customized to your skin type and concerns. Includes pre-treatment preparation and post-care kit.',
+                        features: [
+                            'Customized to your specific skin type',
+                            'Professional-grade formulations',
+                            'Comprehensive post-care kit included',
+                            'Immediate improvement visible'
+                        ]
+                    },
+                    {
+                        name: 'Chemical Peel - Package of 3',
+                        duration: '3 months total',
+                        results: 'Progressive',
+                        price: '$900',
+                        typical: 'Save $150 vs individual',
+                        description: 'Three-peel progressive series for optimal results. Must be completed within 3 months with 4-6 week intervals.',
+                        features: [
+                            '$150 savings versus individual treatments',
+                            'Progressive improvement over time',
+                            'Customized strength progression',
+                            'Optimal results with series approach'
+                        ]
+                    },
+                    {
+                        name: 'Mesotherapy',
+                        duration: '45 minutes',
+                        results: '2-3 weeks',
+                        price: '$400/area',
+                        typical: 'Per treatment area',
+                        description: 'Targeted micro-injection therapy delivering vitamins, minerals, and active ingredients directly to specific treatment areas.',
+                        features: [
+                            'Targeted delivery system',
+                            'Customizable active formulations',
+                            'Minimal downtime required',
+                            'Localized improvement focus'
+                        ]
+                    }
+                ],
+                precare: [
+                    'Avoid retinoids and strong acids 7 days prior',
+                    'No waxing or aggressive exfoliation for 5 days',
+                    'Sun avoidance for 2 weeks before treatment',
+                    'Discontinue certain medications as advised',
+                    'Arrive with completely clean, product-free skin',
+                    'Avoid active breakouts in treatment area'
+                ],
+                aftercare: [
+                    'Gentle cleansing only with mild, fragrance-free products',
+                    'Strict sun protection (SPF 50+) for 2 weeks minimum',
+                    'No picking or peeling of treated skin',
+                    'Peeling process typically 3-7 days',
+                    'Use only recommended moisturizers and serums',
+                    'Avoid makeup for 24-48 hours as tolerated'
+                ]
+            }
+        };
+    }
 
-        // Optimize video loading with intersection observer
-        const videoObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const video = entry.target;
-                    this.loadVideo(video);
-                    videoObserver.unobserve(video);
-                }
-            });
-        }, {
-            root: null,
-            rootMargin: '50px',
-            threshold: 0.1
-        });
-
-        // Observe all videos
-        this.videos.forEach(video => {
-            video.setAttribute('data-loaded', 'false');
-            videoObserver.observe(video);
-        });
+    /* ========================================
+       VIDEO SYNCHRONIZATION SYSTEM
+       ======================================== */
+    
+    async initVideoSynchronization() {
+        try {
+            console.log('🎬 Initializing synchronized video system...');
+            
+            // Load all videos simultaneously
+            const loadPromises = Array.from(this.syncedVideos).map(video => this.loadVideo(video));
+            await Promise.all(loadPromises);
+            
+            // Start synchronized playback
+            this.startSynchronizedPlayback();
+            
+            // Initialize mobile video separately
+            if (this.mobileVideo) {
+                this.initMobileVideo();
+            }
+            
+            // Show hero content when videos are ready
+            this.revealHeroContent();
+            
+        } catch (error) {
+            console.warn('Video sync error:', error);
+            this.handleVideoFallback();
+        }
     }
 
     loadVideo(video) {
-        const videoPanel = video.closest('.video-panel');
-        const loadingIndicator = videoPanel?.querySelector('.video-loading-indicator');
-        
-        // Show loading indicator
-        if (loadingIndicator) {
-            loadingIndicator.style.opacity = '1';
-        }
+        return new Promise((resolve) => {
+            const panel = video.closest('.video-panel');
+            const loadingOverlay = panel?.querySelector('.video-loading-overlay');
+            
+            // Set video properties
+            video.muted = true;
+            video.playsInline = true;
+            video.loop = false; // We'll handle looping manually for sync
+            
+            const onLoaded = () => {
+                console.log('✅ Video loaded:', video.src);
+                
+                if (panel) {
+                    panel.classList.add('loaded');
+                }
+                
+                // Hide loading overlay with soft transition
+                if (loadingOverlay) {
+                    setTimeout(() => {
+                        loadingOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingOverlay.style.display = 'none';
+                        }, 600);
+                    }, 300);
+                }
+                
+                resolve(video);
+            };
 
-        video.addEventListener('loadeddata', () => {
-            this.handleVideoLoaded(video, videoPanel, loadingIndicator);
-        }, { once: true });
+            const onError = () => {
+                console.warn('❌ Video failed to load:', video.src);
+                this.handleVideoError(video, panel);
+                resolve(video); // Resolve anyway to not block other videos
+            };
 
-        video.addEventListener('canplaythrough', () => {
-            this.handleVideoCanPlay(video, videoPanel, loadingIndicator);
-        }, { once: true });
-
-        video.addEventListener('error', () => {
-            this.handleVideoError(video, videoPanel, loadingIndicator);
-        }, { once: true });
-
-        // Force load the video
-        video.load();
+            if (video.readyState >= 3) {
+                onLoaded();
+            } else {
+                video.addEventListener('canplaythrough', onLoaded, { once: true });
+                video.addEventListener('error', onError, { once: true });
+                video.load();
+            }
+        });
     }
 
-    handleVideoLoaded(video, videoPanel, loadingIndicator) {
-        video.setAttribute('data-loaded', 'true');
+    startSynchronizedPlayback() {
+        if (this.syncedVideos.length === 0) return;
         
-        if (videoPanel) {
-            videoPanel.classList.add('loaded');
-        }
+        console.log('🎯 Starting synchronized video playback...');
         
-        // Hide loading indicator with delay
-        if (loadingIndicator) {
-            setTimeout(() => {
-                loadingIndicator.style.opacity = '0';
-            }, 500);
-        }
-
-        this.videoLoadedCount++;
-        this.checkAllVideosLoaded();
-    }
-
-    handleVideoCanPlay(video, videoPanel, loadingIndicator) {
-        // Start playing the video
-        video.play().catch(e => {
-            console.log('Video autoplay prevented:', e);
-            // Add play button overlay if autoplay fails
-            this.addPlayButton(video, videoPanel);
+        // Find the longest video duration
+        let maxDuration = 0;
+        this.syncedVideos.forEach(video => {
+            if (video.duration > maxDuration) {
+                maxDuration = video.duration;
+            }
         });
         
-        // Add entrance animation
-        setTimeout(() => {
-            video.style.transition = 'opacity 1s ease';
-            video.style.opacity = '1';
-        }, this.videoLoadedCount * 300);
+        // Start all videos at the same time
+        this.syncedVideos.forEach(video => {
+            video.currentTime = 0;
+            video.play().catch(e => {
+                console.log('Autoplay prevented for video:', e);
+                this.addPlayButton(video);
+            });
+        });
+        
+        // Set up restart synchronization
+        this.setupVideoRestart(maxDuration);
+        
+        // Handle sync loss recovery
+        this.monitorVideoSync();
     }
 
-    handleVideoError(video, videoPanel, loadingIndicator) {
-        console.warn('Video failed to load:', video.src);
-        
-        // Hide loading indicator
-        if (loadingIndicator) {
-            loadingIndicator.style.opacity = '0';
-        }
-        
-        // Show fallback image
-        const fallbackImg = video.nextElementSibling;
-        if (fallbackImg && fallbackImg.classList.contains('video-fallback')) {
-            fallbackImg.style.display = 'block';
-            fallbackImg.style.opacity = '1';
-        }
-        
-        this.videoLoadedCount++;
-        this.checkAllVideosLoaded();
+    setupVideoRestart(duration) {
+        setInterval(() => {
+            // Restart all videos simultaneously
+            this.syncedVideos.forEach(video => {
+                if (video.readyState >= 3) {
+                    video.currentTime = 0;
+                    video.play().catch(e => console.log('Restart play failed:', e));
+                }
+            });
+            
+            console.log('🔄 Videos restarted synchronously');
+        }, (duration + 0.5) * 1000); // Small buffer for smooth restart
     }
 
-    addPlayButton(video, videoPanel) {
+    monitorVideoSync() {
+        // Check sync every few seconds and correct if needed
+        setInterval(() => {
+            if (this.syncedVideos.length < 2) return;
+            
+            const times = Array.from(this.syncedVideos).map(v => v.currentTime);
+            const maxTime = Math.max(...times);
+            const minTime = Math.min(...times);
+            
+            // If videos are more than 0.5 seconds out of sync, correct them
+            if (maxTime - minTime > 0.5) {
+                console.log('⚠️ Video sync drift detected, correcting...');
+                const targetTime = times[0]; // Use first video as reference
+                
+                this.syncedVideos.forEach((video, index) => {
+                    if (index > 0 && Math.abs(video.currentTime - targetTime) > 0.3) {
+                        video.currentTime = targetTime;
+                    }
+                });
+            }
+        }, 3000);
+    }
+
+    addPlayButton(video) {
+        const panel = video.closest('.video-panel');
+        if (!panel || panel.querySelector('.video-play-btn')) return;
+        
         const playBtn = document.createElement('div');
-        playBtn.className = 'video-play-button';
+        playBtn.className = 'video-play-btn';
         playBtn.innerHTML = '<i class="ri-play-fill"></i>';
         playBtn.style.cssText = `
             position: absolute;
@@ -170,7 +593,8 @@ class ServicesPageManager {
             transform: translate(-50%, -50%);
             width: 60px;
             height: 60px;
-            background: rgba(255, 140, 0, 0.9);
+            background: rgba(255, 140, 0, 0.95);
+            border: none;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -178,384 +602,139 @@ class ServicesPageManager {
             color: white;
             font-size: 24px;
             cursor: pointer;
-            z-index: 5;
+            z-index: 10;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
         `;
 
         playBtn.addEventListener('click', () => {
-            video.play();
+            // Start all videos when one play button is clicked
+            this.startSynchronizedPlayback();
             playBtn.remove();
         });
 
-        videoPanel.appendChild(playBtn);
+        playBtn.addEventListener('mouseenter', () => {
+            playBtn.style.transform = 'translate(-50%, -50%) scale(1.1)';
+            playBtn.style.boxShadow = '0 12px 30px rgba(255, 140, 0, 0.4)';
+        });
+
+        playBtn.addEventListener('mouseleave', () => {
+            playBtn.style.transform = 'translate(-50%, -50%) scale(1)';
+            playBtn.style.boxShadow = '0 8px 20px rgba(255, 140, 0, 0.3)';
+        });
+
+        panel.appendChild(playBtn);
     }
 
-    checkAllVideosLoaded() {
-        if (this.videoLoadedCount >= this.totalVideos && !this.heroLoaded) {
-            this.heroLoaded = true;
-            this.heroContent.classList.add('loaded');
-            this.initHeroAnimations();
+    initMobileVideo() {
+        if (!this.mobileVideo) return;
+        
+        this.mobileVideo.muted = true;
+        this.mobileVideo.playsInline = true;
+        this.mobileVideo.loop = true;
+        
+        this.mobileVideo.addEventListener('canplaythrough', () => {
+            this.mobileVideo.play().catch(e => {
+                console.log('Mobile video autoplay prevented:', e);
+                this.addPlayButton(this.mobileVideo);
+            });
+        }, { once: true });
+        
+        this.mobileVideo.load();
+    }
+
+    handleVideoError(video, panel) {
+        console.warn('Video error handled for:', video.src);
+        
+        if (panel) {
+            panel.style.background = 'linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%)';
+            panel.innerHTML = `
+                <div style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    color: var(--text-secondary);
+                    font-family: var(--font-inter);
+                    font-size: 14px;
+                    text-align: center;
+                    padding: 20px;
+                ">
+                    <i class="ri-image-line" style="font-size: 32px; color: #ff8c00; margin-bottom: 12px;"></i>
+                    <span>Treatment Showcase</span>
+                </div>
+            `;
         }
     }
 
-    initVideoBackground() {
-        // Enhanced video setup
-        this.videos.forEach((video, index) => {
-            video.muted = true;
-            video.playsInline = true;
-            video.loop = true;
-            video.style.opacity = '0';
-            
-            // Set loading attribute for better UX
-            video.setAttribute('loading', 'lazy');
-            
-            // Add video quality optimization
-            video.addEventListener('loadstart', () => {
-                console.log(`Loading video ${index + 1}/${this.totalVideos}`);
-            });
-        });
-
-        // Handle responsive video switching
-        this.handleResponsiveVideo();
+    handleVideoFallback() {
+        console.log('🔄 Implementing video fallback...');
         
-        // Handle video playback states
-        this.handleVideoPlayback();
-        
-        // Add video hover effects
-        this.addVideoHoverEffects();
-    }
-
-    addVideoHoverEffects() {
         this.videoPanels.forEach(panel => {
-            const video = panel.querySelector('video');
-            
-            panel.addEventListener('mouseenter', () => {
-                if (video && video.paused) {
-                    video.play().catch(e => console.log('Hover play failed:', e));
-                }
-                
-                // Add hover glow effect
-                panel.style.boxShadow = '0 25px 50px rgba(255, 140, 0, 0.2)';
-                panel.style.transform = 'translateY(-2px) scale(1.02)';
-            });
-            
-            panel.addEventListener('mouseleave', () => {
-                // Reset hover effects
-                panel.style.boxShadow = '';
-                panel.style.transform = '';
-            });
+            panel.style.background = 'linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%)';
+            panel.innerHTML = `
+                <div style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    color: var(--text-secondary);
+                    font-family: var(--font-inter);
+                    font-size: 14px;
+                    text-align: center;
+                    padding: 20px;
+                ">
+                    <i class="ri-heart-3-line" style="font-size: 32px; color: #ff8c00; margin-bottom: 12px;"></i>
+                    <span>Luxury Treatments</span>
+                </div>
+            `;
         });
-    }
-
-    handleResponsiveVideo() {
-        const mobileBreakpoint = 768;
-        const desktopLayout = document.querySelector('.desktop-video-layout');
-        const mobileLayout = document.querySelector('.mobile-video-layout');
         
-        const checkVideoLayout = () => {
-            if (window.innerWidth <= mobileBreakpoint) {
-                if (desktopLayout) desktopLayout.style.display = 'none';
-                if (mobileLayout) mobileLayout.style.display = 'flex';
-            } else {
-                if (desktopLayout) desktopLayout.style.display = 'flex';
-                if (mobileLayout) mobileLayout.style.display = 'none';
-            }
-        };
-
-        checkVideoLayout();
-        window.addEventListener('resize', checkVideoLayout);
+        this.revealHeroContent();
     }
 
-    handleVideoPlayback() {
-        // Pause videos when page is not visible
-        document.addEventListener('visibilitychange', () => {
-            this.videos.forEach(video => {
-                if (document.hidden) {
-                    video.pause();
-                } else if (video.getAttribute('data-loaded') === 'true') {
-                    video.play().catch(e => console.log('Video play failed:', e));
-                }
-            });
-        });
-
-        // Handle video buffering
-        this.videos.forEach(video => {
-            video.addEventListener('waiting', () => {
-                const panel = video.closest('.video-panel');
-                const indicator = panel?.querySelector('.video-loading-indicator');
-                if (indicator) {
-                    indicator.style.opacity = '0.5';
-                }
-            });
-
-            video.addEventListener('playing', () => {
-                const panel = video.closest('.video-panel');
-                const indicator = panel?.querySelector('.video-loading-indicator');
-                if (indicator) {
-                    indicator.style.opacity = '0';
-                }
-            });
-        });
-    }
-
-    bindEvents() {
-        // Category card interactions
-        this.categoryCards.forEach((card, index) => {
-            card.addEventListener('mouseenter', () => this.handleCategoryHover(card, true));
-            card.addEventListener('mouseleave', () => this.handleCategoryHover(card, false));
-            card.addEventListener('click', () => this.handleCategoryClick(card));
-        });
-
-        // Category expand button interactions
-        this.categoryExpandBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.handleCategoryExpand(btn);
-            });
-            
-            // Add enhanced hover effects
-            btn.addEventListener('mouseenter', () => this.enhanceButtonHover(btn, true));
-            btn.addEventListener('mouseleave', () => this.enhanceButtonHover(btn, false));
-        });
-
-        // Service details panel close functionality
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.activeCategory) {
-                this.hideServiceDetails();
-            }
-        });
-
-        // Hero element interactions
-        if (this.navigationGuide) {
-            this.navigationGuide.addEventListener('mouseenter', () => {
-                this.addNavigationGuideGlow();
-            });
-            this.navigationGuide.addEventListener('mouseleave', () => {
-                this.removeNavigationGuideGlow();
-            });
-        }
-
-        if (this.consultationNotice) {
-            this.consultationNotice.addEventListener('mouseenter', () => {
-                this.addConsultationGlow();
-            });
-            this.consultationNotice.addEventListener('mouseleave', () => {
-                this.removeConsultationGlow();
-            });
-        }
-
-        if (this.consultationBtn) {
-            this.consultationBtn.addEventListener('click', () => {
-                this.handleConsultationClick();
-            });
-        }
-
-        // Enhanced quick stats interactions
-        this.quickStats.forEach(stat => {
-            stat.addEventListener('mouseenter', () => this.animateStatHover(stat, true));
-            stat.addEventListener('mouseleave', () => this.animateStatHover(stat, false));
-            stat.addEventListener('click', () => this.handleStatClick(stat));
-        });
-
-        // Enhanced scroll indicator interaction
-        if (this.scrollIndicator) {
-            this.scrollIndicator.addEventListener('click', () => {
-                this.scrollToServices();
-            });
-            
-            this.scrollIndicator.addEventListener('mouseenter', () => {
-                this.scrollIndicator.style.transform = 'translateX(-50%) translateY(-8px) scale(1.05)';
-            });
-            
-            this.scrollIndicator.addEventListener('mouseleave', () => {
-                this.scrollIndicator.style.transform = '';
-            });
-        }
-
-        // CTA button interactions
-        this.ctaBtns.forEach(btn => {
-            btn.addEventListener('mouseenter', () => this.handleCtaHover(btn, true));
-            btn.addEventListener('mouseleave', () => this.handleCtaHover(btn, false));
-        });
-
-        // Smooth scroll for anchor links
-        this.setupSmoothScrolling();
-    }
-
-    setupPanelCloseButtons() {
-        this.panelCloseBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const panelId = btn.getAttribute('data-panel');
-                const panel = document.getElementById(panelId);
-                
-                if (panel) {
-                    // Add close animation
-                    btn.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        btn.style.transform = '';
-                        this.hideServiceDetails();
-                    }, 150);
-                }
-            });
-            
-            // Add hover effects to close buttons
-            btn.addEventListener('mouseenter', () => {
-                btn.style.transform = 'translateY(-2px) scale(1.05)';
-                btn.style.boxShadow = '0 8px 20px rgba(255, 140, 0, 0.2)';
-            });
-            
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = '';
-                btn.style.boxShadow = '';
-            });
-        });
-    }
-
-    enhanceButtonHover(btn, isEntering) {
-        const btnGlow = btn.querySelector('.btn-glow');
-        const btnIcon = btn.querySelector('.btn-icon');
-        const btnDetails = btn.querySelector('.btn-details');
-
-        if (isEntering) {
-            // Add pulsing glow effect
-            if (btnGlow) {
-                btnGlow.style.opacity = '0.2';
-            }
-            
-            // Animate icon
-            if (btnIcon) {
-                btnIcon.style.transform = 'translateY(-2px) scale(1.1)';
-                btnIcon.style.boxShadow = '0 8px 20px rgba(255, 140, 0, 0.3)';
-            }
-            
-            // Highlight details
-            if (btnDetails) {
-                btnDetails.style.opacity = '1';
-                btnDetails.style.transform = 'translateX(2px)';
-            }
-            
-            // Add subtle shake animation
-            btn.style.animation = 'buttonPulse 2s ease-in-out infinite';
-            
-        } else {
-            // Reset effects
-            if (btnGlow) {
-                btnGlow.style.opacity = '';
-            }
-            
-            if (btnIcon) {
-                btnIcon.style.transform = '';
-                btnIcon.style.boxShadow = '';
-            }
-            
-            if (btnDetails) {
-                btnDetails.style.opacity = '';
-                btnDetails.style.transform = '';
-            }
-            
-            btn.style.animation = '';
-        }
-    }
-
-    handleStatClick(stat) {
-        const statType = stat.getAttribute('data-stat');
+    /* ========================================
+       SOFT ANIMATION SYSTEM
+       ======================================== */
+    
+    revealHeroContent() {
+        console.log('🌟 Revealing hero content...');
         
-        // Add click animation
-        stat.style.transform = 'translateY(-4px) scale(0.95)';
-        
-        setTimeout(() => {
-            stat.style.transform = '';
+        if (this.heroContent) {
+            this.heroContent.classList.add('loaded');
             
-            // Scroll to relevant section based on stat type
-            if (statType === 'services' || statType === 'categories') {
-                this.scrollToServices();
-            } else if (statType === 'starting') {
-                // Scroll to most affordable service
-                const botoxCard = document.querySelector('[data-category="botox-fillers"]');
-                if (botoxCard) {
-                    botoxCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    this.addHighlightEffect(botoxCard);
-                }
-            }
-        }, 200);
-
-        // Add ripple effect
-        this.addRippleEffect(stat);
-    }
-
-    addHighlightEffect(element) {
-        element.style.transition = 'all 0.6s ease';
-        element.style.transform = 'scale(1.05)';
-        element.style.boxShadow = '0 25px 50px rgba(255, 140, 0, 0.3)';
-        
-        setTimeout(() => {
-            element.style.transform = '';
-            element.style.boxShadow = '';
-        }, 2000);
-    }
-
-    initHeroAnimations() {
-        if (!this.heroContent) return;
-
-        // Hero content entrance
-        this.heroContent.style.transition = 'all 1s ease-out';
-        this.heroContent.style.opacity = '1';
-        
-        // Animate elements in sequence
-        const elements = [
-            this.heroContent.querySelector('.services-hero-badge'),
-            this.heroContent.querySelector('.services-hero-title'),
-            this.heroContent.querySelector('.services-hero-subtitle'),
-            this.heroContent.querySelector('.services-quick-stats'),
-            this.heroContent.querySelector('.services-navigation-guide'),
-            this.heroContent.querySelector('.consultation-notice')
-        ].filter(Boolean);
-
-        elements.forEach((element, index) => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            
+            // Animate stats with soft counting
             setTimeout(() => {
-                element.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, index * 200 + 500);
-        });
-
-        // Animate quick stats numbers
-        setTimeout(() => {
-            this.animateStatsNumbers();
-        }, 1500);
+                this.animateStats();
+            }, 800);
+        }
     }
 
-    animateStatsNumbers() {
-        this.quickStats.forEach((stat, index) => {
-            const number = stat.querySelector('.stat-number');
-            if (number) {
-                setTimeout(() => {
-                    this.animateNumber(number);
-                }, index * 300);
-            }
+    animateStats() {
+        this.statCards.forEach((card, index) => {
+            setTimeout(() => {
+                this.animateStatCard(card);
+            }, index * 200);
         });
     }
 
-    animateNumber(element) {
-        const finalText = element.textContent;
-        const isPrice = finalText.includes('$');
+    animateStatCard(card) {
+        const number = card.querySelector('.stat-number');
+        if (!number) return;
+        
+        const finalText = number.textContent;
+        const hasSymbol = finalText.includes('$') || finalText.includes('+');
         const numValue = parseInt(finalText.replace(/[^\d]/g, ''));
         
         if (!numValue) return;
 
         let current = 0;
-        const increment = Math.ceil(numValue / 40);
-        const duration = 1200;
-        const stepTime = duration / 40;
-
-        element.textContent = isPrice ? '$0' : '0';
+        const increment = Math.ceil(numValue / 30);
+        const duration = 1500;
+        const stepTime = duration / 30;
 
         const timer = setInterval(() => {
             current += increment;
@@ -564,358 +743,407 @@ class ServicesPageManager {
                 clearInterval(timer);
             }
             
-            element.textContent = isPrice ? `$${current}` : current;
-            
-            // Add subtle glow during animation
-            element.style.textShadow = '0 0 20px rgba(255, 140, 0, 0.5)';
+            if (hasSymbol) {
+                if (finalText.includes('$')) {
+                    number.textContent = `$${current}`;
+                } else if (finalText.includes('+')) {
+                    number.textContent = `${current}+`;
+                }
+            } else {
+                number.textContent = current;
+            }
         }, stepTime);
 
-        // Remove glow after animation
+        // Add soft glow during animation
+        number.style.textShadow = '0 0 20px rgba(255, 140, 0, 0.5)';
         setTimeout(() => {
-            element.style.textShadow = '';
+            number.style.textShadow = '';
         }, duration + 500);
     }
 
-    addNavigationGuideGlow() {
-        if (this.navigationGuide) {
-            this.navigationGuide.style.boxShadow = '0 25px 50px rgba(255, 140, 0, 0.15)';
-            this.navigationGuide.style.borderColor = 'rgba(255, 140, 0, 0.3)';
-            this.navigationGuide.style.transform = 'translateY(-4px)';
+    initSoftAnimations() {
+        // Add intersection observer for soft reveals
+        const softRevealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.addSoftReveal(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.2,
+            rootMargin: '50px'
+        });
+
+        // Observe category cards
+        this.categoryCards.forEach(card => {
+            softRevealObserver.observe(card);
+        });
+
+        // Observe CTA section
+        const ctaSection = document.querySelector('.services-cta-section .cta-content');
+        if (ctaSection) {
+            softRevealObserver.observe(ctaSection);
         }
     }
 
-    removeNavigationGuideGlow() {
-        if (this.navigationGuide) {
-            this.navigationGuide.style.boxShadow = '';
-            this.navigationGuide.style.borderColor = '';
-            this.navigationGuide.style.transform = '';
-        }
-    }
-
-    addConsultationGlow() {
-        if (this.consultationNotice) {
-            this.consultationNotice.style.boxShadow = '0 25px 50px rgba(255, 140, 0, 0.2)';
-            this.consultationNotice.style.borderColor = 'rgba(255, 140, 0, 0.4)';
-            this.consultationNotice.style.transform = 'translateY(-4px)';
-        }
-    }
-
-    removeConsultationGlow() {
-        if (this.consultationNotice) {
-            this.consultationNotice.style.boxShadow = '';
-            this.consultationNotice.style.borderColor = '';
-            this.consultationNotice.style.transform = '';
-        }
-    }
-
-    handleConsultationClick() {
-        // Add click animation to consultation button
-        if (this.consultationBtn) {
-            this.consultationBtn.style.transform = 'translateY(-1px) scale(0.98)';
-            setTimeout(() => {
-                this.consultationBtn.style.transform = '';
-            }, 150);
-        }
-
-        // Add ripple effect
-        this.addRippleEffect(this.consultationBtn);
+    addSoftReveal(element) {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
         
-        // Track consultation button clicks
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'consultation_click', {
-                'event_category': 'engagement',
-                'event_label': 'hero_consultation_button'
+        setTimeout(() => {
+            element.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, 100);
+    }
+
+    /* ========================================
+       EVENT HANDLING & INTERACTIONS
+       ======================================== */
+    
+    bindEvents() {
+        // Category card interactions
+        this.categoryCards.forEach(card => {
+            card.addEventListener('mouseenter', () => this.handleCardHover(card, true));
+            card.addEventListener('mouseleave', () => this.handleCardHover(card, false));
+        });
+
+        // Explore button interactions
+        this.exploreButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.handleExploreClick(btn);
+            });
+        });
+
+        // Scroll indicator
+        if (this.scrollIndicator) {
+            this.scrollIndicator.addEventListener('click', () => {
+                this.smoothScrollToCategories();
             });
         }
+
+        // Modal interactions
+        if (this.modalClose) {
+            this.modalClose.addEventListener('click', () => this.closeModal());
+        }
+        
+        if (this.modalBackdrop) {
+            this.modalBackdrop.addEventListener('click', () => this.closeModal());
+        }
+
+        // Escape key for modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isModalOpen) {
+                this.closeModal();
+            }
+        });
+
+        // Stat card interactions
+        this.statCards.forEach(card => {
+            card.addEventListener('click', () => this.handleStatClick(card));
+        });
+
+        // Consultation card interaction
+        if (this.consultationCard) {
+            this.consultationCard.addEventListener('mouseenter', () => {
+                this.addSoftGlow(this.consultationCard);
+            });
+            this.consultationCard.addEventListener('mouseleave', () => {
+                this.removeSoftGlow(this.consultationCard);
+            });
+        }
+
+        // Responsive video handling
+        window.addEventListener('resize', () => {
+            this.handleResize();
+        });
+
+        // Page visibility for video performance
+        document.addEventListener('visibilitychange', () => {
+            this.handleVisibilityChange();
+        });
     }
 
-    animateStatHover(stat, isEntering) {
-        const number = stat.querySelector('.stat-number');
-        const label = stat.querySelector('.stat-label');
+    handleCardHover(card, isEntering) {
+        const glow = card.querySelector('.card-glow');
+        const number = card.querySelector('.category-number');
+        const badge = card.querySelector('.category-badge span');
+        const exploreBtn = card.querySelector('.explore-btn');
 
         if (isEntering) {
-            stat.style.transform = 'translateY(-12px)';
+            // Add soft glow effects
+            if (glow) {
+                glow.style.opacity = '0.8';
+            }
+            
             if (number) {
-                number.style.transform = 'scale(1.15)';
-                number.style.textShadow = '0 5px 15px rgba(255, 140, 0, 0.4)';
+                number.style.transform = 'scale(1.1)';
+                number.style.boxShadow = '0 8px 20px rgba(255, 140, 0, 0.2)';
             }
-            if (label) {
-                label.style.color = 'var(--text-primary)';
-                label.style.transform = 'translateY(-2px)';
+            
+            if (badge) {
+                badge.style.transform = 'translateY(-2px)';
             }
+            
+            if (exploreBtn) {
+                exploreBtn.style.animation = 'gentleScale 2s ease-in-out infinite';
+            }
+            
+            // Add soft entrance animation
+            this.addSoftRipple(card);
+            
         } else {
-            stat.style.transform = '';
+            // Reset effects softly
+            if (glow) {
+                glow.style.opacity = '';
+            }
+            
             if (number) {
                 number.style.transform = '';
-                number.style.textShadow = '';
+                number.style.boxShadow = '';
             }
-            if (label) {
-                label.style.color = '';
-                label.style.transform = '';
-            }
-        }
-    }
-
-    scrollToServices() {
-        const servicesSection = document.querySelector('.service-categories-section');
-        if (servicesSection) {
-            // Add click animation to scroll indicator
-            if (this.scrollIndicator) {
-                this.scrollIndicator.style.transform = 'translateX(-50%) translateY(4px) scale(0.95)';
-                setTimeout(() => {
-                    this.scrollIndicator.style.transform = '';
-                }, 200);
-            }
-
-            servicesSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    }
-
-    handleCategoryHover(card, isEntering) {
-        if (this.isTransitioning) return;
-
-        const cornerOrnaments = card.querySelectorAll('.corner-ornament');
-        const categoryNumber = card.querySelector('.category-number');
-        const categoryBadges = card.querySelectorAll('.category-badges span');
-        const expandBtn = card.querySelector('.category-expand-btn');
-
-        if (isEntering) {
-            // Add luxury hover effects
-            this.addRippleEffect(card);
             
-            // Animate corner ornaments
-            cornerOrnaments.forEach((ornament, index) => {
-                setTimeout(() => {
-                    ornament.style.opacity = '0.8';
-                    ornament.style.transform = 'scale(1.1)';
-                }, index * 50);
-            });
-
-            // Animate number badge
-            if (categoryNumber) {
-                categoryNumber.style.transform = 'scale(1.1) rotate(5deg)';
-                categoryNumber.style.boxShadow = '0 10px 25px rgba(255, 140, 0, 0.3)';
-            }
-
-            // Animate category badges
-            categoryBadges.forEach((badge, index) => {
-                setTimeout(() => {
-                    badge.style.transform = 'translateY(-2px) scale(1.05)';
-                }, index * 100);
-            });
-
-            // Enhance expand button
-            if (expandBtn) {
-                expandBtn.style.animation = 'buttonPulse 1.5s ease-in-out infinite';
-            }
-
-        } else {
-            // Reset hover effects
-            cornerOrnaments.forEach(ornament => {
-                ornament.style.opacity = '';
-                ornament.style.transform = '';
-            });
-
-            if (categoryNumber) {
-                categoryNumber.style.transform = '';
-                categoryNumber.style.boxShadow = '';
-            }
-
-            categoryBadges.forEach(badge => {
+            if (badge) {
                 badge.style.transform = '';
-            });
-
-            if (expandBtn) {
-                expandBtn.style.animation = '';
+            }
+            
+            if (exploreBtn) {
+                exploreBtn.style.animation = '';
             }
         }
     }
 
-    handleCategoryClick(card) {
-        if (this.isTransitioning) return;
-
-        // Add click animation
-        this.addClickAnimation(card);
-        
-        // Get category data
-        const category = card.getAttribute('data-category');
-        
-        // Show service details after animation
-        setTimeout(() => {
-            this.showServiceDetails(category);
-        }, 200);
-    }
-
-    handleCategoryExpand(btn) {
-        if (this.isTransitioning) return;
-
+    handleExploreClick(btn) {
         const category = btn.getAttribute('data-category');
-        const icon = btn.querySelector('.btn-icon i');
         
-        // Enhanced button animation
-        btn.style.transform = 'translateY(-2px) scale(0.98)';
-        if (icon) {
-            icon.style.transform = 'translateY(4px) rotate(180deg)';
-        }
-        
-        // Add loading state
-        btn.style.opacity = '0.8';
-        btn.style.cursor = 'wait';
+        // Add click animation
+        btn.classList.add('clicked');
+        btn.style.transform = 'translateY(-1px) scale(0.98)';
         
         setTimeout(() => {
             btn.style.transform = '';
-            btn.style.opacity = '';
-            btn.style.cursor = '';
-            if (icon) {
-                icon.style.transform = '';
-            }
-            this.showServiceDetails(category);
-        }, 300);
+            btn.classList.remove('clicked');
+            this.openServiceModal(category);
+        }, 200);
+        
+        // Add soft feedback
+        this.addSoftRipple(btn);
     }
 
-    showServiceDetails(category) {
-        if (this.isTransitioning) return;
-        this.isTransitioning = true;
-
-        // Hide any active panels first
-        if (this.activeCategory && this.activeCategory !== category) {
-            this.hideServiceDetails(false);
-        }
-
-        const detailsPanel = document.getElementById(`${category}-details`);
-        if (!detailsPanel) {
-            this.isTransitioning = false;
-            return;
-        }
-
-        // Show panel with enhanced animation
-        detailsPanel.style.display = 'block';
+    smoothScrollToCategories() {
+        // Add click animation to scroll indicator
+        this.scrollIndicator.style.transform = 'translateX(-50%) translateY(2px) scale(0.95)';
         
-        // Smooth scroll to panel with offset
         setTimeout(() => {
-            const yOffset = -100;
-            const y = detailsPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            this.scrollIndicator.style.transform = '';
             
-            window.scrollTo({
-                top: y,
-                behavior: 'smooth'
-            });
-        }, 100);
-
-        // Enhanced panel appearance animation
-        setTimeout(() => {
-            detailsPanel.classList.add('active');
-            this.activeCategory = category;
-            
-            // Animate details badge
-            const badge = detailsPanel.querySelector('.details-badge');
-            if (badge) {
-                badge.style.transform = 'translateY(-10px) scale(1.05)';
-                setTimeout(() => {
-                    badge.style.transform = '';
-                }, 500);
+            if (this.categoriesSection) {
+                this.categoriesSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
-            
-            // Animate service items with stagger
-            const serviceItems = detailsPanel.querySelectorAll('.service-item.enhanced');
-            serviceItems.forEach((item, index) => {
-                setTimeout(() => {
-                    item.style.opacity = '0';
-                    item.style.transform = 'translateX(-30px)';
-                    
-                    requestAnimationFrame(() => {
-                        item.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateX(0)';
-                    });
-                }, index * 150);
-            });
-
-            // Animate treatment guides
-            const guides = detailsPanel.querySelectorAll('.guide-section');
-            guides.forEach((guide, index) => {
-                setTimeout(() => {
-                    guide.style.opacity = '0';
-                    guide.style.transform = 'translateY(20px)';
-                    
-                    requestAnimationFrame(() => {
-                        guide.style.transition = 'all 0.6s ease-out';
-                        guide.style.opacity = '1';
-                        guide.style.transform = 'translateY(0)';
-                    });
-                }, serviceItems.length * 150 + index * 200);
-            });
-
-            this.isTransitioning = false;
         }, 200);
     }
 
-    hideServiceDetails(animate = true) {
-        if (!this.activeCategory) return;
+    handleStatClick(card) {
+        // Add soft click animation
+        card.style.transform = 'translateY(-2px) scale(0.97)';
+        
+        setTimeout(() => {
+            card.style.transform = '';
+            this.smoothScrollToCategories();
+        }, 200);
+        
+        this.addSoftRipple(card);
+    }
 
-        const detailsPanel = document.getElementById(`${this.activeCategory}-details`);
-        if (!detailsPanel) return;
+    /* ========================================
+       ENHANCED MODAL SYSTEM
+       ======================================== */
+    
+    openServiceModal(category) {
+        const categoryData = this.serviceData[category];
+        if (!categoryData) return;
+        
+        console.log('📋 Opening service modal for:', category);
+        
+        this.currentCategory = category;
+        this.isModalOpen = true;
+        
+        // Update modal content
+        this.updateModalContent(categoryData);
+        
+        // Show modal with soft animation
+        this.modal.style.display = 'flex';
+        this.modal.style.opacity = '0';
+        
+        setTimeout(() => {
+            this.modal.classList.add('active');
+        }, 10);
+        
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+        
+        // Add soft entrance animation to content
+        setTimeout(() => {
+            this.animateModalContent();
+        }, 400);
+    }
 
-        if (animate) {
-            // Enhanced exit animation
-            detailsPanel.style.opacity = '0';
-            detailsPanel.style.transform = 'translateY(20px) scale(0.98)';
+    updateModalContent(categoryData) {
+        // Update modal header
+        if (this.modalCategoryName) {
+            this.modalCategoryName.textContent = categoryData.title;
+        }
+        
+        // Update modal badge icon
+        const badgeIcon = this.modal.querySelector('.modal-badge i');
+        if (badgeIcon) {
+            badgeIcon.className = categoryData.icon;
+        }
+        
+        // Generate modal content
+        const content = this.generateModalContent(categoryData);
+        this.modalContent.innerHTML = content;
+    }
+
+    generateModalContent(data) {
+        return `
+            <div class="service-overview">
+                <h3>${data.title}</h3>
+                <p>${data.subtitle}</p>
+            </div>
+            
+            <div class="services-list">
+                <h4 style="font-family: var(--font-playfair); font-size: 24px; color: var(--text-primary); margin-bottom: 24px; text-align: center;">
+                    <i class="${data.icon}" style="color: #ff8c00; margin-right: 12px;"></i>
+                    Available Services
+                </h4>
+                
+                ${data.services.map(service => `
+                    <div class="service-item">
+                        <div class="service-header">
+                            <h4>${service.name}</h4>
+                            <div class="service-badges">
+                                <span>⏱️ ${service.duration}</span>
+                                <span>📈 ${service.results}</span>
+                            </div>
+                        </div>
+                        <p class="service-description">${service.description}</p>
+                        <div class="service-features" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin: 16px 0;">
+                            ${service.features.map(feature => `
+                                <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary);">
+                                    <i class="ri-check-line" style="color: #ff8c00; font-size: 14px;"></i>
+                                    <span>${feature}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+                            <div class="service-price">${service.price}</div>
+                            <div style="font-size: 12px; color: var(--text-muted); font-style: italic;">${service.typical}</div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <div class="care-instructions">
+                <div class="care-section">
+                    <h4>
+                        <i class="ri-arrow-right-line"></i>
+                        Pre-Treatment Care
+                    </h4>
+                    <ul class="care-list">
+                        ${data.precare.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="care-section">
+                    <h4>
+                        <i class="ri-arrow-left-line"></i>
+                        Post-Treatment Care
+                    </h4>
+                    <ul class="care-list">
+                        ${data.aftercare.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 32px; padding-top: 32px; border-top: 1px solid rgba(255, 140, 0, 0.15);">
+                <a href="tel:+12016394983" style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 12px;
+                    background: linear-gradient(135deg, #ff8c00, #ff6b35);
+                    color: white;
+                    border: none;
+                    border-radius: 18px;
+                    padding: 16px 32px;
+                    font-family: var(--font-inter);
+                    font-size: 16px;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 30px rgba(255, 140, 0, 0.4)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 20px rgba(255, 140, 0, 0.3)'">
+                    <span>Book Consultation</span>
+                    <i class="ri-phone-line"></i>
+                </a>
+                <div style="margin-top: 16px; font-size: 13px; color: var(--text-secondary); font-style: italic;">
+                    <i class="ri-information-line" style="color: #ff8c00; margin-right: 8px;"></i>
+                    $200 consultation fee credited towards your first service
+                </div>
+            </div>
+        `;
+    }
+
+    animateModalContent() {
+        const items = this.modalContent.querySelectorAll('.service-item, .care-section');
+        
+        items.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
             
             setTimeout(() => {
-                detailsPanel.classList.remove('active');
-                detailsPanel.style.display = 'none';
-                detailsPanel.style.opacity = '';
-                detailsPanel.style.transform = '';
-                this.activeCategory = null;
-            }, 400);
-        } else {
-            detailsPanel.classList.remove('active');
-            detailsPanel.style.display = 'none';
-            this.activeCategory = null;
-        }
+                item.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
     }
 
-    handleCtaHover(btn, isEntering) {
-        const shimmer = btn.querySelector('.cta-shimmer');
+    closeModal() {
+        if (!this.isModalOpen) return;
         
-        if (isEntering) {
-            // Trigger shimmer effect
-            if (shimmer) {
-                shimmer.style.transition = 'all 0.8s ease';
-                shimmer.style.left = '100%';
-            }
-            
-            // Enhanced glow effect
-            btn.style.boxShadow = '0 20px 40px rgba(255, 140, 0, 0.4)';
-            btn.style.transform = 'translateY(-3px) scale(1.02)';
-        } else {
-            // Reset shimmer
-            if (shimmer) {
-                setTimeout(() => {
-                    shimmer.style.transition = 'none';
-                    shimmer.style.left = '-100%';
-                }, 800);
-            }
-            
-            btn.style.transform = '';
-        }
+        console.log('❌ Closing service modal...');
+        
+        this.modal.classList.remove('active');
+        
+        setTimeout(() => {
+            this.modal.style.display = 'none';
+            this.isModalOpen = false;
+            this.currentCategory = null;
+            document.body.style.overflow = '';
+        }, 400);
     }
 
-    addRippleEffect(element) {
+    /* ========================================
+       SOFT VISUAL EFFECTS
+       ======================================== */
+    
+    addSoftRipple(element) {
         const ripple = document.createElement('div');
         ripple.style.cssText = `
             position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.4) 0%, transparent 70%);
-            width: 100px;
-            height: 100px;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            animation: luxuryRipple 1.2s ease-out;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: softRipple 1.2s ease-out;
             pointer-events: none;
             z-index: 10;
         `;
@@ -926,597 +1154,84 @@ class ServicesPageManager {
         setTimeout(() => ripple.remove(), 1200);
     }
 
-    addClickAnimation(element) {
-        element.style.transform = 'translateY(-2px) scale(0.98)';
-        element.style.transition = 'all 0.2s ease-out';
+    addSoftGlow(element) {
+        element.style.boxShadow = '0 15px 35px rgba(255, 140, 0, 0.12)';
+        element.style.borderColor = 'rgba(255, 140, 0, 0.25)';
+        element.style.transform = 'translateY(-3px)';
+    }
+
+    removeSoftGlow(element) {
+        element.style.boxShadow = '';
+        element.style.borderColor = '';
+        element.style.transform = '';
+    }
+
+    /* ========================================
+       RESPONSIVE & PERFORMANCE HANDLING
+       ======================================== */
+    
+    handleResize() {
+        const isMobile = window.innerWidth <= 768;
         
-        setTimeout(() => {
-            element.style.transform = '';
-        }, 200);
-    }
-
-    setupSmoothScrolling() {
-        const anchorLinks = document.querySelectorAll('a[href^="#"]');
+        // Handle video layout switching
+        const desktopLayout = document.querySelector('.desktop-video-layout');
+        const mobileLayout = document.querySelector('.mobile-video-layout');
         
-        anchorLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                const target = document.querySelector(href);
-                
-                if (target) {
-                    e.preventDefault();
-                    
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    
-                    // Add highlight effect to target
-                    this.addHighlightEffect(target);
-                }
-            });
-        });
-    }
-
-    initAnimations() {
-        // Initialize AOS with enhanced settings
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 800,
-                easing: 'ease-out-cubic',
-                once: true,
-                offset: 50,
-                disable: 'mobile' // Disable on mobile for better performance
-            });
-        }
-
-        // Add CSS animations
-        this.addCustomAnimations();
-    }
-
-    addCustomAnimations() {
-        if (!document.querySelector('#services-enhanced-animations')) {
-            const style = document.createElement('style');
-            style.id = 'services-enhanced-animations';
-            style.textContent = `
-                @keyframes luxuryRipple {
-                    0% { 
-                        transform: translate(-50%, -50%) scale(0); 
-                        opacity: 1; 
-                    }
-                    100% { 
-                        transform: translate(-50%, -50%) scale(2.5); 
-                        opacity: 0; 
-                    }
-                }
-
-                @keyframes buttonPulse {
-                    0%, 100% { 
-                        box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.4); 
-                    }
-                    50% { 
-                        box-shadow: 0 0 0 8px rgba(255, 140, 0, 0); 
-                    }
-                }
-
-                @keyframes serviceItemEntrance {
-                    0% {
-                        opacity: 0;
-                        transform: translateX(-30px);
-                    }
-                    100% {
-                        opacity: 1;
-                        transform: translateX(0);
-                    }
-                }
-
-                @keyframes heroContentFadeIn {
-                    0% {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    100% {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-
-                .keyboard-navigation *:focus {
-                    outline: 3px solid var(--hermes-orange);
-                    outline-offset: 2px;
-                }
-            `;
-            document.head.appendChild(style);
-        }
-    }
-
-    setupIntersectionObservers() {
-        // Enhanced category cards observer
-        const categoryObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const card = entry.target;
-                    this.animateCategoryEntrance(card);
-                }
-            });
-        }, {
-            threshold: 0.2,
-            rootMargin: '50px'
-        });
-
-        this.categoryCards.forEach(card => {
-            categoryObserver.observe(card);
-        });
-
-        // Enhanced CTA section observer
-        const ctaSection = document.querySelector('.services-cta-section');
-        if (ctaSection) {
-            const ctaObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        this.animateCtaEntrance(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.3,
-                rootMargin: '100px'
-            });
-
-            ctaObserver.observe(ctaSection);
-        }
-
-        // Video performance observer
-        const videoPerformanceObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const video = entry.target.querySelector('video');
-                if (entry.isIntersecting && video) {
-                    // Ensure video plays when in view
-                    if (video.getAttribute('data-loaded') === 'true' && video.paused) {
-                        video.play().catch(e => console.log('Intersection play failed:', e));
-                    }
-                } else if (video) {
-                    // Pause video when out of view for performance
-                    video.pause();
-                }
-            });
-        }, {
-            threshold: 0.5
-        });
-
-        this.videoPanels.forEach(panel => {
-            videoPerformanceObserver.observe(panel);
-        });
-    }
-
-    animateCategoryEntrance(card) {
-        const elements = card.querySelectorAll('.category-image-container, .category-content, .category-badges span');
-        
-        elements.forEach((element, index) => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                element.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, index * 100);
-        });
-
-        // Add subtle glow effect
-        setTimeout(() => {
-            card.style.boxShadow = '0 15px 35px rgba(255, 140, 0, 0.08)';
-            setTimeout(() => {
-                card.style.boxShadow = '';
-            }, 2000);
-        }, 500);
-    }
-
-    animateCtaEntrance(ctaSection) {
-        const elements = ctaSection.querySelectorAll('.cta-badge, .cta-title, .cta-subtitle, .cta-actions, .consultation-reminder');
-        
-        elements.forEach((element, index) => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            
-            setTimeout(() => {
-                element.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, index * 150);
-        });
-    }
-}
-
-// Enhanced Service Item Interactions
-class ServiceItemManager {
-    constructor() {
-        this.serviceItems = [];
-        this.init();
-    }
-
-    init() {
-        this.serviceItems = document.querySelectorAll('.service-item.enhanced');
-        this.bindEvents();
-    }
-
-    bindEvents() {
-        this.serviceItems.forEach(item => {
-            item.addEventListener('mouseenter', () => this.handleServiceHover(item, true));
-            item.addEventListener('mouseleave', () => this.handleServiceHover(item, false));
-            item.addEventListener('click', () => this.handleServiceClick(item));
-        });
-    }
-
-    handleServiceHover(item, isEntering) {
-        const serviceInfo = item.querySelector('.service-main-info');
-        const servicePrice = item.querySelector('.service-price');
-        const serviceBadges = item.querySelectorAll('.service-badges span');
-
-        if (isEntering) {
-            item.style.background = 'rgba(255, 255, 255, 0.95)';
-            item.style.borderColor = 'rgba(255, 140, 0, 0.3)';
-            item.style.transform = 'translateX(16px) translateY(-4px)';
-            item.style.boxShadow = '0 25px 50px rgba(255, 140, 0, 0.2)';
-            
-            if (servicePrice) {
-                servicePrice.style.transform = 'scale(1.08)';
-                servicePrice.style.textShadow = '0 4px 12px rgba(255, 140, 0, 0.3)';
-            }
-
-            // Animate service badges
-            serviceBadges.forEach((badge, index) => {
-                setTimeout(() => {
-                    badge.style.transform = 'translateY(-2px) scale(1.05)';
-                    badge.style.boxShadow = '0 4px 12px rgba(255, 140, 0, 0.2)';
-                }, index * 100);
-            });
+        if (isMobile) {
+            if (desktopLayout) desktopLayout.style.display = 'none';
+            if (mobileLayout) mobileLayout.style.display = 'flex';
         } else {
-            item.style.background = '';
-            item.style.borderColor = '';
-            item.style.transform = '';
-            item.style.boxShadow = '';
-            
-            if (servicePrice) {
-                servicePrice.style.transform = '';
-                servicePrice.style.textShadow = '';
-            }
-
-            serviceBadges.forEach(badge => {
-                badge.style.transform = '';
-                badge.style.boxShadow = '';
-            });
+            if (desktopLayout) desktopLayout.style.display = 'flex';
+            if (mobileLayout) mobileLayout.style.display = 'none';
         }
-    }
-
-    handleServiceClick(item) {
-        // Enhanced click feedback
-        item.style.transform = 'translateX(12px) translateY(-2px) scale(0.97)';
         
-        setTimeout(() => {
-            item.style.transform = '';
-        }, 200);
-
-        // Add enhanced ripple effect
-        this.addServiceRipple(item);
-        
-        // Optional: Trigger detailed information modal
-        this.showServiceDetails(item);
-    }
-
-    showServiceDetails(item) {
-        const serviceTitle = item.querySelector('h4').textContent;
-        const serviceDescription = item.querySelector('p').textContent;
-        
-        // Create temporary detail overlay (can be enhanced further)
-        const overlay = document.createElement('div');
-        overlay.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 2px solid var(--hermes-orange);
-            border-radius: 24px;
-            padding: 32px;
-            max-width: 500px;
-            z-index: 1000;
-            opacity: 0;
-            transition: all 0.3s ease;
-        `;
-        
-        overlay.innerHTML = `
-            <h4 style="color: var(--hermes-orange); margin-bottom: 16px;">${serviceTitle}</h4>
-            <p style="color: var(--text-secondary); margin-bottom: 20px;">${serviceDescription}</p>
-            <button onclick="this.parentElement.remove()" style="background: var(--hermes-orange); color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer;">Close</button>
-        `;
-        
-        document.body.appendChild(overlay);
-        
-        setTimeout(() => {
-            overlay.style.opacity = '1';
-        }, 10);
-        
-        // Auto-remove after 5 seconds
-        setTimeout(() => {
-            if (overlay.parentElement) {
-                overlay.style.opacity = '0';
-                setTimeout(() => overlay.remove(), 300);
-            }
-        }, 5000);
-    }
-
-    addServiceRipple(item) {
-        const ripple = document.createElement('div');
-        ripple.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: serviceRipple 1s ease-out;
-            pointer-events: none;
-            z-index: 5;
-        `;
-
-        item.style.position = 'relative';
-        item.appendChild(ripple);
-
-        setTimeout(() => ripple.remove(), 1000);
-    }
-}
-
-// Enhanced Floating Elements Manager
-class FloatingElementsManager {
-    constructor() {
-        this.floatingElements = [];
-        this.init();
-    }
-
-    init() {
-        this.createFloatingElements();
-        this.startFloatingAnimation();
-        this.addInteractiveParticles();
-    }
-
-    createFloatingElements() {
-        const containers = document.querySelectorAll('.services-ambient-background, .services-cta-ambient');
-        
-        containers.forEach(container => {
-            // Add subtle floating elements
-            for (let i = 0; i < 5; i++) {
-                const element = document.createElement('div');
-                element.style.cssText = `
-                    position: absolute;
-                    width: ${2 + i}px;
-                    height: ${2 + i}px;
-                    background: var(--hermes-orange);
-                    border-radius: 50%;
-                    opacity: ${0.1 + i * 0.05};
-                    animation: gentleFloat ${15 + i * 2}s ease-in-out infinite;
-                    animation-delay: -${i * 3}s;
-                    top: ${20 + i * 15}%;
-                    left: ${15 + i * 20}%;
-                `;
-                
-                container.appendChild(element);
-                this.floatingElements.push(element);
-            }
-        });
-    }
-
-    addInteractiveParticles() {
-        // Add particles that respond to mouse movement
-        let mouseX = 0;
-        let mouseY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX / window.innerWidth;
-            mouseY = e.clientY / window.innerHeight;
-            
-            this.updateParticlePositions(mouseX, mouseY);
-        });
-    }
-
-    updateParticlePositions(mouseX, mouseY) {
-        this.floatingElements.forEach((element, index) => {
-            const speed = 0.1 + index * 0.02;
-            const x = mouseX * 20 * speed;
-            const y = mouseY * 15 * speed;
-            
-            element.style.transform = `translate(${x}px, ${y}px)`;
-        });
-    }
-
-    startFloatingAnimation() {
-        // Add CSS animation keyframes
-        if (!document.querySelector('#floating-animations')) {
-            const style = document.createElement('style');
-            style.id = 'floating-animations';
-            style.textContent = `
-                @keyframes gentleFloat {
-                    0%, 100% { 
-                        transform: translate(0, 0) rotate(0deg); 
-                        opacity: 0.1; 
-                    }
-                    25% { 
-                        transform: translate(15px, -20px) rotate(90deg); 
-                        opacity: 0.3; 
-                    }
-                    50% { 
-                        transform: translate(-12px, -25px) rotate(180deg); 
-                        opacity: 0.1; 
-                    }
-                    75% { 
-                        transform: translate(18px, -8px) rotate(270deg); 
-                        opacity: 0.2; 
-                    }
+        // Adjust modal size
+        if (this.isModalOpen && this.modal) {
+            const modalContainer = this.modal.querySelector('.modal-container');
+            if (modalContainer) {
+                if (isMobile) {
+                    modalContainer.style.width = '95vw';
+                    modalContainer.style.height = '95vh';
+                } else {
+                    modalContainer.style.width = '900px';
+                    modalContainer.style.height = 'auto';
                 }
-
-                @keyframes serviceRipple {
-                    0% { 
-                        width: 0; 
-                        height: 0; 
-                        opacity: 1; 
-                    }
-                    100% { 
-                        width: 120px; 
-                        height: 120px; 
-                        opacity: 0; 
-                    }
-                }
-
-                @keyframes particleFloat {
-                    0%, 100% {
-                        transform: translate(0, 0);
-                        opacity: 0.3;
-                    }
-                    50% {
-                        transform: translate(30px, -40px);
-                        opacity: 0.1;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-    }
-}
-
-// Performance Monitor
-class PerformanceMonitor {
-    constructor() {
-        this.metrics = {
-            videoLoadTime: 0,
-            heroInteractiveTime: 0,
-            categoryLoadTime: 0
-        };
-        
-        this.init();
-    }
-
-    init() {
-        if (window.performance) {
-            performance.mark('services-page-start');
-            this.monitorPerformance();
-        }
-    }
-
-    monitorPerformance() {
-        // Monitor video loading performance
-        setTimeout(() => {
-            performance.mark('videos-loaded');
-            performance.measure('video-load-time', 'services-page-start', 'videos-loaded');
-        }, 3000);
-
-        // Monitor hero interactive time
-        setTimeout(() => {
-            performance.mark('hero-interactive');
-            performance.measure('hero-interactive-time', 'services-page-start', 'hero-interactive');
-        }, 1500);
-
-        // Log performance data
-        setTimeout(() => {
-            const measures = performance.getEntriesByType('measure');
-            measures.forEach(measure => {
-                console.log(`📊 ${measure.name}: ${Math.round(measure.duration)}ms`);
-            });
-        }, 5000);
-    }
-}
-
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize managers
-    const servicesManager = new ServicesPageManager();
-    const serviceItemManager = new ServiceItemManager();
-    const floatingElementsManager = new FloatingElementsManager();
-    const performanceMonitor = new PerformanceMonitor();
-
-    // Add global enhancements
-    addGlobalEnhancements();
-
-    console.log('✨ Services Page - All Enhanced Systems Active');
-});
-
-// Global enhancements
-function addGlobalEnhancements() {
-    // Add smooth hover transitions to all interactive elements
-    const interactiveElements = document.querySelectorAll('button, .category-card, .service-item, a, .stat-item');
-    
-    interactiveElements.forEach(element => {
-        element.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-    });
-
-    // Enhanced focus management for accessibility
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-            document.body.classList.add('keyboard-navigation');
-        }
-    });
-
-    document.addEventListener('mousedown', () => {
-        document.body.classList.remove('keyboard-navigation');
-    });
-
-    // Enhanced scroll-based header transparency
-    let ticking = false;
-    
-    function updateHeader() {
-        const header = document.querySelector('.luxury-floating-header');
-        if (header) {
-            const scrolled = window.scrollY;
-            const opacity = Math.min(0.95, 0.7 + (scrolled / 300) * 0.25);
-            const blur = Math.min(20, scrolled / 10);
-            
-            header.style.background = `rgba(255, 255, 255, ${opacity})`;
-            header.style.backdropFilter = `blur(${blur}px)`;
-        }
-        ticking = false;
-    }
-
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(updateHeader);
-            ticking = true;
-        }
-    });
-
-    // Enhanced error handling
-    window.addEventListener('error', (e) => {
-        console.warn('Services Page Error:', e.error);
-        
-        // Graceful degradation for video errors
-        if (e.error && e.error.message && e.error.message.includes('video')) {
-            console.log('Implementing video fallback...');
-            // Additional fallback logic could go here
-        }
-    });
-
-    // Page load performance tracking
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            // Remove any remaining loading states
-            const loadingElements = document.querySelectorAll('.video-loading-indicator');
-            loadingElements.forEach(el => {
-                el.style.opacity = '0';
-            });
-            
-            // Mark page as fully loaded
-            document.body.classList.add('page-loaded');
-            
-            if (window.performance) {
-                performance.mark('services-page-complete');
             }
-        }, 1000);
-    });
+        }
+    }
 
-    // Enhanced mobile touch interactions
-    if ('ontouchstart' in window) {
-        // Add touch feedback for mobile devices
-        const touchElements = document.querySelectorAll('.category-card, .service-item, .consultation-btn');
+    handleVisibilityChange() {
+        if (document.hidden) {
+            // Pause all videos when page is hidden
+            this.syncedVideos.forEach(video => video.pause());
+            if (this.mobileVideo) this.mobileVideo.pause();
+        } else {
+            // Resume synchronized playback when page is visible
+            setTimeout(() => {
+                this.startSynchronizedPlayback();
+                if (this.mobileVideo && this.mobileVideo.readyState >= 3) {
+                    this.mobileVideo.play().catch(e => console.log('Resume play failed:', e));
+                }
+            }, 500);
+        }
+    }
+
+    setupResponsiveHandling() {
+        // Initial responsive setup
+        this.handleResize();
+        
+        // Optimize for touch devices
+        if ('ontouchstart' in window) {
+            this.setupTouchInteractions();
+        }
+    }
+
+    setupTouchInteractions() {
+        const touchElements = [
+            ...this.categoryCards,
+            ...this.exploreButtons,
+            ...this.statCards
+        ];
         
         touchElements.forEach(element => {
             element.addEventListener('touchstart', () => {
@@ -1531,301 +1246,505 @@ function addGlobalEnhancements() {
         });
     }
 
-    // Memory management for long sessions
-    let lastCleanup = Date.now();
+    initAccessibility() {
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', () => {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // Add ARIA labels
+        this.exploreButtons.forEach(btn => {
+            const category = btn.getAttribute('data-category');
+            btn.setAttribute('aria-label', `Explore ${category.replace('-', ' ')} services`);
+        });
+
+        // Add modal accessibility
+        if (this.modal) {
+            this.modal.setAttribute('role', 'dialog');
+            this.modal.setAttribute('aria-modal', 'true');
+            this.modal.setAttribute('aria-labelledby', 'modalCategoryName');
+        }
+    }
+
+    /* ========================================
+       UTILITY METHODS
+       ======================================== */
     
-    setInterval(() => {
-        const now = Date.now();
-        if (now - lastCleanup > 300000) { // 5 minutes
-            // Clean up any orphaned elements
-            const orphanedRipples = document.querySelectorAll('[style*="luxuryRipple"], [style*="serviceRipple"]');
-            orphanedRipples.forEach(ripple => {
-                if (ripple.parentElement) {
-                    ripple.remove();
+    addCustomStyles() {
+        if (document.querySelector('#services-enhanced-styles')) return;
+        
+        const style = document.createElement('style');
+        style.id = 'services-enhanced-styles';
+        style.textContent = `
+            @keyframes softRipple {
+                0% { 
+                    width: 0; 
+                    height: 0; 
+                    opacity: 0.8; 
                 }
-            });
+                50% { 
+                    opacity: 0.4; 
+                }
+                100% { 
+                    width: 120px; 
+                    height: 120px; 
+                    opacity: 0; 
+                }
+            }
             
-            lastCleanup = now;
-        }
-    }, 60000); // Check every minute
-
-    // Enhanced accessibility features
-    const accessibilityFeatures = {
-        // High contrast mode detection
-        checkHighContrast: () => {
-            if (window.matchMedia && window.matchMedia('(prefers-contrast: high)').matches) {
-                document.body.classList.add('high-contrast-mode');
+            @keyframes gentleScale {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); }
             }
-        },
-        
-        // Reduced motion preference
-        checkReducedMotion: () => {
-            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.body.classList.add('reduced-motion');
-                
-                // Disable auto-playing videos
-                const videos = document.querySelectorAll('video[autoplay]');
-                videos.forEach(video => {
-                    video.removeAttribute('autoplay');
-                    video.pause();
-                });
-            }
-        }
-    };
-
-    accessibilityFeatures.checkHighContrast();
-    accessibilityFeatures.checkReducedMotion();
-
-    // Service recommendation engine
-    const serviceRecommendations = {
-        init: () => {
-            // Track user interactions for recommendations
-            document.addEventListener('click', (e) => {
-                const categoryCard = e.target.closest('.category-card');
-                if (categoryCard) {
-                    const category = categoryCard.getAttribute('data-category');
-                    serviceRecommendations.trackInteraction(category);
+            
+            @keyframes softGlow {
+                0%, 100% { 
+                    box-shadow: 0 0 20px rgba(255, 140, 0, 0.1); 
                 }
-            });
-        },
+                50% { 
+                    box-shadow: 0 0 30px rgba(255, 140, 0, 0.2); 
+                }
+            }
+            
+            .page-loaded {
+                --animation-ready: 1;
+            }
+            
+            .reduced-motion * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        `;
         
-        trackInteraction: (category) => {
-            // Simple interaction tracking (could be enhanced with analytics)
-            const interactions = JSON.parse(localStorage.getItem('serviceInteractions') || '{}');
-            interactions[category] = (interactions[category] || 0) + 1;
-            localStorage.setItem('serviceInteractions', JSON.stringify(interactions));
-        }
-    };
+        document.head.appendChild(style);
+    }
 
-    serviceRecommendations.init();
+    // Performance optimization
+    optimizePerformance() {
+        // Throttled scroll handler
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            if (scrollTimeout) return;
+            
+            scrollTimeout = setTimeout(() => {
+                this.handleScroll();
+                scrollTimeout = null;
+            }, 16); // ~60fps
+        }, { passive: true });
+    }
+
+    handleScroll() {
+        const scrolled = window.scrollY;
+        
+        // Update header transparency
+        const header = document.querySelector('.luxury-floating-header');
+        if (header) {
+            const opacity = Math.min(0.95, 0.8 + (scrolled / 500) * 0.15);
+            header.style.background = `rgba(255, 255, 255, ${opacity})`;
+        }
+        
+        // Show/hide scroll indicator
+        if (this.scrollIndicator) {
+            const heroHeight = document.querySelector('.services-hero-section')?.offsetHeight || 0;
+            const shouldShow = scrolled < heroHeight - 200;
+            
+            this.scrollIndicator.style.opacity = shouldShow ? '1' : '0';
+        }
+    }
+
+    // Cleanup method
+    cleanup() {
+        // Remove event listeners
+        window.removeEventListener('resize', this.handleResize);
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+        
+        // Clear any intervals
+        if (this.syncInterval) {
+            clearInterval(this.syncInterval);
+        }
+        
+        // Reset video states
+        this.syncedVideos.forEach(video => {
+            video.pause();
+            video.currentTime = 0;
+        });
+        
+        console.log('🧹 Services page cleanup completed');
+    }
 }
 
-// Video Quality Manager
-class VideoQualityManager {
+// Enhanced Performance Monitor
+class ServicesPerformanceMonitor {
     constructor() {
-        this.connectionSpeed = 'unknown';
+        this.metrics = {
+            videoLoadTime: 0,
+            heroRenderTime: 0,
+            modalOpenTime: 0
+        };
         this.init();
     }
 
     init() {
-        this.detectConnectionSpeed();
-        this.optimizeVideoQuality();
+        if (!window.performance) return;
+        
+        performance.mark('services-init-start');
+        this.monitorVideoLoading();
+        this.monitorHeroRendering();
+        this.monitorModalPerformance();
     }
 
-    detectConnectionSpeed() {
-        if ('connection' in navigator) {
-            const connection = navigator.connection;
-            this.connectionSpeed = connection.effectiveType;
+    monitorVideoLoading() {
+        const videos = document.querySelectorAll('[data-sync-group="hero"]');
+        let loadedCount = 0;
+        
+        videos.forEach(video => {
+            video.addEventListener('canplaythrough', () => {
+                loadedCount++;
+                if (loadedCount === videos.length) {
+                    performance.mark('videos-loaded');
+                    performance.measure('video-load-time', 'services-init-start', 'videos-loaded');
+                    
+                    const measure = performance.getEntriesByName('video-load-time')[0];
+                    console.log(`📊 Videos loaded in: ${Math.round(measure.duration)}ms`);
+                }
+            }, { once: true });
+        });
+    }
+
+    monitorHeroRendering() {
+        const heroContent = document.querySelector('.services-hero-content');
+        if (heroContent) {
+            const observer = new MutationObserver(() => {
+                if (heroContent.classList.contains('loaded')) {
+                    performance.mark('hero-rendered');
+                    performance.measure('hero-render-time', 'services-init-start', 'hero-rendered');
+                    
+                    const measure = performance.getEntriesByName('hero-render-time')[0];
+                    console.log(`🏛️ Hero rendered in: ${Math.round(measure.duration)}ms`);
+                    
+                    observer.disconnect();
+                }
+            });
             
-            // Adjust video quality based on connection
-            if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
-                this.setLowQualityMode();
-            }
+            observer.observe(heroContent, { attributes: true, attributeFilter: ['class'] });
         }
     }
 
-    setLowQualityMode() {
-        const videos = document.querySelectorAll('video');
-        videos.forEach(video => {
-            // Reduce video quality for slow connections
-            video.setAttribute('preload', 'none');
-            
-            // Add lower quality source if available
-            const sources = video.querySelectorAll('source');
-            sources.forEach(source => {
-                if (source.src.includes('.mp4')) {
-                    // Could add logic for lower quality versions
-                    console.log('Low quality mode enabled for:', source.src);
-                }
-            });
-        });
-    }
-
-    optimizeVideoQuality() {
-        // Add video optimization based on device capabilities
-        const videos = document.querySelectorAll('video');
-        
-        videos.forEach(video => {
-            // Optimize for mobile devices
-            if (window.innerWidth <= 768) {
-                video.setAttribute('preload', 'metadata');
-            }
-            
-            // Add error recovery
-            video.addEventListener('stalled', () => {
-                console.log('Video stalled, attempting recovery...');
-                setTimeout(() => {
-                    video.load();
-                }, 2000);
-            });
-        });
-    }
-}
-
-// Enhanced UI Feedback Manager
-class UIFeedbackManager {
-    constructor() {
-        this.feedbackQueue = [];
-        this.init();
-    }
-
-    init() {
-        this.setupGlobalFeedback();
-        this.createFeedbackContainer();
-    }
-
-    createFeedbackContainer() {
-        const container = document.createElement('div');
-        container.id = 'ui-feedback-container';
-        container.style.cssText = `
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            z-index: 10000;
-            pointer-events: none;
-        `;
-        document.body.appendChild(container);
-    }
-
-    showFeedback(message, type = 'info') {
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            background: ${type === 'success' ? 'var(--hermes-orange)' : 'rgba(255, 255, 255, 0.95)'};
-            color: ${type === 'success' ? 'white' : 'var(--text-primary)'};
-            border: 1px solid rgba(255, 140, 0, 0.3);
-            border-radius: 12px;
-            padding: 12px 20px;
-            margin-bottom: 8px;
-            font-family: var(--font-inter);
-            font-size: 14px;
-            font-weight: 500;
-            backdrop-filter: blur(20px);
-            opacity: 0;
-            transform: translateX(100px);
-            transition: all 0.3s ease;
-            pointer-events: auto;
-            cursor: pointer;
-        `;
-        
-        feedback.textContent = message;
-        feedback.addEventListener('click', () => feedback.remove());
-        
-        const container = document.getElementById('ui-feedback-container');
-        container.appendChild(feedback);
-        
-        setTimeout(() => {
-            feedback.style.opacity = '1';
-            feedback.style.transform = 'translateX(0)';
-        }, 10);
-        
-        setTimeout(() => {
-            feedback.style.opacity = '0';
-            feedback.style.transform = 'translateX(100px)';
-            setTimeout(() => feedback.remove(), 300);
-        }, 4000);
-    }
-
-    setupGlobalFeedback() {
-        // Add feedback for various interactions
+    monitorModalPerformance() {
         document.addEventListener('click', (e) => {
-            const target = e.target.closest('[data-category]');
-            if (target) {
-                const category = target.getAttribute('data-category');
-                const categoryName = category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                this.showFeedback(`Loading ${categoryName} details...`, 'info');
+            if (e.target.closest('.explore-btn')) {
+                performance.mark('modal-open-start');
+                
+                setTimeout(() => {
+                    const modal = document.getElementById('serviceDetailsModal');
+                    if (modal && modal.classList.contains('active')) {
+                        performance.mark('modal-open-end');
+                        performance.measure('modal-open-time', 'modal-open-start', 'modal-open-end');
+                        
+                        const measure = performance.getEntriesByName('modal-open-time')[0];
+                        console.log(`📋 Modal opened in: ${Math.round(measure.duration)}ms`);
+                    }
+                }, 500);
             }
         });
     }
 }
 
-// Advanced Animation Controller
-class AnimationController {
+// Soft Animation Engine
+class SoftAnimationEngine {
     constructor() {
-        this.activeAnimations = new Set();
+        this.animationQueue = [];
+        this.isProcessing = false;
         this.init();
     }
 
     init() {
-        this.setupAnimationOptimization();
-        this.addAdvancedTransitions();
+        this.addSoftAnimationStyles();
+        this.setupIntersectionObserver();
     }
 
-    setupAnimationOptimization() {
-        // Use Intersection Observer for performance
-        const animationObserver = new IntersectionObserver((entries) => {
+    addSoftAnimationStyles() {
+        if (document.querySelector('#soft-animations')) return;
+        
+        const style = document.createElement('style');
+        style.id = 'soft-animations';
+        style.textContent = `
+            .soft-reveal {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            
+            .soft-reveal.revealed {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .soft-scale {
+                transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            
+            .soft-scale:hover {
+                transform: translateY(-4px) scale(1.02);
+            }
+            
+            .cream-glow {
+                transition: all 0.4s ease;
+            }
+            
+            .cream-glow:hover {
+                box-shadow: 0 12px 30px rgba(255, 140, 0, 0.12);
+            }
+        `;
+        
+        document.head.appendChild(style);
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                const element = entry.target;
-                
                 if (entry.isIntersecting) {
-                    element.classList.add('in-viewport');
-                    this.enableAnimations(element);
-                } else {
-                    element.classList.remove('in-viewport');
-                    this.disableAnimations(element);
+                    this.revealElement(entry.target);
                 }
             });
         }, {
-            threshold: 0.1,
+            threshold: 0.2,
             rootMargin: '50px'
         });
 
-        // Observe all animated elements
-        const animatedElements = document.querySelectorAll('.category-card, .service-item, .cta-badge');
-        animatedElements.forEach(el => animationObserver.observe(el));
+        // Apply to category cards
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.classList.add('soft-reveal');
+            observer.observe(card);
+        });
+
+        // Apply to CTA content
+        const ctaContent = document.querySelector('.cta-content');
+        if (ctaContent) {
+            ctaContent.classList.add('soft-reveal');
+            observer.observe(ctaContent);
+        }
     }
 
-    enableAnimations(element) {
-        element.style.willChange = 'transform, opacity';
-        this.activeAnimations.add(element);
-    }
-
-    disableAnimations(element) {
-        element.style.willChange = 'auto';
-        this.activeAnimations.delete(element);
-    }
-
-    addAdvancedTransitions() {
-        // Add magnetic effect to interactive elements
-        const magneticElements = document.querySelectorAll('.category-expand-btn, .consultation-btn, .primary-cta-btn');
+    revealElement(element) {
+        element.classList.add('revealed');
         
-        magneticElements.forEach(element => {
-            element.addEventListener('mousemove', (e) => {
-                const rect = element.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-            });
+        // Add soft entrance effect
+        const children = element.querySelectorAll('.category-title, .category-description, .explore-btn');
+        children.forEach((child, index) => {
+            child.style.opacity = '0';
+            child.style.transform = 'translateY(15px)';
             
-            element.addEventListener('mouseleave', () => {
-                element.style.transform = '';
-            });
+            setTimeout(() => {
+                child.style.transition = 'all 0.6s ease-out';
+                child.style.opacity = '1';
+                child.style.transform = 'translateY(0)';
+            }, index * 150);
         });
     }
 }
 
-// Initialize enhanced systems when DOM is ready
+// Enhanced User Experience Manager
+class UserExperienceManager {
+    constructor() {
+        this.interactions = [];
+        this.preferences = this.loadPreferences();
+        this.init();
+    }
+
+    init() {
+        this.trackInteractions();
+        this.setupFeedbackSystem();
+        this.optimizeForDevice();
+    }
+
+    trackInteractions() {
+        // Track user behavior for optimization
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('[data-category]');
+            if (target) {
+                this.recordInteraction('category_click', target.getAttribute('data-category'));
+            }
+        });
+
+        // Track scroll behavior
+        let scrollEndTimer;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollEndTimer);
+            scrollEndTimer = setTimeout(() => {
+                const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                this.recordInteraction('scroll_depth', Math.round(scrollPercent));
+            }, 150);
+        }, { passive: true });
+    }
+
+    recordInteraction(type, data) {
+        this.interactions.push({
+            type,
+            data,
+            timestamp: Date.now()
+        });
+        
+        // Keep only recent interactions
+        if (this.interactions.length > 50) {
+            this.interactions = this.interactions.slice(-25);
+        }
+    }
+
+    setupFeedbackSystem() {
+        // Subtle feedback for user actions
+        document.addEventListener('click', (e) => {
+            const button = e.target.closest('button, .explore-btn, .consultation-btn');
+            if (button) {
+                this.provideSoftFeedback(button);
+            }
+        });
+    }
+
+    provideSoftFeedback(element) {
+        // Add gentle haptic-like feedback
+        element.style.transform = 'scale(0.98)';
+        
+        setTimeout(() => {
+            element.style.transform = '';
+        }, 100);
+        
+        // Visual feedback
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: 4px;
+            background: #ff8c00;
+            border-radius: 50%;
+            animation: feedbackPulse 0.6s ease-out;
+            pointer-events: none;
+            z-index: 100;
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(feedback);
+        
+        setTimeout(() => feedback.remove(), 600);
+    }
+
+    optimizeForDevice() {
+        const deviceInfo = {
+            isMobile: /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+            isLowPower: navigator.hardwareConcurrency <= 2,
+            hasSlowConnection: navigator.connection && navigator.connection.effectiveType === 'slow-2g'
+        };
+
+        if (deviceInfo.isLowPower || deviceInfo.hasSlowConnection) {
+            this.enableLowPowerMode();
+        }
+
+        if (deviceInfo.isMobile) {
+            this.optimizeForMobile();
+        }
+    }
+
+    enableLowPowerMode() {
+        console.log('🔋 Low power mode enabled');
+        
+        // Reduce animation complexity
+        document.body.classList.add('low-power-mode');
+        
+        // Simplify video loading
+        const videos = document.querySelectorAll('video');
+        videos.forEach(video => {
+            video.setAttribute('preload', 'none');
+        });
+    }
+
+    optimizeForMobile() {
+        console.log('📱 Mobile optimizations applied');
+        
+        // Touch-friendly interactions
+        const interactiveElements = document.querySelectorAll('.category-card, .explore-btn, .stat-card');
+        interactiveElements.forEach(element => {
+            element.style.minHeight = '44px'; // Touch target size
+        });
+    }
+
+    loadPreferences() {
+        try {
+            return JSON.parse(localStorage.getItem('services-preferences') || '{}');
+        } catch {
+            return {};
+        }
+    }
+
+    savePreferences() {
+        try {
+            localStorage.setItem('services-preferences', JSON.stringify(this.preferences));
+        } catch (e) {
+            console.warn('Could not save preferences:', e);
+        }
+    }
+}
+
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize core managers
+    // Initialize core systems
     const servicesManager = new ServicesPageManager();
-    const serviceItemManager = new ServiceItemManager();
-    const floatingElementsManager = new FloatingElementsManager();
-    const videoQualityManager = new VideoQualityManager();
-    const uiFeedbackManager = new UIFeedbackManager();
-    const animationController = new AnimationController();
-
-    // Add global enhancements
-    addGlobalEnhancements();
-
-    console.log('🚀 Services Page - Enhanced Experience Fully Loaded');
+    const performanceMonitor = new ServicesPerformanceMonitor();
+    const animationEngine = new SoftAnimationEngine();
+    const uxManager = new UserExperienceManager();
+    
+    // Add performance monitoring styles
+    servicesManager.addCustomStyles();
+    servicesManager.optimizePerformance();
+    
+    // Global error handling
+    window.addEventListener('error', (e) => {
+        console.warn('Services page error:', e.error);
+        
+        // Graceful degradation
+        if (e.error && e.error.message.includes('video')) {
+            servicesManager.handleVideoFallback();
+        }
+    });
+    
+    // Page unload cleanup
+    window.addEventListener('beforeunload', () => {
+        servicesManager.cleanup();
+    });
+    
+    console.log('🚀 Services Page - All Enhanced Systems Active');
+    
+    // Mark page as fully loaded after a delay
+    setTimeout(() => {
+        document.body.classList.add('page-loaded');
+        performance.mark('services-page-complete');
+    }, 2000);
 });
 
-// Export for potential external use
-if (typeof window !== 'undefined') {
-    window.ServicesPageManager = ServicesPageManager;
-    window.ServiceItemManager = ServiceItemManager;
-    window.FloatingElementsManager = FloatingElementsManager;
-    window.VideoQualityManager = VideoQualityManager;
-    window.UIFeedbackManager = UIFeedbackManager;
-    window.AnimationController = AnimationController;
-}
+// CSS Animation Keyframes Addition
+const additionalStyles = `
+    @keyframes feedbackPulse {
+        0% { 
+            transform: translate(-50%, -50%) scale(0); 
+            opacity: 1; 
+        }
+        100% { 
+            transform: translate(-50%, -50%) scale(3); 
+            opacity: 0; 
+        }
+    }
+`;
+
+// Add to document head
+const styleSheet = document.createElement('style');
+styleSheet.textContent = additionalStyles;
+document.head.appendChild(styleSheet);
