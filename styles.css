@@ -162,10 +162,6 @@ body {
    MODERN HERMES HEADER
    ======================================== */
 
-/* ========================================
-   MODERN HERMES HEADER
-   ======================================== */
-
 .hermes-modern-header {
     position: fixed;
     top: 0;
@@ -1536,10 +1532,6 @@ section.evia-whats-hot-carousel-section .container {
     z-index: 2;
 }
 
-/* ========================================
-   HERMES LUXURY HEADER SECTION
-   ======================================== */
-
 section.evia-whats-hot-carousel-section .hermes-hot-header {
     text-align: center;
     margin-bottom: 80px;
@@ -1734,9 +1726,7 @@ section.evia-whats-hot-carousel-section .hermes-hot-subtitle {
     opacity: 0.9;
 }
 
-/* ========================================
-   ENHANCED CAROUSEL CONTAINER
-   ======================================== */
+
 
 section.evia-whats-hot-carousel-section .evia-carousel-container {
     position: relative;
@@ -1761,10 +1751,6 @@ section.evia-whats-hot-carousel-section .evia-carousel-track {
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
 }
-
-/* ========================================
-   ENHANCED TREATMENT CARDS
-   ======================================== */
 
 section.evia-whats-hot-carousel-section .evia-treatment-card {
     flex: 0 0 340px;
@@ -1915,10 +1901,6 @@ section.evia-whats-hot-carousel-section .featured-badge {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-4px); }
 }
-
-/* ========================================
-   ENHANCED TREATMENT CONTENT
-   ======================================== */
 
 section.evia-whats-hot-carousel-section .treatment-content {
     position: absolute;
@@ -2079,10 +2061,6 @@ section.evia-whats-hot-carousel-section .popularity-text {
     letter-spacing: 0.5px;
 }
 
-/* ========================================
-   ENHANCED LEARN MORE BUTTON
-   ======================================== */
-
 section.evia-whats-hot-carousel-section .learn-more-btn {
     background: linear-gradient(135deg, 
         var(--hermes-orange, #FF8C00) 0%, 
@@ -2162,10 +2140,6 @@ section.evia-whats-hot-carousel-section .learn-more-btn:hover .btn-shimmer {
     left: 100%;
 }
 
-/* ========================================
-   ENHANCED CAROUSEL NAVIGATION
-   ======================================== */
-
 section.evia-whats-hot-carousel-section .evia-carousel-nav {
     position: absolute;
     top: 50%;
@@ -2236,10 +2210,6 @@ section.evia-whats-hot-carousel-section .evia-carousel-nav:active .nav-ripple {
     transform: scale(1);
 }
 
-/* ========================================
-   ENHANCED CAROUSEL DOTS
-   ======================================== */
-
 section.evia-whats-hot-carousel-section .evia-carousel-dots {
     display: flex;
     justify-content: center;
@@ -2277,10 +2247,6 @@ section.evia-whats-hot-carousel-section .evia-carousel-dots .dot:hover {
     transform: scale(1.2);
     box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
 }
-
-/* ========================================
-   PREMIUM CTA SECTION
-   ======================================== */
 
 section.evia-whats-hot-carousel-section .evia-premium-cta-section {
     text-align: center;
@@ -2364,10 +2330,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn i {
 section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     transform: translateX(4px);
 }
-
-/* ========================================
-   ENHANCED MODAL STYLES - HERMES LUXURY
-   ======================================== */
 
 .evia-modal-overlay {
     position: fixed;
@@ -2940,10 +2902,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     font-size: 18px;
 }
 
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
-
 @media (max-width: 1024px) {
     section.evia-whats-hot-carousel-section .evia-treatment-card {
         flex: 0 0 320px;
@@ -3514,7 +3472,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 
 /* ========================================
    EVIA ELEVATED ABOUT SECTION - CUSTOM CSS
-   Unique prefixes: evia-about-, evia-doctor-, evia-cta-
    ======================================== */
 
 .evia-elevated-about {
@@ -3536,10 +3493,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     position: relative;
     z-index: 10;
 }
-
-/* ========================================
-   SECTION HEADER
-   ======================================== */
 
 .evia-about-header {
     text-align: center;
@@ -3632,10 +3585,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     margin: 0 auto;
 }
 
-/* ========================================
-   DOCTOR SHOWCASE GRID
-   ======================================== */
-
 .evia-doctor-showcase {
     display: grid;
     grid-template-columns: 400px 1fr;
@@ -3643,10 +3592,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     align-items: start;
     margin-bottom: clamp(80px, 12vh, 120px);
 }
-
-/* ========================================
-   DOCTOR PROFILE CARD
-   ======================================== */
 
 .evia-doctor-card {
     position: relative;
@@ -3688,10 +3633,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 .evia-doctor-card:hover .evia-card-glow {
     opacity: 1;
 }
-
-/* ========================================
-   DOCTOR IMAGE
-   ======================================== */
 
 .evia-doctor-image-wrapper {
     position: relative;
@@ -3754,10 +3695,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     animation: eviaCertFloat 6s ease-in-out infinite;
 }
 
-/* ========================================
-   DOCTOR INFO
-   ======================================== */
-
 .evia-doctor-info {
     text-align: center;
 }
@@ -3804,10 +3741,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     background: rgba(255, 140, 0, 0.15);
     transform: translateY(-2px);
 }
-
-/* ========================================
-   DOCTOR DETAILS
-   ======================================== */
 
 .evia-doctor-details {
     display: flex;
@@ -3897,10 +3830,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         transparent
     );
 }
-
-/* ========================================
-   PHILOSOPHY & SPECIALIZATIONS
-   ======================================== */
 
 .evia-philosophy-preview {
     background: rgba(255, 255, 255, 0.8);
@@ -4040,10 +3969,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     font-weight: 500;
     color: #5D4E37;
 }
-
-/* ========================================
-   ELEGANT CTA SECTION
-   ======================================== */
 
 .evia-about-cta {
     display: flex;
@@ -4237,10 +4162,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     z-index: 1;
 }
 
-/* ========================================
-   BACKGROUND ELEMENTS
-   ======================================== */
-
 .evia-about-bg {
     position: absolute;
     inset: 0;
@@ -4288,10 +4209,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         radial-gradient(circle at 75% 70%, rgba(255, 140, 0, 0.03) 0%, transparent 50%);
 }
 
-/* ========================================
-   ANIMATIONS
-   ======================================== */
-
 @keyframes eviaBadgeShimmer {
     0%, 100% { left: -100%; }
     50% { left: 100%; }
@@ -4330,10 +4247,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         opacity: 0.06; 
     }
 }
-
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
 
 @media (max-width: 992px) {
     .evia-doctor-showcase {
@@ -4436,10 +4349,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     }
 }
 
-/* ========================================
-   ACCESSIBILITY & PERFORMANCE
-   ======================================== */
-
 .evia-primary-cta:focus,
 .evia-secondary-cta:focus,
 .evia-expertise-tag:focus {
@@ -4472,10 +4381,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 /* ========================================
    RESULTS SECTION
    ======================================== */
-/* ========================================
-   HERMES RESULTS SHOWCASE - MODERN & SLEEK
-   Unique prefixes: hermes-results-, result-
-   ======================================== */
 
 .hermes-results-showcase {
     position: relative;
@@ -4496,10 +4401,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     position: relative;
     z-index: 10;
 }
-
-/* ========================================
-   SECTION HEADER
-   ======================================== */
 
 .hermes-results-header {
     text-align: center;
@@ -4589,10 +4490,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     margin: 0 auto;
 }
 
-/* ========================================
-   FILTER NAVIGATION
-   ======================================== */
-
 .hermes-filter-nav {
     display: flex;
     justify-content: center;
@@ -4671,10 +4568,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     opacity: 1;
 }
 
-/* ========================================
-   RESULTS GRID
-   ======================================== */
-
 .hermes-results-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -4710,10 +4603,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     transform: translateY(20px) scale(0.95);
     pointer-events: none;
 }
-
-/* ========================================
-   BEFORE/AFTER COMPARISON
-   ======================================== */
 
 .result-comparison-wrapper {
     position: relative;
@@ -4830,10 +4719,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     transform: scale(1.1);
 }
 
-/* ========================================
-   RESULT INFO
-   ======================================== */
-
 .result-info {
     padding: 28px;
 }
@@ -4905,10 +4790,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     font-size: 12px;
     flex-shrink: 0;
 }
-
-/* ========================================
-   RESULTS CTA
-   ======================================== */
 
 .hermes-results-cta {
     display: flex;
@@ -5058,10 +4939,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     left: 100%;
 }
 
-/* ========================================
-   BACKGROUND ELEMENTS
-   ======================================== */
-
 .hermes-results-bg {
     position: absolute;
     inset: 0;
@@ -5109,10 +4986,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         radial-gradient(circle at 80% 75%, rgba(255, 140, 0, 0.03) 0%, transparent 50%);
 }
 
-/* ========================================
-   ANIMATIONS
-   ======================================== */
-
 @keyframes hermesResultsShimmer {
     0%, 100% { left: -100%; }
     50% { left: 100%; }
@@ -5146,10 +5019,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         opacity: 0.06; 
     }
 }
-
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
 
 @media (max-width: 1200px) {
     .hermes-results-grid {
@@ -5263,10 +5132,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     }
 }
 
-/* ========================================
-   ACCESSIBILITY & PERFORMANCE
-   ======================================== */
-
 .hermes-filter-btn:focus,
 .results-cta-btn:focus {
     outline: 3px solid rgba(255, 140, 0, 0.6);
@@ -5295,11 +5160,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 
 /* ========================================
    HERMES SOCIAL SHOWCASE SECTION
-   Unique prefixes: hermes-social-, social-
-   ======================================== */
-
-/* ========================================
-   MAIN SECTION CONTAINER
    ======================================== */
 
 .hermes-social-showcase {
@@ -5312,10 +5172,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     );
     overflow: hidden;
 }
-
-/* ========================================
-   AMBIENT BACKGROUND EFFECTS
-   ======================================== */
 
 .social-ambient-background {
     position: absolute;
@@ -5406,10 +5262,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.02) 0%, transparent 60%);
 }
 
-/* ========================================
-   CONTAINER AND LAYOUT
-   ======================================== */
-
 .hermes-social-container {
     position: relative;
     z-index: 10;
@@ -5417,10 +5269,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     margin: 0 auto;
     padding: 0 clamp(1rem, 3vw, 2rem);
 }
-
-/* ========================================
-   SECTION HEADER
-   ======================================== */
 
 .social-showcase-header {
     text-align: center;
@@ -5533,10 +5381,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     margin: 0 auto;
 }
 
-/* ========================================
-   SOCIAL CONTENT GRID
-   ======================================== */
-
 .social-content-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -5547,10 +5391,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 .social-column {
     position: relative;
 }
-
-/* ========================================
-   SOCIAL CARDS
-   ======================================== */
 
 .social-card {
     background: linear-gradient(145deg, 
@@ -5624,10 +5464,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     opacity: 0.6;
     transform: scale(1.05);
 }
-
-/* ========================================
-   CARD HEADERS
-   ======================================== */
 
 .social-card-header {
     display: flex;
@@ -5728,10 +5564,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     box-shadow: 0 8px 25px rgba(225, 48, 108, 0.3);
 }
 
-/* ========================================
-   WIDGET CONTAINERS
-   ======================================== */
-
 .social-widget-container {
     flex: 1;
     padding: 0 32px;
@@ -5780,10 +5612,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     width: 100% !important;
     min-height: 400px !important;
 }
-
-/* ========================================
-   CARD FOOTERS
-   ======================================== */
 
 .social-card-footer {
     padding: 24px 32px 32px;
@@ -5840,10 +5668,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
 .social-view-all-btn:hover i {
     transform: translateX(4px);
 }
-
-/* ========================================
-   SOCIAL CTA SECTION
-   ======================================== */
 
 .social-cta-section {
     position: relative;
@@ -6124,10 +5948,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     box-shadow: 0 12px 35px rgba(66, 133, 244, 0.3);
 }
 
-/* ========================================
-   ANIMATIONS
-   ======================================== */
-
 @keyframes socialAmbientFloat {
     0%, 100% { 
         transform: translate(0, 0) rotate(0deg); 
@@ -6210,10 +6030,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
 
 @media (max-width: 1200px) {
     .social-content-grid {
@@ -6320,10 +6136,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         border-radius: 24px;
     }
 }
-
-/* ========================================
-   LOADING STATE IMPROVEMENTS
-   ======================================== */
 
 /* Hide loading placeholder when Elfsight loads */
 .social-widget-container [class*="elfsight"]:not(:empty) + .widget-loading-placeholder,
