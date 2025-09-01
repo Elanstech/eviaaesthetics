@@ -86,6 +86,7 @@ class ModernHermesHeader {
     constructor() {
         this.header = document.getElementById('hermesHeader') || document.querySelector('.hermes-modern-header');
         this.mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        this.desktopHamburger = document.getElementById('desktopHamburger');
         this.mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
         this.menuCloseBtn = document.getElementById('menuCloseBtn');
         this.shopNowBtns = document.querySelectorAll('.shop-now-btn, .mobile-shop-btn');
@@ -101,7 +102,7 @@ class ModernHermesHeader {
         this.touchStartY = 0;
         this.touchEndY = 0;
         
-        if (this.header) {
+        if (this.) {
             this.init();
         }
     }
@@ -116,14 +117,14 @@ class ModernHermesHeader {
         this.preloadAssets();
         
         // Expose to global scope
-        window.modernHermesHeader = this;
+        window.modernHermes = this;
         
-        console.log('Modern Hermes Header initialized successfully');
+        console.log('Modern Hermes  initialized successfully');
     }
 
     setupInitialState() {
-        // Set initial header state
-        this.updateHeaderState();
+        // Set initial  state
+        this.updateState();
         
         // Ensure mobile menu is closed
         if (this.mobileMenuOverlay) {
@@ -150,6 +151,21 @@ class ModernHermesHeader {
             });
             
             this.mobileMenuToggle.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.toggleMobileMenu();
+            });
+        }
+
+        // Desktop hamburger events (appears on scroll)
+        if (this.desktopHamburger) {
+            this.desktopHamburger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.toggleMobileMenu();
+            });
+            
+            this.desktopHamburger.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 this.toggleMobileMenu();
@@ -226,10 +242,10 @@ class ModernHermesHeader {
         const currentScrollY = window.scrollY || document.documentElement.scrollTop;
         const shouldBeScrolled = currentScrollY > this.scrollThreshold;
         
-        // Update header state if scroll status changed
+        // Update  state if scroll status changed
         if (shouldBeScrolled !== this.isScrolled) {
             this.isScrolled = shouldBeScrolled;
-            this.updateHeaderScrollState();
+            this.updateScrollState();
         }
         
         // Close mobile menu on significant scroll
@@ -240,30 +256,30 @@ class ModernHermesHeader {
         this.lastScrollY = currentScrollY;
     }
 
-    updateHeaderScrollState() {
-        if (!this.header) return;
+    updateScrollState() {
+        if (!this.) return;
         
-        this.header.classList.toggle('scrolled', this.isScrolled);
+        this..classList.toggle('scrolled', this.isScrolled);
         
         // Add scroll animation classes
         if (this.isScrolled) {
-            this.header.style.transform = 'translateY(0)';
-            this.header.style.opacity = '1';
+            this..style.transform = 'translateY(0)';
+            this..style.opacity = '1';
         }
         
         // Trigger scroll state change event for other components
-        this.dispatchHeaderEvent('scrollStateChanged', { 
+        this.dispatchEvent('scrollStateChanged', { 
             isScrolled: this.isScrolled,
             scrollY: this.lastScrollY 
         });
     }
 
-    updateHeaderState() {
+    updateState() {
         // Initial state setup
-        if (this.header) {
-            this.header.style.opacity = '1';
-            this.header.style.visibility = 'visible';
-            this.header.style.transform = 'translateY(0)';
+        if (this.) {
+            this..style.opacity = '1';
+            this..style.visibility = 'visible';
+            this..style.transform = 'translateY(0)';
         }
     }
 
@@ -284,9 +300,13 @@ class ModernHermesHeader {
         this.isAnimating = true;
         this.isMobileMenuOpen = true;
         
-        // Update toggle button state
+        // Update both toggle buttons state
         if (this.mobileMenuToggle) {
             this.mobileMenuToggle.classList.add('active');
+        }
+        
+        if (this.desktopHamburger) {
+            this.desktopHamburger.classList.add('active');
         }
         
         // Show overlay
@@ -319,7 +339,7 @@ class ModernHermesHeader {
         }, 400);
         
         // Dispatch event
-        this.dispatchHeaderEvent('mobileMenuOpened');
+        this.dispatchEvent('mobileMenuOpened');
     }
 
     closeMobileMenu() {
@@ -328,9 +348,13 @@ class ModernHermesHeader {
         this.isAnimating = true;
         this.isMobileMenuOpen = false;
         
-        // Update toggle button state
+        // Update both toggle buttons state
         if (this.mobileMenuToggle) {
             this.mobileMenuToggle.classList.remove('active');
+        }
+        
+        if (this.desktopHamburger) {
+            this.desktopHamburger.classList.remove('active');
         }
         
         // Hide overlay
@@ -353,14 +377,17 @@ class ModernHermesHeader {
         setTimeout(() => {
             this.isAnimating = false;
             
-            // Return focus to toggle button
-            if (this.mobileMenuToggle) {
-                this.mobileMenuToggle.focus();
+            // Return focus to active toggle button
+            const activeToggle = window.innerWidth > 768 && this.isScrolled ? 
+                this.desktopHamburger : this.mobileMenuToggle;
+            
+            if (activeToggle) {
+                activeToggle.focus();
             }
         }, 400);
         
         // Dispatch event
-        this.dispatchHeaderEvent('mobileMenuClosed');
+        this.dispatchEvent('mobileMenuClosed');
     }
 
     animateMenuItemsIn() {
@@ -501,7 +528,7 @@ class ModernHermesHeader {
         
         // Add ripple effect
         const ripple = document.createElement('div');
-        ripple.className = 'click-ripple-header';
+        ripple.className = 'click-ripple-';
         
         const rect = element.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
@@ -515,7 +542,7 @@ class ModernHermesHeader {
             background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
             transform: scale(0);
-            animation: headerRipple 0.6s ease-out;
+            animation: Ripple 0.6s ease-out;
             pointer-events: none;
             z-index: 100;
         `;
@@ -535,7 +562,7 @@ class ModernHermesHeader {
 
     showActionFeedback(message, iconClass) {
         const feedback = document.createElement('div');
-        feedback.className = 'header-action-feedback';
+        feedback.className = '-action-feedback';
         
         feedback.innerHTML = `
             <i class="${iconClass}"></i>
@@ -665,9 +692,9 @@ class ModernHermesHeader {
     }
 
     scrollToTarget(targetElement, link) {
-        const headerHeight = this.header?.offsetHeight || 80;
+        const Height = this.?.offsetHeight || 80;
         const additionalOffset = 20;
-        const targetPosition = targetElement.offsetTop - headerHeight - additionalOffset;
+        const targetPosition = targetElement.offsetTop - Height - additionalOffset;
         
         // Add active state to navigation link
         this.setActiveNavLink(link);
@@ -703,11 +730,11 @@ class ModernHermesHeader {
             this.closeMobileMenu();
         }
         
-        // Update header state
-        this.updateHeaderState();
+        // Update  state
+        this.updateState();
         
         // Dispatch resize event
-        this.dispatchHeaderEvent('headerResized', { 
+        this.dispatchEvent('Resized', { 
             isMobile: wasMobile,
             width: window.innerWidth 
         });
@@ -801,10 +828,10 @@ class ModernHermesHeader {
     }
 
     // Event System
-    dispatchHeaderEvent(eventName, detail = {}) {
-        const event = new CustomEvent(`hermes:header:${eventName}`, {
+    dispatchEvent(eventName, detail = {}) {
+        const event = new CustomEvent(`hermes::${eventName}`, {
             detail: {
-                header: this,
+                : this,
                 timestamp: Date.now(),
                 ...detail
             }
@@ -857,18 +884,18 @@ class ModernHermesHeader {
         // Clear animations
         this.isAnimating = false;
         
-        console.log('Modern Hermes Header destroyed');
+        console.log('Modern Hermes  destroyed');
     }
 }
 
-// Enhanced Dynamic CSS Injection for Header Animations
-const injectHeaderAnimations = () => {
-    if (document.getElementById('hermes-header-animations')) return;
+// Enhanced Dynamic CSS Injection for  Animations
+const injectAnimations = () => {
+    if (document.getElementById('hermes--animations')) return;
     
     const style = document.createElement('style');
-    style.id = 'hermes-header-animations';
+    style.id = 'hermes--animations';
     style.textContent = `
-        @keyframes headerRipple {
+        @keyframes Ripple {
             0% {
                 transform: scale(0);
                 opacity: 1;
@@ -939,12 +966,12 @@ const injectHeaderAnimations = () => {
         }
         
         /* Loading states */
-        .header-loading .shop-now-btn {
+        .-loading .shop-now-btn {
             opacity: 0.8;
             pointer-events: none;
         }
         
-        .header-loading .mobile-menu-toggle {
+        .-loading .mobile-menu-toggle {
             opacity: 0.8;
             pointer-events: none;
         }
@@ -969,12 +996,12 @@ const injectHeaderAnimations = () => {
             transform: translateX(0);
         }
         
-        /* Scroll responsive header */
-        .hermes-modern-header {
+        /* Scroll responsive  */
+        .hermes-modern- {
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        .hermes-modern-header.scrolled {
+        .hermes-modern-.scrolled {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(40px);
             box-shadow: 
@@ -988,11 +1015,11 @@ const injectHeaderAnimations = () => {
                 transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             }
             
-            .hermes-modern-header.scrolled .mobile-nav {
+            .hermes-modern-.scrolled .mobile-nav {
                 height: 60px;
             }
             
-            .hermes-modern-header.scrolled .mobile-logo {
+            .hermes-modern-.scrolled .mobile-logo {
                 height: 28px;
             }
         }
@@ -1012,16 +1039,16 @@ const injectHeaderAnimations = () => {
 };
 
 // Integration with existing system
-const integrateWithExistingHeader = () => {
-    // Check if existing header classes exist
-    const existingHeader = window.ModernLuxuryHeader || window.header;
+const integrateWithExisting = () => {
+    // Check if existing  classes exist
+    const existing = window.ModernLuxury || window.;
     
-    if (existingHeader) {
-        console.log('Integrating with existing header system...');
+    if (existing) {
+        console.log('Integrating with existing  system...');
         
         // Extend existing functionality if needed
-        if (typeof existingHeader.scrollToContact === 'function') {
-            window.scrollToContact = existingHeader.scrollToContact.bind(existingHeader);
+        if (typeof existing.scrollToContact === 'function') {
+            window.scrollToContact = existing.scrollToContact.bind(existing);
         }
     }
     
@@ -1033,44 +1060,44 @@ const integrateWithExistingHeader = () => {
     }
 };
 
-// Initialize Header System
+// Initialize  System
 document.addEventListener('DOMContentLoaded', function() {
     // Inject animations first
-    injectHeaderAnimations();
+    injectAnimations();
     
-    // Initialize new header
-    const modernHeader = new ModernHermesHeader();
+    // Initialize new 
+    const modern = new ModernHermes();
     
     // Integrate with existing system
-    integrateWithExistingHeader();
+    integrateWithExisting();
     
     // Add to global scope for compatibility
-    window.ModernHermesHeader = ModernHermesHeader;
-    window.modernHermesHeader = modernHeader;
+    window.ModernHermes = ModernHermes;
+    window.modernHermes = modern;
     
-    // Override existing header if needed
-    if (window.ModernLuxuryHeader) {
-        window.ModernLuxuryHeader = ModernHermesHeader;
+    // Override existing  if needed
+    if (window.ModernLuxury) {
+        window.ModernLuxury = ModernHermes;
     }
     
-    console.log('✨ Modern Hermes Header System Loaded');
+    console.log('✨ Modern Hermes  System Loaded');
 });
 
 // Export for external use
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ModernHermesHeader;
+    module.exports = ModernHermes;
 }
 
 // Global utility functions
-window.hermesHeaderUtils = {
+window.hermesUtils = {
     scrollToContact: () => {
         const contactSection = document.getElementById('contact') || 
                              document.querySelector('.contact-section') ||
                              document.querySelector('[data-section="contact"]');
         
         if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
+            const Height = 80;
+            const elementPosition = contactSection.offsetTop - Height;
             
             window.scrollTo({
                 top: elementPosition,
@@ -1080,17 +1107,17 @@ window.hermesHeaderUtils = {
     },
     
     openShop: () => {
-        const header = window.modernHermesHeader;
-        if (header) {
-            header.handleShopRedirect(document.querySelector('.shop-now-btn'));
+        const  = window.modernHermes;
+        if () {
+            .handleShopRedirect(document.querySelector('.shop-now-btn'));
         } else {
             window.location.href = '/shop';
         }
     },
     
     closeAllMenus: () => {
-        if (window.modernHermesHeader && window.modernHermesHeader.isMobileMenuOpen) {
-            window.modernHermesHeader.closeMobileMenu();
+        if (window.modernHermes && window.modernHermes.isMobileMenuOpen) {
+            window.modernHermes.closeMobileMenu();
         }
         
         if (window.mobileMenu && window.mobileMenu.isOpen) {
@@ -1175,8 +1202,8 @@ class HeroSection {
     scrollToNextSection() {
         const nextSection = this.heroSection.nextElementSibling;
         if (nextSection) {
-            const headerHeight = 80;
-            const targetPosition = nextSection.offsetTop - headerHeight;
+            const Height = 80;
+            const targetPosition = nextSection.offsetTop - Height;
             
             window.scrollTo({
                 top: targetPosition,
@@ -1188,8 +1215,8 @@ class HeroSection {
     scrollToContact() {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
+            const Height = 80;
+            const elementPosition = contactSection.offsetTop - Height;
             
             window.scrollTo({
                 top: elementPosition,
@@ -2723,8 +2750,8 @@ class ElevatedAboutSection {
     scrollToContact() {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
+            const Height = 80;
+            const elementPosition = contactSection.offsetTop - Height;
             
             window.scrollTo({
                 top: elementPosition,
@@ -3076,8 +3103,8 @@ class HermesResultsShowcase {
     scrollToContact() {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
+            const Height = 80;
+            const elementPosition = contactSection.offsetTop - Height;
             
             window.scrollTo({
                 top: elementPosition,
@@ -3604,8 +3631,8 @@ function scrollToContact() {
                              document.querySelector('[data-section="contact"]');
         
         if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
+            const Height = 80;
+            const elementPosition = contactSection.offsetTop - Height;
             
             window.scrollTo({
                 top: elementPosition,
@@ -3646,7 +3673,7 @@ class EviaAestheticsApp {
         try {
             this.components.set('preloader', new Preloader());
             this.components.set('mobileMenu', new ModernMobileMenu());
-            this.components.set('header', new ModernLuxuryHeader());
+            this.components.set('header', new ModernHermesHeader());
             this.components.set('hero', new HeroSection());
             this.components.set('whatsHot', new EnhancedWhatsHotCarousel());
             this.components.set('servicesCarousel', new HermesServicesScroller());
@@ -3668,7 +3695,7 @@ class EviaAestheticsApp {
                 window.mobileMenu = new ModernMobileMenu();
                 window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
                 window.hermesFloatingButtons = new HermesFloatingButtons();
-                window.header = new ModernLuxuryHeader();
+                window.header = new ModernHermesHeader();
                 
             } catch (fallbackError) {
                 console.error('Fallback initialization failed:', fallbackError);
@@ -3902,7 +3929,7 @@ const initializeApp = () => {
             window.mobileMenu = new ModernMobileMenu();
             window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
             window.hermesFloatingButtons = new HermesFloatingButtons();
-            window.header = new ModernLuxuryHeader();
+            window.header = new ModernHermesHeader();
             
         } catch (fallbackError) {
             console.error('Fallback initialization failed:', fallbackError);
@@ -3939,7 +3966,7 @@ window.addEventListener('unhandledrejection', (event) => {
 window.ModernMobileMenu = ModernMobileMenu;
 window.EnhancedWhatsHotCarousel = EnhancedWhatsHotCarousel;
 window.HermesFloatingButtons = HermesFloatingButtons;
-window.ModernLuxuryHeader = ModernLuxuryHeader;
+window.ModernHermesHeader = ModernHermesHeader;
 window.HermesServicesScroller = HermesServicesScroller;
 window.ContactSection = ContactSection;
 window.HeroSection = HeroSection;
