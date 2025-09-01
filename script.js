@@ -102,7 +102,7 @@ class ModernHermesHeader {
         this.touchStartY = 0;
         this.touchEndY = 0;
         
-        if (this.) {
+        if (this.header) {
             this.init();
         }
     }
@@ -117,14 +117,14 @@ class ModernHermesHeader {
         this.preloadAssets();
         
         // Expose to global scope
-        window.modernHermes = this;
+        window.modernHermesHeader = this;
         
-        console.log('Modern Hermes  initialized successfully');
+        console.log('Modern Hermes Header initialized successfully');
     }
 
     setupInitialState() {
-        // Set initial  state
-        this.updateState();
+        // Set initial header state
+        this.updateHeaderState();
         
         // Ensure mobile menu is closed
         if (this.mobileMenuOverlay) {
@@ -135,6 +135,10 @@ class ModernHermesHeader {
         
         if (this.mobileMenuToggle) {
             this.mobileMenuToggle.classList.remove('active');
+        }
+        
+        if (this.desktopHamburger) {
+            this.desktopHamburger.classList.remove('active');
         }
         
         this.body.classList.remove('menu-open');
@@ -149,23 +153,11 @@ class ModernHermesHeader {
                 e.stopPropagation();
                 this.toggleMobileMenu();
             });
-            
-            this.mobileMenuToggle.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.toggleMobileMenu();
-            });
         }
 
         // Desktop hamburger events (appears on scroll)
         if (this.desktopHamburger) {
             this.desktopHamburger.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.toggleMobileMenu();
-            });
-            
-            this.desktopHamburger.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 this.toggleMobileMenu();
@@ -188,20 +180,6 @@ class ModernHermesHeader {
                     this.closeMobileMenu();
                 }
             });
-            
-            // Enhanced touch support for overlay
-            this.mobileMenuOverlay.addEventListener('touchstart', (e) => {
-                this.touchStartY = e.changedTouches[0].screenY;
-            }, { passive: true });
-            
-            this.mobileMenuOverlay.addEventListener('touchend', (e) => {
-                this.touchEndY = e.changedTouches[0].screenY;
-                const touchDiff = Math.abs(this.touchStartY - this.touchEndY);
-                
-                if (touchDiff < 50 && e.target === this.mobileMenuOverlay) {
-                    this.closeMobileMenu();
-                }
-            }, { passive: true });
         }
 
         // Keyboard navigation
@@ -215,13 +193,6 @@ class ModernHermesHeader {
         window.addEventListener('resize', this.debounce(() => {
             this.handleResize();
         }, 250));
-
-        // Prevent body scroll when menu is open
-        document.addEventListener('touchmove', (e) => {
-            if (this.isMobileMenuOpen) {
-                e.preventDefault();
-            }
-        }, { passive: false });
     }
 
     setupScrollDetection() {
@@ -242,10 +213,10 @@ class ModernHermesHeader {
         const currentScrollY = window.scrollY || document.documentElement.scrollTop;
         const shouldBeScrolled = currentScrollY > this.scrollThreshold;
         
-        // Update  state if scroll status changed
+        // Update header state if scroll status changed
         if (shouldBeScrolled !== this.isScrolled) {
             this.isScrolled = shouldBeScrolled;
-            this.updateScrollState();
+            this.updateHeaderScrollState();
         }
         
         // Close mobile menu on significant scroll
@@ -256,30 +227,24 @@ class ModernHermesHeader {
         this.lastScrollY = currentScrollY;
     }
 
-    updateScrollState() {
-        if (!this.) return;
+    updateHeaderScrollState() {
+        if (!this.header) return;
         
-        this..classList.toggle('scrolled', this.isScrolled);
+        this.header.classList.toggle('scrolled', this.isScrolled);
         
-        // Add scroll animation classes
-        if (this.isScrolled) {
-            this..style.transform = 'translateY(0)';
-            this..style.opacity = '1';
-        }
-        
-        // Trigger scroll state change event for other components
-        this.dispatchEvent('scrollStateChanged', { 
+        // Dispatch scroll state change event
+        this.dispatchHeaderEvent('scrollStateChanged', { 
             isScrolled: this.isScrolled,
             scrollY: this.lastScrollY 
         });
     }
 
-    updateState() {
+    updateHeaderState() {
         // Initial state setup
-        if (this.) {
-            this..style.opacity = '1';
-            this..style.visibility = 'visible';
-            this..style.transform = 'translateY(0)';
+        if (this.header) {
+            this.header.style.opacity = '1';
+            this.header.style.visibility = 'visible';
+            this.header.style.transform = 'translateY(0)';
         }
     }
 
@@ -339,7 +304,7 @@ class ModernHermesHeader {
         }, 400);
         
         // Dispatch event
-        this.dispatchEvent('mobileMenuOpened');
+        this.dispatchHeaderEvent('mobileMenuOpened');
     }
 
     closeMobileMenu() {
@@ -387,7 +352,7 @@ class ModernHermesHeader {
         }, 400);
         
         // Dispatch event
-        this.dispatchEvent('mobileMenuClosed');
+        this.dispatchHeaderEvent('mobileMenuClosed');
     }
 
     animateMenuItemsIn() {
@@ -481,11 +446,6 @@ class ModernHermesHeader {
                 e.preventDefault();
                 this.handleShopRedirect(btn);
             });
-            
-            btn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                this.handleShopRedirect(btn);
-            });
         });
     }
 
@@ -505,17 +465,9 @@ class ModernHermesHeader {
             this.closeMobileMenu();
         }
         
-        // Add vibration feedback on mobile
-        if ('vibrate' in navigator && window.innerWidth <= 768) {
-            navigator.vibrate([50, 30, 50]);
-        }
-        
         // Redirect after animations
         setTimeout(() => {
-            // Add page transition effect
-            this.addPageTransition(() => {
-                window.location.href = '/shop';
-            });
+            window.location.href = '/shop';
         }, this.isMobileMenuOpen ? 600 : 300);
     }
 
@@ -526,43 +478,16 @@ class ModernHermesHeader {
         element.style.transform = 'scale(0.95)';
         element.style.transition = 'transform 0.15s ease';
         
-        // Add ripple effect
-        const ripple = document.createElement('div');
-        ripple.className = 'click-ripple-';
-        
-        const rect = element.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        
-        ripple.style.cssText = `
-            position: absolute;
-            width: ${size}px;
-            height: ${size}px;
-            left: ${rect.width / 2 - size / 2}px;
-            top: ${rect.height / 2 - size / 2}px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            transform: scale(0);
-            animation: Ripple 0.6s ease-out;
-            pointer-events: none;
-            z-index: 100;
-        `;
-        
-        element.style.position = 'relative';
-        element.appendChild(ripple);
-        
         // Cleanup
         setTimeout(() => {
             element.style.transform = '';
             element.style.transition = '';
-            if (ripple.parentNode) {
-                ripple.remove();
-            }
-        }, 600);
+        }, 200);
     }
 
     showActionFeedback(message, iconClass) {
         const feedback = document.createElement('div');
-        feedback.className = '-action-feedback';
+        feedback.className = 'header-action-feedback';
         
         feedback.innerHTML = `
             <i class="${iconClass}"></i>
@@ -584,16 +509,12 @@ class ModernHermesHeader {
             z-index: 10001;
             opacity: 0;
             pointer-events: none;
-            box-shadow: 
-                0 20px 60px rgba(255, 140, 0, 0.3),
-                0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.3);
             display: flex;
             align-items: center;
             gap: 12px;
             min-width: 200px;
             justify-content: center;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         `;
         
@@ -615,48 +536,6 @@ class ModernHermesHeader {
         }, 2500);
     }
 
-    addPageTransition(callback) {
-        const overlay = document.createElement('div');
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, 
-                rgba(255, 140, 0, 0.9) 0%, 
-                rgba(255, 165, 0, 0.8) 100%);
-            z-index: 9999;
-            opacity: 0;
-            backdrop-filter: blur(20px);
-            transition: opacity 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-family: var(--font-inter);
-            font-size: 18px;
-            font-weight: 600;
-        `;
-        
-        overlay.innerHTML = `
-            <div style="text-align: center;">
-                <i class="ri-shopping-bag-3-line" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
-                <div>Loading Shop...</div>
-            </div>
-        `;
-        
-        document.body.appendChild(overlay);
-        
-        requestAnimationFrame(() => {
-            overlay.style.opacity = '1';
-        });
-        
-        setTimeout(() => {
-            callback();
-        }, 500);
-    }
-
     // Navigation Handlers
     setupNavigationHandlers() {
         this.navLinks.forEach(link => {
@@ -667,7 +546,6 @@ class ModernHermesHeader {
                     e.preventDefault();
                     this.handleHashNavigation(href, link);
                 }
-                // Let external links work normally
             });
         });
     }
@@ -692,9 +570,9 @@ class ModernHermesHeader {
     }
 
     scrollToTarget(targetElement, link) {
-        const Height = this.?.offsetHeight || 80;
+        const headerHeight = this.header?.offsetHeight || 80;
         const additionalOffset = 20;
-        const targetPosition = targetElement.offsetTop - Height - additionalOffset;
+        const targetPosition = targetElement.offsetTop - headerHeight - additionalOffset;
         
         // Add active state to navigation link
         this.setActiveNavLink(link);
@@ -723,19 +601,19 @@ class ModernHermesHeader {
 
     // Resize Handler
     handleResize() {
-        const wasMobile = window.innerWidth <= 768;
+        const isMobile = window.innerWidth <= 768;
         
         // Close mobile menu on resize to desktop
-        if (!wasMobile && this.isMobileMenuOpen) {
+        if (!isMobile && this.isMobileMenuOpen) {
             this.closeMobileMenu();
         }
         
-        // Update  state
-        this.updateState();
+        // Update header state
+        this.updateHeaderState();
         
         // Dispatch resize event
-        this.dispatchEvent('Resized', { 
-            isMobile: wasMobile,
+        this.dispatchHeaderEvent('headerResized', { 
+            isMobile: isMobile,
             width: window.innerWidth 
         });
     }
@@ -749,68 +627,17 @@ class ModernHermesHeader {
             this.mobileMenuToggle.setAttribute('aria-controls', 'mobileMenuOverlay');
         }
         
+        if (this.desktopHamburger) {
+            this.desktopHamburger.setAttribute('aria-label', 'Toggle navigation menu');
+            this.desktopHamburger.setAttribute('aria-expanded', 'false');
+            this.desktopHamburger.setAttribute('aria-controls', 'mobileMenuOverlay');
+        }
+        
         if (this.mobileMenuOverlay) {
             this.mobileMenuOverlay.setAttribute('role', 'dialog');
             this.mobileMenuOverlay.setAttribute('aria-label', 'Navigation menu');
             this.mobileMenuOverlay.setAttribute('aria-modal', 'true');
         }
-        
-        // Tab navigation within mobile menu
-        if (this.mobileMenuOverlay) {
-            this.mobileMenuOverlay.addEventListener('keydown', (e) => {
-                this.handleMenuKeyNavigation(e);
-            });
-        }
-        
-        // Focus trap
-        this.setupFocusTrap();
-    }
-
-    handleMenuKeyNavigation(e) {
-        if (!this.isMobileMenuOpen) return;
-        
-        const focusableElements = this.mobileMenuOverlay.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-        
-        if (e.key === 'Tab') {
-            if (e.shiftKey) {
-                if (document.activeElement === firstElement) {
-                    e.preventDefault();
-                    lastElement.focus();
-                }
-            } else {
-                if (document.activeElement === lastElement) {
-                    e.preventDefault();
-                    firstElement.focus();
-                }
-            }
-        }
-    }
-
-    setupFocusTrap() {
-        const updateAriaExpanded = () => {
-            if (this.mobileMenuToggle) {
-                this.mobileMenuToggle.setAttribute('aria-expanded', this.isMobileMenuOpen.toString());
-            }
-        };
-        
-        // Update ARIA state when menu state changes
-        const originalOpenMenu = this.openMobileMenu.bind(this);
-        const originalCloseMenu = this.closeMobileMenu.bind(this);
-        
-        this.openMobileMenu = function() {
-            originalOpenMenu();
-            updateAriaExpanded();
-        };
-        
-        this.closeMobileMenu = function() {
-            originalCloseMenu();
-            updateAriaExpanded();
-        };
     }
 
     // Asset Preloading
@@ -828,10 +655,10 @@ class ModernHermesHeader {
     }
 
     // Event System
-    dispatchEvent(eventName, detail = {}) {
-        const event = new CustomEvent(`hermes::${eventName}`, {
+    dispatchHeaderEvent(eventName, detail = {}) {
+        const event = new CustomEvent(`hermes:header:${eventName}`, {
             detail: {
-                : this,
+                header: this,
                 timestamp: Date.now(),
                 ...detail
             }
@@ -884,220 +711,32 @@ class ModernHermesHeader {
         // Clear animations
         this.isAnimating = false;
         
-        console.log('Modern Hermes  destroyed');
+        console.log('Modern Hermes Header destroyed');
     }
 }
 
-// Enhanced Dynamic CSS Injection for  Animations
-const injectAnimations = () => {
-    if (document.getElementById('hermes--animations')) return;
-    
-    const style = document.createElement('style');
-    style.id = 'hermes--animations';
-    style.textContent = `
-        @keyframes Ripple {
-            0% {
-                transform: scale(0);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes menuItemSlide {
-            0% {
-                opacity: 0;
-                transform: translateY(30px) translateX(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) translateX(0);
-            }
-        }
-        
-        @keyframes shopButtonPulse {
-            0%, 100% {
-                box-shadow: 0 8px 24px rgba(255, 140, 0, 0.25);
-            }
-            50% {
-                box-shadow: 0 12px 32px rgba(255, 140, 0, 0.4);
-            }
-        }
-        
-        .shop-now-btn {
-            animation: shopButtonPulse 3s ease-in-out infinite;
-        }
-        
-        .shop-now-btn:hover {
-            animation: none;
-        }
-        
-        .nav-link.active::after {
-            width: 100%;
-            background: var(--gradient-hermes-orange);
-        }
-        
-        .mobile-nav-item.active {
-            background: rgba(255, 140, 0, 0.1);
-            border-color: rgba(255, 140, 0, 0.3);
-            transform: translateX(8px);
-        }
-        
-        .mobile-nav-item.active .nav-item-text {
-            color: var(--hermes-orange);
-            font-weight: 600;
-        }
-        
-        .mobile-nav-item.active .nav-item-icon {
-            color: var(--hermes-orange);
-            transform: translateX(4px) scale(1.1);
-        }
-        
-        /* Enhanced focus states */
-        .shop-now-btn:focus,
-        .book-consultation-btn:focus,
-        .mobile-menu-toggle:focus {
-            outline: none;
-            box-shadow: 
-                0 0 0 3px rgba(255, 140, 0, 0.3),
-                0 8px 24px rgba(255, 140, 0, 0.25);
-        }
-        
-        /* Loading states */
-        .-loading .shop-now-btn {
-            opacity: 0.8;
-            pointer-events: none;
-        }
-        
-        .-loading .mobile-menu-toggle {
-            opacity: 0.8;
-            pointer-events: none;
-        }
-        
-        /* Smooth transitions for all interactive elements */
-        .nav-link,
-        .mobile-nav-item,
-        .shop-now-btn,
-        .book-consultation-btn,
-        .mobile-menu-toggle,
-        .social-link {
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        /* Enhanced mobile menu container animation */
-        .mobile-menu-container {
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .mobile-menu-overlay.active .mobile-menu-container {
-            transform: translateX(0);
-        }
-        
-        /* Scroll responsive  */
-        .hermes-modern- {
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .hermes-modern-.scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(40px);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.08),
-                0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-        
-        /* Mobile optimization */
-        @media (max-width: 768px) {
-            .mobile-nav {
-                transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            }
-            
-            .hermes-modern-.scrolled .mobile-nav {
-                height: 60px;
-            }
-            
-            .hermes-modern-.scrolled .mobile-logo {
-                height: 28px;
-            }
-        }
-        
-        /* High DPI optimization */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .desktop-logo,
-            .mobile-logo,
-            .menu-logo {
-                image-rendering: -webkit-optimize-contrast;
-                image-rendering: crisp-edges;
-            }
-        }
-    `;
-    
-    document.head.appendChild(style);
-};
-
-// Integration with existing system
-const integrateWithExisting = () => {
-    // Check if existing  classes exist
-    const existing = window.ModernLuxury || window.;
-    
-    if (existing) {
-        console.log('Integrating with existing  system...');
-        
-        // Extend existing functionality if needed
-        if (typeof existing.scrollToContact === 'function') {
-            window.scrollToContact = existing.scrollToContact.bind(existing);
-        }
-    }
-    
-    // Ensure mobile menu integration
-    const existingMobileMenu = window.ModernMobileMenu || window.mobileMenu;
-    if (existingMobileMenu && typeof existingMobileMenu.close === 'function') {
-        // Create unified interface
-        window.closeMobileMenu = existingMobileMenu.close.bind(existingMobileMenu);
-    }
-};
-
-// Initialize  System
+// Initialize Header System
 document.addEventListener('DOMContentLoaded', function() {
-    // Inject animations first
-    injectAnimations();
-    
-    // Initialize new 
-    const modern = new ModernHermes();
-    
-    // Integrate with existing system
-    integrateWithExisting();
+    // Initialize new header
+    const modernHeader = new ModernHermesHeader();
     
     // Add to global scope for compatibility
-    window.ModernHermes = ModernHermes;
-    window.modernHermes = modern;
+    window.ModernHermesHeader = ModernHermesHeader;
+    window.modernHermesHeader = modernHeader;
     
-    // Override existing  if needed
-    if (window.ModernLuxury) {
-        window.ModernLuxury = ModernHermes;
-    }
-    
-    console.log('✨ Modern Hermes  System Loaded');
+    console.log('Modern Hermes Header System Loaded');
 });
 
-// Export for external use
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ModernHermes;
-}
-
 // Global utility functions
-window.hermesUtils = {
+window.hermesHeaderUtils = {
     scrollToContact: () => {
         const contactSection = document.getElementById('contact') || 
                              document.querySelector('.contact-section') ||
                              document.querySelector('[data-section="contact"]');
         
         if (contactSection) {
-            const Height = 80;
-            const elementPosition = contactSection.offsetTop - Height;
+            const headerHeight = 80;
+            const elementPosition = contactSection.offsetTop - headerHeight;
             
             window.scrollTo({
                 top: elementPosition,
@@ -1107,17 +746,17 @@ window.hermesUtils = {
     },
     
     openShop: () => {
-        const  = window.modernHermes;
-        if () {
-            .handleShopRedirect(document.querySelector('.shop-now-btn'));
+        const header = window.modernHermesHeader;
+        if (header) {
+            header.handleShopRedirect(document.querySelector('.shop-now-btn'));
         } else {
             window.location.href = '/shop';
         }
     },
     
     closeAllMenus: () => {
-        if (window.modernHermes && window.modernHermes.isMobileMenuOpen) {
-            window.modernHermes.closeMobileMenu();
+        if (window.modernHermesHeader && window.modernHermesHeader.isMobileMenuOpen) {
+            window.modernHermesHeader.closeMobileMenu();
         }
         
         if (window.mobileMenu && window.mobileMenu.isOpen) {
