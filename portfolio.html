@@ -2,49 +2,901 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon - Finishing Touches</title>
-    <link rel="stylesheet" href="coming-soon.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Portfolio Gallery | Eviaesthetics Manhattan Before & After Results</title>
+    <meta name="title" content="Portfolio Gallery | Eviaesthetics Manhattan Before & After Results">
+    <meta name="description" content="View stunning before and after transformations from Manhattan's premier medical spa. Real client results from Dr. Evia Nano's expert treatments including Botox, fillers, and aesthetic procedures.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://eviaesthetics.com/portfolio.html">
+    
+    <!-- Additional Meta -->
+    <meta name="author" content="Dr. Evia A Nano MD">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eviaesthetics.com/portfolio.html">
+    <meta property="og:title" content="Portfolio Gallery | Eviaesthetics Manhattan Before & After Results">
+    <meta property="og:description" content="View stunning before and after transformations from Manhattan's premier medical spa.">
+    <meta property="og:image" content="https://eviaesthetics.com/images/portfolio-gallery.jpg">
+    
+    <!-- Fonts and Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
+    <link rel="shortcut icon" href="icons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="portfolio.css">
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="logo-area">
-                <div class="logo-placeholder"></div>
-            </div>
-            
-            <div class="main-content">
-                <h1 class="title">We're Adding the Finishing Touches</h1>
-                <p class="subtitle">Something beautiful is coming soon</p>
-                
-                <div class="progress-indicator">
-                    <div class="progress-bar">
-                        <div class="progress-fill"></div>
-                    </div>
-                    <span class="progress-text">95% Complete</span>
-                </div>
-                
-                <div class="cta-section">
-                    <p class="redirect-text">In the meantime, explore our main experience</p>
-                    <a href="index.html" class="cta-button" id="ctaButton">
-                        <span>Visit Main Page</span>
-                        <div class="button-shine"></div>
+
+    <!-- Modern Hermes Header -->
+    <header class="hermes-modern-header" id="hermesHeader">
+        <nav class="header-glass-container">
+            <!-- Desktop Navigation -->
+            <div class="desktop-nav">
+                <!-- Logo Section -->
+                <div class="logo-section">
+                    <a href="/" class="logo-link">
+                        <img src="images/logo1.png" alt="Eviaesthetics" class="desktop-logo">
                     </a>
                 </div>
+                
+                <!-- Navigation Links -->
+                <div class="nav-links-container">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="services.html" class="nav-link">Services</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="portfolio.html" class="nav-link active">Gallery</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+                
+                <!-- CTA Section -->
+                <div class="header-cta-section">
+                    <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="shop-now-btn">
+                        <span class="btn-text">Shop Now</span>
+                        <i class="ri-arrow-right-line btn-icon"></i>
+                    </a>
+                    <a href="index.html#contact" class="book-consultation-btn">Book Consultation</a>
+                </div>
+                
+                <!-- Desktop Hamburger (appears on scroll) -->
+                <div class="desktop-hamburger-circle" id="desktopHamburger">
+                    <div class="desktop-hamburger-lines">
+                        <span class="desktop-hamburger-line"></span>
+                        <span class="desktop-hamburger-line"></span>
+                        <span class="desktop-hamburger-line"></span>
+                    </div>
+                </div>
             </div>
             
-            <div class="floating-elements">
-                <div class="float-element float-1"></div>
-                <div class="float-element float-2"></div>
-                <div class="float-element float-3"></div>
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav">
+                <!-- Mobile Logo Circle -->
+                <div class="mobile-logo-section">
+                    <div class="mobile-logo-circle">
+                        <a href="/" class="mobile-logo-link">
+                            <img src="images/mobilelogo.png" alt="Eviaesthetics" class="mobile-logo">
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu Toggle Circle -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">
+                    <span class="toggle-line"></span>
+                    <span class="toggle-line"></span>
+                    <span class="toggle-line"></span>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Modern Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <div class="mobile-menu-container">
+                <!-- Menu Header -->
+                <div class="mobile-menu-header">
+                    <div class="menu-logo-section">
+                        <img src="images/mobilelogo.png" alt="Eviaesthetics" class="menu-logo">
+                    </div>
+                    <button class="menu-close-btn" id="menuCloseBtn">
+                        <i class="ri-close-line"></i>
+                    </button>
+                </div>
+                
+                <!-- Menu Content -->
+                <div class="mobile-menu-content">
+                    <!-- Primary Navigation -->
+                    <nav class="mobile-primary-nav">
+                        <a href="index.html" class="mobile-nav-item">
+                            <span class="nav-item-text">Home</span>
+                            <i class="ri-arrow-right-line nav-item-icon"></i>
+                        </a>
+                        <a href="services.html" class="mobile-nav-item">
+                            <span class="nav-item-text">Services</span>
+                            <i class="ri-arrow-right-line nav-item-icon"></i>
+                        </a>
+                        <a href="about.html" class="mobile-nav-item">
+                            <span class="nav-item-text">About Dr. Evia</span>
+                            <i class="ri-arrow-right-line nav-item-icon"></i>
+                        </a>
+                        <a href="portfolio.html" class="mobile-nav-item active">
+                            <span class="nav-item-text">Gallery</span>
+                            <i class="ri-arrow-right-line nav-item-icon"></i>
+                        </a>
+                        <a href="contact.html" class="mobile-nav-item">
+                            <span class="nav-item-text">Contact</span>
+                            <i class="ri-arrow-right-line nav-item-icon"></i>
+                        </a>
+                    </nav>
+                    
+                    <!-- CTA Section -->
+                    <div class="mobile-menu-ctas">
+                        <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="mobile-shop-btn">
+                            <span>Shop Luxury Products</span>
+                            <i class="ri-shopping-bag-3-line"></i>
+                        </a>
+                        <a href="index.html#contact" class="mobile-consultation-btn">
+                            <span>Book Consultation</span>
+                            <i class="ri-calendar-line"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Menu Footer -->
+                    <div class="mobile-menu-footer">
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/eviaesthetics/?hl=en" class="social-link">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                            <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" class="social-link">
+                                <i class="ri-facebook-line"></i>
+                            </a>
+                        </div>
+                        <p class="menu-tagline">Manhattan's Premier Luxury Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Portfolio Hero Section -->
+    <section class="portfolio-hero-section">
+        <div class="portfolio-hero-background">
+            <div class="hero-gradient-mesh"></div>
+            <div class="hero-floating-orbs">
+                <div class="hero-orb hero-orb-1"></div>
+                <div class="hero-orb hero-orb-2"></div>
+                <div class="hero-orb hero-orb-3"></div>
             </div>
         </div>
         
-        <footer class="footer">
-            <p>&copy; 2025 - Crafted with precision</p>
-        </footer>
+        <div class="portfolio-hero-content">
+            <div class="portfolio-hero-badge" data-aos="fade-down">
+                <i class="ri-gallery-line"></i>
+                <span>Real Results Portfolio</span>
+            </div>
+            
+            <h1 class="portfolio-hero-title" data-aos="fade-up" data-aos-delay="200">
+                <span class="hero-title-main">Transformation</span>
+                <span class="hero-title-accent">Gallery</span>
+            </h1>
+            
+            <p class="portfolio-hero-subtitle" data-aos="fade-up" data-aos-delay="400">
+                Witness the artistry of Dr. Evia Nano through authentic client transformations. 
+                Each result represents precision, expertise, and personalized care.
+            </p>
+            
+            <div class="portfolio-hero-stats" data-aos="fade-up" data-aos-delay="600">
+                <div class="hero-stat">
+                    <span class="stat-number">200+</span>
+                    <span class="stat-label">Transformations</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Satisfaction Rate</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number">5.0</span>
+                    <span class="stat-label">Google Rating</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Filter Section -->
+    <section class="portfolio-filter-section">
+        <div class="container">
+            <div class="filter-container" data-aos="fade-up">
+                <div class="filter-header">
+                    <h3 class="filter-title">Filter by Treatment</h3>
+                    <p class="filter-subtitle">Explore specific transformation types</p>
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">
+                        <span>All Results</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="filter-btn" data-filter="botox">
+                        <span>Botox</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="filter-btn" data-filter="fillers">
+                        <span>Fillers</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="filter-btn" data-filter="lips">
+                        <span>Lips</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="filter-btn" data-filter="eyes">
+                        <span>Eyes</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="filter-btn" data-filter="cheeks">
+                        <span>Cheeks</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="filter-btn" data-filter="skin">
+                        <span>Skin Treatments</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Gallery Section -->
+    <section class="portfolio-gallery-section">
+        <div class="container">
+            <div class="portfolio-gallery-grid" id="portfolioGrid">
+                
+                <!-- Lip Enhancement 1 -->
+                <div class="portfolio-item" data-category="lips fillers" data-aos="fade-up">
+                    <div class="portfolio-card">
+                        <div class="portfolio-comparison">
+                            <div class="comparison-container">
+                                <div class="before-image">
+                                    <img src="images/lipbefore.jpeg" alt="Before lip enhancement - natural lip shape" loading="lazy">
+                                    <div class="image-label before-label">Before</div>
+                                </div>
+                                <div class="after-image">
+                                    <img src="images/lipafter.jpeg" alt="After lip filler - enhanced volume and definition" loading="lazy">
+                                    <div class="image-label after-label">After</div>
+                                </div>
+                                <div class="comparison-slider" data-position="50">
+                                    <div class="slider-handle">
+                                        <i class="ri-drag-move-2-line"></i>
+                                    </div>
+                                    <div class="slider-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="portfolio-details">
+                            <div class="detail-header">
+                                <h3 class="portfolio-title">Lip Enhancement</h3>
+                                <div class="treatment-badge">Dermal Fillers</div>
+                            </div>
+                            <p class="portfolio-description">
+                                Natural volume restoration with precision filler technique for enhanced definition and symmetry.
+                            </p>
+                            <div class="portfolio-specs">
+                                <div class="spec-item">
+                                    <i class="ri-syringe-line"></i>
+                                    <span>Hyaluronic Acid</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="ri-time-line"></i>
+                                    <span>6 Month Duration</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eye Rejuvenation -->
+                <div class="portfolio-item" data-category="eyes botox" data-aos="fade-up" data-aos-delay="100">
+                    <div class="portfolio-card">
+                        <div class="portfolio-comparison">
+                            <div class="comparison-container">
+                                <div class="before-image">
+                                    <img src="images/eyebefore.jpeg" alt="Before eye treatment - visible crow's feet" loading="lazy">
+                                    <div class="image-label before-label">Before</div>
+                                </div>
+                                <div class="after-image">
+                                    <img src="images/eyeafter.jpeg" alt="After Botox treatment - smooth eye area" loading="lazy">
+                                    <div class="image-label after-label">After</div>
+                                </div>
+                                <div class="comparison-slider" data-position="50">
+                                    <div class="slider-handle">
+                                        <i class="ri-drag-move-2-line"></i>
+                                    </div>
+                                    <div class="slider-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="portfolio-details">
+                            <div class="detail-header">
+                                <h3 class="portfolio-title">Eye Rejuvenation</h3>
+                                <div class="treatment-badge">Botox</div>
+                            </div>
+                            <p class="portfolio-description">
+                                Crow's feet reduction and under-eye smoothing with precision Botox application technique.
+                            </p>
+                            <div class="portfolio-specs">
+                                <div class="spec-item">
+                                    <i class="ri-eye-line"></i>
+                                    <span>Botox Treatment</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="ri-calendar-line"></i>
+                                    <span>4 Month Duration</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cheek Enhancement -->
+                <div class="portfolio-item" data-category="cheeks fillers" data-aos="fade-up" data-aos-delay="200">
+                    <div class="portfolio-card">
+                        <div class="portfolio-comparison">
+                            <div class="comparison-container">
+                                <div class="before-image">
+                                    <img src="images/Checkbefore.jpeg" alt="Before cheek enhancement - volume loss" loading="lazy">
+                                    <div class="image-label before-label">Before</div>
+                                </div>
+                                <div class="after-image">
+                                    <img src="images/Checkafter.jpeg" alt="After cheek filler - restored volume and contours" loading="lazy">
+                                    <div class="image-label after-label">After</div>
+                                </div>
+                                <div class="comparison-slider" data-position="50">
+                                    <div class="slider-handle">
+                                        <i class="ri-drag-move-2-line"></i>
+                                    </div>
+                                    <div class="slider-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="portfolio-details">
+                            <div class="detail-header">
+                                <h3 class="portfolio-title">Cheek Enhancement</h3>
+                                <div class="treatment-badge">Volume Restoration</div>
+                            </div>
+                            <p class="portfolio-description">
+                                Strategic cheek augmentation for restored volume and lifted facial contours.
+                            </p>
+                            <div class="portfolio-specs">
+                                <div class="spec-item">
+                                    <i class="ri-heart-line"></i>
+                                    <span>Hyaluronic Acid</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="ri-star-line"></i>
+                                    <span>12 Month Duration</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Portfolio Items (Using placeholder images for demonstration) -->
+                <div class="portfolio-item" data-category="botox" data-aos="fade-up" data-aos-delay="300">
+                    <div class="portfolio-card">
+                        <div class="portfolio-comparison">
+                            <div class="comparison-container">
+                                <div class="before-image">
+                                    <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=400&h=300&fit=crop" alt="Before forehead treatment - visible lines" loading="lazy">
+                                    <div class="image-label before-label">Before</div>
+                                </div>
+                                <div class="after-image">
+                                    <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=400&h=300&fit=crop&brightness=1.1" alt="After Botox - smooth forehead" loading="lazy">
+                                    <div class="image-label after-label">After</div>
+                                </div>
+                                <div class="comparison-slider" data-position="50">
+                                    <div class="slider-handle">
+                                        <i class="ri-drag-move-2-line"></i>
+                                    </div>
+                                    <div class="slider-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="portfolio-details">
+                            <div class="detail-header">
+                                <h3 class="portfolio-title">Forehead Smoothing</h3>
+                                <div class="treatment-badge">Botox</div>
+                            </div>
+                            <p class="portfolio-description">
+                                Dramatic reduction of horizontal forehead lines for a refreshed, youthful appearance.
+                            </p>
+                            <div class="portfolio-specs">
+                                <div class="spec-item">
+                                    <i class="ri-focus-line"></i>
+                                    <span>Precision Injection</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="ri-time-line"></i>
+                                    <span>4 Month Duration</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="skin" data-aos="fade-up" data-aos-delay="400">
+                    <div class="portfolio-card">
+                        <div class="portfolio-comparison">
+                            <div class="comparison-container">
+                                <div class="before-image">
+                                    <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop" alt="Before skin treatment - texture concerns" loading="lazy">
+                                    <div class="image-label before-label">Before</div>
+                                </div>
+                                <div class="after-image">
+                                    <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop&brightness=1.2" alt="After treatment - smooth radiant skin" loading="lazy">
+                                    <div class="image-label after-label">After</div>
+                                </div>
+                                <div class="comparison-slider" data-position="50">
+                                    <div class="slider-handle">
+                                        <i class="ri-drag-move-2-line"></i>
+                                    </div>
+                                    <div class="slider-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="portfolio-details">
+                            <div class="detail-header">
+                                <h3 class="portfolio-title">Skin Resurfacing</h3>
+                                <div class="treatment-badge">Microneedling + PRP</div>
+                            </div>
+                            <p class="portfolio-description">
+                                Combined microneedling and PRP therapy for improved texture, tone, and radiance.
+                            </p>
+                            <div class="portfolio-specs">
+                                <div class="spec-item">
+                                    <i class="ri-drop-line"></i>
+                                    <span>PRP Therapy</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="ri-refresh-line"></i>
+                                    <span>3 Session Series</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="lips fillers" data-aos="fade-up" data-aos-delay="500">
+                    <div class="portfolio-card">
+                        <div class="portfolio-comparison">
+                            <div class="comparison-container">
+                                <div class="before-image">
+                                    <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&h=300&fit=crop" alt="Before lip treatment - asymmetrical lips" loading="lazy">
+                                    <div class="image-label before-label">Before</div>
+                                </div>
+                                <div class="after-image">
+                                    <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400&h=300&fit=crop&brightness=1.1" alt="After lip filler - balanced proportions" loading="lazy">
+                                    <div class="image-label after-label">After</div>
+                                </div>
+                                <div class="comparison-slider" data-position="50">
+                                    <div class="slider-handle">
+                                        <i class="ri-drag-move-2-line"></i>
+                                    </div>
+                                    <div class="slider-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="portfolio-details">
+                            <div class="detail-header">
+                                <h3 class="portfolio-title">Lip Symmetry Correction</h3>
+                                <div class="treatment-badge">Precision Fillers</div>
+                            </div>
+                            <p class="portfolio-description">
+                                Asymmetry correction and natural volume enhancement for balanced, beautiful lips.
+                            </p>
+                            <div class="portfolio-specs">
+                                <div class="spec-item">
+                                    <i class="ri-focus-2-line"></i>
+                                    <span>Precision Technique</span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="ri-time-line"></i>
+                                    <span>8 Month Duration</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Load More Button -->
+            <div class="portfolio-load-more" data-aos="fade-up">
+                <button class="load-more-btn" id="loadMoreBtn">
+                    <span>View More Transformations</span>
+                    <i class="ri-arrow-down-line"></i>
+                    <div class="btn-shimmer"></div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio CTA Section -->
+    <section class="portfolio-cta-section">
+        <div class="portfolio-cta-background">
+            <div class="cta-gradient-mesh"></div>
+            <div class="cta-floating-elements">
+                <div class="cta-orb cta-orb-1"></div>
+                <div class="cta-orb cta-orb-2"></div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="portfolio-cta-content" data-aos="fade-up">
+                <div class="cta-badge">
+                    <i class="ri-calendar-check-line"></i>
+                    <span>Ready for Your Transformation?</span>
+                </div>
+                
+                <h2 class="cta-title">
+                    <span class="cta-title-main">Your Story</span>
+                    <span class="cta-title-accent">Starts Here</span>
+                </h2>
+                
+                <p class="cta-description">
+                    Every transformation in our gallery began with a consultation. 
+                    Schedule yours today and discover what's possible for you.
+                </p>
+                
+                <div class="cta-actions">
+                    <a href="index.html#contact" class="primary-cta-btn">
+                        <span>Book Free Consultation</span>
+                        <i class="ri-arrow-right-line"></i>
+                        <div class="btn-glow"></div>
+                    </a>
+                    
+                    <a href="tel:+12016394983" class="secondary-cta-btn">
+                        <span>Call (201) 639-4983</span>
+                        <i class="ri-phone-line"></i>
+                    </a>
+                </div>
+                
+                <div class="cta-guarantee">
+                    <div class="guarantee-badge">
+                        <i class="ri-shield-check-line"></i>
+                        <span>100% Satisfaction Guarantee</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REDESIGNED LUXURY FOOTER SECTION -->
+    <footer class="premium-footer">
+        <div class="footer-upper">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Branding Column - Enlarged Logo -->
+                    <div class="footer-brand-column">
+                        <div class="footer-logo-container">
+                            <img src="images/logo1.png" alt="Eviaesthetics Manhattan Medical Spa" class="footer-logo">
+                        </div>
+                        <h3 class="brand-name">Eviaesthetics</h3>
+                        <p class="brand-tagline">Manhattan's Premier Luxury Medical Spa</p>
+                        <div class="footer-contact-info">
+                            <div class="contact-item">
+                                <i class="ri-phone-fill"></i>
+                                <span>(201) 639-4983</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="ri-map-pin-fill"></i>
+                                <span>65 W 36th St. 10th Floor, New York, NY 10018</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Links Column -->
+                    <div class="footer-links-column">
+                        <h4 class="footer-column-title">Quick Links</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="services.html">Services</a></li>
+                            <li><a href="about.html">About Dr. Nano</a></li>
+                            <li><a href="portfolio.html">Before & After</a></li>
+                            <li><a href="contact.html">Book Consultation</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Services Column -->
+                    <div class="footer-services-column">
+                        <h4 class="footer-column-title">Our Services</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="services.html">Botox & Fillers</a></li>
+                            <li><a href="services.html">Weight Management</a></li>
+                            <li><a href="services.html">IV Therapy</a></li>
+                            <li><a href="services.html">Microneedling</a></li>
+                            <li><a href="services.html">PRP Therapy</a></li>
+                            <li><a href="services.html">Chemical Peels</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Social & Newsletter Column -->
+                    <div class="footer-social-column">
+                        <h4 class="footer-column-title">Connect With Us</h4>
+                        <div class="social-media-links">
+                            <a href="https://www.instagram.com/eviaesthetics/?hl=en" class="social-media-link" aria-label="Instagram">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                            <a href="#" class="social-media-link" aria-label="Facebook">
+                                <i class="ri-facebook-line"></i>
+                            </a>
+                            <a href="#" class="social-media-link" aria-label="YouTube">
+                                <i class="ri-youtube-line"></i>
+                            </a>
+                            <a href="#" class="social-media-link" aria-label="Twitter">
+                                <i class="ri-twitter-x-line"></i>
+                            </a>
+                        </div>
+                        
+                        <!-- Newsletter Subscription -->
+                        <div class="newsletter-subscription">
+                            <h5 class="newsletter-title">Join Our Newsletter</h5>
+                            <p class="newsletter-subtitle">Exclusive offers & beauty tips</p>
+                            <form class="newsletter-form">
+                                <div class="form-input-group">
+                                    <input type="email" placeholder="Your Email" class="newsletter-input">
+                                    <button type="submit" class="newsletter-submit">
+                                        <i class="ri-arrow-right-line"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Trust Badges Section -->
+        <div class="trust-badges-section">
+            <div class="container">
+                <div class="trust-badges-wrapper">
+                    <!-- Payment Methods -->
+                    <div class="trust-badge-group payment-methods">
+                        <h5 class="badge-group-title">Secure Payments</h5>
+                        <div class="badge-icons">
+                            <div class="badge-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa accepted" width="60">
+                            </div>
+                            <div class="badge-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard accepted" width="60">
+                            </div>
+                            <div class="badge-icon">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="American Express accepted" width="60">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certifications -->
+                    <div class="trust-badge-group certifications">
+                        <h5 class="badge-group-title">Verified & Certified</h5>
+                        <div class="badge-icons">
+                            <div class="badge-icon">
+                                <img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified medical spa" width="100">
+                            </div>
+                            <div class="badge-icon">
+                                <img src="https://www.currentware.com/wp-content/uploads/2019/12/hipaa-compliance-1.jpg" alt="HIPAA Compliant medical practice" width="80">
+                            </div>
+                            <div class="badge-icon">
+                                <img src="https://www.amst.com/user/pages/35485/imghero-f.jpg?t=1718395933" alt="Google Partner verified" width="80">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews -->
+                    <div class="trust-badge-group reviews">
+                        <h5 class="badge-group-title">Trusted By Clients</h5>
+                        <div class="badge-icons">
+                            <div class="badge-icon rating">
+                                <div class="rating-stars">
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                </div>
+                                <div class="rating-text">5.0 Rating on Google</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Legal Section -->
+        <div class="footer-legal">
+            <div class="container">
+                <div class="legal-flex">
+                    <div class="legal-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cancellation Policy</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                    <div class="copyright-text">
+                        &copy; 2024 Eviaesthetics. All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Design Credit -->
+        <div class="design-credit">
+            <div class="container">
+                <a href="https://elanstechworld.com" class="designer-link" target="_blank" rel="noopener">
+                    <span>Designed by</span>
+                    <div class="designer-logo">
+                        <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="30">
+                        <span>Elan's Tech World</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hermes Floating Action Buttons -->
+    <div class="hermes-floating-controls">
+        
+        <!-- Back to Top Button -->
+        <div class="hermes-back-to-top" id="backToTopBtn">
+            <div class="btn-frame-ornaments">
+                <div class="frame-corner corner-tl"></div>
+                <div class="frame-corner corner-tr"></div>
+                <div class="frame-corner corner-bl"></div>
+                <div class="frame-corner corner-br"></div>
+            </div>
+            
+            <div class="btn-content">
+                <div class="btn-icon">
+                    <i class="ri-arrow-up-line"></i>
+                </div>
+                <div class="btn-ambient-glow"></div>
+            </div>
+            
+            <div class="btn-tooltip">
+                <span>Back to Top</span>
+                <div class="tooltip-arrow"></div>
+            </div>
+        </div>
+
+        <!-- Contact Fan-Out Button -->
+        <div class="hermes-contact-fab" id="contactFabBtn">
+            <div class="contact-fab-backdrop" id="contactBackdrop"></div>
+            
+            <!-- Main Contact Button -->
+            <div class="main-contact-btn">
+                <div class="btn-frame-ornaments">
+                    <div class="frame-corner corner-tl"></div>
+                    <div class="frame-corner corner-tr"></div>
+                    <div class="frame-corner corner-bl"></div>
+                    <div class="frame-corner corner-br"></div>
+                </div>
+                
+                <div class="btn-content">
+                    <div class="btn-icon main-icon">
+                        <i class="ri-contacts-line"></i>
+                    </div>
+                    <div class="btn-close-icon">
+                        <i class="ri-close-line"></i>
+                    </div>
+                    <div class="btn-ambient-glow"></div>
+                </div>
+                
+                <div class="btn-tooltip">
+                    <span>Contact Us</span>
+                    <div class="tooltip-arrow"></div>
+                </div>
+            </div>
+
+            <!-- Contact Options -->
+            <div class="contact-options">
+                
+                <!-- Call Option -->
+                <div class="contact-option" data-contact="call">
+                    <a href="tel:+12016394983" class="contact-link">
+                        <div class="option-frame-ornaments">
+                            <div class="frame-corner corner-tl"></div>
+                            <div class="frame-corner corner-tr"></div>
+                            <div class="frame-corner corner-bl"></div>
+                            <div class="frame-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="option-content">
+                            <div class="option-icon call-icon">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            <div class="option-ambient-glow"></div>
+                        </div>
+                        
+                        <div class="option-tooltip">
+                            <span>Call Now</span>
+                            <div class="option-number">(201) 639-4983</div>
+                            <div class="tooltip-arrow"></div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Instagram Option -->
+                <div class="contact-option" data-contact="instagram">
+                    <a href="https://www.instagram.com/eviaesthetics/?hl=en" target="_blank" rel="noopener noreferrer" class="contact-link">
+                        <div class="option-frame-ornaments">
+                            <div class="frame-corner corner-tl"></div>
+                            <div class="frame-corner corner-tr"></div>
+                            <div class="frame-corner corner-bl"></div>
+                            <div class="frame-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="option-content">
+                            <div class="option-icon instagram-icon">
+                                <i class="ri-instagram-line"></i>
+                            </div>
+                            <div class="option-ambient-glow"></div>
+                        </div>
+                        
+                        <div class="option-tooltip">
+                            <span>Follow Us</span>
+                            <div class="option-handle">@eviaesthetics</div>
+                            <div class="tooltip-arrow"></div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Email Option -->
+                <div class="contact-option" data-contact="email">
+                    <a href="mailto:info@eviaesthetics.com" class="contact-link">
+                        <div class="option-frame-ornaments">
+                            <div class="frame-corner corner-tl"></div>
+                            <div class="frame-corner corner-tr"></div>
+                            <div class="frame-corner corner-bl"></div>
+                            <div class="frame-corner corner-br"></div>
+                        </div>
+                        
+                        <div class="option-content">
+                            <div class="option-icon email-icon">
+                                <i class="ri-mail-line"></i>
+                            </div>
+                            <div class="option-ambient-glow"></div>
+                        </div>
+                        
+                        <div class="option-tooltip">
+                            <span>Email Us</span>
+                            <div class="option-email">info@eviaesthetics.com</div>
+                            <div class="tooltip-arrow"></div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
     </div>
-    
-    <script src="coming-soon.js"></script>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="script.js"></script>
+    <script src="portfolio.js"></script>
 </body>
 </html>
