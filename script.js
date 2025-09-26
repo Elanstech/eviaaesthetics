@@ -868,116 +868,70 @@ class HeroSection {
 /* ========================================
    WHATS HOT SECTION
    ======================================== */
-class EviaWhatsHotCarousel {
+class EviaHolidayPackages {
     constructor() {
-        this.section = document.querySelector('.evia-whats-hot-carousel-section');
-        this.track = document.getElementById('hotCarouselTrack');
-        this.cards = document.querySelectorAll('.evia-treatment-card');
-        this.prevBtn = document.getElementById('hotPrevBtn');
-        this.nextBtn = document.getElementById('hotNextBtn');
-        this.dotsContainer = document.getElementById('hotCarouselDots');
-        this.modalOverlay = document.getElementById('treatmentModalOverlay');
+        this.section = document.querySelector('.evia-whats-hot-packages-section');
+        this.packageTiles = document.querySelectorAll('.package-tile');
+        this.modalOverlay = document.getElementById('packageModalOverlay');
+        this.modal = document.getElementById('packageModal');
         
-        this.currentSlide = 0;
-        this.cardWidth = 0;
-        this.cardGap = 32;
-        this.visibleCards = 1;
-        this.maxSlide = 0;
-        this.isTransitioning = false;
-        this.autoplayInterval = null;
-        this.autoplayDelay = 5000;
-        this.isAutoplayPaused = false;
+        this.currentPackage = null;
+        this.isModalOpen = false;
         
-        // Touch/drag support
-        this.isDragging = false;
-        this.startX = 0;
-        this.currentX = 0;
-        this.threshold = 50;
-        
-        if (this.section && this.track && this.cards.length > 0) {
+        if (this.section && this.packageTiles.length > 0) {
             this.init();
         }
     }
 
     init() {
-        this.calculateDimensions();
         this.setupEventListeners();
-        this.createDots();
-        this.updateCarousel();
         this.setupModals();
-        this.startAutoplay();
+        this.initAnimations();
         
-        console.log('🔥 Enhanced What\'s Hot Carousel Initialized');
-    }
-
-    calculateDimensions() {
-        if (!this.cards.length) return;
-        
-        const containerWidth = this.track.parentElement.clientWidth;
-        this.cardWidth = this.cards[0].offsetWidth;
-        
-        // Responsive visible cards calculation
-        if (window.innerWidth >= 1200) {
-            this.visibleCards = Math.min(3, this.cards.length);
-        } else if (window.innerWidth >= 768) {
-            this.visibleCards = Math.min(2, this.cards.length);
-        } else {
-            this.visibleCards = 1;
-        }
-        
-        this.maxSlide = Math.max(0, this.cards.length - this.visibleCards);
-        
-        // Ensure current slide is within bounds
-        if (this.currentSlide > this.maxSlide) {
-            this.currentSlide = this.maxSlide;
-        }
+        console.log('🎁 Enhanced Holiday Packages Initialized');
     }
 
     setupEventListeners() {
-        // Navigation buttons
-        if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.prevSlide();
-                this.pauseAutoplay();
-            });
-        }
+        // Learn More button clicks
+        this.packageTiles.forEach(tile => {
+            const learnMoreBtn = tile.querySelector('.learn-more-btn');
+            if (learnMoreBtn) {
+                learnMoreBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const packageType = tile.dataset.package || learnMoreBtn.dataset.package;
+                    this.openModal(packageType);
+                });
+            }
+
+            // Book Now button clicks - these already have onclick handlers in HTML
+            const bookNowBtn = tile.querySelector('.book-now-btn');
+            if (bookNowBtn) {
+                // Add additional tracking/analytics if needed
+                bookNowBtn.addEventListener('click', (e) => {
+                    this.trackBookingClick(tile.dataset.package);
+                });
+            }
+
+            // Tile hover effects
+            tile.addEventListener('mouseenter', () => this.enhanceTileVisually(tile));
+            tile.addEventListener('mouseleave', () => this.resetTileVisuals(tile));
+        });
+
+        // Global CTA buttons
+        const primaryCtaBtn = document.querySelector('.primary-cta-btn');
+        const secondaryCtaBtn = document.querySelector('.secondary-cta-btn');
         
-        if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.nextSlide();
-                this.pauseAutoplay();
+        if (primaryCtaBtn) {
+            primaryCtaBtn.addEventListener('click', () => {
+                this.trackEvent('primary_cta_clicked', { location: 'bottom_section' });
             });
-        }
-
-        // Touch/drag support
-        if (this.track) {
-            // Touch events
-            this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
-            this.track.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
-            this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e));
-
-            // Mouse drag support
-            this.track.addEventListener('mousedown', (e) => this.handleMouseDown(e));
-            this.track.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-            this.track.addEventListener('mouseup', (e) => this.handleMouseUp(e));
-            this.track.addEventListener('mouseleave', (e) => this.handleMouseUp(e));
-
-            // Prevent default drag behavior
-            this.track.addEventListener('dragstart', (e) => e.preventDefault());
         }
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
 
-        // Pause autoplay on hover
-        if (this.section) {
-            this.section.addEventListener('mouseenter', () => this.pauseAutoplay());
-            this.section.addEventListener('mouseleave', () => this.resumeAutoplay());
-        }
-
-        // Window resize handler
+        // Window resize handler for responsive adjustments
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
@@ -985,250 +939,6 @@ class EviaWhatsHotCarousel {
                 this.handleResize();
             }, 250);
         });
-
-        // Learn more button clicks
-        this.cards.forEach(card => {
-            const learnMoreBtn = card.querySelector('.learn-more-btn');
-            if (learnMoreBtn) {
-                learnMoreBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const treatmentType = card.dataset.treatment;
-                    this.openModal(treatmentType);
-                });
-            }
-
-            // Card click to open modal
-            card.addEventListener('click', (e) => {
-                // Don't open modal if clicking on the learn more button
-                if (e.target.closest('.learn-more-btn')) return;
-                
-                const treatmentType = card.dataset.treatment;
-                this.openModal(treatmentType);
-            });
-        });
-    }
-
-    // Navigation Methods
-    nextSlide() {
-        if (this.isTransitioning) return;
-        
-        if (this.currentSlide < this.maxSlide) {
-            this.goToSlide(this.currentSlide + 1);
-        } else {
-            this.goToSlide(0); // Loop back to beginning
-        }
-    }
-
-    prevSlide() {
-        if (this.isTransitioning) return;
-        
-        if (this.currentSlide > 0) {
-            this.goToSlide(this.currentSlide - 1);
-        } else {
-            this.goToSlide(this.maxSlide); // Loop to end
-        }
-    }
-
-    goToSlide(slideIndex) {
-        if (this.isTransitioning || slideIndex === this.currentSlide) return;
-        
-        this.isTransitioning = true;
-        this.currentSlide = Math.max(0, Math.min(slideIndex, this.maxSlide));
-        
-        this.updateCarousel();
-        this.updateDots();
-        
-        // Reset transition flag
-        setTimeout(() => {
-            this.isTransitioning = false;
-        }, 800);
-    }
-
-    updateCarousel() {
-        if (!this.track) return;
-        
-        const translateX = -(this.currentSlide * (this.cardWidth + this.cardGap));
-        this.track.style.transform = `translateX(${translateX}px)`;
-        
-        // Update navigation button states
-        this.updateNavigationStates();
-    }
-
-    updateNavigationStates() {
-        if (this.prevBtn) {
-            this.prevBtn.style.opacity = this.currentSlide === 0 ? '0.5' : '1';
-            this.prevBtn.style.pointerEvents = this.currentSlide === 0 ? 'none' : 'auto';
-        }
-        
-        if (this.nextBtn) {
-            this.nextBtn.style.opacity = this.currentSlide === this.maxSlide ? '0.5' : '1';
-            this.nextBtn.style.pointerEvents = this.currentSlide === this.maxSlide ? 'none' : 'auto';
-        }
-    }
-
-    // Dots Navigation
-    createDots() {
-        if (!this.dotsContainer) return;
-        
-        this.dotsContainer.innerHTML = '';
-        
-        for (let i = 0; i <= this.maxSlide; i++) {
-            const dot = document.createElement('button');
-            dot.classList.add('dot');
-            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-            
-            dot.addEventListener('click', () => {
-                this.goToSlide(i);
-                this.pauseAutoplay();
-            });
-            
-            this.dotsContainer.appendChild(dot);
-        }
-        
-        this.updateDots();
-    }
-
-    updateDots() {
-        if (!this.dotsContainer) return;
-        
-        const dots = this.dotsContainer.querySelectorAll('.dot');
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentSlide);
-        });
-    }
-
-    // Touch/Drag Support
-    handleTouchStart(e) {
-        this.isDragging = true;
-        this.startX = e.touches[0].clientX;
-        this.pauseAutoplay();
-    }
-
-    handleTouchMove(e) {
-        if (!this.isDragging) return;
-        
-        e.preventDefault();
-        this.currentX = e.touches[0].clientX;
-    }
-
-    handleTouchEnd(e) {
-        if (!this.isDragging) return;
-        
-        this.isDragging = false;
-        const diff = this.startX - this.currentX;
-        
-        if (Math.abs(diff) > this.threshold) {
-            if (diff > 0) {
-                this.nextSlide();
-            } else {
-                this.prevSlide();
-            }
-        }
-        
-        this.startX = 0;
-        this.currentX = 0;
-    }
-
-    handleMouseDown(e) {
-        e.preventDefault();
-        this.isDragging = true;
-        this.startX = e.clientX;
-        this.track.style.cursor = 'grabbing';
-        this.pauseAutoplay();
-    }
-
-    handleMouseMove(e) {
-        if (!this.isDragging) return;
-        
-        e.preventDefault();
-        this.currentX = e.clientX;
-        
-        // Optional: Add visual feedback during drag
-        const diff = this.startX - this.currentX;
-        const currentTranslateX = -(this.currentSlide * (this.cardWidth + this.cardGap));
-        const newTranslateX = currentTranslateX - diff * 0.5;
-        
-        // this.track.style.transform = `translateX(${newTranslateX}px)`;
-    }
-
-    handleMouseUp(e) {
-        if (!this.isDragging) return;
-        
-        this.isDragging = false;
-        this.track.style.cursor = 'grab';
-        
-        const diff = this.startX - this.currentX;
-        
-        if (Math.abs(diff) > this.threshold) {
-            if (diff > 0) {
-                this.nextSlide();
-            } else {
-                this.prevSlide();
-            }
-        } else {
-            // Snap back to current position
-            this.updateCarousel();
-        }
-        
-        this.startX = 0;
-        this.currentX = 0;
-    }
-
-    // Keyboard Support
-    handleKeyboard(e) {
-        if (!this.section.matches(':hover')) return;
-        
-        switch(e.key) {
-            case 'ArrowLeft':
-                e.preventDefault();
-                this.prevSlide();
-                this.pauseAutoplay();
-                break;
-            case 'ArrowRight':
-                e.preventDefault();
-                this.nextSlide();
-                this.pauseAutoplay();
-                break;
-        }
-    }
-
-    // Autoplay
-    startAutoplay() {
-        if (this.autoplayInterval) return;
-        
-        this.autoplayInterval = setInterval(() => {
-            if (!this.isAutoplayPaused && !this.isDragging) {
-                this.nextSlide();
-            }
-        }, this.autoplayDelay);
-    }
-
-    pauseAutoplay() {
-        this.isAutoplayPaused = true;
-        
-        // Resume after 10 seconds of inactivity
-        setTimeout(() => {
-            this.isAutoplayPaused = false;
-        }, 10000);
-    }
-
-    resumeAutoplay() {
-        this.isAutoplayPaused = false;
-    }
-
-    stopAutoplay() {
-        if (this.autoplayInterval) {
-            clearInterval(this.autoplayInterval);
-            this.autoplayInterval = null;
-        }
-    }
-
-    // Resize Handler
-    handleResize() {
-        this.calculateDimensions();
-        this.updateCarousel();
-        this.createDots();
     }
 
     // Modal System
@@ -1255,8 +965,8 @@ class EviaWhatsHotCarousel {
             }
         });
 
-        // Book treatment button - MODIFIED TO REDIRECT TO CONTACT.HTML
-        const bookBtn = document.getElementById('bookTreatmentBtn');
+        // Book package button - REDIRECT TO CONTACT.HTML
+        const bookBtn = document.getElementById('bookPackageBtn');
         if (bookBtn) {
             bookBtn.addEventListener('click', () => {
                 this.closeModal();
@@ -1266,22 +976,20 @@ class EviaWhatsHotCarousel {
         }
     }
 
-    openModal(treatmentType) {
+    openModal(packageType) {
         if (!this.modalOverlay) return;
 
-        const treatmentData = this.getTreatmentData(treatmentType);
-        this.populateModal(treatmentData);
+        const packageData = this.getPackageData(packageType);
+        this.populateModal(packageData);
         
         this.modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
-        // Pause carousel autoplay when modal is open
-        this.pauseAutoplay();
+        this.isModalOpen = true;
+        this.currentPackage = packageType;
 
         // Add opening animation
-        const modal = this.modalOverlay.querySelector('.evia-enhanced-modal');
-        if (modal) {
-            modal.style.animation = 'modalSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        if (this.modal) {
+            this.modal.style.animation = 'modalSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         }
 
         // Add fade-in effect to modal image
@@ -1293,6 +1001,9 @@ class EviaWhatsHotCarousel {
                 modalImage.style.opacity = '1';
             };
         }
+
+        // Track modal open
+        this.trackEvent('package_modal_opened', { package: packageType });
     }
 
     closeModal() {
@@ -1300,13 +1011,15 @@ class EviaWhatsHotCarousel {
 
         this.modalOverlay.classList.remove('active');
         document.body.style.overflow = '';
-        
-        // Resume autoplay when modal closes
-        this.resumeAutoplay();
+        this.isModalOpen = false;
+        this.currentPackage = null;
+
+        // Track modal close
+        this.trackEvent('package_modal_closed');
     }
 
-    getTreatmentData(treatmentType) {
-        const treatmentDatabase = {
+    getPackageData(packageType) {
+        const packageDatabase = {
             'eye-rejuvenation': {
                 title: 'Eye Rejuvenation Elite',
                 icon: 'ri-eye-line',
@@ -1400,7 +1113,7 @@ class EviaWhatsHotCarousel {
             }
         };
 
-        return treatmentDatabase[treatmentType] || treatmentDatabase['eye-rejuvenation'];
+        return packageDatabase[packageType] || packageDatabase['eye-rejuvenation'];
     }
 
     populateModal(data) {
@@ -1457,7 +1170,7 @@ class EviaWhatsHotCarousel {
             savingsElement.innerHTML = `
                 <div class="savings-badge">
                     <i class="ri-price-tag-line"></i>
-                    <span>Save ${data.packageInfo.savings}</span>
+                    <span>Save $${data.packageInfo.savings}</span>
                 </div>
             `;
             if (modalDetails && modalDetails.firstChild) {
@@ -1466,15 +1179,264 @@ class EviaWhatsHotCarousel {
         }
     }
 
-    // Public API
+    // Visual Enhancement Methods
+    enhanceTileVisually(tile) {
+        const packageIcon = tile.querySelector('.package-icon-container');
+        const packageImage = tile.querySelector('.package-bg-image');
+        
+        if (packageIcon) {
+            packageIcon.style.transform = 'translateX(-50%) scale(1.1)';
+        }
+        
+        if (packageImage) {
+            packageImage.style.transform = 'scale(1.1)';
+        }
+
+        // Add subtle glow effect
+        tile.style.boxShadow = `
+            0 25px 60px rgba(0, 0, 0, 0.15),
+            0 12px 40px rgba(255, 140, 0, 0.25)
+        `;
+    }
+
+    resetTileVisuals(tile) {
+        const packageIcon = tile.querySelector('.package-icon-container');
+        const packageImage = tile.querySelector('.package-bg-image');
+        
+        if (packageIcon) {
+            packageIcon.style.transform = 'translateX(-50%) scale(1)';
+        }
+        
+        if (packageImage) {
+            packageImage.style.transform = 'scale(1)';
+        }
+
+        // Reset box shadow
+        tile.style.boxShadow = '';
+    }
+
+    // Animation and Effects
+    initAnimations() {
+        // Initialize AOS or custom scroll animations if needed
+        this.observePackageTiles();
+        
+        // Add entrance animations with stagger
+        this.packageTiles.forEach((tile, index) => {
+            tile.style.opacity = '0';
+            tile.style.transform = 'translateY(50px)';
+            
+            setTimeout(() => {
+                tile.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                tile.style.opacity = '1';
+                tile.style.transform = 'translateY(0)';
+            }, 200 * index);
+        });
+    }
+
+    observePackageTiles() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    this.animatePackageTile(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        this.packageTiles.forEach(tile => observer.observe(tile));
+    }
+
+    animatePackageTile(tile) {
+        // Add custom animations when tiles come into view
+        const badge = tile.querySelector('.package-badge');
+        const icon = tile.querySelector('.package-icon-container');
+        
+        if (badge) {
+            badge.style.animation = 'pulse-glow 2s infinite';
+        }
+        
+        if (icon) {
+            setTimeout(() => {
+                icon.style.transform = 'translateX(-50%) scale(1.1)';
+                setTimeout(() => {
+                    icon.style.transform = 'translateX(-50%) scale(1)';
+                }, 300);
+            }, 500);
+        }
+    }
+
+    // Event Handlers
+    handleKeyboard(e) {
+        if (!this.section.matches(':hover') && !this.isModalOpen) return;
+        
+        switch(e.key) {
+            case 'Escape':
+                if (this.isModalOpen) {
+                    e.preventDefault();
+                    this.closeModal();
+                }
+                break;
+            case '1':
+            case '2':
+            case '3':
+                if (!this.isModalOpen) {
+                    e.preventDefault();
+                    const tileIndex = parseInt(e.key) - 1;
+                    const tile = this.packageTiles[tileIndex];
+                    if (tile) {
+                        const packageType = tile.dataset.package;
+                        this.openModal(packageType);
+                    }
+                }
+                break;
+        }
+    }
+
+    handleResize() {
+        // Handle responsive adjustments if needed
+        if (window.innerWidth <= 768) {
+            // Mobile specific adjustments
+            this.packageTiles.forEach(tile => {
+                if (tile.classList.contains('featured')) {
+                    tile.style.transform = 'none';
+                }
+            });
+        } else {
+            // Desktop adjustments
+            this.packageTiles.forEach(tile => {
+                if (tile.classList.contains('featured')) {
+                    tile.style.transform = 'scale(1.05)';
+                }
+            });
+        }
+    }
+
+    // Analytics and Tracking
+    trackBookingClick(packageType) {
+        this.trackEvent('package_booking_clicked', {
+            package: packageType,
+            location: 'package_tile'
+        });
+    }
+
+    trackEvent(eventName, eventData = {}) {
+        // Enhanced analytics tracking
+        const analyticsData = {
+            event_category: 'Holiday Packages',
+            event_label: eventData.package || 'general',
+            custom_parameters: {
+                package_type: eventData.package,
+                location: eventData.location,
+                timestamp: Date.now(),
+                viewport_width: window.innerWidth,
+                viewport_height: window.innerHeight,
+                ...eventData
+            }
+        };
+
+        // Google Analytics 4 tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, analyticsData);
+        }
+
+        // Custom analytics endpoint
+        if (window.customAnalytics) {
+            window.customAnalytics.track(eventName, analyticsData);
+        }
+        
+        // Development logging
+        console.log(`📊 Holiday Packages Event: ${eventName}`, analyticsData);
+    }
+
+    // Public API Methods
+    openPackageModal(packageType) {
+        this.openModal(packageType);
+    }
+
+    closePackageModal() {
+        this.closeModal();
+    }
+
+    getPackageInfo(packageType) {
+        return this.getPackageData(packageType);
+    }
+
+    highlightPackage(packageType) {
+        const tile = document.querySelector(`[data-package="${packageType}"]`);
+        if (tile) {
+            tile.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            this.enhanceTileVisually(tile);
+            
+            setTimeout(() => {
+                this.resetTileVisuals(tile);
+            }, 2000);
+        }
+    }
+
+    // Utility Methods
+    showFeedback(message, type = 'success') {
+        const feedback = document.createElement('div');
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: ${type === 'success' ? 'var(--hermes-orange, #FF8C00)' : '#dc3545'};
+            color: white;
+            padding: 20px 32px;
+            border-radius: 24px;
+            font-family: var(--font-inter, 'Inter', sans-serif);
+            font-size: 15px;
+            font-weight: 600;
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        `;
+        
+        feedback.innerHTML = `
+            <i class="ri-gift-line" style="font-size: 18px;"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(feedback);
+        
+        requestAnimationFrame(() => {
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        setTimeout(() => {
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.remove();
+                }
+            }, 500);
+        }, 3000);
+    }
+
+    // Cleanup
     destroy() {
-        this.stopAutoplay();
+        // Clean up event listeners and observers
+        this.packageTiles.forEach(tile => {
+            tile.removeEventListener('mouseenter', this.enhanceTileVisually);
+            tile.removeEventListener('mouseleave', this.resetTileVisuals);
+        });
         
-        // Remove event listeners
-        if (this.prevBtn) this.prevBtn.removeEventListener('click', this.prevSlide);
-        if (this.nextBtn) this.nextBtn.removeEventListener('click', this.nextSlide);
-        
-        console.log('🔥 Enhanced What\'s Hot Carousel Destroyed');
+        console.log('🎁 Holiday Packages Component Destroyed');
     }
 }
 
@@ -1490,25 +1452,49 @@ const modalAnimationCSS = `
         transform: scale(1) translateY(0);
     }
 }
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4); 
+    }
+    50% { 
+        box-shadow: 0 4px 20px rgba(255, 140, 0, 0.6), 0 0 30px rgba(255, 140, 0, 0.3); 
+    }
+}
+
+.package-tile.in-view {
+    animation: slideInUp 0.8s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 `;
 
 // Inject animation CSS
-if (!document.querySelector('#modal-animations')) {
+if (!document.querySelector('#holiday-packages-animations')) {
     const style = document.createElement('style');
-    style.id = 'modal-animations';
+    style.id = 'holiday-packages-animations';
     style.textContent = modalAnimationCSS;
     document.head.appendChild(style);
 }
 
 // Auto-initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize carousel
-    window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
+    // Initialize holiday packages
+    window.eviaHolidayPackages = new EviaHolidayPackages();
 });
 
 // Export for module usage
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EviaWhatsHotCarousel;
+    module.exports = EviaHolidayPackages;
 }
 
 /* ========================================
