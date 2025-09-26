@@ -1307,97 +1307,100 @@ class EviaWhatsHotCarousel {
 
     getTreatmentData(treatmentType) {
         const treatmentDatabase = {
-            'nad-drip': {
-                title: 'NAD+ Drip Therapy',
-                icon: 'ri-drop-line',
-                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-nad-vial.jpg',
-                price: '$450',
+            'eye-rejuvenation': {
+                title: 'Eye Rejuvenation Elite',
+                icon: 'ri-eye-line',
+                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/under-eye-treatment.jpg',
+                price: '$500',
+                originalPrice: '$1,030',
                 duration: '90 min',
-                description: 'NAD+ (Nicotinamide Adenine Dinucleotide) IV therapy is our most advanced cellular regeneration treatment. This powerful coenzyme plays a crucial role in cellular energy production, DNA repair, and anti-aging processes. Our premium NAD+ formula helps boost cognitive function, increase energy levels, and support overall cellular health.',
+                description: 'Our comprehensive under-eye transformation package combines the latest in aesthetic medicine. This elite treatment includes mesotherapy with cutting-edge exosomes for cellular regeneration, precision Botox application to smooth fine lines, and premium Alumier eye cream for ongoing care. Experience dramatic improvements in under-eye bags, dark circles, fine lines, and overall skin texture.',
                 benefits: [
-                    'Enhanced cellular energy production',
-                    'Improved cognitive function and mental clarity',
-                    'Increased metabolism and fat burning',
-                    'Better sleep quality and recovery',
-                    'Reduced signs of aging',
-                    'Enhanced immune system function'
+                    'Dramatic reduction in under-eye bags and puffiness',
+                    'Significant improvement in dark circles',
+                    'Smoothing of fine lines and wrinkles',
+                    'Enhanced skin texture and firmness',
+                    'Long-lasting hydration and protection',
+                    'Includes premium take-home eye cream'
                 ],
                 details: {
-                    duration: '60-90 minutes',
-                    frequency: 'Weekly for optimal results',
-                    results: 'Immediate energy boost',
-                    downtime: 'None required'
+                    'Package Value': '$1,030 (Save $530)',
+                    'Treatment Time': '90-120 minutes',
+                    'Package Limit': 'Maximum 2 per client',
+                    'Results Timeline': 'Immediate improvement, peak at 2-4 weeks',
+                    'Includes': 'Mesotherapy + Exosomes + Botox + Eye Cream'
+                },
+                packageInfo: {
+                    originalValue: 1030,
+                    salePrice: 500,
+                    savings: 530,
+                    limit: 'Up to 2 packages per client'
                 }
             },
-            'vitamin-c-glow': {
-                title: 'Vitamin C Glow',
+            'holiday-glow': {
+                title: 'Holiday Glow Transformation',
                 icon: 'ri-sun-line',
-                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-vitamin-c-drip.jpg',
-                price: '$180',
-                duration: '45 min',
-                description: 'Transform your skin from within with our high-dose Vitamin C infusion. This powerful antioxidant treatment promotes collagen production, brightens skin tone, and provides protection against environmental damage. Perfect for achieving that coveted healthy glow.',
+                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/holiday-glow-treatment.jpg',
+                price: '$600',
+                originalPrice: '$950',
+                duration: '75 min',
+                description: 'Get ready for the holidays with our signature glow package! This transformative treatment combines Profhilo bio-remodeling for deep hydration and skin quality improvement with a medium-grade chemical peel for renewed radiance. Plus, enjoy exclusive savings on professional skincare products to maintain your beautiful results.',
                 benefits: [
+                    'Intense skin hydration and bio-remodeling',
+                    'Improved skin texture and elasticity',
+                    'Reduced fine lines and enhanced firmness',
                     'Radiant, glowing complexion',
-                    'Increased collagen production',
-                    'Improved skin texture and tone',
-                    'Enhanced immune system',
-                    'Powerful antioxidant protection',
-                    'Faster wound healing'
+                    'Professional skincare at 20% discount',
+                    'Perfect for holiday events and photos'
                 ],
                 details: {
-                    duration: '30-45 minutes',
-                    frequency: 'Bi-weekly maintenance',
-                    results: 'Visible glow within 24 hours',
-                    downtime: 'None required'
+                    'Package Value': '$950 + Skincare Bonus',
+                    'Treatment Time': '60-90 minutes',
+                    'Package Limit': 'Maximum 2 per client',
+                    'Skincare Bonus': '20% off $500 pack (now $400)',
+                    'Results Timeline': 'Immediate glow, continued improvement for weeks'
+                },
+                packageInfo: {
+                    originalValue: 950,
+                    salePrice: 600,
+                    savings: 350,
+                    limit: 'Up to 2 packages per client',
+                    bonus: '20% off skincare pack ($500 value - now $400)'
                 }
             },
-            'energy-boost': {
-                title: 'Energy Boost',
-                icon: 'ri-flashlight-line',
-                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-energy-boost.jpg',
-                price: '$150',
-                duration: '30 min',
-                description: 'Combat fatigue and reclaim your vitality with our specialized Energy Boost IV. This carefully formulated blend of B-vitamins, amino acids, and essential nutrients provides immediate and sustained energy enhancement, perfect for busy professionals and active lifestyles.',
+            'lip-skin-revival': {
+                title: 'Lip & Skin Revival',
+                icon: 'ri-heart-pulse-line',
+                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/lip-skin-treatment.jpg',
+                price: '$1,000',
+                originalPrice: '$1,600',
+                duration: '120 min',
+                description: 'The ultimate combination for complete facial rejuvenation! This luxury package pairs professional lip plumping and hydration with dermal fillers alongside advanced skin pen microneedling. Experience fuller, more defined lips while simultaneously improving overall skin texture, tone, and quality. Perfect for those seeking comprehensive facial enhancement.',
                 benefits: [
-                    'Immediate energy increase',
-                    'Enhanced mental focus',
-                    'Improved physical performance',
-                    'Better stress management',
-                    'Increased motivation and productivity',
-                    'Balanced mood and wellbeing'
+                    'Fuller, more defined and hydrated lips',
+                    'Natural-looking lip enhancement',
+                    'Improved overall skin texture and tone',
+                    'Reduced appearance of fine lines and scars',
+                    'Enhanced collagen production',
+                    'Exclusive skincare savings with purchase'
                 ],
                 details: {
-                    duration: '30-45 minutes',
-                    frequency: 'Weekly or as needed',
-                    results: 'Immediate energy boost',
-                    downtime: 'None required'
-                }
-            },
-            'immune-support': {
-                title: 'Immune Support',
-                icon: 'ri-shield-check-line',
-                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-immune-support.jpg',
-                price: '$200',
-                duration: '45 min',
-                description: 'Strengthen your body\'s natural defenses with our comprehensive Immune Support IV therapy. This powerful combination of vitamins, minerals, and antioxidants helps boost immune function, reduce illness duration, and maintain optimal health year-round.',
-                benefits: [
-                    'Strengthened immune system',
-                    'Reduced illness frequency and duration',
-                    'Enhanced recovery from stress',
-                    'Improved overall wellness',
-                    'Better resistance to infections',
-                    'Increased antioxidant protection'
-                ],
-                details: {
-                    duration: '45-60 minutes',
-                    frequency: 'Monthly or seasonally',
-                    results: 'Enhanced immunity within days',
-                    downtime: 'None required'
+                    'Package Value': '$1,600 (Save $600)',
+                    'Treatment Time': '2-2.5 hours total',
+                    'Lip Enhancement': 'Professional dermal filler application',
+                    'Skin Treatment': 'Advanced microneedling therapy',
+                    'Bonus Offer': '20% off skincare products'
+                },
+                packageInfo: {
+                    originalValue: 1600,
+                    salePrice: 1000,
+                    savings: 600,
+                    bonus: '20% off skincare with package purchase'
                 }
             }
         };
 
-        return treatmentDatabase[treatmentType] || treatmentDatabase['nad-drip'];
+        return treatmentDatabase[treatmentType] || treatmentDatabase['eye-rejuvenation'];
     }
 
     populateModal(data) {
@@ -1413,7 +1416,7 @@ class EviaWhatsHotCarousel {
         if (modalIcon) modalIcon.className = data.icon;
         if (modalImage) {
             modalImage.src = data.image;
-            modalImage.alt = `${data.title} - Manhattan Medical Spa Treatment`;
+            modalImage.alt = `${data.title} - Manhattan Medical Spa Package`;
         }
         if (modalDescription) modalDescription.textContent = data.description;
 
@@ -1427,18 +1430,39 @@ class EviaWhatsHotCarousel {
             });
         }
 
-        // Populate details
+        // Populate details with package information
         if (modalDetails && data.details) {
             modalDetails.innerHTML = '';
             Object.entries(data.details).forEach(([key, value]) => {
                 const detailItem = document.createElement('div');
                 detailItem.className = 'detail-item';
+                
+                // Special styling for package value
+                if (key === 'Package Value') {
+                    detailItem.classList.add('package-value-highlight');
+                }
+                
                 detailItem.innerHTML = `
-                    <div class="detail-label">${key.replace(/([A-Z])/g, ' $1').toLowerCase()}</div>
+                    <div class="detail-label">${key.replace(/([A-Z])/g, ' $1')}</div>
                     <div class="detail-value">${value}</div>
                 `;
                 modalDetails.appendChild(detailItem);
             });
+        }
+
+        // Add package savings highlight if available
+        if (data.packageInfo) {
+            const savingsElement = document.createElement('div');
+            savingsElement.className = 'package-savings-highlight';
+            savingsElement.innerHTML = `
+                <div class="savings-badge">
+                    <i class="ri-price-tag-line"></i>
+                    <span>Save ${data.packageInfo.savings}</span>
+                </div>
+            `;
+            if (modalDetails && modalDetails.firstChild) {
+                modalDetails.insertBefore(savingsElement, modalDetails.firstChild);
+            }
         }
     }
 
@@ -1486,64 +1510,6 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = EviaWhatsHotCarousel;
 }
-
-/* ========================================
-   GLOBAL FUNCTIONS (for HTML onclick events)
-   ======================================== */
-function openLearnMoreModal(packageId) {
-    if (window.hermesWhatsHot) {
-        window.hermesWhatsHot.openLearnMoreModal(packageId);
-    }
-}
-
-function closeLearnMoreModal() {
-    if (window.hermesWhatsHot) {
-        window.hermesWhatsHot.closeLearnMoreModal();
-    }
-}
-
-function switchToBookingModal() {
-    if (window.hermesWhatsHot) {
-        window.hermesWhatsHot.switchToBookingModal();
-    }
-}
-
-function openBookingModal(packageId) {
-    if (window.hermesWhatsHot) {
-        window.hermesWhatsHot.openBookingModal(packageId);
-    }
-}
-
-function closeBookingModal() {
-    if (window.hermesWhatsHot) {
-        window.hermesWhatsHot.closeBookingModal();
-    }
-}
-
-function confirmBooking() {
-    if (window.hermesWhatsHot) {
-        window.hermesWhatsHot.confirmBooking();
-    }
-}
-
-function closeConfirmation() {
-    if (window.hermesWhatsHot) {
-        window.hermesWhatsHot.closeConfirmation();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    try {
-        window.hermesWhatsHot = new HermesWhatsHotSection();
-        console.log('🔥 Hermes What\'s Hot System Loaded');
-    } catch (error) {
-        console.error('Failed to initialize Hermes What\'s Hot section:', error);
-    }
-});
-
-// Global window assignment for external access
-window.HermesWhatsHotSection = HermesWhatsHotSection;
-
 
 /* ========================================
    SERVICES SECTION
