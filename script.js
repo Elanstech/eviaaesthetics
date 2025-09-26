@@ -1,11 +1,175 @@
-/* ========================================
-   EVIA AESTHETICS - COMPLETE SCRIPT
-   Manhattan Med Spa - Luxury Experience
-   ======================================== */
+/**
+ * =============================================================================
+ * EVIA AESTHETICS - COMPLETE ORGANIZED JAVASCRIPT
+ * =============================================================================
+ * Manhattan Medical Spa - Luxury Hermes Experience
+ * Modular architecture with clean separation of concerns
+ */
 
-/* ========================================
-   PRELOADER
-   ======================================== */
+'use strict';
+
+// =============================================================================
+// GLOBAL CONFIGURATION
+// =============================================================================
+const EVIA_CONFIG = {
+    animationDuration: 600,
+    scrollOffset: 100,
+    autoPlayInterval: 4000,
+    breakpoints: {
+        mobile: 768,
+        tablet: 1024,
+        desktop: 1200
+    },
+    colors: {
+        primary: '#1a1a1a',
+        accent: '#FF8C00',
+        white: '#ffffff'
+    },
+    urls: {
+        shop: 'https://us.alumiermd.com/products?code=54T7P4HH',
+        contact: 'contact.html',
+        portfolio: 'portfolio.html',
+        services: 'services.html',
+        about: 'about.html'
+    }
+};
+
+// =============================================================================
+// UTILITY FUNCTIONS
+// =============================================================================
+class EviaUtils {
+    static debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    static throttle(func, limit) {
+        let inThrottle;
+        return function(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+
+    static isMobile() {
+        return window.innerWidth <= EVIA_CONFIG.breakpoints.mobile;
+    }
+
+    static smoothScrollTo(target, duration = 1200) {
+        const targetElement = typeof target === 'string' ? document.querySelector(target) : target;
+        if (!targetElement) return;
+
+        const startPosition = window.pageYOffset;
+        const targetPosition = targetElement.offsetTop - EVIA_CONFIG.scrollOffset;
+        const distance = targetPosition - startPosition;
+        let startTime = null;
+
+        const animation = (currentTime) => {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            const easeProgress = EviaUtils.easeInOutCubic(progress);
+            
+            window.scrollTo(0, startPosition + distance * easeProgress);
+            
+            if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+            }
+        };
+
+        requestAnimationFrame(animation);
+    }
+
+    static easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    }
+
+    static showNotification(message, type = 'success', iconClass = 'ri-check-line') {
+        const notification = document.createElement('div');
+        notification.className = `evia-notification ${type}`;
+        
+        notification.innerHTML = `
+            <i class="${iconClass}"></i>
+            <span>${message}</span>
+        `;
+        
+        notification.style.cssText = `
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: ${type === 'success' ? 'linear-gradient(135deg, #FF8C00 0%, #FFA500 100%)' : '#ef4444'};
+            color: white;
+            padding: 16px 24px;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100px);
+            pointer-events: none;
+            box-shadow: 0 15px 35px rgba(255, 140, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        `;
+        
+        document.body.appendChild(notification);
+        
+        requestAnimationFrame(() => {
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateX(0)';
+        });
+        
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(100px)';
+            setTimeout(() => notification.remove(), 400);
+        }, 4000);
+    }
+
+    static createRippleEffect(element, event) {
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+        
+        const ripple = document.createElement('span');
+        ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+        `;
+        
+        element.style.position = 'relative';
+        element.style.overflow = 'hidden';
+        element.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    }
+}
+
+// =============================================================================
+// PRELOADER COMPONENT
+// =============================================================================
 class Preloader {
     constructor() {
         this.preloader = document.getElementById('preloader') || document.querySelector('.evia-modern-preloader');
@@ -25,6 +189,8 @@ class Preloader {
         window.addEventListener('load', () => {
             setTimeout(() => this.hidePreloader(), 500);
         });
+        
+        console.log('🔄 Preloader Initialized');
     }
 
     startLoadingSequence() {
@@ -78,10 +244,9 @@ class Preloader {
     }
 }
 
-/* ========================================
-   MODERN HERMES HEADER - ENHANCED
-   ======================================== */
-
+// =============================================================================
+// MODERN HERMES HEADER COMPONENT
+// =============================================================================
 class ModernHermesHeader {
     constructor() {
         this.header = document.getElementById('hermesHeader') || document.querySelector('.hermes-modern-header');
@@ -91,16 +256,12 @@ class ModernHermesHeader {
         this.menuCloseBtn = document.getElementById('menuCloseBtn');
         this.shopNowBtns = document.querySelectorAll('.shop-now-btn, .mobile-shop-btn');
         this.navLinks = document.querySelectorAll('.nav-link, .mobile-nav-item');
-        this.body = document.body;
         
-        // State management
         this.isScrolled = false;
         this.isMobileMenuOpen = false;
         this.scrollThreshold = 80;
         this.lastScrollY = 0;
         this.isAnimating = false;
-        this.touchStartY = 0;
-        this.touchEndY = 0;
         
         if (this.header) {
             this.init();
@@ -116,17 +277,13 @@ class ModernHermesHeader {
         this.setupAccessibility();
         this.preloadAssets();
         
-        // Expose to global scope
         window.modernHermesHeader = this;
-        
-        console.log('Modern Hermes Header initialized successfully');
+        console.log('🎯 Modern Hermes Header Initialized');
     }
 
     setupInitialState() {
-        // Set initial header state
         this.updateHeaderState();
         
-        // Ensure mobile menu is closed
         if (this.mobileMenuOverlay) {
             this.mobileMenuOverlay.classList.remove('active');
             this.mobileMenuOverlay.style.opacity = '0';
@@ -141,12 +298,11 @@ class ModernHermesHeader {
             this.desktopHamburger.classList.remove('active');
         }
         
-        this.body.classList.remove('menu-open');
+        document.body.classList.remove('menu-open');
         this.isMobileMenuOpen = false;
     }
 
     bindEvents() {
-        // Mobile menu toggle events
         if (this.mobileMenuToggle) {
             this.mobileMenuToggle.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -155,7 +311,6 @@ class ModernHermesHeader {
             });
         }
 
-        // Desktop hamburger events (appears on scroll)
         if (this.desktopHamburger) {
             this.desktopHamburger.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -164,7 +319,6 @@ class ModernHermesHeader {
             });
         }
 
-        // Menu close button
         if (this.menuCloseBtn) {
             this.menuCloseBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -173,7 +327,6 @@ class ModernHermesHeader {
             });
         }
 
-        // Overlay click to close
         if (this.mobileMenuOverlay) {
             this.mobileMenuOverlay.addEventListener('click', (e) => {
                 if (e.target === this.mobileMenuOverlay) {
@@ -182,44 +335,32 @@ class ModernHermesHeader {
             });
         }
 
-        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isMobileMenuOpen) {
                 this.closeMobileMenu();
             }
         });
 
-        // Window resize handler
-        window.addEventListener('resize', this.debounce(() => {
+        window.addEventListener('resize', EviaUtils.debounce(() => {
             this.handleResize();
         }, 250));
     }
 
     setupScrollDetection() {
-        let ticking = false;
-        
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    this.handleScroll();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
+        window.addEventListener('scroll', EviaUtils.throttle(() => {
+            this.handleScroll();
+        }, 16), { passive: true });
     }
 
     handleScroll() {
         const currentScrollY = window.scrollY || document.documentElement.scrollTop;
         const shouldBeScrolled = currentScrollY > this.scrollThreshold;
         
-        // Update header state if scroll status changed
         if (shouldBeScrolled !== this.isScrolled) {
             this.isScrolled = shouldBeScrolled;
             this.updateHeaderScrollState();
         }
         
-        // Close mobile menu on significant scroll
         if (this.isMobileMenuOpen && Math.abs(currentScrollY - this.lastScrollY) > 100) {
             this.closeMobileMenu();
         }
@@ -231,8 +372,6 @@ class ModernHermesHeader {
         if (!this.header) return;
         
         this.header.classList.toggle('scrolled', this.isScrolled);
-        
-        // Dispatch scroll state change event
         this.dispatchHeaderEvent('scrollStateChanged', { 
             isScrolled: this.isScrolled,
             scrollY: this.lastScrollY 
@@ -240,7 +379,6 @@ class ModernHermesHeader {
     }
 
     updateHeaderState() {
-        // Initial state setup
         if (this.header) {
             this.header.style.opacity = '1';
             this.header.style.visibility = 'visible';
@@ -248,7 +386,6 @@ class ModernHermesHeader {
         }
     }
 
-    // Mobile Menu Functions
     toggleMobileMenu() {
         if (this.isAnimating) return;
         
@@ -265,7 +402,6 @@ class ModernHermesHeader {
         this.isAnimating = true;
         this.isMobileMenuOpen = true;
         
-        // Update both toggle buttons state
         if (this.mobileMenuToggle) {
             this.mobileMenuToggle.classList.add('active');
         }
@@ -274,36 +410,27 @@ class ModernHermesHeader {
             this.desktopHamburger.classList.add('active');
         }
         
-        // Show overlay
         if (this.mobileMenuOverlay) {
             this.mobileMenuOverlay.classList.add('active');
             this.mobileMenuOverlay.style.opacity = '1';
             this.mobileMenuOverlay.style.visibility = 'visible';
         }
         
-        // Lock body scroll
         this.lockBodyScroll();
-        
-        // Animate menu items in
         this.animateMenuItemsIn();
         
-        // Add vibration feedback on mobile
-        if ('vibrate' in navigator && window.innerWidth <= 768) {
+        if ('vibrate' in navigator && EviaUtils.isMobile()) {
             navigator.vibrate(50);
         }
         
-        // Reset animation flag
         setTimeout(() => {
             this.isAnimating = false;
-            
-            // Focus management
             const firstNavItem = this.mobileMenuOverlay?.querySelector('.mobile-nav-item');
             if (firstNavItem) {
                 firstNavItem.focus();
             }
         }, 400);
         
-        // Dispatch event
         this.dispatchHeaderEvent('mobileMenuOpened');
     }
 
@@ -313,7 +440,6 @@ class ModernHermesHeader {
         this.isAnimating = true;
         this.isMobileMenuOpen = false;
         
-        // Update both toggle buttons state
         if (this.mobileMenuToggle) {
             this.mobileMenuToggle.classList.remove('active');
         }
@@ -322,7 +448,6 @@ class ModernHermesHeader {
             this.desktopHamburger.classList.remove('active');
         }
         
-        // Hide overlay
         if (this.mobileMenuOverlay) {
             this.mobileMenuOverlay.classList.remove('active');
             this.mobileMenuOverlay.style.opacity = '0';
@@ -332,17 +457,11 @@ class ModernHermesHeader {
             }, 400);
         }
         
-        // Unlock body scroll
         this.unlockBodyScroll();
-        
-        // Animate menu items out
         this.animateMenuItemsOut();
         
-        // Reset animation flag
         setTimeout(() => {
             this.isAnimating = false;
-            
-            // Return focus to active toggle button
             const activeToggle = window.innerWidth > 768 && this.isScrolled ? 
                 this.desktopHamburger : this.mobileMenuToggle;
             
@@ -351,7 +470,6 @@ class ModernHermesHeader {
             }
         }, 400);
         
-        // Dispatch event
         this.dispatchHeaderEvent('mobileMenuClosed');
     }
 
@@ -361,18 +479,15 @@ class ModernHermesHeader {
         if (!menuItems) return;
         
         menuItems.forEach((item, index) => {
-            // Set initial state
             item.style.opacity = '0';
             item.style.transform = 'translateY(30px) translateX(20px)';
             item.style.transition = 'none';
             
-            // Animate in with staggered delay
             setTimeout(() => {
                 item.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
                 item.style.opacity = '1';
                 item.style.transform = 'translateY(0) translateX(0)';
                 
-                // Add entrance effect
                 if (item.classList.contains('mobile-nav-item')) {
                     this.addItemGlowEffect(item);
                 }
@@ -393,7 +508,6 @@ class ModernHermesHeader {
             }, index * 30);
         });
         
-        // Reset all animations after close
         setTimeout(() => {
             menuItems.forEach(item => {
                 item.style.transition = '';
@@ -415,31 +529,29 @@ class ModernHermesHeader {
         }, 100);
     }
 
-    // Body Scroll Management
     lockBodyScroll() {
         const scrollY = window.scrollY;
-        this.body.style.position = 'fixed';
-        this.body.style.top = `-${scrollY}px`;
-        this.body.style.width = '100%';
-        this.body.style.overflow = 'hidden';
-        this.body.classList.add('menu-open');
-        this.body.dataset.scrollPosition = scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
+        document.body.classList.add('menu-open');
+        document.body.dataset.scrollPosition = scrollY;
     }
 
     unlockBodyScroll() {
-        const scrollY = this.body.dataset.scrollPosition;
-        this.body.style.position = '';
-        this.body.style.top = '';
-        this.body.style.width = '';
-        this.body.style.overflow = '';
-        this.body.classList.remove('menu-open');
+        const scrollY = document.body.dataset.scrollPosition;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.body.classList.remove('menu-open');
         
         if (scrollY) {
             window.scrollTo(0, parseInt(scrollY || '0'));
         }
     }
 
-    // Shop Now Redirect Handler
     setupShopRedirect() {
         this.shopNowBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -453,32 +565,24 @@ class ModernHermesHeader {
         if (this.isAnimating) return;
         
         this.isAnimating = true;
-        
-        // Add click feedback
         this.addClickFeedback(button);
-        
-        // Show loading state
         this.showActionFeedback('Loading shop...', 'ri-shopping-bag-3-line');
         
-        // Close mobile menu if open
         if (this.isMobileMenuOpen) {
             this.closeMobileMenu();
         }
         
-        // Redirect after animations
         setTimeout(() => {
-            window.location.href = 'https://us.alumiermd.com/products?code=54T7P4HH';
+            window.location.href = EVIA_CONFIG.urls.shop;
         }, this.isMobileMenuOpen ? 600 : 300);
     }
 
     addClickFeedback(element) {
         if (!element) return;
         
-        // Scale animation
         element.style.transform = 'scale(0.95)';
         element.style.transition = 'transform 0.15s ease';
         
-        // Cleanup
         setTimeout(() => {
             element.style.transform = '';
             element.style.transition = '';
@@ -499,11 +603,11 @@ class ModernHermesHeader {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            background: var(--gradient-hermes-orange);
+            background: var(--gradient-hermes-orange, linear-gradient(135deg, #FF8C00 0%, #FFA500 100%));
             color: white;
             padding: 16px 24px;
             border-radius: 50px;
-            font-family: var(--font-inter);
+            font-family: 'Inter', sans-serif;
             font-size: 14px;
             font-weight: 600;
             z-index: 10001;
@@ -536,7 +640,6 @@ class ModernHermesHeader {
         }, 2500);
     }
 
-    // Navigation Handlers
     setupNavigationHandlers() {
         this.navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -555,11 +658,8 @@ class ModernHermesHeader {
         const targetElement = document.getElementById(targetId);
         
         if (targetElement) {
-            // Close mobile menu if open
             if (this.isMobileMenuOpen) {
                 this.closeMobileMenu();
-                
-                // Wait for menu close animation
                 setTimeout(() => {
                     this.scrollToTarget(targetElement, link);
                 }, 400);
@@ -574,53 +674,41 @@ class ModernHermesHeader {
         const additionalOffset = 20;
         const targetPosition = targetElement.offsetTop - headerHeight - additionalOffset;
         
-        // Add active state to navigation link
         this.setActiveNavLink(link);
         
-        // Smooth scroll
         window.scrollTo({
             top: Math.max(0, targetPosition),
             behavior: 'smooth'
         });
         
-        // Add scroll indicator feedback
         this.showActionFeedback(`Navigating to ${targetElement.id}...`, 'ri-navigation-line');
     }
 
     setActiveNavLink(activeLink) {
-        // Remove active class from all nav links
         document.querySelectorAll('.nav-link, .mobile-nav-item').forEach(link => {
             link.classList.remove('active');
         });
         
-        // Add active class to current link
         if (activeLink) {
             activeLink.classList.add('active');
         }
     }
 
-    // Resize Handler
     handleResize() {
         const isMobile = window.innerWidth <= 768;
         
-        // Close mobile menu on resize to desktop
         if (!isMobile && this.isMobileMenuOpen) {
             this.closeMobileMenu();
         }
         
-        // Update header state
         this.updateHeaderState();
-        
-        // Dispatch resize event
         this.dispatchHeaderEvent('headerResized', { 
             isMobile: isMobile,
             width: window.innerWidth 
         });
     }
 
-    // Accessibility Setup
     setupAccessibility() {
-        // Add ARIA attributes
         if (this.mobileMenuToggle) {
             this.mobileMenuToggle.setAttribute('aria-label', 'Toggle navigation menu');
             this.mobileMenuToggle.setAttribute('aria-expanded', 'false');
@@ -640,7 +728,6 @@ class ModernHermesHeader {
         }
     }
 
-    // Asset Preloading
     preloadAssets() {
         const criticalAssets = [
             'images/logo.png',
@@ -654,7 +741,6 @@ class ModernHermesHeader {
         });
     }
 
-    // Event System
     dispatchHeaderEvent(eventName, detail = {}) {
         const event = new CustomEvent(`hermes:header:${eventName}`, {
             detail: {
@@ -667,20 +753,6 @@ class ModernHermesHeader {
         document.dispatchEvent(event);
     }
 
-    // Utility Functions
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    // Public API Methods
     scrollToTop() {
         window.scrollTo({
             top: 0,
@@ -697,77 +769,22 @@ class ModernHermesHeader {
         }
     }
 
-    // Cleanup for SPA compatibility
     destroy() {
-        // Remove event listeners
         window.removeEventListener('scroll', this.handleScroll);
         window.removeEventListener('resize', this.handleResize);
         
-        // Unlock body if needed
         if (this.isMobileMenuOpen) {
             this.unlockBodyScroll();
         }
         
-        // Clear animations
         this.isAnimating = false;
-        
         console.log('Modern Hermes Header destroyed');
     }
 }
 
-// Initialize Header System
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize new header
-    const modernHeader = new ModernHermesHeader();
-    
-    // Add to global scope for compatibility
-    window.ModernHermesHeader = ModernHermesHeader;
-    window.modernHermesHeader = modernHeader;
-    
-    console.log('Modern Hermes Header System Loaded');
-});
-
-// Global utility functions
-window.hermesHeaderUtils = {
-    scrollToContact: () => {
-        const contactSection = document.getElementById('contact') || 
-                             document.querySelector('.contact-section') ||
-                             document.querySelector('[data-section="contact"]');
-        
-        if (contactSection) {
-            const headerHeight = 80;
-            const elementPosition = contactSection.offsetTop - headerHeight;
-            
-            window.scrollTo({
-                top: elementPosition,
-                behavior: 'smooth'
-            });
-        }
-    },
-    
-    openShop: () => {
-        const header = window.modernHermesHeader;
-        if (header) {
-            header.handleShopRedirect(document.querySelector('.shop-now-btn'));
-        } else {
-            window.location.href = 'https://us.alumiermd.com/products?code=54T7P4HH';
-        }
-    },
-    
-    closeAllMenus: () => {
-        if (window.modernHermesHeader && window.modernHermesHeader.isMobileMenuOpen) {
-            window.modernHermesHeader.closeMobileMenu();
-        }
-        
-        if (window.mobileMenu && window.mobileMenu.isOpen) {
-            window.mobileMenu.close();
-        }
-    }
-};
-
-/* ========================================
-   HERO SECTION
-   ======================================== */
+// =============================================================================
+// HERO SECTION COMPONENT
+// =============================================================================
 class HeroSection {
     constructor() {
         this.heroSection = document.querySelector('.cinematic-hero');
@@ -785,6 +802,8 @@ class HeroSection {
         this.setupVideoHandling();
         this.setupScrollIndicator();
         this.ensureContentVisibility();
+        
+        console.log('🎬 Hero Section Initialized');
     }
 
     ensureContentVisibility() {
@@ -841,8 +860,8 @@ class HeroSection {
     scrollToNextSection() {
         const nextSection = this.heroSection.nextElementSibling;
         if (nextSection) {
-            const Height = 80;
-            const targetPosition = nextSection.offsetTop - Height;
+            const headerHeight = 80;
+            const targetPosition = nextSection.offsetTop - headerHeight;
             
             window.scrollTo({
                 top: targetPosition,
@@ -854,8 +873,8 @@ class HeroSection {
     scrollToContact() {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
-            const Height = 80;
-            const elementPosition = contactSection.offsetTop - Height;
+            const headerHeight = 80;
+            const elementPosition = contactSection.offsetTop - headerHeight;
             
             window.scrollTo({
                 top: elementPosition,
@@ -865,9 +884,9 @@ class HeroSection {
     }
 }
 
-/* ========================================
-   WHATS HOT SECTION
-   ======================================== */
+// =============================================================================
+// WHATS HOT PACKAGES SECTION COMPONENT
+// =============================================================================
 class EviaHolidayPackages {
     constructor() {
         this.section = document.querySelector('.evia-whats-hot-packages-section');
@@ -888,11 +907,10 @@ class EviaHolidayPackages {
         this.setupModals();
         this.initAnimations();
         
-        console.log('🎁 Enhanced Holiday Packages Initialized');
+        console.log('🎁 Holiday Packages Initialized');
     }
 
     setupEventListeners() {
-        // Learn More button clicks
         this.packageTiles.forEach(tile => {
             const learnMoreBtn = tile.querySelector('.learn-more-btn');
             if (learnMoreBtn) {
@@ -904,21 +922,17 @@ class EviaHolidayPackages {
                 });
             }
 
-            // Book Now button clicks - these already have onclick handlers in HTML
             const bookNowBtn = tile.querySelector('.book-now-btn');
             if (bookNowBtn) {
-                // Add additional tracking/analytics if needed
                 bookNowBtn.addEventListener('click', (e) => {
                     this.trackBookingClick(tile.dataset.package);
                 });
             }
 
-            // Tile hover effects
             tile.addEventListener('mouseenter', () => this.enhanceTileVisually(tile));
             tile.addEventListener('mouseleave', () => this.resetTileVisuals(tile));
         });
 
-        // Global CTA buttons
         const primaryCtaBtn = document.querySelector('.primary-cta-btn');
         const secondaryCtaBtn = document.querySelector('.secondary-cta-btn');
         
@@ -928,28 +942,19 @@ class EviaHolidayPackages {
             });
         }
 
-        // Keyboard navigation
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
 
-        // Window resize handler for responsive adjustments
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                this.handleResize();
-            }, 250);
-        });
+        window.addEventListener('resize', EviaUtils.debounce(() => {
+            this.handleResize();
+        }, 250));
     }
 
-    // Modal System
     setupModals() {
-        // Modal close handlers
         const closeBtn = document.getElementById('modalCloseBtn');
         if (closeBtn) {
             closeBtn.addEventListener('click', () => this.closeModal());
         }
 
-        // Overlay click to close
         if (this.modalOverlay) {
             this.modalOverlay.addEventListener('click', (e) => {
                 if (e.target === this.modalOverlay) {
@@ -958,20 +963,17 @@ class EviaHolidayPackages {
             });
         }
 
-        // Escape key to close
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.modalOverlay?.classList.contains('active')) {
                 this.closeModal();
             }
         });
 
-        // Book package button - REDIRECT TO CONTACT.HTML
         const bookBtn = document.getElementById('bookPackageBtn');
         if (bookBtn) {
             bookBtn.addEventListener('click', () => {
                 this.closeModal();
-                // Redirect to contact.html instead of scrolling to contact section
-                window.location.href = 'contact.html';
+                window.location.href = EVIA_CONFIG.urls.contact;
             });
         }
     }
@@ -987,12 +989,10 @@ class EviaHolidayPackages {
         this.isModalOpen = true;
         this.currentPackage = packageType;
 
-        // Add opening animation
         if (this.modal) {
             this.modal.style.animation = 'modalSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         }
 
-        // Add fade-in effect to modal image
         const modalImage = document.getElementById('modalImage');
         if (modalImage) {
             modalImage.style.opacity = '0';
@@ -1002,7 +1002,6 @@ class EviaHolidayPackages {
             };
         }
 
-        // Track modal open
         this.trackEvent('package_modal_opened', { package: packageType });
     }
 
@@ -1014,7 +1013,6 @@ class EviaHolidayPackages {
         this.isModalOpen = false;
         this.currentPackage = null;
 
-        // Track modal close
         this.trackEvent('package_modal_closed');
     }
 
@@ -1027,7 +1025,7 @@ class EviaHolidayPackages {
                 price: '$500',
                 originalPrice: '$1,030',
                 duration: '90 min',
-                description: 'Our comprehensive under-eye transformation package combines the latest in aesthetic medicine. This elite treatment includes mesotherapy with cutting-edge exosomes for cellular regeneration, precision Botox application to smooth fine lines, and premium Alumier eye cream for ongoing care. Experience dramatic improvements in under-eye bags, dark circles, fine lines, and overall skin texture.',
+                description: 'Our comprehensive under-eye transformation package combines the latest in aesthetic medicine. This elite treatment includes mesotherapy with cutting-edge exosomes for cellular regeneration, precision Botox application to smooth fine lines, and premium Alumier eye cream for ongoing care.',
                 benefits: [
                     'Dramatic reduction in under-eye bags and puffiness',
                     'Significant improvement in dark circles',
@@ -1042,12 +1040,6 @@ class EviaHolidayPackages {
                     'Package Limit': 'Maximum 2 per client',
                     'Results Timeline': 'Immediate improvement, peak at 2-4 weeks',
                     'Includes': 'Mesotherapy + Exosomes + Botox + Eye Cream'
-                },
-                packageInfo: {
-                    originalValue: 1030,
-                    salePrice: 500,
-                    savings: 530,
-                    limit: 'Up to 2 packages per client'
                 }
             },
             'holiday-glow': {
@@ -1057,7 +1049,7 @@ class EviaHolidayPackages {
                 price: '$600',
                 originalPrice: '$950',
                 duration: '75 min',
-                description: 'Get ready for the holidays with our signature glow package! This transformative treatment combines Profhilo bio-remodeling for deep hydration and skin quality improvement with a medium-grade chemical peel for renewed radiance. Plus, enjoy exclusive savings on professional skincare products to maintain your beautiful results.',
+                description: 'Get ready for the holidays with our signature glow package! This transformative treatment combines Profhilo bio-remodeling for deep hydration and skin quality improvement with a medium-grade chemical peel for renewed radiance.',
                 benefits: [
                     'Intense skin hydration and bio-remodeling',
                     'Improved skin texture and elasticity',
@@ -1072,13 +1064,6 @@ class EviaHolidayPackages {
                     'Package Limit': 'Maximum 2 per client',
                     'Skincare Bonus': '20% off $500 pack (now $400)',
                     'Results Timeline': 'Immediate glow, continued improvement for weeks'
-                },
-                packageInfo: {
-                    originalValue: 950,
-                    salePrice: 600,
-                    savings: 350,
-                    limit: 'Up to 2 packages per client',
-                    bonus: '20% off skincare pack ($500 value - now $400)'
                 }
             },
             'lip-skin-revival': {
@@ -1088,7 +1073,7 @@ class EviaHolidayPackages {
                 price: '$1,000',
                 originalPrice: '$1,600',
                 duration: '120 min',
-                description: 'The ultimate combination for complete facial rejuvenation! This luxury package pairs professional lip plumping and hydration with dermal fillers alongside advanced skin pen microneedling. Experience fuller, more defined lips while simultaneously improving overall skin texture, tone, and quality. Perfect for those seeking comprehensive facial enhancement.',
+                description: 'The ultimate combination for complete facial rejuvenation! This luxury package pairs professional lip plumping and hydration with dermal fillers alongside advanced skin pen microneedling.',
                 benefits: [
                     'Fuller, more defined and hydrated lips',
                     'Natural-looking lip enhancement',
@@ -1103,12 +1088,6 @@ class EviaHolidayPackages {
                     'Lip Enhancement': 'Professional dermal filler application',
                     'Skin Treatment': 'Advanced microneedling therapy',
                     'Bonus Offer': '20% off skincare products'
-                },
-                packageInfo: {
-                    originalValue: 1600,
-                    salePrice: 1000,
-                    savings: 600,
-                    bonus: '20% off skincare with package purchase'
                 }
             }
         };
@@ -1117,7 +1096,6 @@ class EviaHolidayPackages {
     }
 
     populateModal(data) {
-        // Update modal content
         const modalTitle = document.getElementById('modalTitle');
         const modalIcon = document.getElementById('modalIconSymbol');
         const modalImage = document.getElementById('modalImage');
@@ -1133,7 +1111,6 @@ class EviaHolidayPackages {
         }
         if (modalDescription) modalDescription.textContent = data.description;
 
-        // Populate benefits
         if (modalBenefits && data.benefits) {
             modalBenefits.innerHTML = '';
             data.benefits.forEach(benefit => {
@@ -1143,14 +1120,12 @@ class EviaHolidayPackages {
             });
         }
 
-        // Populate details with package information
         if (modalDetails && data.details) {
             modalDetails.innerHTML = '';
             Object.entries(data.details).forEach(([key, value]) => {
                 const detailItem = document.createElement('div');
                 detailItem.className = 'detail-item';
                 
-                // Special styling for package value
                 if (key === 'Package Value') {
                     detailItem.classList.add('package-value-highlight');
                 }
@@ -1162,24 +1137,8 @@ class EviaHolidayPackages {
                 modalDetails.appendChild(detailItem);
             });
         }
-
-        // Add package savings highlight if available
-        if (data.packageInfo) {
-            const savingsElement = document.createElement('div');
-            savingsElement.className = 'package-savings-highlight';
-            savingsElement.innerHTML = `
-                <div class="savings-badge">
-                    <i class="ri-price-tag-line"></i>
-                    <span>Save $${data.packageInfo.savings}</span>
-                </div>
-            `;
-            if (modalDetails && modalDetails.firstChild) {
-                modalDetails.insertBefore(savingsElement, modalDetails.firstChild);
-            }
-        }
     }
 
-    // Visual Enhancement Methods
     enhanceTileVisually(tile) {
         const packageIcon = tile.querySelector('.package-icon-container');
         const packageImage = tile.querySelector('.package-bg-image');
@@ -1192,7 +1151,6 @@ class EviaHolidayPackages {
             packageImage.style.transform = 'scale(1.1)';
         }
 
-        // Add subtle glow effect
         tile.style.boxShadow = `
             0 25px 60px rgba(0, 0, 0, 0.15),
             0 12px 40px rgba(255, 140, 0, 0.25)
@@ -1211,16 +1169,12 @@ class EviaHolidayPackages {
             packageImage.style.transform = 'scale(1)';
         }
 
-        // Reset box shadow
         tile.style.boxShadow = '';
     }
 
-    // Animation and Effects
     initAnimations() {
-        // Initialize AOS or custom scroll animations if needed
         this.observePackageTiles();
         
-        // Add entrance animations with stagger
         this.packageTiles.forEach((tile, index) => {
             tile.style.opacity = '0';
             tile.style.transform = 'translateY(50px)';
@@ -1234,11 +1188,6 @@ class EviaHolidayPackages {
     }
 
     observePackageTiles() {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1246,13 +1195,12 @@ class EviaHolidayPackages {
                     this.animatePackageTile(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
         this.packageTiles.forEach(tile => observer.observe(tile));
     }
 
     animatePackageTile(tile) {
-        // Add custom animations when tiles come into view
         const badge = tile.querySelector('.package-badge');
         const icon = tile.querySelector('.package-icon-container');
         
@@ -1270,7 +1218,6 @@ class EviaHolidayPackages {
         }
     }
 
-    // Event Handlers
     handleKeyboard(e) {
         if (!this.section.matches(':hover') && !this.isModalOpen) return;
         
@@ -1298,16 +1245,13 @@ class EviaHolidayPackages {
     }
 
     handleResize() {
-        // Handle responsive adjustments if needed
-        if (window.innerWidth <= 768) {
-            // Mobile specific adjustments
+        if (EviaUtils.isMobile()) {
             this.packageTiles.forEach(tile => {
                 if (tile.classList.contains('featured')) {
                     tile.style.transform = 'none';
                 }
             });
         } else {
-            // Desktop adjustments
             this.packageTiles.forEach(tile => {
                 if (tile.classList.contains('featured')) {
                     tile.style.transform = 'scale(1.05)';
@@ -1316,7 +1260,6 @@ class EviaHolidayPackages {
         }
     }
 
-    // Analytics and Tracking
     trackBookingClick(packageType) {
         this.trackEvent('package_booking_clicked', {
             package: packageType,
@@ -1325,7 +1268,6 @@ class EviaHolidayPackages {
     }
 
     trackEvent(eventName, eventData = {}) {
-        // Enhanced analytics tracking
         const analyticsData = {
             event_category: 'Holiday Packages',
             event_label: eventData.package || 'general',
@@ -1339,21 +1281,17 @@ class EviaHolidayPackages {
             }
         };
 
-        // Google Analytics 4 tracking
         if (typeof gtag !== 'undefined') {
             gtag('event', eventName, analyticsData);
         }
 
-        // Custom analytics endpoint
         if (window.customAnalytics) {
             window.customAnalytics.track(eventName, analyticsData);
         }
         
-        // Development logging
         console.log(`📊 Holiday Packages Event: ${eventName}`, analyticsData);
     }
 
-    // Public API Methods
     openPackageModal(packageType) {
         this.openModal(packageType);
     }
@@ -1378,59 +1316,7 @@ class EviaHolidayPackages {
         }
     }
 
-    // Utility Methods
-    showFeedback(message, type = 'success') {
-        const feedback = document.createElement('div');
-        feedback.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background: ${type === 'success' ? 'var(--hermes-orange, #FF8C00)' : '#dc3545'};
-            color: white;
-            padding: 20px 32px;
-            border-radius: 24px;
-            font-family: var(--font-inter, 'Inter', sans-serif);
-            font-size: 15px;
-            font-weight: 600;
-            z-index: 10001;
-            opacity: 0;
-            pointer-events: none;
-            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 280px;
-            justify-content: center;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        `;
-        
-        feedback.innerHTML = `
-            <i class="ri-gift-line" style="font-size: 18px;"></i>
-            <span>${message}</span>
-        `;
-        
-        document.body.appendChild(feedback);
-        
-        requestAnimationFrame(() => {
-            feedback.style.opacity = '1';
-            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-        
-        setTimeout(() => {
-            feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => {
-                if (feedback.parentNode) {
-                    feedback.remove();
-                }
-            }, 500);
-        }, 3000);
-    }
-
-    // Cleanup
     destroy() {
-        // Clean up event listeners and observers
         this.packageTiles.forEach(tile => {
             tile.removeEventListener('mouseenter', this.enhanceTileVisually);
             tile.removeEventListener('mouseleave', this.resetTileVisuals);
@@ -1440,66 +1326,9 @@ class EviaHolidayPackages {
     }
 }
 
-// Modal Animation Keyframes
-const modalAnimationCSS = `
-@keyframes modalSlideIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.8) translateY(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-@keyframes pulse-glow {
-    0%, 100% { 
-        box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4); 
-    }
-    50% { 
-        box-shadow: 0 4px 20px rgba(255, 140, 0, 0.6), 0 0 30px rgba(255, 140, 0, 0.3); 
-    }
-}
-
-.package-tile.in-view {
-    animation: slideInUp 0.8s ease-out;
-}
-
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-`;
-
-// Inject animation CSS
-if (!document.querySelector('#holiday-packages-animations')) {
-    const style = document.createElement('style');
-    style.id = 'holiday-packages-animations';
-    style.textContent = modalAnimationCSS;
-    document.head.appendChild(style);
-}
-
-// Auto-initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize holiday packages
-    window.eviaHolidayPackages = new EviaHolidayPackages();
-});
-
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EviaHolidayPackages;
-}
-
-/* ========================================
-   SERVICES SECTION
-   ======================================== */
+// =============================================================================
+// SERVICES CAROUSEL COMPONENT
+// =============================================================================
 class HermesServicesScroller {
     constructor() {
         this.scrollContainer = document.getElementById('hermesScrollContainer');
@@ -1524,6 +1353,8 @@ class HermesServicesScroller {
         this.bindEvents();
         this.updateArrowStates();
         this.initializeIntersectionObserver();
+        
+        console.log('🏥 Services Scroller Initialized');
     }
 
     initializeElements() {
@@ -1965,7 +1796,7 @@ class HermesServicesScroller {
             document.body.style.opacity = '0.8';
             
             setTimeout(() => {
-                window.location.href = `services.html#${service}`;
+                window.location.href = `${EVIA_CONFIG.urls.services}#${service}`;
             }, 150);
         }, 200);
     }
@@ -2020,9 +1851,9 @@ class HermesServicesScroller {
     }
 }
 
-/* ========================================
-   ABOUT SECTION
-   ======================================== */
+// =============================================================================
+// ABOUT SECTION COMPONENT
+// =============================================================================
 class ElevatedAboutSection {
     constructor() {
         this.section = document.querySelector('.hermes-elevated-about');
@@ -2044,6 +1875,8 @@ class ElevatedAboutSection {
         this.bindEvents();
         this.setupParallaxEffects();
         this.initializeCounters();
+        
+        console.log('👨‍⚕️ About Section Initialized');
     }
 
     bindEvents() {
@@ -2101,7 +1934,7 @@ class ElevatedAboutSection {
         this.showActionFeedback('Loading Dr. Nano\'s profile...', 'ri-user-line');
         
         setTimeout(() => {
-            window.location.href = 'about.html';
+            window.location.href = EVIA_CONFIG.urls.about;
             this.isAnimating = false;
         }, 1000);
     }
@@ -2306,8 +2139,8 @@ class ElevatedAboutSection {
     scrollToContact() {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
-            const Height = 80;
-            const elementPosition = contactSection.offsetTop - Height;
+            const headerHeight = 80;
+            const elementPosition = contactSection.offsetTop - headerHeight;
             
             window.scrollTo({
                 top: elementPosition,
@@ -2381,10 +2214,9 @@ class ElevatedAboutSection {
     }
 }
 
-/* ========================================
-   RESULTS SECTION
-   ======================================== */
-
+// =============================================================================
+// RESULTS SHOWCASE COMPONENT
+// =============================================================================
 class HermesResultsShowcase {
     constructor() {
         this.section = document.querySelector('.hermes-results-showcase-section');
@@ -2397,14 +2229,11 @@ class HermesResultsShowcase {
         this.activeSlider = null;
         this.isAnimating = false;
         this.isDragging = false;
-        this.touchStartX = 0;
-        this.touchEndX = 0;
         this.sliderPositions = new Map();
         this.intersectionObserver = null;
         
         this.animationDuration = 600;
         this.observerThreshold = 0.2;
-        this.sliderSensitivity = 0.8;
         this.autoResetDelay = 3000;
         
         if (this.section) {
@@ -2423,8 +2252,7 @@ class HermesResultsShowcase {
             this.preloadImages();
             
             window.hermesResultsShowcase = this;
-            
-            console.log('Hermes Results Showcase initialized successfully');
+            console.log('📸 Results Showcase Initialized');
         } catch (error) {
             console.error('Results Showcase initialization failed:', error);
             this.setupFallbackBehavior();
@@ -2526,7 +2354,6 @@ class HermesResultsShowcase {
         
         this.activeSlider = slider;
         this.isDragging = true;
-        this.touchStartX = touch.clientX;
         
         data.handle.style.transform = 'translate(-50%, -50%) scale(1.1)';
         data.container.style.userSelect = 'none';
@@ -2564,7 +2391,6 @@ class HermesResultsShowcase {
         data.handle.style.transform = 'translate(-50%, -50%)';
         
         this.resumeAutoAnimations();
-        
         this.addSliderRippleEffect(slider);
     }
 
@@ -2588,7 +2414,6 @@ class HermesResultsShowcase {
         const { container, beforeImage } = slider.showcaseData;
         
         slider.style.left = percentage + '%';
-        
         beforeImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
         
         slider.setAttribute('data-position', percentage);
@@ -2761,7 +2586,6 @@ class HermesResultsShowcase {
         });
 
         this.setupKeyboardNavigation();
-        
         this.setupWindowEvents();
     }
 
@@ -2805,7 +2629,7 @@ class HermesResultsShowcase {
             document.body.style.opacity = '0.7';
             
             setTimeout(() => {
-                window.location.href = 'portfolio.html';
+                window.location.href = EVIA_CONFIG.urls.portfolio;
             }, 200);
         }, 800);
     }
@@ -2830,45 +2654,12 @@ class HermesResultsShowcase {
         element.style.transform = 'scale(0.95)';
         element.style.transition = 'transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         
-        this.createClickRipple(element);
+        EviaUtils.createRippleEffect(element, { clientX: element.offsetLeft + element.offsetWidth/2, clientY: element.offsetTop + element.offsetHeight/2 });
         
         setTimeout(() => {
             element.style.transform = '';
             element.style.transition = '';
         }, 200);
-    }
-
-    createClickRipple(element) {
-        const ripple = document.createElement('div');
-        ripple.className = 'showcase-click-ripple';
-        
-        ripple.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            pointer-events: none;
-            z-index: 1000;
-        `;
-        
-        element.style.position = 'relative';
-        element.appendChild(ripple);
-        
-        requestAnimationFrame(() => {
-            ripple.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
-            ripple.style.transform = 'translate(-50%, -50%) scale(6)';
-            ripple.style.opacity = '0';
-        });
-        
-        setTimeout(() => {
-            if (ripple.parentNode) {
-                ripple.remove();
-            }
-        }, 600);
     }
 
     showActionFeedback(message, iconClass) {
@@ -2885,11 +2676,11 @@ class HermesResultsShowcase {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            background: var(--gradient-hermes-orange);
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
             color: white;
             padding: 18px 28px;
             border-radius: 50px;
-            font-family: var(--font-inter);
+            font-family: 'Inter', sans-serif;
             font-size: 14px;
             font-weight: 600;
             z-index: 10001;
@@ -2961,19 +2752,19 @@ class HermesResultsShowcase {
         images.forEach(img => {
             img.style.transform = 'scale(1.05)';
             img.style.filter = 'brightness(1.1) contrast(1.05)';
-            img.style.transition = 'all 0.4s var(--ease-luxury)';
+            img.style.transition = 'all 0.4s ease';
         });
         
         const details = card.querySelector('.showcase-result-details');
         if (details) {
             details.style.transform = 'translateY(-2px)';
-            details.style.transition = 'transform 0.4s var(--ease-luxury)';
+            details.style.transition = 'transform 0.4s ease';
         }
         
         const badge = card.querySelector('.showcase-treatment-badge');
         if (badge) {
             badge.style.boxShadow = '0 4px 12px rgba(255, 140, 0, 0.3)';
-            badge.style.transition = 'box-shadow 0.4s var(--ease-luxury)';
+            badge.style.transition = 'box-shadow 0.4s ease';
         }
     }
 
@@ -3131,27 +2922,11 @@ class HermesResultsShowcase {
         this.resultCards.forEach(card => {
             this.intersectionObserver.observe(card);
         });
-        
-        const ctaSections = [
-            document.querySelector('.showcase-portfolio-cta'),
-            document.querySelector('.showcase-consultation-cta')
-        ];
-        
-        ctaSections.forEach(section => {
-            if (section) {
-                this.intersectionObserver.observe(section);
-            }
-        });
     }
 
     triggerElementAnimation(element) {
         if (element.classList.contains('showcase-result-card')) {
             this.animateCardEntrance(element);
-        }
-        
-        if (element.classList.contains('showcase-portfolio-cta') || 
-            element.classList.contains('showcase-consultation-cta')) {
-            this.animateCtaEntrance(element);
         }
     }
 
@@ -3178,18 +2953,6 @@ class HermesResultsShowcase {
                 }, 800 + (cardIndex * 400));
             }
         }, cardIndex * 200);
-    }
-
-    animateCtaEntrance(ctaElement) {
-        ctaElement.style.opacity = '1';
-        ctaElement.style.transform = 'translateY(0)';
-        
-        const wrapper = ctaElement.querySelector('.showcase-portfolio-wrapper, .showcase-consultation-wrapper');
-        if (wrapper) {
-            setTimeout(() => {
-                wrapper.style.animation = 'showcasePulse 2s ease-in-out';
-            }, 300);
-        }
     }
 
     demonstrateSlider(slider) {
@@ -3251,13 +3014,10 @@ class HermesResultsShowcase {
                     0 6px 20px rgba(255, 140, 0, 0.4);
             }
             
-            @media (prefers-reduced-motion: reduce) {
-                .showcase-result-card,
-                .showcase-slider-handle,
-                .showcase-portfolio-btn,
-                .showcase-consultation-btn {
-                    animation: none !important;
-                    transition: none !important;
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
                 }
             }
         `;
@@ -3287,7 +3047,7 @@ class HermesResultsShowcase {
     }
 
     setupWindowEvents() {
-        window.addEventListener('resize', this.debounce(() => {
+        window.addEventListener('resize', EviaUtils.debounce(() => {
             this.handleResize();
         }, 250));
         
@@ -3309,12 +3069,7 @@ class HermesResultsShowcase {
 
     handleResize() {
         this.refreshSliderPositions();
-        
         this.updateCardLayout();
-        
-        if (typeof AOS !== 'undefined') {
-            AOS.refresh();
-        }
     }
 
     refreshSliderPositions() {
@@ -3359,9 +3114,6 @@ class HermesResultsShowcase {
 
     setupAccessibilityFeatures() {
         this.setupScreenReaderSupport();
-        
-        this.setupHighContrastSupport();
-        
         this.setupReducedMotionSupport();
     }
 
@@ -3383,38 +3135,6 @@ class HermesResultsShowcase {
         
         this.section.appendChild(liveRegion);
         this.liveRegion = liveRegion;
-    }
-
-    announceSliderChange(slider, position) {
-        if (!this.liveRegion) return;
-        
-        const cardTitle = slider.closest('.showcase-result-card')
-                               ?.querySelector('.showcase-result-name')
-                               ?.textContent || 'Treatment';
-        
-        const percentage = Math.round(position);
-        let announcement;
-        
-        if (percentage < 25) {
-            announcement = `${cardTitle}: Showing mostly before image`;
-        } else if (percentage > 75) {
-            announcement = `${cardTitle}: Showing mostly after image`;
-        } else {
-            announcement = `${cardTitle}: Showing equal before and after`;
-        }
-        
-        this.liveRegion.textContent = announcement;
-    }
-
-    setupHighContrastSupport() {
-        const mediaQuery = window.matchMedia('(prefers-contrast: high)');
-        
-        const updateContrast = (e) => {
-            document.documentElement.classList.toggle('high-contrast', e.matches);
-        };
-        
-        updateContrast(mediaQuery);
-        mediaQuery.addListener(updateContrast);
     }
 
     setupReducedMotionSupport() {
@@ -3453,7 +3173,7 @@ class HermesResultsShowcase {
         if (this.portfolioBtn) {
             this.portfolioBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.location.href = 'portfolio.html';
+                window.location.href = EVIA_CONFIG.urls.portfolio;
             });
         }
         
@@ -3463,31 +3183,6 @@ class HermesResultsShowcase {
                 this.scrollToContact();
             });
         }
-    }
-
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    throttle(func, wait) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, wait);
-            }
-        };
     }
 
     resetAllSliders() {
@@ -3511,97 +3206,13 @@ class HermesResultsShowcase {
         
         this.pauseAutoAnimations();
         
-        window.removeEventListener('resize', this.handleResize);
-        document.removeEventListener('keydown', this.handleKeyboard);
-        
-        console.log('Hermes Results Showcase destroyed');
+        console.log('📸 Results Showcase destroyed');
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
-        try {
-            const hermesResults = new HermesResultsShowcase();
-            
-            window.HermesResultsShowcase = HermesResultsShowcase;
-            window.hermesResultsShowcase = hermesResults;
-            
-            console.log('Hermes Results Showcase System Loaded');
-        } catch (error) {
-            console.error('Failed to initialize Results Showcase:', error);
-        }
-    }, 150);
-});
-
-window.addEventListener('load', function() {
-    if (!window.hermesResultsShowcase) {
-        setTimeout(() => {
-            try {
-                window.hermesResultsShowcase = new HermesResultsShowcase();
-            } catch (error) {
-                console.error('Fallback Results Showcase initialization failed:', error);
-            }
-        }, 100);
-    }
-});
-
-window.hermesResultsUtils = {
-    scrollToPortfolio: () => {
-        if (window.hermesResultsShowcase) {
-            window.hermesResultsShowcase.navigateToPortfolio();
-        } else {
-            window.location.href = 'portfolio.html';
-        }
-    },
-    
-    openBooking: () => {
-        if (window.hermesResultsShowcase) {
-            window.hermesResultsShowcase.openConsultationBooking();
-        } else {
-            const contactSection = document.getElementById('contact');
-            if (contactSection) {
-                contactSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    },
-    
-    resetSliders: () => {
-        if (window.hermesResultsShowcase) {
-            window.hermesResultsShowcase.resetAllSliders();
-        }
-    }
-};
-
-window.addEventListener('error', (event) => {
-    if (event.filename && event.filename.includes('results')) {
-        console.error('Results Showcase Error:', {
-            message: event.message,
-            filename: event.filename,
-            lineno: event.lineno,
-            error: event.error
-        });
-    }
-});
-
-if ('PerformanceObserver' in window) {
-    try {
-        const observer = new PerformanceObserver((list) => {
-            for (const entry of list.getEntries()) {
-                if (entry.name.includes('results') && entry.duration > 100) {
-                    console.warn(`Slow Results operation: ${entry.name} took ${entry.duration}ms`);
-                }
-            }
-        });
-        
-        observer.observe({ entryTypes: ['measure', 'navigation'] });
-    } catch (e) {
-        
-    }
-}
-
-/* ========================================
-   PRODUCTS SECTION
-   ======================================== */
+// =============================================================================
+// LUXURY CAROUSEL CONTROLLER (PRODUCTS SECTION)
+// =============================================================================
 class LuxuryCarouselController {
     constructor() {
         this.track = document.getElementById('luxuryCarouselTrack');
@@ -3632,9 +3243,9 @@ class LuxuryCarouselController {
         this.startAutoPlay();
         this.setupProductInteractions();
         this.initializeCounter();
-        this.setupButtons(); // Fix buttons
+        this.setupButtons();
         
-        console.log('🧴 Luxury Skincare Carousel Initialized');
+        console.log('🧴 Luxury Carousel Initialized');
     }
     
     getSlidesPerView() {
@@ -3652,7 +3263,6 @@ class LuxuryCarouselController {
     }
     
     setupEventListeners() {
-        // Navigation buttons
         if (this.prevBtn) {
             this.prevBtn.addEventListener('click', () => this.prevSlide());
         }
@@ -3660,31 +3270,23 @@ class LuxuryCarouselController {
             this.nextBtn.addEventListener('click', () => this.nextSlide());
         }
         
-        // Touch events
         if (this.track) {
             this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
             this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
         }
         
-        // Mouse events for auto-play control
         const section = document.querySelector('.luxury-carousel-section');
         if (section) {
             section.addEventListener('mouseenter', () => this.pauseAutoPlay());
             section.addEventListener('mouseleave', () => this.resumeAutoPlay());
         }
         
-        // Keyboard navigation
         document.addEventListener('keydown', (e) => this.handleKeyPress(e));
-        
-        // Window resize
         window.addEventListener('resize', () => this.handleResize());
-        
-        // Page visibility
         document.addEventListener('visibilitychange', () => this.handleVisibilityChange());
     }
     
     setupProductInteractions() {
-        // Product card hover effects
         this.slides.forEach((slide, index) => {
             const card = slide.querySelector('.luxury-carousel-product-card');
             if (card) {
@@ -3695,94 +3297,58 @@ class LuxuryCarouselController {
         });
     }
     
-    // FIX BUTTONS - This is the key fix
     setupButtons() {
-        // Fix Shop AlumierMD Products button
         const shopBtn = document.querySelector('.luxury-carousel-shop-btn');
         if (shopBtn) {
-            // Remove any conflicting attributes
             shopBtn.removeAttribute('onclick');
-            
-            // Ensure it's clickable
             shopBtn.style.pointerEvents = 'auto';
             shopBtn.style.cursor = 'pointer';
             shopBtn.style.zIndex = '10';
             
-            // Add click handler
             shopBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                console.log('🛍️ Shop button clicked');
-                
-                // Add click animation
                 shopBtn.style.transform = 'scale(0.95) translateY(-4px)';
-                
-                // Show feedback
                 this.showFeedback('Opening AlumierMD Shop...', 'ri-shopping-bag-line');
                 
-                // Navigate after animation
                 setTimeout(() => {
                     shopBtn.style.transform = '';
-                    window.open('https://us.alumiermd.com/products?code=54T7P4HH', '_blank');
+                    window.open(EVIA_CONFIG.urls.shop, '_blank');
                 }, 150);
             });
-            
-            console.log('✅ Shop button fixed and working');
         }
         
-        // Fix Book Product Consultation button
         const consultBtn = document.querySelector('.luxury-carousel-consult-btn');
         if (consultBtn) {
-            // Remove any conflicting attributes
             consultBtn.removeAttribute('onclick');
-            
-            // Ensure it's clickable
             consultBtn.style.pointerEvents = 'auto';
             consultBtn.style.cursor = 'pointer';
             consultBtn.style.zIndex = '10';
             
-            // Add click handler
             consultBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                console.log('📅 Consultation button clicked');
-                
-                // Add click animation
                 consultBtn.style.transform = 'scale(0.95) translateY(-4px)';
-                
-                // Show feedback
                 this.showFeedback('Redirecting to contact...', 'ri-calendar-line');
                 
-                // Navigate after animation
                 setTimeout(() => {
                     consultBtn.style.transform = '';
-                    window.location.href = 'contact.html';
+                    window.location.href = EVIA_CONFIG.urls.contact;
                 }, 150);
             });
-            
-            console.log('✅ Consultation button fixed and working');
         }
         
-        // Fix consultation link in partnership note
         const consultLink = document.querySelector('.consultation-link');
         if (consultLink) {
             consultLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                
-                console.log('📋 Consultation link clicked');
-                
-                // Show feedback
                 this.showFeedback('Redirecting to contact...', 'ri-arrow-right-line');
-                
-                // Navigate
                 setTimeout(() => {
-                    window.location.href = 'contact.html';
+                    window.location.href = EVIA_CONFIG.urls.contact;
                 }, 300);
             });
-            
-            console.log('✅ Consultation link fixed and working');
         }
     }
     
@@ -3790,7 +3356,7 @@ class LuxuryCarouselController {
         if (this.currentIndex > 0) {
             this.currentIndex--;
         } else {
-            this.currentIndex = this.maxIndex; // Loop to end
+            this.currentIndex = this.maxIndex;
         }
         this.updateDisplay();
         this.resetAutoPlay();
@@ -3800,7 +3366,7 @@ class LuxuryCarouselController {
         if (this.currentIndex < this.maxIndex) {
             this.currentIndex++;
         } else {
-            this.currentIndex = 0; // Loop to beginning
+            this.currentIndex = 0;
         }
         this.updateDisplay();
         this.resetAutoPlay();
@@ -3855,11 +3421,7 @@ class LuxuryCarouselController {
     }
     
     handleProductClick(index) {
-        console.log(`Product ${index + 1} clicked`);
         this.showFeedback(`Viewing Product ${index + 1}`, 'ri-eye-line');
-        
-        // You can add product detail modal here
-        // this.openProductModal(index);
     }
     
     handleCardHover(card, isEntering) {
@@ -3940,7 +3502,7 @@ class LuxuryCarouselController {
             if (this.isAutoPlaying) {
                 this.nextSlide();
             }
-        }, 4000);
+        }, EVIA_CONFIG.autoPlayInterval);
     }
     
     pauseAutoPlay() {
@@ -3966,9 +3528,7 @@ class LuxuryCarouselController {
         this.isAutoPlaying = false;
     }
     
-    // Feedback system
     showFeedback(message, icon = 'ri-check-line') {
-        // Remove any existing feedback
         const existingFeedback = document.querySelector('.carousel-feedback');
         if (existingFeedback) {
             existingFeedback.remove();
@@ -4007,13 +3567,11 @@ class LuxuryCarouselController {
         
         document.body.appendChild(feedback);
         
-        // Animate in
         requestAnimationFrame(() => {
             feedback.style.opacity = '1';
             feedback.style.transform = 'translate(-50%, -50%) scale(1)';
         });
         
-        // Animate out
         setTimeout(() => {
             feedback.style.opacity = '0';
             feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
@@ -4025,7 +3583,6 @@ class LuxuryCarouselController {
         }, 2500);
     }
     
-    // Public API
     goToSlide(index) {
         if (index >= 0 && index <= this.maxIndex) {
             this.currentIndex = index;
@@ -4044,7 +3601,6 @@ class LuxuryCarouselController {
     destroy() {
         this.stopAutoPlay();
         
-        // Remove event listeners
         if (this.prevBtn) {
             this.prevBtn.removeEventListener('click', this.prevSlide);
         }
@@ -4052,96 +3608,18 @@ class LuxuryCarouselController {
             this.nextBtn.removeEventListener('click', this.nextSlide);
         }
         
-        console.log('🧴 Luxury Carousel Controller destroyed');
+        console.log('🧴 Luxury Carousel destroyed');
     }
 }
 
-/* ========================================
-   CAROUSEL ANIMATIONS
-   ======================================== */
-
-function initLuxuryCarouselAnimations() {
-    const cards = document.querySelectorAll('.luxury-carousel-product-card');
-    
-    cards.forEach((card, index) => {
-        // Initial state
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        
-        // Animate in with stagger
-        setTimeout(() => {
-            card.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 150);
-    });
-}
-
-function optimizeLuxuryCarousel() {
-    // Preload images
-    const images = document.querySelectorAll('.luxury-carousel-image');
-    images.forEach(img => {
-        const imageUrl = img.src;
-        const preloadImg = new Image();
-        preloadImg.src = imageUrl;
-    });
-    
-    // Add performance hints
-    const track = document.getElementById('luxuryCarouselTrack');
-    if (track) {
-        track.style.willChange = 'transform';
-        
-        // Clean up will-change after transitions
-        track.addEventListener('transitionend', () => {
-            setTimeout(() => {
-                track.style.willChange = 'auto';
-            }, 100);
-        });
-    }
-}
-
-/* ========================================
-   INITIALIZATION
-   ======================================== */
-
-// Initialize luxury carousel system
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🧴 Initializing Skincare Products Section...');
-    
-    // Wait for fonts and other resources to load
-    setTimeout(() => {
-        const luxuryCarousel = new LuxuryCarouselController();
-        initLuxuryCarouselAnimations();
-        optimizeLuxuryCarousel();
-        
-        // Store globally for debugging and external access
-        window.luxuryCarousel = luxuryCarousel;
-        
-        console.log('✅ Hermes Luxury Carousel system fully initialized');
-    }, 300);
-});
-
-// Ensure carousel is visible after everything loads
-window.addEventListener('load', function() {
-    const section = document.querySelector('.luxury-carousel-section');
-    if (section) {
-        section.style.opacity = '1';
-    }
-    
-    console.log('🎯 Skincare Products Section ready for interaction');
-});
-
-// Export for external use
-if (typeof window !== 'undefined') {
-    window.LuxuryCarouselController = LuxuryCarouselController;
-}
-
-/* ========================================
-   CONTACT SECTION
-   ======================================== */
+// =============================================================================
+// CONTACT SECTION COMPONENT
+// =============================================================================
 class ContactSection {
     constructor() {
         this.section = document.querySelector('.luxury-contact-section');
+        this.form = document.querySelector('.elfsight-form-wrapper');
+        this.contactMethods = document.querySelectorAll('.contact-method');
         this.actionBtns = document.querySelectorAll('.action-btn');
         this.emergencyBtns = document.querySelectorAll('.emergency-btn');
         this.methodCards = document.querySelectorAll('.method-card');
@@ -4153,10 +3631,20 @@ class ContactSection {
 
     init() {
         this.bindEvents();
-        this.enhanceElfsightForm();
+        this.initializeFormEnhancements();
+        this.initializeContactAnimations();
+        this.setupFormValidation();
+        
+        console.log('📞 Contact Section Initialized');
     }
 
     bindEvents() {
+        this.contactMethods.forEach(method => {
+            method.addEventListener('click', (e) => this.handleContactClick(e, method));
+            method.addEventListener('mouseenter', () => this.addHoverEffect(method));
+            method.addEventListener('mouseleave', () => this.removeHoverEffect(method));
+        });
+
         this.actionBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const href = btn.getAttribute('href');
@@ -4192,19 +3680,218 @@ class ContactSection {
                 });
             }
         });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    EviaUtils.smoothScrollTo(target);
+                }
+            });
+        });
     }
 
-    enhanceElfsightForm() {
-        const checkForForm = () => {
-            const elfsightWidget = this.section.querySelector('[class*="elfsight"]');
-            if (elfsightWidget) {
-                console.log('Elfsight form enhanced');
-            } else {
-                setTimeout(checkForForm, 500);
-            }
-        };
+    handleContactClick(e, method) {
+        const link = method.querySelector('a');
+        const href = link?.getAttribute('href');
         
-        setTimeout(checkForForm, 1000);
+        if (href) {
+            this.trackContactMethod(href);
+            this.addClickEffect(method);
+            
+            if (href.includes('tel:')) {
+                EviaUtils.showNotification('Opening phone dialer...', 'success', 'ri-phone-line');
+            } else if (href.includes('mailto:')) {
+                EviaUtils.showNotification('Opening email client...', 'success', 'ri-mail-line');
+            } else if (href.includes('maps')) {
+                EviaUtils.showNotification('Opening directions...', 'success', 'ri-map-pin-line');
+            }
+        }
+    }
+
+    trackContactMethod(href) {
+        if (href.includes('tel:')) {
+            console.log('📞 Phone contact initiated');
+        } else if (href.includes('mailto:')) {
+            console.log('📧 Email contact initiated');
+        } else if (href.includes('maps')) {
+            console.log('🗺️ Map directions requested');
+        }
+    }
+
+    addHoverEffect(element) {
+        const icon = element.querySelector('.method-icon');
+        if (icon) {
+            icon.style.transform = 'scale(1.1) rotate(5deg)';
+            icon.style.transition = 'transform 0.3s ease';
+        }
+    }
+
+    removeHoverEffect(element) {
+        const icon = element.querySelector('.method-icon');
+        if (icon) {
+            icon.style.transform = 'scale(1) rotate(0deg)';
+        }
+    }
+
+    addClickEffect(element) {
+        element.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+            element.style.transform = 'translateX(5px)';
+        }, 150);
+        setTimeout(() => {
+            element.style.transform = '';
+        }, 300);
+    }
+
+    initializeFormEnhancements() {
+        if (!this.form) return;
+        
+        this.observeFormLoading();
+        
+        setTimeout(() => {
+            this.applyFormStyling();
+        }, 1000);
+    }
+
+    observeFormLoading() {
+        const formContainer = document.querySelector('.form-container');
+        if (formContainer) {
+            formContainer.classList.add('loading');
+            
+            setTimeout(() => {
+                formContainer.classList.remove('loading');
+            }, 3000);
+        }
+    }
+
+    applyFormStyling() {
+        const style = document.createElement('style');
+        style.textContent = `
+            .elfsight-app [data-elfsight-app-lazy] input,
+            .elfsight-app [data-elfsight-app-lazy] textarea,
+            .elfsight-app [data-elfsight-app-lazy] select {
+                border: 2px solid rgba(255, 140, 0, 0.2) !important;
+                border-radius: 16px !important;
+                padding: 12px 16px !important;
+                font-family: 'Inter', sans-serif !important;
+                transition: all 0.3s ease !important;
+                background: rgba(255, 255, 255, 0.9) !important;
+            }
+            
+            .elfsight-app [data-elfsight-app-lazy] input:focus,
+            .elfsight-app [data-elfsight-app-lazy] textarea:focus,
+            .elfsight-app [data-elfsight-app-lazy] select:focus {
+                border-color: #FF8C00 !important;
+                box-shadow: 0 0 20px rgba(255, 140, 0, 0.3) !important;
+                outline: none !important;
+            }
+            
+            .elfsight-app [data-elfsight-app-lazy] button[type="submit"] {
+                background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%) !important;
+                border: none !important;
+                border-radius: 25px !important;
+                padding: 12px 24px !important;
+                transition: all 0.3s ease !important;
+                font-weight: 600 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.5px !important;
+            }
+            
+            .elfsight-app [data-elfsight-app-lazy] button[type="submit"]:hover {
+                transform: translateY(-2px) !important;
+                box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4) !important;
+            }
+        `;
+        
+        document.head.appendChild(style);
+    }
+
+    setupFormValidation() {
+        setTimeout(() => {
+            const form = document.querySelector('.elfsight-form-wrapper form');
+            if (!form) return;
+            
+            const inputs = form.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('blur', this.validateField.bind(this));
+                input.addEventListener('input', this.clearValidationError.bind(this));
+            });
+        }, 2000);
+    }
+
+    validateField(event) {
+        const field = event.target;
+        const value = field.value.trim();
+        
+        let isValid = true;
+        let errorMessage = '';
+        
+        if (field.type === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (value && !emailRegex.test(value)) {
+                isValid = false;
+                errorMessage = 'Please enter a valid email address';
+            }
+        } else if (field.type === 'tel') {
+            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+            if (value && !phoneRegex.test(value.replace(/\s/g, ''))) {
+                isValid = false;
+                errorMessage = 'Please enter a valid phone number';
+            }
+        }
+        
+        if (!isValid) {
+            this.showFieldError(field, errorMessage);
+        }
+    }
+
+    showFieldError(field, message) {
+        this.clearFieldValidation(field);
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.textContent = message;
+        errorDiv.style.cssText = `
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 4px;
+            padding-left: 16px;
+        `;
+        
+        field.parentNode.appendChild(errorDiv);
+        field.style.borderColor = '#ef4444';
+    }
+
+    clearValidationError(event) {
+        this.clearFieldValidation(event.target);
+    }
+
+    clearFieldValidation(field) {
+        const existingError = field.parentNode.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
+        }
+        field.style.borderColor = '';
+    }
+
+    initializeContactAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.2 });
+        
+        this.contactMethods.forEach((method, index) => {
+            method.style.opacity = '0';
+            method.style.transform = 'translateY(30px)';
+            method.style.transition = `all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.1}s`;
+            observer.observe(method);
+        });
     }
 
     showFeedback(message, iconClass) {
@@ -4250,9 +3937,9 @@ class ContactSection {
     }
 }
 
-/* ========================================
-   FLOATING BUTTONS
-   ======================================== */
+// =============================================================================
+// FLOATING BUTTONS COMPONENT
+// =============================================================================
 class HermesFloatingButtons {
     constructor() {
         this.backToTopBtn = document.getElementById('backToTopBtn') || document.querySelector('.hermes-back-to-top');
@@ -4277,6 +3964,8 @@ class HermesFloatingButtons {
         this.setupInitialState();
         this.bindEvents();
         this.setupScrollObserver();
+        
+        console.log('⬆️ Floating Buttons Initialized');
     }
 
     setupInitialState() {
@@ -4549,42 +4238,155 @@ class HermesFloatingButtons {
     }
 }
 
-/* ========================================
-   UTILITIES
-   ======================================== */
-function scrollToContact() {
-    const carousel = EviaWhatsHotCarousel.getInstance();
-    if (carousel) {
-        carousel.scrollToContact();
-    } else {
-        const contactSection = document.getElementById('contact') || 
-                             document.querySelector('.contact-section') ||
-                             document.querySelector('[data-section="contact"]');
+// =============================================================================
+// GLOBAL ANIMATION SYSTEM
+// =============================================================================
+class GlobalAnimations {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.addGlobalStyles();
+        this.initializeScrollAnimations();
+        this.initializeHoverEffects();
         
-        if (contactSection) {
-            const Height = 80;
-            const elementPosition = contactSection.offsetTop - Height;
+        console.log('✨ Global Animations Initialized');
+    }
+
+    addGlobalStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
             
-            window.scrollTo({
-                top: elementPosition,
-                behavior: 'smooth'
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes modalSlideIn {
+                0% {
+                    opacity: 0;
+                    transform: scale(0.8) translateY(50px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+            
+            @keyframes pulse-glow {
+                0%, 100% { 
+                    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4); 
+                }
+                50% { 
+                    box-shadow: 0 4px 20px rgba(255, 140, 0, 0.6), 0 0 30px rgba(255, 140, 0, 0.3); 
+                }
+            }
+            
+            .animate-in {
+                animation: fadeInUp 0.8s ease-out both;
+            }
+            
+            .evia-btn {
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .evia-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(255, 140, 0, 0.3);
+            }
+            
+            .evia-btn:active {
+                transform: translateY(0);
+            }
+            
+            .hero-content-stack {
+                opacity: 1 !important;
+                visibility: visible !important;
+                z-index: 100 !important;
+            }
+            
+            .modern-mobile-menu {
+                transform: translateX(100%);
+                visibility: hidden;
+                transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            
+            .modern-mobile-menu.active {
+                transform: translateX(0);
+                visibility: visible;
+            }
+            
+            .modern-mobile-backdrop {
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            
+            .modern-mobile-backdrop.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            @media (prefers-reduced-motion: reduce) {
+                * {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+        `;
+        
+        document.head.appendChild(style);
+    }
+
+    initializeScrollAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
             });
-        } else {
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
+        
+        document.querySelectorAll('.hero-content, .service-card, .testimonial-card, .feature-item').forEach(el => {
+            observer.observe(el);
+        });
+    }
+
+    initializeHoverEffects() {
+        document.querySelectorAll('.evia-btn, .cta-btn, .action-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                EviaUtils.createRippleEffect(btn, e);
             });
-        }
+        });
     }
 }
 
-/* ========================================
-   MAIN APP
-   ======================================== */
+// =============================================================================
+// MAIN APPLICATION CONTROLLER
+// =============================================================================
 class EviaAestheticsApp {
     constructor() {
         this.components = new Map();
-        this.isMobile = window.innerWidth <= 768;
+        this.isMobile = EviaUtils.isMobile();
         this.isInitialized = false;
         
         this.init();
@@ -4605,47 +4407,61 @@ class EviaAestheticsApp {
             this.components.set('preloader', new Preloader());
             this.components.set('header', new ModernHermesHeader());
             this.components.set('hero', new HeroSection());
-            this.components.set('whatsHot', new EviaWhatsHotCarousel());
+            this.components.set('whatsHot', new EviaHolidayPackages());
             this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
             this.components.set('products', new LuxuryCarouselController());
             this.components.set('contact', new ContactSection());
             this.components.set('floatingButtons', new HermesFloatingButtons());
+            this.components.set('globalAnimations', new GlobalAnimations());
             
             this.isInitialized = true;
             
+            // Expose components globally
             window.eviaComponents = this.components;
-            window.mobileMenu = this.components.get('mobileMenu');
-            window.eviaWhatsHotCarousel = this.components.get('whatsHot');
+            window.eviaApp = this;
+            window.modernHermesHeader = this.components.get('header');
+            window.eviaHolidayPackages = this.components.get('whatsHot');
+            window.hermesResultsShowcase = this.components.get('results');
+            window.luxuryCarousel = this.components.get('products');
+            window.hermesFloatingButtons = this.components.get('floatingButtons');
+            
+            console.log('🚀 Evia Aesthetics App Initialized Successfully');
             
         } catch (error) {
             console.error('Error initializing components:', error);
+            this.setupFallbackComponents();
+        }
+    }
+
+    setupFallbackComponents() {
+        try {
+            window.modernHermesHeader = new ModernHermesHeader();
+            window.eviaHolidayPackages = new EviaHolidayPackages();
+            window.hermesFloatingButtons = new HermesFloatingButtons();
+            window.luxuryCarousel = new LuxuryCarouselController();
             
-            try {
-                window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
-                window.hermesFloatingButtons = new HermesFloatingButtons();
-                window.header = new ModernHermesHeader();
-                
-            } catch (fallbackError) {
-                console.error('Fallback initialization failed:', fallbackError);
-            }
+            console.log('🔧 Fallback components initialized');
+        } catch (fallbackError) {
+            console.error('Fallback initialization failed:', fallbackError);
         }
     }
 
     setupGlobalEvents() {
-        window.addEventListener('resize', this.debounce(() => {
+        window.addEventListener('resize', EviaUtils.debounce(() => {
             const wasMobile = this.isMobile;
-            this.isMobile = window.innerWidth <= 768;
+            this.isMobile = EviaUtils.isMobile();
             
             if (wasMobile !== this.isMobile) {
                 this.handleScreenSizeChange();
             }
             
-            const whatsHot = this.components.get('whatsHot');
-            if (whatsHot && typeof whatsHot.handleResize === 'function') {
-                whatsHot.handleResize();
-            }
+            this.components.forEach(component => {
+                if (component && typeof component.handleResize === 'function') {
+                    component.handleResize();
+                }
+            });
         }, 250));
 
         window.addEventListener('error', (event) => {
@@ -4662,9 +4478,9 @@ class EviaAestheticsApp {
     }
 
     handleScreenSizeChange() {
-        const mobileMenu = this.components.get('mobileMenu');
-        if (mobileMenu && !this.isMobile && mobileMenu.isOpen) {
-            mobileMenu.close();
+        const header = this.components.get('header');
+        if (header && !this.isMobile && header.isMobileMenuOpen) {
+            header.closeMobileMenu();
         }
         
         const floatingButtons = this.components.get('floatingButtons');
@@ -4676,24 +4492,54 @@ class EviaAestheticsApp {
     getComponent(name) {
         return this.components.get(name);
     }
+}
 
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
+// =============================================================================
+// GLOBAL UTILITY FUNCTIONS
+// =============================================================================
+function scrollToContact() {
+    const contactSection = document.getElementById('contact') || 
+                         document.querySelector('.contact-section') ||
+                         document.querySelector('[data-section="contact"]');
+    
+    if (contactSection) {
+        const headerHeight = 80;
+        const elementPosition = contactSection.offsetTop - headerHeight;
+        
+        window.scrollTo({
+            top: elementPosition,
+            behavior: 'smooth'
+        });
+    } else {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
     }
 }
 
-/* ========================================
-   INITIALIZATION
-   ======================================== */
+// Global function exports
+window.scrollToContact = scrollToContact;
+window.EviaUtils = EviaUtils;
+
+// Component exports
+window.ModernHermesHeader = ModernHermesHeader;
+window.HeroSection = HeroSection;
+window.EviaHolidayPackages = EviaHolidayPackages;
+window.HermesServicesScroller = HermesServicesScroller;
+window.ElevatedAboutSection = ElevatedAboutSection;
+window.HermesResultsShowcase = HermesResultsShowcase;
+window.LuxuryCarouselController = LuxuryCarouselController;
+window.ContactSection = ContactSection;
+window.HermesFloatingButtons = HermesFloatingButtons;
+window.GlobalAnimations = GlobalAnimations;
+window.EviaAestheticsApp = EviaAestheticsApp;
+
+// =============================================================================
+// MAIN INITIALIZATION
+// =============================================================================
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS if available
     if (typeof AOS !== 'undefined') {
         AOS.init({
             duration: 800,
@@ -4706,6 +4552,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => AOS.refresh(), 500);
     }
     
+    // Ensure hero content is visible
     const heroContent = document.querySelector('.hero-content-stack');
     if (heroContent) {
         heroContent.style.opacity = '1';
@@ -4713,12 +4560,14 @@ document.addEventListener('DOMContentLoaded', function() {
         heroContent.style.zIndex = '100';
     }
     
+    // Initialize hero video
     const heroVideo = document.querySelector('.hero-video');
     if (heroVideo) {
         heroVideo.load();
         heroVideo.play().catch(e => console.log('Video autoplay prevented:', e));
     }
 
+    // Set CSS custom properties for viewport height
     const setVH = () => {
         const vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -4730,6 +4579,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(setVH, 500);
     });
 
+    // Global body scroll lock utility
     window.preventBodyScroll = (isLocked) => {
         if (isLocked) {
             const scrollY = window.scrollY;
@@ -4747,119 +4597,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     };
+    
+    console.log('📱 DOM Content Loaded - Starting Evia Aesthetics');
 });
 
+// Add touch device detection
 if ('ontouchstart' in window) {
     document.documentElement.classList.add('touch-device');
 }
 
-const globalStyles = document.createElement('style');
-globalStyles.textContent = `
-    .hero-content-stack {
-        opacity: 1 !important;
-        visibility: visible !important;
-        z-index: 100 !important;
-    }
-    
-    .services-title, .services-header, .services-subtitle {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    
-    .hero-headline-primary, .hero-headline-secondary, .hero-subheadline-elegant {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    
-    .modern-mobile-menu {
-        transform: translateX(100%);
-        visibility: hidden;
-        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    
-    .modern-mobile-menu.active {
-        transform: translateX(0);
-        visibility: visible;
-    }
-    
-    .modern-mobile-backdrop {
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    
-    .modern-mobile-backdrop.active {
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .click-ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.6);
-        transform: scale(0);
-        animation: ripple 0.6s linear;
-        pointer-events: none;
-    }
-    
-    @keyframes ripple {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-    
-    .luxury-nav-link:focus,
-    .mobile-nav-link:focus,
-    .circle-logo-container:focus,
-    .circle-menu-toggle:focus {
-        outline: 2px solid var(--hermes-orange);
-        outline-offset: 2px;
-    }
-    
-    .touch-device *:hover {
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    @supports(padding: max(0px)) {
-        .hermes-floating-controls {
-            padding-bottom: max(20px, env(safe-area-inset-bottom));
-            padding-left: max(20px, env(safe-area-inset-left));
-            padding-right: max(20px, env(safe-area-inset-right));
-        }
-        
-        .modern-mobile-menu {
-            padding-bottom: max(20px, env(safe-area-inset-bottom));
-        }
-    }
-`;
-document.head.appendChild(globalStyles);
-
-let app;
+// Initialize main app
+let eviaApp;
 
 const initializeApp = () => {
     try {
-        app = new EviaAestheticsApp();
-        window.eviaApp = app;
-        
-        const mobileMenu = app.getComponent('mobileMenu');
-        if (mobileMenu) {
-            window.mobileMenu = mobileMenu;
-        }
-        
-        const whatsHot = app.getComponent('whatsHot');
-        if (whatsHot) {
-            window.eviaWhatsHotCarousel = whatsHot;
-        }
-        
+        eviaApp = new EviaAestheticsApp();
+        console.log('✅ Evia Aesthetics Application Loaded Successfully');
     } catch (error) {
-        console.error('Failed to initialize app:', error);
+        console.error('Failed to initialize main app:', error);
         
+        // Fallback initialization
         try {
-            window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
+            window.modernHermesHeader = new ModernHermesHeader();
+            window.eviaHolidayPackages = new EviaHolidayPackages();
             window.hermesFloatingButtons = new HermesFloatingButtons();
-            window.header = new ModernHermesHeader();
-            
+            console.log('🔧 Fallback initialization successful');
         } catch (fallbackError) {
             console.error('Fallback initialization failed:', fallbackError);
         }
@@ -4872,12 +4634,22 @@ if (document.readyState === 'loading') {
     initializeApp();
 }
 
+// Ensure app loads on window load if not already loaded
 window.addEventListener('load', () => {
     if (!window.eviaApp) {
         setTimeout(initializeApp, 100);
     }
+    
+    // Final visibility check
+    const section = document.querySelector('.luxury-carousel-section');
+    if (section) {
+        section.style.opacity = '1';
+    }
+    
+    console.log('🎯 All resources loaded - Evia Aesthetics ready');
 });
 
+// Global error handling
 window.addEventListener('error', (event) => {
     console.error('Global JavaScript Error:', {
         message: event.message,
@@ -4891,12 +4663,7 @@ window.addEventListener('error', (event) => {
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled Promise Rejection:', event.reason);
 });
-window.HermesWhatsHotSection = HermesWhatsHotSection;
-window.HermesFloatingButtons = HermesFloatingButtons;
-window.ModernHermesHeader = ModernHermesHeader;
-window.LuxuryCarouselController = LuxuryCarouselController;
-window.HermesServicesScroller = HermesServicesScroller;
-window.ContactSection = ContactSection;
-window.HeroSection = HeroSection;
-window.ElevatedAboutSection = ElevatedAboutSection;
-window.HermesResultsShowcase = HermesResultsShowcase;
+
+console.log('🚀 Evia Aesthetics JavaScript System Loaded - Manhattan Luxury Medical Spa');
+
+// End of script.js
