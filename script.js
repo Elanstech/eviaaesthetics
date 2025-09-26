@@ -3603,7 +3603,7 @@ if ('PerformanceObserver' in window) {
    PRODUCTS SECTION
    ======================================== */
 class LuxuryCarouselController {
-        constructor() {
+    constructor() {
         this.track = document.getElementById('luxuryCarouselTrack');
         this.slides = document.querySelectorAll('.luxury-carousel-slide');
         this.prevBtn = document.getElementById('luxuryCarouselPrev');
@@ -3621,7 +3621,9 @@ class LuxuryCarouselController {
         this.touchStartX = 0;
         this.touchEndX = 0;
         
-        this.init();
+        if (this.track && this.slides.length > 0) {
+            this.init();
+        }
     }
     
     init() {
@@ -3630,6 +3632,9 @@ class LuxuryCarouselController {
         this.startAutoPlay();
         this.setupProductInteractions();
         this.initializeCounter();
+        this.setupButtons(); // Fix buttons
+        
+        console.log('🧴 Luxury Skincare Carousel Initialized');
     }
     
     getSlidesPerView() {
@@ -3648,17 +3653,25 @@ class LuxuryCarouselController {
     
     setupEventListeners() {
         // Navigation buttons
-        this.prevBtn?.addEventListener('click', () => this.prevSlide());
-        this.nextBtn?.addEventListener('click', () => this.nextSlide());
+        if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', () => this.prevSlide());
+        }
+        if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', () => this.nextSlide());
+        }
         
         // Touch events
-        this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
-        this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
+        if (this.track) {
+            this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
+            this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
+        }
         
         // Mouse events for auto-play control
         const section = document.querySelector('.luxury-carousel-section');
-        section.addEventListener('mouseenter', () => this.pauseAutoPlay());
-        section.addEventListener('mouseleave', () => this.resumeAutoPlay());
+        if (section) {
+            section.addEventListener('mouseenter', () => this.pauseAutoPlay());
+            section.addEventListener('mouseleave', () => this.resumeAutoPlay());
+        }
         
         // Keyboard navigation
         document.addEventListener('keydown', (e) => this.handleKeyPress(e));
@@ -3676,52 +3689,100 @@ class LuxuryCarouselController {
             const card = slide.querySelector('.luxury-carousel-product-card');
             if (card) {
                 card.addEventListener('click', () => this.handleProductClick(index));
+                card.addEventListener('mouseenter', () => this.handleCardHover(card, true));
+                card.addEventListener('mouseleave', () => this.handleCardHover(card, false));
             }
         });
-        
-        // Shop now button
+    }
+    
+    // FIX BUTTONS - This is the key fix
+    setupButtons() {
+        // Fix Shop AlumierMD Products button
         const shopBtn = document.querySelector('.luxury-carousel-shop-btn');
         if (shopBtn) {
+            // Remove any conflicting attributes
+            shopBtn.removeAttribute('onclick');
+            
+            // Ensure it's clickable
+            shopBtn.style.pointerEvents = 'auto';
+            shopBtn.style.cursor = 'pointer';
+            shopBtn.style.zIndex = '10';
+            
+            // Add click handler
             shopBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                const url = shopBtn.dataset.url;
-                if (url) {
-                    // Add luxury click animation
-                    shopBtn.style.transform = 'scale(0.95) translateY(-4px)';
-                    setTimeout(() => {
-                        shopBtn.style.transform = '';
-                        window.open(url, 'https://us.alumiermd.com/products?code=54T7P4HH');
-                    }, 150);
-                }
-            });
-        }
-        
-        // Consultation button
-        const consultBtn = document.querySelector('.luxury-carousel-consult-btn');
-        if (consultBtn) {
-            consultBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                console.log('🛍️ Shop button clicked');
+                
                 // Add click animation
-                consultBtn.style.transform = 'scale(0.95) translateY(-4px)';
+                shopBtn.style.transform = 'scale(0.95) translateY(-4px)';
+                
+                // Show feedback
+                this.showFeedback('Opening AlumierMD Shop...', 'ri-shopping-bag-line');
+                
+                // Navigate after animation
                 setTimeout(() => {
-                    consultBtn.style.transform = '';
+                    shopBtn.style.transform = '';
+                    window.open('https://us.alumiermd.com/products?code=54T7P4HH', '_blank');
                 }, 150);
             });
+            
+            console.log('✅ Shop button fixed and working');
         }
         
-        // Consultation link in partnership note
+        // Fix Book Product Consultation button
+        const consultBtn = document.querySelector('.luxury-carousel-consult-btn');
+        if (consultBtn) {
+            // Remove any conflicting attributes
+            consultBtn.removeAttribute('onclick');
+            
+            // Ensure it's clickable
+            consultBtn.style.pointerEvents = 'auto';
+            consultBtn.style.cursor = 'pointer';
+            consultBtn.style.zIndex = '10';
+            
+            // Add click handler
+            consultBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                console.log('📅 Consultation button clicked');
+                
+                // Add click animation
+                consultBtn.style.transform = 'scale(0.95) translateY(-4px)';
+                
+                // Show feedback
+                this.showFeedback('Redirecting to contact...', 'ri-calendar-line');
+                
+                // Navigate after animation
+                setTimeout(() => {
+                    consultBtn.style.transform = '';
+                    window.location.href = 'contact.html';
+                }, 150);
+            });
+            
+            console.log('✅ Consultation button fixed and working');
+        }
+        
+        // Fix consultation link in partnership note
         const consultLink = document.querySelector('.consultation-link');
         if (consultLink) {
             consultLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Smooth scroll to consultation section
-                const consultSection = document.querySelector('#book-consultation');
-                if (consultSection) {
-                    consultSection.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                
+                console.log('📋 Consultation link clicked');
+                
+                // Show feedback
+                this.showFeedback('Redirecting to contact...', 'ri-arrow-right-line');
+                
+                // Navigate
+                setTimeout(() => {
+                    window.location.href = 'contact.html';
+                }, 300);
             });
+            
+            console.log('✅ Consultation link fixed and working');
         }
     }
     
@@ -3746,6 +3807,8 @@ class LuxuryCarouselController {
     }
     
     updateDisplay() {
+        if (!this.track) return;
+        
         const slideWidth = 100 / this.slidesPerView;
         const translateX = -(this.currentIndex * slideWidth);
         
@@ -3757,10 +3820,10 @@ class LuxuryCarouselController {
     }
     
     updateProgressBar() {
-        if (this.progressBar) {
-            const progress = ((this.currentIndex + 1) / this.totalSlides);
-            this.progressBar.style.transform = `scaleX(${progress})`;
-        }
+        if (!this.progressBar) return;
+        
+        const progress = this.maxIndex > 0 ? (this.currentIndex / this.maxIndex) * 100 : 0;
+        this.progressBar.style.width = `${progress}%`;
     }
     
     updateCounter() {
@@ -3770,81 +3833,58 @@ class LuxuryCarouselController {
     }
     
     updateNavigationState() {
-        // For infinite loop, never disable buttons
-        if (this.prevBtn) this.prevBtn.disabled = false;
-        if (this.nextBtn) this.nextBtn.disabled = false;
+        if (this.prevBtn) {
+            this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
+        }
+        if (this.nextBtn) {
+            this.nextBtn.style.opacity = this.currentIndex === this.maxIndex ? '0.5' : '1';
+        }
     }
     
     animateCards() {
-        // Add stagger animation to visible cards
-        const visibleStart = this.currentIndex;
-        const visibleEnd = Math.min(visibleStart + this.slidesPerView, this.totalSlides);
-        
-        for (let i = visibleStart; i < visibleEnd; i++) {
-            const card = this.slides[i]?.querySelector('.luxury-carousel-product-card');
+        this.slides.forEach((slide, index) => {
+            const card = slide.querySelector('.luxury-carousel-product-card');
             if (card) {
-                card.style.animationDelay = `${(i - visibleStart) * 0.1}s`;
-                card.classList.add('card-animate');
-                
-                setTimeout(() => {
+                if (index >= this.currentIndex && index < this.currentIndex + this.slidesPerView) {
+                    card.classList.add('card-animate');
+                } else {
                     card.classList.remove('card-animate');
-                }, 600);
+                }
             }
-        }
+        });
     }
     
     handleProductClick(index) {
-        // Add luxury product selection feedback
-        const card = this.slides[index]?.querySelector('.luxury-carousel-product-card');
-        if (card) {
-            card.style.transform = 'scale(0.98)';
-            card.style.transition = 'transform 0.15s ease';
-            setTimeout(() => {
-                card.style.transform = '';
-                card.style.transition = '';
-            }, 200);
-        }
+        console.log(`Product ${index + 1} clicked`);
+        this.showFeedback(`Viewing Product ${index + 1}`, 'ri-eye-line');
+        
+        // You can add product detail modal here
+        // this.openProductModal(index);
     }
     
-    startAutoPlay() {
-        if (this.isAutoPlaying && this.totalSlides > this.slidesPerView) {
-            this.autoPlayInterval = setInterval(() => {
-                this.nextSlide();
-            }, 5000);
+    handleCardHover(card, isEntering) {
+        if (isEntering) {
+            card.style.transform = 'translateY(-8px) scale(1.02)';
+            card.style.boxShadow = '0 20px 40px rgba(255, 140, 0, 0.15)';
+        } else {
+            card.style.transform = '';
+            card.style.boxShadow = '';
         }
-    }
-    
-    pauseAutoPlay() {
-        if (this.autoPlayInterval) {
-            clearInterval(this.autoPlayInterval);
-            this.autoPlayInterval = null;
-        }
-    }
-    
-    resumeAutoPlay() {
-        if (this.isAutoPlaying && !this.autoPlayInterval) {
-            this.startAutoPlay();
-        }
-    }
-    
-    resetAutoPlay() {
-        this.pauseAutoPlay();
-        setTimeout(() => this.resumeAutoPlay(), 2000);
     }
     
     handleTouchStart(e) {
-        this.touchStartX = e.changedTouches[0].screenX;
+        this.touchStartX = e.touches[0].clientX;
         this.pauseAutoPlay();
     }
     
     handleTouchEnd(e) {
-        this.touchEndX = e.changedTouches[0].screenX;
+        this.touchEndX = e.changedTouches[0].clientX;
         this.handleSwipe();
-        this.resetAutoPlay();
+        this.resumeAutoPlay();
     }
     
     handleSwipe() {
-        const swipeThreshold = 60;
+        const swipeThreshold = 50;
         const diff = this.touchStartX - this.touchEndX;
         
         if (Math.abs(diff) > swipeThreshold) {
@@ -3857,18 +3897,21 @@ class LuxuryCarouselController {
     }
     
     handleKeyPress(e) {
-        const section = document.querySelector('.luxury-carousel-section');
-        const rect = section.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!document.querySelector('.luxury-carousel-section:hover')) return;
         
-        if (isVisible) {
-            if (e.key === 'ArrowLeft') {
+        switch(e.key) {
+            case 'ArrowLeft':
                 e.preventDefault();
                 this.prevSlide();
-            } else if (e.key === 'ArrowRight') {
+                break;
+            case 'ArrowRight':
                 e.preventDefault();
                 this.nextSlide();
-            }
+                break;
+            case ' ':
+                e.preventDefault();
+                this.isAutoPlaying ? this.pauseAutoPlay() : this.resumeAutoPlay();
+                break;
         }
     }
     
@@ -3890,53 +3933,152 @@ class LuxuryCarouselController {
         }
     }
     
-    destroy() {
+    startAutoPlay() {
+        if (this.autoPlayInterval) return;
+        
+        this.autoPlayInterval = setInterval(() => {
+            if (this.isAutoPlaying) {
+                this.nextSlide();
+            }
+        }, 4000);
+    }
+    
+    pauseAutoPlay() {
+        this.isAutoPlaying = false;
+    }
+    
+    resumeAutoPlay() {
+        this.isAutoPlaying = true;
+    }
+    
+    resetAutoPlay() {
         this.pauseAutoPlay();
-        window.removeEventListener('resize', this.handleResize);
-        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+        setTimeout(() => {
+            this.resumeAutoPlay();
+        }, 2000);
+    }
+    
+    stopAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+        this.isAutoPlaying = false;
+    }
+    
+    // Feedback system
+    showFeedback(message, icon = 'ri-check-line') {
+        // Remove any existing feedback
+        const existingFeedback = document.querySelector('.carousel-feedback');
+        if (existingFeedback) {
+            existingFeedback.remove();
+        }
+        
+        const feedback = document.createElement('div');
+        feedback.className = 'carousel-feedback';
+        feedback.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 200px;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        `;
+        
+        feedback.innerHTML = `
+            <i class="${icon}" style="font-size: 16px;"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(feedback);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            feedback.style.opacity = '1';
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        // Animate out
+        setTimeout(() => {
+            feedback.style.opacity = '0';
+            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.remove();
+                }
+            }, 400);
+        }, 2500);
+    }
+    
+    // Public API
+    goToSlide(index) {
+        if (index >= 0 && index <= this.maxIndex) {
+            this.currentIndex = index;
+            this.updateDisplay();
+        }
+    }
+    
+    getCurrentSlide() {
+        return this.currentIndex;
+    }
+    
+    getTotalSlides() {
+        return this.totalSlides;
+    }
+    
+    destroy() {
+        this.stopAutoPlay();
+        
+        // Remove event listeners
+        if (this.prevBtn) {
+            this.prevBtn.removeEventListener('click', this.prevSlide);
+        }
+        if (this.nextBtn) {
+            this.nextBtn.removeEventListener('click', this.nextSlide);
+        }
+        
+        console.log('🧴 Luxury Carousel Controller destroyed');
     }
 }
 
-// Enhanced luxury animations
+/* ========================================
+   CAROUSEL ANIMATIONS
+   ======================================== */
+
 function initLuxuryCarouselAnimations() {
-    const section = document.querySelector('.luxury-carousel-section');
     const cards = document.querySelectorAll('.luxury-carousel-product-card');
     
-    // Section entrance animation
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('section-visible');
-                
-                // Stagger card animations with luxury timing
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 120);
-                });
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '50px'
-    });
-    
-    if (section) {
-        sectionObserver.observe(section);
-    }
-    
-    // Initialize card states for entrance animation
-    cards.forEach(card => {
+    cards.forEach((card, index) => {
+        // Initial state
         card.style.opacity = '0';
         card.style.transform = 'translateY(30px)';
-        card.style.transition = 'opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        
+        // Animate in with stagger
+        setTimeout(() => {
+            card.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 150);
     });
 }
 
-// Performance optimizations
 function optimizeLuxuryCarousel() {
-    // Preload product images
+    // Preload images
     const images = document.querySelectorAll('.luxury-carousel-image');
     images.forEach(img => {
         const imageUrl = img.src;
@@ -3949,7 +4091,7 @@ function optimizeLuxuryCarousel() {
     if (track) {
         track.style.willChange = 'transform';
         
-        // Clean up will-change
+        // Clean up will-change after transitions
         track.addEventListener('transitionend', () => {
             setTimeout(() => {
                 track.style.willChange = 'auto';
@@ -3958,28 +4100,41 @@ function optimizeLuxuryCarousel() {
     }
 }
 
+/* ========================================
+   INITIALIZATION
+   ======================================== */
+
 // Initialize luxury carousel system
 document.addEventListener('DOMContentLoaded', function() {
-    // Wait for fonts and AOS to load
+    console.log('🧴 Initializing Skincare Products Section...');
+    
+    // Wait for fonts and other resources to load
     setTimeout(() => {
         const luxuryCarousel = new LuxuryCarouselController();
         initLuxuryCarouselAnimations();
         optimizeLuxuryCarousel();
         
-        // Store globally for debugging
+        // Store globally for debugging and external access
         window.luxuryCarousel = luxuryCarousel;
         
-        console.log('🏺 Hermes Luxury Carousel system initialized');
-    }, 150);
+        console.log('✅ Hermes Luxury Carousel system fully initialized');
+    }, 300);
 });
 
-// Final load optimizations
+// Ensure carousel is visible after everything loads
 window.addEventListener('load', function() {
     const section = document.querySelector('.luxury-carousel-section');
     if (section) {
         section.style.opacity = '1';
     }
+    
+    console.log('🎯 Skincare Products Section ready for interaction');
 });
+
+// Export for external use
+if (typeof window !== 'undefined') {
+    window.LuxuryCarouselController = LuxuryCarouselController;
+}
 
 /* ========================================
    CONTACT SECTION
