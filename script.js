@@ -868,949 +868,623 @@ class HeroSection {
 /* ========================================
    WHATS HOT SECTION
    ======================================== */
-// What's Hot - Holiday Specials - Hermes Style JavaScript
-
-/* ========================================
-   HERMES WHATS HOT SECTION CLASS
-   ======================================== */
-class HermesWhatsHotSection {
+class EviaWhatsHotCarousel {
     constructor() {
-        this.section = document.querySelector('.hermes-whats-hot-showcase');
-        this.cards = document.querySelectorAll('.hermes-whats-hot-card');
-        this.learnMoreModal = document.getElementById('learnMoreModal');
-        this.bookingModal = document.getElementById('bookingModal');
-        this.confirmationOverlay = document.getElementById('confirmationOverlay');
+        this.section = document.querySelector('.evia-whats-hot-carousel-section');
+        this.track = document.getElementById('hotCarouselTrack');
+        this.cards = document.querySelectorAll('.evia-treatment-card');
+        this.prevBtn = document.getElementById('hotPrevBtn');
+        this.nextBtn = document.getElementById('hotNextBtn');
+        this.dotsContainer = document.getElementById('hotCarouselDots');
+        this.modalOverlay = document.getElementById('treatmentModalOverlay');
         
-        // State management
-        this.currentPackageId = null;
-        this.isInitialized = false;
-        this.observers = new Set();
+        this.currentSlide = 0;
+        this.cardWidth = 0;
+        this.cardGap = 32;
+        this.visibleCards = 1;
+        this.maxSlide = 0;
+        this.isTransitioning = false;
+        this.autoplayInterval = null;
+        this.autoplayDelay = 5000;
+        this.isAutoplayPaused = false;
         
-        // Package data
-        this.packageData = {
-            1: {
-                id: 1,
-                title: "Radiant Eyes Package",
-                subtitle: "Complete Under Eye Transformation",
-                icon: "👁️",
-                originalPrice: 1030,
-                salePrice: 500,
-                savings: 530,
-                limit: "Limited to 2 packages per customer",
-                badge: "Most Popular",
-                
-                learnMore: {
-                    overview: "Transform tired, aging eyes with our most comprehensive under-eye treatment. This package combines three powerful treatments to reduce dark circles, puffiness, and fine lines for a youthful, refreshed appearance.",
-                    
-                    treatments: [
-                        {
-                            name: "Under Eye Mesotherapy with Exosomes",
-                            description: "Think of this as a vitamin cocktail for your under-eye area. We inject tiny amounts of healing nutrients directly where your skin needs them most. Exosomes are like little messengers that tell your skin cells to repair and regenerate.",
-                            benefits: ["Reduces dark circles", "Improves skin texture", "Stimulates natural healing"],
-                            duration: "30 minutes"
-                        },
-                        {
-                            name: "Precision Botox Treatment",
-                            description: "Strategic injections of botox around the eye area to smooth existing lines and prevent new ones from forming. This is not about looking 'frozen' - it's about looking naturally refreshed.",
-                            benefits: ["Smooths crow's feet", "Prevents new wrinkles", "Lifts brow area slightly"],
-                            duration: "15 minutes"
-                        },
-                        {
-                            name: "Alumier Premium Eye Cream",
-                            description: "A medical-grade eye cream specifically chosen for your skin type. This isn't something you can buy in stores - it's professional skincare that maintains your treatment results at home.",
-                            benefits: ["Maintains treatment results", "Daily hydration", "Continued improvement"],
-                            duration: "Take home"
-                        }
-                    ],
-                    
-                    results: "You'll notice immediate improvement in skin texture, with full results visible in 2-3 weeks. Dark circles fade, puffiness reduces, and fine lines smooth out for a naturally youthful appearance.",
-                    ideal: "Perfect for anyone concerned about tired-looking eyes, dark circles, puffiness, or early signs of aging around the eye area."
-                },
-                
-                services: [
-                    { name: "Under Eye Mesotherapy with Exosomes", price: 600 },
-                    { name: "Botox Treatment", price: 300 },
-                    { name: "Alumier Eye Cream", price: 130 }
-                ]
-            },
-            
-            2: {
-                id: 2,
-                title: "Luminous Face Package",
-                subtitle: "Holiday Radiance Treatment",
-                icon: "✨",
-                originalPrice: 950,
-                salePrice: 600,
-                savings: 350,
-                limit: "Limited to 2 packages per customer",
-                badge: "Holiday Glow",
-                bonus: {
-                    name: "20% Off Skincare Pack",
-                    description: "Professional skincare products to maintain your glow",
-                    originalPrice: 500,
-                    salePrice: 400
-                },
-                
-                learnMore: {
-                    overview: "Achieve that perfect holiday glow with our signature facial combination. This treatment gives you the luminous, radiant skin that photographs beautifully and makes you feel confident for all your holiday events.",
-                    
-                    treatments: [
-                        {
-                            name: "Profhilo Treatment",
-                            description: "Imagine giving your skin a drink of water from the inside. Profhilo is pure hyaluronic acid that spreads under your skin like honey, hydrating and firming for weeks. It's not a filler - it actually improves your skin quality.",
-                            benefits: ["Deep hydration", "Improved skin firmness", "Natural glow enhancement"],
-                            duration: "20 minutes"
-                        },
-                        {
-                            name: "Medium Grade Chemical Peel",
-                            description: "A professional-strength peel that removes the dull, dead skin layer to reveal the fresh, glowing skin underneath. Think of it as hitting the 'refresh' button on your face.",
-                            benefits: ["Removes dull surface skin", "Reveals brighter complexion", "Smooths skin texture"],
-                            duration: "30 minutes"
-                        }
-                    ],
-                    
-                    results: "Immediate glow after the peel, with Profhilo results building over 4-6 weeks. Your skin will look naturally luminous, hydrated, and photo-ready for all your holiday celebrations.",
-                    ideal: "Perfect for anyone wanting glowing, photo-ready skin for holiday events, or those with dull, dehydrated, or aging skin."
-                },
-                
-                services: [
-                    { name: "Profhilo Treatment", price: 650 },
-                    { name: "Medium Grade Chemical Peel", price: 300 }
-                ]
-            },
-            
-            3: {
-                id: 3,
-                title: "Plump & Glow Package",
-                subtitle: "Ultimate Lip & Skin Renewal",
-                icon: "💋",
-                originalPrice: 1600,
-                salePrice: 1000,
-                savings: 600,
-                limit: "Exclusive premium package",
-                badge: "Premium",
-                bonus: {
-                    name: "20% Off All Skincare",
-                    description: "Exclusive discount on any skincare products with this package"
-                },
-                
-                learnMore: {
-                    overview: "Our most comprehensive beauty transformation combining advanced lip enhancement with full facial rejuvenation. This is the ultimate package for those who want dramatic but natural-looking results.",
-                    
-                    treatments: [
-                        {
-                            name: "Lip Plumping & Hydration Filler",
-                            description: "Professional lip enhancement using hyaluronic acid fillers to add natural volume and perfect your lip shape. This isn't about huge lips - it's about enhancing your natural beauty and creating the perfect pout.",
-                            benefits: ["Natural volume enhancement", "Improved lip shape", "Long-lasting hydration"],
-                            duration: "45 minutes"
-                        },
-                        {
-                            name: "Skin Pen Micro Needling",
-                            description: "Tiny needles create controlled micro-injuries that trigger your skin's natural healing response. This stimulates collagen production, improving texture, reducing pores, and giving you that coveted 'glass skin' effect.",
-                            benefits: ["Stimulates collagen production", "Improves skin texture", "Reduces pore size"],
-                            duration: "60 minutes"
-                        }
-                    ],
-                    
-                    results: "Lips look naturally enhanced immediately, with micro needling results developing over 4-6 weeks. You'll have perfect lips and glowing, refined skin texture that looks naturally flawless.",
-                    ideal: "Perfect for those wanting comprehensive facial enhancement, including lip improvement and overall skin rejuvenation."
-                },
-                
-                services: [
-                    { name: "Lip Plumping & Hydration Filler", price: 850 },
-                    { name: "Skin Pen Micro Needling", price: 750 }
-                ]
-            }
-        };
+        // Touch/drag support
+        this.isDragging = false;
+        this.startX = 0;
+        this.currentX = 0;
+        this.threshold = 50;
         
-        if (this.section) {
+        if (this.section && this.track && this.cards.length > 0) {
             this.init();
         }
     }
 
     init() {
-        try {
-            this.bindEvents();
-            this.setupScrollAnimations();
-            this.setupAccessibility();
-            this.addCSS();
-            this.isInitialized = true;
-            console.log('🔥 Hermes What\'s Hot Section Loaded');
-        } catch (error) {
-            console.error('Failed to initialize What\'s Hot section:', error);
+        this.calculateDimensions();
+        this.setupEventListeners();
+        this.createDots();
+        this.updateCarousel();
+        this.setupModals();
+        this.startAutoplay();
+        
+        console.log('🔥 Enhanced What\'s Hot Carousel Initialized');
+    }
+
+    calculateDimensions() {
+        if (!this.cards.length) return;
+        
+        const containerWidth = this.track.parentElement.clientWidth;
+        this.cardWidth = this.cards[0].offsetWidth;
+        
+        // Responsive visible cards calculation
+        if (window.innerWidth >= 1200) {
+            this.visibleCards = Math.min(3, this.cards.length);
+        } else if (window.innerWidth >= 768) {
+            this.visibleCards = Math.min(2, this.cards.length);
+        } else {
+            this.visibleCards = 1;
+        }
+        
+        this.maxSlide = Math.max(0, this.cards.length - this.visibleCards);
+        
+        // Ensure current slide is within bounds
+        if (this.currentSlide > this.maxSlide) {
+            this.currentSlide = this.maxSlide;
         }
     }
 
-    bindEvents() {
-        // Card interactions
-        this.cards.forEach((card, index) => {
-            // Add entrance animation delay
-            card.style.animationDelay = `${0.1 + (index * 0.1)}s`;
-            
-            // Hover effects
-            card.addEventListener('mouseenter', () => this.handleCardHover(card, true));
-            card.addEventListener('mouseleave', () => this.handleCardHover(card, false));
-        });
-
-        // Global event listeners
-        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+    setupEventListeners() {
+        // Navigation buttons
+        if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.prevSlide();
+                this.pauseAutoplay();
+            });
+        }
         
-        // Modal overlay clicks
-        if (this.learnMoreModal) {
-            this.learnMoreModal.addEventListener('click', (e) => {
-                if (e.target === this.learnMoreModal) {
-                    this.closeLearnMoreModal();
-                }
+        if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.nextSlide();
+                this.pauseAutoplay();
             });
         }
 
-        if (this.bookingModal) {
-            this.bookingModal.addEventListener('click', (e) => {
-                if (e.target === this.bookingModal) {
-                    this.closeBookingModal();
-                }
-            });
+        // Touch/drag support
+        if (this.track) {
+            // Touch events
+            this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
+            this.track.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
+            this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e));
+
+            // Mouse drag support
+            this.track.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+            this.track.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+            this.track.addEventListener('mouseup', (e) => this.handleMouseUp(e));
+            this.track.addEventListener('mouseleave', (e) => this.handleMouseUp(e));
+
+            // Prevent default drag behavior
+            this.track.addEventListener('dragstart', (e) => e.preventDefault());
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+
+        // Pause autoplay on hover
+        if (this.section) {
+            this.section.addEventListener('mouseenter', () => this.pauseAutoplay());
+            this.section.addEventListener('mouseleave', () => this.resumeAutoplay());
         }
 
         // Window resize handler
-        const resizeHandler = this.debounce(() => {
-            this.handleResize();
-        }, 250);
-        
-        window.addEventListener('resize', resizeHandler);
-    }
-
-    handleCardHover(card, isEntering) {
-        if (isEntering) {
-            card.style.transform = 'translateY(-8px) scale(1.02)';
-        } else {
-            card.style.transform = 'translateY(0) scale(1)';
-        }
-    }
-
-    setupScrollAnimations() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    
-                    // Trigger pricing animations
-                    const priceElement = entry.target.querySelector('.hot-current-price');
-                    if (priceElement) {
-                        priceElement.style.animation = 'hotPriceGlow 2s ease-in-out infinite alternate';
-                    }
-                }
-            });
-        }, { 
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                this.handleResize();
+            }, 250);
         });
-        
-        this.cards.forEach(card => observer.observe(card));
-        
-        const urgencyBanner = document.querySelector('.hermes-urgency-banner');
-        if (urgencyBanner) {
-            observer.observe(urgencyBanner);
-        }
-        
-        this.observers.add(observer);
-    }
 
-    setupAccessibility() {
-        // Focus management
-        this.section.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') {
-                this.manageFocus(e);
+        // Learn more button clicks
+        this.cards.forEach(card => {
+            const learnMoreBtn = card.querySelector('.learn-more-btn');
+            if (learnMoreBtn) {
+                learnMoreBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const treatmentType = card.dataset.treatment;
+                    this.openModal(treatmentType);
+                });
             }
+
+            // Card click to open modal
+            card.addEventListener('click', (e) => {
+                // Don't open modal if clicking on the learn more button
+                if (e.target.closest('.learn-more-btn')) return;
+                
+                const treatmentType = card.dataset.treatment;
+                this.openModal(treatmentType);
+            });
         });
     }
 
+    // Navigation Methods
+    nextSlide() {
+        if (this.isTransitioning) return;
+        
+        if (this.currentSlide < this.maxSlide) {
+            this.goToSlide(this.currentSlide + 1);
+        } else {
+            this.goToSlide(0); // Loop back to beginning
+        }
+    }
+
+    prevSlide() {
+        if (this.isTransitioning) return;
+        
+        if (this.currentSlide > 0) {
+            this.goToSlide(this.currentSlide - 1);
+        } else {
+            this.goToSlide(this.maxSlide); // Loop to end
+        }
+    }
+
+    goToSlide(slideIndex) {
+        if (this.isTransitioning || slideIndex === this.currentSlide) return;
+        
+        this.isTransitioning = true;
+        this.currentSlide = Math.max(0, Math.min(slideIndex, this.maxSlide));
+        
+        this.updateCarousel();
+        this.updateDots();
+        
+        // Reset transition flag
+        setTimeout(() => {
+            this.isTransitioning = false;
+        }, 800);
+    }
+
+    updateCarousel() {
+        if (!this.track) return;
+        
+        const translateX = -(this.currentSlide * (this.cardWidth + this.cardGap));
+        this.track.style.transform = `translateX(${translateX}px)`;
+        
+        // Update navigation button states
+        this.updateNavigationStates();
+    }
+
+    updateNavigationStates() {
+        if (this.prevBtn) {
+            this.prevBtn.style.opacity = this.currentSlide === 0 ? '0.5' : '1';
+            this.prevBtn.style.pointerEvents = this.currentSlide === 0 ? 'none' : 'auto';
+        }
+        
+        if (this.nextBtn) {
+            this.nextBtn.style.opacity = this.currentSlide === this.maxSlide ? '0.5' : '1';
+            this.nextBtn.style.pointerEvents = this.currentSlide === this.maxSlide ? 'none' : 'auto';
+        }
+    }
+
+    // Dots Navigation
+    createDots() {
+        if (!this.dotsContainer) return;
+        
+        this.dotsContainer.innerHTML = '';
+        
+        for (let i = 0; i <= this.maxSlide; i++) {
+            const dot = document.createElement('button');
+            dot.classList.add('dot');
+            dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+            
+            dot.addEventListener('click', () => {
+                this.goToSlide(i);
+                this.pauseAutoplay();
+            });
+            
+            this.dotsContainer.appendChild(dot);
+        }
+        
+        this.updateDots();
+    }
+
+    updateDots() {
+        if (!this.dotsContainer) return;
+        
+        const dots = this.dotsContainer.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === this.currentSlide);
+        });
+    }
+
+    // Touch/Drag Support
+    handleTouchStart(e) {
+        this.isDragging = true;
+        this.startX = e.touches[0].clientX;
+        this.pauseAutoplay();
+    }
+
+    handleTouchMove(e) {
+        if (!this.isDragging) return;
+        
+        e.preventDefault();
+        this.currentX = e.touches[0].clientX;
+    }
+
+    handleTouchEnd(e) {
+        if (!this.isDragging) return;
+        
+        this.isDragging = false;
+        const diff = this.startX - this.currentX;
+        
+        if (Math.abs(diff) > this.threshold) {
+            if (diff > 0) {
+                this.nextSlide();
+            } else {
+                this.prevSlide();
+            }
+        }
+        
+        this.startX = 0;
+        this.currentX = 0;
+    }
+
+    handleMouseDown(e) {
+        e.preventDefault();
+        this.isDragging = true;
+        this.startX = e.clientX;
+        this.track.style.cursor = 'grabbing';
+        this.pauseAutoplay();
+    }
+
+    handleMouseMove(e) {
+        if (!this.isDragging) return;
+        
+        e.preventDefault();
+        this.currentX = e.clientX;
+        
+        // Optional: Add visual feedback during drag
+        const diff = this.startX - this.currentX;
+        const currentTranslateX = -(this.currentSlide * (this.cardWidth + this.cardGap));
+        const newTranslateX = currentTranslateX - diff * 0.5;
+        
+        // this.track.style.transform = `translateX(${newTranslateX}px)`;
+    }
+
+    handleMouseUp(e) {
+        if (!this.isDragging) return;
+        
+        this.isDragging = false;
+        this.track.style.cursor = 'grab';
+        
+        const diff = this.startX - this.currentX;
+        
+        if (Math.abs(diff) > this.threshold) {
+            if (diff > 0) {
+                this.nextSlide();
+            } else {
+                this.prevSlide();
+            }
+        } else {
+            // Snap back to current position
+            this.updateCarousel();
+        }
+        
+        this.startX = 0;
+        this.currentX = 0;
+    }
+
+    // Keyboard Support
     handleKeyboard(e) {
-        if (e.key === 'Escape') {
-            this.closeLearnMoreModal();
-            this.closeBookingModal();
-            this.closeConfirmation();
+        if (!this.section.matches(':hover')) return;
+        
+        switch(e.key) {
+            case 'ArrowLeft':
+                e.preventDefault();
+                this.prevSlide();
+                this.pauseAutoplay();
+                break;
+            case 'ArrowRight':
+                e.preventDefault();
+                this.nextSlide();
+                this.pauseAutoplay();
+                break;
         }
     }
 
-    manageFocus(e) {
-        const focusableElements = this.section.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
+    // Autoplay
+    startAutoplay() {
+        if (this.autoplayInterval) return;
         
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-        
-        if (e.shiftKey && document.activeElement === firstElement) {
-            e.preventDefault();
-            lastElement.focus();
-        } else if (!e.shiftKey && document.activeElement === lastElement) {
-            e.preventDefault();
-            firstElement.focus();
-        }
+        this.autoplayInterval = setInterval(() => {
+            if (!this.isAutoplayPaused && !this.isDragging) {
+                this.nextSlide();
+            }
+        }, this.autoplayDelay);
     }
 
-    // Learn More Modal Methods
-    openLearnMoreModal(packageId) {
-        this.currentPackageId = packageId;
-        const packageData = this.packageData[packageId];
+    pauseAutoplay() {
+        this.isAutoplayPaused = true;
         
-        if (!packageData || !this.learnMoreModal) return;
-        
-        try {
-            this.populateLearnMoreModal(packageData);
-            this.showModal(this.learnMoreModal);
-            this.trackEvent('learn_more_opened', { package: packageData.title });
-        } catch (error) {
-            console.error('Error opening learn more modal:', error);
-        }
-    }
-
-    populateLearnMoreModal(packageData) {
-        const iconElement = document.getElementById('learnMoreIcon');
-        const titleElement = document.getElementById('learnMoreTitle');
-        const subtitleElement = document.getElementById('learnMoreSubtitle');
-        const bodyElement = document.getElementById('learnMoreBody');
-        
-        if (iconElement) iconElement.textContent = packageData.icon;
-        if (titleElement) titleElement.textContent = packageData.title;
-        if (subtitleElement) subtitleElement.textContent = "Understanding Your Treatment";
-        
-        if (bodyElement) {
-            bodyElement.innerHTML = this.buildLearnMoreContent(packageData);
-        }
-    }
-
-    buildLearnMoreContent(packageData) {
-        let content = `
-            <div class="learn-more-content">
-                <div class="treatment-overview">
-                    <h4>What This Package Does</h4>
-                    <p>${packageData.learnMore.overview}</p>
-                </div>
-                
-                <div class="treatments-breakdown">
-                    <h4>Your Treatments Explained</h4>
-        `;
-        
-        packageData.learnMore.treatments.forEach(treatment => {
-            content += `
-                <div class="treatment-item">
-                    <h5>${treatment.name}</h5>
-                    <p class="treatment-description">${treatment.description}</p>
-                    <div class="treatment-benefits">
-                        <strong>Benefits:</strong>
-                        <ul>
-                            ${treatment.benefits.map(benefit => `<li>${benefit}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div class="treatment-duration">
-                        <strong>Duration:</strong> ${treatment.duration}
-                    </div>
-                </div>
-            `;
-        });
-        
-        content += `
-                </div>
-                
-                <div class="results-timeline">
-                    <h4>What to Expect</h4>
-                    <p>${packageData.learnMore.results}</p>
-                </div>
-                
-                <div class="ideal-candidate">
-                    <h4>Is This Right for Me?</h4>
-                    <p>${packageData.learnMore.ideal}</p>
-                </div>
-                
-                <div class="package-value">
-                    <h4>Package Value</h4>
-                    <div class="value-breakdown">
-                        <div class="value-row">
-                            <span>Individual Treatment Cost:</span>
-                            <span class="original-value">$${packageData.originalPrice.toLocaleString()}</span>
-                        </div>
-                        <div class="value-row highlight">
-                            <span>Your Holiday Price:</span>
-                            <span class="sale-value">$${packageData.salePrice.toLocaleString()}</span>
-                        </div>
-                        <div class="value-row savings">
-                            <span>Your Savings:</span>
-                            <span class="savings-value">$${packageData.savings.toLocaleString()}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        return content;
-    }
-
-    closeLearnMoreModal() {
-        this.hideModal(this.learnMoreModal);
-    }
-
-    switchToBookingModal() {
-        this.closeLearnMoreModal();
+        // Resume after 10 seconds of inactivity
         setTimeout(() => {
-            this.openBookingModal(this.currentPackageId);
-        }, 200);
-    }
-
-    // Booking Modal Methods
-    openBookingModal(packageId) {
-        this.currentPackageId = packageId;
-        const packageData = this.packageData[packageId];
-        
-        if (!packageData || !this.bookingModal) return;
-        
-        try {
-            this.populateBookingModal(packageData);
-            this.showModal(this.bookingModal);
-            this.trackEvent('booking_started', { package: packageData.title });
-        } catch (error) {
-            console.error('Error opening booking modal:', error);
-        }
-    }
-
-    populateBookingModal(packageData) {
-        const titleElement = document.getElementById('bookingTitle');
-        const subtitleElement = document.getElementById('bookingSubtitle');
-        const bodyElement = document.getElementById('bookingBody');
-        
-        if (titleElement) titleElement.textContent = `Book ${packageData.title}`;
-        if (subtitleElement) subtitleElement.textContent = "Secure your transformation today";
-        
-        if (bodyElement) {
-            bodyElement.innerHTML = this.buildBookingContent(packageData);
-        }
-    }
-
-    buildBookingContent(packageData) {
-        let content = `
-            <div class="booking-content">
-                <div class="booking-package-summary">
-                    <div class="package-header">
-                        <div class="package-icon">${packageData.icon}</div>
-                        <div class="package-info">
-                            <h4>${packageData.title}</h4>
-                            <p>${packageData.subtitle}</p>
-                        </div>
-                        <div class="package-price">$${packageData.salePrice.toLocaleString()}</div>
-                    </div>
-                    
-                    <div class="included-services">
-                        <h5>What's Included:</h5>
-                        <ul class="services-list">
-        `;
-        
-        packageData.services.forEach(service => {
-            content += `<li>${service.name} <span class="service-value">($${service.price})</span></li>`;
-        });
-        
-        if (packageData.bonus) {
-            content += `<li class="bonus-service">${packageData.bonus.name} <span class="bonus-value">Bonus!</span></li>`;
-        }
-        
-        content += `
-                        </ul>
-                    </div>
-                    
-                    <div class="booking-savings-summary">
-                        <div class="savings-row">
-                            <span>Regular Price:</span>
-                            <span class="regular-price">$${packageData.originalPrice.toLocaleString()}</span>
-                        </div>
-                        <div class="savings-row highlight">
-                            <span>Your Holiday Price:</span>
-                            <span class="holiday-price">$${packageData.salePrice.toLocaleString()}</span>
-                        </div>
-                        <div class="savings-row total-savings">
-                            <span>Total Savings:</span>
-                            <span class="savings-amount">$${packageData.savings.toLocaleString()}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="booking-important-notes">
-                    <h5>Important Information:</h5>
-                    <ul>
-                        <li>${packageData.limit}</li>
-                        <li>Valid through December 31st, 2024</li>
-                        <li>Appointment scheduling within 24 hours</li>
-                        <li>Professional consultation included</li>
-                        <li>All treatments performed by licensed professionals</li>
-                    </ul>
-                </div>
-                
-                <div class="booking-next-steps">
-                    <h5>What Happens Next:</h5>
-                    <ol>
-                        <li>You'll receive email confirmation within 15 minutes</li>
-                        <li>Our team will call you within 24 hours</li>
-                        <li>We'll schedule your appointment at your convenience</li>
-                        <li>You'll receive pre-treatment care instructions</li>
-                    </ol>
-                </div>
-            </div>
-        `;
-        
-        return content;
-    }
-
-    closeBookingModal() {
-        this.hideModal(this.bookingModal);
-    }
-
-    confirmBooking() {
-        const packageData = this.packageData[this.currentPackageId];
-        
-        if (!packageData) return;
-        
-        this.closeBookingModal();
-        
-        setTimeout(() => {
-            this.showBookingConfirmation(packageData);
-        }, 200);
-        
-        this.trackEvent('booking_confirmed', { 
-            package: packageData.title,
-            value: packageData.salePrice 
-        });
-    }
-
-    // Confirmation Methods
-    showBookingConfirmation(packageData) {
-        if (!this.confirmationOverlay) return;
-        
-        const messageElement = document.getElementById('confirmationMessage');
-        const detailsElement = document.getElementById('confirmationDetails');
-        
-        if (messageElement) {
-            messageElement.textContent = `Thank you for choosing our ${packageData.title}!`;
-        }
-        
-        if (detailsElement) {
-            detailsElement.innerHTML = this.buildConfirmationDetails(packageData);
-        }
-        
-        this.showModal(this.confirmationOverlay);
-        
-        setTimeout(() => {
-            this.closeConfirmation();
+            this.isAutoplayPaused = false;
         }, 10000);
     }
 
-    buildConfirmationDetails(packageData) {
-        return `
-            <div class="confirmation-package-info">
-                <div class="conf-row">
-                    <strong>Package:</strong>
-                    <span>${packageData.title}</span>
-                </div>
-                <div class="conf-row">
-                    <strong>Investment:</strong>
-                    <span>$${packageData.salePrice.toLocaleString()}</span>
-                </div>
-                <div class="conf-row">
-                    <strong>You Saved:</strong>
-                    <span class="savings-highlight">$${packageData.savings.toLocaleString()}</span>
-                </div>
-                <div class="conf-row">
-                    <strong>Booking ID:</strong>
-                    <span>#HH${Date.now().toString().slice(-6)}</span>
-                </div>
-            </div>
-        `;
+    resumeAutoplay() {
+        this.isAutoplayPaused = false;
     }
 
-    closeConfirmation() {
-        this.hideModal(this.confirmationOverlay);
-        this.currentPackageId = null;
+    stopAutoplay() {
+        if (this.autoplayInterval) {
+            clearInterval(this.autoplayInterval);
+            this.autoplayInterval = null;
+        }
     }
 
-    // Modal Utility Methods
-    showModal(modal) {
-        if (!modal) return;
-        
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        
-        // Focus management
-        setTimeout(() => {
-            const firstButton = modal.querySelector('button:not(.hermes-modal-close)');
-            if (firstButton) firstButton.focus();
-        }, 100);
+    // Resize Handler
+    handleResize() {
+        this.calculateDimensions();
+        this.updateCarousel();
+        this.createDots();
     }
 
-    hideModal(modal) {
-        if (!modal) return;
-        
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+    // Modal System
+    setupModals() {
+        // Modal close handlers
+        const closeBtn = document.getElementById('modalCloseBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => this.closeModal());
+        }
 
-    // Event Tracking
-    trackEvent(eventName, parameters = {}) {
-        // Google Analytics
-        if (typeof gtag !== 'undefined') {
-            gtag('event', eventName, {
-                event_category: 'Holiday Packages',
-                ...parameters
+        // Overlay click to close
+        if (this.modalOverlay) {
+            this.modalOverlay.addEventListener('click', (e) => {
+                if (e.target === this.modalOverlay) {
+                    this.closeModal();
+                }
             });
         }
-        
-        // Facebook Pixel
-        if (typeof fbq !== 'undefined') {
-            fbq('track', eventName, parameters);
-        }
-        
-        console.log('📊 Event tracked:', eventName, parameters);
-    }
 
-    // Utility Methods
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    handleResize() {
-        // Handle any resize-specific logic
-        this.observers.forEach(observer => {
-            observer.disconnect();
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modalOverlay?.classList.contains('active')) {
+                this.closeModal();
+            }
         });
-        this.setupScrollAnimations();
+
+        // Book treatment button - MODIFIED TO REDIRECT TO CONTACT.HTML
+        const bookBtn = document.getElementById('bookTreatmentBtn');
+        if (bookBtn) {
+            bookBtn.addEventListener('click', () => {
+                this.closeModal();
+                // Redirect to contact.html instead of scrolling to contact section
+                window.location.href = 'contact.html';
+            });
+        }
     }
 
-    addCSS() {
-        const additionalCSS = `
-            <style>
-            /* Learn More Modal Specific Styles */
-            .learn-more-content {
-                font-family: var(--font-inter);
-                line-height: 1.6;
-            }
+    openModal(treatmentType) {
+        if (!this.modalOverlay) return;
 
-            .learn-more-content h4 {
-                font-family: var(--font-playfair);
-                font-size: 1.25rem;
-                color: var(--hermes-orange);
-                margin-bottom: var(--space-md);
-                margin-top: var(--space-xl);
-            }
-
-            .learn-more-content h4:first-child {
-                margin-top: 0;
-            }
-
-            .learn-more-content h5 {
-                font-family: var(--font-inter);
-                font-size: 1rem;
-                font-weight: 600;
-                color: var(--text-primary);
-                margin-bottom: var(--space-sm);
-            }
-
-            .treatment-item {
-                background: rgba(255, 140, 0, 0.05);
-                border: 1px solid rgba(255, 140, 0, 0.1);
-                border-radius: var(--radius-lg);
-                padding: var(--space-lg);
-                margin-bottom: var(--space-lg);
-            }
-
-            .treatment-description {
-                color: var(--text-secondary);
-                margin-bottom: var(--space-md);
-            }
-
-            .treatment-benefits ul {
-                margin: var(--space-sm) 0;
-                padding-left: var(--space-lg);
-            }
-
-            .treatment-benefits li {
-                color: var(--text-secondary);
-                margin-bottom: var(--space-xs);
-            }
-
-            .treatment-duration {
-                color: var(--hermes-orange);
-                font-weight: 500;
-                font-size: 0.9rem;
-            }
-
-            .package-value {
-                background: rgba(255, 140, 0, 0.1);
-                border: 1px solid rgba(255, 140, 0, 0.2);
-                border-radius: var(--radius-lg);
-                padding: var(--space-lg);
-                margin-top: var(--space-xl);
-            }
-
-            .value-breakdown {
-                margin-top: var(--space-md);
-            }
-
-            .value-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: var(--space-sm);
-                font-size: 0.95rem;
-            }
-
-            .value-row.highlight {
-                font-weight: 600;
-                font-size: 1.1rem;
-                color: var(--hermes-orange);
-                border-top: 1px solid rgba(255, 140, 0, 0.2);
-                border-bottom: 1px solid rgba(255, 140, 0, 0.2);
-                padding: var(--space-sm) 0;
-                margin: var(--space-md) 0;
-            }
-
-            .value-row.savings {
-                color: #16a34a;
-                font-weight: 600;
-            }
-
-            .original-value {
-                text-decoration: line-through;
-                color: var(--text-muted);
-            }
-
-            .sale-value {
-                color: var(--hermes-orange);
-                font-weight: 600;
-            }
-
-            .savings-value {
-                color: #16a34a;
-                font-weight: 600;
-            }
-
-            /* Booking Modal Specific Styles */
-            .booking-content {
-                font-family: var(--font-inter);
-            }
-
-            .booking-package-summary {
-                background: rgba(255, 140, 0, 0.05);
-                border: 1px solid rgba(255, 140, 0, 0.15);
-                border-radius: var(--radius-lg);
-                padding: var(--space-lg);
-                margin-bottom: var(--space-xl);
-            }
-
-            .package-header {
-                display: flex;
-                align-items: center;
-                gap: var(--space-lg);
-                margin-bottom: var(--space-lg);
-                padding-bottom: var(--space-lg);
-                border-bottom: 1px solid rgba(255, 140, 0, 0.2);
-            }
-
-            .package-icon {
-                font-size: 2.5rem;
-            }
-
-            .package-info {
-                flex: 1;
-            }
-
-            .package-info h4 {
-                font-family: var(--font-playfair);
-                font-size: 1.25rem;
-                color: var(--text-primary);
-                margin-bottom: var(--space-xs);
-            }
-
-            .package-info p {
-                color: var(--text-secondary);
-                margin: 0;
-                font-size: 0.9rem;
-            }
-
-            .package-price {
-                font-family: var(--font-playfair);
-                font-size: 2rem;
-                font-weight: 700;
-                color: var(--hermes-orange);
-            }
-
-            .included-services h5 {
-                font-weight: 600;
-                color: var(--text-primary);
-                margin-bottom: var(--space-sm);
-            }
-
-            .services-list {
-                list-style: none;
-                padding: 0;
-            }
-
-            .services-list li {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: var(--space-sm) 0;
-                border-bottom: 1px solid rgba(255, 140, 0, 0.1);
-            }
-
-            .services-list li:last-child {
-                border-bottom: none;
-            }
-
-            .service-value {
-                color: var(--text-muted);
-                font-size: 0.85rem;
-            }
-
-            .bonus-service {
-                background: rgba(34, 197, 94, 0.1);
-                border: 1px solid rgba(34, 197, 94, 0.2) !important;
-                border-radius: var(--radius-md);
-                padding: var(--space-sm) var(--space-md) !important;
-                margin-top: var(--space-sm);
-                color: #16a34a;
-                font-weight: 500;
-            }
-
-            .bonus-value {
-                color: #16a34a;
-                font-weight: 600;
-                font-size: 0.85rem;
-            }
-
-            .booking-savings-summary {
-                background: rgba(34, 197, 94, 0.05);
-                border: 1px solid rgba(34, 197, 94, 0.15);
-                border-radius: var(--radius-md);
-                padding: var(--space-md);
-                margin-top: var(--space-lg);
-            }
-
-            .savings-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: var(--space-xs);
-            }
-
-            .savings-row:last-child {
-                margin-bottom: 0;
-            }
-
-            .savings-row.highlight {
-                font-weight: 600;
-                font-size: 1.1rem;
-                color: var(--hermes-orange);
-            }
-
-            .savings-row.total-savings {
-                border-top: 1px solid rgba(34, 197, 94, 0.2);
-                padding-top: var(--space-sm);
-                margin-top: var(--space-sm);
-                font-weight: 600;
-                color: #16a34a;
-            }
-
-            .regular-price {
-                text-decoration: line-through;
-                color: var(--text-muted);
-            }
-
-            .holiday-price {
-                color: var(--hermes-orange);
-                font-weight: 600;
-            }
-
-            .savings-amount {
-                color: #16a34a;
-                font-weight: 600;
-            }
-
-            .booking-important-notes,
-            .booking-next-steps {
-                margin-top: var(--space-xl);
-            }
-
-            .booking-important-notes h5,
-            .booking-next-steps h5 {
-                font-weight: 600;
-                color: var(--text-primary);
-                margin-bottom: var(--space-md);
-            }
-
-            .booking-important-notes ul,
-            .booking-next-steps ol {
-                padding-left: var(--space-lg);
-            }
-
-            .booking-important-notes li,
-            .booking-next-steps li {
-                color: var(--text-secondary);
-                margin-bottom: var(--space-xs);
-                line-height: 1.5;
-            }
-
-            /* Confirmation Specific Styles */
-            .confirmation-package-info {
-                text-align: left;
-            }
-
-            .conf-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: var(--space-sm);
-                padding: var(--space-sm) 0;
-                border-bottom: 1px solid rgba(255, 140, 0, 0.1);
-            }
-
-            .conf-row:last-child {
-                border-bottom: none;
-                margin-bottom: 0;
-            }
-
-            .savings-highlight {
-                color: #16a34a;
-                font-weight: 600;
-            }
-
-            @keyframes hotPriceGlow {
-                from { 
-                    text-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
-                    transform: scale(1);
-                }
-                to { 
-                    text-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
-                    transform: scale(1.02);
-                }
-            }
-            </style>
-        `;
+        const treatmentData = this.getTreatmentData(treatmentType);
+        this.populateModal(treatmentData);
         
-        document.head.insertAdjacentHTML('beforeend', additionalCSS);
+        this.modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Pause carousel autoplay when modal is open
+        this.pauseAutoplay();
+
+        // Add opening animation
+        const modal = this.modalOverlay.querySelector('.evia-enhanced-modal');
+        if (modal) {
+            modal.style.animation = 'modalSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        }
+
+        // Add fade-in effect to modal image
+        const modalImage = document.getElementById('modalImage');
+        if (modalImage) {
+            modalImage.style.opacity = '0';
+            modalImage.onload = () => {
+                modalImage.style.transition = 'opacity 0.5s ease';
+                modalImage.style.opacity = '1';
+            };
+        }
     }
 
-    // Public cleanup method
-    destroy() {
-        this.observers.forEach(observer => observer.disconnect());
-        this.observers.clear();
-        this.isInitialized = false;
-        console.log('🔥 Hermes What\'s Hot Section Destroyed');
+    closeModal() {
+        if (!this.modalOverlay) return;
+
+        this.modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        // Resume autoplay when modal closes
+        this.resumeAutoplay();
     }
+
+    getTreatmentData(treatmentType) {
+        const treatmentDatabase = {
+            'nad-drip': {
+                title: 'NAD+ Drip Therapy',
+                icon: 'ri-drop-line',
+                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-nad-vial.jpg',
+                price: '$450',
+                duration: '90 min',
+                description: 'NAD+ (Nicotinamide Adenine Dinucleotide) IV therapy is our most advanced cellular regeneration treatment. This powerful coenzyme plays a crucial role in cellular energy production, DNA repair, and anti-aging processes. Our premium NAD+ formula helps boost cognitive function, increase energy levels, and support overall cellular health.',
+                benefits: [
+                    'Enhanced cellular energy production',
+                    'Improved cognitive function and mental clarity',
+                    'Increased metabolism and fat burning',
+                    'Better sleep quality and recovery',
+                    'Reduced signs of aging',
+                    'Enhanced immune system function'
+                ],
+                details: {
+                    duration: '60-90 minutes',
+                    frequency: 'Weekly for optimal results',
+                    results: 'Immediate energy boost',
+                    downtime: 'None required'
+                }
+            },
+            'vitamin-c-glow': {
+                title: 'Vitamin C Glow',
+                icon: 'ri-sun-line',
+                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-vitamin-c-drip.jpg',
+                price: '$180',
+                duration: '45 min',
+                description: 'Transform your skin from within with our high-dose Vitamin C infusion. This powerful antioxidant treatment promotes collagen production, brightens skin tone, and provides protection against environmental damage. Perfect for achieving that coveted healthy glow.',
+                benefits: [
+                    'Radiant, glowing complexion',
+                    'Increased collagen production',
+                    'Improved skin texture and tone',
+                    'Enhanced immune system',
+                    'Powerful antioxidant protection',
+                    'Faster wound healing'
+                ],
+                details: {
+                    duration: '30-45 minutes',
+                    frequency: 'Bi-weekly maintenance',
+                    results: 'Visible glow within 24 hours',
+                    downtime: 'None required'
+                }
+            },
+            'energy-boost': {
+                title: 'Energy Boost',
+                icon: 'ri-flashlight-line',
+                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-energy-boost.jpg',
+                price: '$150',
+                duration: '30 min',
+                description: 'Combat fatigue and reclaim your vitality with our specialized Energy Boost IV. This carefully formulated blend of B-vitamins, amino acids, and essential nutrients provides immediate and sustained energy enhancement, perfect for busy professionals and active lifestyles.',
+                benefits: [
+                    'Immediate energy increase',
+                    'Enhanced mental focus',
+                    'Improved physical performance',
+                    'Better stress management',
+                    'Increased motivation and productivity',
+                    'Balanced mood and wellbeing'
+                ],
+                details: {
+                    duration: '30-45 minutes',
+                    frequency: 'Weekly or as needed',
+                    results: 'Immediate energy boost',
+                    downtime: 'None required'
+                }
+            },
+            'immune-support': {
+                title: 'Immune Support',
+                icon: 'ri-shield-check-line',
+                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/beaux-immune-support.jpg',
+                price: '$200',
+                duration: '45 min',
+                description: 'Strengthen your body\'s natural defenses with our comprehensive Immune Support IV therapy. This powerful combination of vitamins, minerals, and antioxidants helps boost immune function, reduce illness duration, and maintain optimal health year-round.',
+                benefits: [
+                    'Strengthened immune system',
+                    'Reduced illness frequency and duration',
+                    'Enhanced recovery from stress',
+                    'Improved overall wellness',
+                    'Better resistance to infections',
+                    'Increased antioxidant protection'
+                ],
+                details: {
+                    duration: '45-60 minutes',
+                    frequency: 'Monthly or seasonally',
+                    results: 'Enhanced immunity within days',
+                    downtime: 'None required'
+                }
+            }
+        };
+
+        return treatmentDatabase[treatmentType] || treatmentDatabase['nad-drip'];
+    }
+
+    populateModal(data) {
+        // Update modal content
+        const modalTitle = document.getElementById('modalTitle');
+        const modalIcon = document.getElementById('modalIconSymbol');
+        const modalImage = document.getElementById('modalImage');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalBenefits = document.getElementById('modalBenefits');
+        const modalDetails = document.getElementById('modalDetails');
+
+        if (modalTitle) modalTitle.textContent = data.title;
+        if (modalIcon) modalIcon.className = data.icon;
+        if (modalImage) {
+            modalImage.src = data.image;
+            modalImage.alt = `${data.title} - Manhattan Medical Spa Treatment`;
+        }
+        if (modalDescription) modalDescription.textContent = data.description;
+
+        // Populate benefits
+        if (modalBenefits && data.benefits) {
+            modalBenefits.innerHTML = '';
+            data.benefits.forEach(benefit => {
+                const li = document.createElement('li');
+                li.textContent = benefit;
+                modalBenefits.appendChild(li);
+            });
+        }
+
+        // Populate details
+        if (modalDetails && data.details) {
+            modalDetails.innerHTML = '';
+            Object.entries(data.details).forEach(([key, value]) => {
+                const detailItem = document.createElement('div');
+                detailItem.className = 'detail-item';
+                detailItem.innerHTML = `
+                    <div class="detail-label">${key.replace(/([A-Z])/g, ' $1').toLowerCase()}</div>
+                    <div class="detail-value">${value}</div>
+                `;
+                modalDetails.appendChild(detailItem);
+            });
+        }
+    }
+
+    // Public API
+    destroy() {
+        this.stopAutoplay();
+        
+        // Remove event listeners
+        if (this.prevBtn) this.prevBtn.removeEventListener('click', this.prevSlide);
+        if (this.nextBtn) this.nextBtn.removeEventListener('click', this.nextSlide);
+        
+        console.log('🔥 Enhanced What\'s Hot Carousel Destroyed');
+    }
+}
+
+// Modal Animation Keyframes
+const modalAnimationCSS = `
+@keyframes modalSlideIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+`;
+
+// Inject animation CSS
+if (!document.querySelector('#modal-animations')) {
+    const style = document.createElement('style');
+    style.id = 'modal-animations';
+    style.textContent = modalAnimationCSS;
+    document.head.appendChild(style);
+}
+
+// Auto-initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize carousel
+    window.eviaWhatsHotCarousel = new EviaWhatsHotCarousel();
+});
+
+// Export for module usage
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = EviaWhatsHotCarousel;
 }
 
 /* ========================================
@@ -4824,7 +4498,7 @@ class EviaAestheticsApp {
             this.components.set('preloader', new Preloader());
             this.components.set('header', new ModernHermesHeader());
             this.components.set('hero', new HeroSection());
-            this.components.set('whatsHot', new HermesWhatsHotSection());
+            this.components.set('whatsHot', new EviaWhatsHotCarousel());
             this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
