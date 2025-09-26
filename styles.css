@@ -1498,10 +1498,10 @@ body.menu-open {
 }
 
 /* ========================================
-   ENHANCED WHAT'S HOT SECTION - MODERN
+   ENHANCED HOLIDAY PACKAGES SECTION - MODERN TILES
    ======================================== */
 
-section.evia-whats-hot-carousel-section {
+section.evia-whats-hot-packages-section {
     padding: 120px 0 140px;
     background: linear-gradient(135deg, 
         var(--cream-primary, #FFFCF8) 0%, 
@@ -1513,7 +1513,7 @@ section.evia-whats-hot-carousel-section {
     font-family: var(--font-inter, 'Inter', sans-serif);
 }
 
-section.evia-whats-hot-carousel-section::before {
+section.evia-whats-hot-packages-section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1527,7 +1527,7 @@ section.evia-whats-hot-carousel-section::before {
     z-index: 1;
 }
 
-section.evia-whats-hot-carousel-section .container {
+section.evia-whats-hot-packages-section .container {
     position: relative;
     z-index: 2;
     max-width: 1400px;
@@ -1536,12 +1536,12 @@ section.evia-whats-hot-carousel-section .container {
 }
 
 /* Header Styling */
-section.evia-whats-hot-carousel-section .hermes-hot-header {
+section.evia-whats-hot-packages-section .packages-header {
     text-align: center;
     margin-bottom: 80px;
 }
 
-section.evia-whats-hot-carousel-section .hermes-hot-badge {
+section.evia-whats-hot-packages-section .packages-badge {
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -1558,7 +1558,7 @@ section.evia-whats-hot-carousel-section .hermes-hot-badge {
         0 4px 16px rgba(255, 140, 0, 0.1);
 }
 
-section.evia-whats-hot-carousel-section .badge-shimmer-effect {
+section.evia-whats-hot-packages-section .badge-shimmer-effect {
     position: absolute;
     top: 0;
     left: -100%;
@@ -1577,7 +1577,7 @@ section.evia-whats-hot-carousel-section .badge-shimmer-effect {
     100% { left: 100%; }
 }
 
-section.evia-whats-hot-carousel-section .badge-icon-container {
+section.evia-whats-hot-packages-section .badge-icon-container {
     position: relative;
     width: 24px;
     height: 24px;
@@ -1586,14 +1586,14 @@ section.evia-whats-hot-carousel-section .badge-icon-container {
     justify-content: center;
 }
 
-section.evia-whats-hot-carousel-section .badge-icon-container i {
+section.evia-whats-hot-packages-section .badge-icon-container i {
     font-size: 18px;
     color: var(--hermes-orange, #FF8C00);
     z-index: 2;
     position: relative;
 }
 
-section.evia-whats-hot-carousel-section .badge-pulse-ring {
+section.evia-whats-hot-packages-section .badge-pulse-ring {
     position: absolute;
     inset: -4px;
     border: 2px solid rgba(255, 140, 0, 0.3);
@@ -1606,7 +1606,7 @@ section.evia-whats-hot-carousel-section .badge-pulse-ring {
     100% { transform: scale(1.4); opacity: 0; }
 }
 
-section.evia-whats-hot-carousel-section .badge-text {
+section.evia-whats-hot-packages-section .badge-text {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     font-weight: 600;
@@ -1615,13 +1615,13 @@ section.evia-whats-hot-carousel-section .badge-text {
     z-index: 2;
 }
 
-section.evia-whats-hot-carousel-section .badge-sparkles {
+section.evia-whats-hot-packages-section .badge-sparkles {
     position: absolute;
     inset: 0;
     pointer-events: none;
 }
 
-section.evia-whats-hot-carousel-section .sparkle {
+section.evia-whats-hot-packages-section .sparkle {
     position: absolute;
     width: 6px;
     height: 6px;
@@ -1631,19 +1631,19 @@ section.evia-whats-hot-carousel-section .sparkle {
     animation: sparkle 2s infinite;
 }
 
-section.evia-whats-hot-carousel-section .sparkle-1 {
+section.evia-whats-hot-packages-section .sparkle-1 {
     top: 20%;
     left: 15%;
     animation-delay: 0s;
 }
 
-section.evia-whats-hot-carousel-section .sparkle-2 {
+section.evia-whats-hot-packages-section .sparkle-2 {
     top: 70%;
     right: 20%;
     animation-delay: 0.7s;
 }
 
-section.evia-whats-hot-carousel-section .sparkle-3 {
+section.evia-whats-hot-packages-section .sparkle-3 {
     bottom: 25%;
     left: 80%;
     animation-delay: 1.4s;
@@ -1654,13 +1654,13 @@ section.evia-whats-hot-carousel-section .sparkle-3 {
     50% { opacity: 1; transform: scale(1); }
 }
 
-section.evia-whats-hot-carousel-section .hermes-hot-title {
+section.evia-whats-hot-packages-section .packages-title {
     font-family: var(--font-playfair, 'Playfair Display', serif);
     margin-bottom: 24px;
     line-height: 1.1;
 }
 
-section.evia-whats-hot-carousel-section .title-main {
+section.evia-whats-hot-packages-section .title-main {
     display: block;
     font-size: clamp(2.8rem, 6vw, 4.2rem);
     font-weight: 600;
@@ -1668,7 +1668,7 @@ section.evia-whats-hot-carousel-section .title-main {
     margin-bottom: 8px;
 }
 
-section.evia-whats-hot-carousel-section .title-accent {
+section.evia-whats-hot-packages-section .title-accent {
     display: block;
     font-size: clamp(2.8rem, 6vw, 4.2rem);
     font-weight: 400;
@@ -1678,7 +1678,7 @@ section.evia-whats-hot-carousel-section .title-accent {
     background-clip: text;
 }
 
-section.evia-whats-hot-carousel-section .hermes-hot-subtitle {
+section.evia-whats-hot-packages-section .packages-subtitle {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 1.125rem;
     color: var(--text-secondary, #5D4E37);
@@ -1687,34 +1687,23 @@ section.evia-whats-hot-carousel-section .hermes-hot-subtitle {
     line-height: 1.6;
 }
 
-/* Carousel Container */
-section.evia-whats-hot-carousel-section .evia-carousel-container {
-    position: relative;
-    margin-bottom: 60px;
+/* Packages Grid */
+section.evia-whats-hot-packages-section .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 40px;
+    margin-bottom: 80px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-section.evia-whats-hot-carousel-section .evia-carousel-track-container {
-    overflow: hidden;
-    margin: 0 60px;
-    border-radius: var(--radius-xl, 1.5rem);
-}
-
-section.evia-whats-hot-carousel-section .evia-carousel-track {
-    display: flex;
-    gap: 32px;
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 20px 0;
-}
-
-/* Treatment Cards */
-section.evia-whats-hot-carousel-section .evia-treatment-card {
-    flex: 0 0 350px;
-    height: 620px;
+/* Package Tiles */
+section.evia-whats-hot-packages-section .package-tile {
     background: var(--white, #FFFFFF);
     border-radius: var(--radius-2xl, 2rem);
     overflow: hidden;
     position: relative;
-    cursor: pointer;
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.08),
@@ -1722,21 +1711,86 @@ section.evia-whats-hot-carousel-section .evia-treatment-card {
     border: 1px solid rgba(255, 140, 0, 0.1);
 }
 
-section.evia-whats-hot-carousel-section .evia-treatment-card:hover {
-    transform: translateY(-12px) scale(1.02);
+section.evia-whats-hot-packages-section .package-tile:hover {
+    transform: translateY(-12px);
     box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.15),
+        0 25px 60px rgba(0, 0, 0, 0.15),
         0 12px 40px rgba(255, 140, 0, 0.2);
     border-color: rgba(255, 140, 0, 0.3);
 }
 
-section.evia-whats-hot-carousel-section .treatment-image-container {
+/* Featured Package */
+section.evia-whats-hot-packages-section .package-tile.featured {
+    border: 2px solid var(--hermes-orange, #FF8C00);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.1),
+        0 8px 24px rgba(255, 140, 0, 0.15);
+    transform: scale(1.05);
+}
+
+section.evia-whats-hot-packages-section .package-tile.featured:hover {
+    transform: scale(1.05) translateY(-12px);
+}
+
+section.evia-whats-hot-packages-section .featured-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--hermes-orange, #FF8C00) 0%, var(--hermes-orange-light, #FFA500) 100%);
+    color: var(--white, #FFFFFF);
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 24px;
+    border-radius: var(--radius-full, 9999px);
+    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
+    z-index: 5;
+    animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4); }
+    50% { box-shadow: 0 8px 32px rgba(255, 140, 0, 0.6); }
+}
+
+/* Package Header */
+section.evia-whats-hot-packages-section .package-header {
     position: relative;
-    height: 200px;
+    height: 240px;
     overflow: hidden;
 }
 
-section.evia-whats-hot-carousel-section .package-badge {
+section.evia-whats-hot-packages-section .package-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+section.evia-whats-hot-packages-section .package-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+section.evia-whats-hot-packages-section .package-tile:hover .package-bg-image {
+    transform: scale(1.1);
+}
+
+section.evia-whats-hot-packages-section .package-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(255, 140, 0, 0.2) 100%
+    );
+}
+
+section.evia-whats-hot-packages-section .package-badge {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -1751,109 +1805,45 @@ section.evia-whats-hot-carousel-section .package-badge {
     border-radius: var(--radius-full, 9999px);
     box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
     z-index: 3;
-    animation: pulse-glow 2s infinite;
 }
 
-@keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4); }
-    50% { box-shadow: 0 4px 20px rgba(255, 140, 0, 0.6); }
-}
-
-section.evia-whats-hot-carousel-section .treatment-bg-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s ease;
-}
-
-section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-bg-image {
-    transform: scale(1.1);
-}
-
-section.evia-whats-hot-carousel-section .treatment-overlay {
+section.evia-whats-hot-packages-section .package-icon-container {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(0, 0, 0, 0.4) 0%,
-        rgba(255, 140, 0, 0.2) 100%
-    );
-}
-
-section.evia-whats-hot-carousel-section .treatment-glow-effect {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, 
-        rgba(255, 140, 0, 0.2) 0%, 
-        transparent 70%
-    );
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-
-section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-glow-effect {
-    opacity: 1;
-}
-
-section.evia-whats-hot-carousel-section .card-hover-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 140, 0, 0.1);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-section.evia-whats-hot-carousel-section .evia-treatment-card:hover .card-hover-overlay {
-    opacity: 1;
-}
-
-/* Treatment Content */
-section.evia-whats-hot-carousel-section .treatment-content {
-    position: absolute;
-    top: 200px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 32px 24px 24px;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
     background: var(--white, #FFFFFF);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-section.evia-whats-hot-carousel-section .treatment-icon-container {
-    position: relative;
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 140, 0, 0.1);
+    border: 3px solid rgba(255, 140, 0, 0.2);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
-    border: 2px solid rgba(255, 140, 0, 0.2);
+    z-index: 4;
     transition: all 0.4s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-icon-container {
+section.evia-whats-hot-packages-section .package-tile:hover .package-icon-container {
     background: var(--hermes-orange, #FF8C00);
     border-color: var(--hermes-orange, #FF8C00);
-    transform: scale(1.1);
+    transform: translateX(-50%) scale(1.1);
 }
 
-section.evia-whats-hot-carousel-section .treatment-icon-container i {
-    font-size: 20px;
+section.evia-whats-hot-packages-section .package-icon-container i {
+    font-size: 24px;
     color: var(--hermes-orange, #FF8C00);
     transition: color 0.4s ease;
 }
 
-section.evia-whats-hot-carousel-section .evia-treatment-card:hover .treatment-icon-container i {
+section.evia-whats-hot-packages-section .package-tile:hover .package-icon-container i {
     color: var(--white, #FFFFFF);
 }
 
-section.evia-whats-hot-carousel-section .icon-glow {
+section.evia-whats-hot-packages-section .icon-glow {
     position: absolute;
-    inset: -4px;
+    inset: -6px;
     background: radial-gradient(circle, 
         rgba(255, 140, 0, 0.3) 0%, 
         transparent 70%
@@ -1863,49 +1853,131 @@ section.evia-whats-hot-carousel-section .icon-glow {
     transition: opacity 0.4s ease;
 }
 
-section.evia-whats-hot-carousel-section .evia-treatment-card:hover .icon-glow {
+section.evia-whats-hot-packages-section .package-tile:hover .icon-glow {
     opacity: 1;
 }
 
-section.evia-whats-hot-carousel-section .treatment-title {
+/* Package Content */
+section.evia-whats-hot-packages-section .package-content {
+    padding: 40px 32px 32px;
+}
+
+section.evia-whats-hot-packages-section .package-title {
     font-family: var(--font-playfair, 'Playfair Display', serif);
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 600;
     color: var(--text-primary, #2A1B0A);
     line-height: 1.3;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+section.evia-whats-hot-packages-section .package-description {
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 1rem;
+    color: var(--text-secondary, #5D4E37);
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* Package Details */
+section.evia-whats-hot-packages-section .package-details {
+    margin-bottom: 24px;
+}
+
+section.evia-whats-hot-packages-section .package-includes h4 {
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary, #2A1B0A);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+section.evia-whats-hot-packages-section .package-includes ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+section.evia-whats-hot-packages-section .package-includes li {
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 0.85rem;
+    color: var(--text-secondary, #5D4E37);
+    line-height: 1.5;
+    padding: 6px 0;
+    position: relative;
+    padding-left: 24px;
+}
+
+section.evia-whats-hot-packages-section .package-includes li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    background: var(--hermes-orange, #FF8C00);
+    color: var(--white, #FFFFFF);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* Package Pricing */
+section.evia-whats-hot-packages-section .package-pricing {
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 24px;
+    background: rgba(255, 140, 0, 0.03);
+    border-radius: var(--radius-xl, 1.5rem);
+    border: 1px solid rgba(255, 140, 0, 0.1);
+}
+
+section.evia-whats-hot-packages-section .price-breakdown {
+    margin-bottom: 16px;
+}
+
+section.evia-whats-hot-packages-section .original-price {
+    display: block;
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 1rem;
+    color: var(--text-secondary, #5D4E37);
+    text-decoration: line-through;
+    opacity: 0.7;
     margin-bottom: 8px;
 }
 
-section.evia-whats-hot-carousel-section .treatment-description {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 0.9rem;
-    color: var(--text-secondary, #5D4E37);
-    line-height: 1.5;
-    flex-grow: 1;
-}
-
-section.evia-whats-hot-carousel-section .treatment-pricing {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin: 16px 0;
-}
-
-section.evia-whats-hot-carousel-section .price-label {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 0.75rem;
-    color: var(--text-secondary, #5D4E37);
-    font-weight: 500;
-}
-
-section.evia-whats-hot-carousel-section .price-value {
-    font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 1.25rem;
+section.evia-whats-hot-packages-section .sale-price {
+    display: block;
+    font-family: var(--font-playfair, 'Playfair Display', serif);
+    font-size: 2.5rem;
     font-weight: 700;
     color: var(--hermes-orange, #FF8C00);
+    line-height: 1;
+    margin-bottom: 8px;
 }
 
-section.evia-whats-hot-carousel-section .package-bonus {
+section.evia-whats-hot-packages-section .savings-badge {
+    display: inline-block;
+    background: var(--hermes-orange, #FF8C00);
+    color: var(--white, #FFFFFF);
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 6px 16px;
+    border-radius: var(--radius-full, 9999px);
+    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+}
+
+section.evia-whats-hot-packages-section .package-bonus {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 0.8rem;
     color: var(--hermes-orange, #FF8C00);
@@ -1918,24 +1990,31 @@ section.evia-whats-hot-carousel-section .package-bonus {
     border: 1px solid rgba(255, 140, 0, 0.2);
 }
 
-section.evia-whats-hot-carousel-section .package-limit {
+section.evia-whats-hot-packages-section .package-limit {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 0.75rem;
     color: var(--text-secondary, #5D4E37);
     font-weight: 500;
     text-align: center;
-    margin: 8px 0;
+    margin-top: 8px;
     opacity: 0.8;
     font-style: italic;
 }
 
-/* Learn More Button */
-section.evia-whats-hot-carousel-section .learn-more-btn {
+/* Package Actions */
+section.evia-whats-hot-packages-section .package-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+section.evia-whats-hot-packages-section .learn-more-btn {
+    flex: 1;
     background: rgba(255, 140, 0, 0.1);
     color: var(--hermes-orange, #FF8C00);
     border: 2px solid rgba(255, 140, 0, 0.2);
     border-radius: var(--radius-full, 9999px);
-    padding: 12px 24px;
+    padding: 14px 24px;
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     font-weight: 600;
@@ -1947,10 +2026,9 @@ section.evia-whats-hot-carousel-section .learn-more-btn {
     transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
-    margin-top: auto;
 }
 
-section.evia-whats-hot-carousel-section .learn-more-btn::before {
+section.evia-whats-hot-packages-section .learn-more-btn::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -1962,162 +2040,89 @@ section.evia-whats-hot-carousel-section .learn-more-btn::before {
     transition: opacity 0.3s ease;
 }
 
-section.evia-whats-hot-carousel-section .learn-more-btn:hover::before {
+section.evia-whats-hot-packages-section .learn-more-btn:hover::before {
     opacity: 1;
 }
 
-section.evia-whats-hot-carousel-section .learn-more-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(255, 140, 0, 0.4);
+section.evia-whats-hot-packages-section .learn-more-btn:hover {
     color: var(--white, #FFFFFF);
     border-color: var(--hermes-orange, #FF8C00);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.4);
 }
 
-section.evia-whats-hot-carousel-section .learn-more-btn span,
-section.evia-whats-hot-carousel-section .learn-more-btn i {
+section.evia-whats-hot-packages-section .learn-more-btn span,
+section.evia-whats-hot-packages-section .learn-more-btn i {
     position: relative;
     z-index: 2;
 }
 
-section.evia-whats-hot-carousel-section .learn-more-btn i {
-    font-size: 16px;
-    transition: transform 0.3s ease;
-}
-
-section.evia-whats-hot-carousel-section .learn-more-btn:hover i {
-    transform: translateX(4px);
-}
-
-section.evia-whats-hot-carousel-section .btn-shimmer {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.3), 
-        transparent
+section.evia-whats-hot-packages-section .book-now-btn {
+    flex: 2;
+    background: linear-gradient(135deg, 
+        var(--hermes-orange, #FF8C00) 0%, 
+        var(--hermes-orange-light, #FFA500) 100%
     );
-    transition: left 0.6s ease;
-}
-
-section.evia-whats-hot-carousel-section .learn-more-btn:hover .btn-shimmer {
-    left: 100%;
-}
-
-/* Navigation */
-section.evia-whats-hot-carousel-section .evia-carousel-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 56px;
-    height: 56px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 140, 0, 0.2);
-    border-radius: 50%;
+    color: var(--white, #FFFFFF);
+    border: none;
+    border-radius: var(--radius-full, 9999px);
+    padding: 16px 32px;
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    z-index: 5;
+    gap: 12px;
     transition: all 0.4s ease;
     box-shadow: 
-        0 8px 24px rgba(0, 0, 0, 0.08),
-        0 4px 12px rgba(255, 140, 0, 0.1);
+        0 8px 32px rgba(255, 140, 0, 0.3),
+        0 4px 16px rgba(0, 0, 0, 0.1);
+    position: relative;
     overflow: hidden;
 }
 
-section.evia-whats-hot-carousel-section .evia-nav-prev {
-    left: -28px;
+section.evia-whats-hot-packages-section .book-now-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+        var(--hermes-orange-light, #FFA500) 0%, 
+        var(--hermes-orange-dark, #FF7A00) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-section.evia-whats-hot-carousel-section .evia-nav-next {
-    right: -28px;
+section.evia-whats-hot-packages-section .book-now-btn:hover::before {
+    opacity: 1;
 }
 
-section.evia-whats-hot-carousel-section .evia-carousel-nav:hover {
-    background: var(--hermes-orange, #FF8C00);
-    border-color: var(--hermes-orange, #FF8C00);
-    transform: translateY(-50%) scale(1.1);
+section.evia-whats-hot-packages-section .book-now-btn:hover {
+    transform: translateY(-3px);
     box-shadow: 
-        0 12px 32px rgba(255, 140, 0, 0.3),
-        0 6px 16px rgba(0, 0, 0, 0.1);
+        0 12px 40px rgba(255, 140, 0, 0.4),
+        0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-section.evia-whats-hot-carousel-section .evia-carousel-nav i {
-    font-size: 20px;
-    color: var(--hermes-orange, #FF8C00);
-    transition: all 0.3s ease;
+section.evia-whats-hot-packages-section .book-now-btn span,
+section.evia-whats-hot-packages-section .book-now-btn i {
     position: relative;
     z-index: 2;
 }
 
-section.evia-whats-hot-carousel-section .evia-carousel-nav:hover i {
-    color: var(--white, #FFFFFF);
-    transform: scale(1.1);
+section.evia-whats-hot-packages-section .book-now-btn i {
+    font-size: 18px;
+    transition: transform 0.3s ease;
 }
 
-section.evia-whats-hot-carousel-section .nav-ripple {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: radial-gradient(circle, 
-        rgba(255, 140, 0, 0.3) 0%, 
-        transparent 70%
-    );
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.6s ease;
-}
-
-section.evia-whats-hot-carousel-section .evia-carousel-nav:active .nav-ripple {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Carousel Dots */
-section.evia-whats-hot-carousel-section .evia-carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 40px;
-}
-
-section.evia-whats-hot-carousel-section .evia-carousel-dots .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255, 140, 0, 0.3);
-    border: none;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-section.evia-whats-hot-carousel-section .evia-carousel-dots .dot::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--hermes-orange, #FF8C00);
-    border-radius: 50%;
-    transform: scale(0);
-    transition: transform 0.4s ease;
-}
-
-section.evia-whats-hot-carousel-section .evia-carousel-dots .dot.active::before {
-    transform: scale(1);
-}
-
-section.evia-whats-hot-carousel-section .evia-carousel-dots .dot:hover {
-    transform: scale(1.2);
-    box-shadow: 0 4px 12px rgba(255, 140, 0, 0.4);
+section.evia-whats-hot-packages-section .book-now-btn:hover i {
+    transform: translateX(4px);
 }
 
 /* CTA Section */
-section.evia-whats-hot-carousel-section .evia-premium-cta-section {
+section.evia-whats-hot-packages-section .packages-cta-section {
     text-align: center;
     padding: 60px 40px;
     background: linear-gradient(135deg, 
@@ -2130,15 +2135,33 @@ section.evia-whats-hot-carousel-section .evia-premium-cta-section {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
 }
 
-section.evia-whats-hot-carousel-section .cta-text {
+section.evia-whats-hot-packages-section .cta-title {
     font-family: var(--font-playfair, 'Playfair Display', serif);
-    font-size: 1.3rem;
-    color: var(--text-secondary, #5D4E37);
-    margin-bottom: 32px;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary, #2A1B0A);
+    margin-bottom: 16px;
 }
 
-section.evia-whats-hot-carousel-section .evia-book-consultation-btn {
+section.evia-whats-hot-packages-section .cta-text {
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 1.125rem;
+    color: var(--text-secondary, #5D4E37);
+    margin-bottom: 32px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section.evia-whats-hot-packages-section .cta-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+section.evia-whats-hot-packages-section .primary-cta-btn {
     background: linear-gradient(135deg, 
         var(--hermes-orange, #FF8C00) 0%, 
         var(--hermes-orange-light, #FFA500) 100%
@@ -2146,10 +2169,10 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn {
     color: var(--white, #FFFFFF);
     border: none;
     border-radius: var(--radius-full, 9999px);
-    padding: 18px 36px;
+    padding: 20px 40px;
     font-family: var(--font-inter, 'Inter', sans-serif);
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 700;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -2162,7 +2185,7 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn {
     overflow: hidden;
 }
 
-section.evia-whats-hot-carousel-section .evia-book-consultation-btn::before {
+section.evia-whats-hot-packages-section .primary-cta-btn::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -2174,30 +2197,46 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn::before {
     transition: opacity 0.3s ease;
 }
 
-section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover::before {
+section.evia-whats-hot-packages-section .primary-cta-btn:hover::before {
     opacity: 1;
 }
 
-section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover {
+section.evia-whats-hot-packages-section .primary-cta-btn:hover {
     transform: translateY(-3px);
     box-shadow: 
         0 12px 40px rgba(255, 140, 0, 0.4),
         0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-section.evia-whats-hot-carousel-section .evia-book-consultation-btn span,
-section.evia-whats-hot-carousel-section .evia-book-consultation-btn i {
+section.evia-whats-hot-packages-section .primary-cta-btn span,
+section.evia-whats-hot-packages-section .primary-cta-btn i {
     position: relative;
     z-index: 2;
 }
 
-section.evia-whats-hot-carousel-section .evia-book-consultation-btn i {
-    font-size: 18px;
-    transition: transform 0.3s ease;
+section.evia-whats-hot-packages-section .secondary-cta-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--hermes-orange, #FF8C00);
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    border-radius: var(--radius-full, 9999px);
+    padding: 18px 32px;
+    font-family: var(--font-inter, 'Inter', sans-serif);
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
 }
 
-section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
-    transform: translateX(4px);
+section.evia-whats-hot-packages-section .secondary-cta-btn:hover {
+    background: var(--hermes-orange, #FF8C00);
+    color: var(--white, #FFFFFF);
+    border-color: var(--hermes-orange, #FF8C00);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 140, 0, 0.3);
 }
 
 /* ========================================
@@ -2373,7 +2412,7 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     padding: 0;
 }
 
-.evia-modal-overlay .treatment-details-section {
+.evia-modal-overlay .package-details-section {
     padding: 40px;
 }
 
@@ -2458,8 +2497,8 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     color: var(--text-primary, #2A1B0A);
 }
 
-/* Other Services Section */
-.evia-modal-overlay .other-services-section {
+/* Other Packages Section */
+.evia-modal-overlay .other-packages-section {
     padding: 40px;
     background: rgba(255, 140, 0, 0.02);
     border-top: 1px solid rgba(255, 140, 0, 0.1);
@@ -2481,13 +2520,13 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     font-size: 20px;
 }
 
-.evia-modal-overlay .other-services-grid {
+.evia-modal-overlay .other-packages-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
 
-.evia-modal-overlay .other-service-item {
+.evia-modal-overlay .other-package-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2498,19 +2537,19 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     transition: all 0.3s ease;
 }
 
-.evia-modal-overlay .other-service-item:hover {
+.evia-modal-overlay .other-package-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(255, 140, 0, 0.15);
     border-color: rgba(255, 140, 0, 0.2);
 }
 
-.evia-modal-overlay .other-service-header {
+.evia-modal-overlay .other-package-header {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.evia-modal-overlay .other-service-icon {
+.evia-modal-overlay .other-package-icon {
     width: 40px;
     height: 40px;
     background: rgba(255, 140, 0, 0.1);
@@ -2520,20 +2559,27 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     justify-content: center;
 }
 
-.evia-modal-overlay .other-service-icon i {
+.evia-modal-overlay .other-package-icon i {
     font-size: 18px;
     color: var(--hermes-orange, #FF8C00);
 }
 
-.evia-modal-overlay .other-service-info h5 {
+.evia-modal-overlay .other-package-info h5 {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     font-weight: 600;
     color: var(--text-primary, #2A1B0A);
-    margin: 0;
+    margin: 0 0 4px 0;
 }
 
-.evia-modal-overlay .other-service-price {
+.evia-modal-overlay .package-desc {
+    font-size: 12px;
+    color: var(--text-secondary, #5D4E37);
+    margin: 0;
+    opacity: 0.8;
+}
+
+.evia-modal-overlay .other-package-price {
     font-family: var(--font-inter, 'Inter', sans-serif);
     font-size: 14px;
     font-weight: 600;
@@ -2549,13 +2595,6 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     text-decoration: line-through;
     opacity: 0.7;
     font-weight: 400;
-}
-
-.evia-modal-overlay .service-desc {
-    font-size: 12px;
-    color: var(--text-secondary, #5D4E37);
-    margin: 0;
-    opacity: 0.8;
 }
 
 /* Package Savings Highlight */
@@ -2665,7 +2704,7 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     align-items: center;
 }
 
-.evia-modal-overlay .book-this-btn {
+.evia-modal-overlay .book-this-package-btn {
     flex: 1;
     background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
     color: var(--white, #FFFFFF);
@@ -2686,7 +2725,7 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     overflow: hidden;
 }
 
-.evia-modal-overlay .book-this-btn::before {
+.evia-modal-overlay .book-this-package-btn::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -2695,27 +2734,27 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
     transition: opacity 0.3s ease;
 }
 
-.evia-modal-overlay .book-this-btn:hover::before {
+.evia-modal-overlay .book-this-package-btn:hover::before {
     opacity: 1;
 }
 
-.evia-modal-overlay .book-this-btn:hover {
+.evia-modal-overlay .book-this-package-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
 }
 
-.evia-modal-overlay .book-this-btn span,
-.evia-modal-overlay .book-this-btn i {
+.evia-modal-overlay .book-this-package-btn span,
+.evia-modal-overlay .book-this-package-btn i {
     position: relative;
     z-index: 2;
 }
 
-.evia-modal-overlay .book-this-btn i {
+.evia-modal-overlay .book-this-package-btn i {
     font-size: 20px;
     transition: transform 0.3s ease;
 }
 
-.evia-modal-overlay .book-this-btn:hover i {
+.evia-modal-overlay .book-this-package-btn:hover i {
     transform: translateX(4px);
 }
 
@@ -2755,43 +2794,60 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
    ======================================== */
 
 @media (max-width: 1024px) {
-    section.evia-whats-hot-carousel-section .evia-treatment-card {
-        flex: 0 0 320px;
-        height: 600px;
+    section.evia-whats-hot-packages-section .packages-grid {
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 32px;
     }
 
-    section.evia-whats-hot-carousel-section .title-main,
-    section.evia-whats-hot-carousel-section .title-accent {
+    section.evia-whats-hot-packages-section .title-main,
+    section.evia-whats-hot-packages-section .title-accent {
         font-size: clamp(2.4rem, 5vw, 3.6rem);
     }
 }
 
 @media (max-width: 768px) {
-    section.evia-whats-hot-carousel-section {
+    section.evia-whats-hot-packages-section {
         padding: 80px 0 100px;
     }
 
-    section.evia-whats-hot-carousel-section .evia-treatment-card {
-        flex: 0 0 300px;
-        height: 580px;
+    section.evia-whats-hot-packages-section .packages-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
 
-    section.evia-whats-hot-carousel-section .title-main,
-    section.evia-whats-hot-carousel-section .title-accent {
+    section.evia-whats-hot-packages-section .package-tile.featured {
+        transform: none;
+    }
+
+    section.evia-whats-hot-packages-section .package-tile.featured:hover {
+        transform: translateY(-12px);
+    }
+
+    section.evia-whats-hot-packages-section .title-main,
+    section.evia-whats-hot-packages-section .title-accent {
         font-size: clamp(2rem, 4.5vw, 3rem);
     }
 
-    section.evia-whats-hot-carousel-section .evia-carousel-nav {
-        width: 48px;
-        height: 48px;
+    section.evia-whats-hot-packages-section .package-actions {
+        flex-direction: column;
+        gap: 12px;
     }
 
-    section.evia-whats-hot-carousel-section .evia-nav-prev {
-        left: -24px;
+    section.evia-whats-hot-packages-section .learn-more-btn,
+    section.evia-whats-hot-packages-section .book-now-btn {
+        flex: 1;
+        width: 100%;
     }
 
-    section.evia-whats-hot-carousel-section .evia-nav-next {
-        right: -24px;
+    section.evia-whats-hot-packages-section .cta-actions {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    section.evia-whats-hot-packages-section .primary-cta-btn,
+    section.evia-whats-hot-packages-section .secondary-cta-btn {
+        width: 100%;
+        justify-content: center;
     }
 
     /* Modal responsive adjustments */
@@ -2804,8 +2860,8 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         height: 240px;
     }
 
-    .evia-modal-overlay .treatment-details-section,
-    .evia-modal-overlay .other-services-section,
+    .evia-modal-overlay .package-details-section,
+    .evia-modal-overlay .other-packages-section,
     .evia-modal-overlay .consultation-section,
     .evia-modal-overlay .evia-enhanced-modal-footer {
         padding: 32px 24px;
@@ -2835,27 +2891,27 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         justify-content: center;
     }
 
-    .evia-modal-overlay .other-services-grid {
+    .evia-modal-overlay .other-packages-grid {
         grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 480px) {
-    section.evia-whats-hot-carousel-section .evia-treatment-card {
-        flex: 0 0 280px;
-        height: 560px;
+    section.evia-whats-hot-packages-section .packages-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 10px;
     }
 
-    section.evia-whats-hot-carousel-section .treatment-image-container {
-        height: 160px;
+    section.evia-whats-hot-packages-section .package-header {
+        height: 200px;
     }
 
-    section.evia-whats-hot-carousel-section .treatment-content {
-        top: 160px;
-        padding: 20px 16px 16px;
+    section.evia-whats-hot-packages-section .package-content {
+        padding: 32px 24px 24px;
     }
 
-    section.evia-whats-hot-carousel-section .evia-premium-cta-section {
+    section.evia-whats-hot-packages-section .packages-cta-section {
         padding: 40px 20px;
     }
 
@@ -2867,8 +2923,8 @@ section.evia-whats-hot-carousel-section .evia-book-consultation-btn:hover i {
         height: 200px;
     }
 
-    .evia-modal-overlay .treatment-details-section,
-    .evia-modal-overlay .other-services-section,
+    .evia-modal-overlay .package-details-section,
+    .evia-modal-overlay .other-packages-section,
     .evia-modal-overlay .consultation-section,
     .evia-modal-overlay .evia-enhanced-modal-footer {
         padding: 24px 20px;
