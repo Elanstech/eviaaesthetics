@@ -3916,11 +3916,10 @@ class EviaAestheticsApp {
             this.components.set('preloader', new Preloader());
             this.components.set('header', new ModernHermesHeader());
             this.components.set('hero', new HeroSection());
-            this.components.set('whatsHot', new EviaHolidayPackages());
             this.components.set('servicesCarousel', new HermesServicesScroller());
             this.components.set('about', new ElevatedAboutSection());
             this.components.set('results', new HermesResultsShowcase());
-            this.components.set('products', new LuxuryCarouselController());
+            this.components.set('products', new AlumierProductsCarousel());
             this.components.set('contact', new ContactSection());
             this.components.set('floatingButtons', new HermesFloatingButtons());
             this.components.set('globalAnimations', new GlobalAnimations());
@@ -3931,7 +3930,6 @@ class EviaAestheticsApp {
             window.eviaComponents = this.components;
             window.eviaApp = this;
             window.modernHermesHeader = this.components.get('header');
-            window.eviaHolidayPackages = this.components.get('whatsHot');
             window.hermesResultsShowcase = this.components.get('results');
             window.luxuryCarousel = this.components.get('products');
             window.hermesFloatingButtons = this.components.get('floatingButtons');
@@ -3947,7 +3945,6 @@ class EviaAestheticsApp {
     setupFallbackComponents() {
         try {
             window.modernHermesHeader = new ModernHermesHeader();
-            window.eviaHolidayPackages = new EviaHolidayPackages();
             window.hermesFloatingButtons = new HermesFloatingButtons();
             window.luxuryCarousel = new LuxuryCarouselController();
             
@@ -4034,7 +4031,6 @@ window.EviaUtils = EviaUtils;
 // Component exports
 window.ModernHermesHeader = ModernHermesHeader;
 window.HeroSection = HeroSection;
-window.EviaHolidayPackages = EviaHolidayPackages;
 window.HermesServicesScroller = HermesServicesScroller;
 window.ElevatedAboutSection = ElevatedAboutSection;
 window.HermesResultsShowcase = HermesResultsShowcase;
