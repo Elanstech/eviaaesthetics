@@ -1169,176 +1169,286 @@
     </div>
 </section>
 
-<!-- FEATURED PRODUCTS CAROUSEL SECTION -->
-<section class="luxury-carousel-section" id="luxury-carousel">
-    <!-- Background Elements -->
-    <div class="luxury-carousel-background">
-        <div class="luxury-carousel-orbs">
-            <div class="luxury-carousel-orb luxury-carousel-orb-1"></div>
-            <div class="luxury-carousel-orb luxury-carousel-orb-2"></div>
-        </div>
+<!-- ALUMIERMD LUXURY PRODUCTS SECTION -->
+<section class="alumier-luxury-showcase" id="products">
+    <!-- Ambient Background -->
+    <div class="alumier-ambient-bg">
+        <div class="alumier-orb alumier-orb-1"></div>
+        <div class="alumier-orb alumier-orb-2"></div>
+        <div class="alumier-orb alumier-orb-3"></div>
+        <div class="alumier-mesh-gradient"></div>
     </div>
 
     <div class="container">
         <!-- Section Header -->
-        <div class="luxury-carousel-header" data-aos="fade-up">
-            <div class="luxury-carousel-badge">
-                <div class="luxury-carousel-badge-icon">
-                    <i class="ri-sparkling-line"></i>
-                </div>
-                <span class="luxury-carousel-badge-text">Featured Collection</span>
+        <div class="alumier-header" data-aos="fade-up">
+            <div class="alumier-prestige-badge">
+                <div class="badge-shimmer-wave"></div>
+                <i class="ri-sparkling-2-line"></i>
+                <span>Premium Skincare</span>
             </div>
             
-            <h2 class="luxury-carousel-title">
-                <span class="luxury-carousel-accent">Curated</span>
-                <span class="luxury-carousel-main">Skincare Essentials</span>
+            <h2 class="alumier-title">
+                <span class="alumier-title-accent">Curated Excellence</span>
+                <span class="alumier-title-main">AlumierMD Collection</span>
             </h2>
             
-            <p class="luxury-carousel-subtitle">
-                Professional-grade formulations for exceptional results
+            <p class="alumier-subtitle">
+                Professional-grade formulations for transformative results
             </p>
         </div>
 
         <!-- Products Carousel -->
-        <div class="luxury-carousel-wrapper" data-aos="fade-up" data-aos-delay="200">
-            <div class="luxury-carousel-navigation">
-                <button class="luxury-carousel-nav-btn luxury-carousel-prev" id="luxuryCarouselPrev">
-                    <i class="ri-arrow-left-line"></i>
-                </button>
-                <button class="luxury-carousel-nav-btn luxury-carousel-next" id="luxuryCarouselNext">
-                    <i class="ri-arrow-right-line"></i>
-                </button>
-            </div>
+        <div class="alumier-carousel-system" data-aos="fade-up" data-aos-delay="200">
+            
+            <!-- Navigation Arrows -->
+            <button class="alumier-nav-arrow alumier-nav-prev" id="alumierPrev" aria-label="Previous products">
+                <div class="arrow-ornament"></div>
+                <i class="ri-arrow-left-line"></i>
+            </button>
 
-            <div class="luxury-carousel-container">
-                <div class="luxury-carousel-track" id="luxuryCarouselTrack">
+            <button class="alumier-nav-arrow alumier-nav-next" id="alumierNext" aria-label="Next products">
+                <div class="arrow-ornament"></div>
+                <i class="ri-arrow-right-line"></i>
+            </button>
+
+            <!-- Carousel Container -->
+            <div class="alumier-carousel-viewport">
+                <div class="alumier-carousel-track" id="alumierTrack">
                     
-                    <!-- Product 1 -->
-                    <div class="luxury-carousel-slide">
-                        <div class="luxury-carousel-product-card">
-                            <div class="luxury-carousel-image-frame">
-                                <img src="https://us.alumiermd.com/cdn/shop/files/ClearShield_NA.png?v=1718323644" alt="Clear Shield SPF 42 sunscreen - AlumierMD professional skincare" class="luxury-carousel-image" loading="lazy">
-                                <div class="luxury-carousel-badge-overlay">SPF 42</div>
-                                <div class="luxury-carousel-image-glow"></div>
-                            </div>
-                            <div class="luxury-carousel-product-details">
-                                <h4 class="luxury-carousel-product-name">Clear Shield</h4>
-                                <p class="luxury-carousel-product-desc">Broad spectrum protection</p>
-                                <div class="luxury-carousel-product-meta">
-                                    <span class="luxury-carousel-product-price">$68</span>
-                                    <div class="luxury-carousel-product-rating">
-                                        <i class="ri-star-fill"></i>
-                                        <span>4.9</span>
+                    <!-- Product 1: Clear Shield SPF 42 -->
+                    <article class="alumier-product-card" data-product="clear-shield">
+                        <a href="https://us.alumiermd.com/products/clear-shield-broad-spectrum-spf-42?code=54T7P4HH" 
+                           class="product-card-link" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           aria-label="View Clear Shield SPF 42 details">
+                            
+                            <div class="product-image-container">
+                                <img src="https://us.alumiermd.com/cdn/shop/files/ClearShield_NA.png?v=1718323644" 
+                                     alt="Clear Shield SPF 42 - Broad spectrum sun protection" 
+                                     class="product-image"
+                                     loading="lazy">
+                                <div class="product-image-overlay">
+                                    <div class="overlay-icon">
+                                        <i class="ri-shopping-cart-line"></i>
                                     </div>
                                 </div>
+                                <div class="product-badge">SPF 42</div>
                             </div>
-                        </div>
-                    </div>
+                            
+                            <div class="product-details">
+                                <h3 class="product-name">Clear Shield</h3>
+                                <p class="product-description">Broad spectrum protection</p>
+                                
+                                <div class="product-meta">
+                                    <div class="product-price">
+                                        <span class="price-currency">$</span>
+                                        <span class="price-amount">68</span>
+                                    </div>
+                                    <div class="product-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <span class="rating-value">4.9</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="product-cta">
+                                    <span class="cta-text">Shop Now</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
 
-                    <!-- Product 2 -->
-                    <div class="luxury-carousel-slide">
-                        <div class="luxury-carousel-product-card">
-                            <div class="luxury-carousel-image-frame">
-                                <img src="https://us.alumiermd.com/cdn/shop/files/Retinol_0_25.png?v=1718320893" alt="Retinol Serum 0.25% - AlumierMD anti-aging skincare" class="luxury-carousel-image" loading="lazy">
-                                <div class="luxury-carousel-badge-overlay">0.25%</div>
-                                <div class="luxury-carousel-image-glow"></div>
-                            </div>
-                            <div class="luxury-carousel-product-details">
-                                <h4 class="luxury-carousel-product-name">Retinol Serum</h4>
-                                <p class="luxury-carousel-product-desc">Advanced skin renewal</p>
-                                <div class="luxury-carousel-product-meta">
-                                    <span class="luxury-carousel-product-price">$89</span>
-                                    <div class="luxury-carousel-product-rating">
-                                        <i class="ri-star-fill"></i>
-                                        <span>4.8</span>
+                    <!-- Product 2: Retinol Serum 0.25% -->
+                    <article class="alumier-product-card" data-product="retinol">
+                        <a href="https://us.alumiermd.com/products/retinol-resurfacing-serum-0-25?code=54T7P4HH" 
+                           class="product-card-link" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           aria-label="View Retinol Serum 0.25% details">
+                            
+                            <div class="product-image-container">
+                                <img src="https://us.alumiermd.com/cdn/shop/files/Retinol_0_25.png?v=1718320893" 
+                                     alt="Retinol Serum 0.25% - Advanced skin renewal treatment" 
+                                     class="product-image"
+                                     loading="lazy">
+                                <div class="product-image-overlay">
+                                    <div class="overlay-icon">
+                                        <i class="ri-shopping-cart-line"></i>
                                     </div>
                                 </div>
+                                <div class="product-badge">0.25%</div>
                             </div>
-                        </div>
-                    </div>
+                            
+                            <div class="product-details">
+                                <h3 class="product-name">Retinol Serum</h3>
+                                <p class="product-description">Advanced skin renewal</p>
+                                
+                                <div class="product-meta">
+                                    <div class="product-price">
+                                        <span class="price-currency">$</span>
+                                        <span class="price-amount">89</span>
+                                    </div>
+                                    <div class="product-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <span class="rating-value">4.8</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="product-cta">
+                                    <span class="cta-text">Shop Now</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
 
-                    <!-- Product 3 -->
-                    <div class="luxury-carousel-slide">
-                        <div class="luxury-carousel-product-card">
-                            <div class="luxury-carousel-image-frame">
-                                <img src="https://us.alumiermd.com/cdn/shop/files/SheerHydration_Versatile.png?v=1718326564" alt="Sheer Hydration SPF 40 tinted moisturizer - AlumierMD" class="luxury-carousel-image" loading="lazy">
-                                <div class="luxury-carousel-badge-overlay">SPF 40</div>
-                                <div class="luxury-carousel-image-glow"></div>
-                            </div>
-                            <div class="luxury-carousel-product-details">
-                                <h4 class="luxury-carousel-product-name">Sheer Hydration</h4>
-                                <p class="luxury-carousel-product-desc">Tinted moisturizer</p>
-                                <div class="luxury-carousel-product-meta">
-                                    <span class="luxury-carousel-product-price">$75</span>
-                                    <div class="luxury-carousel-product-rating">
-                                        <i class="ri-star-fill"></i>
-                                        <span>4.9</span>
+                    <!-- Product 3: Sheer Hydration SPF 40 -->
+                    <article class="alumier-product-card" data-product="sheer-hydration">
+                        <a href="https://us.alumiermd.com/products/sheer-hydration-broad-spectrum-spf-40-versatile-tint?code=54T7P4HH" 
+                           class="product-card-link" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           aria-label="View Sheer Hydration SPF 40 details">
+                            
+                            <div class="product-image-container">
+                                <img src="https://us.alumiermd.com/cdn/shop/files/SheerHydration_Versatile.png?v=1718326564" 
+                                     alt="Sheer Hydration SPF 40 - Tinted moisturizer with sun protection" 
+                                     class="product-image"
+                                     loading="lazy">
+                                <div class="product-image-overlay">
+                                    <div class="overlay-icon">
+                                        <i class="ri-shopping-cart-line"></i>
                                     </div>
                                 </div>
+                                <div class="product-badge">SPF 40</div>
                             </div>
-                        </div>
-                    </div>
+                            
+                            <div class="product-details">
+                                <h3 class="product-name">Sheer Hydration</h3>
+                                <p class="product-description">Tinted moisturizer</p>
+                                
+                                <div class="product-meta">
+                                    <div class="product-price">
+                                        <span class="price-currency">$</span>
+                                        <span class="price-amount">75</span>
+                                    </div>
+                                    <div class="product-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <span class="rating-value">4.9</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="product-cta">
+                                    <span class="cta-text">Shop Now</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
 
-                    <!-- Product 4 -->
-                    <div class="luxury-carousel-slide">
-                        <div class="luxury-carousel-product-card">
-                            <div class="luxury-carousel-image-frame">
-                                <img src="https://us.alumiermd.com/cdn/shop/files/EverActive_Pipette.png?v=1719415793" alt="EverActive C&E Vitamin C antioxidant serum - AlumierMD" class="luxury-carousel-image" loading="lazy">
-                                <div class="luxury-carousel-badge-overlay">Vitamin C</div>
-                                <div class="luxury-carousel-image-glow"></div>
-                            </div>
-                            <div class="luxury-carousel-product-details">
-                                <h4 class="luxury-carousel-product-name">EverActive C&E</h4>
-                                <p class="luxury-carousel-product-desc">Antioxidant serum</p>
-                                <div class="luxury-carousel-product-meta">
-                                    <span class="luxury-carousel-product-price">$92</span>
-                                    <div class="luxury-carousel-product-rating">
-                                        <i class="ri-star-fill"></i>
-                                        <span>4.8</span>
+                    <!-- Product 4: EverActive C&E -->
+                    <article class="alumier-product-card" data-product="everactive">
+                        <a href="https://us.alumiermd.com/products/everactive-c-e-peptide?code=54T7P4HH" 
+                           class="product-card-link" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           aria-label="View EverActive C&E antioxidant serum details">
+                            
+                            <div class="product-image-container">
+                                <img src="https://us.alumiermd.com/cdn/shop/files/EverActive_Pipette.png?v=1719415793" 
+                                     alt="EverActive C&E - Vitamin C antioxidant serum" 
+                                     class="product-image"
+                                     loading="lazy">
+                                <div class="product-image-overlay">
+                                    <div class="overlay-icon">
+                                        <i class="ri-shopping-cart-line"></i>
                                     </div>
                                 </div>
+                                <div class="product-badge">Vitamin C</div>
                             </div>
-                        </div>
-                    </div>
+                            
+                            <div class="product-details">
+                                <h3 class="product-name">EverActive C&E</h3>
+                                <p class="product-description">Antioxidant serum</p>
+                                
+                                <div class="product-meta">
+                                    <div class="product-price">
+                                        <span class="price-currency">$</span>
+                                        <span class="price-amount">92</span>
+                                    </div>
+                                    <div class="product-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <span class="rating-value">4.8</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="product-cta">
+                                    <span class="cta-text">Shop Now</span>
+                                    <i class="ri-arrow-right-line"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
 
                 </div>
             </div>
 
-            <!-- Carousel Indicators -->
-            <div class="luxury-carousel-indicators" id="luxuryCarouselIndicators">
-                <div class="luxury-carousel-indicator-line">
-                    <div class="luxury-carousel-progress" id="luxuryCarouselProgress"></div>
+            <!-- Carousel Progress -->
+            <div class="alumier-carousel-progress">
+                <div class="progress-track">
+                    <div class="progress-fill" id="alumierProgress"></div>
                 </div>
-                <div class="luxury-carousel-counter">
-                    <span class="luxury-carousel-current">1</span>
-                    <span class="luxury-carousel-separator">/</span>
-                    <span class="luxury-carousel-total">4</span>
+                <div class="progress-counter">
+                    <span class="counter-current" id="alumierCurrent">1</span>
+                    <span class="counter-separator">/</span>
+                    <span class="counter-total" id="alumierTotal">4</span>
                 </div>
             </div>
         </div>
 
-        <!-- Partnership & CTA -->
-        <div class="luxury-carousel-partnership" data-aos="fade-up" data-aos-delay="300">
-            <div class="partnership-badge">
-                <i class="ri-handshake-line"></i>
-                <span>Partnered with <strong>AlumierMD</strong></span>
+        <!-- Partnership & CTA Section -->
+        <div class="alumier-partnership-cta" data-aos="fade-up" data-aos-delay="400">
+            <div class="partnership-frame">
+                <div class="frame-glow"></div>
+                
+                <div class="partnership-content">
+                    <div class="partnership-badge">
+                        <i class="ri-shield-check-line"></i>
+                        <span>Authorized Partner</span>
+                    </div>
+                    
+                    <h3 class="partnership-title">AlumierMD Professional Skincare</h3>
+                    
+                    <p class="partnership-description">
+                        Unsure which products suit your skin? 
+                        <a href="#contact" class="inline-link">Book a personalized consultation</a> 
+                        with Dr. Nano for expert recommendations.
+                    </p>
+                </div>
             </div>
-            <p class="partnership-note">
-                Don't know which product is right for you? We strongly suggest you 
-                <a href="#book-consultation" class="consultation-link">book a consultation</a> 
-                for personalized recommendations.
-            </p>
-        </div>
 
-        <div class="luxury-carousel-cta" data-aos="fade-up" data-aos-delay="400">
-            <button class="luxury-carousel-shop-btn" data-url="https://us.alumiermd.com/products?code=54T7P4HH">
-                <span>Shop AlumierMD Products</span>
-                <i class="ri-shopping-bag-line"></i>
-            </button>
-            <button class="luxury-carousel-consult-btn" onclick="window.location.href='#book-consultation'">
-                <span>Book Product Consultation</span>
-                <i class="ri-calendar-line"></i>
-            </button>
+            <!-- Action Buttons -->
+            <div class="alumier-action-buttons">
+                <a href="https://us.alumiermd.com/products?code=54T7P4HH" 
+                   class="alumier-primary-btn" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    <span class="btn-shimmer"></span>
+                    <span class="btn-content">
+                        <span>Explore Full Collection</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </span>
+                </a>
+                
+                <a href="#contact" class="alumier-secondary-btn">
+                    <span class="btn-content">
+                        <span>Book Consultation</span>
+                        <i class="ri-calendar-check-line"></i>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
 </section>
