@@ -885,448 +885,6 @@ class HeroSection {
 }
 
 // =============================================================================
-// WHATS HOT PACKAGES SECTION COMPONENT
-// =============================================================================
-class EviaHolidayPackages {
-    constructor() {
-        this.section = document.querySelector('.evia-whats-hot-packages-section');
-        this.packageTiles = document.querySelectorAll('.package-tile');
-        this.modalOverlay = document.getElementById('packageModalOverlay');
-        this.modal = document.getElementById('packageModal');
-        
-        this.currentPackage = null;
-        this.isModalOpen = false;
-        
-        if (this.section && this.packageTiles.length > 0) {
-            this.init();
-        }
-    }
-
-    init() {
-        this.setupEventListeners();
-        this.setupModals();
-        this.initAnimations();
-        
-        console.log('🎁 Holiday Packages Initialized');
-    }
-
-    setupEventListeners() {
-        this.packageTiles.forEach(tile => {
-            const learnMoreBtn = tile.querySelector('.learn-more-btn');
-            if (learnMoreBtn) {
-                learnMoreBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const packageType = tile.dataset.package || learnMoreBtn.dataset.package;
-                    this.openModal(packageType);
-                });
-            }
-
-            const bookNowBtn = tile.querySelector('.book-now-btn');
-            if (bookNowBtn) {
-                bookNowBtn.addEventListener('click', (e) => {
-                    this.trackBookingClick(tile.dataset.package);
-                });
-            }
-
-            tile.addEventListener('mouseenter', () => this.enhanceTileVisually(tile));
-            tile.addEventListener('mouseleave', () => this.resetTileVisuals(tile));
-        });
-
-        const primaryCtaBtn = document.querySelector('.primary-cta-btn');
-        const secondaryCtaBtn = document.querySelector('.secondary-cta-btn');
-        
-        if (primaryCtaBtn) {
-            primaryCtaBtn.addEventListener('click', () => {
-                this.trackEvent('primary_cta_clicked', { location: 'bottom_section' });
-            });
-        }
-
-        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
-
-        window.addEventListener('resize', EviaUtils.debounce(() => {
-            this.handleResize();
-        }, 250));
-    }
-
-    setupModals() {
-        const closeBtn = document.getElementById('modalCloseBtn');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => this.closeModal());
-        }
-
-        if (this.modalOverlay) {
-            this.modalOverlay.addEventListener('click', (e) => {
-                if (e.target === this.modalOverlay) {
-                    this.closeModal();
-                }
-            });
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.modalOverlay?.classList.contains('active')) {
-                this.closeModal();
-            }
-        });
-
-        const bookBtn = document.getElementById('bookPackageBtn');
-        if (bookBtn) {
-            bookBtn.addEventListener('click', () => {
-                this.closeModal();
-                window.location.href = EVIA_CONFIG.urls.contact;
-            });
-        }
-    }
-
-    openModal(packageType) {
-        if (!this.modalOverlay) return;
-
-        const packageData = this.getPackageData(packageType);
-        this.populateModal(packageData);
-        
-        this.modalOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        this.isModalOpen = true;
-        this.currentPackage = packageType;
-
-        if (this.modal) {
-            this.modal.style.animation = 'modalSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        }
-
-        const modalImage = document.getElementById('modalImage');
-        if (modalImage) {
-            modalImage.style.opacity = '0';
-            modalImage.onload = () => {
-                modalImage.style.transition = 'opacity 0.5s ease';
-                modalImage.style.opacity = '1';
-            };
-        }
-
-        this.trackEvent('package_modal_opened', { package: packageType });
-    }
-
-    closeModal() {
-        if (!this.modalOverlay) return;
-
-        this.modalOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-        this.isModalOpen = false;
-        this.currentPackage = null;
-
-        this.trackEvent('package_modal_closed');
-    }
-
-    getPackageData(packageType) {
-        const packageDatabase = {
-            'eye-rejuvenation': {
-                title: 'Eye Rejuvenation Elite',
-                icon: 'ri-eye-line',
-                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/under-eye-treatment.jpg',
-                price: '$500',
-                originalPrice: '$1,030',
-                duration: '90 min',
-                description: 'Our comprehensive under-eye transformation package combines the latest in aesthetic medicine. This elite treatment includes mesotherapy with cutting-edge exosomes for cellular regeneration, precision Botox application to smooth fine lines, and premium Alumier eye cream for ongoing care.',
-                benefits: [
-                    'Dramatic reduction in under-eye bags and puffiness',
-                    'Significant improvement in dark circles',
-                    'Smoothing of fine lines and wrinkles',
-                    'Enhanced skin texture and firmness',
-                    'Long-lasting hydration and protection',
-                    'Includes premium take-home eye cream'
-                ],
-                details: {
-                    'Package Value': '$1,030 (Save $530)',
-                    'Treatment Time': '90-120 minutes',
-                    'Package Limit': 'Maximum 2 per client',
-                    'Results Timeline': 'Immediate improvement, peak at 2-4 weeks',
-                    'Includes': 'Mesotherapy + Exosomes + Botox + Eye Cream'
-                }
-            },
-            'holiday-glow': {
-                title: 'Holiday Glow Transformation',
-                icon: 'ri-sun-line',
-                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/holiday-glow-treatment.jpg',
-                price: '$600',
-                originalPrice: '$950',
-                duration: '75 min',
-                description: 'Get ready for the holidays with our signature glow package! This transformative treatment combines Profhilo bio-remodeling for deep hydration and skin quality improvement with a medium-grade chemical peel for renewed radiance.',
-                benefits: [
-                    'Intense skin hydration and bio-remodeling',
-                    'Improved skin texture and elasticity',
-                    'Reduced fine lines and enhanced firmness',
-                    'Radiant, glowing complexion',
-                    'Professional skincare at 20% discount',
-                    'Perfect for holiday events and photos'
-                ],
-                details: {
-                    'Package Value': '$950 + Skincare Bonus',
-                    'Treatment Time': '60-90 minutes',
-                    'Package Limit': 'Maximum 2 per client',
-                    'Skincare Bonus': '20% off $500 pack (now $400)',
-                    'Results Timeline': 'Immediate glow, continued improvement for weeks'
-                }
-            },
-            'lip-skin-revival': {
-                title: 'Lip & Skin Revival',
-                icon: 'ri-heart-pulse-line',
-                image: 'https://beauxmedspa.com/wp-content/uploads/2025/05/lip-skin-treatment.jpg',
-                price: '$1,000',
-                originalPrice: '$1,600',
-                duration: '120 min',
-                description: 'The ultimate combination for complete facial rejuvenation! This luxury package pairs professional lip plumping and hydration with dermal fillers alongside advanced skin pen microneedling.',
-                benefits: [
-                    'Fuller, more defined and hydrated lips',
-                    'Natural-looking lip enhancement',
-                    'Improved overall skin texture and tone',
-                    'Reduced appearance of fine lines and scars',
-                    'Enhanced collagen production',
-                    'Exclusive skincare savings with purchase'
-                ],
-                details: {
-                    'Package Value': '$1,600 (Save $600)',
-                    'Treatment Time': '2-2.5 hours total',
-                    'Lip Enhancement': 'Professional dermal filler application',
-                    'Skin Treatment': 'Advanced microneedling therapy',
-                    'Bonus Offer': '20% off skincare products'
-                }
-            }
-        };
-
-        return packageDatabase[packageType] || packageDatabase['eye-rejuvenation'];
-    }
-
-    populateModal(data) {
-        const modalTitle = document.getElementById('modalTitle');
-        const modalIcon = document.getElementById('modalIconSymbol');
-        const modalImage = document.getElementById('modalImage');
-        const modalDescription = document.getElementById('modalDescription');
-        const modalBenefits = document.getElementById('modalBenefits');
-        const modalDetails = document.getElementById('modalDetails');
-
-        if (modalTitle) modalTitle.textContent = data.title;
-        if (modalIcon) modalIcon.className = data.icon;
-        if (modalImage) {
-            modalImage.src = data.image;
-            modalImage.alt = `${data.title} - Manhattan Medical Spa Package`;
-        }
-        if (modalDescription) modalDescription.textContent = data.description;
-
-        if (modalBenefits && data.benefits) {
-            modalBenefits.innerHTML = '';
-            data.benefits.forEach(benefit => {
-                const li = document.createElement('li');
-                li.textContent = benefit;
-                modalBenefits.appendChild(li);
-            });
-        }
-
-        if (modalDetails && data.details) {
-            modalDetails.innerHTML = '';
-            Object.entries(data.details).forEach(([key, value]) => {
-                const detailItem = document.createElement('div');
-                detailItem.className = 'detail-item';
-                
-                if (key === 'Package Value') {
-                    detailItem.classList.add('package-value-highlight');
-                }
-                
-                detailItem.innerHTML = `
-                    <div class="detail-label">${key.replace(/([A-Z])/g, ' $1')}</div>
-                    <div class="detail-value">${value}</div>
-                `;
-                modalDetails.appendChild(detailItem);
-            });
-        }
-    }
-
-    enhanceTileVisually(tile) {
-        const packageIcon = tile.querySelector('.package-icon-container');
-        const packageImage = tile.querySelector('.package-bg-image');
-        
-        if (packageIcon) {
-            packageIcon.style.transform = 'translateX(-50%) scale(1.1)';
-        }
-        
-        if (packageImage) {
-            packageImage.style.transform = 'scale(1.1)';
-        }
-
-        tile.style.boxShadow = `
-            0 25px 60px rgba(0, 0, 0, 0.15),
-            0 12px 40px rgba(255, 140, 0, 0.25)
-        `;
-    }
-
-    resetTileVisuals(tile) {
-        const packageIcon = tile.querySelector('.package-icon-container');
-        const packageImage = tile.querySelector('.package-bg-image');
-        
-        if (packageIcon) {
-            packageIcon.style.transform = 'translateX(-50%) scale(1)';
-        }
-        
-        if (packageImage) {
-            packageImage.style.transform = 'scale(1)';
-        }
-
-        tile.style.boxShadow = '';
-    }
-
-    initAnimations() {
-        this.observePackageTiles();
-        
-        this.packageTiles.forEach((tile, index) => {
-            tile.style.opacity = '0';
-            tile.style.transform = 'translateY(50px)';
-            
-            setTimeout(() => {
-                tile.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                tile.style.opacity = '1';
-                tile.style.transform = 'translateY(0)';
-            }, 200 * index);
-        });
-    }
-
-    observePackageTiles() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    this.animatePackageTile(entry.target);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-        this.packageTiles.forEach(tile => observer.observe(tile));
-    }
-
-    animatePackageTile(tile) {
-        const badge = tile.querySelector('.package-badge');
-        const icon = tile.querySelector('.package-icon-container');
-        
-        if (badge) {
-            badge.style.animation = 'pulse-glow 2s infinite';
-        }
-        
-        if (icon) {
-            setTimeout(() => {
-                icon.style.transform = 'translateX(-50%) scale(1.1)';
-                setTimeout(() => {
-                    icon.style.transform = 'translateX(-50%) scale(1)';
-                }, 300);
-            }, 500);
-        }
-    }
-
-    handleKeyboard(e) {
-        if (!this.section.matches(':hover') && !this.isModalOpen) return;
-        
-        switch(e.key) {
-            case 'Escape':
-                if (this.isModalOpen) {
-                    e.preventDefault();
-                    this.closeModal();
-                }
-                break;
-            case '1':
-            case '2':
-            case '3':
-                if (!this.isModalOpen) {
-                    e.preventDefault();
-                    const tileIndex = parseInt(e.key) - 1;
-                    const tile = this.packageTiles[tileIndex];
-                    if (tile) {
-                        const packageType = tile.dataset.package;
-                        this.openModal(packageType);
-                    }
-                }
-                break;
-        }
-    }
-
-    handleResize() {
-        if (EviaUtils.isMobile()) {
-            this.packageTiles.forEach(tile => {
-                if (tile.classList.contains('featured')) {
-                    tile.style.transform = 'none';
-                }
-            });
-        } else {
-            this.packageTiles.forEach(tile => {
-                if (tile.classList.contains('featured')) {
-                    tile.style.transform = 'scale(1.05)';
-                }
-            });
-        }
-    }
-
-    trackBookingClick(packageType) {
-        this.trackEvent('package_booking_clicked', {
-            package: packageType,
-            location: 'package_tile'
-        });
-    }
-
-    trackEvent(eventName, eventData = {}) {
-        const analyticsData = {
-            event_category: 'Holiday Packages',
-            event_label: eventData.package || 'general',
-            custom_parameters: {
-                package_type: eventData.package,
-                location: eventData.location,
-                timestamp: Date.now(),
-                viewport_width: window.innerWidth,
-                viewport_height: window.innerHeight,
-                ...eventData
-            }
-        };
-
-        if (typeof gtag !== 'undefined') {
-            gtag('event', eventName, analyticsData);
-        }
-
-        if (window.customAnalytics) {
-            window.customAnalytics.track(eventName, analyticsData);
-        }
-        
-        console.log(`📊 Holiday Packages Event: ${eventName}`, analyticsData);
-    }
-
-    openPackageModal(packageType) {
-        this.openModal(packageType);
-    }
-
-    closePackageModal() {
-        this.closeModal();
-    }
-
-    getPackageInfo(packageType) {
-        return this.getPackageData(packageType);
-    }
-
-    highlightPackage(packageType) {
-        const tile = document.querySelector(`[data-package="${packageType}"]`);
-        if (tile) {
-            tile.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            this.enhanceTileVisually(tile);
-            
-            setTimeout(() => {
-                this.resetTileVisuals(tile);
-            }, 2000);
-        }
-    }
-
-    destroy() {
-        this.packageTiles.forEach(tile => {
-            tile.removeEventListener('mouseenter', this.enhanceTileVisually);
-            tile.removeEventListener('mouseleave', this.resetTileVisuals);
-        });
-        
-        console.log('🎁 Holiday Packages Component Destroyed');
-    }
-}
-
-// =============================================================================
 // SERVICES CAROUSEL COMPONENT
 // =============================================================================
 class HermesServicesScroller {
@@ -3210,407 +2768,358 @@ class HermesResultsShowcase {
     }
 }
 
-// =============================================================================
-// LUXURY CAROUSEL CONTROLLER (PRODUCTS SECTION)
-// =============================================================================
-class LuxuryCarouselController {
+class AlumierProductsCarousel {
     constructor() {
-        this.track = document.getElementById('luxuryCarouselTrack');
-        this.slides = document.querySelectorAll('.luxury-carousel-slide');
-        this.prevBtn = document.getElementById('luxuryCarouselPrev');
-        this.nextBtn = document.getElementById('luxuryCarouselNext');
-        this.progressBar = document.getElementById('luxuryCarouselProgress');
-        this.currentSlideElement = document.querySelector('.luxury-carousel-current');
-        this.totalSlidesElement = document.querySelector('.luxury-carousel-total');
+        this.track = document.getElementById('alumierTrack');
+        this.prevBtn = document.getElementById('alumierPrev');
+        this.nextBtn = document.getElementById('alumierNext');
+        this.progressFill = document.getElementById('alumierProgress');
+        this.currentCounter = document.getElementById('alumierCurrent');
+        this.totalCounter = document.getElementById('alumierTotal');
         
+        if (!this.track) return;
+        
+        this.cards = Array.from(this.track.querySelectorAll('.alumier-product-card'));
         this.currentIndex = 0;
-        this.slidesPerView = this.getSlidesPerView();
-        this.totalSlides = this.slides.length;
-        this.maxIndex = Math.max(0, this.totalSlides - this.slidesPerView);
-        this.isAutoPlaying = true;
-        this.autoPlayInterval = null;
-        this.touchStartX = 0;
-        this.touchEndX = 0;
+        this.cardsPerView = this.getCardsPerView();
+        this.totalSlides = Math.ceil(this.cards.length / this.cardsPerView);
         
-        if (this.track && this.slides.length > 0) {
-            this.init();
-        }
+        this.init();
     }
     
     init() {
-        this.setupEventListeners();
-        this.updateDisplay();
-        this.startAutoPlay();
-        this.setupProductInteractions();
-        this.initializeCounter();
-        this.setupButtons();
-        
-        console.log('🧴 Luxury Carousel Initialized');
-    }
-    
-    getSlidesPerView() {
-        const width = window.innerWidth;
-        if (width <= 768) return 1;
-        if (width <= 1024) return 2;
-        return 3;
-    }
-    
-    initializeCounter() {
-        if (this.totalSlidesElement) {
-            this.totalSlidesElement.textContent = this.totalSlides;
-        }
+        // Set initial state
         this.updateCounter();
-    }
-    
-    setupEventListeners() {
-        if (this.prevBtn) {
-            this.prevBtn.addEventListener('click', () => this.prevSlide());
-        }
-        if (this.nextBtn) {
-            this.nextBtn.addEventListener('click', () => this.nextSlide());
-        }
+        this.updateProgress();
+        this.updateButtons();
         
-        if (this.track) {
-            this.track.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
-            this.track.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
-        }
+        // Event listeners
+        this.prevBtn?.addEventListener('click', () => this.prev());
+        this.nextBtn?.addEventListener('click', () => this.next());
         
-        const section = document.querySelector('.luxury-carousel-section');
-        if (section) {
-            section.addEventListener('mouseenter', () => this.pauseAutoPlay());
-            section.addEventListener('mouseleave', () => this.resumeAutoPlay());
-        }
-        
-        document.addEventListener('keydown', (e) => this.handleKeyPress(e));
-        window.addEventListener('resize', () => this.handleResize());
-        document.addEventListener('visibilitychange', () => this.handleVisibilityChange());
-    }
-    
-    setupProductInteractions() {
-        this.slides.forEach((slide, index) => {
-            const card = slide.querySelector('.luxury-carousel-product-card');
-            if (card) {
-                card.addEventListener('click', () => this.handleProductClick(index));
-                card.addEventListener('mouseenter', () => this.handleCardHover(card, true));
-                card.addEventListener('mouseleave', () => this.handleCardHover(card, false));
-            }
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const oldCardsPerView = this.cardsPerView;
+                this.cardsPerView = this.getCardsPerView();
+                
+                if (oldCardsPerView !== this.cardsPerView) {
+                    this.totalSlides = Math.ceil(this.cards.length / this.cardsPerView);
+                    this.currentIndex = Math.min(this.currentIndex, this.totalSlides - 1);
+                    this.updateCarousel();
+                }
+            }, 250);
         });
+        
+        // Touch/swipe support
+        this.addTouchSupport();
+        
+        // Keyboard navigation
+        this.addKeyboardSupport();
     }
     
-    setupButtons() {
-        const shopBtn = document.querySelector('.luxury-carousel-shop-btn');
-        if (shopBtn) {
-            shopBtn.removeAttribute('onclick');
-            shopBtn.style.pointerEvents = 'auto';
-            shopBtn.style.cursor = 'pointer';
-            shopBtn.style.zIndex = '10';
-            
-            shopBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                shopBtn.style.transform = 'scale(0.95) translateY(-4px)';
-                this.showFeedback('Opening AlumierMD Shop...', 'ri-shopping-bag-line');
-                
-                setTimeout(() => {
-                    shopBtn.style.transform = '';
-                    window.open(EVIA_CONFIG.urls.shop, '_blank');
-                }, 150);
-            });
-        }
+    getCardsPerView() {
+        const width = window.innerWidth;
         
-        const consultBtn = document.querySelector('.luxury-carousel-consult-btn');
-        if (consultBtn) {
-            consultBtn.removeAttribute('onclick');
-            consultBtn.style.pointerEvents = 'auto';
-            consultBtn.style.cursor = 'pointer';
-            consultBtn.style.zIndex = '10';
-            
-            consultBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                consultBtn.style.transform = 'scale(0.95) translateY(-4px)';
-                this.showFeedback('Redirecting to contact...', 'ri-calendar-line');
-                
-                setTimeout(() => {
-                    consultBtn.style.transform = '';
-                    window.location.href = EVIA_CONFIG.urls.contact;
-                }, 150);
-            });
-        }
-        
-        const consultLink = document.querySelector('.consultation-link');
-        if (consultLink) {
-            consultLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.showFeedback('Redirecting to contact...', 'ri-arrow-right-line');
-                setTimeout(() => {
-                    window.location.href = EVIA_CONFIG.urls.contact;
-                }, 300);
-            });
-        }
+        if (width >= 992) return 3;      // Desktop: 3 cards
+        if (width >= 768) return 2;      // Tablet: 2 cards
+        return 1;                        // Mobile: 1 card
     }
     
-    prevSlide() {
+    prev() {
         if (this.currentIndex > 0) {
             this.currentIndex--;
-        } else {
-            this.currentIndex = this.maxIndex;
+            this.updateCarousel();
         }
-        this.updateDisplay();
-        this.resetAutoPlay();
     }
     
-    nextSlide() {
-        if (this.currentIndex < this.maxIndex) {
+    next() {
+        if (this.currentIndex < this.totalSlides - 1) {
             this.currentIndex++;
-        } else {
-            this.currentIndex = 0;
+            this.updateCarousel();
         }
-        this.updateDisplay();
-        this.resetAutoPlay();
-    }
-    
-    updateDisplay() {
-        if (!this.track) return;
-        
-        const slideWidth = 100 / this.slidesPerView;
-        const translateX = -(this.currentIndex * slideWidth);
-        
-        this.track.style.transform = `translateX(${translateX}%)`;
-        this.updateProgressBar();
-        this.updateCounter();
-        this.updateNavigationState();
-        this.animateCards();
-    }
-    
-    updateProgressBar() {
-        if (!this.progressBar) return;
-        
-        const progress = this.maxIndex > 0 ? (this.currentIndex / this.maxIndex) * 100 : 0;
-        this.progressBar.style.width = `${progress}%`;
-    }
-    
-    updateCounter() {
-        if (this.currentSlideElement) {
-            this.currentSlideElement.textContent = this.currentIndex + 1;
-        }
-    }
-    
-    updateNavigationState() {
-        if (this.prevBtn) {
-            this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
-        }
-        if (this.nextBtn) {
-            this.nextBtn.style.opacity = this.currentIndex === this.maxIndex ? '0.5' : '1';
-        }
-    }
-    
-    animateCards() {
-        this.slides.forEach((slide, index) => {
-            const card = slide.querySelector('.luxury-carousel-product-card');
-            if (card) {
-                if (index >= this.currentIndex && index < this.currentIndex + this.slidesPerView) {
-                    card.classList.add('card-animate');
-                } else {
-                    card.classList.remove('card-animate');
-                }
-            }
-        });
-    }
-    
-    handleProductClick(index) {
-        this.showFeedback(`Viewing Product ${index + 1}`, 'ri-eye-line');
-    }
-    
-    handleCardHover(card, isEntering) {
-        if (isEntering) {
-            card.style.transform = 'translateY(-8px) scale(1.02)';
-            card.style.boxShadow = '0 20px 40px rgba(255, 140, 0, 0.15)';
-        } else {
-            card.style.transform = '';
-            card.style.boxShadow = '';
-        }
-    }
-    
-    handleTouchStart(e) {
-        this.touchStartX = e.touches[0].clientX;
-        this.pauseAutoPlay();
-    }
-    
-    handleTouchEnd(e) {
-        this.touchEndX = e.changedTouches[0].clientX;
-        this.handleSwipe();
-        this.resumeAutoPlay();
-    }
-    
-    handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = this.touchStartX - this.touchEndX;
-        
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                this.nextSlide();
-            } else {
-                this.prevSlide();
-            }
-        }
-    }
-    
-    handleKeyPress(e) {
-        if (!document.querySelector('.luxury-carousel-section:hover')) return;
-        
-        switch(e.key) {
-            case 'ArrowLeft':
-                e.preventDefault();
-                this.prevSlide();
-                break;
-            case 'ArrowRight':
-                e.preventDefault();
-                this.nextSlide();
-                break;
-            case ' ':
-                e.preventDefault();
-                this.isAutoPlaying ? this.pauseAutoPlay() : this.resumeAutoPlay();
-                break;
-        }
-    }
-    
-    handleResize() {
-        const newSlidesPerView = this.getSlidesPerView();
-        if (newSlidesPerView !== this.slidesPerView) {
-            this.slidesPerView = newSlidesPerView;
-            this.maxIndex = Math.max(0, this.totalSlides - this.slidesPerView);
-            this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
-            this.updateDisplay();
-        }
-    }
-    
-    handleVisibilityChange() {
-        if (document.hidden) {
-            this.pauseAutoPlay();
-        } else {
-            this.resumeAutoPlay();
-        }
-    }
-    
-    startAutoPlay() {
-        if (this.autoPlayInterval) return;
-        
-        this.autoPlayInterval = setInterval(() => {
-            if (this.isAutoPlaying) {
-                this.nextSlide();
-            }
-        }, EVIA_CONFIG.autoPlayInterval);
-    }
-    
-    pauseAutoPlay() {
-        this.isAutoPlaying = false;
-    }
-    
-    resumeAutoPlay() {
-        this.isAutoPlaying = true;
-    }
-    
-    resetAutoPlay() {
-        this.pauseAutoPlay();
-        setTimeout(() => {
-            this.resumeAutoPlay();
-        }, 2000);
-    }
-    
-    stopAutoPlay() {
-        if (this.autoPlayInterval) {
-            clearInterval(this.autoPlayInterval);
-            this.autoPlayInterval = null;
-        }
-        this.isAutoPlaying = false;
-    }
-    
-    showFeedback(message, icon = 'ri-check-line') {
-        const existingFeedback = document.querySelector('.carousel-feedback');
-        if (existingFeedback) {
-            existingFeedback.remove();
-        }
-        
-        const feedback = document.createElement('div');
-        feedback.className = 'carousel-feedback';
-        feedback.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 50px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 10001;
-            opacity: 0;
-            pointer-events: none;
-            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-width: 200px;
-            justify-content: center;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        `;
-        
-        feedback.innerHTML = `
-            <i class="${icon}" style="font-size: 16px;"></i>
-            <span>${message}</span>
-        `;
-        
-        document.body.appendChild(feedback);
-        
-        requestAnimationFrame(() => {
-            feedback.style.opacity = '1';
-            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-        
-        setTimeout(() => {
-            feedback.style.opacity = '0';
-            feedback.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => {
-                if (feedback.parentNode) {
-                    feedback.remove();
-                }
-            }, 400);
-        }, 2500);
     }
     
     goToSlide(index) {
-        if (index >= 0 && index <= this.maxIndex) {
+        if (index >= 0 && index < this.totalSlides) {
             this.currentIndex = index;
-            this.updateDisplay();
+            this.updateCarousel();
         }
     }
     
-    getCurrentSlide() {
-        return this.currentIndex;
-    }
-    
-    getTotalSlides() {
-        return this.totalSlides;
-    }
-    
-    destroy() {
-        this.stopAutoPlay();
+    updateCarousel() {
+        // Calculate card width including gap
+        const cardWidth = this.cards[0]?.offsetWidth || 0;
+        const gap = parseInt(getComputedStyle(this.track).gap) || 0;
+        const moveDistance = (cardWidth + gap) * this.currentIndex;
         
+        // Move track
+        this.track.style.transform = `translateX(-${moveDistance}px)`;
+        
+        // Update UI
+        this.updateButtons();
+        this.updateProgress();
+        this.updateCounter();
+        
+        // Announce to screen readers
+        this.announceSlideChange();
+    }
+    
+    updateButtons() {
+        // Prev button
         if (this.prevBtn) {
-            this.prevBtn.removeEventListener('click', this.prevSlide);
-        }
-        if (this.nextBtn) {
-            this.nextBtn.removeEventListener('click', this.nextSlide);
+            this.prevBtn.disabled = this.currentIndex === 0;
+            this.prevBtn.setAttribute('aria-disabled', this.currentIndex === 0);
         }
         
-        console.log('🧴 Luxury Carousel destroyed');
+        // Next button
+        if (this.nextBtn) {
+            this.nextBtn.disabled = this.currentIndex === this.totalSlides - 1;
+            this.nextBtn.setAttribute('aria-disabled', this.currentIndex === this.totalSlides - 1);
+        }
+    }
+    
+    updateProgress() {
+        if (!this.progressFill) return;
+        
+        const progress = ((this.currentIndex + 1) / this.totalSlides) * 100;
+        this.progressFill.style.transform = `scaleX(${progress / 100})`;
+    }
+    
+    updateCounter() {
+        if (this.currentCounter) {
+            this.currentCounter.textContent = this.currentIndex + 1;
+        }
+        
+        if (this.totalCounter) {
+            this.totalCounter.textContent = this.totalSlides;
+        }
+    }
+    
+    announceSlideChange() {
+        // Create announcement for screen readers
+        const announcement = `Showing slide ${this.currentIndex + 1} of ${this.totalSlides}`;
+        
+        // Create or update live region
+        let liveRegion = document.getElementById('alumier-carousel-live-region');
+        if (!liveRegion) {
+            liveRegion = document.createElement('div');
+            liveRegion.id = 'alumier-carousel-live-region';
+            liveRegion.setAttribute('role', 'status');
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.setAttribute('aria-atomic', 'true');
+            liveRegion.style.position = 'absolute';
+            liveRegion.style.left = '-10000px';
+            liveRegion.style.width = '1px';
+            liveRegion.style.height = '1px';
+            liveRegion.style.overflow = 'hidden';
+            document.body.appendChild(liveRegion);
+        }
+        
+        liveRegion.textContent = announcement;
+    }
+    
+    addTouchSupport() {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+        
+        this.track.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+        
+        this.track.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            
+            // Only handle horizontal swipes
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (Math.abs(deltaX) > 50) { // Minimum swipe distance
+                    if (deltaX > 0) {
+                        this.prev();
+                    } else {
+                        this.next();
+                    }
+                }
+            }
+        }, { passive: true });
+    }
+    
+    addKeyboardSupport() {
+        const carousel = document.querySelector('.alumier-carousel-system');
+        if (!carousel) return;
+        
+        carousel.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.prev();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.next();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    this.goToSlide(0);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    this.goToSlide(this.totalSlides - 1);
+                    break;
+            }
+        });
     }
 }
+
+/**
+ * Product Card Interactions
+ * Adds enhanced hover effects and analytics tracking
+ */
+class ProductCardInteractions {
+    constructor() {
+        this.cards = document.querySelectorAll('.alumier-product-card');
+        this.init();
+    }
+    
+    init() {
+        this.cards.forEach((card, index) => {
+            const link = card.querySelector('.product-card-link');
+            if (!link) return;
+            
+            // Add stagger animation on scroll
+            card.style.animationDelay = `${index * 0.1}s`;
+            
+            // Enhanced hover effect with scale
+            link.addEventListener('mouseenter', () => {
+                this.handleCardHover(card);
+            });
+            
+            link.addEventListener('mouseleave', () => {
+                this.handleCardLeave(card);
+            });
+            
+            // Track clicks for analytics (optional)
+            link.addEventListener('click', (e) => {
+                this.trackProductClick(card, link);
+            });
+        });
+    }
+    
+    handleCardHover(card) {
+        // Add subtle tilt effect
+        const rect = card.getBoundingClientRect();
+        card.style.transformOrigin = 'center center';
+    }
+    
+    handleCardLeave(card) {
+        card.style.transformOrigin = 'center center';
+    }
+    
+    trackProductClick(card, link) {
+        const productName = card.querySelector('.product-name')?.textContent || 'Unknown';
+        const productPrice = card.querySelector('.price-amount')?.textContent || 'N/A';
+        
+        // Console log for debugging (replace with actual analytics)
+        console.log('Product clicked:', {
+            name: productName,
+            price: productPrice,
+            url: link.href
+        });
+        
+        // Example: Google Analytics tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'product_click', {
+                'event_category': 'Products',
+                'event_label': productName,
+                'value': productPrice
+            });
+        }
+    }
+}
+
+/**
+ * Smooth Scroll for Partnership Links
+ */
+class SmoothScrollHandler {
+    constructor() {
+        this.links = document.querySelectorAll('a[href^="#"]');
+        this.init();
+    }
+    
+    init() {
+        this.links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href === '#' || href === '#top') return;
+                
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    
+                    const headerOffset = 100;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+}
+
+/**
+ * Initialize when DOM is ready
+ */
+function initAlumierProducts() {
+    // Initialize carousel
+    const carousel = new AlumierProductsCarousel();
+    
+    // Initialize product card interactions
+    const productInteractions = new ProductCardInteractions();
+    
+    // Initialize smooth scroll
+    const smoothScroll = new SmoothScrollHandler();
+    
+    // Add entrance animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    document.querySelectorAll('.alumier-product-card').forEach(card => {
+        observer.observe(card);
+    });
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAlumierProducts);
+} else {
+    initAlumierProducts();
+}
+
+// Re-initialize on dynamic content load (if needed)
+window.addEventListener('load', () => {
+    // Ensure everything is properly initialized after all resources load
+    const carousel = new AlumierProductsCarousel();
+});
 
 // =============================================================================
 // CONTACT SECTION COMPONENT
@@ -4529,7 +4038,7 @@ window.EviaHolidayPackages = EviaHolidayPackages;
 window.HermesServicesScroller = HermesServicesScroller;
 window.ElevatedAboutSection = ElevatedAboutSection;
 window.HermesResultsShowcase = HermesResultsShowcase;
-window.LuxuryCarouselController = LuxuryCarouselController;
+window.LuxuryCarouselController = AlumierProductsCarousel;
 window.ContactSection = ContactSection;
 window.HermesFloatingButtons = HermesFloatingButtons;
 window.GlobalAnimations = GlobalAnimations;
