@@ -168,83 +168,6 @@ class EviaUtils {
 }
 
 // =============================================================================
-// PRELOADER COMPONENT
-// =============================================================================
-class Preloader {
-    constructor() {
-        this.preloader = document.getElementById('preloader') || document.querySelector('.evia-modern-preloader');
-        this.progressFill = document.querySelector('.progress-fill');
-        this.loadingText = document.querySelector('.loading-text');
-        this.isLoaded = false;
-        
-        if (this.preloader) {
-            this.init();
-        }
-    }
-
-    init() {
-        this.startLoadingSequence();
-        this.simulateLoading();
-        
-        window.addEventListener('load', () => {
-            setTimeout(() => this.hidePreloader(), 500);
-        });
-        
-        console.log('🔄 Preloader Initialized');
-    }
-
-    startLoadingSequence() {
-        const loadingMessages = [
-            'Initializing luxury experience...',
-            'Loading premium components...',
-            'Preparing Manhattan elegance...',
-            'Almost ready...'
-        ];
-
-        let messageIndex = 0;
-        const messageInterval = setInterval(() => {
-            if (this.loadingText && messageIndex < loadingMessages.length) {
-                this.loadingText.textContent = loadingMessages[messageIndex];
-                messageIndex++;
-            } else {
-                clearInterval(messageInterval);
-            }
-        }, 600);
-    }
-
-    simulateLoading() {
-        let progress = 0;
-        const progressInterval = setInterval(() => {
-            progress += Math.random() * 15;
-            
-            if (this.progressFill) {
-                this.progressFill.style.width = Math.min(progress, 100) + '%';
-            }
-
-            if (progress >= 100) {
-                clearInterval(progressInterval);
-                setTimeout(() => this.hidePreloader(), 300);
-            }
-        }, 150);
-    }
-
-    hidePreloader() {
-        if (this.isLoaded || !this.preloader) return;
-        
-        this.isLoaded = true;
-        this.preloader.classList.add('loaded');
-        this.preloader.style.opacity = '0';
-        this.preloader.style.visibility = 'hidden';
-        
-        setTimeout(() => {
-            if (this.preloader && this.preloader.parentNode) {
-                this.preloader.remove();
-            }
-        }, 600);
-    }
-}
-
-// =============================================================================
 // MODERN HERMES HEADER COMPONENT
 // =============================================================================
 class ModernHermesHeader {
@@ -3913,7 +3836,6 @@ class EviaAestheticsApp {
 
     initializeComponents() {
         try {
-            this.components.set('preloader', new Preloader());
             this.components.set('header', new ModernHermesHeader());
             this.components.set('hero', new HeroSection());
             this.components.set('servicesCarousel', new HermesServicesScroller());
