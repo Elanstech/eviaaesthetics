@@ -1,3 +1,40 @@
+/* ================================================================
+   CHEMICAL PEELS & MESOTHERAPY – Landing Page Styles
+   Eviaesthetics Manhattan Medical Spa
+   
+   Dependencies: styles.css (shared site-wide variables & components)
+   CSS Variables inherited from styles.css:
+     --hermes-orange, --gradient-hermes-orange,
+     --font-playfair, --font-inter, --font-cormorant,
+     --cream-primary, --cream-light, --cream-soft,
+     --text-primary, --text-secondary
+   ================================================================ */
+
+/* ======================== */
+/* FALLBACK VARIABLES       */
+/* (in case styles.css      */
+/*  loads late or missing)  */
+/* ======================== */
+:root {
+    --cp-orange: var(--hermes-orange, #D4740D);
+    --cp-orange-light: #F5A623;
+    --cp-gradient: var(--gradient-hermes-orange, linear-gradient(135deg, #D4740D, #F5A623));
+    --cp-cream: var(--cream-primary, #FAF7F2);
+    --cp-cream-light: var(--cream-light, #FDFBF7);
+    --cp-cream-soft: var(--cream-soft, #F5F0E8);
+    --cp-text: var(--text-primary, #1A1A1A);
+    --cp-text-sec: var(--text-secondary, #6B6B6B);
+    --cp-playfair: var(--font-playfair, 'Playfair Display', serif);
+    --cp-inter: var(--font-inter, 'Inter', sans-serif);
+    --cp-cormorant: var(--font-cormorant, 'Cormorant Garamond', serif);
+    --cp-radius: 20px;
+    --cp-radius-sm: 12px;
+    --cp-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+    --cp-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+    --cp-transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+
 /* ======================== */
 /* HERO SECTION             */
 /* ======================== */
