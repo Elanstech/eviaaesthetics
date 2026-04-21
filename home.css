@@ -1108,15 +1108,31 @@
 }
 
 /* =================================================================
-   SECTION 5 :: THE EXPERIENCE (dark editorial)
+   SECTION 5 :: THE EXPERIENCE (warm champagne cream editorial)
    ================================================================= */
 .hm-experience {
     position: relative;
     padding: clamp(80px, 12vh, 130px) 0;
-    background: linear-gradient(135deg, #1a1208 0%, #2a1b0a 50%, #1a1208 100%);
+    background: linear-gradient(135deg, #FFF8F0 0%, #F8ECD8 50%, #FDF4E3 100%);
     overflow: hidden;
-    color: #f5ebd8;
+    color: var(--text-primary, #2A1B0A);
 }
+
+/* Refined editorial dividers at top and bottom */
+.hm-experience::before,
+.hm-experience::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(60%, 700px);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(184, 148, 31, 0.45), transparent);
+    z-index: 2;
+}
+
+.hm-experience::before { top: 0; }
+.hm-experience::after { bottom: 0; }
 
 .hm-exp-bg {
     position: absolute;
@@ -1125,13 +1141,13 @@
     pointer-events: none;
 }
 
-/* Grain overlay for that dark editorial feel */
+/* Very subtle grain — almost invisible, just adds tactile quality */
 .hm-exp-grain {
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-    opacity: 0.08;
-    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    mix-blend-mode: multiply;
 }
 
 .hm-exp-orb {
@@ -1142,20 +1158,43 @@
 }
 
 .hm-exp-orb-1 {
-    width: 500px;
-    height: 500px;
+    width: 520px;
+    height: 520px;
     top: -150px;
     left: -150px;
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.12), transparent 70%);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.18), transparent 70%);
 }
 
 .hm-exp-orb-2 {
-    width: 400px;
-    height: 400px;
+    width: 420px;
+    height: 420px;
     bottom: -100px;
     right: -100px;
-    background: radial-gradient(circle, rgba(255, 140, 0, 0.1), transparent 70%);
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.12), transparent 70%);
     animation-delay: -14s;
+}
+
+/* Override the title/eyebrow light variants to work on cream */
+.hm-experience .hm-title-light,
+.hm-experience .hm-title-light .hm-title-main {
+    color: var(--text-primary, #2A1B0A);
+}
+
+.hm-experience .hm-accent-gold {
+    background: linear-gradient(135deg, #B8941F 0%, #D4AF37 40%, #8B6B16 80%, #D4AF37 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: hm-gradient-flow 7s ease-in-out infinite;
+}
+
+.hm-experience .hm-eyebrow-light {
+    color: #B8941F;
+}
+
+.hm-experience .hm-eyebrow-light .hm-eyebrow-dash {
+    background: linear-gradient(90deg, transparent, #B8941F);
 }
 
 .hm-exp-layout {
@@ -1176,15 +1215,17 @@
     font-size: clamp(18px, 2.3vw, 22px);
     font-style: italic;
     line-height: 1.6;
-    color: rgba(245, 235, 216, 0.85);
+    color: var(--text-secondary, #5D4E37);
     max-width: 560px;
     margin: 0;
+    padding-left: 20px;
+    border-left: 2px solid rgba(184, 148, 31, 0.5);
 }
 
 .hm-exp-points {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 4px;
     margin-top: 8px;
 }
 
@@ -1193,24 +1234,29 @@
     grid-template-columns: auto 1fr;
     gap: 18px;
     align-items: flex-start;
-    padding: 20px 0;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(184, 148, 31, 0.22);
+    transition: padding 0.4s ease;
 }
 
 .hm-exp-point:last-child {
     border-bottom: none;
 }
 
+.hm-exp-point:hover {
+    padding-left: 6px;
+}
+
 .hm-exp-icon {
     width: 48px;
     height: 48px;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(184, 148, 31, 0.35);
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--champagne-light);
+    color: #B8941F;
     font-size: 22px;
     flex-shrink: 0;
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1221,13 +1267,14 @@
     color: #1a1208;
     border-color: transparent;
     transform: rotate(-5deg) scale(1.05);
+    box-shadow: 0 10px 28px rgba(212, 175, 55, 0.35);
 }
 
 .hm-exp-point h4 {
     font-family: 'Playfair Display', serif;
     font-size: 20px;
     font-weight: 600;
-    color: var(--champagne-light);
+    color: var(--text-primary, #2A1B0A);
     margin: 0 0 6px 0;
     letter-spacing: -0.01em;
 }
@@ -1236,7 +1283,7 @@
     font-family: 'Inter', sans-serif;
     font-size: 13.5px;
     line-height: 1.5;
-    color: rgba(245, 235, 216, 0.65);
+    color: var(--text-secondary, #5D4E37);
     margin: 0;
 }
 
@@ -1244,28 +1291,35 @@
     margin-top: 12px;
 }
 
-/* Experience quote card */
+/* Experience quote card — cream version */
 .hm-exp-visual {
     position: relative;
 }
 
 .hm-exp-quote-card {
     position: relative;
-    background: rgba(245, 235, 216, 0.04);
+    background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(184, 148, 31, 0.3);
     border-radius: 24px;
     padding: clamp(32px, 5vw, 48px);
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.04),
+        0 8px 25px rgba(184, 148, 31, 0.08);
 }
 
 .hm-exp-quote-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(212, 175, 55, 0.4);
+    border-color: rgba(184, 148, 31, 0.5);
+    box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.06),
+        0 12px 35px rgba(184, 148, 31, 0.14);
 }
 
 .hm-exp-quote-card .hm-fc {
-    border-color: var(--champagne-gold);
+    border-color: #B8941F;
+    opacity: 0.7;
 }
 
 .hm-exp-quote-card:hover .hm-fc {
@@ -1277,9 +1331,9 @@
     font-family: 'Playfair Display', serif;
     font-size: 120px;
     font-weight: 700;
-    color: var(--champagne-gold);
+    color: #B8941F;
     line-height: 0.6;
-    opacity: 0.35;
+    opacity: 0.3;
     margin-bottom: 8px;
 }
 
@@ -1289,7 +1343,7 @@
     font-weight: 400;
     font-style: italic;
     line-height: 1.5;
-    color: #f5ebd8;
+    color: var(--text-primary, #2A1B0A);
     margin: 0 0 24px 0;
     letter-spacing: -0.01em;
 }
@@ -1300,11 +1354,11 @@
     gap: 6px;
     font-style: normal;
     padding-top: 20px;
-    border-top: 1px solid rgba(212, 175, 55, 0.25);
+    border-top: 1px solid rgba(184, 148, 31, 0.3);
 }
 
 .hm-quote-star-line {
-    color: var(--champagne-gold);
+    color: #D4AF37;
     font-size: 14px;
     letter-spacing: 4px;
 }
@@ -1313,7 +1367,7 @@
     font-family: 'Inter', sans-serif;
     font-size: 12px;
     font-weight: 600;
-    color: rgba(245, 235, 216, 0.6);
+    color: var(--text-secondary, #5D4E37);
     letter-spacing: 1.5px;
     text-transform: uppercase;
 }
