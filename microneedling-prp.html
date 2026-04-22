@@ -640,45 +640,152 @@
 </section>
 
 <!-- ============================================================
-     BOOKING CTA SECTION
+     CONTACT FORM SECTION (replaces/augments booking section)
      ============================================================ -->
-<section class="lp-booking-section" id="lp-booking" aria-label="Book a microneedling consultation">
+<section class="lp-form-section" id="lp-booking" aria-label="Consultation request form">
+    <div class="lp-form-bg" aria-hidden="true">
+        <div class="lp-form-orb lp-form-orb-1"></div>
+        <div class="lp-form-orb lp-form-orb-2"></div>
+    </div>
+
     <div class="container">
-        <div class="lp-booking-card" data-aos="fade-up">
-            <div class="lp-booking-content">
-                <div class="lp-section-badge"><i class="ri-calendar-check-line" aria-hidden="true"></i><span>Ready to Begin?</span></div>
-                <h2 class="lp-booking-title">
-                    <span class="lp-title-line">Schedule Your</span>
-                    <span class="lp-title-accent">Consultation Today</span>
+        <div class="lp-form-grid">
+            <!-- LEFT: Intro + Trust -->
+            <div class="lp-form-intro" data-aos="fade-right">
+                <div class="lp-section-badge">
+                    <i class="ri-calendar-check-line" aria-hidden="true"></i>
+                    <span>Request Consultation</span>
+                </div>
+                <h2 class="lp-section-title">
+                    <span class="lp-title-line">Begin Your</span>
+                    <span class="lp-title-accent">Transformation</span>
                 </h2>
-                <p class="lp-booking-desc">Begin your skin rejuvenation journey with a personalized consultation. <strong>Dr. Evia A Nano, MD</strong> will evaluate your skin, discuss your goals, and create a customized microneedling treatment plan.</p>
-                <div class="lp-booking-highlight">
-                    <i class="ri-information-line" aria-hidden="true"></i>
-                    <span><strong>$200</strong> consultation fee credited toward your first treatment</span>
+                <p class="lp-form-intro-desc">
+                    Fill out the form and <strong>Dr. Evia Nano</strong> will personally reach out within 24 hours to schedule your consultation.
+                </p>
+
+                <div class="lp-form-benefits">
+                    <div class="lp-form-benefit">
+                        <i class="ri-shield-check-line"></i>
+                        <div>
+                            <strong>100% Confidential</strong>
+                            <span>Your information is never shared</span>
+                        </div>
+                    </div>
+                    <div class="lp-form-benefit">
+                        <i class="ri-time-line"></i>
+                        <div>
+                            <strong>24-Hour Response</strong>
+                            <span>We'll reach out personally within one business day</span>
+                        </div>
+                    </div>
+                    <div class="lp-form-benefit">
+                        <i class="ri-price-tag-3-line"></i>
+                        <div>
+                            <strong>$200 Credited</strong>
+                            <span>Consultation fee applied to your first treatment</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="lp-booking-actions">
-                    <a href="tel:+12016394983" class="lp-btn-primary lp-btn-large">
-                        <i class="ri-phone-line" aria-hidden="true"></i>
-                        <span>Call (201) 639-4983</span>
-                    </a>
-                    <a href="mailto:info@eviaesthetics.com" class="lp-btn-secondary">
-                        <i class="ri-mail-line" aria-hidden="true"></i>
-                        <span>Email Us</span>
-                    </a>
-                    <a href="sms:+12016394983" class="lp-btn-secondary">
-                        <i class="ri-message-line" aria-hidden="true"></i>
-                        <span>Text Us</span>
+
+                <div class="lp-form-contact-alt">
+                    <p>Prefer to call?</p>
+                    <a href="tel:+12016394983" class="lp-form-phone-link">
+                        <i class="ri-phone-fill"></i>
+                        <span>(201) 639-4983</span>
                     </a>
                 </div>
-                <div class="lp-booking-address" itemscope itemtype="https://schema.org/PostalAddress">
-                    <i class="ri-map-pin-2-fill" aria-hidden="true"></i>
-                    <address>
-                        <span itemprop="streetAddress">65 W 36th St, 10th Floor</span>, 
-                        <span itemprop="addressLocality">New York</span>, 
-                        <span itemprop="addressRegion">NY</span> 
-                        <span itemprop="postalCode">10018</span> · By Appointment Only
-                    </address>
-                </div>
+            </div>
+
+            <!-- RIGHT: Form -->
+            <div class="lp-form-wrapper" data-aos="fade-left">
+                <form class="lp-contact-form"
+                      id="lpContactForm"
+                      action="https://formsubmit.co/info@eviaesthetics.com"
+                      method="POST"
+                      novalidate>
+
+                    <!-- FormSubmit.co hidden config -->
+                    <input type="hidden" name="_subject" value="New Microneedling Consultation Request">
+                    <input type="hidden" name="_next" value="https://eviaesthetics.com/thank-you.html">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_autoresponse" value="Thank you for your interest in Eviaesthetics! Dr. Evia Nano will personally reach out within 24 hours to schedule your consultation. In the meantime, feel free to call us at (201) 639-4983.">
+                    <input type="hidden" name="source" value="Microneedling Landing Page">
+                    <!-- Honeypot field -->
+                    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+                    <div class="lp-form-row">
+                        <div class="lp-form-field">
+                            <label for="lp-first-name">First Name <span class="req">*</span></label>
+                            <input type="text" id="lp-first-name" name="First Name" required autocomplete="given-name">
+                        </div>
+                        <div class="lp-form-field">
+                            <label for="lp-last-name">Last Name <span class="req">*</span></label>
+                            <input type="text" id="lp-last-name" name="Last Name" required autocomplete="family-name">
+                        </div>
+                    </div>
+
+                    <div class="lp-form-row">
+                        <div class="lp-form-field">
+                            <label for="lp-email">Email <span class="req">*</span></label>
+                            <input type="email" id="lp-email" name="Email" required autocomplete="email">
+                        </div>
+                        <div class="lp-form-field">
+                            <label for="lp-phone">Phone <span class="req">*</span></label>
+                            <input type="tel" id="lp-phone" name="Phone" required autocomplete="tel" placeholder="(201) 555-0123">
+                        </div>
+                    </div>
+
+                    <div class="lp-form-field">
+                        <label for="lp-treatment">Treatment of Interest <span class="req">*</span></label>
+                        <select id="lp-treatment" name="Treatment Interest" required>
+                            <option value="">Select a treatment...</option>
+                            <option value="SkinPen Microneedling">SkinPen Microneedling</option>
+                            <option value="Microneedling + Hyaluronic Acid">Microneedling + Hyaluronic Acid Serum</option>
+                            <option value="Not Sure - Need Consultation">Not Sure — I'd Like a Consultation</option>
+                            <option value="Multiple Treatments">Multiple Treatments</option>
+                        </select>
+                    </div>
+
+                    <div class="lp-form-field">
+                        <label for="lp-contact-time">Preferred Contact Time</label>
+                        <select id="lp-contact-time" name="Preferred Contact Time">
+                            <option value="">Anytime is fine</option>
+                            <option value="Morning (9am-12pm)">Morning (9am–12pm)</option>
+                            <option value="Afternoon (12pm-5pm)">Afternoon (12pm–5pm)</option>
+                            <option value="Evening (5pm-8pm)">Evening (5pm–8pm)</option>
+                        </select>
+                    </div>
+
+                    <div class="lp-form-field">
+                        <label for="lp-message">Tell us about your goals (optional)</label>
+                        <textarea id="lp-message" name="Message" rows="4" placeholder="What skin concerns would you like to address? Any questions about the treatment?"></textarea>
+                    </div>
+
+                    <div class="lp-form-consent">
+                        <input type="checkbox" id="lp-consent" name="Consent" required>
+                        <label for="lp-consent">
+                            I consent to being contacted by Eviaesthetics regarding my consultation request. <span class="req">*</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="lp-form-submit" id="lpFormSubmit">
+                        <span class="lp-submit-text">
+                            <i class="ri-calendar-check-line"></i>
+                            Request My Consultation
+                        </span>
+                        <span class="lp-submit-loading" hidden>
+                            <span class="lp-spinner"></span>
+                            Submitting...
+                        </span>
+                    </button>
+
+                    <p class="lp-form-disclaimer">
+                        <i class="ri-lock-line"></i>
+                        Your information is secure and will never be shared. By submitting, you agree to our <a href="policies/privacy-policy.html">Privacy Policy</a>.
+                    </p>
+                </form>
             </div>
         </div>
     </div>
