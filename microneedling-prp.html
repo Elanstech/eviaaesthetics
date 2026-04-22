@@ -640,7 +640,7 @@
 </section>
 
 <!-- ============================================================
-     CONTACT FORM SECTION (replaces/augments booking section)
+     CONTACT FORM SECTION — ELFSIGHT
      ============================================================ -->
 <section class="lp-form-section" id="lp-booking" aria-label="Consultation request form">
     <div class="lp-form-bg" aria-hidden="true">
@@ -697,95 +697,38 @@
                 </div>
             </div>
 
-            <!-- RIGHT: Form -->
+            <!-- RIGHT: Elfsight Form -->
             <div class="lp-form-wrapper" data-aos="fade-left">
-                <form class="lp-contact-form"
-                      id="lpContactForm"
-                      action="https://formsubmit.co/info@eviaesthetics.com"
-                      method="POST"
-                      novalidate>
-
-                    <!-- FormSubmit.co hidden config -->
-                    <input type="hidden" name="_subject" value="New Microneedling Consultation Request">
-                    <input type="hidden" name="_next" value="https://eviaesthetics.com/thank-you.html">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_autoresponse" value="Thank you for your interest in Eviaesthetics! Dr. Evia Nano will personally reach out within 24 hours to schedule your consultation. In the meantime, feel free to call us at (201) 639-4983.">
-                    <input type="hidden" name="source" value="Microneedling Landing Page">
-                    <!-- Honeypot field -->
-                    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-
-                    <div class="lp-form-row">
-                        <div class="lp-form-field">
-                            <label for="lp-first-name">First Name <span class="req">*</span></label>
-                            <input type="text" id="lp-first-name" name="First Name" required autocomplete="given-name">
-                        </div>
-                        <div class="lp-form-field">
-                            <label for="lp-last-name">Last Name <span class="req">*</span></label>
-                            <input type="text" id="lp-last-name" name="Last Name" required autocomplete="family-name">
-                        </div>
+                <div class="lp-form-header">
+                    <div class="lp-form-header-icon">
+                        <i class="ri-message-3-line"></i>
                     </div>
-
-                    <div class="lp-form-row">
-                        <div class="lp-form-field">
-                            <label for="lp-email">Email <span class="req">*</span></label>
-                            <input type="email" id="lp-email" name="Email" required autocomplete="email">
-                        </div>
-                        <div class="lp-form-field">
-                            <label for="lp-phone">Phone <span class="req">*</span></label>
-                            <input type="tel" id="lp-phone" name="Phone" required autocomplete="tel" placeholder="(201) 555-0123">
-                        </div>
+                    <div class="lp-form-header-text">
+                        <h3>Schedule Your Consultation</h3>
+                        <p>Tell us about your aesthetic goals</p>
                     </div>
+                </div>
 
-                    <div class="lp-form-field">
-                        <label for="lp-treatment">Treatment of Interest <span class="req">*</span></label>
-                        <select id="lp-treatment" name="Treatment Interest" required>
-                            <option value="">Select a treatment...</option>
-                            <option value="SkinPen Microneedling">SkinPen Microneedling</option>
-                            <option value="Microneedling + Hyaluronic Acid">Microneedling + Hyaluronic Acid Serum</option>
-                            <option value="Not Sure - Need Consultation">Not Sure — I'd Like a Consultation</option>
-                            <option value="Multiple Treatments">Multiple Treatments</option>
-                        </select>
-                    </div>
+                <!-- Elfsight Contact Form -->
+                <div class="lp-elfsight-container">
+                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                    <div class="elfsight-app-db15691a-379c-4773-8900-983e7e393d0f" data-elfsight-app-lazy></div>
+                </div>
 
-                    <div class="lp-form-field">
-                        <label for="lp-contact-time">Preferred Contact Time</label>
-                        <select id="lp-contact-time" name="Preferred Contact Time">
-                            <option value="">Anytime is fine</option>
-                            <option value="Morning (9am-12pm)">Morning (9am–12pm)</option>
-                            <option value="Afternoon (12pm-5pm)">Afternoon (12pm–5pm)</option>
-                            <option value="Evening (5pm-8pm)">Evening (5pm–8pm)</option>
-                        </select>
-                    </div>
-
-                    <div class="lp-form-field">
-                        <label for="lp-message">Tell us about your goals (optional)</label>
-                        <textarea id="lp-message" name="Message" rows="4" placeholder="What skin concerns would you like to address? Any questions about the treatment?"></textarea>
-                    </div>
-
-                    <div class="lp-form-consent">
-                        <input type="checkbox" id="lp-consent" name="Consent" required>
-                        <label for="lp-consent">
-                            I consent to being contacted by Eviaesthetics regarding my consultation request. <span class="req">*</span>
-                        </label>
-                    </div>
-
-                    <button type="submit" class="lp-form-submit" id="lpFormSubmit">
-                        <span class="lp-submit-text">
-                            <i class="ri-calendar-check-line"></i>
-                            Request My Consultation
-                        </span>
-                        <span class="lp-submit-loading" hidden>
-                            <span class="lp-spinner"></span>
-                            Submitting...
-                        </span>
-                    </button>
-
-                    <p class="lp-form-disclaimer">
+                <div class="lp-form-trust-row">
+                    <div class="lp-trust-pill">
                         <i class="ri-lock-line"></i>
-                        Your information is secure and will never be shared. By submitting, you agree to our <a href="policies/privacy-policy.html">Privacy Policy</a>.
-                    </p>
-                </form>
+                        <span>Secure & Private</span>
+                    </div>
+                    <div class="lp-trust-pill">
+                        <i class="ri-shield-check-line"></i>
+                        <span>HIPAA Compliant</span>
+                    </div>
+                    <div class="lp-trust-pill">
+                        <i class="ri-award-line"></i>
+                        <span>Expert Care</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
