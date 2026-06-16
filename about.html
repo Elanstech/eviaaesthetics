@@ -43,14 +43,14 @@
     </script>
 </head>
 <body>
-
-<!-- ============================================ HEADER (matches index) ============================================ -->
+    
+<!-- ============================================ HEADER ============================================ -->
 <header class="ev-header" id="evHeader">
     <nav class="ev-nav" aria-label="Primary">
         <a href="/" class="ev-logo" aria-label="Eviaesthetics home">
             <img src="images/logo1.png" alt="Eviaesthetics" class="ev-logo-img" width="160" height="40">
         </a>
-        <div class="ev-nav-links">
+        <div class="ev-nav-links" id="evNavLinks">
             <a href="index.html" class="ev-nav-link">Home</a>
             <a href="services.html" class="ev-nav-link">Services</a>
             <a href="about.html" class="ev-nav-link active">About Dr. Nano</a>
@@ -64,26 +64,28 @@
             <span></span><span></span><span></span>
         </button>
     </nav>
-    <div class="ev-drawer" id="evDrawer" aria-hidden="true">
-        <div class="ev-drawer-inner">
-            <button class="ev-drawer-close" id="evDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
-            <nav class="ev-drawer-nav">
-                <a href="index.html">Home</a>
-                <a href="services.html">Services</a>
-                <a href="about.html">About Dr. Nano</a>
-                <a href="contact.html">Contact</a>
-            </nav>
-            <div class="ev-drawer-cta">
-                <a href="contact.html" class="ev-btn-solid">Book Consultation</a>
-                <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-outline" rel="noopener">Shop AlumierMD</a>
-            </div>
-            <div class="ev-drawer-foot">
-                <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
-                <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
-            </div>
+</header>
+
+<!-- Mobile drawer — sibling of <header>, NOT nested inside it -->
+<div class="ev-drawer" id="evDrawer" aria-hidden="true">
+    <div class="ev-drawer-inner">
+        <button class="ev-drawer-close" id="evDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
+        <nav class="ev-drawer-nav">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="about.html">About Dr. Nano</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="ev-drawer-cta">
+            <a href="contact.html" class="ev-btn-solid">Book Consultation</a>
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-outline" rel="noopener">Shop AlumierMD</a>
+        </div>
+        <div class="ev-drawer-foot">
+            <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+            <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
         </div>
     </div>
-</header>
+</div>
 
 <main id="main">
 
