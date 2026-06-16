@@ -417,8 +417,8 @@ body.ev-locked { overflow: hidden; }
 .ev-hero-scrim {
     position: absolute; inset: 0; z-index: -1;
     background:
-        linear-gradient(180deg, rgba(26,20,16,0.45) 0%, rgba(26,20,16,0.15) 35%, rgba(26,20,16,0.55) 100%),
-        radial-gradient(ellipse at 30% 50%, transparent 40%, rgba(26,20,16,0.4) 100%);
+        linear-gradient(180deg, rgba(26,20,16,0.55) 0%, rgba(26,20,16,0.35) 40%, rgba(26,20,16,0.7) 100%),
+        radial-gradient(ellipse at 28% 50%, rgba(26,20,16,0.15) 0%, rgba(26,20,16,0.6) 75%);
 }
 
 .ev-hero-content { max-width: 860px; }
