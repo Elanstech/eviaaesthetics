@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 
     <!-- ============================================
-         PRIMARY META TAGS (Google Ads Optimized)
+         PRIMARY META TAGS (Google Ads + SEO Optimized)
          ============================================ -->
-    <title>IV Drip Therapy NYC | Manhattan Medical Spa — Eviaesthetics</title>
-    <meta name="title" content="IV Drip Therapy NYC | Manhattan Medical Spa — Eviaesthetics">
-    <meta name="description" content="Premium IV drip therapy in Midtown Manhattan. Custom vitamin & hydration infusions, NAD+ therapy, and B12/Biotin injections by Dr. Evia Nano, MD. Starting at $50. Book today.">
-    <meta name="keywords" content="IV therapy NYC, IV drip Manhattan, NAD+ IV NYC, vitamin IV Manhattan, B12 injection NYC, Myers cocktail NYC, hydration IV Manhattan, wellness IV NYC, glutathione IV NYC, biotin injection Manhattan">
+    <title>IV Therapy NYC by an MD | Midtown Manhattan Drip Suite — Eviaesthetics</title>
+    <meta name="title" content="IV Therapy NYC by an MD | Midtown Manhattan Drip Suite — Eviaesthetics">
+    <meta name="description" content="Physician-administered IV drip therapy in Midtown Manhattan — every infusion performed or supervised by Dr. Evia Nano, MD, not a technician. NAD+, vitamin & hydration drips. By appointment. Book online.">
+    <meta name="keywords" content="IV therapy NYC, IV drip Manhattan, NAD+ IV NYC, vitamin IV Manhattan, B12 injection NYC, Myers cocktail NYC, hydration IV Manhattan, physician IV therapy NYC, MD administered IV drip, glutathione IV NYC, biotin injection Manhattan, boutique IV therapy NYC">
     <meta name="author" content="Dr. Evia A Nano MD">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://eviaesthetics.com/iv-therapy.html">
@@ -26,7 +26,7 @@
 
     <!-- Conversion tracking helpers -->
     <script>
-        // Phone call conversion (replace AW-XXX/YYY with the actual conversion label from Google Ads)
+        // Phone call conversion (replace PHONE_CONVERSION_LABEL with the actual label from Google Ads)
         function trackPhoneCall() {
             gtag('event', 'conversion', {
                 'send_to': 'AW-16785318065/PHONE_CONVERSION_LABEL'
@@ -57,8 +57,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://eviaesthetics.com/iv-therapy.html">
-    <meta property="og:title" content="IV Drip Therapy NYC | Manhattan Medical Spa — Eviaesthetics">
-    <meta property="og:description" content="Premium IV drip therapy in Midtown Manhattan. Custom vitamin & hydration infusions by Dr. Evia Nano, MD.">
+    <meta property="og:title" content="IV Therapy NYC by an MD | Midtown Manhattan Drip Suite — Eviaesthetics">
+    <meta property="og:description" content="Every IV drip performed or supervised by Dr. Evia Nano, MD — not a technician. Premium NAD+, vitamin & hydration therapy in Midtown Manhattan. By appointment.">
     <meta property="og:image" content="https://eviaesthetics.com/images/og-image.jpg">
     <meta property="og:site_name" content="Eviaesthetics">
     <meta name="theme-color" content="#FF8C00">
@@ -86,48 +86,70 @@
     <link rel="stylesheet" href="styles.css">
 
     <!-- ============================================
-         STRUCTURED DATA — IV THERAPY SERVICE
+         STRUCTURED DATA — IV THERAPY SERVICE + LOCAL BUSINESS
          ============================================ -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "MedicalClinic",
+          "@id": "https://eviaesthetics.com/#clinic",
+          "name": "Eviaesthetics",
+          "description": "Physician-led medical spa in Midtown Manhattan offering IV drip therapy, vitamin injections, and aesthetic medicine, performed or supervised by Dr. Evia A Nano, MD.",
+          "url": "https://eviaesthetics.com/iv-therapy.html",
+          "telephone": "+1-201-639-4983",
+          "priceRange": "$$-$$$",
+          "image": "https://eviaesthetics.com/images/og-image.jpg",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "65 W 36th St, 10th Floor",
+            "addressLocality": "New York",
+            "addressRegion": "NY",
+            "postalCode": "10018",
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 40.7505,
+            "longitude": -73.9934
+          },
+          "medicalSpecialty": "Aesthetic Medicine",
+          "availableService": {
+            "@type": "MedicalProcedure",
+            "name": "IV Drip Therapy"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "reviewCount": "200"
+          }
+        },
+        {
           "@type": "MedicalProcedure",
           "@id": "https://eviaesthetics.com/iv-therapy.html#service",
           "name": "IV Drip Therapy",
-          "alternateName": ["IV Vitamin Therapy", "Intravenous Vitamin Therapy", "IV Hydration"],
-          "description": "Custom intravenous vitamin, mineral, and hydration infusions administered by Dr. Evia A Nano, MD at Eviaesthetics Manhattan. Includes Myers Cocktail, NAD+ infusions, immunity, energy, beauty, and recovery formulas.",
+          "alternateName": ["IV Vitamin Therapy", "Intravenous Vitamin Therapy", "IV Hydration", "NAD+ Therapy"],
+          "description": "Custom intravenous vitamin, mineral, and hydration infusions personally administered or supervised by Dr. Evia A Nano, MD at Eviaesthetics Manhattan. Includes Myers Cocktail, NAD+ infusions, immunity, energy, beauty, and recovery formulas.",
           "procedureType": "Therapeutic",
           "performer": {
             "@type": "Physician",
             "name": "Dr. Evia A Nano, MD",
             "medicalSpecialty": "Aesthetic Medicine"
           },
-          "location": {
-            "@type": "MedicalClinic",
-            "name": "Eviaesthetics",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "65 W 36th St, 10th Floor",
-              "addressLocality": "New York",
-              "addressRegion": "NY",
-              "postalCode": "10018",
-              "addressCountry": "US"
-            },
-            "telephone": "+1-201-639-4983"
-          },
-          "offers": {
-            "@type": "AggregateOffer",
-            "lowPrice": "50",
-            "highPrice": "600",
-            "priceCurrency": "USD",
-            "offerCount": "20"
-          }
+          "location": { "@id": "https://eviaesthetics.com/#clinic" }
         },
         {
           "@type": "FAQPage",
           "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Who actually performs the IV therapy at Eviaesthetics?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Every IV drip and injection at Eviaesthetics is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with 20+ years of experience. You are never treated by an unsupervised technician, unlike many IV bars and mobile services."
+              }
+            },
             {
               "@type": "Question",
               "name": "How long does an IV drip session take?",
@@ -138,18 +160,10 @@
             },
             {
               "@type": "Question",
-              "name": "How much does IV therapy cost in Manhattan?",
+              "name": "Do I need an appointment for IV therapy?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "At Eviaesthetics, vitamin injections start at $50, custom IV drips start at $350, and NAD+ infusions start at $600. Pricing depends on the formula and dose."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Who administers IV therapy at Eviaesthetics?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "All IV therapy and injections are personally administered or supervised by Dr. Evia A Nano, MD, a board-certified physician with 20+ years of experience."
+                "text": "Yes. Eviaesthetics is a private, appointment-only suite so Dr. Nano can give every patient her full attention. Booking takes a minute online or by phone, and same-day appointments are often available."
               }
             },
             {
@@ -157,7 +171,7 @@
               "name": "Is IV therapy safe?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "IV therapy at Eviaesthetics is performed in a clinical setting under physician oversight using sterile, medical-grade equipment. A brief medical intake is completed before your first session to confirm suitability."
+                "text": "IV therapy at Eviaesthetics is performed in a clinical setting under direct physician oversight using sterile, medical-grade equipment. A brief medical intake is completed before your first session to confirm suitability."
               }
             }
           ]
@@ -261,6 +275,8 @@
             margin-bottom: 32px;
             max-width: 560px;
         }
+        .iv-hero-sub strong { color: var(--text-primary); font-weight: 700; }
+
         .iv-hero-pricing {
             display: flex;
             gap: 16px;
@@ -301,7 +317,7 @@
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
-            margin-bottom: 36px;
+            margin-bottom: 24px;
         }
         .iv-btn-primary {
             display: inline-flex;
@@ -345,6 +361,19 @@
             border-color: var(--hermes-orange);
             transform: translateY(-2px);
         }
+        /* Appointment reassurance line under hero CTA */
+        .iv-hero-reassure {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-inter);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+        .iv-hero-reassure i { color: var(--hermes-orange); font-size: 15px; }
+
         .iv-trust-row {
             display: flex;
             gap: 24px;
@@ -454,6 +483,124 @@
         .iv-trust-bar-item i {
             color: var(--hermes-orange);
             font-size: 22px;
+        }
+
+        /* ============================================
+           MD DIFFERENTIATOR SECTION (NEW — the moat)
+           ============================================ */
+        .iv-md {
+            padding: clamp(80px, 12vh, 120px) 0;
+            background: linear-gradient(135deg, #2A1B0A 0%, #3D2812 100%);
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+        .iv-md::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 15% 30%, rgba(255, 140, 0, 0.15), transparent 50%),
+                radial-gradient(circle at 85% 70%, rgba(255, 140, 0, 0.1), transparent 50%);
+            pointer-events: none;
+        }
+        .iv-md-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
+        }
+        .iv-md-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+        .iv-md-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 140, 0, 0.15);
+            border: 1px solid rgba(255, 140, 0, 0.35);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-bottom: 24px;
+            font-family: var(--font-inter);
+            font-size: 12px;
+            font-weight: 700;
+            color: #FFB84D;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .iv-md-title {
+            font-family: var(--font-playfair);
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+        .iv-md-title .accent {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-style: italic;
+        }
+        .iv-md-sub {
+            font-family: var(--font-inter);
+            font-size: clamp(16px, 2.2vw, 18px);
+            color: rgba(255,255,255,0.8);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .iv-md-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        .iv-md-col {
+            border-radius: 24px;
+            padding: 36px 32px;
+        }
+        .iv-md-col.them {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .iv-md-col.us {
+            background: rgba(255, 140, 0, 0.12);
+            border: 2px solid rgba(255, 140, 0, 0.4);
+            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.12);
+        }
+        .iv-md-col h3 {
+            font-family: var(--font-playfair);
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .iv-md-col.them h3 { color: rgba(255,255,255,0.7); }
+        .iv-md-col.us h3 { color: #FFD700; }
+        .iv-md-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+        .iv-md-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-family: var(--font-inter);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        .iv-md-col.them .iv-md-list li { color: rgba(255,255,255,0.65); }
+        .iv-md-col.us .iv-md-list li { color: rgba(255,255,255,0.95); }
+        .iv-md-list li i { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+        .iv-md-col.them .iv-md-list li i { color: #c87a52; }
+        .iv-md-col.us .iv-md-list li i { color: #4ADE80; }
+        .iv-md-cta-row { text-align: center; }
+
+        @media (max-width: 768px) {
+            .iv-md-compare { grid-template-columns: 1fr; }
         }
 
         /* ============================================
@@ -1040,6 +1187,17 @@
             background: rgba(255, 255, 255, 0.2);
             border-color: white;
         }
+        .iv-final-cta-reassure {
+            margin-top: 24px;
+            font-family: var(--font-inter);
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .iv-final-cta-reassure i { color: #FFB84D; }
 
         /* ============================================
            RESPONSIVE
@@ -1167,15 +1325,15 @@
     <div class="iv-hero-container">
         <div class="iv-hero-content" data-aos="fade-right">
             <div class="iv-hero-eyebrow">
-                <i class="ri-drop-line"></i>
-                <span>Manhattan IV Therapy · Midtown</span>
+                <i class="ri-stethoscope-line"></i>
+                <span>Physician-Administered · Midtown Manhattan</span>
             </div>
             <h1 class="iv-hero-title">
-                Custom IV Drip Therapy
-                <span class="accent">for Your Best Self</span>
+                IV Therapy, Delivered by a Doctor
+                <span class="accent">Not a Technician</span>
             </h1>
             <p class="iv-hero-sub">
-                Premium intravenous vitamin, mineral, and hydration infusions — physician-administered in a private Midtown suite by Dr. Evia A Nano, MD. Energy, immunity, beauty, recovery, and longevity formulas tailored to you.
+                In a city full of pop-up drip bars and mobile vans, Eviaesthetics is different: <strong>every infusion is personally performed or directly supervised by Dr. Evia A Nano, MD.</strong> Premium NAD+, vitamin, beauty, and recovery drips — formulated for your body, delivered in a private Midtown suite.
             </p>
             <div class="iv-hero-pricing">
                 <div class="iv-price-pill">
@@ -1201,6 +1359,10 @@
                     <span>Call (201) 639-4983</span>
                 </a>
             </div>
+            <div class="iv-hero-reassure">
+                <i class="ri-calendar-check-line"></i>
+                <span>By appointment for your privacy — same-day appointments often available.</span>
+            </div>
             <div class="iv-trust-row">
                 <div class="trust"><i class="ri-shield-check-fill"></i> Physician Administered</div>
                 <div class="trust"><i class="ri-verified-badge-fill"></i> LegitScript Certified</div>
@@ -1210,11 +1372,11 @@
         <div class="iv-hero-visual" data-aos="fade-left" data-aos-delay="200">
             <div class="iv-hero-card">
                 <div class="iv-hero-floating-badge">
-                    <i class="ri-time-line"></i>
-                    <span>45–60 min sessions</span>
+                    <i class="ri-stethoscope-line"></i>
+                    <span>MD on every drip</span>
                 </div>
                 <img src="https://desotofamilycareclinic.com/wp-content/uploads/2024/04/Desoto-IV-Therapy.png"
-                     alt="IV drip therapy at Eviaesthetics Manhattan medical spa"
+                     alt="Physician-administered IV drip therapy at Eviaesthetics Manhattan medical spa"
                      class="iv-hero-img"
                      loading="eager">
                 <h3 class="iv-hero-card-title">Tailored to Your Goals</h3>
@@ -1238,6 +1400,54 @@
 </section>
 
 <!-- ============================================
+     MD DIFFERENTIATOR SECTION (the moat)
+     ============================================ -->
+<section class="iv-md">
+    <div class="iv-md-container">
+        <div class="iv-md-header" data-aos="fade-up">
+            <div class="iv-md-eyebrow">
+                <i class="ri-error-warning-line"></i>
+                <span>Why Who Holds the Needle Matters</span>
+            </div>
+            <h2 class="iv-md-title">
+                Not All IV Therapy Is <span class="accent">Created Equal</span>
+            </h2>
+            <p class="iv-md-sub">
+                An IV puts a formula directly into your bloodstream — bypassing every natural filter your body has. That makes the person behind it the single most important factor in your safety and results. Here's the difference.
+            </p>
+        </div>
+
+        <div class="iv-md-compare">
+            <div class="iv-md-col them" data-aos="fade-up" data-aos-delay="100">
+                <h3><i class="ri-close-circle-line"></i> Typical Drip Bars &amp; Mobile Vans</h3>
+                <ul class="iv-md-list">
+                    <li><i class="ri-close-line"></i> Drips run by a technician or traveling nurse, often with no physician on site</li>
+                    <li><i class="ri-close-line"></i> One-size-fits-all bags with no real medical review of your history</li>
+                    <li><i class="ri-close-line"></i> High-volume, assembly-line settings — in and out, next patient</li>
+                    <li><i class="ri-close-line"></i> Limited ability to respond if something goes wrong mid-infusion</li>
+                </ul>
+            </div>
+            <div class="iv-md-col us" data-aos="fade-up" data-aos-delay="200">
+                <h3><i class="ri-shield-star-line"></i> Eviaesthetics, with Dr. Nano, MD</h3>
+                <ul class="iv-md-list">
+                    <li><i class="ri-check-line"></i> Every infusion personally administered or directly supervised by a board-certified physician</li>
+                    <li><i class="ri-check-line"></i> A real medical intake — your formula is chosen for <em>your</em> body, not a menu default</li>
+                    <li><i class="ri-check-line"></i> A private, unhurried Midtown suite where you're the only patient that hour</li>
+                    <li><i class="ri-check-line"></i> 20+ years of clinical experience standing behind every drop</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="iv-md-cta-row" data-aos="fade-up">
+            <a href="#iv-contact-form" class="iv-btn-primary">
+                <i class="ri-calendar-check-line"></i>
+                <span>Book With a Physician You Can Trust</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
      BENEFITS SECTION
      ============================================ -->
 <section class="iv-benefits">
@@ -1251,29 +1461,29 @@
             <span class="accent">For Maximum Absorption</span>
         </h2>
         <p class="iv-section-sub" data-aos="fade-up">
-            IV therapy bypasses the digestive system to deliver vitamins, minerals, and fluids straight into your bloodstream — supporting how you feel from the inside out.
+            Supplements in pill form lose most of their potency to digestion. IV therapy delivers vitamins, minerals, and fluids straight into your bloodstream — so your body actually gets what it's paying for.
         </p>
     </div>
     <div class="iv-benefits-grid">
         <div class="iv-benefit-card" data-aos="fade-up" data-aos-delay="100">
             <div class="iv-benefit-icon"><i class="ri-flashlight-line"></i></div>
-            <h3 class="iv-benefit-title">Energy Support</h3>
-            <p class="iv-benefit-text">Replenish key nutrients that support natural energy production and daily vitality.</p>
+            <h3 class="iv-benefit-title">Real, Lasting Energy</h3>
+            <p class="iv-benefit-text">Replenish the nutrients your busy NYC life burns through — and feel the difference without the crash of caffeine.</p>
         </div>
         <div class="iv-benefit-card" data-aos="fade-up" data-aos-delay="200">
             <div class="iv-benefit-icon"><i class="ri-shield-line"></i></div>
-            <h3 class="iv-benefit-title">Immune Support</h3>
-            <p class="iv-benefit-text">High-dose vitamin C, zinc, and antioxidants to support your body's natural defenses.</p>
+            <h3 class="iv-benefit-title">Immune Resilience</h3>
+            <p class="iv-benefit-text">High-dose vitamin C, zinc, and antioxidants to keep your defenses strong through deadlines, travel, and flu season.</p>
         </div>
         <div class="iv-benefit-card" data-aos="fade-up" data-aos-delay="300">
             <div class="iv-benefit-icon"><i class="ri-sparkling-line"></i></div>
-            <h3 class="iv-benefit-title">Skin & Beauty</h3>
-            <p class="iv-benefit-text">Glutathione, biotin, and beauty blends to support radiant skin, hair, and nails.</p>
+            <h3 class="iv-benefit-title">Visible Glow</h3>
+            <p class="iv-benefit-text">Glutathione, biotin, and beauty blends that support radiant skin, stronger hair, and that lit-from-within look.</p>
         </div>
         <div class="iv-benefit-card" data-aos="fade-up" data-aos-delay="400">
             <div class="iv-benefit-icon"><i class="ri-restart-line"></i></div>
             <h3 class="iv-benefit-title">Rapid Recovery</h3>
-            <p class="iv-benefit-text">Rehydration and electrolyte support after travel, workouts, or a demanding week.</p>
+            <p class="iv-benefit-text">Bounce back fast after travel, training, or a demanding week with deep rehydration and electrolyte support.</p>
         </div>
     </div>
 </section>
@@ -1292,7 +1502,7 @@
                 The Complete <span class="accent">IV Menu</span>
             </h2>
             <p class="iv-section-sub">
-                Each formula is selected and customized for your goals. Your first visit includes a brief medical intake with Dr. Nano.
+                Every formula is selected and customized for your goals during a brief medical intake with Dr. Nano. No guesswork, no generic bags.
             </p>
         </div>
 
@@ -1506,18 +1716,18 @@
         <div class="iv-process-grid">
             <div class="iv-process-step" data-aos="fade-up" data-aos-delay="100">
                 <div class="iv-process-num">1</div>
-                <h4>Book Online</h4>
-                <p>Submit the form or call us. We'll confirm your appointment within hours.</p>
+                <h4>Reserve Online</h4>
+                <p>Submit the form or call us. We'll confirm your appointment within hours — same-day often available.</p>
             </div>
             <div class="iv-process-step" data-aos="fade-up" data-aos-delay="200">
                 <div class="iv-process-num">2</div>
-                <h4>Brief Intake</h4>
-                <p>A short medical intake with Dr. Nano on your first visit to select the right formula.</p>
+                <h4>Meet Dr. Nano</h4>
+                <p>A short medical intake with the physician on your first visit, so the right formula is chosen for you.</p>
             </div>
             <div class="iv-process-step" data-aos="fade-up" data-aos-delay="300">
                 <div class="iv-process-num">3</div>
                 <h4>Relax & Infuse</h4>
-                <p>45–60 minutes (NAD+ longer) in a private Midtown suite. Bring a book or laptop.</p>
+                <p>45–60 minutes (NAD+ longer) in a private Midtown suite. Bring a book or laptop and unwind.</p>
             </div>
             <div class="iv-process-step" data-aos="fade-up" data-aos-delay="400">
                 <div class="iv-process-num">4</div>
@@ -1537,14 +1747,14 @@
         <div class="iv-contact-info" data-aos="fade-right">
             <div class="iv-section-eyebrow">
                 <i class="ri-calendar-check-line"></i>
-                <span>Book Your Session</span>
+                <span>Reserve Your Session</span>
             </div>
             <h2>
-                Ready to Begin?
-                <span class="accent">Let's Get You In.</span>
+                Ready to Feel Your Best?
+                <span class="accent">Let's Get You Booked.</span>
             </h2>
             <p>
-                Fill out the form and our team will reach out within 24 hours to confirm your IV therapy appointment. Or call us directly for same-day availability.
+                Fill out the form and our team will reach out within 24 hours to confirm your IV therapy appointment. Prefer to talk now? Call us directly — same-day appointments are often available.
             </p>
             <div class="iv-contact-methods">
                 <a href="tel:+12016394983" class="iv-contact-method" onclick="trackPhoneCall()">
@@ -1574,7 +1784,7 @@
             <div class="iv-form-header">
                 <div class="iv-form-header-icon"><i class="ri-message-3-line"></i></div>
                 <div>
-                    <h3>Schedule Your IV Therapy</h3>
+                    <h3>Book Your IV Therapy</h3>
                     <p>Tell us about your wellness goals — we'll respond within 24 hours.</p>
                 </div>
             </div>
@@ -1584,9 +1794,9 @@
                 <div class="elfsight-app-db15691a-379c-4773-8900-983e7e393d0f" data-elfsight-app-lazy></div>
             </div>
             <div class="iv-form-trust">
-                <div class="iv-form-trust-item"><i class="ri-shield-check-line"></i><span>100% Confidential</span></div>
+                <div class="iv-form-trust-item"><i class="ri-stethoscope-line"></i><span>Physician-Led</span></div>
                 <div class="iv-form-trust-item"><i class="ri-time-line"></i><span>24H Response</span></div>
-                <div class="iv-form-trust-item"><i class="ri-award-line"></i><span>Expert Consultation</span></div>
+                <div class="iv-form-trust-item"><i class="ri-shield-check-line"></i><span>100% Confidential</span></div>
             </div>
         </div>
     </div>
@@ -1608,6 +1818,18 @@
         </div>
         <div class="iv-faq-list">
             <details class="iv-faq-item" data-aos="fade-up">
+                <summary>Who actually performs the IV therapy?</summary>
+                <div class="iv-faq-answer">
+                    Every IV drip and injection at Eviaesthetics is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with more than 20 years of clinical experience. Unlike many drip bars and mobile services, you are never treated by an unsupervised technician. This is the single biggest difference between us and the rest.
+                </div>
+            </details>
+            <details class="iv-faq-item" data-aos="fade-up">
+                <summary>Do I need an appointment, or can I walk in?</summary>
+                <div class="iv-faq-answer">
+                    Eviaesthetics is a private, appointment-only suite — that's how Dr. Nano can give you her full attention without a crowded waiting room. Booking takes a minute online or by phone, and same-day appointments are often available. Just reach out and we'll find you a time that works.
+                </div>
+            </details>
+            <details class="iv-faq-item" data-aos="fade-up">
                 <summary>How long does an IV drip session take?</summary>
                 <div class="iv-faq-answer">
                     Most IV drip sessions take 45 to 60 minutes from start to finish. NAD+ infusions are longer — typically 2 to 3 hours — because they're administered at a slower drip rate for optimal comfort. Vitamin injections take about 15 minutes.
@@ -1616,19 +1838,13 @@
             <details class="iv-faq-item" data-aos="fade-up">
                 <summary>How much does IV therapy cost?</summary>
                 <div class="iv-faq-answer">
-                    Vitamin injections start at $50, custom IV drips start at $350, and NAD+ infusions start at $600. Pricing varies based on the specific formula, ingredients, and dose selected with Dr. Nano during your intake.
-                </div>
-            </details>
-            <details class="iv-faq-item" data-aos="fade-up">
-                <summary>Who administers the IV therapy?</summary>
-                <div class="iv-faq-answer">
-                    All IV therapy and injections at Eviaesthetics are personally administered or supervised by Dr. Evia A Nano, MD — a board-certified physician with more than 20 years of clinical experience. You will never receive treatment from an unsupervised technician.
+                    Vitamin injections start at $50, custom IV drips start at $350, and NAD+ infusions start at $600. Pricing varies based on the specific formula, ingredients, and dose selected with Dr. Nano during your intake. You'll always know the price before anything begins — no surprises.
                 </div>
             </details>
             <details class="iv-faq-item" data-aos="fade-up">
                 <summary>Is IV therapy safe?</summary>
                 <div class="iv-faq-answer">
-                    IV therapy at Eviaesthetics is performed in a clinical setting under physician oversight using sterile, medical-grade equipment. A brief medical intake is completed before your first session to confirm suitability and rule out contraindications.
+                    IV therapy at Eviaesthetics is performed in a clinical setting under direct physician oversight using sterile, medical-grade equipment. A brief medical intake is completed before your first session to confirm suitability and rule out contraindications — exactly the kind of safeguard a pop-up drip bar can't offer.
                 </div>
             </details>
             <details class="iv-faq-item" data-aos="fade-up">
@@ -1653,11 +1869,11 @@
 <section class="iv-final-cta">
     <div class="iv-final-cta-container">
         <h2>
-            Your Wellness Journey
-            <span class="accent">Starts Today</span>
+            Your Body Deserves a Doctor,
+            <span class="accent">Not a Drip Bar</span>
         </h2>
         <p>
-            One conversation with Dr. Nano and you'll understand why Manhattan trusts Eviaesthetics for their IV therapy and wellness needs. Book now — same-day availability.
+            One visit with Dr. Nano and you'll understand why Manhattan trusts Eviaesthetics for IV therapy that's safe, personalized, and genuinely effective. Reserve your private session today.
         </p>
         <div class="iv-final-cta-actions">
             <a href="#iv-contact-form" class="iv-btn-primary">
@@ -1668,6 +1884,10 @@
                 <i class="ri-phone-line"></i>
                 <span>Call (201) 639-4983</span>
             </a>
+        </div>
+        <div class="iv-final-cta-reassure">
+            <i class="ri-calendar-check-line"></i>
+            <span>By appointment for your privacy — same-day appointments often available.</span>
         </div>
     </div>
 </section>
@@ -1824,6 +2044,18 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        // Fire form-submit conversion when the Elfsight form is submitted
+        // (Elfsight renders in an iframe/shadow DOM; this listens for its success postMessage)
+        window.addEventListener('message', function(e) {
+            try {
+                var d = typeof e.data === 'string' ? e.data : JSON.stringify(e.data || '');
+                if (d && d.toLowerCase().indexOf('elfsight') !== -1 &&
+                    (d.toLowerCase().indexOf('submit') !== -1 || d.toLowerCase().indexOf('success') !== -1)) {
+                    if (typeof trackFormSubmit === 'function') trackFormSubmit();
+                }
+            } catch (err) { /* no-op */ }
         });
     });
 </script>
