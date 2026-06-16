@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 
-    <!-- Primary SEO -->
     <title>Services | Neurotoxin, Skin Boosters, Microneedling, PRP, IV Drip & NAD+ | Eviaesthetics Manhattan</title>
     <meta name="title" content="Services | Neurotoxin, Skin Boosters, Microneedling, PRP, IV Drip & NAD+ | Eviaesthetics Manhattan">
     <meta name="description" content="Explore Eviaesthetics Manhattan services: Neurotoxin Injectables (Daxxify), Skin Boosters (Profhilo, Radiesse, Sculptra, Skinvive), Microneedling, PRP, IV Drip Therapy, NAD+, Chemical Peels, Weight Management & Hyperhidrosis. Dr. Evia Nano MD.">
@@ -12,7 +11,7 @@
     <meta name="author" content="Dr. Evia A Nano MD">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <meta name="googlebot" content="index, follow">
-
+    <meta name="theme-color" content="#FF6B00">
     <link rel="canonical" href="https://eviaesthetics.com/services.html">
 
     <!-- Geographic -->
@@ -34,10 +33,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts: matches index -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="icons/favicon-96x96.png" sizes="96x96">
@@ -50,7 +48,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="services.css">
 
-    <!-- JSON-LD: Services Schema -->
+    <!-- JSON-LD: Services Schema (preserved) -->
     <script type="application/ld+json">
     {
       "@context":"https://schema.org",
@@ -114,7 +112,7 @@
     }
     </script>
 
-    <!-- FAQ Schema -->
+    <!-- FAQ Schema (preserved) -->
     <script type="application/ld+json">
     {
       "@context":"https://schema.org","@type":"FAQPage",
@@ -130,76 +128,83 @@
 </head>
 <body>
 
-<!-- Shared Header from styles.css / script.js -->
-<header class="hermes-modern-header" id="hermesHeader">
-    <nav class="header-glass-container">
-        <div class="desktop-nav">
-            <div class="logo-section"><a href="/" class="logo-link"><img src="images/logo1.png" alt="Eviaesthetics" class="desktop-logo"></a></div>
-            <div class="nav-links-container">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="services.html" class="nav-link">Services</a>
-                <a href="about.html" class="nav-link">About Dr.Nano</a>
-                <a href="contact.html" class="nav-link">Contact</a>
-            </div>
-            <div class="header-cta-section">
-                <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="shop-now-btn"><span class="btn-text">Shop Now</span><i class="ri-arrow-right-line btn-icon"></i></a>
-                <a href="contact.html" class="book-consultation-btn">Request a Consult</a>
-            </div>
-            <div class="desktop-hamburger-circle" id="desktopHamburger"><div class="desktop-hamburger-lines"><span class="desktop-hamburger-line"></span><span class="desktop-hamburger-line"></span><span class="desktop-hamburger-line"></span></div></div>
+<!-- ============================================ HEADER (matches index) ============================================ -->
+<header class="ev-header" id="evHeader">
+    <nav class="ev-nav" aria-label="Primary">
+        <a href="/" class="ev-logo" aria-label="Eviaesthetics home">
+            <img src="images/logo1.png" alt="Eviaesthetics" class="ev-logo-img" width="160" height="40">
+        </a>
+        <div class="ev-nav-links">
+            <a href="index.html" class="ev-nav-link">Home</a>
+            <a href="services.html" class="ev-nav-link active">Services</a>
+            <a href="about.html" class="ev-nav-link">About Dr. Nano</a>
+            <a href="contact.html" class="ev-nav-link">Contact</a>
         </div>
-        <div class="mobile-nav">
-            <div class="mobile-logo-section"><div class="mobile-logo-circle"><a href="/" class="mobile-logo-link"><img src="images/mobilelogo.png" alt="Eviaesthetics" class="mobile-logo"></a></div></div>
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu"><span class="toggle-line"></span><span class="toggle-line"></span><span class="toggle-line"></span></button>
+        <div class="ev-nav-cta">
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-text" rel="noopener">Shop</a>
+            <a href="contact.html" class="ev-btn-outline">Request a Consult</a>
         </div>
+        <button class="ev-burger" id="evBurger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
-        <div class="mobile-menu-container">
-            <div class="mobile-menu-header"><div class="menu-logo-section"><img src="images/mobilelogo.png" alt="Eviaesthetics" class="menu-logo"></div><button class="menu-close-btn" id="menuCloseBtn"><i class="ri-close-line"></i></button></div>
-            <div class="mobile-menu-content">
-                <nav class="mobile-primary-nav">
-                    <a href="index.html" class="mobile-nav-item"><span class="nav-item-text">Home</span><i class="ri-arrow-right-line nav-item-icon"></i></a>
-                    <a href="services.html" class="mobile-nav-item"><span class="nav-item-text">Services</span><i class="ri-arrow-right-line nav-item-icon"></i></a>
-                    <a href="about.html" class="mobile-nav-item"><span class="nav-item-text">About Dr. Nano</span><i class="ri-arrow-right-line nav-item-icon"></i></a>
-                    <a href="contact.html" class="mobile-nav-item"><span class="nav-item-text">Contact</span><i class="ri-arrow-right-line nav-item-icon"></i></a>
-                </nav>
-                <div class="mobile-menu-ctas">
-                    <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="mobile-shop-btn"><span>Shop Luxury Products</span><i class="ri-shopping-bag-3-line"></i></a>
-                    <a href="contact.html" class="mobile-consultation-btn"><span>Request a Consult</span><i class="ri-calendar-line"></i></a>
-                </div>
-                <div class="mobile-menu-footer">
-                    <div class="social-links"><a href="https://www.instagram.com/eviaesthetics/?hl=en" class="social-link"><i class="ri-instagram-line"></i></a><a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" class="social-link"><i class="ri-facebook-line"></i></a></div>
-                    <p class="menu-tagline">Manhattan's Premier Luxury Experience</p>
-                </div>
+    <div class="ev-drawer" id="evDrawer" aria-hidden="true">
+        <div class="ev-drawer-inner">
+            <button class="ev-drawer-close" id="evDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
+            <nav class="ev-drawer-nav">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="about.html">About Dr. Nano</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="ev-drawer-cta">
+                <a href="contact.html" class="ev-btn-solid">Request a Consult</a>
+                <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-outline" rel="noopener">Shop AlumierMD</a>
+            </div>
+            <div class="ev-drawer-foot">
+                <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+                <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
             </div>
         </div>
     </div>
 </header>
 
-<!-- HERO SECTION -->
+<main id="main">
+
+<!-- ============================================ HERO ============================================ -->
 <section class="sv-hero" id="sv-hero">
-    <div class="sv-hero-bg"><div class="sv-hero-orb sv-orb-1"></div><div class="sv-hero-orb sv-orb-2"></div></div>
-    <div class="container">
-        <div class="sv-hero-content" data-aos="fade-up" data-aos-duration="800">
-            <div class="sv-hero-badge"><i class="ri-sparkling-2-line"></i><span>Complete Services Menu</span></div>
-            <h1 class="sv-hero-title"><span class="sv-title-line">Our Complete</span><span class="sv-title-accent">Services Collection</span></h1>
-            <p class="sv-hero-desc">Discover every treatment offered by <strong>Dr. Evia A Nano, MD</strong> — expertly crafted services for your aesthetic and wellness journey.</p>
-            <div class="sv-hero-stats">
-                <div class="sv-stat-pill"><span class="sv-stat-num">20+</span><span class="sv-stat-lbl">Services</span></div>
-                <div class="sv-stat-pill"><span class="sv-stat-num">10</span><span class="sv-stat-lbl">Categories</span></div>
-                <div class="sv-stat-pill"><span class="sv-stat-num">$16</span><span class="sv-stat-lbl">Starting</span></div>
+    <div class="sv-hero-bg"><span class="sv-hero-orb sv-orb-1"></span><span class="sv-hero-orb sv-orb-2"></span></div>
+    <div class="ev-wrap sv-hero-inner">
+        <span class="ev-eyebrow ev-center" data-reveal><span class="ev-eyebrow-rule"></span>The Complete Menu<span class="ev-eyebrow-rule"></span></span>
+        <h1 class="sv-hero-title" data-reveal>
+            <span class="sv-line">Every treatment,</span>
+            <span class="sv-line sv-italic">considered singularly.</span>
+        </h1>
+        <p class="sv-hero-desc" data-reveal>
+            The full repertoire of <strong>Dr. Evia A. Nano, MD</strong> — each protocol performed personally,
+            each plan built around a single face. Yours.
+        </p>
+        <div class="sv-hero-stats" data-reveal>
+            <div class="sv-stat"><span class="sv-stat-num">20+</span><span class="sv-stat-lbl">Treatments</span></div>
+            <div class="sv-stat-div"></div>
+            <div class="sv-stat"><span class="sv-stat-num">10</span><span class="sv-stat-lbl">Categories</span></div>
+            <div class="sv-stat-div"></div>
+            <div class="sv-stat"><span class="sv-stat-num">$16</span><span class="sv-stat-lbl">Starting</span></div>
+        </div>
+        <div class="sv-consult-bar" data-reveal>
+            <div class="sv-consult-info">
+                <i class="ri-user-heart-line"></i>
+                <div><strong>Private Consultation — $200</strong><span>Credited in full toward your first treatment</span></div>
             </div>
-            <div class="sv-consult-bar">
-                <div class="sv-consult-info"><i class="ri-user-heart-line"></i><div><strong>Initial Consultation — $200</strong><span>Credited towards your first service</span></div></div>
-                <a href="contact.html" class="sv-consult-btn">Request a Consult <i class="ri-arrow-right-line"></i></a>
-            </div>
+            <a href="contact.html" class="ev-btn-solid ev-magnetic"><span>Request a Consult</span><i class="ri-arrow-right-up-line"></i></a>
         </div>
     </div>
 </section>
 
-<!-- STICKY SERVICE NAVIGATION -->
-<nav class="sv-sticky-nav" id="svStickyNav" aria-label="Service categories navigation">
+<!-- ============================================ STICKY CATEGORY NAV ============================================ -->
+<nav class="sv-sticky-nav" id="svStickyNav" aria-label="Service categories">
     <div class="sv-sticky-inner">
-        <button class="sv-nav-scroll-btn sv-nav-left" id="svNavLeft" aria-label="Scroll left"><i class="ri-arrow-left-s-line"></i></button>
+        <button class="sv-nav-arrow sv-nav-left" id="svNavLeft" aria-label="Scroll left"><i class="ri-arrow-left-s-line"></i></button>
         <div class="sv-nav-track" id="svNavTrack">
             <a href="#sv-neurotoxin" class="sv-nav-pill active" data-target="sv-neurotoxin"><i class="ri-syringe-line"></i><span>Neurotoxin</span></a>
             <a href="#sv-fillers" class="sv-nav-pill" data-target="sv-fillers"><i class="ri-heart-3-line"></i><span>Fillers</span></a>
@@ -212,186 +217,126 @@
             <a href="#sv-iv-drip" class="sv-nav-pill" data-target="sv-iv-drip"><i class="ri-water-flash-line"></i><span>IV Drip</span></a>
             <a href="#sv-nad" class="sv-nav-pill" data-target="sv-nad"><i class="ri-pulse-line"></i><span>NAD+</span></a>
         </div>
-        <button class="sv-nav-scroll-btn sv-nav-right" id="svNavRight" aria-label="Scroll right"><i class="ri-arrow-right-s-line"></i></button>
+        <button class="sv-nav-arrow sv-nav-right" id="svNavRight" aria-label="Scroll right"><i class="ri-arrow-right-s-line"></i></button>
     </div>
 </nav>
 
-<!-- ============================== -->
-<!-- 1. NEUROTOXIN INJECTABLES -->
-<!-- ============================== -->
-<section class="sv-section" id="sv-neurotoxin" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">01</div>
-            <div class="sv-section-info">
-                <h2 class="sv-section-title">Neurotoxin Injectables <span class="sv-title-tag">(Daxxify)</span></h2>
-                <p class="sv-section-tagline">Precision wrinkle reduction with next-generation neurotoxin technology</p>
+<!-- 1 · NEUROTOXIN -->
+<section class="sv-section" id="sv-neurotoxin">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">01</span>
+            <div>
+                <h2 class="sv-section-title">Neurotoxin Injectables <span class="sv-tag">Daxxify</span></h2>
+                <p class="sv-section-tagline">Expression, softened — never erased. Next-generation neurotoxin, placed with restraint.</p>
             </div>
         </div>
-        <div class="sv-cards-grid sv-grid-1">
-            <div class="sv-card">
+        <div class="sv-grid sv-grid-1">
+            <article class="sv-card" data-reveal>
                 <div class="sv-card-top">
                     <h3 class="sv-card-name">Neurotoxin Injectables (Daxxify)</h3>
                     <p class="sv-card-desc">FDA-approved neurotoxin for smoothing wrinkles, crow's feet, forehead lines, and frown lines. Daxxify offers longer-lasting results than traditional options.</p>
-                    <div class="sv-card-details">
-                        <span class="sv-detail"><i class="ri-time-line"></i> 30 min</span>
-                        <span class="sv-detail"><i class="ri-calendar-check-line"></i> Results: 3–7 days</span>
-                        <span class="sv-detail"><i class="ri-repeat-line"></i> Lasts 3–6 months</span>
+                    <div class="sv-card-meta">
+                        <span><i class="ri-time-line"></i> 30 min</span>
+                        <span><i class="ri-calendar-check-line"></i> Results: 3–7 days</span>
+                        <span><i class="ri-repeat-line"></i> Lasts 3–6 months</span>
                     </div>
                 </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$16<small>/unit</small></span></div>
+                <div class="sv-card-foot">
+                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$16<small>/unit</small></span></div>
                     <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
                 </div>
-            </div>
+            </article>
         </div>
-        <div class="sv-care-toggle">
+        <div class="sv-care" data-reveal>
             <button class="sv-care-trigger" data-target="care-neurotoxin"><i class="ri-first-aid-kit-line"></i><span>Pre &amp; Post Treatment Care</span><i class="ri-arrow-down-s-line sv-care-arrow"></i></button>
-            <div class="sv-care-content" id="care-neurotoxin">
+            <div class="sv-care-body" id="care-neurotoxin">
                 <div class="sv-care-grid">
-                    <div class="sv-care-col">
-                        <h4><i class="ri-arrow-right-circle-line"></i> Pre-Treatment</h4>
-                        <ul><li>Avoid alcohol 24 hours before treatment</li><li>Discontinue blood thinners if medically safe</li><li>Arrive with clean, makeup-free skin</li><li>Inform us of all medications and supplements</li><li>Avoid aspirin/anti-inflammatory meds for 1 week</li></ul>
-                    </div>
-                    <div class="sv-care-col">
-                        <h4><i class="ri-arrow-left-circle-line"></i> Post-Treatment</h4>
-                        <ul><li>Avoid touching treated areas for 4–6 hours</li><li>No strenuous exercise for 24 hours</li><li>Stay upright for 4 hours post-treatment</li><li>Results visible in 3–7 days</li><li>Avoid saunas and excessive heat for 24 hours</li></ul>
-                    </div>
+                    <div class="sv-care-col"><h4><i class="ri-arrow-right-circle-line"></i> Pre-Treatment</h4><ul><li>Avoid alcohol 24 hours before treatment</li><li>Discontinue blood thinners if medically safe</li><li>Arrive with clean, makeup-free skin</li><li>Inform us of all medications and supplements</li><li>Avoid aspirin/anti-inflammatory meds for 1 week</li></ul></div>
+                    <div class="sv-care-col"><h4><i class="ri-arrow-left-circle-line"></i> Post-Treatment</h4><ul><li>Avoid touching treated areas for 4–6 hours</li><li>No strenuous exercise for 24 hours</li><li>Stay upright for 4 hours post-treatment</li><li>Results visible in 3–7 days</li><li>Avoid saunas and excessive heat for 24 hours</li></ul></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ============================== -->
-<!-- 2. DERMAL FILLERS -->
-<!-- ============================== -->
-<section class="sv-section sv-section-alt" id="sv-fillers" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">02</div>
-            <div class="sv-section-info">
+<!-- 2 · FILLERS -->
+<section class="sv-section sv-alt" id="sv-fillers">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">02</span>
+            <div>
                 <h2 class="sv-section-title">Dermal Fillers</h2>
-                <p class="sv-section-tagline">Premium hyaluronic acid fillers for volume restoration, contouring &amp; enhancement</p>
+                <p class="sv-section-tagline">Volume, contour, and definition — restored with a sculptor's discretion.</p>
             </div>
         </div>
-        <div class="sv-cards-grid sv-grid-1">
-            <div class="sv-card">
+        <div class="sv-grid sv-grid-1">
+            <article class="sv-card" data-reveal>
                 <div class="sv-card-top">
                     <h3 class="sv-card-name">Dermal Fillers</h3>
                     <p class="sv-card-desc">Restore facial volume, enhance lips, define cheeks, smooth nasolabial folds, and contour jawlines with premium hyaluronic acid fillers including Juvederm and Restylane.</p>
-                    <div class="sv-card-details">
-                        <span class="sv-detail"><i class="ri-time-line"></i> 45 min</span>
-                        <span class="sv-detail"><i class="ri-flashlight-line"></i> Results: Immediate</span>
-                        <span class="sv-detail"><i class="ri-repeat-line"></i> Lasts 6–18 months</span>
-                    </div>
+                    <div class="sv-card-meta"><span><i class="ri-time-line"></i> 45 min</span><span><i class="ri-flashlight-line"></i> Results: Immediate</span><span><i class="ri-repeat-line"></i> Lasts 6–18 months</span></div>
                 </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$800<small>/syringe</small></span></div>
+                <div class="sv-card-foot">
+                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$800<small>/syringe</small></span></div>
                     <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
                 </div>
-            </div>
+            </article>
         </div>
-        <div class="sv-care-toggle">
+        <div class="sv-care" data-reveal>
             <button class="sv-care-trigger" data-target="care-fillers"><i class="ri-first-aid-kit-line"></i><span>Pre &amp; Post Treatment Care</span><i class="ri-arrow-down-s-line sv-care-arrow"></i></button>
-            <div class="sv-care-content" id="care-fillers">
+            <div class="sv-care-body" id="care-fillers">
                 <div class="sv-care-grid">
-                    <div class="sv-care-col">
-                        <h4><i class="ri-arrow-right-circle-line"></i> Pre-Treatment</h4>
-                        <ul><li>Avoid alcohol 24 hours before</li><li>Discontinue blood thinners if medically safe</li><li>Arrive with clean skin</li><li>Avoid waxing or threading in treatment areas 48 hours prior</li></ul>
-                    </div>
-                    <div class="sv-care-col">
-                        <h4><i class="ri-arrow-left-circle-line"></i> Post-Treatment</h4>
-                        <ul><li>Avoid touching treated areas 4–6 hours</li><li>Apply ice if swelling occurs</li><li>No strenuous exercise for 24 hours</li><li>Results are immediate; final results in 2 weeks</li><li>Schedule follow-up as recommended</li></ul>
-                    </div>
+                    <div class="sv-care-col"><h4><i class="ri-arrow-right-circle-line"></i> Pre-Treatment</h4><ul><li>Avoid alcohol 24 hours before</li><li>Discontinue blood thinners if medically safe</li><li>Arrive with clean skin</li><li>Avoid waxing or threading in treatment areas 48 hours prior</li></ul></div>
+                    <div class="sv-care-col"><h4><i class="ri-arrow-left-circle-line"></i> Post-Treatment</h4><ul><li>Avoid touching treated areas 4–6 hours</li><li>Apply ice if swelling occurs</li><li>No strenuous exercise for 24 hours</li><li>Results are immediate; final results in 2 weeks</li><li>Schedule follow-up as recommended</li></ul></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ============================== -->
-<!-- 3. SKIN BOOSTERS (NEW) -->
-<!-- ============================== -->
-<section class="sv-section" id="sv-skin-boosters" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">03</div>
-            <div class="sv-section-info">
+<!-- 3 · SKIN BOOSTERS -->
+<section class="sv-section" id="sv-skin-boosters">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">03</span>
+            <div>
                 <h2 class="sv-section-title">Skin Boosters</h2>
-                <p class="sv-section-tagline">Restore skin quality, volume &amp; collagen with our curated collection of injectable treatments</p>
+                <p class="sv-section-tagline">Quality, collagen, and luminosity — a curated collection for skin that looks well, not done.</p>
             </div>
         </div>
-
-        <!-- Skin Booster Treatment Cards -->
-        <div class="sv-cards-grid sv-grid-3">
-            <div class="sv-card">
-                <div class="sv-card-badge">Hydration</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Profhilo</h3>
-                    <p class="sv-card-desc">A skin-hydrating injectable (not a traditional filler) that deeply hydrates skin and improves firmness and elasticity for a healthier, more radiant complexion.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-drop-line"></i> Hydrating Injectable</span><span class="sv-detail"><i class="ri-flashlight-line"></i> Radiant &amp; Firm Skin</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Per session</span><span class="sv-price-amount">$700</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-            <div class="sv-card">
-                <div class="sv-card-badge">Lift + Collagen</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Radiesse</h3>
-                    <p class="sv-card-desc">A filler that also stimulates collagen — adds immediate lift while helping your body build new collagen for more definition and firmness that improves over time.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-arrow-up-circle-line"></i> Immediate Lift</span><span class="sv-detail"><i class="ri-leaf-line"></i> Collagen Stimulation</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$850</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-            <div class="sv-card">
-                <div class="sv-card-badge">Volume</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Sculptra</h3>
-                    <p class="sv-card-desc">A collagen-stimulating injectable that gradually restores volume by encouraging your body to make collagen. Subtle, natural fullness that improves over months.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-time-line"></i> Gradual Results</span><span class="sv-detail"><i class="ri-heart-pulse-line"></i> Natural Fullness</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$900</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-            <div class="sv-card">
-                <div class="sv-card-badge">Glow</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Skinvive</h3>
-                    <p class="sv-card-desc">A skin booster made with hyaluronic acid that improves skin smoothness, hydration, and glow — fresher, smoother skin without added volume.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-sun-line"></i> Glow &amp; Hydration</span><span class="sv-detail"><i class="ri-checkbox-circle-line"></i> No Volume Added</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$600</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-            <div class="sv-card">
-                <div class="sv-card-badge">Targeted</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Mesotherapy</h3>
-                    <p class="sv-card-desc">Targeted micro-injection therapy delivering vitamins, enzymes, and plant extracts directly into the skin for rejuvenation, hydration, and tightening.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-time-line"></i> 45 min</span><span class="sv-detail"><i class="ri-calendar-check-line"></i> Results: 2–3 weeks</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Per area</span><span class="sv-price-amount">$400</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
+        <div class="sv-grid sv-grid-3">
+            <article class="sv-card" data-reveal>
+                <span class="sv-card-badge">Hydration</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">Profhilo</h3><p class="sv-card-desc">A skin-hydrating injectable (not a traditional filler) that deeply hydrates skin and improves firmness and elasticity for a healthier, more radiant complexion.</p><div class="sv-card-meta"><span><i class="ri-drop-line"></i> Hydrating Injectable</span><span><i class="ri-flashlight-line"></i> Radiant &amp; Firm</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Per session</span><span class="sv-price-amt">$700</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
+            <article class="sv-card" data-reveal>
+                <span class="sv-card-badge">Lift + Collagen</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">Radiesse</h3><p class="sv-card-desc">A filler that also stimulates collagen — adds immediate lift while helping your body build new collagen for more definition and firmness that improves over time.</p><div class="sv-card-meta"><span><i class="ri-arrow-up-circle-line"></i> Immediate Lift</span><span><i class="ri-leaf-line"></i> Collagen Stimulation</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$850</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
+            <article class="sv-card" data-reveal>
+                <span class="sv-card-badge">Volume</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">Sculptra</h3><p class="sv-card-desc">A collagen-stimulating injectable that gradually restores volume by encouraging your body to make collagen. Subtle, natural fullness that improves over months.</p><div class="sv-card-meta"><span><i class="ri-time-line"></i> Gradual Results</span><span><i class="ri-heart-pulse-line"></i> Natural Fullness</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$900</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
+            <article class="sv-card" data-reveal>
+                <span class="sv-card-badge">Glow</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">Skinvive</h3><p class="sv-card-desc">A skin booster made with hyaluronic acid that improves skin smoothness, hydration, and glow — fresher, smoother skin without added volume.</p><div class="sv-card-meta"><span><i class="ri-sun-line"></i> Glow &amp; Hydration</span><span><i class="ri-checkbox-circle-line"></i> No Volume Added</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$600</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
+            <article class="sv-card" data-reveal>
+                <span class="sv-card-badge">Targeted</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">Mesotherapy</h3><p class="sv-card-desc">Targeted micro-injection therapy delivering vitamins, enzymes, and plant extracts directly into the skin for rejuvenation, hydration, and tightening.</p><div class="sv-card-meta"><span><i class="ri-time-line"></i> 45 min</span><span><i class="ri-calendar-check-line"></i> Results: 2–3 weeks</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Per area</span><span class="sv-price-amt">$400</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
         </div>
 
-        <!-- Comparison Table -->
-        <div class="sv-comparison-block" data-aos="fade-up">
-            <h3 class="sv-comparison-title"><i class="ri-bar-chart-horizontal-line"></i> Quick Comparison</h3>
+        <div class="sv-compare-block" data-reveal>
+            <h3 class="sv-compare-title"><i class="ri-bar-chart-horizontal-line"></i> Quick Comparison</h3>
             <div class="sv-table-wrap">
-                <table class="sv-comparison-table">
+                <table class="sv-table">
                     <thead><tr><th>Treatment</th><th>What It Is</th><th>What It Does</th><th>Results</th><th>Price</th></tr></thead>
                     <tbody>
                         <tr><td><strong>Profhilo</strong></td><td>Skin-hydrating injectable (not a filler)</td><td>Deeply hydrates, improves firmness &amp; elasticity</td><td>Healthier, smoother, more radiant skin</td><td>$700/session</td></tr>
@@ -404,143 +349,77 @@
             </div>
         </div>
 
-        <!-- Age Guide -->
-        <div class="sv-age-guide" data-aos="fade-up">
-            <h3 class="sv-age-guide-title"><i class="ri-user-smile-line"></i> Who These Treatments Are Best For</h3>
+        <div class="sv-age" data-reveal>
+            <h3 class="sv-age-title"><i class="ri-user-smile-line"></i> Who These Treatments Are Best For</h3>
             <div class="sv-age-grid">
-                <div class="sv-age-card">
-                    <div class="sv-age-range">20s – Early 30s</div>
-                    <ul><li>Early prevention and skin hydration</li><li>Dull or tired-looking skin</li><li>Fine texture changes without volume loss</li></ul>
-                    <div class="sv-age-rec"><i class="ri-star-line"></i> Best options: <strong>Skinvive</strong> or <strong>Profhilo</strong></div>
-                </div>
-                <div class="sv-age-card">
-                    <div class="sv-age-range">Mid-30s to 40s</div>
-                    <ul><li>Early signs of volume loss</li><li>Loss of firmness or elasticity</li><li>Mild sagging in cheeks or jawline</li></ul>
-                    <div class="sv-age-rec"><i class="ri-star-line"></i> Best: <strong>Radiesse</strong> (structure), <strong>Skinvive</strong> (quality)</div>
-                </div>
-                <div class="sv-age-card">
-                    <div class="sv-age-range">Late 40s to 50s</div>
-                    <ul><li>Noticeable volume loss</li><li>Hollowing in cheeks or temples</li><li>Skin laxity and collagen decline</li></ul>
-                    <div class="sv-age-rec"><i class="ri-star-line"></i> Best: <strong>Sculptra</strong> (volume), <strong>Radiesse</strong> (lift)</div>
-                </div>
-                <div class="sv-age-card">
-                    <div class="sv-age-range">60s &amp; Beyond</div>
-                    <ul><li>Significant collagen loss</li><li>Facial thinning and sagging</li><li>Desire for natural-looking rejuvenation</li></ul>
-                    <div class="sv-age-rec"><i class="ri-star-line"></i> Best: <strong>Sculptra + Radiesse</strong> combo with skin boosters</div>
-                </div>
+                <div class="sv-age-card"><div class="sv-age-range">20s – Early 30s</div><ul><li>Early prevention and skin hydration</li><li>Dull or tired-looking skin</li><li>Fine texture changes without volume loss</li></ul><div class="sv-age-rec"><i class="ri-star-line"></i> Best: <strong>Skinvive</strong> or <strong>Profhilo</strong></div></div>
+                <div class="sv-age-card"><div class="sv-age-range">Mid-30s to 40s</div><ul><li>Early signs of volume loss</li><li>Loss of firmness or elasticity</li><li>Mild sagging in cheeks or jawline</li></ul><div class="sv-age-rec"><i class="ri-star-line"></i> Best: <strong>Radiesse</strong> + <strong>Skinvive</strong></div></div>
+                <div class="sv-age-card"><div class="sv-age-range">Late 40s to 50s</div><ul><li>Noticeable volume loss</li><li>Hollowing in cheeks or temples</li><li>Skin laxity and collagen decline</li></ul><div class="sv-age-rec"><i class="ri-star-line"></i> Best: <strong>Sculptra</strong> + <strong>Radiesse</strong></div></div>
+                <div class="sv-age-card"><div class="sv-age-range">60s &amp; Beyond</div><ul><li>Significant collagen loss</li><li>Facial thinning and sagging</li><li>Desire for natural-looking rejuvenation</li></ul><div class="sv-age-rec"><i class="ri-star-line"></i> Best: <strong>Sculptra + Radiesse</strong> with boosters</div></div>
             </div>
-            <div class="sv-choose-box">
+            <div class="sv-choose">
                 <h4><i class="ri-lightbulb-line"></i> How to Choose What's Right for You</h4>
                 <ul>
-                    <li>If your main goal is glow, hydration, and smoother skin: choose <strong>Skinvive</strong> or <strong>Profhilo</strong>.</li>
-                    <li>If you want immediate lift and definition: <strong>Radiesse</strong> may be best.</li>
-                    <li>If you prefer gradual, long-lasting results that improve over time: <strong>Sculptra</strong> is ideal.</li>
+                    <li>For glow, hydration, and smoother skin: <strong>Skinvive</strong> or <strong>Profhilo</strong>.</li>
+                    <li>For immediate lift and definition: <strong>Radiesse</strong>.</li>
+                    <li>For gradual, long-lasting results that improve over time: <strong>Sculptra</strong>.</li>
                     <li>Many patients benefit most from a <strong>personalized combination plan</strong>.</li>
                 </ul>
-                <p class="sv-choose-cta">Consult with Dr. Nano to determine the safest and most effective treatment plan for your face.</p>
-                <a href="contact.html" class="sv-inline-cta">Start Your Journey <i class="ri-arrow-right-line"></i></a>
+                <p class="sv-choose-note">Consult with Dr. Nano to determine the safest, most effective plan for your face.</p>
+                <a href="contact.html" class="sv-inline-cta">Begin Your Plan <i class="ri-arrow-right-line"></i></a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ============================== -->
-<!-- 4. HYPERHIDROSIS (NEW) -->
-<!-- ============================== -->
-<section class="sv-section sv-section-alt" id="sv-hyperhidrosis" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">04</div>
-            <div class="sv-section-info">
-                <h2 class="sv-section-title">Hyperhidrosis Treatment</h2>
-                <p class="sv-section-tagline">Specialized excessive sweating treatment for underarms, hands &amp; scalp</p>
-            </div>
+<!-- 4 · HYPERHIDROSIS -->
+<section class="sv-section sv-alt" id="sv-hyperhidrosis">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">04</span>
+            <div><h2 class="sv-section-title">Hyperhidrosis Treatment</h2><p class="sv-section-tagline">Relief from excessive sweating — for underarms, hands, and scalp.</p></div>
         </div>
-        <div class="sv-cards-grid sv-grid-1">
-            <div class="sv-card">
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Hyperhidrosis (Excessive Sweating)</h3>
-                    <p class="sv-card-desc">Medical-grade treatment targeting overactive sweat glands in the underarms, hands, and head/scalp areas. Using neurotoxin injections to block nerve signals that trigger sweating, providing months of relief.</p>
-                    <div class="sv-card-details">
-                        <span class="sv-detail"><i class="ri-body-scan-line"></i> Underarms, Hands, Scalp</span>
-                        <span class="sv-detail"><i class="ri-time-line"></i> 30–60 min</span>
-                        <span class="sv-detail"><i class="ri-repeat-line"></i> Lasts 4–12 months</span>
-                    </div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Price range</span><span class="sv-price-amount">$1,000 – $2,500</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
+        <div class="sv-grid sv-grid-1">
+            <article class="sv-card" data-reveal>
+                <div class="sv-card-top"><h3 class="sv-card-name">Hyperhidrosis (Excessive Sweating)</h3><p class="sv-card-desc">Medical-grade treatment targeting overactive sweat glands in the underarms, hands, and head/scalp areas. Using neurotoxin injections to block nerve signals that trigger sweating, providing months of relief.</p><div class="sv-card-meta"><span><i class="ri-body-scan-line"></i> Underarms, Hands, Scalp</span><span><i class="ri-time-line"></i> 30–60 min</span><span><i class="ri-repeat-line"></i> Lasts 4–12 months</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Price range</span><span class="sv-price-amt">$1,000 – $2,500</span></div><a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
         </div>
     </div>
 </section>
 
-<!-- ============================== -->
-<!-- 5. MICRONEEDLING (UPDATED) -->
-<!-- ============================== -->
-<section class="sv-section" id="sv-microneedling" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">05</div>
-            <div class="sv-section-info">
-                <h2 class="sv-section-title">Microneedling</h2>
-                <p class="sv-section-tagline">FDA-approved SkinPen collagen induction with optional exosome &amp; salmon DNA enhancement</p>
-            </div>
+<!-- 5 · MICRONEEDLING -->
+<section class="sv-section" id="sv-microneedling">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">05</span>
+            <div><h2 class="sv-section-title">Microneedling</h2><p class="sv-section-tagline">FDA-approved SkinPen collagen induction — with optional exosome &amp; salmon-DNA enhancement.</p></div>
         </div>
-        <div class="sv-cards-grid sv-grid-2">
-            <div class="sv-card">
-                <div class="sv-card-badge">Core</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Microneedling with SkinPen</h3>
-                    <p class="sv-card-desc">FDA-approved collagen induction therapy for wrinkles, acne scars, pores, and skin texture. Stimulates natural collagen and elastin production.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-time-line"></i> 60–90 min</span><span class="sv-detail"><i class="ri-calendar-check-line"></i> Results: 2–4 weeks</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$700<small>/area</small></span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-            <div class="sv-card sv-card-featured">
-                <div class="sv-card-badge">Best Value</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">3-Session Bundle</h3>
-                    <p class="sv-card-desc">For optimal results, bundle 3 microneedling sessions completed 4–6 weeks apart. Save $100 versus individual sessions.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-vip-crown-line"></i> Save $100</span><span class="sv-detail"><i class="ri-calendar-line"></i> 4–6 weeks apart</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Bundle of 3</span><span class="sv-price-amount">$2,000</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-            <div class="sv-card">
-                <div class="sv-card-badge">Enhanced</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Microneedling with Exosomes</h3>
-                    <p class="sv-card-desc">SkinPen microneedling enhanced with cutting-edge exosome therapy for superior cellular regeneration and amplified skin rejuvenation results.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-flask-line"></i> Exosome Enhanced</span><span class="sv-detail"><i class="ri-flashlight-line"></i> Superior Results</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$800</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-            <div class="sv-card">
-                <div class="sv-card-badge">Regenerative</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Microneedling with Salmon DNA</h3>
-                    <p class="sv-card-desc">SkinPen microneedling combined with innovative salmon-derived PDRN polynucleotide therapy for cellular repair, regeneration, and enhanced skin texture.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-dna-line"></i> DNA Repair</span><span class="sv-detail"><i class="ri-leaf-line"></i> Regenerative</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$800</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
+        <div class="sv-grid sv-grid-2">
+            <article class="sv-card" data-reveal>
+                <span class="sv-card-badge">Core</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">Microneedling with SkinPen</h3><p class="sv-card-desc">FDA-approved collagen induction therapy for wrinkles, acne scars, pores, and skin texture. Stimulates natural collagen and elastin production.</p><div class="sv-card-meta"><span><i class="ri-time-line"></i> 60–90 min</span><span><i class="ri-calendar-check-line"></i> Results: 2–4 weeks</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$700<small>/area</small></span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
+            <article class="sv-card sv-featured" data-reveal>
+                <span class="sv-card-badge">Best Value</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">3-Session Bundle</h3><p class="sv-card-desc">For optimal results, bundle 3 microneedling sessions completed 4–6 weeks apart. Save $100 versus individual sessions.</p><div class="sv-card-meta"><span><i class="ri-vip-crown-line"></i> Save $100</span><span><i class="ri-calendar-line"></i> 4–6 weeks apart</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Bundle of 3</span><span class="sv-price-amt">$2,000</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
+            <article class="sv-card" data-reveal>
+                <span class="sv-card-badge">Enhanced</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">Microneedling with Exosomes</h3><p class="sv-card-desc">SkinPen microneedling enhanced with cutting-edge exosome therapy for superior cellular regeneration and amplified skin rejuvenation results.</p><div class="sv-card-meta"><span><i class="ri-flask-line"></i> Exosome Enhanced</span><span><i class="ri-flashlight-line"></i> Superior Results</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$800</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
+            <article class="sv-card" data-reveal>
+                <span class="sv-card-badge">Regenerative</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">Microneedling with Salmon DNA</h3><p class="sv-card-desc">SkinPen microneedling combined with innovative salmon-derived PDRN polynucleotide therapy for cellular repair, regeneration, and enhanced skin texture.</p><div class="sv-card-meta"><span><i class="ri-dna-line"></i> DNA Repair</span><span><i class="ri-leaf-line"></i> Regenerative</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$800</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
         </div>
-        <div class="sv-care-toggle">
+        <div class="sv-care" data-reveal>
             <button class="sv-care-trigger" data-target="care-microneedling"><i class="ri-first-aid-kit-line"></i><span>Pre &amp; Post Treatment Care</span><i class="ri-arrow-down-s-line sv-care-arrow"></i></button>
-            <div class="sv-care-content" id="care-microneedling">
+            <div class="sv-care-body" id="care-microneedling">
                 <div class="sv-care-grid">
                     <div class="sv-care-col"><h4><i class="ri-arrow-right-circle-line"></i> Pre-Treatment</h4><ul><li>Avoid retinoids and strong acids 5–7 days prior</li><li>No sun exposure or tanning 48 hours before</li><li>Discontinue AHA, BHA, glycolic acids for 1 week</li><li>Arrive with clean, product-free skin</li><li>Avoid waxing or aggressive exfoliation 1 week</li><li>Stay well-hydrated; maintain healthy skin barrier</li></ul></div>
                     <div class="sv-care-col"><h4><i class="ri-arrow-left-circle-line"></i> Post-Treatment</h4><ul><li>Gentle cleansing only for 72 hours</li><li>SPF 30+ daily for 2 weeks minimum</li><li>Avoid makeup for 24 hours</li><li>Healing complete in 3–5 days</li><li>Avoid retinoids/acids 1 week post-treatment</li><li>No swimming, saunas, or sweating 48 hours</li><li>Follow-up treatments 4–6 weeks apart</li></ul></div>
@@ -550,34 +429,22 @@
     </div>
 </section>
 
-<!-- ============================== -->
-<!-- 6. PRP THERAPY (UPDATED) -->
-<!-- ============================== -->
-<section class="sv-section sv-section-alt" id="sv-prp" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">06</div>
-            <div class="sv-section-info">
-                <h2 class="sv-section-title">PRP Therapy</h2>
-                <p class="sv-section-tagline">Natural regenerative medicine using your body's own healing factors</p>
-            </div>
+<!-- 6 · PRP -->
+<section class="sv-section sv-alt" id="sv-prp">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">06</span>
+            <div><h2 class="sv-section-title">PRP Therapy</h2><p class="sv-section-tagline">Regenerative medicine, drawn from your own biology — healing, redirected.</p></div>
         </div>
-        <div class="sv-cards-grid sv-grid-1">
-            <div class="sv-card">
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">PRP (Platelet-Rich Plasma)</h3>
-                    <p class="sv-card-desc">Natural regenerative therapy that concentrates your own blood platelets and reinjects them to stimulate collagen production, tissue repair, and skin rejuvenation. Treats fine lines, acne scars, and skin laxity.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-time-line"></i> 90 min</span><span class="sv-detail"><i class="ri-calendar-check-line"></i> Results: 2–4 weeks</span><span class="sv-detail"><i class="ri-heart-pulse-line"></i> Natural Healing</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$800</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
+        <div class="sv-grid sv-grid-1">
+            <article class="sv-card" data-reveal>
+                <div class="sv-card-top"><h3 class="sv-card-name">PRP (Platelet-Rich Plasma)</h3><p class="sv-card-desc">Natural regenerative therapy that concentrates your own blood platelets and reinjects them to stimulate collagen production, tissue repair, and skin rejuvenation. Treats fine lines, acne scars, and skin laxity.</p><div class="sv-card-meta"><span><i class="ri-time-line"></i> 90 min</span><span><i class="ri-calendar-check-line"></i> Results: 2–4 weeks</span><span><i class="ri-heart-pulse-line"></i> Natural Healing</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$800</span></div><a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
         </div>
-        <div class="sv-care-toggle">
+        <div class="sv-care" data-reveal>
             <button class="sv-care-trigger" data-target="care-prp"><i class="ri-first-aid-kit-line"></i><span>Pre &amp; Post Treatment Care</span><i class="ri-arrow-down-s-line sv-care-arrow"></i></button>
-            <div class="sv-care-content" id="care-prp">
+            <div class="sv-care-body" id="care-prp">
                 <div class="sv-care-grid">
                     <div class="sv-care-col"><h4><i class="ri-arrow-right-circle-line"></i> Pre-Treatment</h4><ul><li>Avoid anti-inflammatory meds 1 week prior</li><li>Stay well-hydrated</li><li>Maintain healthy diet rich in antioxidants</li><li>Avoid alcohol 48 hours prior</li><li>Get adequate sleep before treatment day</li></ul></div>
                     <div class="sv-care-col"><h4><i class="ri-arrow-left-circle-line"></i> Post-Treatment</h4><ul><li>Avoid sun exposure 48 hours minimum</li><li>Gentle skincare routine for 1 week</li><li>No intense exercise 24 hours</li><li>Apply SPF 30+ daily</li><li>Stay hydrated to support healing</li></ul></div>
@@ -587,46 +454,27 @@
     </div>
 </section>
 
-<!-- ============================== -->
-<!-- 7. CHEMICAL PEELS (UPDATED) -->
-<!-- ============================== -->
-<section class="sv-section" id="sv-peels" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">07</div>
-            <div class="sv-section-info">
-                <h2 class="sv-section-title">Chemical Peels</h2>
-                <p class="sv-section-tagline">Professional skin resurfacing for texture, tone &amp; radiant complexion</p>
-            </div>
+<!-- 7 · PEELS -->
+<section class="sv-section" id="sv-peels">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">07</span>
+            <div><h2 class="sv-section-title">Chemical Peels</h2><p class="sv-section-tagline">Resurfacing for texture, tone, and clarity — radiance, revealed.</p></div>
         </div>
-        <div class="sv-cards-grid sv-grid-2">
-            <div class="sv-card">
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Chemical Peel — Single</h3>
-                    <p class="sv-card-desc">Professional-grade skin resurfacing treatment that removes dead cells, improves texture, reduces hyperpigmentation, and reveals a brighter, more even complexion.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-time-line"></i> 60 min</span><span class="sv-detail"><i class="ri-calendar-check-line"></i> Results: 1–2 weeks</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Single session</span><span class="sv-price-amount">$350</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-            <div class="sv-card sv-card-featured">
-                <div class="sv-card-badge">Save $150</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Chemical Peel — Package of 3</h3>
-                    <p class="sv-card-desc">Three-peel series for optimal, cumulative results. Save $150 versus purchasing individually. Spaced 4–6 weeks apart for maximum skin renewal.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-vip-crown-line"></i> Save $150</span><span class="sv-detail"><i class="ri-calendar-line"></i> 4–6 weeks apart</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Package of 3</span><span class="sv-price-amount">$900</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
+        <div class="sv-grid sv-grid-2">
+            <article class="sv-card" data-reveal>
+                <div class="sv-card-top"><h3 class="sv-card-name">Chemical Peel — Single</h3><p class="sv-card-desc">Professional-grade skin resurfacing treatment that removes dead cells, improves texture, reduces hyperpigmentation, and reveals a brighter, more even complexion.</p><div class="sv-card-meta"><span><i class="ri-time-line"></i> 60 min</span><span><i class="ri-calendar-check-line"></i> Results: 1–2 weeks</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Single session</span><span class="sv-price-amt">$350</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
+            <article class="sv-card sv-featured" data-reveal>
+                <span class="sv-card-badge">Save $150</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">Chemical Peel — Package of 3</h3><p class="sv-card-desc">Three-peel series for optimal, cumulative results. Save $150 versus purchasing individually. Spaced 4–6 weeks apart for maximum skin renewal.</p><div class="sv-card-meta"><span><i class="ri-vip-crown-line"></i> Save $150</span><span><i class="ri-calendar-line"></i> 4–6 weeks apart</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Package of 3</span><span class="sv-price-amt">$900</span></div><a href="contact.html" class="sv-card-cta">Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
         </div>
-        <div class="sv-care-toggle">
+        <div class="sv-care" data-reveal>
             <button class="sv-care-trigger" data-target="care-peels"><i class="ri-first-aid-kit-line"></i><span>Pre &amp; Post Treatment Care</span><i class="ri-arrow-down-s-line sv-care-arrow"></i></button>
-            <div class="sv-care-content" id="care-peels">
+            <div class="sv-care-body" id="care-peels">
                 <div class="sv-care-grid">
                     <div class="sv-care-col"><h4><i class="ri-arrow-right-circle-line"></i> Pre-Treatment</h4><ul><li>Avoid retinoids and acids 7 days prior</li><li>No waxing or exfoliation 5 days before</li><li>Sun avoidance 2 weeks before</li><li>Arrive with clean, product-free skin</li></ul></div>
                     <div class="sv-care-col"><h4><i class="ri-arrow-left-circle-line"></i> Post-Treatment</h4><ul><li>Gentle cleansing with fragrance-free products</li><li>SPF 50+ for 2 weeks minimum</li><li>No picking peeling skin</li><li>Peeling occurs 3–7 days post</li><li>Schedule follow-ups 4–6 weeks apart</li></ul></div>
@@ -636,148 +484,135 @@
     </div>
 </section>
 
-<!-- ============================== -->
-<!-- 8. WEIGHT MANAGEMENT -->
-<!-- ============================== -->
-<section class="sv-section sv-section-alt" id="sv-weight" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">08</div>
-            <div class="sv-section-info">
-                <h2 class="sv-section-title">Weight Management</h2>
-                <p class="sv-section-tagline">Comprehensive medically supervised weight loss with personalized programs</p>
-            </div>
+<!-- 8 · WEIGHT -->
+<section class="sv-section sv-alt" id="sv-weight">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">08</span>
+            <div><h2 class="sv-section-title">Weight Management</h2><p class="sv-section-tagline">Medically supervised, deeply personal — a program built around your body, not a protocol.</p></div>
         </div>
-        <div class="sv-cards-grid sv-grid-1">
-            <div class="sv-card">
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Medical Weight Management Program</h3>
-                    <p class="sv-card-desc">Personalized, medically supervised program including medical evaluation, nutrition planning, exercise guidance, regular monitoring, and ongoing support. Includes semaglutide and tirzepatide options.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-shield-check-line"></i> Medical Supervision</span><span class="sv-detail"><i class="ri-user-settings-line"></i> Personalized Plans</span><span class="sv-detail"><i class="ri-heart-pulse-line"></i> Ongoing Support</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Exclusive</span><span class="sv-price-amount">Inquire Within</span></div>
-                    <a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
+        <div class="sv-grid sv-grid-1">
+            <article class="sv-card" data-reveal>
+                <div class="sv-card-top"><h3 class="sv-card-name">Medical Weight Management Program</h3><p class="sv-card-desc">Personalized, medically supervised program including medical evaluation, nutrition planning, exercise guidance, regular monitoring, and ongoing support. Includes semaglutide and tirzepatide options.</p><div class="sv-card-meta"><span><i class="ri-shield-check-line"></i> Medical Supervision</span><span><i class="ri-user-settings-line"></i> Personalized Plans</span><span><i class="ri-heart-pulse-line"></i> Ongoing Support</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Exclusive</span><span class="sv-price-amt">Inquire Within</span></div><a href="contact.html" class="sv-card-cta">Request a Consult <i class="ri-arrow-right-line"></i></a></div>
+            </article>
         </div>
     </div>
 </section>
 
-<!-- ============================== -->
-<!-- 9. IV DRIP THERAPY (RENAMED) -->
-<!-- ============================== -->
-<section class="sv-section" id="sv-iv-drip" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">09</div>
-            <div class="sv-section-info">
-                <h2 class="sv-section-title">IV Drip Therapy</h2>
-                <p class="sv-section-tagline">Premium intravenous vitamin, mineral &amp; hydration therapy for optimal wellness</p>
-            </div>
+<!-- 9 · IV DRIP -->
+<section class="sv-section" id="sv-iv-drip">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">09</span>
+            <div><h2 class="sv-section-title">IV Drip Therapy</h2><p class="sv-section-tagline">Vitamins, minerals, and hydration — wellness, delivered at the cellular level.</p></div>
         </div>
-        <div class="sv-cards-grid sv-grid-2">
-            <div class="sv-card">
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">IV Drip Therapy</h3>
-                    <p class="sv-card-desc">Custom vitamin and mineral infusions delivered directly into your bloodstream for maximum absorption. Options include hydration, energy, immunity, detox, and beauty formulas.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-time-line"></i> 45–60 min</span><span class="sv-detail"><i class="ri-flashlight-line"></i> Results: Immediate</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$350</span></div>
-                    <a href="contact.html" class="sv-card-cta">Start Your Journey <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
-            <div class="sv-card">
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">Vitamin Injections</h3>
-                    <p class="sv-card-desc">Quick, targeted vitamin supplementation injections including B12, Vitamin D, biotin, and custom blends for energy, immunity, and wellness support.</p>
-                    <div class="sv-card-details"><span class="sv-detail"><i class="ri-time-line"></i> 15 min</span><span class="sv-detail"><i class="ri-flashlight-line"></i> Results: Immediate</span></div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Per injection</span><span class="sv-price-amount">$50</span></div>
-                    <a href="contact.html" class="sv-card-cta">Start Your Journey <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
+        <div class="sv-grid sv-grid-2">
+            <article class="sv-card" data-reveal>
+                <div class="sv-card-top"><h3 class="sv-card-name">IV Drip Therapy</h3><p class="sv-card-desc">Custom vitamin and mineral infusions delivered directly into your bloodstream for maximum absorption. Options include hydration, energy, immunity, detox, and beauty formulas.</p><div class="sv-card-meta"><span><i class="ri-time-line"></i> 45–60 min</span><span><i class="ri-flashlight-line"></i> Results: Immediate</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$350</span></div><a href="contact.html" class="sv-card-cta">Begin <i class="ri-arrow-right-line"></i></a></div>
+            </article>
+            <article class="sv-card" data-reveal>
+                <div class="sv-card-top"><h3 class="sv-card-name">Vitamin Injections</h3><p class="sv-card-desc">Quick, targeted vitamin supplementation injections including B12, Vitamin D, biotin, and custom blends for energy, immunity, and wellness support.</p><div class="sv-card-meta"><span><i class="ri-time-line"></i> 15 min</span><span><i class="ri-flashlight-line"></i> Results: Immediate</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Per injection</span><span class="sv-price-amt">$50</span></div><a href="contact.html" class="sv-card-cta">Begin <i class="ri-arrow-right-line"></i></a></div>
+            </article>
         </div>
     </div>
 </section>
 
-<!-- ============================== -->
-<!-- 10. NAD+ DRIP THERAPY (NEW) -->
-<!-- ============================== -->
-<section class="sv-section sv-section-alt" id="sv-nad" data-aos="fade-up">
-    <div class="container">
-        <div class="sv-section-head">
-            <div class="sv-section-number">10</div>
-            <div class="sv-section-info">
-                <h2 class="sv-section-title">NAD+ Drip Therapy</h2>
-                <p class="sv-section-tagline">Advanced cellular regeneration &amp; anti-aging infusion therapy</p>
-            </div>
+<!-- 10 · NAD+ -->
+<section class="sv-section sv-alt" id="sv-nad">
+    <div class="ev-wrap">
+        <div class="sv-section-head" data-reveal>
+            <span class="sv-section-no">10</span>
+            <div><h2 class="sv-section-title">NAD+ Drip Therapy</h2><p class="sv-section-tagline">Our signature infusion — anti-aging at the deepest cellular level.</p></div>
         </div>
-        <div class="sv-cards-grid sv-grid-1">
-            <div class="sv-card sv-card-featured">
-                <div class="sv-card-badge">Signature</div>
-                <div class="sv-card-top">
-                    <h3 class="sv-card-name">NAD+ Drip Therapy</h3>
-                    <p class="sv-card-desc">Our signature anti-aging infusion. NAD+ (Nicotinamide Adenine Dinucleotide) supports cellular energy production, DNA repair, cognitive function, metabolism, and overall vitality at the deepest cellular level.</p>
-                    <div class="sv-card-details">
-                        <span class="sv-detail"><i class="ri-time-line"></i> 2–3 hours</span>
-                        <span class="sv-detail"><i class="ri-calendar-check-line"></i> Progressive results</span>
-                        <span class="sv-detail"><i class="ri-dna-line"></i> Cellular level</span>
-                    </div>
-                </div>
-                <div class="sv-card-bottom">
-                    <div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amount">$600</span></div>
-                    <a href="contact.html" class="sv-card-cta">Start Your Journey <i class="ri-arrow-right-line"></i></a>
-                </div>
-            </div>
+        <div class="sv-grid sv-grid-1">
+            <article class="sv-card sv-featured" data-reveal>
+                <span class="sv-card-badge">Signature</span>
+                <div class="sv-card-top"><h3 class="sv-card-name">NAD+ Drip Therapy</h3><p class="sv-card-desc">Our signature anti-aging infusion. NAD+ (Nicotinamide Adenine Dinucleotide) supports cellular energy production, DNA repair, cognitive function, metabolism, and overall vitality at the deepest cellular level.</p><div class="sv-card-meta"><span><i class="ri-time-line"></i> 2–3 hours</span><span><i class="ri-calendar-check-line"></i> Progressive results</span><span><i class="ri-dna-line"></i> Cellular level</span></div></div>
+                <div class="sv-card-foot"><div class="sv-price"><span class="sv-price-from">Starting from</span><span class="sv-price-amt">$600</span></div><a href="contact.html" class="sv-card-cta">Begin <i class="ri-arrow-right-line"></i></a></div>
+            </article>
         </div>
     </div>
 </section>
 
 <!-- FINAL CTA -->
-<section class="sv-final-cta" id="sv-cta">
-    <div class="container">
-        <div class="sv-cta-card" data-aos="fade-up">
-            <div class="sv-cta-badge"><i class="ri-calendar-check-line"></i><span>Ready to Begin?</span></div>
-            <h2 class="sv-cta-title"><span class="sv-title-line">Start Your</span><span class="sv-title-accent">Journey Today</span></h2>
-            <p class="sv-cta-desc">Begin with a personalized consultation. <strong>Dr. Evia A Nano, MD</strong> will create a customized treatment plan for your unique goals.</p>
-            <div class="sv-cta-highlight"><i class="ri-information-line"></i><span><strong>$200</strong> consultation fee credited toward your first treatment</span></div>
-            <div class="sv-cta-actions">
-                <a href="tel:+12016394983" class="sv-btn-primary"><i class="ri-phone-line"></i><span>Call (201) 639-4983</span></a>
-                <a href="contact.html" class="sv-btn-secondary"><i class="ri-mail-line"></i><span>Get in Touch</span></a>
+<section class="sv-final" id="sv-cta">
+    <div class="ev-wrap">
+        <div class="sv-final-card" data-reveal>
+            <span class="ev-eyebrow ev-center"><span class="ev-eyebrow-rule"></span>Ready to Begin<span class="ev-eyebrow-rule"></span></span>
+            <h2 class="ev-h2 ev-center">Your journey starts with <em>one conversation.</em></h2>
+            <p class="sv-final-desc">Begin with a private consultation. <strong>Dr. Evia A. Nano, MD</strong> designs each treatment plan around your face, your goals, and nothing else.</p>
+            <div class="sv-final-note"><i class="ri-information-line"></i><span><strong>$200</strong> consultation, credited in full toward your first treatment</span></div>
+            <div class="sv-final-actions">
+                <a href="tel:+12016394983" class="ev-btn-solid ev-magnetic"><i class="ri-phone-line"></i><span>Call (201) 639-4983</span></a>
+                <a href="contact.html" class="ev-btn-outline ev-magnetic"><span>Get in Touch</span><i class="ri-arrow-right-up-line"></i></a>
             </div>
-            <p class="sv-cta-address"><i class="ri-map-pin-2-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018 · By Appointment Only</p>
+            <p class="sv-final-addr"><i class="ri-map-pin-2-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018 · By Appointment Only</p>
         </div>
     </div>
 </section>
 
-<!-- Shared Footer -->
-<footer class="premium-footer">
-    <div class="footer-upper"><div class="container"><div class="footer-grid">
-        <div class="footer-brand-column"><div class="footer-logo-container"><img src="images/logo1.png" alt="Eviaesthetics Manhattan Medical Spa" class="footer-logo"></div><h3 class="brand-name">Eviaesthetics</h3><p class="brand-tagline">Manhattan's Premier Luxury Medical Spa</p><div class="footer-contact-info"><div class="contact-item"><i class="ri-phone-fill"></i><span>(201) 639-4983</span></div><div class="contact-item"><i class="ri-map-pin-fill"></i><span>65 W 36th St. 10th Floor, New York, NY 10018</span></div></div></div>
-        <div class="footer-links-column"><h4 class="footer-column-title">Quick Links</h4><ul class="footer-links-list"><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="about.html">About Dr. Nano</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-        <div class="footer-services-column"><h4 class="footer-column-title">Our Services</h4><ul class="footer-links-list"><li><a href="#sv-neurotoxin">Neurotoxin Injectables</a></li><li><a href="#sv-skin-boosters">Skin Boosters</a></li><li><a href="#sv-microneedling">Microneedling</a></li><li><a href="#sv-prp">PRP Therapy</a></li><li><a href="#sv-iv-drip">IV Drip Therapy</a></li><li><a href="#sv-nad">NAD+ Drip Therapy</a></li></ul></div>
-        <div class="footer-social-column"><h4 class="footer-column-title">Connect With Us</h4><div class="social-media-links"><a href="https://www.instagram.com/eviaesthetics/?hl=en" class="social-media-link" aria-label="Instagram"><i class="ri-instagram-line"></i></a><a href="https://www.facebook.com/p/Evia-Esthetics-100087730601716/" class="social-media-link" aria-label="Facebook"><i class="ri-facebook-line"></i></a></div></div>
-    </div></div></div>
-    <div class="trust-badges-section"><div class="container"><div class="trust-badges-wrapper">
-        <div class="trust-badge-group payment-methods"><h5 class="badge-group-title">Secure Payments</h5><div class="badge-icons"><div class="badge-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width="60"></div><div class="badge-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width="60"></div><div class="badge-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" width="60"></div></div></div>
-        <div class="trust-badge-group reviews"><h5 class="badge-group-title">Trusted By Clients</h5><div class="badge-icons"><div class="badge-icon rating"><div class="rating-stars"><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i></div><div class="rating-text">5.0 on Google</div></div></div></div>
-    </div></div></div>
-    <div class="footer-legal"><div class="container"><div class="legal-flex"><div class="legal-links"><a href="policies/privacy-policy.html">Privacy</a><a href="policies/terms-of-service.html">Terms</a></div><div class="copyright-text">&copy; 2026 Eviaesthetics. All rights reserved.</div></div></div></div>
-    <div class="design-credit"><div class="container"><a href="https://elanstechworld.com" class="designer-link" target="_blank" rel="noopener"><span>Designed by</span><div class="designer-logo"><img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="30"><span>Elan's Tech World</span></div></a></div></div>
+</main>
+
+<!-- ============================================ FOOTER (matches index) ============================================ -->
+<footer class="ev-footer">
+    <div class="ev-wrap">
+        <div class="ev-footer-grid">
+            <div class="ev-footer-brand">
+                <img src="images/logo1.png" alt="Eviaesthetics" class="ev-footer-logo" width="120" height="120">
+                <p class="ev-footer-tag">Manhattan's premier boutique medical spa.</p>
+                <div class="ev-footer-contact">
+                    <span><i class="ri-phone-fill"></i> (201) 639-4983</span>
+                    <span><i class="ri-map-pin-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018</span>
+                </div>
+            </div>
+            <div class="ev-footer-col">
+                <h4>Explore</h4>
+                <a href="index.html">Home</a><a href="services.html">Services</a><a href="about.html">About Dr. Nano</a><a href="contact.html">Book</a>
+            </div>
+            <div class="ev-footer-col">
+                <h4>Services</h4>
+                <a href="#sv-neurotoxin">Neurotoxin</a><a href="#sv-skin-boosters">Skin Boosters</a><a href="#sv-microneedling">Microneedling</a><a href="#sv-prp">PRP Therapy</a><a href="#sv-iv-drip">IV Drip</a><a href="#sv-nad">NAD+ Therapy</a>
+            </div>
+            <div class="ev-footer-col">
+                <h4>Connect</h4>
+                <div class="ev-footer-social">
+                    <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+                    <a href="https://www.facebook.com/p/Evia-Esthetics-100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
+                </div>
+                <div class="ev-footer-badges">
+                    <img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified" width="100">
+                </div>
+            </div>
+        </div>
+        <div class="ev-footer-bar">
+            <div class="ev-footer-legal">
+                <a href="policies/privacy-policy.html">Privacy</a>
+                <a href="policies/terms-of-service.html">Terms</a>
+                <a href="policies/cancellation-policy.html">Cancellation</a>
+                <a href="policies/cookie-policy.html">Cookies</a>
+            </div>
+            <span class="ev-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
+        </div>
+        <a href="https://elanstechworld.com" class="ev-footer-credit" target="_blank" rel="noopener">
+            <span>Designed by</span>
+            <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="24">
+            <span>Elan's Tech World</span>
+        </a>
+    </div>
 </footer>
 
-<!-- Shared Floating Buttons -->
-<div class="hermes-floating-controls">
-    <div class="hermes-back-to-top" id="backToTopBtn"><div class="btn-frame-ornaments"><div class="frame-corner corner-tl"></div><div class="frame-corner corner-tr"></div><div class="frame-corner corner-bl"></div><div class="frame-corner corner-br"></div></div><div class="btn-content"><div class="btn-icon"><i class="ri-arrow-up-line"></i></div><div class="btn-ambient-glow"></div></div></div>
-    <div class="hermes-contact-fab" id="contactFabBtn"><div class="contact-fab-backdrop" id="contactBackdrop"></div><div class="main-contact-btn"><div class="btn-content"><div class="btn-icon main-icon"><i class="ri-contacts-line"></i></div><div class="btn-close-icon"><i class="ri-close-line"></i></div></div></div><div class="contact-options"><div class="contact-option" data-contact="call"><a href="tel:+12016394983" class="contact-link"><div class="option-content"><div class="option-icon call-icon"><i class="ri-phone-line"></i></div></div></a></div><div class="contact-option" data-contact="instagram"><a href="https://www.instagram.com/eviaesthetics/?hl=en" target="_blank" rel="noopener noreferrer" class="contact-link"><div class="option-content"><div class="option-icon instagram-icon"><i class="ri-instagram-line"></i></div></div></a></div><div class="contact-option" data-contact="email"><a href="mailto:info@eviaesthetics.com" class="contact-link"><div class="option-content"><div class="option-icon email-icon"><i class="ri-mail-line"></i></div></div></a></div></div></div>
+<!-- Floating + sticky bar (matches index) -->
+<button class="ev-totop" id="evToTop" aria-label="Back to top"><i class="ri-arrow-up-line"></i></button>
+<div class="ev-stickybar" aria-label="Quick booking">
+    <a href="tel:+12016394983" class="ev-sticky-call"><i class="ri-phone-line"></i> Call</a>
+    <a href="contact.html" class="ev-sticky-book">Request a Consult</a>
 </div>
 
 <!-- Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-<script src="script.js"></script>
-<script src="services.js"></script>
+<script src="script.js" defer></script>
+<script src="services.js" defer></script>
 </body>
 </html>
