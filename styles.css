@@ -419,6 +419,9 @@ body.ev-locked { overflow: hidden; }
     background:
         linear-gradient(180deg, rgba(26,20,16,0.55) 0%, rgba(26,20,16,0.35) 40%, rgba(26,20,16,0.7) 100%),
         radial-gradient(ellipse at 28% 50%, rgba(26,20,16,0.15) 0%, rgba(26,20,16,0.6) 75%);
+    display: block;
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    text-shadow: 0 2px 30px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.4);
 }
 
 .ev-hero-content { max-width: 860px; }
