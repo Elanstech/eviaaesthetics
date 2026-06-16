@@ -531,86 +531,48 @@
 <body>
 
 <!-- ============================================
-     HEADER (matches main site)
+     HEADER
      ============================================ -->
-<header class="hermes-modern-header" id="hermesHeader">
-    <nav class="header-glass-container" aria-label="Primary navigation">
-        <div class="desktop-nav">
-            <div class="logo-section">
-                <a href="index.html" class="logo-link" aria-label="Eviaesthetics home">
-                    <img src="images/logo1.png" alt="Eviaesthetics" class="desktop-logo" width="180" height="45">
-                </a>
-            </div>
-            <div class="nav-links-container">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="services.html" class="nav-link">Services</a>
-                <a href="about.html" class="nav-link">About Dr. Nano</a>
-                <a href="contact.html" class="nav-link">Contact</a>
-            </div>
-            <div class="header-cta-section">
-                <a href="tel:+12016394983" class="shop-now-btn" onclick="trackPhoneCall()">
-                    <span class="btn-text">Call (201) 639-4983</span>
-                    <i class="ri-phone-line btn-icon"></i>
-                </a>
-                <a href="#hh-contact-form" class="book-consultation-btn">Book Consult</a>
-            </div>
-            <div class="desktop-hamburger-circle" id="desktopHamburger">
-                <div class="desktop-hamburger-lines">
-                    <span class="desktop-hamburger-line"></span>
-                    <span class="desktop-hamburger-line"></span>
-                    <span class="desktop-hamburger-line"></span>
-                </div>
-            </div>
+<header class="ev-header" id="evHeader">
+    <nav class="ev-nav" aria-label="Primary">
+        <a href="/" class="ev-logo" aria-label="Eviaesthetics home">
+            <img src="images/logo1.png" alt="Eviaesthetics" class="ev-logo-img" width="160" height="40">
+        </a>
+
+        <div class="ev-nav-links" id="evNavLinks">
+            <a href="index.html" class="ev-nav-link active">Home</a>
+            <a href="services.html" class="ev-nav-link">Services</a>
+            <a href="about.html" class="ev-nav-link">About Dr. Nano</a>
+            <a href="contact.html" class="ev-nav-link">Contact</a>
         </div>
-        <div class="mobile-nav">
-            <div class="mobile-logo-section">
-                <div class="mobile-logo-circle">
-                    <a href="index.html" class="mobile-logo-link" aria-label="Eviaesthetics home">
-                        <img src="images/mobilelogo.png" alt="Eviaesthetics" class="mobile-logo" width="40" height="40">
-                    </a>
-                </div>
-            </div>
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu">
-                <span class="toggle-line"></span>
-                <span class="toggle-line"></span>
-                <span class="toggle-line"></span>
-            </button>
+
+        <div class="ev-nav-cta">
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-text" rel="noopener">Shop</a>
+            <a href="contact.html" class="ev-btn-outline">Book Consultation</a>
         </div>
+
+        <button class="ev-burger" id="evBurger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
-        <div class="mobile-menu-container">
-            <div class="mobile-menu-header">
-                <div class="menu-logo-section">
-                    <img src="images/mobilelogo.png" alt="Eviaesthetics" class="menu-logo" width="40" height="40">
-                </div>
-                <button class="menu-close-btn" id="menuCloseBtn" aria-label="Close menu">
-                    <i class="ri-close-line"></i>
-                </button>
+
+    <!-- Mobile drawer -->
+    <div class="ev-drawer" id="evDrawer" aria-hidden="true">
+        <div class="ev-drawer-inner">
+            <button class="ev-drawer-close" id="evDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
+            <nav class="ev-drawer-nav">
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="about.html">About Dr. Nano</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="ev-drawer-cta">
+                <a href="contact.html" class="ev-btn-solid">Book Consultation</a>
+                <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-outline" rel="noopener">Shop AlumierMD</a>
             </div>
-            <div class="mobile-menu-content">
-                <nav class="mobile-primary-nav">
-                    <a href="index.html" class="mobile-nav-item"><span class="nav-item-text">Home</span><i class="ri-arrow-right-line nav-item-icon"></i></a>
-                    <a href="services.html" class="mobile-nav-item"><span class="nav-item-text">Services</span><i class="ri-arrow-right-line nav-item-icon"></i></a>
-                    <a href="about.html" class="mobile-nav-item"><span class="nav-item-text">About Dr. Nano</span><i class="ri-arrow-right-line nav-item-icon"></i></a>
-                    <a href="contact.html" class="mobile-nav-item"><span class="nav-item-text">Contact</span><i class="ri-arrow-right-line nav-item-icon"></i></a>
-                </nav>
-                <div class="mobile-menu-ctas">
-                    <a href="tel:+12016394983" class="mobile-shop-btn" onclick="trackPhoneCall()">
-                        <span>Call (201) 639-4983</span>
-                        <i class="ri-phone-line"></i>
-                    </a>
-                    <a href="#hh-contact-form" class="mobile-consultation-btn">
-                        <span>Book Consult</span>
-                        <i class="ri-calendar-line"></i>
-                    </a>
-                </div>
-                <div class="mobile-menu-footer">
-                    <div class="social-links">
-                        <a href="https://www.instagram.com/eviaesthetics/?hl=en" class="social-link" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
-                        <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" class="social-link" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
-                    </div>
-                    <p class="menu-tagline">Manhattan's Premier Luxury Experience</p>
-                </div>
+            <div class="ev-drawer-foot">
+                <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+                <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
             </div>
         </div>
     </div>
@@ -967,96 +929,55 @@
 </main>
 
 <!-- ============================================
-     FOOTER (matches main site)
+     FOOTER
      ============================================ -->
-<footer class="premium-footer">
-    <div class="footer-upper">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand-column">
-                    <div class="footer-logo-container">
-                        <img src="images/logo1.png" alt="Eviaesthetics Manhattan Medical Spa" class="footer-logo" width="130" height="130">
-                    </div>
-                    <h3 class="brand-name">Eviaesthetics</h3>
-                    <p class="brand-tagline">Manhattan's Premier Luxury Medical Spa</p>
-                    <div class="footer-contact-info">
-                        <div class="contact-item"><i class="ri-phone-fill"></i><span>(201) 639-4983</span></div>
-                        <div class="contact-item"><i class="ri-map-pin-fill"></i><span>65 W 36th St. 10th Floor, New York, NY 10018</span></div>
-                    </div>
+<footer class="ev-footer">
+    <div class="ev-wrap">
+        <div class="ev-footer-grid">
+            <div class="ev-footer-brand">
+                <img src="images/logo1.png" alt="Eviaesthetics" class="ev-footer-logo" width="120" height="120">
+                <p class="ev-footer-tag">Manhattan's premier boutique medical spa.</p>
+                <div class="ev-footer-contact">
+                    <span><i class="ri-phone-fill"></i> (201) 639-4983</span>
+                    <span><i class="ri-map-pin-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018</span>
                 </div>
-                <div class="footer-links-column">
-                    <h4 class="footer-column-title">Quick Links</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="about.html">About Dr. Nano</a></li>
-                        <li><a href="contact.html">Book Consultation</a></li>
-                    </ul>
+            </div>
+
+            <div class="ev-footer-col">
+                <h4>Explore</h4>
+                <a href="index.html">Home</a><a href="services.html">Services</a><a href="about.html">About Dr. Nano</a><a href="contact.html">Book</a><a href="#faq">FAQ</a>
+            </div>
+            <div class="ev-footer-col">
+                <h4>Services</h4>
+                <a href="services.html">Botox &amp; Fillers</a><a href="services.html">Weight Management</a><a href="services.html">NAD+ &amp; IV Therapy</a><a href="services.html">Microneedling</a><a href="services.html">PRP Therapy</a><a href="services.html">Chemical Peels</a>
+            </div>
+            <div class="ev-footer-col">
+                <h4>Connect</h4>
+                <div class="ev-footer-social">
+                    <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+                    <a href="https://www.facebook.com/p/Evia-Esthetics-100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
                 </div>
-                <div class="footer-services-column">
-                    <h4 class="footer-column-title">Our Services</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="hyperhidrosis.html">Hyperhidrosis Treatment</a></li>
-                        <li><a href="iv-therapy.html">IV Therapy</a></li>
-                        <li><a href="services.html">Microneedling</a></li>
-                        <li><a href="services.html">PRP Therapy</a></li>
-                        <li><a href="services.html">Chemical Peels</a></li>
-                    </ul>
-                </div>
-                <div class="footer-social-column">
-                    <h4 class="footer-column-title">Connect With Us</h4>
-                    <div class="social-media-links">
-                        <a href="https://www.instagram.com/eviaesthetics/?hl=en" class="social-media-link" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
-                        <a href="https://www.facebook.com/p/Evia-Esthetics-100087730601716/" class="social-media-link" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
-                    </div>
+                <div class="ev-footer-badges">
+                    <img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified" width="100">
                 </div>
             </div>
         </div>
-    </div>
-    <div class="trust-badges-section">
-        <div class="container">
-            <div class="trust-badges-wrapper">
-                <div class="trust-badge-group certifications">
-                    <h5 class="badge-group-title">Verified &amp; Certified</h5>
-                    <div class="badge-icons">
-                        <div class="badge-icon"><img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified" width="100"></div>
-                        <div class="badge-icon"><img src="https://www.currentware.com/wp-content/uploads/2019/12/hipaa-compliance-1.jpg" alt="HIPAA Compliant" width="80"></div>
-                    </div>
-                </div>
-                <div class="trust-badge-group reviews">
-                    <h5 class="badge-group-title">Trusted By Clients</h5>
-                    <div class="badge-icons">
-                        <div class="badge-icon rating">
-                            <div class="rating-stars"><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i></div>
-                            <div class="rating-text">5.0 Rating on Google</div>
-                        </div>
-                    </div>
-                </div>
+
+        <div class="ev-footer-bar">
+            <div class="ev-footer-legal">
+                <a href="policies/privacy-policy.html">Privacy</a>
+                <a href="policies/terms-of-service.html">Terms</a>
+                <a href="policies/cancellation-policy.html">Cancellation</a>
+                <a href="policies/cookie-policy.html">Cookies</a>
             </div>
+            <span class="ev-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
         </div>
-    </div>
-    <div class="footer-legal">
-        <div class="container">
-            <div class="legal-flex">
-                <div class="legal-links">
-                    <a href="policies/privacy-policy.html">Privacy Policy</a>
-                    <a href="policies/terms-of-service.html">Terms of Service</a>
-                    <a href="policies/cancellation-policy.html">Cancellation Policy</a>
-                </div>
-                <div class="copyright-text">&copy; 2026 Eviaesthetics. All rights reserved.</div>
-            </div>
-        </div>
-    </div>
-    <div class="design-credit">
-        <div class="container">
-            <a href="https://elanstechworld.com" class="designer-link" target="_blank" rel="noopener">
-                <span>Designed by</span>
-                <div class="designer-logo">
-                    <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="30">
-                    <span>Elan's Tech World</span>
-                </div>
-            </a>
-        </div>
+
+        <a href="https://elanstechworld.com" class="ev-footer-credit" target="_blank" rel="noopener">
+            <span>Designed by</span>
+            <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="24">
+            <span>Elan's Tech World</span>
+        </a>
     </div>
 </footer>
 
