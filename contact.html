@@ -39,7 +39,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts: matches index (Fraunces + Manrope) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
 
     <link rel="icon" type="image/png" href="icons/favicon-96x96.png" sizes="96x96">
@@ -51,7 +52,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="contact.css">
 
-    <!-- LocalBusiness + ContactPoint schema -->
+    <!-- LocalBusiness + ContactPoint schema (preserved) -->
     <script type="application/ld+json">
     {
       "@context":"https://schema.org",
@@ -73,246 +74,322 @@
     </script>
 </head>
 <body>
-<!-- ============================================ HEADER ============================================ -->
-<header class="ev-header" id="evHeader">
-    <nav class="ev-nav" aria-label="Primary">
-        <a href="/" class="ev-logo" aria-label="Eviaesthetics home">
-            <img src="images/logo1.png" alt="Eviaesthetics" class="ev-logo-img" width="160" height="40">
+
+<!-- ============================================ HEADER (light variant) ============================================ -->
+<header class="ed-header ed-header--light" id="edHeader">
+    <nav class="ed-nav" aria-label="Primary">
+        <div class="ed-nav-left">
+            <a href="index.html" class="ed-nav-link">Home</a>
+            <a href="services.html" class="ed-nav-link">Services</a>
+            <a href="about.html" class="ed-nav-link">About Dr. Nano</a>
+            <a href="contact.html" class="ed-nav-link active">Contact</a>
+        </div>
+
+        <a href="/" class="ed-logo" aria-label="Eviaesthetics home">
+            <img src="images/logo1.png" alt="Eviaesthetics" class="ed-logo-img" width="150" height="40">
         </a>
-        <div class="ev-nav-links" id="evNavLinks">
-            <a href="index.html" class="ev-nav-link">Home</a>
-            <a href="services.html" class="ev-nav-link">Services</a>
-            <a href="about.html" class="ev-nav-link">About Dr. Nano</a>
-            <a href="contact.html" class="ev-nav-link active">Contact</a>
+
+        <div class="ed-nav-right">
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-nav-link" rel="noopener">Shop</a>
+            <a href="tel:+12016394983" class="ed-nav-link ed-nav-tel">(201) 639-4983</a>
+            <a href="#contact-form" class="ed-btn ed-btn-ink">Book Consultation</a>
         </div>
-        <div class="ev-nav-cta">
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-text" rel="noopener">Shop</a>
-            <a href="contact.html" class="ev-btn-outline">Book Consultation</a>
-        </div>
-        <button class="ev-burger" id="evBurger" aria-label="Open menu" aria-expanded="false">
-            <span></span><span></span><span></span>
+
+        <button class="ed-burger" id="edBurger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span>
         </button>
     </nav>
 </header>
 
-<!-- Mobile drawer — sibling of <header>, NOT nested inside it -->
-<div class="ev-drawer" id="evDrawer" aria-hidden="true">
-    <div class="ev-drawer-inner">
-        <button class="ev-drawer-close" id="evDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
-        <nav class="ev-drawer-nav">
-            <a href="index.html">Home</a>
-            <a href="services.html">Services</a>
-            <a href="about.html">About Dr. Nano</a>
-            <a href="contact.html">Contact</a>
+<!-- Mobile drawer -->
+<div class="ed-drawer" id="edDrawer" aria-hidden="true">
+    <div class="ed-drawer-inner">
+        <button class="ed-drawer-close" id="edDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
+        <span class="ed-drawer-kicker">Menu — Eviaesthetics</span>
+        <nav class="ed-drawer-nav">
+            <a href="index.html"><em>01</em> Home</a>
+            <a href="services.html"><em>02</em> Services</a>
+            <a href="about.html"><em>03</em> About Dr. Nano</a>
+            <a href="contact.html"><em>04</em> Contact</a>
         </nav>
-        <div class="ev-drawer-cta">
-            <a href="contact.html" class="ev-btn-solid">Book Consultation</a>
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-outline" rel="noopener">Shop AlumierMD</a>
+        <div class="ed-drawer-cta">
+            <a href="#contact-form" class="ed-btn ed-btn-hermes">Book Consultation</a>
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-btn ed-btn-ghost" rel="noopener">Shop AlumierMD</a>
         </div>
-        <div class="ev-drawer-foot">
-            <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
-            <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
+        <div class="ed-drawer-foot">
+            <span>65 W 36th St, 10th Fl — NYC</span>
+            <div class="ed-drawer-social">
+                <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+                <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
+            </div>
         </div>
     </div>
 </div>
 
 <main id="main">
 
-<!-- ============================================ 1 · HERO ============================================ -->
-<section class="ct-hero" id="ctHero">
-    <div class="ct-hero-bg"><span class="ct-hero-orb ct-orb-1"></span><span class="ct-hero-orb ct-orb-2"></span></div>
-    <div class="ev-wrap ct-hero-inner">
-        <span class="ev-eyebrow ev-center" data-reveal><span class="ev-eyebrow-rule"></span>Get in Touch<span class="ev-eyebrow-rule"></span></span>
+<!-- ============================================
+     LETTERS COVER — editorial opener
+     ============================================ -->
+<section class="ct-hero" id="ctHero" aria-label="Get in touch">
+    <div class="ed-wrap">
+        <div class="ct-hero-folio" data-reveal>
+            <span>Correspondence</span>
+            <span class="ct-folio-mid">Every Inquiry Answered Personally</span>
+            <span>Always in Confidence</span>
+        </div>
+
         <h1 class="ct-hero-title" data-reveal>
-            <span class="ct-line">Let's begin your</span>
-            <span class="ct-line ct-italic">transformation.</span>
+            Let's begin your <em>transformation.</em>
         </h1>
-        <p class="ct-hero-desc" data-reveal>
+
+        <p class="ct-hero-dek" data-reveal>
             One conversation with Dr. Nano and her team is all it takes. Reach out below —
             every inquiry is answered personally, and always in confidence.
         </p>
-        <div class="ct-hero-actions" data-reveal>
+
+        <div class="ct-quicklist" data-reveal>
             <a href="tel:+12016394983" class="ct-quick">
-                <span class="ct-quick-icon"><i class="ri-phone-fill"></i></span>
-                <span class="ct-quick-text"><strong>Call Now</strong><small>(201) 639-4983</small></span>
+                <i class="ri-phone-line"></i>
+                <span class="ct-quick-label">Call Now</span>
+                <span class="ct-quick-val">(201) 639-4983</span>
+                <i class="ri-arrow-right-up-line ct-quick-arrow"></i>
             </a>
             <a href="mailto:info@eviaesthetics.com" class="ct-quick">
-                <span class="ct-quick-icon"><i class="ri-mail-fill"></i></span>
-                <span class="ct-quick-text"><strong>Email Us</strong><small>info@eviaesthetics.com</small></span>
+                <i class="ri-mail-line"></i>
+                <span class="ct-quick-label">Email Us</span>
+                <span class="ct-quick-val">info@eviaesthetics.com</span>
+                <i class="ri-arrow-right-up-line ct-quick-arrow"></i>
+            </a>
+            <a href="#contact-form" class="ct-quick">
+                <i class="ri-quill-pen-line"></i>
+                <span class="ct-quick-label">Write to Us</span>
+                <span class="ct-quick-val">Consultation request form</span>
+                <i class="ri-arrow-right-up-line ct-quick-arrow"></i>
             </a>
         </div>
     </div>
 </section>
 
-<!-- ============================================ 2 · FORM + INFO ============================================ -->
-<section class="ct-main" id="contact-form">
-    <div class="ev-wrap ct-main-grid">
-        <!-- Form -->
-        <div class="ct-form-col" data-reveal>
-            <div class="ct-form-card">
-                <div class="ct-form-head">
-                    <div class="ct-form-icon"><i class="ri-message-3-line"></i></div>
-                    <div>
-                        <h2>Request Your Consultation</h2>
-                        <p>Tell us about your goals — we'll design a plan made for you.</p>
-                    </div>
-                </div>
-                <div class="ct-elfsight">
-                    <script src="https://elfsightcdn.com/platform.js" async></script>
-                    <div class="elfsight-app-db15691a-379c-4773-8900-983e7e393d0f" data-elfsight-app-lazy></div>
-                </div>
-                <div class="ct-trust">
-                    <span><i class="ri-shield-check-line"></i> 100% Confidential</span>
-                    <span><i class="ri-time-line"></i> 24H Response</span>
-                    <span><i class="ri-award-line"></i> Expert Guidance</span>
-                </div>
-            </div>
+<!-- ============================================
+     No. 1 · THE CONSULTATION — form + information
+     ============================================ -->
+<section class="ct-main" id="contact-form" aria-labelledby="ctFormTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 1</span>
+            <span class="ed-rubric-name">The Consultation</span>
+            <span class="ed-rubric-rule"></span>
         </div>
 
-        <!-- Info -->
-        <div class="ct-info-col" data-reveal>
-            <div class="ct-info-block">
-                <h3 class="ct-info-title">Contact Information</h3>
-                <a href="tel:+12016394983" class="ct-method">
-                    <div class="ct-method-icon"><i class="ri-phone-line"></i></div>
-                    <div><h4>Phone</h4><p>Immediate assistance available</p><span class="ct-method-val">(201) 639-4983</span></div>
-                </a>
-                <a href="mailto:info@eviaesthetics.com" class="ct-method">
-                    <div class="ct-method-icon"><i class="ri-mail-line"></i></div>
-                    <div><h4>Email</h4><p>Detailed responses within hours</p><span class="ct-method-val">info@eviaesthetics.com</span></div>
-                </a>
-                <a href="https://www.google.com/maps/place/evia+esthetics/" target="_blank" rel="noopener" class="ct-method">
-                    <div class="ct-method-icon"><i class="ri-map-pin-line"></i></div>
-                    <div><h4>Visit Our Manhattan Location</h4><p>A private Midtown sanctuary</p><span class="ct-method-val">65 W 36th St, 10th Floor, NY 10018</span></div>
-                </a>
-            </div>
-
-            <div class="ct-info-block">
-                <h3 class="ct-info-title">Hours</h3>
-                <div class="ct-hours">
-                    <div class="ct-hours-row"><span>Monday – Friday</span><span>By Appointment</span></div>
-                    <div class="ct-hours-row"><span>Saturday</span><span>By Appointment</span></div>
-                    <div class="ct-hours-row"><span>Sunday</span><span>Closed</span></div>
-                    <div class="ct-hours-note"><i class="ri-information-line"></i> Flexible scheduling available for consultations.</div>
+        <div class="ct-main-grid">
+            <!-- Form -->
+            <div class="ct-form-col" data-reveal>
+                <div class="ct-form-card" id="ctFormCard">
+                    <div class="ct-form-head">
+                        <h2 id="ctFormTitle">Request Your <em>Consultation</em></h2>
+                        <p>Tell us about your goals — we'll design a plan made for you.</p>
+                    </div>
+                    <div class="ct-elfsight">
+                        <div class="ed-widget-loading"><span class="ed-spinner"></span><p>Loading form…</p></div>
+                        <div class="elfsight-app-db15691a-379c-4773-8900-983e7e393d0f" data-elfsight-app-lazy></div>
+                    </div>
+                    <div class="ct-trust">
+                        <span><i class="ri-shield-check-line"></i> 100% Confidential</span>
+                        <span><i class="ri-time-line"></i> 24H Response</span>
+                        <span><i class="ri-award-line"></i> Expert Guidance</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="ct-info-block">
-                <h3 class="ct-info-title">Follow Our Journey</h3>
-                <div class="ct-social">
-                    <a href="https://www.instagram.com/eviaesthetics/?hl=en" target="_blank" rel="noopener" class="ct-social-card">
-                        <i class="ri-instagram-line"></i><div><strong>Instagram</strong><small>@eviaesthetics</small></div>
+            <!-- Info -->
+            <aside class="ct-info-col">
+                <div class="ct-info-block" data-reveal>
+                    <h3 class="ct-info-title">Contact <em>Information</em></h3>
+                    <a href="tel:+12016394983" class="ct-method">
+                        <i class="ri-phone-line"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>Immediate assistance available</p>
+                            <span class="ct-method-val">(201) 639-4983</span>
+                        </div>
+                        <i class="ri-arrow-right-up-line ct-method-arrow"></i>
                     </a>
-                    <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" target="_blank" rel="noopener" class="ct-social-card">
-                        <i class="ri-facebook-line"></i><div><strong>Facebook</strong><small>Evia Esthetics</small></div>
+                    <a href="mailto:info@eviaesthetics.com" class="ct-method">
+                        <i class="ri-mail-line"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>Detailed responses within hours</p>
+                            <span class="ct-method-val">info@eviaesthetics.com</span>
+                        </div>
+                        <i class="ri-arrow-right-up-line ct-method-arrow"></i>
+                    </a>
+                    <a href="https://www.google.com/maps/place/evia+esthetics/" target="_blank" rel="noopener" class="ct-method">
+                        <i class="ri-map-pin-line"></i>
+                        <div>
+                            <h4>Visit Our Manhattan Location</h4>
+                            <p>A private Midtown sanctuary</p>
+                            <span class="ct-method-val">65 W 36th St, 10th Floor, NY 10018</span>
+                        </div>
+                        <i class="ri-arrow-right-up-line ct-method-arrow"></i>
                     </a>
                 </div>
-            </div>
+
+                <div class="ct-info-block" data-reveal>
+                    <h3 class="ct-info-title">Hours</h3>
+                    <dl class="ct-hours">
+                        <div class="ct-hours-row"><dt>Monday – Friday</dt><dd>By Appointment</dd></div>
+                        <div class="ct-hours-row"><dt>Saturday</dt><dd>By Appointment</dd></div>
+                        <div class="ct-hours-row"><dt>Sunday</dt><dd>Closed</dd></div>
+                    </dl>
+                    <p class="ct-hours-note">Flexible scheduling available for consultations — evening hours on request.</p>
+                </div>
+
+                <div class="ct-info-block" data-reveal>
+                    <h3 class="ct-info-title">Follow Our <em>Journey</em></h3>
+                    <a href="https://www.instagram.com/eviaesthetics/?hl=en" target="_blank" rel="noopener" class="ct-method ct-method-social">
+                        <i class="ri-instagram-line"></i>
+                        <div><h4>Instagram</h4><span class="ct-method-val">@eviaesthetics</span></div>
+                        <i class="ri-arrow-right-up-line ct-method-arrow"></i>
+                    </a>
+                    <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" target="_blank" rel="noopener" class="ct-method ct-method-social">
+                        <i class="ri-facebook-line"></i>
+                        <div><h4>Facebook</h4><span class="ct-method-val">Evia Esthetics</span></div>
+                        <i class="ri-arrow-right-up-line ct-method-arrow"></i>
+                    </a>
+                </div>
+            </aside>
         </div>
     </div>
 </section>
 
-<!-- ============================================ 3 · LOCATION + MAP ============================================ -->
-<section class="ct-location">
-    <div class="ev-wrap">
-        <header class="ev-section-head" data-reveal>
-            <span class="ev-eyebrow ev-center"><span class="ev-eyebrow-rule"></span>Manhattan Location<span class="ev-eyebrow-rule"></span></span>
-            <h2 class="ev-h2 ev-center">Visit our <em>private sanctuary.</em></h2>
-            <p class="ev-section-sub">In the heart of Midtown — a serene escape from the city, with world-class care inside.</p>
+<!-- ============================================
+     No. 2 · THE ADDRESS — location + map
+     ============================================ -->
+<section class="ct-location" id="ct-location" aria-labelledby="ctLocationTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 2</span>
+            <span class="ed-rubric-name">The Address — Midtown Manhattan</span>
+            <span class="ed-rubric-rule"></span>
+        </div>
+
+        <header class="ct-head" data-reveal>
+            <h2 class="ed-h2" id="ctLocationTitle">Visit our <em>private sanctuary.</em></h2>
+            <p class="ed-dek">In the heart of Midtown — a serene escape from the city, with world-class care inside.</p>
         </header>
 
-        <div class="ct-loc-details" data-reveal>
-            <div class="ct-loc-card"><div class="ct-loc-icon"><i class="ri-building-line"></i></div><div><h4>Premium Suite</h4><p>10th-floor private suite with city views</p></div></div>
-            <div class="ct-loc-card"><div class="ct-loc-icon"><i class="ri-parking-box-line"></i></div><div><h4>Convenient Parking</h4><p>Multiple options within walking distance</p></div></div>
-            <div class="ct-loc-card"><div class="ct-loc-icon"><i class="ri-subway-line"></i></div><div><h4>Transit Accessible</h4><p>Near multiple subway and bus lines</p></div></div>
+        <div class="ct-perks" data-reveal>
+            <div class="ct-perk">
+                <i class="ri-building-line"></i>
+                <div><h3>Premium Suite</h3><p>10th-floor private suite with city views</p></div>
+            </div>
+            <div class="ct-perk">
+                <i class="ri-parking-box-line"></i>
+                <div><h3>Convenient Parking</h3><p>Multiple options within walking distance</p></div>
+            </div>
+            <div class="ct-perk">
+                <i class="ri-subway-line"></i>
+                <div><h3>Transit Accessible</h3><p>Near multiple subway and bus lines</p></div>
+            </div>
         </div>
 
         <div class="ct-map" data-reveal>
             <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.6147849855745!2d-73.98968368459394!3d40.75062927932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259ab9d5c8da9%3A0x9c52bf5cb123c6e8!2s65%20W%2036th%20St%2C%20New%20York%2C%20NY%2010018!5e0!3m2!1sen!2sus!4v1625077200000!5m2!1sen!2sus"
-                width="100%" height="440" style="border:0;" allowfullscreen="" loading="lazy"
+                width="100%" height="460" style="border:0;" allowfullscreen="" loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade" title="Eviaesthetics Manhattan Location Map"></iframe>
             <div class="ct-map-card">
-                <h4>Eviaesthetics</h4>
+                <span class="ct-map-kicker">Eviaesthetics</span>
                 <p>65 W 36th St, 10th Floor<br>New York, NY 10018</p>
-                <a href="https://www.google.com/maps/dir//65+W+36th+St,+New+York,+NY+10018" target="_blank" rel="noopener" class="ct-map-btn"><i class="ri-navigation-line"></i> Get Directions</a>
+                <a href="https://www.google.com/maps/dir//65+W+36th+St,+New+York,+NY+10018" target="_blank" rel="noopener" class="ed-link-rule">Get Directions</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ============================================ 4 · CLOSING CTA ============================================ -->
-<section class="ct-cta">
-    <div class="ev-wrap">
-        <div class="ct-cta-card" data-reveal>
-            <span class="ev-eyebrow ev-center"><span class="ev-eyebrow-rule"></span>Ready to Begin<span class="ev-eyebrow-rule"></span></span>
-            <h2 class="ev-h2 ev-center ev-light">Your transformation is <em>one conversation away.</em></h2>
-            <p class="ct-cta-desc">Don't wait to feel confident in your own skin. Reach out today and discover why Manhattan chooses Eviaesthetics.</p>
-            <div class="ct-cta-actions">
-                <a href="tel:+12016394983" class="ev-btn-solid ev-btn-xl ev-magnetic"><i class="ri-phone-line"></i><span>Call (201) 639-4983</span></a>
-                <a href="#contact-form" class="ct-cta-ghost ev-magnetic"><span>Book Online</span><i class="ri-arrow-right-up-line"></i></a>
-            </div>
-            <span class="ct-cta-note"><i class="ri-shield-star-line"></i> Satisfaction Guaranteed · Manhattan's #1 Choice</span>
+<!-- ============================================
+     CLOSING — Hermès orange invitation
+     ============================================ -->
+<section class="ct-close" id="ct-cta" aria-labelledby="ctCloseTitle">
+    <div class="ed-wrap">
+        <span class="ct-close-kicker" data-reveal>Ready to Begin — Manhattan's Choice</span>
+        <h2 class="ct-close-title" id="ctCloseTitle" data-reveal>Your transformation is <em>one conversation away.</em></h2>
+        <p class="ct-close-dek" data-reveal>
+            Don't wait to feel confident in your own skin. Reach out today and discover
+            why Manhattan chooses Eviaesthetics.
+        </p>
+        <div class="ct-close-actions" data-reveal>
+            <a href="tel:+12016394983" class="ed-btn ed-btn-hermes ed-btn-lg"><i class="ri-phone-line"></i><span>Call (201) 639-4983</span></a>
+            <a href="#contact-form" class="ed-btn ed-btn-cream ed-btn-lg"><span>Book Online</span><i class="ri-arrow-right-up-line"></i></a>
         </div>
+        <p class="ct-close-note" data-reveal><i class="ri-shield-star-line"></i> Satisfaction Guaranteed · By Appointment Only</p>
     </div>
 </section>
 
 </main>
 
-<!-- ============================================ FOOTER (matches index) ============================================ -->
-<footer class="ev-footer">
-    <div class="ev-wrap">
-        <div class="ev-footer-grid">
-            <div class="ev-footer-brand">
-                <img src="images/logo1.png" alt="Eviaesthetics" class="ev-footer-logo" width="120" height="120">
-                <p class="ev-footer-tag">Manhattan's premier boutique medical spa.</p>
-                <div class="ev-footer-contact">
+<!-- ============================================
+     FOOTER — colophon (matches index)
+     ============================================ -->
+<footer class="ed-footer">
+    <div class="ed-footer-mast" aria-hidden="true">EVIAESTHETICS</div>
+    <div class="ed-wrap">
+        <div class="ed-footer-grid">
+            <div class="ed-footer-brand">
+                <img src="images/logo1.png" alt="Eviaesthetics" class="ed-footer-logo" width="110" height="110">
+                <p class="ed-footer-tag">Manhattan's premier boutique medical spa.</p>
+                <div class="ed-footer-contact">
                     <span><i class="ri-phone-fill"></i> (201) 639-4983</span>
                     <span><i class="ri-map-pin-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018</span>
                 </div>
             </div>
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Explore</h4>
                 <a href="index.html">Home</a><a href="services.html">Services</a><a href="about.html">About Dr. Nano</a><a href="contact.html">Book</a>
             </div>
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Services</h4>
                 <a href="services.html#sv-neurotoxin">Neurotoxin</a><a href="services.html#sv-skin-boosters">Skin Boosters</a><a href="services.html#sv-microneedling">Microneedling</a><a href="services.html#sv-prp">PRP Therapy</a><a href="services.html#sv-iv-drip">IV Drip</a><a href="services.html#sv-nad">NAD+ Therapy</a>
             </div>
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Connect</h4>
-                <div class="ev-footer-social">
+                <div class="ed-footer-social">
                     <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
                     <a href="https://www.facebook.com/p/Evia-Esthetics-100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
                 </div>
-                <div class="ev-footer-badges">
+                <div class="ed-footer-badges">
                     <img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified" width="100">
                 </div>
             </div>
         </div>
-        <div class="ev-footer-bar">
-            <div class="ev-footer-legal">
+        <div class="ed-footer-bar">
+            <div class="ed-footer-legal">
                 <a href="policies/privacy-policy.html">Privacy</a>
                 <a href="policies/terms-of-service.html">Terms</a>
                 <a href="policies/cancellation-policy.html">Cancellation</a>
                 <a href="policies/cookie-policy.html">Cookies</a>
             </div>
-            <span class="ev-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
+            <span class="ed-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
+            <a href="https://elanstechworld.com" class="ed-footer-credit" target="_blank" rel="noopener">
+                <span>Designed by</span>
+                <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="22">
+                <span>Elan's Tech World</span>
+            </a>
         </div>
-        <a href="https://elanstechworld.com" class="ev-footer-credit" target="_blank" rel="noopener">
-            <span>Designed by</span>
-            <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="24">
-            <span>Elan's Tech World</span>
-        </a>
     </div>
 </footer>
 
-<button class="ev-totop" id="evToTop" aria-label="Back to top"><i class="ri-arrow-up-line"></i></button>
-<div class="ev-stickybar" aria-label="Quick booking">
-    <a href="tel:+12016394983" class="ev-sticky-call"><i class="ri-phone-line"></i> Call</a>
-    <a href="#contact-form" class="ev-sticky-book">Book Consultation</a>
+<!-- Floating + sticky bar (matches index) -->
+<button class="ed-totop" id="edToTop" aria-label="Back to top"><i class="ri-arrow-up-line"></i></button>
+<div class="ed-stickybar" aria-label="Quick booking">
+    <a href="tel:+12016394983" class="ed-sticky-call"><i class="ri-phone-line"></i> Call</a>
+    <a href="#contact-form" class="ed-sticky-book">Book Consultation</a>
 </div>
 
-<script src="script.js" defer></script>
+<!-- Scripts -->
+<script src="https://elfsightcdn.com/platform.js" defer></script>
+<script src="script.js" type="module"></script>
+<script src="contact.js" type="module"></script>
 </body>
 </html>
