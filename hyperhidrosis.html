@@ -58,6 +58,8 @@
     fbq('init', '932425123120879');
     fbq('track', 'PageView');
     </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=932425123120879&ev=PageView&noscript=1"/></noscript>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -66,7 +68,7 @@
     <meta property="og:description" content="End excessive sweating for months. Physician-administered hyperhidrosis treatment in Midtown Manhattan by Dr. Evia Nano, MD. By appointment.">
     <meta property="og:image" content="https://eviaesthetics.com/images/og-image.jpg">
     <meta property="og:site_name" content="Eviaesthetics">
-    <meta name="theme-color" content="#FF8C00">
+    <meta name="theme-color" content="#FF6B00">
 
     <!-- Geo -->
     <meta name="geo.region" content="US-NY">
@@ -74,12 +76,11 @@
     <meta name="geo.position" content="40.7505;-73.9934">
     <meta name="ICBM" content="40.7505, -73.9934">
 
-    <!-- Fonts -->
+    <!-- Fonts: Fraunces (editorial display) + Manrope (utility body) — matches index -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="icons/favicon-96x96.png" sizes="96x96" />
@@ -87,7 +88,7 @@
     <link rel="shortcut icon" href="icons/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
 
-    <!-- Stylesheets -->
+    <!-- Shared editorial stylesheet -->
     <link rel="stylesheet" href="styles.css">
 
     <!-- ============================================
@@ -138,34 +139,22 @@
             {
               "@type": "Question",
               "name": "Who performs the hyperhidrosis treatment?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Every treatment is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with 20+ years of experience. You are never treated by an unsupervised technician."
-              }
+              "acceptedAnswer": { "@type": "Answer", "text": "Every treatment is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with 20+ years of experience. You are never treated by an unsupervised technician." }
             },
             {
               "@type": "Question",
               "name": "Which areas can be treated for excessive sweating?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Eviaesthetics treats excessive sweating of the underarms, palms (hands), and scalp/head. Each area is assessed and treated individually by Dr. Nano."
-              }
+              "acceptedAnswer": { "@type": "Answer", "text": "Eviaesthetics treats excessive sweating of the underarms, palms (hands), and scalp/head. Each area is assessed and treated individually by Dr. Nano." }
             },
             {
               "@type": "Question",
               "name": "How long does hyperhidrosis treatment last?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Most patients enjoy 4 to 12 months of relief from a single treatment, depending on the area treated and individual response. Treatment can be repeated as the effect wears off."
-              }
+              "acceptedAnswer": { "@type": "Answer", "text": "Most patients enjoy 4 to 12 months of relief from a single treatment, depending on the area treated and individual response. Treatment can be repeated as the effect wears off." }
             },
             {
               "@type": "Question",
               "name": "How much does hyperhidrosis treatment cost in NYC?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Treatment at Eviaesthetics ranges from $1,000 to $2,500 depending on the area or areas treated. Exact pricing is confirmed during your consultation with Dr. Nano."
-              }
+              "acceptedAnswer": { "@type": "Answer", "text": "Treatment at Eviaesthetics ranges from $1,000 to $2,500 depending on the area or areas treated. Exact pricing is confirmed during your consultation with Dr. Nano." }
             }
           ]
         }
@@ -174,457 +163,444 @@
     </script>
 
     <!-- ============================================
-         CUSTOM STYLES FOR THIS LANDING PAGE
+         PAGE-SPECIFIC STYLES — built on the editorial tokens in styles.css
          ============================================ -->
     <style>
-        /* ---------- HERO ---------- */
+        /* ---------- Header on a light landing page: ink links from the top ---------- */
+        .ed-header .ed-nav-link { color: var(--ink-soft); }
+        .ed-header .ed-nav-link:hover,
+        .ed-header .ed-nav-link.active { color: var(--ink); }
+        .ed-header .ed-burger { border-color: var(--line); }
+        .ed-header .ed-burger span { background: var(--ink); }
+
+        /* ---------- HERO — editorial cover with the qualify card ---------- */
         .hh-hero {
             position: relative;
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            padding: 140px 0 80px;
-            background: linear-gradient(135deg, #FFFEF9 0%, #FFFCF8 50%, #FFF8F0 100%);
+            padding: calc(var(--header-h) + clamp(3rem, 8vh, 5.5rem)) 0 clamp(3rem, 7vh, 5rem);
+            background: var(--porcelain);
             overflow: hidden;
         }
-        .hh-hero-bg { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-        .hh-hero-orb {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.12), transparent 70%);
-            filter: blur(80px);
-            animation: hhOrbFloat 22s ease-in-out infinite;
-        }
-        .hh-hero-orb-1 { width: 450px; height: 450px; top: -150px; right: -100px; }
-        .hh-hero-orb-2 { width: 350px; height: 350px; bottom: -100px; left: -80px; animation-delay: -10s; }
-        @keyframes hhOrbFloat {
-            0%, 100% { transform: translate(0,0) rotate(0deg); opacity: 0.5; }
-            50% { transform: translate(30px, -25px) rotate(180deg); opacity: 0.8; }
-        }
-        .hh-hero-container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
-            display: grid;
-            grid-template-columns: 1.05fr 0.95fr;
-            gap: clamp(40px, 6vw, 70px);
-            align-items: center;
-        }
-        .hh-hero-eyebrow {
-            display: inline-flex; align-items: center; gap: 10px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 140, 0, 0.25);
-            border-radius: 50px;
-            padding: 12px 24px; margin-bottom: 28px;
-            font-family: var(--font-inter); font-size: 13px; font-weight: 700;
-            color: var(--hermes-orange); text-transform: uppercase; letter-spacing: 1.2px;
-            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.1);
-        }
-        .hh-hero-eyebrow i { font-size: 16px; }
-        .hh-hero-title {
-            font-family: var(--font-playfair);
-            font-size: clamp(2.5rem, 5.5vw, 4.2rem);
-            font-weight: 700; line-height: 1.05;
-            color: var(--text-primary); margin-bottom: 24px; letter-spacing: -0.02em;
-        }
-        .hh-hero-title .accent {
-            display: block;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            font-style: italic; font-weight: 600; margin-top: 4px;
-        }
-        .hh-hero-sub {
-            font-family: var(--font-inter);
-            font-size: clamp(16px, 2.2vw, 19px);
-            color: var(--text-secondary); line-height: 1.6; margin-bottom: 32px; max-width: 560px;
-        }
-        .hh-hero-sub strong { color: var(--text-primary); font-weight: 700; }
-        .hh-hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
-        .hh-btn-primary {
-            display: inline-flex; align-items: center; gap: 10px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
-            color: white; font-family: var(--font-inter); font-size: 16px; font-weight: 700;
-            text-decoration: none; padding: 18px 36px; border-radius: 50px; border: none; cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 12px 35px rgba(255, 140, 0, 0.3); letter-spacing: 0.02em;
-        }
-        .hh-btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 45px rgba(255, 140, 0, 0.4); }
-        .hh-btn-secondary {
-            display: inline-flex; align-items: center; gap: 10px;
-            background: rgba(255, 255, 255, 0.9); color: var(--hermes-orange);
-            font-family: var(--font-inter); font-size: 16px; font-weight: 600;
-            text-decoration: none; padding: 16px 32px; border-radius: 50px;
-            border: 2px solid rgba(255, 140, 0, 0.3); transition: all 0.4s ease;
-        }
-        .hh-btn-secondary:hover { background: rgba(255, 140, 0, 0.08); border-color: var(--hermes-orange); transform: translateY(-2px); }
-        .hh-hero-reassure {
-            display: flex; align-items: center; gap: 8px;
-            font-family: var(--font-inter); font-size: 13px; font-weight: 500;
-            color: var(--text-secondary); margin-bottom: 28px;
-        }
-        .hh-hero-reassure i { color: var(--hermes-orange); font-size: 15px; }
-        .hh-trust-row { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
-        .hh-trust-row .trust {
-            display: flex; align-items: center; gap: 8px;
-            font-family: var(--font-inter); font-size: 13px; font-weight: 500; color: var(--text-secondary);
-        }
-        .hh-trust-row .trust i { color: var(--hermes-orange); font-size: 16px; }
-
-        /* ---------- HERO QUALIFY CARD (spam gate) ---------- */
-        .hh-qualify-card {
-            position: relative;
-            background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(255,252,248,0.97));
-            backdrop-filter: blur(40px);
-            border: 2px solid rgba(255, 140, 0, 0.18);
-            border-radius: 28px;
-            padding: 36px 32px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.08), 0 12px 40px rgba(255,140,0,0.06);
-        }
-        .hh-qualify-badge {
-            position: absolute; top: -14px; left: 32px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            color: white; padding: 8px 18px; border-radius: 50px;
-            font-family: var(--font-inter); font-size: 11px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.8px;
-            box-shadow: 0 8px 24px rgba(255, 140, 0, 0.35);
-        }
-        .hh-qualify-card h3 {
-            font-family: var(--font-playfair); font-size: 22px; font-weight: 600;
-            color: var(--text-primary); margin: 12px 0 6px;
-        }
-        .hh-qualify-card p.hh-q-sub {
-            font-family: var(--font-inter); font-size: 14px; color: var(--text-secondary);
-            line-height: 1.5; margin-bottom: 22px;
-        }
-        .hh-q-options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; }
-        .hh-q-option {
-            display: flex; align-items: center; gap: 14px;
-            background: white; border: 2px solid rgba(255, 140, 0, 0.15);
-            border-radius: 16px; padding: 16px 18px; cursor: pointer;
-            transition: all 0.3s ease; text-align: left; width: 100%;
-            font-family: var(--font-inter);
-        }
-        .hh-q-option:hover { border-color: rgba(255, 140, 0, 0.45); transform: translateX(4px); box-shadow: 0 10px 24px rgba(255,140,0,0.08); }
-        .hh-q-option.selected { border-color: var(--hermes-orange); background: rgba(255, 140, 0, 0.06); }
-        .hh-q-option .ic {
-            width: 42px; height: 42px; flex-shrink: 0;
-            background: rgba(255, 140, 0, 0.1); border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--hermes-orange); font-size: 20px;
-        }
-        .hh-q-option.selected .ic { background: var(--hermes-orange); color: white; }
-        .hh-q-option .txt { flex: 1; }
-        .hh-q-option .txt .t { display: block; font-size: 15px; font-weight: 600; color: var(--text-primary); }
-        .hh-q-option .txt .d { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-        .hh-q-option .chk { color: var(--hermes-orange); font-size: 20px; opacity: 0; transition: opacity 0.2s ease; }
-        .hh-q-option.selected .chk { opacity: 1; }
-        .hh-q-cta {
-            display: none; align-items: center; justify-content: center; gap: 10px;
-            width: 100%; background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
-            color: white; font-family: var(--font-inter); font-size: 16px; font-weight: 700;
-            text-decoration: none; padding: 16px 24px; border-radius: 50px; border: none; cursor: pointer;
-            transition: all 0.3s ease; box-shadow: 0 12px 30px rgba(255, 140, 0, 0.3);
-        }
-        .hh-q-cta.show { display: flex; }
-        .hh-q-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(255, 140, 0, 0.4); }
-        .hh-q-foot {
-            margin-top: 16px; text-align: center;
-            font-family: var(--font-inter); font-size: 12px; color: var(--text-muted);
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
-        .hh-q-foot i { color: var(--hermes-orange); }
-
-        /* ---------- TRUST BAR ---------- */
-        .hh-trust-bar { background: white; border-top: 1px solid rgba(255,140,0,0.08); border-bottom: 1px solid rgba(255,140,0,0.08); padding: 32px 0; }
-        .hh-trust-bar-container {
-            max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.5rem, 4vw, 2.5rem);
-            display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 24px;
-        }
-        .hh-trust-bar-item {
-            display: flex; align-items: center; gap: 12px;
-            font-family: var(--font-inter); font-size: 14px; font-weight: 600; color: var(--text-secondary);
-        }
-        .hh-trust-bar-item i { color: var(--hermes-orange); font-size: 22px; }
-
-        /* ---------- EMOTIONAL "DOES THIS SOUND LIKE YOU" ---------- */
-        .hh-relate { padding: clamp(80px,12vh,120px) 0; background: linear-gradient(135deg,#FFFEF9 0%,#FFFCF8 100%); }
-        .hh-section-header { text-align: center; margin-bottom: 56px; }
-        .hh-section-eyebrow {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255,140,0,0.08); border: 1px solid rgba(255,140,0,0.2);
-            border-radius: 50px; padding: 8px 20px; margin-bottom: 20px;
-            font-family: var(--font-inter); font-size: 12px; font-weight: 700;
-            color: var(--hermes-orange); text-transform: uppercase; letter-spacing: 1px;
-        }
-        .hh-section-title {
-            font-family: var(--font-playfair); font-size: clamp(2rem,4.5vw,3.2rem);
-            font-weight: 700; color: var(--text-primary); margin-bottom: 16px; line-height: 1.15;
-        }
-        .hh-section-title .accent {
-            background: linear-gradient(135deg,#FF8C00 0%,#FFA500 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-style: italic;
-        }
-        .hh-section-sub { font-family: var(--font-inter); font-size: 17px; color: var(--text-secondary); max-width: 640px; margin: 0 auto; line-height: 1.6; }
-        .hh-relate-grid {
-            max-width: 1000px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,2.5rem);
-            display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 20px;
-        }
-        .hh-relate-card {
-            background: white; border: 1px solid rgba(255,140,0,0.12); border-radius: 20px;
-            padding: 28px 24px; display: flex; gap: 16px; align-items: flex-start;
-            transition: all 0.4s ease;
-        }
-        .hh-relate-card:hover { transform: translateY(-4px); border-color: rgba(255,140,0,0.3); box-shadow: 0 16px 40px rgba(255,140,0,0.08); }
-        .hh-relate-card .ic {
-            width: 48px; height: 48px; flex-shrink: 0;
-            background: linear-gradient(135deg,#FF8C00,#FFA500); border-radius: 14px;
-            display: flex; align-items: center; justify-content: center; color: white; font-size: 22px;
-        }
-        .hh-relate-card p { font-family: var(--font-inter); font-size: 15px; color: var(--text-secondary); line-height: 1.55; margin: 0; }
-        .hh-relate-card p strong { color: var(--text-primary); }
-        .hh-relate-cta { text-align: center; margin-top: 44px; }
-
-        /* ---------- MD DIFFERENTIATOR ---------- */
-        .hh-md { padding: clamp(80px,12vh,120px) 0; background: linear-gradient(135deg,#2A1B0A 0%,#3D2812 100%); position: relative; overflow: hidden; color: white; }
-        .hh-md::before {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(circle at 15% 30%, rgba(255,140,0,0.15), transparent 50%),
-                        radial-gradient(circle at 85% 70%, rgba(255,140,0,0.1), transparent 50%);
+        .hh-hero::after {
+            content: '';
+            position: absolute; top: -220px; right: -180px;
+            width: 560px; height: 560px;
+            background: radial-gradient(circle, rgba(255, 107, 0, 0.12), transparent 70%);
+            filter: blur(60px);
             pointer-events: none;
         }
-        .hh-md-container { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,2.5rem); text-align: center; }
-        .hh-md-eyebrow {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.35);
-            border-radius: 50px; padding: 8px 20px; margin-bottom: 24px;
-            font-family: var(--font-inter); font-size: 12px; font-weight: 700; color: #FFB84D;
-            text-transform: uppercase; letter-spacing: 1px;
+        .hh-hero-grid {
+            position: relative; z-index: 2;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: clamp(2.5rem, 6vw, 5rem);
+            align-items: center;
         }
-        .hh-md-title { font-family: var(--font-playfair); font-size: clamp(2rem,4.5vw,3rem); font-weight: 700; line-height: 1.15; margin-bottom: 18px; }
-        .hh-md-title .accent { background: linear-gradient(135deg,#FFD700 0%,#FFA500 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-style: italic; }
-        .hh-md-sub { font-family: var(--font-inter); font-size: clamp(16px,2.2vw,18px); color: rgba(255,255,255,0.82); max-width: 680px; margin: 0 auto 40px; line-height: 1.6; }
-        .hh-md-points { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 20px; margin-bottom: 44px; text-align: left; }
-        .hh-md-point {
-            background: rgba(255,140,0,0.1); border: 1px solid rgba(255,140,0,0.25);
-            border-radius: 18px; padding: 24px;
+        .hh-kicker {
+            display: inline-flex; align-items: center; gap: 0.7rem;
+            font-size: 0.66rem; font-weight: 700;
+            letter-spacing: 0.26em; text-transform: uppercase;
+            color: var(--hermes);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 1px solid var(--hermes);
         }
-        .hh-md-point i { font-size: 28px; color: #FFD700; margin-bottom: 12px; display: block; }
-        .hh-md-point h4 { font-family: var(--font-playfair); font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px; }
-        .hh-md-point p { font-family: var(--font-inter); font-size: 14px; color: rgba(255,255,255,0.78); line-height: 1.55; margin: 0; }
+        .hh-hero-title {
+            font-family: var(--display);
+            font-weight: 300;
+            font-size: clamp(2.6rem, 6vw, 4.6rem);
+            line-height: 1.03;
+            letter-spacing: -0.015em;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+        }
+        .hh-hero-title em { font-style: italic; color: var(--hermes); }
+        .hh-hero-dek {
+            font-size: clamp(0.98rem, 1.9vw, 1.12rem);
+            line-height: 1.7;
+            color: var(--ink-soft);
+            max-width: 54ch;
+            margin-bottom: 2rem;
+        }
+        .hh-hero-dek strong { color: var(--ink); font-weight: 700; }
+        .hh-hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+        .hh-reassure {
+            display: flex; align-items: center; gap: 0.55rem;
+            font-size: 0.8rem; color: var(--mist);
+        }
+        .hh-reassure i { color: var(--hermes); }
 
-        /* ---------- AREAS TREATED ---------- */
-        .hh-areas { padding: clamp(80px,12vh,120px) 0; background: linear-gradient(135deg,#FFF8F0 0%,#FFFCF8 100%); }
+        /* ---------- QUALIFY CARD — the spam gate, in editorial dress ---------- */
+        .hh-qualify-card {
+            position: relative;
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-top: 3px solid var(--hermes);
+            padding: clamp(1.75rem, 3.5vw, 2.4rem);
+            box-shadow: var(--shadow-lg);
+        }
+        .hh-qualify-badge {
+            position: absolute; top: -14px; left: clamp(1.75rem, 3.5vw, 2.4rem);
+            background: var(--hermes); color: var(--white);
+            font-size: 0.6rem; font-weight: 800;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            padding: 0.5rem 1rem;
+        }
+        .hh-qualify-card h3 {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: clamp(1.45rem, 2.6vw, 1.75rem);
+            color: var(--ink);
+            margin: 0.75rem 0 0.35rem;
+        }
+        .hh-q-sub { font-size: 0.88rem; color: var(--mist); margin-bottom: 1.5rem; }
+        .hh-q-options { display: flex; flex-direction: column; border-top: 1px solid var(--ink); margin-bottom: 1.25rem; }
+        .hh-q-option {
+            display: flex; align-items: center; gap: 1rem;
+            width: 100%; text-align: left;
+            background: transparent; border: none;
+            border-bottom: 1px solid var(--line-soft);
+            padding: 1rem 0;
+            cursor: pointer;
+            position: relative;
+            transition: padding-left 0.4s var(--ease), background 0.4s var(--ease);
+        }
+        .hh-q-option::before {
+            content: '';
+            position: absolute; left: 0; top: 0;
+            width: 3px; height: 100%;
+            background: var(--hermes);
+            transform: scaleY(0); transform-origin: top;
+            transition: transform 0.4s var(--ease);
+        }
+        .hh-q-option:hover,
+        .hh-q-option.selected { padding-left: 1rem; }
+        .hh-q-option:hover::before,
+        .hh-q-option.selected::before { transform: scaleY(1); }
+        .hh-q-option.selected { background: var(--porcelain); }
+        .hh-q-option .ic {
+            width: 44px; height: 44px; flex-shrink: 0;
+            border: 1px solid var(--line);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--hermes); font-size: 1.15rem;
+            transition: all 0.35s var(--ease);
+        }
+        .hh-q-option.selected .ic { background: var(--hermes); border-color: var(--hermes); color: var(--white); }
+        .hh-q-option .txt { flex: 1; min-width: 0; }
+        .hh-q-option .txt .t {
+            display: block;
+            font-family: var(--display);
+            font-size: 1.15rem;
+            color: var(--ink);
+            transition: color 0.3s var(--ease);
+        }
+        .hh-q-option.selected .txt .t,
+        .hh-q-option:hover .txt .t { color: var(--hermes); font-style: italic; }
+        .hh-q-option .txt .d { display: block; font-size: 0.78rem; color: var(--mist); margin-top: 0.15rem; }
+        .hh-q-option .chk { color: var(--hermes); font-size: 1.2rem; opacity: 0; transition: opacity 0.25s var(--ease); }
+        .hh-q-option.selected .chk { opacity: 1; }
+        .hh-q-cta { display: none; width: 100%; justify-content: center; }
+        .hh-q-cta.show { display: inline-flex; }
+        .hh-q-foot {
+            margin-top: 1rem; text-align: center;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--mist);
+        }
+        .hh-q-foot i { color: var(--hermes); }
+
+        /* ---------- SECTION SHELLS ---------- */
+        .hh-section { padding: clamp(5rem, 10vw, 8.5rem) 0; }
+        .hh-alt { background: var(--porcelain-2); }
+
+        /* ---------- RELATE — "does this sound like your life" ---------- */
+        .hh-relate-list { list-style: none; border-top: 1px solid var(--ink); max-width: 900px; }
+        .hh-relate-list li {
+            display: flex; gap: 1.5rem; align-items: baseline;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--line);
+        }
+        .hh-relate-key {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--hermes);
+            min-width: 2.4rem;
+        }
+        .hh-relate-list p {
+            font-family: var(--display);
+            font-weight: 300;
+            font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+            line-height: 1.45;
+            color: var(--ink-soft);
+            max-width: 34em;
+        }
+        .hh-relate-list p strong { font-weight: 500; color: var(--ink); }
+        .hh-relate-cta { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+
+        /* ---------- MD DIFFERENTIATOR — three-point ledger ---------- */
+        .hh-md-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: clamp(2.5rem, 6vw, 5.5rem);
+            align-items: start;
+        }
+        .hh-md-dek {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: clamp(1.2rem, 2.3vw, 1.55rem);
+            line-height: 1.5;
+            color: var(--ink-soft);
+        }
+        .hh-md-points { list-style: none; display: flex; flex-direction: column; }
+        .hh-md-points li {
+            display: flex; gap: 1.5rem; align-items: baseline;
+            padding: 1.4rem 0;
+            border-bottom: 1px solid var(--line);
+        }
+        .hh-md-points li:first-child { border-top: 1px solid var(--line); }
+        .hh-md-key {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 1.5rem;
+            color: var(--hermes);
+            min-width: 2.2rem;
+        }
+        .hh-md-points h3 { font-family: var(--display); font-weight: 400; font-size: 1.45rem; color: var(--ink); margin-bottom: 0.2rem; }
+        .hh-md-points p { font-size: 0.9rem; color: var(--mist); }
+        .hh-md-cta { margin-top: clamp(2rem, 4vw, 3rem); }
+
+        /* ---------- AREAS — hairline gallery grid ---------- */
         .hh-areas-grid {
-            max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,2.5rem);
-            display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 24px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--line);
+            border-left: 1px solid var(--line);
         }
-        .hh-area-card {
-            background: white; border: 1px solid rgba(255,140,0,0.12); border-radius: 24px;
-            padding: 36px 28px; text-align: center; transition: all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+        .hh-area {
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.25rem, 2.5vw, 2rem);
+            transition: background 0.5s var(--ease);
+            position: relative;
         }
-        .hh-area-card:hover { transform: translateY(-8px); border-color: rgba(255,140,0,0.3); box-shadow: 0 20px 60px rgba(255,140,0,0.1); }
-        .hh-area-icon {
-            width: 72px; height: 72px; margin: 0 auto 20px;
-            background: linear-gradient(135deg,#FF8C00,#FFA500); border-radius: 22px;
-            display: flex; align-items: center; justify-content: center; color: white; font-size: 32px;
-            box-shadow: 0 12px 30px rgba(255,140,0,0.25); transition: transform 0.5s ease;
+        .hh-area:hover { background: var(--white); }
+        .hh-area-no {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--mist);
+            display: block;
+            margin-bottom: 1rem;
+            transition: color 0.4s var(--ease);
         }
-        .hh-area-card:hover .hh-area-icon { transform: rotate(8deg) scale(1.05); }
-        .hh-area-card h3 { font-family: var(--font-playfair); font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
-        .hh-area-card p { font-family: var(--font-inter); font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+        .hh-area:hover .hh-area-no { color: var(--hermes); }
+        .hh-area i { font-size: 1.7rem; color: var(--hermes); display: block; margin-bottom: 1rem; }
+        .hh-area h3 {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: clamp(1.4rem, 2.6vw, 1.8rem);
+            color: var(--ink);
+            margin-bottom: 0.7rem;
+        }
+        .hh-area p { font-size: 0.9rem; color: var(--mist); line-height: 1.65; }
 
         /* ---------- PROCESS ---------- */
-        .hh-process { padding: clamp(80px,12vh,120px) 0; background: white; }
-        .hh-process-container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,2.5rem); }
-        .hh-process-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 24px; margin-top: 50px; }
-        .hh-process-step { text-align: center; }
-        .hh-process-num {
-            width: 72px; height: 72px; margin: 0 auto 20px;
-            background: linear-gradient(135deg,#FF8C00,#FFA500); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-family: var(--font-playfair); font-size: 28px; font-weight: 700; color: white;
-            box-shadow: 0 12px 30px rgba(255,140,0,0.25);
+        .hh-steps { list-style: none; border-top: 1px solid var(--line); }
+        .hh-steps li {
+            display: grid;
+            grid-template-columns: 3.5rem 260px 1fr;
+            gap: clamp(1rem, 3vw, 2.5rem);
+            align-items: baseline;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--line);
         }
-        .hh-process-step h4 { font-family: var(--font-playfair); font-size: 19px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
-        .hh-process-step p { font-family: var(--font-inter); font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+        .hh-step-key {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--hermes);
+        }
+        .hh-steps h4 { font-family: var(--display); font-weight: 400; font-size: 1.35rem; color: var(--ink); }
+        .hh-steps p { font-size: 0.92rem; color: var(--mist); max-width: 60ch; }
 
-        /* ---------- CONTACT ---------- */
-        .hh-contact { padding: clamp(80px,12vh,120px) 0; background: linear-gradient(135deg,#FFFEF9 0%,#FFF8F0 100%); position: relative; overflow: hidden; }
-        .hh-contact-orb { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(255,140,0,0.1), transparent 70%); filter: blur(60px); top: -100px; left: -100px; pointer-events: none; }
-        .hh-contact-container {
-            position: relative; max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,2.5rem);
-            display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; align-items: start;
+        /* ---------- CONTACT / FORM ---------- */
+        .hh-contact-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: clamp(2.5rem, 6vw, 5rem);
+            align-items: start;
         }
-        .hh-contact-info h2 { font-family: var(--font-playfair); font-size: clamp(2rem,4vw,3rem); font-weight: 700; color: var(--text-primary); margin-bottom: 20px; line-height: 1.15; }
-        .hh-contact-info h2 .accent { display: block; background: linear-gradient(135deg,#FF8C00,#FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-style: italic; margin-top: 4px; }
-        .hh-contact-info > p { font-family: var(--font-inter); font-size: 17px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 32px; }
-        .hh-contact-methods { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
-        .hh-contact-method { display: flex; align-items: center; gap: 16px; background: white; border: 1px solid rgba(255,140,0,0.12); border-radius: 16px; padding: 18px 20px; text-decoration: none; transition: all 0.3s ease; }
-        .hh-contact-method:hover { transform: translateX(6px); border-color: rgba(255,140,0,0.3); box-shadow: 0 12px 30px rgba(255,140,0,0.08); }
-        .hh-contact-method-icon { width: 48px; height: 48px; background: rgba(255,140,0,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--hermes-orange); font-size: 22px; flex-shrink: 0; }
-        .hh-contact-method-text .label { display: block; font-family: var(--font-inter); font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
-        .hh-contact-method-text .value { display: block; font-family: var(--font-inter); font-size: 16px; font-weight: 600; color: var(--text-primary); }
-        .hh-form-card { background: white; border: 2px solid rgba(255,140,0,0.12); border-radius: 28px; padding: 36px; box-shadow: 0 25px 70px rgba(0,0,0,0.08), 0 12px 35px rgba(255,140,0,0.06); }
-        .hh-form-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,140,0,0.1); }
-        .hh-form-header-icon { width: 56px; height: 56px; background: linear-gradient(135deg,#FF8C00,#FFA500); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
-        .hh-form-header h3 { font-family: var(--font-playfair); font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-        .hh-form-header p { font-family: var(--font-inter); font-size: 14px; color: var(--text-secondary); }
+        .hh-methods { display: flex; flex-direction: column; border-top: 1px solid var(--ink); margin-top: 2rem; }
+        .hh-method {
+            display: flex; align-items: center; gap: 1.1rem;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid var(--line-soft);
+            transition: padding-left 0.4s var(--ease);
+        }
+        .hh-method:hover { padding-left: 0.75rem; }
+        .hh-method i { font-size: 1.25rem; color: var(--hermes); }
+        .hh-method .label {
+            display: block;
+            font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--mist);
+        }
+        .hh-method .value {
+            display: block;
+            font-family: var(--display);
+            font-size: 1.15rem;
+            color: var(--ink);
+        }
+        .hh-form-card {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-top: 3px solid var(--hermes);
+            padding: clamp(1.75rem, 3.5vw, 2.5rem);
+            box-shadow: var(--shadow-md);
+        }
+        .hh-form-head {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--line-soft);
+        }
+        .hh-form-head h3 {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: 1.6rem;
+            color: var(--ink);
+            margin-bottom: 0.3rem;
+        }
+        .hh-form-head p { font-size: 0.88rem; color: var(--mist); }
         /* selected-area chip shown inside the form once chosen in hero */
         .hh-area-chip {
-            display: none; align-items: center; gap: 8px;
-            background: rgba(255,140,0,0.1); border: 1px solid rgba(255,140,0,0.3);
-            border-radius: 50px; padding: 8px 16px; margin-bottom: 20px;
-            font-family: var(--font-inter); font-size: 13px; font-weight: 600; color: var(--hermes-orange);
+            display: none; align-items: center; gap: 0.5rem;
+            border: 1px solid var(--hermes);
+            color: var(--hermes);
+            font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.14em; text-transform: uppercase;
+            padding: 0.55rem 1rem;
+            margin-bottom: 1.25rem;
             width: fit-content;
         }
         .hh-area-chip.show { display: inline-flex; }
-        .hh-area-chip i { font-size: 15px; }
-        .hh-form-trust { display: flex; justify-content: space-around; gap: 12px; padding-top: 20px; margin-top: 20px; border-top: 1px solid rgba(255,140,0,0.1); flex-wrap: wrap; }
-        .hh-form-trust-item { display: flex; align-items: center; gap: 8px; font-family: var(--font-inter); font-size: 12px; font-weight: 600; color: var(--text-secondary); }
-        .hh-form-trust-item i { color: var(--hermes-orange); font-size: 16px; }
-
-        /* ---------- FAQ ---------- */
-        .hh-faq { padding: clamp(80px,12vh,120px) 0; background: white; }
-        .hh-faq-container { max-width: 900px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,2.5rem); }
-        .hh-faq-list { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; }
-        .hh-faq-item { background: linear-gradient(135deg,#FFFEF9,#FFFCF8); border: 1px solid rgba(255,140,0,0.12); border-radius: 18px; overflow: hidden; transition: all 0.3s ease; }
-        .hh-faq-item[open] { border-color: rgba(255,140,0,0.3); box-shadow: 0 12px 30px rgba(255,140,0,0.06); }
-        .hh-faq-item summary { list-style: none; cursor: pointer; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-family: var(--font-playfair); font-size: 18px; font-weight: 600; color: var(--text-primary); }
-        .hh-faq-item summary::-webkit-details-marker { display: none; }
-        .hh-faq-item summary::after { content: '+'; font-size: 28px; color: var(--hermes-orange); font-weight: 300; transition: transform 0.3s ease; line-height: 1; }
-        .hh-faq-item[open] summary::after { transform: rotate(45deg); }
-        .hh-faq-answer { padding: 0 24px 24px; font-family: var(--font-inter); font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
-
-        /* ---------- FINAL CTA ---------- */
-        .hh-final-cta { padding: clamp(80px,12vh,120px) 0; background: linear-gradient(135deg,#2A1B0A 0%,#3D2812 100%); position: relative; overflow: hidden; color: white; text-align: center; }
-        .hh-final-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 50%, rgba(255,140,0,0.15), transparent 50%), radial-gradient(circle at 80% 50%, rgba(255,140,0,0.1), transparent 50%); pointer-events: none; }
-        .hh-final-cta-container { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 0 clamp(1.5rem,4vw,2.5rem); }
-        .hh-final-cta h2 { font-family: var(--font-playfair); font-size: clamp(2.2rem,5vw,3.6rem); font-weight: 700; margin-bottom: 20px; line-height: 1.15; }
-        .hh-final-cta h2 .accent { display: block; background: linear-gradient(135deg,#FFD700,#FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-style: italic; margin-top: 4px; }
-        .hh-final-cta p { font-family: var(--font-inter); font-size: 18px; color: rgba(255,255,255,0.85); line-height: 1.6; max-width: 600px; margin: 0 auto 40px; }
-        .hh-final-cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-        .hh-final-cta .hh-btn-secondary { background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.3); }
-        .hh-final-cta .hh-btn-secondary:hover { background: rgba(255,255,255,0.2); border-color: white; }
-        .hh-final-cta-reassure { margin-top: 24px; font-family: var(--font-inter); font-size: 14px; color: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .hh-final-cta-reassure i { color: #FFB84D; }
+        .hh-form-trust {
+            display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;
+            margin-top: 1.5rem; padding-top: 1.25rem;
+            border-top: 1px solid var(--line-soft);
+        }
+        .hh-form-trust span {
+            display: inline-flex; align-items: center; gap: 0.45rem;
+            font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--ink-soft);
+        }
+        .hh-form-trust i { color: var(--hermes); }
 
         /* ---------- RESPONSIVE ---------- */
-        @media (max-width: 992px) {
-            .hh-hero-container, .hh-contact-container { grid-template-columns: 1fr; }
-            .hh-qualify-card { order: -1; max-width: 520px; margin: 0 auto; }
+        @media (max-width: 1024px) {
+            .hh-hero-grid { grid-template-columns: 1fr; }
+            .hh-qualify-card { max-width: 560px; }
+            .hh-md-grid { grid-template-columns: 1fr; }
+            .hh-areas-grid { grid-template-columns: 1fr; }
+            .hh-contact-grid { grid-template-columns: 1fr; }
+            .hh-steps li { grid-template-columns: 2.5rem 1fr; }
+            .hh-steps p { grid-column: 2; }
         }
         @media (max-width: 768px) {
-            .hh-hero { min-height: auto; padding: 120px 0 60px; }
-            .hh-hero-title { font-size: 2.2rem; }
-            .hh-form-card { padding: 24px; }
-            .hh-hero-actions { flex-direction: column; }
-            .hh-hero-actions a { width: 100%; justify-content: center; }
-            .hh-final-cta-actions { flex-direction: column; }
-            .hh-final-cta-actions a { width: 100%; justify-content: center; }
+            .hh-hero-actions .ed-btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-<!-- ============================================
-     HEADER
-     ============================================ -->
-<header class="ev-header" id="evHeader">
-    <nav class="ev-nav" aria-label="Primary">
-        <a href="/" class="ev-logo" aria-label="Eviaesthetics home">
-            <img src="images/logo1.png" alt="Eviaesthetics" class="ev-logo-img" width="160" height="40">
+<!-- ============================================ HEADER ============================================ -->
+<header class="ed-header scrolled" id="edHeader">
+    <nav class="ed-nav" aria-label="Primary">
+        <div class="ed-nav-left">
+            <a href="index.html" class="ed-nav-link">Home</a>
+            <a href="services.html" class="ed-nav-link">Services</a>
+            <a href="about.html" class="ed-nav-link">About Dr. Nano</a>
+            <a href="contact.html" class="ed-nav-link">Contact</a>
+        </div>
+
+        <a href="/" class="ed-logo" aria-label="Eviaesthetics home">
+            <img src="images/logo1.png" alt="Eviaesthetics" class="ed-logo-img" width="150" height="40">
         </a>
 
-        <div class="ev-nav-links" id="evNavLinks">
-            <a href="index.html" class="ev-nav-link active">Home</a>
-            <a href="services.html" class="ev-nav-link">Services</a>
-            <a href="about.html" class="ev-nav-link">About Dr. Nano</a>
-            <a href="contact.html" class="ev-nav-link">Contact</a>
+        <div class="ed-nav-right">
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-nav-link" rel="noopener">Shop</a>
+            <a href="tel:+12016394983" class="ed-nav-link ed-nav-tel" onclick="trackPhoneCall()">(201) 639-4983</a>
+            <a href="#hh-contact-form" class="ed-btn ed-btn-ink">Book a Consult</a>
         </div>
 
-        <div class="ev-nav-cta">
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-text" rel="noopener">Shop</a>
-            <a href="contact.html" class="ev-btn-outline">Book Consultation</a>
-        </div>
-
-        <button class="ev-burger" id="evBurger" aria-label="Open menu" aria-expanded="false">
-            <span></span><span></span><span></span>
+        <button class="ed-burger" id="edBurger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span>
         </button>
     </nav>
+</header>
 
-    <!-- Mobile drawer -->
-    <div class="ev-drawer" id="evDrawer" aria-hidden="true">
-        <div class="ev-drawer-inner">
-            <button class="ev-drawer-close" id="evDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
-            <nav class="ev-drawer-nav">
-                <a href="index.html">Home</a>
-                <a href="services.html">Services</a>
-                <a href="about.html">About Dr. Nano</a>
-                <a href="contact.html">Contact</a>
-            </nav>
-            <div class="ev-drawer-cta">
-                <a href="contact.html" class="ev-btn-solid">Book Consultation</a>
-                <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-outline" rel="noopener">Shop AlumierMD</a>
-            </div>
-            <div class="ev-drawer-foot">
+<!-- Mobile drawer -->
+<div class="ed-drawer" id="edDrawer" aria-hidden="true">
+    <div class="ed-drawer-inner">
+        <button class="ed-drawer-close" id="edDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
+        <span class="ed-drawer-kicker">Menu — Eviaesthetics</span>
+        <nav class="ed-drawer-nav">
+            <a href="index.html"><em>01</em> Home</a>
+            <a href="services.html"><em>02</em> Services</a>
+            <a href="about.html"><em>03</em> About Dr. Nano</a>
+            <a href="contact.html"><em>04</em> Contact</a>
+        </nav>
+        <div class="ed-drawer-cta">
+            <a href="#hh-contact-form" class="ed-btn ed-btn-hermes">Book a Private Consult</a>
+            <a href="tel:+12016394983" class="ed-btn ed-btn-ghost" onclick="trackPhoneCall()">Call (201) 639-4983</a>
+        </div>
+        <div class="ed-drawer-foot">
+            <span>65 W 36th St, 10th Fl — NYC</span>
+            <div class="ed-drawer-social">
                 <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
                 <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
             </div>
         </div>
     </div>
-</header>
+</div>
 
-<main>
+<main id="main">
 
 <!-- ============================================
-     HERO + QUALIFY CARD (spam gate)
+     1 · HERO + QUALIFY CARD (spam gate)
      ============================================ -->
-<section class="hh-hero">
-    <div class="hh-hero-bg">
-        <div class="hh-hero-orb hh-hero-orb-1"></div>
-        <div class="hh-hero-orb hh-hero-orb-2"></div>
-    </div>
-    <div class="hh-hero-container">
-        <div class="hh-hero-content" data-aos="fade-right">
-            <div class="hh-hero-eyebrow">
-                <i class="ri-stethoscope-line"></i>
-                <span>Physician-Administered · Midtown Manhattan</span>
-            </div>
+<section class="hh-hero" aria-label="Hyperhidrosis treatment in Midtown Manhattan">
+    <div class="ed-wrap hh-hero-grid">
+        <div data-reveal>
+            <span class="hh-kicker"><i class="ri-stethoscope-line"></i> Physician-Administered · Midtown Manhattan</span>
             <h1 class="hh-hero-title">
-                Stop Excessive Sweating
-                <span class="accent">For Months at a Time</span>
+                Stop excessive sweating —
+                <em>for months at a time</em>
             </h1>
-            <p class="hh-hero-sub">
-                If antiperspirants stopped working a long time ago, you're not the problem — your sweat glands are overactive. <strong>A quick, proven medical treatment can switch them off for 4 to 12 months</strong>, so you can raise your hand, shake hands, and wear what you want without a second thought. Performed by Dr. Evia A Nano, MD.
+            <p class="hh-hero-dek">
+                If antiperspirants stopped working a long time ago, you're not the problem — your
+                sweat glands are overactive. <strong>A quick, proven medical treatment can switch them
+                off for 4 to 12 months</strong>, so you can raise your hand, shake hands, and wear what
+                you want without a second thought. Performed by Dr.&nbsp;Evia&nbsp;A.&nbsp;Nano,&nbsp;MD.
             </p>
             <div class="hh-hero-actions">
-                <a href="#hh-contact-form" class="hh-btn-primary">
-                    <i class="ri-calendar-check-line"></i>
-                    <span>Book a Private Consult</span>
+                <a href="#hh-contact-form" class="ed-btn ed-btn-hermes ed-btn-lg">
+                    <span>Book a Private Consult</span><i class="ri-arrow-right-up-line"></i>
                 </a>
-                <a href="tel:+12016394983" class="hh-btn-secondary" onclick="trackPhoneCall()">
-                    <i class="ri-phone-line"></i>
+                <a href="tel:+12016394983" class="ed-btn ed-btn-ghost" onclick="trackPhoneCall()">
                     <span>Call (201) 639-4983</span>
                 </a>
             </div>
-            <div class="hh-hero-reassure">
+            <p class="hh-reassure">
                 <i class="ri-lock-line"></i>
-                <span>Private &amp; discreet. By appointment — same-day consults often available.</span>
-            </div>
-            <div class="hh-trust-row">
-                <div class="trust"><i class="ri-shield-check-fill"></i> Physician Administered</div>
-                <div class="trust"><i class="ri-time-fill"></i> 4–12 Months of Relief</div>
-                <div class="trust"><i class="ri-star-fill"></i> 5.0 Rated · 200+ Reviews</div>
-            </div>
+                Private &amp; discreet. By appointment — same-day consults often available.
+            </p>
         </div>
 
         <!-- QUALIFY CARD — the spam gate -->
-        <div class="hh-qualify-card" data-aos="fade-left" data-aos-delay="200">
-            <div class="hh-qualify-badge">30-Second Start</div>
+        <div class="hh-qualify-card" data-reveal>
+            <span class="hh-qualify-badge">30-Second Start</span>
             <h3>Where does sweating affect you most?</h3>
             <p class="hh-q-sub">Pick the area that bothers you — we'll tailor your consultation around it.</p>
             <div class="hh-q-options" id="hhQOptions">
@@ -649,9 +625,8 @@
                     <i class="ri-checkbox-circle-fill chk"></i>
                 </button>
             </div>
-            <a href="#hh-contact-form" class="hh-q-cta" id="hhQCta">
-                <i class="ri-arrow-down-line"></i>
-                <span>Continue to Book My Consult</span>
+            <a href="#hh-contact-form" class="ed-btn ed-btn-hermes hh-q-cta" id="hhQCta">
+                <span>Continue to Book My Consult</span><i class="ri-arrow-down-line"></i>
             </a>
             <div class="hh-q-foot">
                 <i class="ri-shield-check-line"></i>
@@ -662,330 +637,397 @@
 </section>
 
 <!-- ============================================
-     TRUST BAR
+     WIRE TICKER — credentials
      ============================================ -->
-<section class="hh-trust-bar">
-    <div class="hh-trust-bar-container">
-        <div class="hh-trust-bar-item"><i class="ri-stethoscope-line"></i><span>Board Certified MD</span></div>
-        <div class="hh-trust-bar-item"><i class="ri-shield-check-line"></i><span>HIPAA Compliant</span></div>
-        <div class="hh-trust-bar-item"><i class="ri-time-line"></i><span>Months of Relief</span></div>
-        <div class="hh-trust-bar-item"><i class="ri-award-line"></i><span>20+ Years Experience</span></div>
-        <div class="hh-trust-bar-item"><i class="ri-map-pin-line"></i><span>Midtown Manhattan</span></div>
+<section class="ed-wire" aria-label="Credentials">
+    <div class="ed-wire-track">
+        <span>Board-Certified MD</span><span class="ed-wire-dot">●</span>
+        <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
+        <span>4–12 Months of Relief</span><span class="ed-wire-dot">●</span>
+        <span>20+ Years Experience</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>Midtown Manhattan · By Appointment</span><span class="ed-wire-dot">●</span>
+        <!-- duplicate for seamless loop -->
+        <span>Board-Certified MD</span><span class="ed-wire-dot">●</span>
+        <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
+        <span>4–12 Months of Relief</span><span class="ed-wire-dot">●</span>
+        <span>20+ Years Experience</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>Midtown Manhattan · By Appointment</span><span class="ed-wire-dot">●</span>
     </div>
 </section>
 
 <!-- ============================================
-     "DOES THIS SOUND LIKE YOU" — emotional relate
+     2 · RELATE — "does this sound like your life?"
      ============================================ -->
-<section class="hh-relate">
-    <div class="hh-section-header" data-aos="fade-up">
-        <div class="hh-section-eyebrow"><i class="ri-emotion-line"></i><span>You're Not Alone</span></div>
-        <h2 class="hh-section-title">Does This Sound <span class="accent">Like Your Life?</span></h2>
-        <p class="hh-section-sub">Excessive sweating (hyperhidrosis) isn't about hygiene or willpower — it's a medical condition. If any of these feel familiar, you're exactly who this treatment was made for.</p>
-    </div>
-    <div class="hh-relate-grid">
-        <div class="hh-relate-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="ic"><i class="ri-t-shirt-line"></i></div>
-            <p>You <strong>plan outfits around hiding sweat marks</strong> — only dark colors, layers, or patterns that won't show through.</p>
+<section class="hh-section" aria-labelledby="hhRelateTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 1</span>
+            <span class="ed-rubric-name">You're Not Alone</span>
+            <span class="ed-rubric-rule"></span>
         </div>
-        <div class="hh-relate-card" data-aos="fade-up" data-aos-delay="150">
-            <div class="ic"><i class="ri-hand-heart-line"></i></div>
-            <p>You <strong>dread handshakes</strong> and wipe your palms before every meeting, date, or introduction.</p>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="hhRelateTitle">Does this sound <em>like your life?</em></h2>
+            <p class="ed-dek">Excessive sweating (hyperhidrosis) isn't about hygiene or willpower — it's a medical condition. If any of these feel familiar, you're exactly who this treatment was made for.</p>
+        </header>
+
+        <ul class="hh-relate-list">
+            <li data-reveal>
+                <span class="hh-relate-key">I</span>
+                <p>You <strong>plan outfits around hiding sweat marks</strong> — only dark colors, layers, or patterns that won't show through.</p>
+            </li>
+            <li data-reveal>
+                <span class="hh-relate-key">II</span>
+                <p>You <strong>dread handshakes</strong> and wipe your palms before every meeting, date, or introduction.</p>
+            </li>
+            <li data-reveal>
+                <span class="hh-relate-key">III</span>
+                <p>You've <strong>tried every clinical antiperspirant</strong> on the shelf and nothing actually keeps you dry.</p>
+            </li>
+            <li data-reveal>
+                <span class="hh-relate-key">IV</span>
+                <p>The sweating <strong>affects your confidence at work and socially</strong> — and you think about it far more than you'd admit.</p>
+            </li>
+        </ul>
+
+        <div class="hh-relate-cta" data-reveal>
+            <a href="#hh-contact-form" class="ed-btn ed-btn-hermes ed-btn-lg">
+                <span>I'm Ready to Stop the Sweating</span><i class="ri-arrow-right-up-line"></i>
+            </a>
         </div>
-        <div class="hh-relate-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="ic"><i class="ri-spam-2-line"></i></div>
-            <p>You've <strong>tried every clinical antiperspirant</strong> on the shelf and nothing actually keeps you dry.</p>
-        </div>
-        <div class="hh-relate-card" data-aos="fade-up" data-aos-delay="250">
-            <div class="ic"><i class="ri-mental-health-line"></i></div>
-            <p>The sweating <strong>affects your confidence at work and socially</strong> — and you think about it far more than you'd admit.</p>
-        </div>
-    </div>
-    <div class="hh-relate-cta" data-aos="fade-up">
-        <a href="#hh-contact-form" class="hh-btn-primary">
-            <i class="ri-calendar-check-line"></i>
-            <span>I'm Ready to Stop the Sweating</span>
-        </a>
     </div>
 </section>
 
 <!-- ============================================
-     MD DIFFERENTIATOR
+     3 · THE PHYSICIAN DIFFERENCE
      ============================================ -->
-<section class="hh-md">
-    <div class="hh-md-container">
-        <div class="hh-md-eyebrow" data-aos="fade-up"><i class="ri-shield-star-line"></i><span>Why Who Treats You Matters</span></div>
-        <h2 class="hh-md-title" data-aos="fade-up">Treated by a Physician, <span class="accent">Not a Technician</span></h2>
-        <p class="hh-md-sub" data-aos="fade-up">Hyperhidrosis treatment means precise injections into the right glands at the right depth. Done well, you get months of freedom. Done carelessly, you get patchy results or unwanted side effects. That's why a physician should be the one holding the needle.</p>
-        <div class="hh-md-points">
-            <div class="hh-md-point" data-aos="fade-up" data-aos-delay="100">
-                <i class="ri-user-star-line"></i>
-                <h4>A Real Doctor, Every Time</h4>
-                <p>Every treatment is personally performed or directly supervised by Dr. Evia A Nano, MD — board-certified with 20+ years of experience.</p>
+<section class="hh-section hh-alt" aria-labelledby="hhMdTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 2</span>
+            <span class="ed-rubric-name">Why Who Treats You Matters</span>
+            <span class="ed-rubric-rule"></span>
+        </div>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="hhMdTitle">Treated by a physician, <em>not a technician</em></h2>
+        </header>
+
+        <div class="hh-md-grid">
+            <p class="hh-md-dek" data-reveal>
+                Hyperhidrosis treatment means precise injections into the right glands at the
+                right depth. Done well, you get months of freedom. Done carelessly, you get
+                patchy results or unwanted side effects. That's why a physician should be the
+                one holding the needle.
+            </p>
+
+            <ul class="hh-md-points">
+                <li data-reveal>
+                    <span class="hh-md-key">I</span>
+                    <div><h3>A Real Doctor, Every Time</h3><p>Every treatment is personally performed or directly supervised by Dr. Evia A Nano, MD — board-certified with 20+ years of experience.</p></div>
+                </li>
+                <li data-reveal>
+                    <span class="hh-md-key">II</span>
+                    <div><h3>Precision Placement</h3><p>Your anatomy is mapped and treated with medical accuracy, so the right glands are calmed and your results last.</p></div>
+                </li>
+                <li data-reveal>
+                    <span class="hh-md-key">III</span>
+                    <div><h3>Private &amp; Judgment-Free</h3><p>A discreet Midtown suite where you're the only patient that hour — no crowded waiting room, no rush.</p></div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="hh-md-cta" data-reveal>
+            <a href="#hh-contact-form" class="ed-btn ed-btn-ink">
+                <span>Book With Dr. Nano</span><i class="ri-arrow-right-up-line"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     4 · AREAS WE TREAT
+     ============================================ -->
+<section class="hh-section" aria-labelledby="hhAreasTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 3</span>
+            <span class="ed-rubric-name">Areas We Treat</span>
+            <span class="ed-rubric-rule"></span>
+        </div>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="hhAreasTitle">Targeted relief, <em>wherever you sweat</em></h2>
+            <p class="ed-dek">Each area is assessed and treated individually for the best possible result.</p>
+        </header>
+
+        <div class="hh-areas-grid">
+            <div class="hh-area" data-reveal>
+                <span class="hh-area-no">01</span>
+                <i class="ri-t-shirt-line"></i>
+                <h3>Underarms</h3>
+                <p>The most-requested treatment. End sweat stains and the constant outfit planning — stay dry and confident in any color.</p>
             </div>
-            <div class="hh-md-point" data-aos="fade-up" data-aos-delay="150">
-                <i class="ri-focus-3-line"></i>
-                <h4>Precision Placement</h4>
-                <p>Your anatomy is mapped and treated with medical accuracy, so the right glands are calmed and your results last.</p>
+            <div class="hh-area" data-reveal>
+                <span class="hh-area-no">02</span>
+                <i class="ri-hand-heart-line"></i>
+                <h3>Hands &amp; Palms</h3>
+                <p>Say goodbye to clammy handshakes and slippery grip. Reclaim confidence in every meeting, date, and introduction.</p>
             </div>
-            <div class="hh-md-point" data-aos="fade-up" data-aos-delay="200">
-                <i class="ri-lock-line"></i>
-                <h4>Private &amp; Judgment-Free</h4>
-                <p>A discreet Midtown suite where you're the only patient that hour — no crowded waiting room, no rush.</p>
+            <div class="hh-area" data-reveal>
+                <span class="hh-area-no">03</span>
+                <i class="ri-user-line"></i>
+                <h3>Scalp &amp; Head</h3>
+                <p>Stop sweating through your hair and makeup. Stay composed and put-together, even under pressure or heat.</p>
             </div>
-        </div>
-        <a href="#hh-contact-form" class="hh-btn-primary" data-aos="fade-up">
-            <i class="ri-calendar-check-line"></i>
-            <span>Book With Dr. Nano</span>
-        </a>
-    </div>
-</section>
-
-<!-- ============================================
-     AREAS TREATED
-     ============================================ -->
-<section class="hh-areas">
-    <div class="hh-section-header" data-aos="fade-up">
-        <div class="hh-section-eyebrow"><i class="ri-body-scan-line"></i><span>Areas We Treat</span></div>
-        <h2 class="hh-section-title">Targeted Relief, <span class="accent">Wherever You Sweat</span></h2>
-        <p class="hh-section-sub">Each area is assessed and treated individually for the best possible result.</p>
-    </div>
-    <div class="hh-areas-grid">
-        <div class="hh-area-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="hh-area-icon"><i class="ri-t-shirt-line"></i></div>
-            <h3>Underarms</h3>
-            <p>The most-requested treatment. End sweat stains and the constant outfit planning — stay dry and confident in any color.</p>
-        </div>
-        <div class="hh-area-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="hh-area-icon"><i class="ri-hand-heart-line"></i></div>
-            <h3>Hands &amp; Palms</h3>
-            <p>Say goodbye to clammy handshakes and slippery grip. Reclaim confidence in every meeting, date, and introduction.</p>
-        </div>
-        <div class="hh-area-card" data-aos="fade-up" data-aos-delay="300">
-            <div class="hh-area-icon"><i class="ri-user-line"></i></div>
-            <h3>Scalp &amp; Head</h3>
-            <p>Stop sweating through your hair and makeup. Stay composed and put-together, even under pressure or heat.</p>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     PROCESS
+     5 · YOUR VISIT — process
      ============================================ -->
-<section class="hh-process">
-    <div class="hh-process-container">
-        <div class="hh-section-header">
-            <div class="hh-section-eyebrow" data-aos="fade-up"><i class="ri-route-line"></i><span>Your Visit</span></div>
-            <h2 class="hh-section-title" data-aos="fade-up">Simple, Quick, <span class="accent">Physician-Led</span></h2>
+<section class="hh-section hh-alt" aria-labelledby="hhProcessTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 4</span>
+            <span class="ed-rubric-name">Your Visit</span>
+            <span class="ed-rubric-rule"></span>
         </div>
-        <div class="hh-process-grid">
-            <div class="hh-process-step" data-aos="fade-up" data-aos-delay="100">
-                <div class="hh-process-num">1</div>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="hhProcessTitle">Simple, quick, <em>physician-led</em></h2>
+        </header>
+
+        <ol class="hh-steps">
+            <li data-reveal>
+                <span class="hh-step-key">I</span>
                 <h4>Private Consult</h4>
                 <p>Tell us where you sweat. Dr. Nano confirms you're a candidate and maps your treatment.</p>
-            </div>
-            <div class="hh-process-step" data-aos="fade-up" data-aos-delay="200">
-                <div class="hh-process-num">2</div>
+            </li>
+            <li data-reveal>
+                <span class="hh-step-key">II</span>
                 <h4>Quick Treatment</h4>
                 <p>A series of fine injections into the affected area — most visits take just 30 to 60 minutes.</p>
-            </div>
-            <div class="hh-process-step" data-aos="fade-up" data-aos-delay="300">
-                <div class="hh-process-num">3</div>
+            </li>
+            <li data-reveal>
+                <span class="hh-step-key">III</span>
                 <h4>Go Back to Life</h4>
                 <p>Minimal downtime. Resume your day right away — no bandages, no recovery.</p>
-            </div>
-            <div class="hh-process-step" data-aos="fade-up" data-aos-delay="400">
-                <div class="hh-process-num">4</div>
+            </li>
+            <li data-reveal>
+                <span class="hh-step-key">IV</span>
                 <h4>Stay Dry for Months</h4>
                 <p>Most patients feel the difference within days and enjoy 4–12 months of relief.</p>
-            </div>
-        </div>
+            </li>
+        </ol>
     </div>
 </section>
 
 <!-- ============================================
-     CONTACT FORM (with qualifying chip)
+     6 · BOOK — contact + form (with qualifying chip)
      ============================================ -->
-<section class="hh-contact" id="hh-contact-form">
-    <div class="hh-contact-orb"></div>
-    <div class="hh-contact-container">
-        <div class="hh-contact-info" data-aos="fade-right">
-            <div class="hh-section-eyebrow"><i class="ri-calendar-check-line"></i><span>Book Your Consult</span></div>
-            <h2>Ready to Stop Sweating?<span class="accent">Let's Talk Privately.</span></h2>
-            <p>Tell us a little about what you're dealing with and our team will reach out within 24 hours to arrange your private consultation with Dr. Nano. Prefer to talk now? Call us directly — same-day consults are often available.</p>
-            <div class="hh-contact-methods">
-                <a href="tel:+12016394983" class="hh-contact-method" onclick="trackPhoneCall()">
-                    <div class="hh-contact-method-icon"><i class="ri-phone-fill"></i></div>
-                    <div class="hh-contact-method-text">
-                        <span class="label">Call Now</span>
-                        <span class="value">(201) 639-4983</span>
-                    </div>
-                </a>
-                <a href="mailto:info@eviaesthetics.com" class="hh-contact-method">
-                    <div class="hh-contact-method-icon"><i class="ri-mail-fill"></i></div>
-                    <div class="hh-contact-method-text">
-                        <span class="label">Email Us</span>
-                        <span class="value">info@eviaesthetics.com</span>
-                    </div>
-                </a>
-                <a href="https://www.google.com/maps/place/evia+esthetics/" target="_blank" rel="noopener" class="hh-contact-method">
-                    <div class="hh-contact-method-icon"><i class="ri-map-pin-fill"></i></div>
-                    <div class="hh-contact-method-text">
-                        <span class="label">Visit Us</span>
-                        <span class="value">65 W 36th St, 10th Floor · NYC</span>
-                    </div>
-                </a>
-            </div>
+<section class="hh-section" id="hh-contact-form" aria-labelledby="hhContactTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 5</span>
+            <span class="ed-rubric-name">Book Your Consult</span>
+            <span class="ed-rubric-rule"></span>
         </div>
-        <div class="hh-form-card" data-aos="fade-left" data-aos-delay="200">
-            <div class="hh-form-header">
-                <div class="hh-form-header-icon"><i class="ri-message-3-line"></i></div>
-                <div>
+
+        <div class="hh-contact-grid">
+            <div data-reveal>
+                <h2 class="ed-h2" id="hhContactTitle">Ready to stop sweating? <em>Let's talk privately.</em></h2>
+                <p class="ed-dek">Tell us a little about what you're dealing with and our team will reach out within 24 hours to arrange your private consultation with Dr. Nano. Prefer to talk now? Call us directly — same-day consults are often available.</p>
+
+                <div class="hh-methods">
+                    <a href="tel:+12016394983" class="hh-method" onclick="trackPhoneCall()">
+                        <i class="ri-phone-fill"></i>
+                        <span><span class="label">Call Now</span><span class="value">(201) 639-4983</span></span>
+                    </a>
+                    <a href="mailto:info@eviaesthetics.com" class="hh-method">
+                        <i class="ri-mail-fill"></i>
+                        <span><span class="label">Email Us</span><span class="value">info@eviaesthetics.com</span></span>
+                    </a>
+                    <a href="https://www.google.com/maps/place/evia+esthetics/" target="_blank" rel="noopener" class="hh-method">
+                        <i class="ri-map-pin-fill"></i>
+                        <span><span class="label">Visit Us</span><span class="value">65 W 36th St, 10th Floor · NYC</span></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hh-form-card" data-reveal>
+                <div class="hh-form-head">
                     <h3>Request Your Consultation</h3>
                     <p>Private &amp; confidential — we'll respond within 24 hours.</p>
                 </div>
-            </div>
-            <!-- Shows the area the user picked in the hero, so they feel understood -->
-            <div class="hh-area-chip" id="hhAreaChip">
-                <i class="ri-checkbox-circle-fill"></i>
-                <span id="hhAreaChipText">Area selected</span>
-            </div>
-            <!-- Elfsight Contact Form (same as main contact page) -->
-            <div class="elfsight-form-wrapper">
-                <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-db15691a-379c-4773-8900-983e7e393d0f" data-elfsight-app-lazy></div>
-            </div>
-            <div class="hh-form-trust">
-                <div class="hh-form-trust-item"><i class="ri-stethoscope-line"></i><span>Physician-Led</span></div>
-                <div class="hh-form-trust-item"><i class="ri-lock-line"></i><span>100% Confidential</span></div>
-                <div class="hh-form-trust-item"><i class="ri-time-line"></i><span>24H Response</span></div>
+                <!-- Shows the area the user picked in the hero, so they feel understood -->
+                <div class="hh-area-chip" id="hhAreaChip">
+                    <i class="ri-checkbox-circle-fill"></i>
+                    <span id="hhAreaChipText">Area selected</span>
+                </div>
+                <!-- Elfsight Contact Form (same as main contact page) -->
+                <div class="elfsight-form-wrapper">
+                    <div class="elfsight-app-db15691a-379c-4773-8900-983e7e393d0f" data-elfsight-app-lazy></div>
+                </div>
+                <div class="hh-form-trust">
+                    <span><i class="ri-stethoscope-line"></i> Physician-Led</span>
+                    <span><i class="ri-lock-line"></i> 100% Confidential</span>
+                    <span><i class="ri-time-line"></i> 24H Response</span>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     FAQ
+     7 · FAQ
      ============================================ -->
-<section class="hh-faq">
-    <div class="hh-faq-container">
-        <div class="hh-section-header">
-            <div class="hh-section-eyebrow" data-aos="fade-up"><i class="ri-question-line"></i><span>FAQ</span></div>
-            <h2 class="hh-section-title" data-aos="fade-up">Common <span class="accent">Questions</span></h2>
-        </div>
-        <div class="hh-faq-list">
-            <details class="hh-faq-item" data-aos="fade-up">
-                <summary>Who performs the treatment?</summary>
-                <div class="hh-faq-answer">Every treatment is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with more than 20 years of clinical experience. You are never treated by an unsupervised technician.</div>
+<section class="ed-faq" id="faq" aria-labelledby="hhFaqTitle">
+    <div class="ed-wrap ed-faq-wrap">
+        <header class="ed-faq-head" data-reveal>
+            <div class="ed-rubric">
+                <span class="ed-rubric-no">No. 6</span>
+                <span class="ed-rubric-name">Before You Visit</span>
+                <span class="ed-rubric-rule"></span>
+            </div>
+            <h2 class="ed-h2" id="hhFaqTitle">Questions, <em>answered</em></h2>
+            <p class="ed-dek">Everything else, we'll cover in person — your consultation is private and judgment-free.</p>
+        </header>
+
+        <div class="ed-faq-list" data-reveal>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Who performs the treatment?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Every treatment is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with more than 20 years of clinical experience. You are never treated by an unsupervised technician.</p></div>
             </details>
-            <details class="hh-faq-item" data-aos="fade-up">
-                <summary>How long does the relief last?</summary>
-                <div class="hh-faq-answer">Most patients enjoy 4 to 12 months of dryness from a single treatment, depending on the area treated and your individual response. When the effect gradually wears off, treatment can simply be repeated.</div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">How long does the relief last?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Most patients enjoy 4 to 12 months of dryness from a single treatment, depending on the area treated and your individual response. When the effect gradually wears off, treatment can simply be repeated.</p></div>
             </details>
-            <details class="hh-faq-item" data-aos="fade-up">
-                <summary>Does it hurt, and is there downtime?</summary>
-                <div class="hh-faq-answer">The treatment uses very fine needles and most patients describe only brief, minor pinches. There's minimal to no downtime — you can return to your normal day right away, with no bandages or recovery period.</div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Does it hurt, and is there downtime?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>The treatment uses very fine needles and most patients describe only brief, minor pinches. There's minimal to no downtime — you can return to your normal day right away, with no bandages or recovery period.</p></div>
             </details>
-            <details class="hh-faq-item" data-aos="fade-up">
-                <summary>How much does it cost?</summary>
-                <div class="hh-faq-answer">Treatment ranges from $1,000 to $2,500 depending on the area or areas treated. Your exact pricing is confirmed during your consultation with Dr. Nano, with no surprises before anything begins.</div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">How much does it cost?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Treatment ranges from $1,000 to $2,500 depending on the area or areas treated. Your exact pricing is confirmed during your consultation with Dr. Nano, with no surprises before anything begins.</p></div>
             </details>
-            <details class="hh-faq-item" data-aos="fade-up">
-                <summary>How soon will I notice a difference?</summary>
-                <div class="hh-faq-answer">Most patients begin to notice significantly reduced sweating within a few days, with the full effect settling in over about two weeks.</div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">How soon will I notice a difference?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Most patients begin to notice significantly reduced sweating within a few days, with the full effect settling in over about two weeks.</p></div>
             </details>
-            <details class="hh-faq-item" data-aos="fade-up">
-                <summary>Do you accept insurance?</summary>
-                <div class="hh-faq-answer">Treatment is offered on a private-pay basis. We accept cash and all major credit and debit cards, and pricing is discussed openly before treatment.</div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Do you accept insurance?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Treatment is offered on a private-pay basis. We accept cash and all major credit and debit cards, and pricing is discussed openly before treatment.</p></div>
             </details>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     FINAL CTA
+     8 · CLOSING — full-page invitation
      ============================================ -->
-<section class="hh-final-cta">
-    <div class="hh-final-cta-container">
-        <h2>Imagine a Day You Don't<span class="accent">Think About Sweating</span></h2>
-        <p>That's what this treatment gives you back. One private visit with Dr. Nano and you could be months away from sweat-free confidence. Book your consultation today.</p>
-        <div class="hh-final-cta-actions">
-            <a href="#hh-contact-form" class="hh-btn-primary">
+<section class="ed-close" id="contact" aria-labelledby="hhCloseTitle">
+    <div class="ed-wrap">
+        <span class="ed-close-kicker" data-reveal>Private &amp; Discreet — By Appointment · Same-Day Consults Often Available</span>
+        <h2 class="ed-close-title" id="hhCloseTitle" data-reveal>
+            Imagine a day you don't <em>think about sweating.</em>
+        </h2>
+        <p class="ed-close-dek" data-reveal>
+            That's what this treatment gives you back. One private visit with Dr. Nano and you could be months away from sweat-free confidence.
+        </p>
+
+        <div class="ed-close-options" data-reveal>
+            <a href="#hh-contact-form" class="ed-close-option">
                 <i class="ri-calendar-check-line"></i>
-                <span>Book a Private Consult</span>
+                <span>Book Online</span><small>Private consult request</small>
             </a>
-            <a href="tel:+12016394983" class="hh-btn-secondary" onclick="trackPhoneCall()">
+            <a href="tel:+12016394983" class="ed-close-option" onclick="trackPhoneCall()">
                 <i class="ri-phone-line"></i>
-                <span>Call (201) 639-4983</span>
+                <span>Call Now</span><small>(201) 639-4983</small>
+            </a>
+            <a href="mailto:info@eviaesthetics.com" class="ed-close-option">
+                <i class="ri-mail-line"></i>
+                <span>Email</span><small>info@eviaesthetics.com</small>
             </a>
         </div>
-        <div class="hh-final-cta-reassure">
-            <i class="ri-lock-line"></i>
-            <span>Private &amp; discreet · By appointment — same-day consults often available.</span>
-        </div>
+
+        <a href="#hh-contact-form" class="ed-btn ed-btn-hermes ed-btn-lg" data-reveal><span>Book a Private Consult</span><i class="ri-arrow-right-up-line"></i></a>
     </div>
 </section>
 
 </main>
 
 <!-- ============================================
-     FOOTER
+     FOOTER — masthead colophon
      ============================================ -->
-<footer class="ev-footer">
-    <div class="ev-wrap">
-        <div class="ev-footer-grid">
-            <div class="ev-footer-brand">
-                <img src="images/logo1.png" alt="Eviaesthetics" class="ev-footer-logo" width="120" height="120">
-                <p class="ev-footer-tag">Manhattan's premier boutique medical spa.</p>
-                <div class="ev-footer-contact">
+<footer class="ed-footer">
+    <div class="ed-footer-mast" aria-hidden="true">EVIAESTHETICS</div>
+    <div class="ed-wrap">
+        <div class="ed-footer-grid">
+            <div class="ed-footer-brand">
+                <img src="images/logo1.png" alt="Eviaesthetics" class="ed-footer-logo" width="110" height="110">
+                <p class="ed-footer-tag">Manhattan's premier boutique medical spa.</p>
+                <div class="ed-footer-contact">
                     <span><i class="ri-phone-fill"></i> (201) 639-4983</span>
                     <span><i class="ri-map-pin-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018</span>
                 </div>
             </div>
 
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Explore</h4>
                 <a href="index.html">Home</a><a href="services.html">Services</a><a href="about.html">About Dr. Nano</a><a href="contact.html">Book</a><a href="#faq">FAQ</a>
             </div>
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Services</h4>
                 <a href="services.html">Botox &amp; Fillers</a><a href="services.html">Weight Management</a><a href="services.html">NAD+ &amp; IV Therapy</a><a href="services.html">Microneedling</a><a href="services.html">PRP Therapy</a><a href="services.html">Chemical Peels</a>
             </div>
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Connect</h4>
-                <div class="ev-footer-social">
+                <div class="ed-footer-social">
                     <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
                     <a href="https://www.facebook.com/p/Evia-Esthetics-100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
                 </div>
-                <div class="ev-footer-badges">
+                <div class="ed-footer-badges">
                     <img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified" width="100">
                 </div>
             </div>
         </div>
 
-        <div class="ev-footer-bar">
-            <div class="ev-footer-legal">
+        <div class="ed-footer-bar">
+            <div class="ed-footer-legal">
                 <a href="policies/privacy-policy.html">Privacy</a>
                 <a href="policies/terms-of-service.html">Terms</a>
                 <a href="policies/cancellation-policy.html">Cancellation</a>
                 <a href="policies/cookie-policy.html">Cookies</a>
             </div>
-            <span class="ev-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
+            <span class="ed-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
+            <a href="https://elanstechworld.com" class="ed-footer-credit" target="_blank" rel="noopener">
+                <span>Designed by</span>
+                <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="22">
+                <span>Elan's Tech World</span>
+            </a>
         </div>
-
-        <a href="https://elanstechworld.com" class="ev-footer-credit" target="_blank" rel="noopener">
-            <span>Designed by</span>
-            <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="24">
-            <span>Elan's Tech World</span>
-        </a>
     </div>
 </footer>
 
 <!-- ============================================
+     FLOATING ACTIONS + MOBILE STICKY BOOK BAR
+     ============================================ -->
+<button class="ed-totop" id="edToTop" aria-label="Back to top"><i class="ri-arrow-up-line"></i></button>
+
+<div class="ed-stickybar" aria-label="Quick booking">
+    <a href="tel:+12016394983" class="ed-sticky-call" onclick="trackPhoneCall()"><i class="ri-phone-line"></i> Call</a>
+    <a href="#hh-contact-form" class="ed-sticky-book">Book a Private Consult</a>
+</div>
+
+<!-- ============================================
      SCRIPTS
      ============================================ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
-<script src="script.js" defer></script>
+<script src="https://elfsightcdn.com/platform.js" defer></script>
+<script src="script.js" type="module"></script>
 <script>
     // Qualify selector — the spam gate. Stores the chosen area and surfaces it in the form.
     var hhSelectedArea = null;
@@ -1010,31 +1052,15 @@
         if (typeof trackQualify === 'function') trackQualify(hhSelectedArea);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        if (typeof AOS !== 'undefined') {
-            AOS.init({ duration: 900, easing: 'ease-out-cubic', once: true, offset: 80 });
-        }
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(function(anchor){
-            anchor.addEventListener('click', function(e) {
-                var target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Fire form-submit conversion when the Elfsight form is submitted
-        window.addEventListener('message', function(e) {
-            try {
-                var d = typeof e.data === 'string' ? e.data : JSON.stringify(e.data || '');
-                if (d && d.toLowerCase().indexOf('elfsight') !== -1 &&
-                    (d.toLowerCase().indexOf('submit') !== -1 || d.toLowerCase().indexOf('success') !== -1)) {
-                    if (typeof trackFormSubmit === 'function') trackFormSubmit();
-                }
-            } catch (err) { /* no-op */ }
-        });
+    // Fire form-submit conversion when the Elfsight form is submitted
+    window.addEventListener('message', function(e) {
+        try {
+            var d = typeof e.data === 'string' ? e.data : JSON.stringify(e.data || '');
+            if (d && d.toLowerCase().indexOf('elfsight') !== -1 &&
+                (d.toLowerCase().indexOf('submit') !== -1 || d.toLowerCase().indexOf('success') !== -1)) {
+                if (typeof trackFormSubmit === 'function') trackFormSubmit();
+            }
+        } catch (err) { /* no-op */ }
     });
 </script>
 </body>
