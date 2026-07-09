@@ -53,6 +53,8 @@
     fbq('init', '932425123120879');
     fbq('track', 'PageView');
     </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=932425123120879&ev=PageView&noscript=1"/></noscript>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -61,7 +63,7 @@
     <meta property="og:description" content="Every IV drip performed or supervised by Dr. Evia Nano, MD — not a technician. Premium NAD+, vitamin & hydration therapy in Midtown Manhattan. By appointment.">
     <meta property="og:image" content="https://eviaesthetics.com/images/og-image.jpg">
     <meta property="og:site_name" content="Eviaesthetics">
-    <meta name="theme-color" content="#FF8C00">
+    <meta name="theme-color" content="#FF6B00">
 
     <!-- Geo -->
     <meta name="geo.region" content="US-NY">
@@ -69,12 +71,11 @@
     <meta name="geo.position" content="40.7505;-73.9934">
     <meta name="ICBM" content="40.7505, -73.9934">
 
-    <!-- Fonts -->
+    <!-- Fonts: Fraunces (editorial display) + Manrope (utility body) — matches index -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="icons/favicon-96x96.png" sizes="96x96" />
@@ -82,7 +83,7 @@
     <link rel="shortcut icon" href="icons/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
 
-    <!-- Stylesheets -->
+    <!-- Shared editorial stylesheet -->
     <link rel="stylesheet" href="styles.css">
 
     <!-- ============================================
@@ -109,21 +110,10 @@
             "postalCode": "10018",
             "addressCountry": "US"
           },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 40.7505,
-            "longitude": -73.9934
-          },
+          "geo": { "@type": "GeoCoordinates", "latitude": 40.7505, "longitude": -73.9934 },
           "medicalSpecialty": "Aesthetic Medicine",
-          "availableService": {
-            "@type": "MedicalProcedure",
-            "name": "IV Drip Therapy"
-          },
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "5.0",
-            "reviewCount": "200"
-          }
+          "availableService": { "@type": "MedicalProcedure", "name": "IV Drip Therapy" },
+          "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "200" }
         },
         {
           "@type": "MedicalProcedure",
@@ -145,34 +135,22 @@
             {
               "@type": "Question",
               "name": "Who actually performs the IV therapy at Eviaesthetics?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Every IV drip and injection at Eviaesthetics is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with 20+ years of experience. You are never treated by an unsupervised technician, unlike many IV bars and mobile services."
-              }
+              "acceptedAnswer": { "@type": "Answer", "text": "Every IV drip and injection at Eviaesthetics is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with 20+ years of experience. You are never treated by an unsupervised technician, unlike many IV bars and mobile services." }
             },
             {
               "@type": "Question",
               "name": "How long does an IV drip session take?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Most IV drip sessions take 45 to 60 minutes. NAD+ infusions run longer, typically 2 to 3 hours, depending on the dose."
-              }
+              "acceptedAnswer": { "@type": "Answer", "text": "Most IV drip sessions take 45 to 60 minutes. NAD+ infusions run longer, typically 2 to 3 hours, depending on the dose." }
             },
             {
               "@type": "Question",
               "name": "Do I need an appointment for IV therapy?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes. Eviaesthetics is a private, appointment-only suite so Dr. Nano can give every patient her full attention. Booking takes a minute online or by phone, and same-day appointments are often available."
-              }
+              "acceptedAnswer": { "@type": "Answer", "text": "Yes. Eviaesthetics is a private, appointment-only suite so Dr. Nano can give every patient her full attention. Booking takes a minute online or by phone, and same-day appointments are often available." }
             },
             {
               "@type": "Question",
               "name": "Is IV therapy safe?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "IV therapy at Eviaesthetics is performed in a clinical setting under direct physician oversight using sterile, medical-grade equipment. A brief medical intake is completed before your first session to confirm suitability."
-              }
+              "acceptedAnswer": { "@type": "Answer", "text": "IV therapy at Eviaesthetics is performed in a clinical setting under direct physician oversight using sterile, medical-grade equipment. A brief medical intake is completed before your first session to confirm suitability." }
             }
           ]
         }
@@ -181,1217 +159,539 @@
     </script>
 
     <!-- ============================================
-         CUSTOM STYLES FOR THIS LANDING PAGE
+         PAGE-SPECIFIC STYLES — built on the editorial tokens in styles.css
          ============================================ -->
     <style>
-        /* Base hero adjustments */
+        /* ---------- Header on a light landing page: ink links from the top ---------- */
+        .ed-header .ed-nav-link { color: var(--ink-soft); }
+        .ed-header .ed-nav-link:hover,
+        .ed-header .ed-nav-link.active { color: var(--ink); }
+        .ed-header .ed-burger { border-color: var(--line); }
+        .ed-header .ed-burger span { background: var(--ink); }
+
+        /* ---------- HERO — editorial cover, on paper instead of film ---------- */
         .iv-hero {
             position: relative;
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            padding: 140px 0 80px;
-            background: linear-gradient(135deg, #FFFEF9 0%, #FFFCF8 50%, #FFF8F0 100%);
+            padding: calc(var(--header-h) + clamp(3rem, 8vh, 5.5rem)) 0 clamp(3rem, 7vh, 5rem);
+            background: var(--porcelain);
             overflow: hidden;
         }
-        .iv-hero-bg {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
+        .iv-hero::after {
+            content: '';
+            position: absolute; top: -220px; right: -180px;
+            width: 560px; height: 560px;
+            background: radial-gradient(circle, rgba(255, 107, 0, 0.12), transparent 70%);
+            filter: blur(60px);
             pointer-events: none;
         }
-        .iv-hero-orb {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.12), transparent 70%);
-            filter: blur(80px);
-            animation: ivOrbFloat 22s ease-in-out infinite;
-        }
-        .iv-hero-orb-1 { width: 450px; height: 450px; top: -150px; right: -100px; }
-        .iv-hero-orb-2 { width: 350px; height: 350px; bottom: -100px; left: -80px; animation-delay: -10s; }
-        .iv-hero-orb-3 { width: 250px; height: 250px; top: 40%; left: 50%; animation-delay: -16s; }
-
-        @keyframes ivOrbFloat {
-            0%, 100% { transform: translate(0,0) rotate(0deg); opacity: 0.5; }
-            50% { transform: translate(30px, -25px) rotate(180deg); opacity: 0.8; }
-        }
-
-        .iv-hero-container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
+        .iv-hero-grid {
+            position: relative; z-index: 2;
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
-            gap: clamp(40px, 6vw, 80px);
+            gap: clamp(2.5rem, 6vw, 5.5rem);
             align-items: center;
         }
-
-        .iv-hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 140, 0, 0.25);
-            border-radius: 50px;
-            padding: 12px 24px;
-            margin-bottom: 28px;
-            font-family: var(--font-inter);
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--hermes-orange);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.1);
+        .iv-kicker {
+            display: inline-flex; align-items: center; gap: 0.7rem;
+            font-size: 0.66rem; font-weight: 700;
+            letter-spacing: 0.26em; text-transform: uppercase;
+            color: var(--hermes);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 1px solid var(--hermes);
         }
-        .iv-hero-eyebrow i { font-size: 16px; }
-
         .iv-hero-title {
-            font-family: var(--font-playfair);
-            font-size: clamp(2.5rem, 5.5vw, 4.2rem);
-            font-weight: 700;
-            line-height: 1.05;
-            color: var(--text-primary);
-            margin-bottom: 24px;
-            letter-spacing: -0.02em;
+            font-family: var(--display);
+            font-weight: 300;
+            font-size: clamp(2.6rem, 6vw, 4.6rem);
+            line-height: 1.03;
+            letter-spacing: -0.015em;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
         }
-        .iv-hero-title .accent {
-            display: block;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-style: italic;
-            font-weight: 600;
-            margin-top: 4px;
+        .iv-hero-title em { font-style: italic; color: var(--hermes); }
+        .iv-hero-dek {
+            font-size: clamp(0.98rem, 1.9vw, 1.12rem);
+            line-height: 1.7;
+            color: var(--ink-soft);
+            max-width: 54ch;
+            margin-bottom: 2rem;
         }
-        .iv-hero-sub {
-            font-family: var(--font-inter);
-            font-size: clamp(16px, 2.2vw, 19px);
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 32px;
-            max-width: 560px;
-        }
-        .iv-hero-sub strong { color: var(--text-primary); font-weight: 700; }
+        .iv-hero-dek strong { color: var(--ink); font-weight: 700; }
 
-        .iv-hero-pricing {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 36px;
-            flex-wrap: wrap;
+        /* Price ledger — mirrors the index's ed-ledger */
+        .iv-ledger {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--ink);
+            margin-bottom: 2.25rem;
         }
-        .iv-price-pill {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 140, 0, 0.2);
-            border-radius: 16px;
-            padding: 14px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            transition: all 0.4s ease;
+        .iv-ledger > div {
+            padding: 0.95rem 1rem 0.95rem 0;
+            border-bottom: 1px solid var(--line-soft);
         }
-        .iv-price-pill:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 140, 0, 0.4);
-            box-shadow: 0 12px 30px rgba(255, 140, 0, 0.1);
+        .iv-ledger dt {
+            font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--mist);
+            margin-bottom: 0.25rem;
         }
-        .iv-price-pill .label {
-            font-family: var(--font-inter);
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .iv-price-pill .value {
-            font-family: var(--font-playfair);
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--hermes-orange);
-        }
-        .iv-hero-actions {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
-        }
-        .iv-btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 50%, #FF7A00 100%);
-            color: white;
-            font-family: var(--font-inter);
-            font-size: 16px;
-            font-weight: 700;
-            text-decoration: none;
-            padding: 18px 36px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 12px 35px rgba(255, 140, 0, 0.3);
-            letter-spacing: 0.02em;
-        }
-        .iv-btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 18px 45px rgba(255, 140, 0, 0.4);
-        }
-        .iv-btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--hermes-orange);
-            font-family: var(--font-inter);
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            padding: 16px 32px;
-            border-radius: 50px;
-            border: 2px solid rgba(255, 140, 0, 0.3);
-            transition: all 0.4s ease;
-        }
-        .iv-btn-secondary:hover {
-            background: rgba(255, 140, 0, 0.08);
-            border-color: var(--hermes-orange);
-            transform: translateY(-2px);
-        }
-        /* Appointment reassurance line under hero CTA */
-        .iv-hero-reassure {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-inter);
-            font-size: 13px;
+        .iv-ledger dd {
+            font-family: var(--display);
+            font-size: clamp(1.2rem, 2.4vw, 1.6rem);
             font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 28px;
+            color: var(--ink);
+            font-variant-numeric: tabular-nums;
         }
-        .iv-hero-reassure i { color: var(--hermes-orange); font-size: 15px; }
+        .iv-hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+        .iv-reassure {
+            display: flex; align-items: center; gap: 0.55rem;
+            font-size: 0.8rem; color: var(--mist);
+        }
+        .iv-reassure i { color: var(--hermes); }
 
-        .iv-trust-row {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .iv-trust-row .trust {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-inter);
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-        .iv-trust-row .trust i { color: var(--hermes-orange); font-size: 16px; }
-
-        /* Hero image */
-        .iv-hero-visual {
-            position: relative;
-        }
-        .iv-hero-card {
-            position: relative;
-            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,252,248,0.95));
-            backdrop-filter: blur(40px);
-            border: 2px solid rgba(255, 140, 0, 0.15);
-            border-radius: 28px;
-            padding: 32px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.08), 0 12px 40px rgba(255,140,0,0.06);
-            transform: rotate(-2deg);
-            transition: transform 0.6s ease;
-        }
-        .iv-hero-card:hover { transform: rotate(0deg) scale(1.02); }
-
-        .iv-hero-img {
-            width: 100%;
-            height: 380px;
-            border-radius: 18px;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-        .iv-hero-card-title {
-            font-family: var(--font-playfair);
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-        .iv-hero-card-text {
-            font-family: var(--font-inter);
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-        .iv-hero-floating-badge {
-            position: absolute;
-            top: -16px;
-            right: -16px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 50px;
-            font-family: var(--font-inter);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            box-shadow: 0 12px 35px rgba(255, 140, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            animation: floatBadge 3s ease-in-out infinite;
-        }
-        @keyframes floatBadge {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        /* ============================================
-           TRUST BAR
-           ============================================ */
-        .iv-trust-bar {
-            background: white;
-            border-top: 1px solid rgba(255, 140, 0, 0.08);
-            border-bottom: 1px solid rgba(255, 140, 0, 0.08);
-            padding: 32px 0;
-        }
-        .iv-trust-bar-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 24px;
-        }
-        .iv-trust-bar-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: var(--font-inter);
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-        .iv-trust-bar-item i {
-            color: var(--hermes-orange);
-            font-size: 22px;
-        }
-
-        /* ============================================
-           MD DIFFERENTIATOR SECTION (NEW — the moat)
-           ============================================ */
-        .iv-md {
-            padding: clamp(80px, 12vh, 120px) 0;
-            background: linear-gradient(135deg, #2A1B0A 0%, #3D2812 100%);
-            position: relative;
+        /* Hero figure — matted photo, like the profile spread */
+        .iv-hero-figure { position: relative; }
+        .iv-hero-figure .iv-figure-mat {
             overflow: hidden;
-            color: white;
+            box-shadow: var(--shadow-lg);
         }
-        .iv-md::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 15% 30%, rgba(255, 140, 0, 0.15), transparent 50%),
-                radial-gradient(circle at 85% 70%, rgba(255, 140, 0, 0.1), transparent 50%);
-            pointer-events: none;
+        .iv-hero-figure img {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            transition: transform 0.9s var(--ease);
         }
-        .iv-md-container {
-            position: relative;
-            z-index: 2;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
+        .iv-hero-figure:hover img { transform: scale(1.04); }
+        .iv-figure-badge {
+            position: absolute; top: 1.1rem; left: 1.1rem; z-index: 2;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--hermes); color: var(--white);
+            font-size: 0.62rem; font-weight: 800;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            padding: 0.6rem 1rem;
         }
-        .iv-md-header {
-            text-align: center;
-            margin-bottom: 56px;
+        .iv-figure-cap {
+            display: flex; align-items: baseline; gap: 0.9rem;
+            margin-top: 1rem;
+            padding-top: 0.85rem;
+            border-top: 1px solid var(--line);
+            font-size: 0.78rem;
+            color: var(--mist);
         }
-        .iv-md-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 140, 0, 0.15);
-            border: 1px solid rgba(255, 140, 0, 0.35);
-            border-radius: 50px;
-            padding: 8px 20px;
-            margin-bottom: 24px;
-            font-family: var(--font-inter);
-            font-size: 12px;
-            font-weight: 700;
-            color: #FFB84D;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .iv-figure-cap span {
+            font-family: var(--display); font-style: italic;
+            color: var(--hermes); white-space: nowrap;
         }
-        .iv-md-title {
-            font-family: var(--font-playfair);
-            font-size: clamp(2rem, 4.5vw, 3.2rem);
-            font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 18px;
-        }
-        .iv-md-title .accent {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-style: italic;
-        }
-        .iv-md-sub {
-            font-family: var(--font-inter);
-            font-size: clamp(16px, 2.2vw, 18px);
-            color: rgba(255,255,255,0.8);
-            max-width: 680px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        .iv-md-compare {
+
+        /* ---------- SECTION SHELLS ---------- */
+        .iv-section { padding: clamp(5rem, 10vw, 8.5rem) 0; }
+        .iv-alt { background: var(--porcelain-2); }
+
+        /* ---------- COMPARISON — the moat, set as two editorial columns ---------- */
+        .iv-compare {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 48px;
+            gap: clamp(1.5rem, 3vw, 2.5rem);
+            margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
         }
-        .iv-md-col {
-            border-radius: 24px;
-            padding: 36px 32px;
+        .iv-col {
+            padding: clamp(1.75rem, 3.5vw, 2.5rem);
+            border: 1px solid var(--line);
+            background: transparent;
         }
-        .iv-md-col.them {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
+        .iv-col.us {
+            background: var(--white);
+            border: 1px solid var(--hermes);
+            border-top: 3px solid var(--hermes);
+            box-shadow: var(--shadow-md);
         }
-        .iv-md-col.us {
-            background: rgba(255, 140, 0, 0.12);
-            border: 2px solid rgba(255, 140, 0, 0.4);
-            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.12);
+        .iv-col h3 {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: clamp(1.4rem, 2.6vw, 1.8rem);
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--line-soft);
         }
-        .iv-md-col h3 {
-            font-family: var(--font-playfair);
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .iv-col.us h3 { color: var(--hermes); font-style: italic; }
+        .iv-col ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+        .iv-col li {
+            display: flex; gap: 0.9rem; align-items: flex-start;
+            font-size: 0.94rem; line-height: 1.6;
+            color: var(--ink-soft);
         }
-        .iv-md-col.them h3 { color: rgba(255,255,255,0.7); }
-        .iv-md-col.us h3 { color: #FFD700; }
-        .iv-md-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
-        .iv-md-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-family: var(--font-inter);
-            font-size: 15px;
-            line-height: 1.5;
-        }
-        .iv-md-col.them .iv-md-list li { color: rgba(255,255,255,0.65); }
-        .iv-md-col.us .iv-md-list li { color: rgba(255,255,255,0.95); }
-        .iv-md-list li i { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-        .iv-md-col.them .iv-md-list li i { color: #c87a52; }
-        .iv-md-col.us .iv-md-list li i { color: #4ADE80; }
-        .iv-md-cta-row { text-align: center; }
+        .iv-col li i { flex-shrink: 0; margin-top: 0.15rem; font-size: 1.05rem; }
+        .iv-col.them li i { color: var(--mist); }
+        .iv-col.us li i { color: var(--hermes); }
+        .iv-col.us li { color: var(--ink); }
+        .iv-compare-cta { text-align: center; }
 
-        @media (max-width: 768px) {
-            .iv-md-compare { grid-template-columns: 1fr; }
-        }
-
-        /* ============================================
-           BENEFITS / WHY IV THERAPY
-           ============================================ */
-        .iv-benefits {
-            padding: clamp(80px, 12vh, 120px) 0;
-            background: linear-gradient(135deg, #FFFEF9 0%, #FFFCF8 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        .iv-section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .iv-section-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 140, 0, 0.08);
-            border: 1px solid rgba(255, 140, 0, 0.2);
-            border-radius: 50px;
-            padding: 8px 20px;
-            margin-bottom: 20px;
-            font-family: var(--font-inter);
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--hermes-orange);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .iv-section-title {
-            font-family: var(--font-playfair);
-            font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-            line-height: 1.15;
-        }
-        .iv-section-title .accent {
-            display: inline;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-style: italic;
-        }
-        .iv-section-sub {
-            font-family: var(--font-inter);
-            font-size: 17px;
-            color: var(--text-secondary);
-            max-width: 640px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+        /* ---------- BENEFITS — hairline gallery grid, like The Edit ---------- */
         .iv-benefits-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 28px;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid var(--line);
+            border-left: 1px solid var(--line);
         }
-        .iv-benefit-card {
-            background: white;
-            border: 1px solid rgba(255, 140, 0, 0.1);
-            border-radius: 24px;
-            padding: 32px 24px;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+        .iv-benefit {
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: clamp(1.75rem, 3vw, 2.4rem) clamp(1.25rem, 2.5vw, 1.75rem);
+            transition: background 0.5s var(--ease);
         }
-        .iv-benefit-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255, 140, 0, 0.3);
-            box-shadow: 0 20px 60px rgba(255, 140, 0, 0.1);
+        .iv-benefit:hover { background: var(--white); }
+        .iv-benefit i {
+            font-size: 1.6rem;
+            color: var(--hermes);
+            display: block;
+            margin-bottom: 1.1rem;
         }
-        .iv-benefit-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 28px;
-            box-shadow: 0 12px 30px rgba(255, 140, 0, 0.25);
-            transition: transform 0.5s ease;
+        .iv-benefit h3 {
+            font-family: var(--display);
+            font-weight: 500;
+            font-size: 1.3rem;
+            color: var(--ink);
+            margin-bottom: 0.6rem;
         }
-        .iv-benefit-card:hover .iv-benefit-icon {
-            transform: rotate(8deg) scale(1.05);
-        }
-        .iv-benefit-title {
-            font-family: var(--font-playfair);
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-        }
-        .iv-benefit-text {
-            font-family: var(--font-inter);
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
+        .iv-benefit p { font-size: 0.88rem; color: var(--mist); line-height: 1.65; }
 
-        /* ============================================
-           IV MENU SECTION
-           ============================================ */
-        .iv-menu {
-            padding: clamp(80px, 12vh, 120px) 0;
-            background: linear-gradient(135deg, #FFF8F0 0%, #FFFCF8 100%);
-            position: relative;
-            overflow: hidden;
+        /* ---------- MENU — categories with editorial index rows ---------- */
+        .iv-cat { margin-bottom: clamp(3rem, 6vw, 4.5rem); }
+        .iv-cat:last-child { margin-bottom: 0; }
+        .iv-cat-head {
+            display: flex; align-items: baseline; gap: 1.1rem;
+            margin-bottom: 0.25rem;
         }
-        .iv-menu::before {
-            content: '';
-            position: absolute;
-            top: -200px;
-            right: -200px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.06), transparent 70%);
-            filter: blur(60px);
-            pointer-events: none;
-        }
-        .iv-menu-container {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
-        }
-        .iv-category {
-            margin-bottom: 60px;
-        }
-        .iv-category-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 28px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid rgba(255, 140, 0, 0.15);
-        }
-        .iv-category-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 22px;
-            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.25);
-        }
-        .iv-category-title {
-            font-family: var(--font-playfair);
-            font-size: clamp(1.6rem, 3vw, 2rem);
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        .iv-category-subtitle {
-            font-family: var(--font-inter);
-            font-size: 13px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 600;
-            margin-top: 4px;
-        }
-        .iv-menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .iv-menu-card {
-            background: white;
-            border: 1px solid rgba(255, 140, 0, 0.12);
-            border-radius: 20px;
-            padding: 24px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .iv-menu-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, #FF8C00, #FFA500);
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 0.4s ease;
-        }
-        .iv-menu-card:hover {
-            transform: translateX(4px);
-            border-color: rgba(255, 140, 0, 0.3);
-            box-shadow: 0 16px 40px rgba(255, 140, 0, 0.08);
-        }
-        .iv-menu-card:hover::before { transform: scaleY(1); }
-        .iv-menu-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
-            gap: 12px;
-        }
-        .iv-menu-card-name {
-            font-family: var(--font-playfair);
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            flex: 1;
-        }
-        .iv-menu-card-tag {
-            background: rgba(255, 140, 0, 0.1);
-            color: var(--hermes-orange);
-            font-family: var(--font-inter);
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 4px 10px;
-            border-radius: 12px;
+        .iv-cat-no {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--hermes);
             white-space: nowrap;
-            flex-shrink: 0;
         }
-        .iv-menu-card-desc {
-            font-family: var(--font-inter);
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
+        .iv-cat-head h3 {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+            color: var(--ink);
+        }
+        .iv-cat-sub {
+            font-size: 0.66rem; font-weight: 700;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--mist);
+            margin-bottom: 1.25rem;
+        }
+        .iv-menu-list { border-top: 1px solid var(--ink); }
+        .iv-menu-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: clamp(1rem, 3vw, 2.5rem);
+            align-items: baseline;
+            padding: clamp(1.1rem, 2.2vw, 1.5rem) 0;
+            border-bottom: 1px solid var(--line);
+            position: relative;
+            transition: padding-left 0.5s var(--ease);
+        }
+        .iv-menu-row::before {
+            content: '';
+            position: absolute; left: 0; top: 0;
+            width: 3px; height: 100%;
+            background: var(--hermes);
+            transform: scaleY(0); transform-origin: top;
+            transition: transform 0.5s var(--ease);
+        }
+        .iv-menu-row:hover { padding-left: 1.1rem; }
+        .iv-menu-row:hover::before { transform: scaleY(1); }
+        .iv-menu-name {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+            color: var(--ink);
+            transition: color 0.4s var(--ease);
+        }
+        .iv-menu-row:hover .iv-menu-name { color: var(--hermes); font-style: italic; }
+        .iv-menu-desc {
+            font-size: 0.88rem;
+            color: var(--mist);
+            margin-top: 0.3rem;
+            max-width: 62ch;
+        }
+        .iv-menu-tag {
+            font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--hermes);
+            border: 1px solid currentColor;
+            padding: 0.3rem 0.7rem;
+            white-space: nowrap;
+            align-self: center;
         }
 
-        /* ============================================
-           PROCESS / HOW IT WORKS
-           ============================================ */
-        .iv-process {
-            padding: clamp(80px, 12vh, 120px) 0;
-            background: white;
-            position: relative;
-        }
-        .iv-process-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
-        }
-        .iv-process-grid {
+        /* ---------- PROCESS — the visit, roman-numeral steps ---------- */
+        .iv-steps { list-style: none; border-top: 1px solid var(--line); }
+        .iv-steps li {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 24px;
-            margin-top: 50px;
+            grid-template-columns: 3.5rem 260px 1fr;
+            gap: clamp(1rem, 3vw, 2.5rem);
+            align-items: baseline;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--line);
         }
-        .iv-process-step {
-            text-align: center;
-            position: relative;
+        .iv-step-key {
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--hermes);
         }
-        .iv-process-num {
-            width: 72px;
-            height: 72px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-playfair);
-            font-size: 28px;
-            font-weight: 700;
-            color: white;
-            box-shadow: 0 12px 30px rgba(255, 140, 0, 0.25);
-            position: relative;
-            z-index: 2;
+        .iv-steps h4 {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: 1.35rem;
+            color: var(--ink);
         }
-        .iv-process-step h4 {
-            font-family: var(--font-playfair);
-            font-size: 19px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-        }
-        .iv-process-step p {
-            font-family: var(--font-inter);
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
+        .iv-steps p { font-size: 0.92rem; color: var(--mist); max-width: 60ch; }
 
-        /* ============================================
-           CONTACT FORM SECTION
-           ============================================ */
-        .iv-contact {
-            padding: clamp(80px, 12vh, 120px) 0;
-            background: linear-gradient(135deg, #FFFEF9 0%, #FFF8F0 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        .iv-contact-orb {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.1), transparent 70%);
-            filter: blur(60px);
-            top: -100px;
-            left: -100px;
-            pointer-events: none;
-        }
-        .iv-contact-container {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
+        /* ---------- CONTACT / FORM ---------- */
+        .iv-contact-grid {
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 50px;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: clamp(2.5rem, 6vw, 5rem);
             align-items: start;
         }
-        .iv-contact-info h2 {
-            font-family: var(--font-playfair);
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            line-height: 1.15;
+        .iv-methods { display: flex; flex-direction: column; border-top: 1px solid var(--ink); margin-top: 2rem; }
+        .iv-method {
+            display: flex; align-items: center; gap: 1.1rem;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid var(--line-soft);
+            transition: padding-left 0.4s var(--ease);
         }
-        .iv-contact-info h2 .accent {
+        .iv-method:hover { padding-left: 0.75rem; }
+        .iv-method i { font-size: 1.25rem; color: var(--hermes); }
+        .iv-method .label {
             display: block;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-style: italic;
-            margin-top: 4px;
+            font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--mist);
         }
-        .iv-contact-info > p {
-            font-family: var(--font-inter);
-            font-size: 17px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 32px;
-        }
-        .iv-contact-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-        .iv-contact-method {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background: white;
-            border: 1px solid rgba(255, 140, 0, 0.12);
-            border-radius: 16px;
-            padding: 18px 20px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .iv-contact-method:hover {
-            transform: translateX(6px);
-            border-color: rgba(255, 140, 0, 0.3);
-            box-shadow: 0 12px 30px rgba(255, 140, 0, 0.08);
-        }
-        .iv-contact-method-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(255, 140, 0, 0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--hermes-orange);
-            font-size: 22px;
-            flex-shrink: 0;
-        }
-        .iv-contact-method-text .label {
+        .iv-method .value {
             display: block;
-            font-family: var(--font-inter);
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin-bottom: 4px;
+            font-family: var(--display);
+            font-size: 1.15rem;
+            color: var(--ink);
         }
-        .iv-contact-method-text .value {
-            display: block;
-            font-family: var(--font-inter);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        /* Form card */
         .iv-form-card {
-            background: white;
-            border: 2px solid rgba(255, 140, 0, 0.12);
-            border-radius: 28px;
-            padding: 36px;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.08), 0 12px 35px rgba(255,140,0,0.06);
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-top: 3px solid var(--hermes);
+            padding: clamp(1.75rem, 3.5vw, 2.5rem);
+            box-shadow: var(--shadow-md);
         }
-        .iv-form-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+        .iv-form-head {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--line-soft);
         }
-        .iv-form-header-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
+        .iv-form-head h3 {
+            font-family: var(--display);
+            font-weight: 400;
+            font-size: 1.6rem;
+            color: var(--ink);
+            margin-bottom: 0.3rem;
         }
-        .iv-form-header h3 {
-            font-family: var(--font-playfair);
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-        .iv-form-header p {
-            font-family: var(--font-inter);
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
+        .iv-form-head p { font-size: 0.88rem; color: var(--mist); }
         .iv-form-trust {
-            display: flex;
-            justify-content: space-around;
-            gap: 12px;
-            padding-top: 20px;
-            margin-top: 20px;
-            border-top: 1px solid rgba(255, 140, 0, 0.1);
-            flex-wrap: wrap;
+            display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;
+            margin-top: 1.5rem; padding-top: 1.25rem;
+            border-top: 1px solid var(--line-soft);
         }
-        .iv-form-trust-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--font-inter);
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
+        .iv-form-trust span {
+            display: inline-flex; align-items: center; gap: 0.45rem;
+            font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--ink-soft);
         }
-        .iv-form-trust-item i {
-            color: var(--hermes-orange);
-            font-size: 16px;
-        }
+        .iv-form-trust i { color: var(--hermes); }
 
-        /* ============================================
-           FAQ
-           ============================================ */
-        .iv-faq {
-            padding: clamp(80px, 12vh, 120px) 0;
-            background: white;
-        }
-        .iv-faq-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
-        }
-        .iv-faq-list {
-            margin-top: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .iv-faq-item {
-            background: linear-gradient(135deg, #FFFEF9, #FFFCF8);
-            border: 1px solid rgba(255, 140, 0, 0.12);
-            border-radius: 18px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .iv-faq-item[open] {
-            border-color: rgba(255, 140, 0, 0.3);
-            box-shadow: 0 12px 30px rgba(255, 140, 0, 0.06);
-        }
-        .iv-faq-item summary {
-            list-style: none;
-            cursor: pointer;
-            padding: 22px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            font-family: var(--font-playfair);
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        .iv-faq-item summary::-webkit-details-marker { display: none; }
-        .iv-faq-item summary::after {
-            content: '+';
-            font-size: 28px;
-            color: var(--hermes-orange);
-            font-weight: 300;
-            transition: transform 0.3s ease;
-            line-height: 1;
-        }
-        .iv-faq-item[open] summary::after { transform: rotate(45deg); }
-        .iv-faq-answer {
-            padding: 0 24px 24px;
-            font-family: var(--font-inter);
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* ============================================
-           FINAL CTA
-           ============================================ */
-        .iv-final-cta {
-            padding: clamp(80px, 12vh, 120px) 0;
-            background: linear-gradient(135deg, #2A1B0A 0%, #3D2812 100%);
-            position: relative;
-            overflow: hidden;
-            color: white;
-            text-align: center;
-        }
-        .iv-final-cta::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(255, 140, 0, 0.15), transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(255, 140, 0, 0.1), transparent 50%);
-            pointer-events: none;
-        }
-        .iv-final-cta-container {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 2.5rem);
-        }
-        .iv-final-cta h2 {
-            font-family: var(--font-playfair);
-            font-size: clamp(2.2rem, 5vw, 3.6rem);
-            font-weight: 700;
-            margin-bottom: 20px;
-            line-height: 1.15;
-        }
-        .iv-final-cta h2 .accent {
-            display: block;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-style: italic;
-            margin-top: 4px;
-        }
-        .iv-final-cta p {
-            font-family: var(--font-inter);
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto 40px;
-        }
-        .iv-final-cta-actions {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .iv-final-cta .iv-btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        .iv-final-cta .iv-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: white;
-        }
-        .iv-final-cta-reassure {
-            margin-top: 24px;
-            font-family: var(--font-inter);
-            font-size: 14px;
-            color: rgba(255,255,255,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .iv-final-cta-reassure i { color: #FFB84D; }
-
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
-        @media (max-width: 992px) {
-            .iv-hero-container,
-            .iv-contact-container {
-                grid-template-columns: 1fr;
-            }
-            .iv-hero-visual { order: -1; max-width: 480px; margin: 0 auto; }
-            .iv-hero-card { transform: rotate(0deg); }
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 1024px) {
+            .iv-hero-grid { grid-template-columns: 1fr; }
+            .iv-hero-figure { max-width: 520px; }
+            .iv-benefits-grid { grid-template-columns: repeat(2, 1fr); }
+            .iv-contact-grid { grid-template-columns: 1fr; }
+            .iv-steps li { grid-template-columns: 2.5rem 1fr; }
+            .iv-steps p { grid-column: 2; }
         }
         @media (max-width: 768px) {
-            .iv-hero { min-height: auto; padding: 120px 0 60px; }
-            .iv-hero-title { font-size: 2.2rem; }
-            .iv-hero-pricing { gap: 12px; }
-            .iv-price-pill { padding: 12px 16px; }
-            .iv-form-card { padding: 24px; }
-            .iv-hero-actions { flex-direction: column; }
-            .iv-hero-actions a { width: 100%; justify-content: center; }
-            .iv-final-cta-actions { flex-direction: column; }
-            .iv-final-cta-actions a { width: 100%; justify-content: center; }
+            .iv-compare { grid-template-columns: 1fr; }
+            .iv-ledger { grid-template-columns: 1fr 1fr; }
+            .iv-hero-actions .ed-btn { width: 100%; justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            .iv-benefits-grid { grid-template-columns: 1fr; }
+            .iv-ledger { grid-template-columns: 1fr; }
+            .iv-menu-row { grid-template-columns: 1fr; }
+            .iv-menu-tag { justify-self: start; }
         }
     </style>
 </head>
 <body>
 
-<!-- ============================================
-     HEADER
-     ============================================ -->
-<header class="ev-header" id="evHeader">
-    <nav class="ev-nav" aria-label="Primary">
-        <a href="/" class="ev-logo" aria-label="Eviaesthetics home">
-            <img src="images/logo1.png" alt="Eviaesthetics" class="ev-logo-img" width="160" height="40">
+<!-- ============================================ HEADER ============================================ -->
+<header class="ed-header scrolled" id="edHeader">
+    <nav class="ed-nav" aria-label="Primary">
+        <div class="ed-nav-left">
+            <a href="index.html" class="ed-nav-link">Home</a>
+            <a href="services.html" class="ed-nav-link">Services</a>
+            <a href="about.html" class="ed-nav-link">About Dr. Nano</a>
+            <a href="contact.html" class="ed-nav-link">Contact</a>
+        </div>
+
+        <a href="/" class="ed-logo" aria-label="Eviaesthetics home">
+            <img src="images/logo1.png" alt="Eviaesthetics" class="ed-logo-img" width="150" height="40">
         </a>
 
-        <div class="ev-nav-links" id="evNavLinks">
-            <a href="index.html" class="ev-nav-link active">Home</a>
-            <a href="services.html" class="ev-nav-link">Services</a>
-            <a href="about.html" class="ev-nav-link">About Dr. Nano</a>
-            <a href="contact.html" class="ev-nav-link">Contact</a>
+        <div class="ed-nav-right">
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-nav-link" rel="noopener">Shop</a>
+            <a href="tel:+12016394983" class="ed-nav-link ed-nav-tel" onclick="trackPhoneCall()">(201) 639-4983</a>
+            <a href="#iv-contact-form" class="ed-btn ed-btn-ink">Book Your Drip</a>
         </div>
 
-        <div class="ev-nav-cta">
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-text" rel="noopener">Shop</a>
-            <a href="contact.html" class="ev-btn-outline">Book Consultation</a>
-        </div>
-
-        <button class="ev-burger" id="evBurger" aria-label="Open menu" aria-expanded="false">
-            <span></span><span></span><span></span>
+        <button class="ed-burger" id="edBurger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span>
         </button>
     </nav>
+</header>
 
-    <!-- Mobile drawer -->
-    <div class="ev-drawer" id="evDrawer" aria-hidden="true">
-        <div class="ev-drawer-inner">
-            <button class="ev-drawer-close" id="evDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
-            <nav class="ev-drawer-nav">
-                <a href="index.html">Home</a>
-                <a href="services.html">Services</a>
-                <a href="about.html">About Dr. Nano</a>
-                <a href="contact.html">Contact</a>
-            </nav>
-            <div class="ev-drawer-cta">
-                <a href="contact.html" class="ev-btn-solid">Book Consultation</a>
-                <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-outline" rel="noopener">Shop AlumierMD</a>
-            </div>
-            <div class="ev-drawer-foot">
+<!-- Mobile drawer -->
+<div class="ed-drawer" id="edDrawer" aria-hidden="true">
+    <div class="ed-drawer-inner">
+        <button class="ed-drawer-close" id="edDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
+        <span class="ed-drawer-kicker">Menu — Eviaesthetics</span>
+        <nav class="ed-drawer-nav">
+            <a href="index.html"><em>01</em> Home</a>
+            <a href="services.html"><em>02</em> Services</a>
+            <a href="about.html"><em>03</em> About Dr. Nano</a>
+            <a href="contact.html"><em>04</em> Contact</a>
+        </nav>
+        <div class="ed-drawer-cta">
+            <a href="#iv-contact-form" class="ed-btn ed-btn-hermes">Book Your IV Session</a>
+            <a href="tel:+12016394983" class="ed-btn ed-btn-ghost" onclick="trackPhoneCall()">Call (201) 639-4983</a>
+        </div>
+        <div class="ed-drawer-foot">
+            <span>65 W 36th St, 10th Fl — NYC</span>
+            <div class="ed-drawer-social">
                 <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
                 <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
             </div>
         </div>
     </div>
-</header>
+</div>
 
-<main>
+<main id="main">
 
 <!-- ============================================
-     HERO SECTION
+     1 · HERO — editorial cover on paper
      ============================================ -->
-<section class="iv-hero">
-    <div class="iv-hero-bg">
-        <div class="iv-hero-orb iv-hero-orb-1"></div>
-        <div class="iv-hero-orb iv-hero-orb-2"></div>
-        <div class="iv-hero-orb iv-hero-orb-3"></div>
-    </div>
-    <div class="iv-hero-container">
-        <div class="iv-hero-content" data-aos="fade-right">
-            <div class="iv-hero-eyebrow">
-                <i class="ri-stethoscope-line"></i>
-                <span>Physician-Administered · Midtown Manhattan</span>
-            </div>
+<section class="iv-hero" aria-label="IV therapy in Midtown Manhattan">
+    <div class="ed-wrap iv-hero-grid">
+        <div data-reveal>
+            <span class="iv-kicker"><i class="ri-stethoscope-line"></i> Physician-Administered · Midtown Manhattan</span>
             <h1 class="iv-hero-title">
-                IV Therapy, Delivered by a Doctor
-                <span class="accent">Not a Technician</span>
+                IV therapy, delivered by a doctor —
+                <em>not a technician</em>
             </h1>
-            <p class="iv-hero-sub">
-                In a city full of pop-up drip bars and mobile vans, Eviaesthetics is different: <strong>every infusion is personally performed or directly supervised by Dr. Evia A Nano, MD.</strong> Premium NAD+, vitamin, beauty, and recovery drips — formulated for your body, delivered in a private Midtown suite.
+            <p class="iv-hero-dek">
+                In a city full of pop-up drip bars and mobile vans, Eviaesthetics is different:
+                <strong>every infusion is personally performed or directly supervised by
+                Dr.&nbsp;Evia&nbsp;A.&nbsp;Nano,&nbsp;MD.</strong> Premium NAD+, vitamin, beauty, and recovery
+                drips — formulated for your body, delivered in a private Midtown suite.
             </p>
-            <div class="iv-hero-pricing">
-                <div class="iv-price-pill">
-                    <span class="label">Vitamin Injections</span>
-                    <span class="value">From $50</span>
-                </div>
-                <div class="iv-price-pill">
-                    <span class="label">Custom IV Drips</span>
-                    <span class="value">From $350</span>
-                </div>
-                <div class="iv-price-pill">
-                    <span class="label">NAD+ Infusions</span>
-                    <span class="value">From $600</span>
-                </div>
-            </div>
+
+            <dl class="iv-ledger">
+                <div><dt>Vitamin Injections</dt><dd>From $50</dd></div>
+                <div><dt>Custom IV Drips</dt><dd>From $350</dd></div>
+                <div><dt>NAD+ Infusions</dt><dd>From $600</dd></div>
+            </dl>
+
             <div class="iv-hero-actions">
-                <a href="#iv-contact-form" class="iv-btn-primary">
-                    <i class="ri-calendar-check-line"></i>
-                    <span>Book Your IV Session</span>
+                <a href="#iv-contact-form" class="ed-btn ed-btn-hermes ed-btn-lg">
+                    <span>Book Your IV Session</span><i class="ri-arrow-right-up-line"></i>
                 </a>
-                <a href="tel:+12016394983" class="iv-btn-secondary" onclick="trackPhoneCall()">
-                    <i class="ri-phone-line"></i>
+                <a href="tel:+12016394983" class="ed-btn ed-btn-ghost" onclick="trackPhoneCall()">
                     <span>Call (201) 639-4983</span>
                 </a>
             </div>
-            <div class="iv-hero-reassure">
+            <p class="iv-reassure">
                 <i class="ri-calendar-check-line"></i>
-                <span>By appointment for your privacy — same-day appointments often available.</span>
-            </div>
-            <div class="iv-trust-row">
-                <div class="trust"><i class="ri-shield-check-fill"></i> Physician Administered</div>
-                <div class="trust"><i class="ri-verified-badge-fill"></i> LegitScript Certified</div>
-                <div class="trust"><i class="ri-star-fill"></i> 5.0 Rated · 200+ Reviews</div>
-            </div>
-        </div>
-        <div class="iv-hero-visual" data-aos="fade-left" data-aos-delay="200">
-            <div class="iv-hero-card">
-                <div class="iv-hero-floating-badge">
-                    <i class="ri-stethoscope-line"></i>
-                    <span>MD on every drip</span>
-                </div>
-                <img src="https://desotofamilycareclinic.com/wp-content/uploads/2024/04/Desoto-IV-Therapy.png"
-                     alt="Physician-administered IV drip therapy at Eviaesthetics Manhattan medical spa"
-                     class="iv-hero-img"
-                     loading="eager">
-                <h3 class="iv-hero-card-title">Tailored to Your Goals</h3>
-                <p class="iv-hero-card-text">From a quick energy boost to deep cellular wellness — every infusion is selected and supervised by Dr. Nano herself.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ============================================
-     TRUST BAR
-     ============================================ -->
-<section class="iv-trust-bar">
-    <div class="iv-trust-bar-container">
-        <div class="iv-trust-bar-item"><i class="ri-stethoscope-line"></i><span>Board Certified MD</span></div>
-        <div class="iv-trust-bar-item"><i class="ri-shield-check-line"></i><span>HIPAA Compliant</span></div>
-        <div class="iv-trust-bar-item"><i class="ri-verified-badge-line"></i><span>LegitScript Certified</span></div>
-        <div class="iv-trust-bar-item"><i class="ri-award-line"></i><span>20+ Years Experience</span></div>
-        <div class="iv-trust-bar-item"><i class="ri-map-pin-line"></i><span>Midtown Manhattan</span></div>
-    </div>
-</section>
-
-<!-- ============================================
-     MD DIFFERENTIATOR SECTION (the moat)
-     ============================================ -->
-<section class="iv-md">
-    <div class="iv-md-container">
-        <div class="iv-md-header" data-aos="fade-up">
-            <div class="iv-md-eyebrow">
-                <i class="ri-error-warning-line"></i>
-                <span>Why Who Holds the Needle Matters</span>
-            </div>
-            <h2 class="iv-md-title">
-                Not All IV Therapy Is <span class="accent">Created Equal</span>
-            </h2>
-            <p class="iv-md-sub">
-                An IV puts a formula directly into your bloodstream — bypassing every natural filter your body has. That makes the person behind it the single most important factor in your safety and results. Here's the difference.
+                By appointment for your privacy — same-day appointments often available.
             </p>
         </div>
 
-        <div class="iv-md-compare">
-            <div class="iv-md-col them" data-aos="fade-up" data-aos-delay="100">
-                <h3><i class="ri-close-circle-line"></i> Typical Drip Bars &amp; Mobile Vans</h3>
-                <ul class="iv-md-list">
+        <figure class="iv-hero-figure" data-reveal>
+            <span class="iv-figure-badge"><i class="ri-stethoscope-line"></i> MD on Every Drip</span>
+            <div class="iv-figure-mat">
+                <img src="https://desotofamilycareclinic.com/wp-content/uploads/2024/04/Desoto-IV-Therapy.png"
+                     alt="Physician-administered IV drip therapy at Eviaesthetics Manhattan medical spa"
+                     loading="eager" width="520" height="640">
+            </div>
+            <figcaption class="iv-figure-cap">
+                <span>fig. 01</span> Every formula selected and supervised by Dr. Nano herself — from a quick boost to deep cellular wellness.
+            </figcaption>
+        </figure>
+    </div>
+</section>
+
+<!-- ============================================
+     WIRE TICKER — credentials
+     ============================================ -->
+<section class="ed-wire" aria-label="Credentials">
+    <div class="ed-wire-track">
+        <span>Board-Certified MD</span><span class="ed-wire-dot">●</span>
+        <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
+        <span>LegitScript Certified</span><span class="ed-wire-dot">●</span>
+        <span>20+ Years Experience</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>Midtown Manhattan · By Appointment</span><span class="ed-wire-dot">●</span>
+        <!-- duplicate for seamless loop -->
+        <span>Board-Certified MD</span><span class="ed-wire-dot">●</span>
+        <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
+        <span>LegitScript Certified</span><span class="ed-wire-dot">●</span>
+        <span>20+ Years Experience</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>Midtown Manhattan · By Appointment</span><span class="ed-wire-dot">●</span>
+    </div>
+</section>
+
+<!-- ============================================
+     2 · THE DIFFERENCE — MD moat comparison
+     ============================================ -->
+<section class="iv-section iv-alt" aria-labelledby="ivMdTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 1</span>
+            <span class="ed-rubric-name">Why Who Holds the Needle Matters</span>
+            <span class="ed-rubric-rule"></span>
+        </div>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="ivMdTitle">Not all IV therapy is <em>created equal</em></h2>
+            <p class="ed-dek">An IV bypasses every natural filter your body has. That makes the person behind it the single most important factor in your safety and results.</p>
+        </header>
+
+        <div class="iv-compare">
+            <div class="iv-col them" data-reveal>
+                <h3>Typical drip bars &amp; mobile vans</h3>
+                <ul>
                     <li><i class="ri-close-line"></i> Drips run by a technician or traveling nurse, often with no physician on site</li>
                     <li><i class="ri-close-line"></i> One-size-fits-all bags with no real medical review of your history</li>
                     <li><i class="ri-close-line"></i> High-volume, assembly-line settings — in and out, next patient</li>
                     <li><i class="ri-close-line"></i> Limited ability to respond if something goes wrong mid-infusion</li>
                 </ul>
             </div>
-            <div class="iv-md-col us" data-aos="fade-up" data-aos-delay="200">
-                <h3><i class="ri-shield-star-line"></i> Eviaesthetics, with Dr. Nano, MD</h3>
-                <ul class="iv-md-list">
+            <div class="iv-col us" data-reveal>
+                <h3>Eviaesthetics, with Dr. Nano, MD</h3>
+                <ul>
                     <li><i class="ri-check-line"></i> Every infusion personally administered or directly supervised by a board-certified physician</li>
                     <li><i class="ri-check-line"></i> A real medical intake — your formula is chosen for <em>your</em> body, not a menu default</li>
                     <li><i class="ri-check-line"></i> A private, unhurried Midtown suite where you're the only patient that hour</li>
@@ -1400,261 +700,233 @@
             </div>
         </div>
 
-        <div class="iv-md-cta-row" data-aos="fade-up">
-            <a href="#iv-contact-form" class="iv-btn-primary">
-                <i class="ri-calendar-check-line"></i>
-                <span>Book With a Physician You Can Trust</span>
+        <div class="iv-compare-cta" data-reveal>
+            <a href="#iv-contact-form" class="ed-btn ed-btn-hermes ed-btn-lg">
+                <span>Book With a Physician You Can Trust</span><i class="ri-arrow-right-up-line"></i>
             </a>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     BENEFITS SECTION
+     3 · WHY IV — benefits in a hairline grid
      ============================================ -->
-<section class="iv-benefits">
-    <div class="iv-section-header">
-        <div class="iv-section-eyebrow" data-aos="fade-up">
-            <i class="ri-sparkling-2-line"></i>
-            <span>Why IV Therapy</span>
+<section class="iv-section" aria-labelledby="ivWhyTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 2</span>
+            <span class="ed-rubric-name">Why IV Therapy</span>
+            <span class="ed-rubric-rule"></span>
         </div>
-        <h2 class="iv-section-title" data-aos="fade-up">
-            Wellness Delivered Directly,<br>
-            <span class="accent">For Maximum Absorption</span>
-        </h2>
-        <p class="iv-section-sub" data-aos="fade-up">
-            Supplements in pill form lose most of their potency to digestion. IV therapy delivers vitamins, minerals, and fluids straight into your bloodstream — so your body actually gets what it's paying for.
-        </p>
-    </div>
-    <div class="iv-benefits-grid">
-        <div class="iv-benefit-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="iv-benefit-icon"><i class="ri-flashlight-line"></i></div>
-            <h3 class="iv-benefit-title">Real, Lasting Energy</h3>
-            <p class="iv-benefit-text">Replenish the nutrients your busy NYC life burns through — and feel the difference without the crash of caffeine.</p>
-        </div>
-        <div class="iv-benefit-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="iv-benefit-icon"><i class="ri-shield-line"></i></div>
-            <h3 class="iv-benefit-title">Immune Resilience</h3>
-            <p class="iv-benefit-text">High-dose vitamin C, zinc, and antioxidants to keep your defenses strong through deadlines, travel, and flu season.</p>
-        </div>
-        <div class="iv-benefit-card" data-aos="fade-up" data-aos-delay="300">
-            <div class="iv-benefit-icon"><i class="ri-sparkling-line"></i></div>
-            <h3 class="iv-benefit-title">Visible Glow</h3>
-            <p class="iv-benefit-text">Glutathione, biotin, and beauty blends that support radiant skin, stronger hair, and that lit-from-within look.</p>
-        </div>
-        <div class="iv-benefit-card" data-aos="fade-up" data-aos-delay="400">
-            <div class="iv-benefit-icon"><i class="ri-restart-line"></i></div>
-            <h3 class="iv-benefit-title">Rapid Recovery</h3>
-            <p class="iv-benefit-text">Bounce back fast after travel, training, or a demanding week with deep rehydration and electrolyte support.</p>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="ivWhyTitle">Wellness delivered directly, <em>for maximum absorption</em></h2>
+            <p class="ed-dek">Supplements in pill form lose most of their potency to digestion. IV therapy delivers vitamins, minerals, and fluids straight into your bloodstream.</p>
+        </header>
+
+        <div class="iv-benefits-grid">
+            <div class="iv-benefit" data-reveal>
+                <i class="ri-flashlight-line"></i>
+                <h3>Real, Lasting Energy</h3>
+                <p>Replenish the nutrients your busy NYC life burns through — and feel the difference without the crash of caffeine.</p>
+            </div>
+            <div class="iv-benefit" data-reveal>
+                <i class="ri-shield-line"></i>
+                <h3>Immune Resilience</h3>
+                <p>High-dose vitamin C, zinc, and antioxidants to keep your defenses strong through deadlines, travel, and flu season.</p>
+            </div>
+            <div class="iv-benefit" data-reveal>
+                <i class="ri-sparkling-line"></i>
+                <h3>Visible Glow</h3>
+                <p>Glutathione, biotin, and beauty blends that support radiant skin, stronger hair, and that lit-from-within look.</p>
+            </div>
+            <div class="iv-benefit" data-reveal>
+                <i class="ri-restart-line"></i>
+                <h3>Rapid Recovery</h3>
+                <p>Bounce back fast after travel, training, or a demanding week with deep rehydration and electrolyte support.</p>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     IV MENU SECTION
+     4 · THE MENU — editorial index of drips
      ============================================ -->
-<section class="iv-menu">
-    <div class="iv-menu-container">
-        <div class="iv-section-header" data-aos="fade-up">
-            <div class="iv-section-eyebrow">
-                <i class="ri-file-list-3-line"></i>
-                <span>Our Menu</span>
-            </div>
-            <h2 class="iv-section-title">
-                The Complete <span class="accent">IV Menu</span>
-            </h2>
-            <p class="iv-section-sub">
-                Every formula is selected and customized for your goals during a brief medical intake with Dr. Nano. No guesswork, no generic bags.
-            </p>
+<section class="iv-section iv-alt" aria-labelledby="ivMenuTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 3</span>
+            <span class="ed-rubric-name">The IV Menu</span>
+            <span class="ed-rubric-rule"></span>
         </div>
 
-        <!-- Rejuvenation & Anti-Aging -->
-        <div class="iv-category" data-aos="fade-up">
-            <div class="iv-category-header">
-                <div class="iv-category-icon"><i class="ri-leaf-line"></i></div>
-                <div>
-                    <div class="iv-category-subtitle">01 · Rejuvenation</div>
-                    <h3 class="iv-category-title">Anti-Aging & Beauty</h3>
-                </div>
-            </div>
-            <div class="iv-menu-grid">
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Timeless IV</div>
-                        <div class="iv-menu-card-tag">Signature</div>
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="ivMenuTitle">The complete menu, <em>curated for you</em></h2>
+            <p class="ed-dek">Every formula is selected and customized for your goals during a brief medical intake with Dr. Nano. No guesswork, no generic bags.</p>
+        </header>
+
+        <!-- 01 · Anti-Aging & Beauty -->
+        <div class="iv-cat" data-reveal>
+            <div class="iv-cat-head"><span class="iv-cat-no">01</span><h3>Anti-Aging &amp; Beauty</h3></div>
+            <p class="iv-cat-sub">Rejuvenation</p>
+            <div class="iv-menu-list">
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Timeless IV</span>
+                        <p class="iv-menu-desc">A revitalizing blend that supports energy, mitochondrial health, and overall wellness as part of an anti-aging routine.</p>
                     </div>
-                    <p class="iv-menu-card-desc">A revitalizing blend that supports energy, mitochondrial health, and overall wellness as part of an anti-aging routine.</p>
+                    <span class="iv-menu-tag">Signature</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Snow Bright</div>
-                        <div class="iv-menu-card-tag">Glow</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Snow Bright</span>
+                        <p class="iv-menu-desc">A skin-brightening blend designed to support collagen and complement post-peel or post-microneedling recovery.</p>
                     </div>
-                    <p class="iv-menu-card-desc">A skin-brightening blend designed to support collagen and complement post-peel or post-microneedling recovery.</p>
+                    <span class="iv-menu-tag">Glow</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Hair & Nail Quench</div>
-                        <div class="iv-menu-card-tag">Beauty</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Hair &amp; Nail Quench</span>
+                        <p class="iv-menu-desc">Targeted nutrients to support healthy hair and nail growth while supporting smoother-looking skin.</p>
                     </div>
-                    <p class="iv-menu-card-desc">Targeted nutrients to support healthy hair and nail growth while supporting smoother-looking skin.</p>
+                    <span class="iv-menu-tag">Beauty</span>
                 </div>
             </div>
         </div>
 
-        <!-- Wellness & Immunity -->
-        <div class="iv-category" data-aos="fade-up">
-            <div class="iv-category-header">
-                <div class="iv-category-icon"><i class="ri-heart-pulse-line"></i></div>
-                <div>
-                    <div class="iv-category-subtitle">02 · Wellness</div>
-                    <h3 class="iv-category-title">Immunity & Balance</h3>
-                </div>
-            </div>
-            <div class="iv-menu-grid">
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Immunity Boost</div>
-                        <div class="iv-menu-card-tag">Defense</div>
+        <!-- 02 · Immunity & Balance -->
+        <div class="iv-cat" data-reveal>
+            <div class="iv-cat-head"><span class="iv-cat-no">02</span><h3>Immunity &amp; Balance</h3></div>
+            <p class="iv-cat-sub">Wellness</p>
+            <div class="iv-menu-list">
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Immunity Boost</span>
+                        <p class="iv-menu-desc">High-dose vitamin C, zinc, and antioxidants to support your body's natural defense system.</p>
                     </div>
-                    <p class="iv-menu-card-desc">High-dose vitamin C, zinc, and antioxidants to support your body's natural defense system.</p>
+                    <span class="iv-menu-tag">Defense</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Alleviate</div>
-                        <div class="iv-menu-card-tag">Balance</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Alleviate</span>
+                        <p class="iv-menu-desc">A gentle blend designed for monthly wellness support during your cycle and times of physical discomfort.</p>
                     </div>
-                    <p class="iv-menu-card-desc">A gentle blend designed for monthly wellness support during your cycle and times of physical discomfort.</p>
+                    <span class="iv-menu-tag">Balance</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Brainstorm</div>
-                        <div class="iv-menu-card-tag">Focus</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Brainstorm</span>
+                        <p class="iv-menu-desc">B-complex and cognitive-supportive nutrients formulated to support focus, memory, and mental clarity.</p>
                     </div>
-                    <p class="iv-menu-card-desc">B-complex and cognitive-supportive nutrients formulated to support focus, memory, and mental clarity.</p>
+                    <span class="iv-menu-tag">Focus</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Myers Cocktail</div>
-                        <div class="iv-menu-card-tag">Classic</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Myers Cocktail</span>
+                        <p class="iv-menu-desc">The original wellness blend — a balanced infusion of vitamins and minerals for total wellness support.</p>
                     </div>
-                    <p class="iv-menu-card-desc">The original wellness blend — a balanced infusion of vitamins and minerals for total wellness support.</p>
+                    <span class="iv-menu-tag">Classic</span>
                 </div>
             </div>
         </div>
 
-        <!-- Energy & Performance -->
-        <div class="iv-category" data-aos="fade-up">
-            <div class="iv-category-header">
-                <div class="iv-category-icon"><i class="ri-flashlight-line"></i></div>
-                <div>
-                    <div class="iv-category-subtitle">03 · Performance</div>
-                    <h3 class="iv-category-title">Energy & Recovery</h3>
-                </div>
-            </div>
-            <div class="iv-menu-grid">
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Get Up & Go</div>
-                        <div class="iv-menu-card-tag">Energy</div>
+        <!-- 03 · Energy & Recovery -->
+        <div class="iv-cat" data-reveal>
+            <div class="iv-cat-head"><span class="iv-cat-no">03</span><h3>Energy &amp; Recovery</h3></div>
+            <p class="iv-cat-sub">Performance</p>
+            <div class="iv-menu-list">
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Get Up &amp; Go</span>
+                        <p class="iv-menu-desc">An energizing blend formulated to support metabolism and help you power through demanding days.</p>
                     </div>
-                    <p class="iv-menu-card-desc">An energizing blend formulated to support metabolism and help you power through demanding days.</p>
+                    <span class="iv-menu-tag">Energy</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Quench</div>
-                        <div class="iv-menu-card-tag">Hydration</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Quench</span>
+                        <p class="iv-menu-desc">Deep hydration support for quick recovery after travel, heat, or physically demanding days.</p>
                     </div>
-                    <p class="iv-menu-card-desc">Deep hydration support for quick recovery after travel, heat, or physically demanding days.</p>
+                    <span class="iv-menu-tag">Hydration</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Jet Lag Recovery</div>
-                        <div class="iv-menu-card-tag">Travel</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Jet Lag Recovery</span>
+                        <p class="iv-menu-desc">Rehydration and key nutrients designed to support recovery after long flights and time-zone changes.</p>
                     </div>
-                    <p class="iv-menu-card-desc">Rehydration and key nutrients designed to support recovery after long flights and time-zone changes.</p>
+                    <span class="iv-menu-tag">Travel</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Goodbye Hangover</div>
-                        <div class="iv-menu-card-tag">Recovery</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Goodbye Hangover</span>
+                        <p class="iv-menu-desc">Rapid rehydration and electrolyte support to help you bounce back and feel like yourself again.</p>
                     </div>
-                    <p class="iv-menu-card-desc">Rapid rehydration and electrolyte support to help you bounce back and feel like yourself again.</p>
+                    <span class="iv-menu-tag">Recovery</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Fitness Max</div>
-                        <div class="iv-menu-card-tag">Performance</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Fitness Max</span>
+                        <p class="iv-menu-desc">Amino acids and recovery nutrients to support muscle health, stamina, and post-workout recovery.</p>
                     </div>
-                    <p class="iv-menu-card-desc">Amino acids and recovery nutrients to support muscle health, stamina, and post-workout recovery.</p>
+                    <span class="iv-menu-tag">Performance</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Be Lean IV</div>
-                        <div class="iv-menu-card-tag">Metabolism</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Be Lean IV</span>
+                        <p class="iv-menu-desc">A wellness blend designed to complement physician-supervised weight management programs.</p>
                     </div>
-                    <p class="iv-menu-card-desc">A wellness blend designed to complement physician-supervised weight management programs.</p>
+                    <span class="iv-menu-tag">Metabolism</span>
                 </div>
             </div>
         </div>
 
-        <!-- NAD+ -->
-        <div class="iv-category" data-aos="fade-up">
-            <div class="iv-category-header">
-                <div class="iv-category-icon"><i class="ri-pulse-line"></i></div>
-                <div>
-                    <div class="iv-category-subtitle">04 · Signature</div>
-                    <h3 class="iv-category-title">NAD+ Cellular Wellness</h3>
-                </div>
-            </div>
-            <div class="iv-menu-grid">
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">NAD+ IV Infusion</div>
-                        <div class="iv-menu-card-tag">Premium</div>
+        <!-- 04 · NAD+ -->
+        <div class="iv-cat" data-reveal>
+            <div class="iv-cat-head"><span class="iv-cat-no">04</span><h3>NAD+ Cellular Wellness</h3></div>
+            <p class="iv-cat-sub">Signature</p>
+            <div class="iv-menu-list">
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">NAD+ IV Infusion</span>
+                        <p class="iv-menu-desc">NAD+ is a coenzyme that supports mitochondrial function. This signature infusion is designed to support cellular wellness, mental clarity, and vitality. Sessions run 2–3 hours.</p>
                     </div>
-                    <p class="iv-menu-card-desc">NAD+ is a coenzyme that supports mitochondrial function. This signature infusion is designed to support cellular wellness, mental clarity, and vitality. Sessions run 2–3 hours.</p>
+                    <span class="iv-menu-tag">Premium</span>
                 </div>
             </div>
         </div>
 
-        <!-- Vitamin Injections -->
-        <div class="iv-category" data-aos="fade-up">
-            <div class="iv-category-header">
-                <div class="iv-category-icon"><i class="ri-syringe-line"></i></div>
-                <div>
-                    <div class="iv-category-subtitle">05 · Quick Visits</div>
-                    <h3 class="iv-category-title">Vitamin Injections</h3>
-                </div>
-            </div>
-            <div class="iv-menu-grid">
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">B6 Injection</div>
-                        <div class="iv-menu-card-tag">$50</div>
+        <!-- 05 · Vitamin Injections -->
+        <div class="iv-cat" data-reveal>
+            <div class="iv-cat-head"><span class="iv-cat-no">05</span><h3>Vitamin Injections</h3></div>
+            <p class="iv-cat-sub">Quick Visits</p>
+            <div class="iv-menu-list">
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">B6 Injection</span>
+                        <p class="iv-menu-desc">Supports energy metabolism, healthy nervous system function, and serotonin production for mood balance.</p>
                     </div>
-                    <p class="iv-menu-card-desc">Supports energy metabolism, healthy nervous system function, and serotonin production for mood balance.</p>
+                    <span class="iv-menu-tag">$50</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">B12 Injection</div>
-                        <div class="iv-menu-card-tag">$50</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">B12 Injection</span>
+                        <p class="iv-menu-desc">Supports energy production, cognitive function, and red blood cell production. Popular for fatigue and mental clarity support.</p>
                     </div>
-                    <p class="iv-menu-card-desc">Supports energy production, cognitive function, and red blood cell production. Popular for fatigue and mental clarity support.</p>
+                    <span class="iv-menu-tag">$50</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Biotin Injection</div>
-                        <div class="iv-menu-card-tag">$50</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Biotin Injection</span>
+                        <p class="iv-menu-desc">Supports healthy hair, skin, and nails, while supporting metabolism and converting food into usable energy.</p>
                     </div>
-                    <p class="iv-menu-card-desc">Supports healthy hair, skin, and nails, while supporting metabolism and converting food into usable energy.</p>
+                    <span class="iv-menu-tag">$50</span>
                 </div>
-                <div class="iv-menu-card">
-                    <div class="iv-menu-card-header">
-                        <div class="iv-menu-card-name">Lipo-Mino Mix</div>
-                        <div class="iv-menu-card-tag">Metabolism</div>
+                <div class="iv-menu-row">
+                    <div>
+                        <span class="iv-menu-name">Lipo-Mino Mix</span>
+                        <p class="iv-menu-desc">A blend of B1, B2, B6, Methionine, Inositol, Carnitine, and Choline designed to support energy and fat metabolism.</p>
                     </div>
-                    <p class="iv-menu-card-desc">A blend of B1, B2, B6, Methionine, Inositol, Carnitine, and Choline designed to support energy and fat metabolism.</p>
+                    <span class="iv-menu-tag">Metabolism</span>
                 </div>
             </div>
         </div>
@@ -1662,285 +934,257 @@
 </section>
 
 <!-- ============================================
-     HOW IT WORKS
+     5 · YOUR VISIT — process
      ============================================ -->
-<section class="iv-process">
-    <div class="iv-process-container">
-        <div class="iv-section-header">
-            <div class="iv-section-eyebrow" data-aos="fade-up">
-                <i class="ri-route-line"></i>
-                <span>Your Visit</span>
-            </div>
-            <h2 class="iv-section-title" data-aos="fade-up">
-                Simple, Private, <span class="accent">Physician-Led</span>
-            </h2>
+<section class="iv-section" aria-labelledby="ivProcessTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 4</span>
+            <span class="ed-rubric-name">Your Visit</span>
+            <span class="ed-rubric-rule"></span>
         </div>
-        <div class="iv-process-grid">
-            <div class="iv-process-step" data-aos="fade-up" data-aos-delay="100">
-                <div class="iv-process-num">1</div>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="ivProcessTitle">Simple, private, <em>physician-led</em></h2>
+        </header>
+
+        <ol class="iv-steps">
+            <li data-reveal>
+                <span class="iv-step-key">I</span>
                 <h4>Reserve Online</h4>
                 <p>Submit the form or call us. We'll confirm your appointment within hours — same-day often available.</p>
-            </div>
-            <div class="iv-process-step" data-aos="fade-up" data-aos-delay="200">
-                <div class="iv-process-num">2</div>
+            </li>
+            <li data-reveal>
+                <span class="iv-step-key">II</span>
                 <h4>Meet Dr. Nano</h4>
                 <p>A short medical intake with the physician on your first visit, so the right formula is chosen for you.</p>
-            </div>
-            <div class="iv-process-step" data-aos="fade-up" data-aos-delay="300">
-                <div class="iv-process-num">3</div>
-                <h4>Relax & Infuse</h4>
+            </li>
+            <li data-reveal>
+                <span class="iv-step-key">III</span>
+                <h4>Relax &amp; Infuse</h4>
                 <p>45–60 minutes (NAD+ longer) in a private Midtown suite. Bring a book or laptop and unwind.</p>
-            </div>
-            <div class="iv-process-step" data-aos="fade-up" data-aos-delay="400">
-                <div class="iv-process-num">4</div>
+            </li>
+            <li data-reveal>
+                <span class="iv-step-key">IV</span>
                 <h4>Feel the Difference</h4>
                 <p>Resume your day immediately. Most clients return for routine wellness visits.</p>
-            </div>
-        </div>
+            </li>
+        </ol>
     </div>
 </section>
 
 <!-- ============================================
-     CONTACT FORM SECTION
+     6 · RESERVE — contact + form
      ============================================ -->
-<section class="iv-contact" id="iv-contact-form">
-    <div class="iv-contact-orb"></div>
-    <div class="iv-contact-container">
-        <div class="iv-contact-info" data-aos="fade-right">
-            <div class="iv-section-eyebrow">
-                <i class="ri-calendar-check-line"></i>
-                <span>Reserve Your Session</span>
-            </div>
-            <h2>
-                Ready to Feel Your Best?
-                <span class="accent">Let's Get You Booked.</span>
-            </h2>
-            <p>
-                Fill out the form and our team will reach out within 24 hours to confirm your IV therapy appointment. Prefer to talk now? Call us directly — same-day appointments are often available.
-            </p>
-            <div class="iv-contact-methods">
-                <a href="tel:+12016394983" class="iv-contact-method" onclick="trackPhoneCall()">
-                    <div class="iv-contact-method-icon"><i class="ri-phone-fill"></i></div>
-                    <div class="iv-contact-method-text">
-                        <span class="label">Call Now</span>
-                        <span class="value">(201) 639-4983</span>
-                    </div>
-                </a>
-                <a href="mailto:info@eviaesthetics.com" class="iv-contact-method">
-                    <div class="iv-contact-method-icon"><i class="ri-mail-fill"></i></div>
-                    <div class="iv-contact-method-text">
-                        <span class="label">Email Us</span>
-                        <span class="value">info@eviaesthetics.com</span>
-                    </div>
-                </a>
-                <a href="https://www.google.com/maps/place/evia+esthetics/" target="_blank" rel="noopener" class="iv-contact-method">
-                    <div class="iv-contact-method-icon"><i class="ri-map-pin-fill"></i></div>
-                    <div class="iv-contact-method-text">
-                        <span class="label">Visit Us</span>
-                        <span class="value">65 W 36th St, 10th Floor · NYC</span>
-                    </div>
-                </a>
-            </div>
+<section class="iv-section iv-alt" id="iv-contact-form" aria-labelledby="ivContactTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 5</span>
+            <span class="ed-rubric-name">Reserve Your Session</span>
+            <span class="ed-rubric-rule"></span>
         </div>
-        <div class="iv-form-card" data-aos="fade-left" data-aos-delay="200">
-            <div class="iv-form-header">
-                <div class="iv-form-header-icon"><i class="ri-message-3-line"></i></div>
-                <div>
+
+        <div class="iv-contact-grid">
+            <div data-reveal>
+                <h2 class="ed-h2" id="ivContactTitle">Ready to feel your best? <em>Let's get you booked.</em></h2>
+                <p class="ed-dek">Fill out the form and our team will reach out within 24 hours to confirm your IV therapy appointment. Prefer to talk now? Call us directly — same-day appointments are often available.</p>
+
+                <div class="iv-methods">
+                    <a href="tel:+12016394983" class="iv-method" onclick="trackPhoneCall()">
+                        <i class="ri-phone-fill"></i>
+                        <span><span class="label">Call Now</span><span class="value">(201) 639-4983</span></span>
+                    </a>
+                    <a href="mailto:info@eviaesthetics.com" class="iv-method">
+                        <i class="ri-mail-fill"></i>
+                        <span><span class="label">Email Us</span><span class="value">info@eviaesthetics.com</span></span>
+                    </a>
+                    <a href="https://www.google.com/maps/place/evia+esthetics/" target="_blank" rel="noopener" class="iv-method">
+                        <i class="ri-map-pin-fill"></i>
+                        <span><span class="label">Visit Us</span><span class="value">65 W 36th St, 10th Floor · NYC</span></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="iv-form-card" data-reveal>
+                <div class="iv-form-head">
                     <h3>Book Your IV Therapy</h3>
                     <p>Tell us about your wellness goals — we'll respond within 24 hours.</p>
                 </div>
-            </div>
-            <!-- Elfsight Contact Form (same as main contact page) -->
-            <div class="elfsight-form-wrapper">
-                <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-db15691a-379c-4773-8900-983e7e393d0f" data-elfsight-app-lazy></div>
-            </div>
-            <div class="iv-form-trust">
-                <div class="iv-form-trust-item"><i class="ri-stethoscope-line"></i><span>Physician-Led</span></div>
-                <div class="iv-form-trust-item"><i class="ri-time-line"></i><span>24H Response</span></div>
-                <div class="iv-form-trust-item"><i class="ri-shield-check-line"></i><span>100% Confidential</span></div>
+                <!-- Elfsight Contact Form (same as main contact page) -->
+                <div class="elfsight-form-wrapper">
+                    <div class="elfsight-app-db15691a-379c-4773-8900-983e7e393d0f" data-elfsight-app-lazy></div>
+                </div>
+                <div class="iv-form-trust">
+                    <span><i class="ri-stethoscope-line"></i> Physician-Led</span>
+                    <span><i class="ri-time-line"></i> 24H Response</span>
+                    <span><i class="ri-shield-check-line"></i> 100% Confidential</span>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     FAQ
+     7 · FAQ
      ============================================ -->
-<section class="iv-faq">
-    <div class="iv-faq-container">
-        <div class="iv-section-header">
-            <div class="iv-section-eyebrow" data-aos="fade-up">
-                <i class="ri-question-line"></i>
-                <span>FAQ</span>
+<section class="ed-faq" id="faq" aria-labelledby="ivFaqTitle">
+    <div class="ed-wrap ed-faq-wrap">
+        <header class="ed-faq-head" data-reveal>
+            <div class="ed-rubric">
+                <span class="ed-rubric-no">No. 6</span>
+                <span class="ed-rubric-name">Before You Visit</span>
+                <span class="ed-rubric-rule"></span>
             </div>
-            <h2 class="iv-section-title" data-aos="fade-up">
-                Common <span class="accent">Questions</span>
-            </h2>
-        </div>
-        <div class="iv-faq-list">
-            <details class="iv-faq-item" data-aos="fade-up">
-                <summary>Who actually performs the IV therapy?</summary>
-                <div class="iv-faq-answer">
-                    Every IV drip and injection at Eviaesthetics is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with more than 20 years of clinical experience. Unlike many drip bars and mobile services, you are never treated by an unsupervised technician. This is the single biggest difference between us and the rest.
-                </div>
+            <h2 class="ed-h2" id="ivFaqTitle">Questions, <em>answered</em></h2>
+            <p class="ed-dek">Everything else, we'll cover in person — your consultation is private and unhurried.</p>
+        </header>
+
+        <div class="ed-faq-list" data-reveal>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Who actually performs the IV therapy?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Every IV drip and injection at Eviaesthetics is personally administered or directly supervised by Dr. Evia A Nano, MD — a board-certified physician with more than 20 years of clinical experience. Unlike many drip bars and mobile services, you are never treated by an unsupervised technician. This is the single biggest difference between us and the rest.</p></div>
             </details>
-            <details class="iv-faq-item" data-aos="fade-up">
-                <summary>Do I need an appointment, or can I walk in?</summary>
-                <div class="iv-faq-answer">
-                    Eviaesthetics is a private, appointment-only suite — that's how Dr. Nano can give you her full attention without a crowded waiting room. Booking takes a minute online or by phone, and same-day appointments are often available. Just reach out and we'll find you a time that works.
-                </div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Do I need an appointment, or can I walk in?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Eviaesthetics is a private, appointment-only suite — that's how Dr. Nano can give you her full attention without a crowded waiting room. Booking takes a minute online or by phone, and same-day appointments are often available.</p></div>
             </details>
-            <details class="iv-faq-item" data-aos="fade-up">
-                <summary>How long does an IV drip session take?</summary>
-                <div class="iv-faq-answer">
-                    Most IV drip sessions take 45 to 60 minutes from start to finish. NAD+ infusions are longer — typically 2 to 3 hours — because they're administered at a slower drip rate for optimal comfort. Vitamin injections take about 15 minutes.
-                </div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">How long does an IV drip session take?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Most IV drip sessions take 45 to 60 minutes from start to finish. NAD+ infusions are longer — typically 2 to 3 hours — because they're administered at a slower drip rate for optimal comfort. Vitamin injections take about 15 minutes.</p></div>
             </details>
-            <details class="iv-faq-item" data-aos="fade-up">
-                <summary>How much does IV therapy cost?</summary>
-                <div class="iv-faq-answer">
-                    Vitamin injections start at $50, custom IV drips start at $350, and NAD+ infusions start at $600. Pricing varies based on the specific formula, ingredients, and dose selected with Dr. Nano during your intake. You'll always know the price before anything begins — no surprises.
-                </div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">How much does IV therapy cost?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Vitamin injections start at $50, custom IV drips start at $350, and NAD+ infusions start at $600. Pricing varies based on the specific formula, ingredients, and dose selected with Dr. Nano during your intake. You'll always know the price before anything begins — no surprises.</p></div>
             </details>
-            <details class="iv-faq-item" data-aos="fade-up">
-                <summary>Is IV therapy safe?</summary>
-                <div class="iv-faq-answer">
-                    IV therapy at Eviaesthetics is performed in a clinical setting under direct physician oversight using sterile, medical-grade equipment. A brief medical intake is completed before your first session to confirm suitability and rule out contraindications — exactly the kind of safeguard a pop-up drip bar can't offer.
-                </div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Is IV therapy safe?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>IV therapy at Eviaesthetics is performed in a clinical setting under direct physician oversight using sterile, medical-grade equipment. A brief medical intake is completed before your first session to confirm suitability and rule out contraindications — exactly the kind of safeguard a pop-up drip bar can't offer.</p></div>
             </details>
-            <details class="iv-faq-item" data-aos="fade-up">
-                <summary>How often should I get IV therapy?</summary>
-                <div class="iv-faq-answer">
-                    Frequency depends on your individual goals. Many clients come weekly or biweekly for wellness maintenance, while others book seasonally or before events, travel, or recovery periods. Dr. Nano will recommend a cadence during your consultation.
-                </div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">How often should I get IV therapy?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Frequency depends on your individual goals. Many clients come weekly or biweekly for wellness maintenance, while others book seasonally or before events, travel, or recovery periods. Dr. Nano will recommend a cadence during your consultation.</p></div>
             </details>
-            <details class="iv-faq-item" data-aos="fade-up">
-                <summary>Do you accept insurance?</summary>
-                <div class="iv-faq-answer">
-                    We do not accept insurance for IV therapy or injections. We accept cash and all major credit and debit cards. Pricing is discussed openly before treatment with no surprise charges.
-                </div>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Do you accept insurance?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>We do not accept insurance for IV therapy or injections. We accept cash and all major credit and debit cards. Pricing is discussed openly before treatment with no surprise charges.</p></div>
             </details>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     FINAL CTA
+     8 · CLOSING — full-page invitation
      ============================================ -->
-<section class="iv-final-cta">
-    <div class="iv-final-cta-container">
-        <h2>
-            Your Body Deserves a Doctor,
-            <span class="accent">Not a Drip Bar</span>
+<section class="ed-close" id="contact" aria-labelledby="ivCloseTitle">
+    <div class="ed-wrap">
+        <span class="ed-close-kicker" data-reveal>By Appointment — Private · Same-Day Often Available</span>
+        <h2 class="ed-close-title" id="ivCloseTitle" data-reveal>
+            Your body deserves a doctor, <em>not a drip bar.</em>
         </h2>
-        <p>
-            One visit with Dr. Nano and you'll understand why Manhattan trusts Eviaesthetics for IV therapy that's safe, personalized, and genuinely effective. Reserve your private session today.
+        <p class="ed-close-dek" data-reveal>
+            One visit with Dr. Nano and you'll understand why Manhattan trusts Eviaesthetics for IV therapy that's safe, personalized, and genuinely effective.
         </p>
-        <div class="iv-final-cta-actions">
-            <a href="#iv-contact-form" class="iv-btn-primary">
+
+        <div class="ed-close-options" data-reveal>
+            <a href="#iv-contact-form" class="ed-close-option">
                 <i class="ri-calendar-check-line"></i>
-                <span>Book Your IV Session</span>
+                <span>Book Online</span><small>IV session request</small>
             </a>
-            <a href="tel:+12016394983" class="iv-btn-secondary" onclick="trackPhoneCall()">
+            <a href="tel:+12016394983" class="ed-close-option" onclick="trackPhoneCall()">
                 <i class="ri-phone-line"></i>
-                <span>Call (201) 639-4983</span>
+                <span>Call Now</span><small>(201) 639-4983</small>
+            </a>
+            <a href="mailto:info@eviaesthetics.com" class="ed-close-option">
+                <i class="ri-mail-line"></i>
+                <span>Email</span><small>info@eviaesthetics.com</small>
             </a>
         </div>
-        <div class="iv-final-cta-reassure">
-            <i class="ri-calendar-check-line"></i>
-            <span>By appointment for your privacy — same-day appointments often available.</span>
-        </div>
+
+        <a href="#iv-contact-form" class="ed-btn ed-btn-hermes ed-btn-lg" data-reveal><span>Book Your IV Session</span><i class="ri-arrow-right-up-line"></i></a>
     </div>
 </section>
 
 </main>
 
 <!-- ============================================
-     FOOTER
+     FOOTER — masthead colophon
      ============================================ -->
-<footer class="ev-footer">
-    <div class="ev-wrap">
-        <div class="ev-footer-grid">
-            <div class="ev-footer-brand">
-                <img src="images/logo1.png" alt="Eviaesthetics" class="ev-footer-logo" width="120" height="120">
-                <p class="ev-footer-tag">Manhattan's premier boutique medical spa.</p>
-                <div class="ev-footer-contact">
+<footer class="ed-footer">
+    <div class="ed-footer-mast" aria-hidden="true">EVIAESTHETICS</div>
+    <div class="ed-wrap">
+        <div class="ed-footer-grid">
+            <div class="ed-footer-brand">
+                <img src="images/logo1.png" alt="Eviaesthetics" class="ed-footer-logo" width="110" height="110">
+                <p class="ed-footer-tag">Manhattan's premier boutique medical spa.</p>
+                <div class="ed-footer-contact">
                     <span><i class="ri-phone-fill"></i> (201) 639-4983</span>
                     <span><i class="ri-map-pin-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018</span>
                 </div>
             </div>
 
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Explore</h4>
                 <a href="index.html">Home</a><a href="services.html">Services</a><a href="about.html">About Dr. Nano</a><a href="contact.html">Book</a><a href="#faq">FAQ</a>
             </div>
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Services</h4>
                 <a href="services.html">Botox &amp; Fillers</a><a href="services.html">Weight Management</a><a href="services.html">NAD+ &amp; IV Therapy</a><a href="services.html">Microneedling</a><a href="services.html">PRP Therapy</a><a href="services.html">Chemical Peels</a>
             </div>
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Connect</h4>
-                <div class="ev-footer-social">
+                <div class="ed-footer-social">
                     <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
                     <a href="https://www.facebook.com/p/Evia-Esthetics-100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
                 </div>
-                <div class="ev-footer-badges">
+                <div class="ed-footer-badges">
                     <img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified" width="100">
                 </div>
             </div>
         </div>
 
-        <div class="ev-footer-bar">
-            <div class="ev-footer-legal">
+        <div class="ed-footer-bar">
+            <div class="ed-footer-legal">
                 <a href="policies/privacy-policy.html">Privacy</a>
                 <a href="policies/terms-of-service.html">Terms</a>
                 <a href="policies/cancellation-policy.html">Cancellation</a>
                 <a href="policies/cookie-policy.html">Cookies</a>
             </div>
-            <span class="ev-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
+            <span class="ed-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
+            <a href="https://elanstechworld.com" class="ed-footer-credit" target="_blank" rel="noopener">
+                <span>Designed by</span>
+                <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="22">
+                <span>Elan's Tech World</span>
+            </a>
         </div>
-
-        <a href="https://elanstechworld.com" class="ev-footer-credit" target="_blank" rel="noopener">
-            <span>Designed by</span>
-            <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="24">
-            <span>Elan's Tech World</span>
-        </a>
     </div>
 </footer>
 
 <!-- ============================================
+     FLOATING ACTIONS + MOBILE STICKY BOOK BAR
+     ============================================ -->
+<button class="ed-totop" id="edToTop" aria-label="Back to top"><i class="ri-arrow-up-line"></i></button>
+
+<div class="ed-stickybar" aria-label="Quick booking">
+    <a href="tel:+12016394983" class="ed-sticky-call" onclick="trackPhoneCall()"><i class="ri-phone-line"></i> Call</a>
+    <a href="#iv-contact-form" class="ed-sticky-book">Book Your IV Session</a>
+</div>
+
+<!-- ============================================
      SCRIPTS
      ============================================ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
-<script src="script.js" defer></script>
+<script src="https://elfsightcdn.com/platform.js" defer></script>
+<script src="script.js" type="module"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if (typeof AOS !== 'undefined') {
-            AOS.init({ duration: 900, easing: 'ease-out-cubic', once: true, offset: 80 });
-        }
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Fire form-submit conversion when the Elfsight form is submitted
-        // (Elfsight renders in an iframe/shadow DOM; this listens for its success postMessage)
-        window.addEventListener('message', function(e) {
-            try {
-                var d = typeof e.data === 'string' ? e.data : JSON.stringify(e.data || '');
-                if (d && d.toLowerCase().indexOf('elfsight') !== -1 &&
-                    (d.toLowerCase().indexOf('submit') !== -1 || d.toLowerCase().indexOf('success') !== -1)) {
-                    if (typeof trackFormSubmit === 'function') trackFormSubmit();
-                }
-            } catch (err) { /* no-op */ }
-        });
+    // Fire form-submit conversion when the Elfsight form is submitted
+    // (Elfsight renders in an iframe/shadow DOM; this listens for its success postMessage)
+    window.addEventListener('message', function(e) {
+        try {
+            var d = typeof e.data === 'string' ? e.data : JSON.stringify(e.data || '');
+            if (d && d.toLowerCase().indexOf('elfsight') !== -1 &&
+                (d.toLowerCase().indexOf('submit') !== -1 || d.toLowerCase().indexOf('success') !== -1)) {
+                if (typeof trackFormSubmit === 'function') trackFormSubmit();
+            }
+        } catch (err) { /* no-op */ }
     });
 </script>
 </body>
