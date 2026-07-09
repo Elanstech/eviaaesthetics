@@ -45,7 +45,7 @@
     <meta name="googlebot" content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1">
 
     <!-- Theme & Mobile -->
-    <meta name="theme-color" content="#FF6B00">
+    <meta name="theme-color" content="#161210">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Eviaesthetics">
     <meta name="format-detection" content="telephone=yes">
@@ -85,8 +85,8 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preload" as="image" href="images/hero-poster.jpg" fetchpriority="high">
 
-    <!-- Fonts: Cormorant Garamond (display) + Inter (body) + Dancing Script (signature) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts: Fraunces (editorial display) + Manrope (utility body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
 
@@ -178,45 +178,58 @@
 </head>
 <body>
 
+<!-- ============================================ PAGE CURTAIN (load reveal) ============================================ -->
+<div class="ed-curtain" id="edCurtain" aria-hidden="true">
+    <span class="ed-curtain-word">Eviaesthetics</span>
+</div>
+
 <!-- ============================================ HEADER ============================================ -->
-<header class="ev-header" id="evHeader">
-    <nav class="ev-nav" aria-label="Primary">
-        <a href="/" class="ev-logo" aria-label="Eviaesthetics home">
-            <img src="images/logo1.png" alt="Eviaesthetics" class="ev-logo-img" width="160" height="40">
+<header class="ed-header" id="edHeader">
+    <nav class="ed-nav" aria-label="Primary">
+        <div class="ed-nav-left">
+            <a href="index.html" class="ed-nav-link active">Home</a>
+            <a href="services.html" class="ed-nav-link">Services</a>
+            <a href="about.html" class="ed-nav-link">About Dr. Nano</a>
+            <a href="contact.html" class="ed-nav-link">Contact</a>
+        </div>
+
+        <a href="/" class="ed-logo" aria-label="Eviaesthetics home">
+            <img src="images/logo1.png" alt="Eviaesthetics" class="ed-logo-img" width="150" height="40">
         </a>
-        <div class="ev-nav-links" id="evNavLinks">
-            <a href="index.html" class="ev-nav-link active">Home</a>
-            <a href="services.html" class="ev-nav-link">Services</a>
-            <a href="about.html" class="ev-nav-link">About Dr. Nano</a>
-            <a href="contact.html" class="ev-nav-link">Contact</a>
+
+        <div class="ed-nav-right">
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-nav-link" rel="noopener">Shop</a>
+            <a href="tel:+12016394983" class="ed-nav-link ed-nav-tel">(201) 639-4983</a>
+            <a href="contact.html" class="ed-btn ed-btn-ink">Book Consultation</a>
         </div>
-        <div class="ev-nav-cta">
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-text" rel="noopener">Shop</a>
-            <a href="contact.html" class="ev-btn-outline">Book Consultation</a>
-        </div>
-        <button class="ev-burger" id="evBurger" aria-label="Open menu" aria-expanded="false">
-            <span></span><span></span><span></span>
+
+        <button class="ed-burger" id="edBurger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span>
         </button>
     </nav>
 </header>
 
-<!-- Mobile drawer — sibling of <header>, NOT nested inside it -->
-<div class="ev-drawer" id="evDrawer" aria-hidden="true">
-    <div class="ev-drawer-inner">
-        <button class="ev-drawer-close" id="evDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
-        <nav class="ev-drawer-nav">
-            <a href="index.html">Home</a>
-            <a href="services.html">Services</a>
-            <a href="about.html">About Dr. Nano</a>
-            <a href="contact.html">Contact</a>
+<!-- Mobile drawer -->
+<div class="ed-drawer" id="edDrawer" aria-hidden="true">
+    <div class="ed-drawer-inner">
+        <button class="ed-drawer-close" id="edDrawerClose" aria-label="Close menu"><i class="ri-close-line"></i></button>
+        <span class="ed-drawer-kicker">Menu — Eviaesthetics</span>
+        <nav class="ed-drawer-nav">
+            <a href="index.html"><em>01</em> Home</a>
+            <a href="services.html"><em>02</em> Services</a>
+            <a href="about.html"><em>03</em> About Dr. Nano</a>
+            <a href="contact.html"><em>04</em> Contact</a>
         </nav>
-        <div class="ev-drawer-cta">
-            <a href="contact.html" class="ev-btn-solid">Book Consultation</a>
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-outline" rel="noopener">Shop AlumierMD</a>
+        <div class="ed-drawer-cta">
+            <a href="contact.html" class="ed-btn ed-btn-garnet">Book Consultation</a>
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-btn ed-btn-ghost" rel="noopener">Shop AlumierMD</a>
         </div>
-        <div class="ev-drawer-foot">
-            <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
-            <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
+        <div class="ed-drawer-foot">
+            <span>65 W 36th St, 10th Fl — NYC</span>
+            <div class="ed-drawer-social">
+                <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+                <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
+            </div>
         </div>
     </div>
 </div>
@@ -224,402 +237,546 @@
 <main id="main">
 
 <!-- ============================================
-     1 · CINEMATIC HERO
+     1 · COVER — magazine-style hero over the film
      ============================================ -->
-<section class="ev-hero" id="home" aria-label="Welcome">
-    <div class="ev-hero-media">
-        <video class="ev-hero-video" autoplay muted loop playsinline preload="metadata"
+<section class="ed-cover" id="home" aria-label="Welcome">
+    <div class="ed-cover-media">
+        <video class="ed-cover-video" autoplay muted loop playsinline preload="metadata"
             poster="images/hero-poster.jpg" aria-label="Eviaesthetics Manhattan medical spa">
             <source src="https://github.com/Elanstech/eviaesthetics/releases/download/v1/hero.mp4" type="video/mp4">
         </video>
-        <div class="ev-hero-scrim"></div>
+        <div class="ed-cover-scrim"></div>
     </div>
 
-    <div class="ev-hero-content">
-        <span class="ev-hero-eyebrow" data-reveal>Manhattan · Established 2020</span>
+    <!-- Masthead spans the full width, like a magazine title -->
+    <div class="ed-masthead" aria-hidden="true" data-load="1">EVIAESTHETICS</div>
 
-        <h1 class="ev-hero-title">
-            <span class="ev-line" data-reveal>The Art of</span>
-            <span class="ev-line ev-italic" data-reveal>Subtle Transformation</span>
+    <div class="ed-cover-folio" data-load="2">
+        <span>Manhattan · Est. 2020</span>
+        <span class="ed-folio-mid">A Private Medical Atelier</span>
+        <span>By Appointment Only</span>
+    </div>
+
+    <div class="ed-cover-body">
+        <h1 class="ed-cover-title" data-load="3">
+            <span class="ed-sr">Eviaesthetics — </span>
+            <span class="ed-ct-line">The Art of</span>
+            <span class="ed-ct-line ed-ct-italic">Subtle&nbsp;Transformation</span>
         </h1>
 
-        <p class="ev-hero-sub" data-reveal>
-            A private medical atelier in Midtown, where two decades of expertise
-            move with the quiet confidence of an artist's hand.
+        <p class="ed-cover-dek" data-load="4">
+            Two decades of aesthetic medicine, practiced quietly in Midtown by
+            Dr.&nbsp;Evia&nbsp;A.&nbsp;Nano,&nbsp;MD — for results no one can name, only sense.
         </p>
 
-        <div class="ev-hero-actions" data-reveal>
-            <a href="contact.html" class="ev-btn-solid ev-magnetic">
-                <span>Reserve Your Consultation</span>
-                <i class="ri-arrow-right-up-line"></i>
+        <div class="ed-cover-actions" data-load="5">
+            <a href="contact.html" class="ed-btn ed-btn-garnet ed-btn-lg">
+                <span>Reserve Your Consultation</span><i class="ri-arrow-right-up-line"></i>
             </a>
-            <button type="button" class="ev-btn-play" id="evWatchTour" aria-label="Watch the film">
-                <span class="ev-play-ring"><i class="ri-play-fill"></i></span>
+            <button type="button" class="ed-btn-film" id="edWatchTour" aria-label="Watch the film">
+                <span class="ed-film-ring"><i class="ri-play-fill"></i></span>
                 <span>Watch the Film</span>
             </button>
         </div>
     </div>
 
-    <div class="ev-hero-signature" data-reveal>
-        <span class="ev-sig-name">Evia A. Nano</span>
-        <span class="ev-sig-cred">MD · Board-Certified Physician</span>
-    </div>
+    <!-- Cover lines, set vertically like a fashion issue -->
+    <ul class="ed-coverlines" data-load="5" aria-label="In this issue">
+        <li>NAD+ Infusions</li>
+        <li>Physician-Led Weight Loss</li>
+        <li>Botox &amp; Fillers</li>
+        <li>Microneedling · PRP</li>
+    </ul>
 
-    <div class="ev-hero-scroll" aria-hidden="true">
-        <span class="ev-scroll-rule"></span>
-        <span>Scroll</span>
+    <div class="ed-cover-foot" data-load="6">
+        <span class="ed-cover-cred">Dr. Evia A. Nano — <em>Board-Certified Physician, 20+ Years</em></span>
+        <span class="ed-cover-scroll">Scroll <span class="ed-scroll-line"></span></span>
     </div>
 </section>
 
 <!-- ============================================
-     2 · MARQUEE TRUST STRIP
+     2 · WIRE TICKER — credentials as a press wire
      ============================================ -->
-<section class="ev-marquee" aria-label="Credentials">
-    <div class="ev-marquee-track">
-        <span>Board-Certified MD</span><i class="ri-asterisk"></i>
-        <span>LegitScript Certified</span><i class="ri-asterisk"></i>
-        <span>5.0 · 200+ Reviews</span><i class="ri-asterisk"></i>
-        <span>HIPAA Compliant</span><i class="ri-asterisk"></i>
-        <span>20+ Years of Mastery</span><i class="ri-asterisk"></i>
-        <span>5,000+ Clients Served</span><i class="ri-asterisk"></i>
+<section class="ed-wire" aria-label="Credentials">
+    <div class="ed-wire-track">
+        <span>Board-Certified MD</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>LegitScript Certified</span><span class="ed-wire-dot">●</span>
+        <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
+        <span>5,000+ Clients Served</span><span class="ed-wire-dot">●</span>
+        <span>Every Procedure Performed by Dr. Nano</span><span class="ed-wire-dot">●</span>
         <!-- duplicate for seamless loop -->
-        <span>Board-Certified MD</span><i class="ri-asterisk"></i>
-        <span>LegitScript Certified</span><i class="ri-asterisk"></i>
-        <span>5.0 · 200+ Reviews</span><i class="ri-asterisk"></i>
-        <span>HIPAA Compliant</span><i class="ri-asterisk"></i>
-        <span>20+ Years of Mastery</span><i class="ri-asterisk"></i>
-        <span>5,000+ Clients Served</span><i class="ri-asterisk"></i>
+        <span>Board-Certified MD</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>LegitScript Certified</span><span class="ed-wire-dot">●</span>
+        <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
+        <span>5,000+ Clients Served</span><span class="ed-wire-dot">●</span>
+        <span>Every Procedure Performed by Dr. Nano</span><span class="ed-wire-dot">●</span>
     </div>
 </section>
 
 <!-- ============================================
-     3 · EDITORIAL INTRO (about teaser)
+     3 · PROFILE — editorial spread on Dr. Nano
      ============================================ -->
-<section class="ev-intro" id="about" aria-labelledby="evIntroTitle">
-    <div class="ev-wrap ev-intro-grid">
-        <figure class="ev-intro-figure" data-reveal>
-            <div class="ev-figure-frame">
-                <img src="images/eviaherself.jpg" alt="Dr. Evia A Nano MD, board-certified aesthetic physician"
-                    loading="lazy" width="520" height="640" data-parallax>
-            </div>
-            <figcaption class="ev-figure-badge">
-                <span class="ev-badge-num">20+</span>
-                <span class="ev-badge-label">Years of<br>Medical Artistry</span>
-            </figcaption>
-        </figure>
+<section class="ed-profile" id="about" aria-labelledby="edProfileTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 1</span>
+            <span class="ed-rubric-name">The Physician</span>
+            <span class="ed-rubric-rule"></span>
+        </div>
 
-        <div class="ev-intro-text" data-reveal>
-            <span class="ev-eyebrow"><span class="ev-eyebrow-rule"></span>Meet Your Physician</span>
-            <h2 class="ev-h2" id="evIntroTitle">Medicine, practiced as <em>quiet refinement.</em></h2>
-            <p class="ev-lead">
-                "I believe the finest work is the work no one can name — only sense.
-                Every face is singular. My role is to reveal it, never to rewrite it."
-            </p>
-            <p class="ev-body">
-                For twenty years, Dr. Evia Nano has built a Manhattan following on a single
-                principle: results that never announce themselves. Board-certified, artistically
-                trained, and trusted by those who could go anywhere — and choose to come here.
-            </p>
+        <div class="ed-profile-grid">
+            <div class="ed-profile-text" data-reveal>
+                <h2 class="ed-h2" id="edProfileTitle">Medicine, practiced as <em>quiet refinement</em></h2>
+                <p class="ed-pull">
+                    "I believe the finest work is the work no one can name — only sense.
+                    Every face is singular. My role is to reveal it, never to rewrite it."
+                </p>
+                <p class="ed-body">
+                    For twenty years, Dr. Evia Nano has built a Manhattan following on a single
+                    principle: results that never announce themselves. Board-certified, artistically
+                    trained, and trusted by those who could go anywhere — and choose to come here.
+                </p>
 
-            <div class="ev-stat-row">
-                <div class="ev-stat"><span class="ev-stat-num">5,000+</span><span class="ev-stat-label">Clients Served</span></div>
-                <div class="ev-stat"><span class="ev-stat-num">98%</span><span class="ev-stat-label">Would Return</span></div>
-                <div class="ev-stat"><span class="ev-stat-num">5.0</span><span class="ev-stat-label">Star Rating</span></div>
+                <dl class="ed-ledger">
+                    <div class="ed-ledger-row"><dt>Experience</dt><dd><span data-count="20">0</span>+ years</dd></div>
+                    <div class="ed-ledger-row"><dt>Clients served</dt><dd><span data-count="5000">0</span>+</dd></div>
+                    <div class="ed-ledger-row"><dt>Would return</dt><dd><span data-count="98">0</span>%</dd></div>
+                    <div class="ed-ledger-row"><dt>Google rating</dt><dd>5.0 ★</dd></div>
+                </dl>
+
+                <div class="ed-profile-actions">
+                    <a href="about.html" class="ed-btn ed-btn-ink"><span>Meet Dr. Nano</span><i class="ri-arrow-right-up-line"></i></a>
+                    <a href="about.html#abJourney" class="ed-link-rule">Her Journey</a>
+                </div>
             </div>
 
-            <div class="ev-intro-actions">
-                <a href="about.html" class="ev-btn-solid ev-magnetic"><span>Meet Dr. Nano</span><i class="ri-arrow-right-up-line"></i></a>
-                <a href="about.html#abJourney" class="ev-btn-text">Her Journey →</a>
-            </div>
+            <figure class="ed-profile-figure" data-reveal>
+                <div class="ed-figure-mat">
+                    <img src="images/eviaherself.jpg" alt="Dr. Evia A Nano MD, board-certified aesthetic physician"
+                        loading="lazy" width="520" height="640" data-parallax>
+                </div>
+                <figcaption class="ed-figure-cap">
+                    <span>fig. 01</span> Dr. Evia A. Nano, MD — Medical Director, Midtown Manhattan
+                </figcaption>
+            </figure>
         </div>
     </div>
 </section>
-    
-    <!-- ============================================
-     5 · SERVICES
+
+<!-- ============================================
+     4 · INDEX — treatments as a magazine index
      ============================================ -->
-<section class="ev-services" id="services" aria-labelledby="evServicesTitle">
-    <div class="ev-wrap">
-        <header class="ev-section-head" data-reveal>
-            <span class="ev-eyebrow ev-center"><span class="ev-eyebrow-rule"></span>The Atelier Menu<span class="ev-eyebrow-rule"></span></span>
-            <h2 class="ev-h2 ev-center" id="evServicesTitle">Treatments, considered <em>singularly.</em></h2>
-            <p class="ev-section-sub">Each protocol is performed personally by Dr. Nano. No assembly line — only intention.</p>
+<section class="ed-index" id="services" aria-labelledby="edIndexTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 2</span>
+            <span class="ed-rubric-name">The Treatment Index</span>
+            <span class="ed-rubric-rule"></span>
+        </div>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="edIndexTitle">Treatments, considered <em>singularly</em></h2>
+            <p class="ed-dek">Each protocol is performed personally by Dr. Nano. No assembly line — only intention.</p>
         </header>
 
-        <div class="ev-filter" role="tablist" aria-label="Filter services">
-            <button class="ev-filter-pill active" data-filter="all" role="tab" aria-selected="true">All</button>
-            <button class="ev-filter-pill" data-filter="injectables" role="tab" aria-selected="false">Injectables</button>
-            <button class="ev-filter-pill" data-filter="wellness" role="tab" aria-selected="false">Wellness</button>
-            <button class="ev-filter-pill" data-filter="skincare" role="tab" aria-selected="false">Skincare</button>
+        <div class="ed-filter" role="tablist" aria-label="Filter services" data-reveal>
+            <button class="ed-filter-pill active" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button class="ed-filter-pill" data-filter="injectables" role="tab" aria-selected="false">Injectables</button>
+            <button class="ed-filter-pill" data-filter="wellness" role="tab" aria-selected="false">Wellness</button>
+            <button class="ed-filter-pill" data-filter="skincare" role="tab" aria-selected="false">Skincare</button>
         </div>
 
-        <div class="ev-services-grid" id="evServicesGrid">
-            <article class="ev-service" data-category="injectables" data-reveal>
-                <div class="ev-service-media"><img src="https://www.yescosmeticsurgery.com/content/uploads/2023/02/MCM-Blog-Images-1-1024x536.jpg" alt="Botox and fillers in Manhattan" loading="lazy"><span class="ev-service-no">01</span></div>
-                <div class="ev-service-body">
-                    <span class="ev-service-cat">Injectables</span>
-                    <h3>Botox &amp; Fillers</h3>
-                    <p>Precision enhancement with an artist's eye for natural harmony.</p>
-                    <div class="ev-service-foot"><span class="ev-service-price">From $16<small>/unit</small></span><a href="services.html#botox" class="ev-service-link">Explore <i class="ri-arrow-right-line"></i></a></div>
-                </div>
-            </article>
+        <div class="ed-index-list" id="edIndexList">
+            <a href="services.html#botox" class="ed-row" data-category="injectables" data-reveal
+               data-img="https://www.yescosmeticsurgery.com/content/uploads/2023/02/MCM-Blog-Images-1-1024x536.jpg">
+                <span class="ed-row-no">01</span>
+                <span class="ed-row-main">
+                    <span class="ed-row-name">Botox &amp; Fillers</span>
+                    <span class="ed-row-desc">Precision enhancement with an artist's eye for natural harmony</span>
+                </span>
+                <span class="ed-row-thumb"><img src="https://www.yescosmeticsurgery.com/content/uploads/2023/02/MCM-Blog-Images-1-1024x536.jpg" alt="" loading="lazy"></span>
+                <span class="ed-row-meta">
+                    <span class="ed-row-cat">Injectables</span>
+                    <span class="ed-row-price">From $16 / unit</span>
+                </span>
+                <span class="ed-row-arrow"><i class="ri-arrow-right-up-line"></i></span>
+            </a>
 
-            <article class="ev-service" data-category="wellness" data-reveal>
-                <div class="ev-service-media"><img src="https://www.pharmacyplanet.com/media/wysiwyg/diabetes-and-weight-management-strategies-for-achieving-healthy-body-weight.jpeg" alt="Semaglutide weight management Manhattan" loading="lazy"><span class="ev-service-no">02</span></div>
-                <div class="ev-service-body">
-                    <span class="ev-service-cat">Wellness</span>
-                    <h3>Weight Management</h3>
-                    <p>Bespoke GLP-1 programs with physician-led monitoring, start to finish.</p>
-                    <div class="ev-service-foot"><span class="ev-service-price">Inquire</span><a href="services.html#weight" class="ev-service-link">Explore <i class="ri-arrow-right-line"></i></a></div>
-                </div>
-            </article>
+            <a href="services.html#weight" class="ed-row" data-category="wellness" data-reveal
+               data-img="https://www.pharmacyplanet.com/media/wysiwyg/diabetes-and-weight-management-strategies-for-achieving-healthy-body-weight.jpeg">
+                <span class="ed-row-no">02</span>
+                <span class="ed-row-main">
+                    <span class="ed-row-name">Weight Management</span>
+                    <span class="ed-row-desc">Bespoke GLP-1 programs with physician-led monitoring, start to finish</span>
+                </span>
+                <span class="ed-row-thumb"><img src="https://www.pharmacyplanet.com/media/wysiwyg/diabetes-and-weight-management-strategies-for-achieving-healthy-body-weight.jpeg" alt="" loading="lazy"></span>
+                <span class="ed-row-meta">
+                    <span class="ed-row-cat">Wellness</span>
+                    <span class="ed-row-price">Inquire</span>
+                </span>
+                <span class="ed-row-arrow"><i class="ri-arrow-right-up-line"></i></span>
+            </a>
 
-            <article class="ev-service" data-category="wellness" data-reveal>
-                <div class="ev-service-media"><img src="https://desotofamilycareclinic.com/wp-content/uploads/2024/04/Desoto-IV-Therapy.png" alt="NAD+ IV therapy Manhattan" loading="lazy"><span class="ev-service-no">03</span></div>
-                <div class="ev-service-body">
-                    <span class="ev-service-cat">Wellness</span>
-                    <h3>NAD+ &amp; IV Therapy</h3>
-                    <p>Cellular vitality, infused. Custom protocols for energy and renewal.</p>
-                    <div class="ev-service-foot"><span class="ev-service-price">From $350</span><a href="services.html#iv" class="ev-service-link">Explore <i class="ri-arrow-right-line"></i></a></div>
-                </div>
-            </article>
+            <a href="services.html#iv" class="ed-row" data-category="wellness" data-reveal
+               data-img="https://desotofamilycareclinic.com/wp-content/uploads/2024/04/Desoto-IV-Therapy.png">
+                <span class="ed-row-no">03</span>
+                <span class="ed-row-main">
+                    <span class="ed-row-name">NAD+ &amp; IV Therapy</span>
+                    <span class="ed-row-desc">Cellular vitality, infused — custom protocols for energy and renewal</span>
+                </span>
+                <span class="ed-row-thumb"><img src="https://desotofamilycareclinic.com/wp-content/uploads/2024/04/Desoto-IV-Therapy.png" alt="" loading="lazy"></span>
+                <span class="ed-row-meta">
+                    <span class="ed-row-cat">Wellness</span>
+                    <span class="ed-row-price">From $350</span>
+                </span>
+                <span class="ed-row-arrow"><i class="ri-arrow-right-up-line"></i></span>
+            </a>
 
-            <article class="ev-service" data-category="skincare" data-reveal>
-                <div class="ev-service-media"><img src="https://media.istockphoto.com/id/1171697897/photo/woman-having-micro-needling-treatment-reducing-crows-feet.jpg?s=612x612&w=0&k=20&c=ex49XhLwTyxyrKEo3SLdp8ORuNWxjzkDM0bbxBeXdZg=" alt="Microneedling SkinPen Manhattan" loading="lazy"><span class="ev-service-no">04</span></div>
-                <div class="ev-service-body">
-                    <span class="ev-service-cat">Skincare</span>
-                    <h3>Microneedling</h3>
-                    <p>SkinPen precision for collagen-rich, luminous renewal.</p>
-                    <div class="ev-service-foot"><span class="ev-service-price">From $700</span><a href="services.html#microneedling" class="ev-service-link">Explore <i class="ri-arrow-right-line"></i></a></div>
-                </div>
-            </article>
+            <a href="services.html#microneedling" class="ed-row" data-category="skincare" data-reveal
+               data-img="https://media.istockphoto.com/id/1171697897/photo/woman-having-micro-needling-treatment-reducing-crows-feet.jpg?s=612x612&w=0&k=20&c=ex49XhLwTyxyrKEo3SLdp8ORuNWxjzkDM0bbxBeXdZg=">
+                <span class="ed-row-no">04</span>
+                <span class="ed-row-main">
+                    <span class="ed-row-name">Microneedling</span>
+                    <span class="ed-row-desc">SkinPen precision for collagen-rich, luminous renewal</span>
+                </span>
+                <span class="ed-row-thumb"><img src="https://media.istockphoto.com/id/1171697897/photo/woman-having-micro-needling-treatment-reducing-crows-feet.jpg?s=612x612&w=0&k=20&c=ex49XhLwTyxyrKEo3SLdp8ORuNWxjzkDM0bbxBeXdZg=" alt="" loading="lazy"></span>
+                <span class="ed-row-meta">
+                    <span class="ed-row-cat">Skincare</span>
+                    <span class="ed-row-price">From $700</span>
+                </span>
+                <span class="ed-row-arrow"><i class="ri-arrow-right-up-line"></i></span>
+            </a>
 
-            <article class="ev-service" data-category="skincare" data-reveal>
-                <div class="ev-service-media"><img src="https://www.fmsskin.com/blog/wp-content/uploads/2023/10/PRP-Treatment-For-Hair.jpg" alt="PRP therapy Manhattan" loading="lazy"><span class="ev-service-no">05</span></div>
-                <div class="ev-service-body">
-                    <span class="ev-service-cat">Skincare</span>
-                    <h3>PRP Treatment</h3>
-                    <p>Your body's own healing, strategically delivered.</p>
-                    <div class="ev-service-foot"><span class="ev-service-price">From $800</span><a href="services.html#prp" class="ev-service-link">Explore <i class="ri-arrow-right-line"></i></a></div>
-                </div>
-            </article>
+            <a href="services.html#prp" class="ed-row" data-category="skincare" data-reveal
+               data-img="https://www.fmsskin.com/blog/wp-content/uploads/2023/10/PRP-Treatment-For-Hair.jpg">
+                <span class="ed-row-no">05</span>
+                <span class="ed-row-main">
+                    <span class="ed-row-name">PRP Treatment</span>
+                    <span class="ed-row-desc">Your body's own healing, strategically delivered</span>
+                </span>
+                <span class="ed-row-thumb"><img src="https://www.fmsskin.com/blog/wp-content/uploads/2023/10/PRP-Treatment-For-Hair.jpg" alt="" loading="lazy"></span>
+                <span class="ed-row-meta">
+                    <span class="ed-row-cat">Skincare</span>
+                    <span class="ed-row-price">From $800</span>
+                </span>
+                <span class="ed-row-arrow"><i class="ri-arrow-right-up-line"></i></span>
+            </a>
 
-            <article class="ev-service" data-category="skincare" data-reveal>
-                <div class="ev-service-media"><img src="https://www.realsimple.com/thmb/yZiSfqg5CZbD_K6Adymh-WNU6eE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/chemical-peels-realsimple-GettyImages-1267275840-99fe89534e104778871d32ed56d7c833.jpg" alt="Chemical peels Manhattan" loading="lazy"><span class="ev-service-no">06</span></div>
-                <div class="ev-service-body">
-                    <span class="ev-service-cat">Skincare</span>
-                    <h3>Chemical Peels</h3>
-                    <p>Medical-grade resurfacing for radiant, even-toned skin.</p>
-                    <div class="ev-service-foot"><span class="ev-service-price">From $350</span><a href="services.html#peels" class="ev-service-link">Explore <i class="ri-arrow-right-line"></i></a></div>
-                </div>
-            </article>
+            <a href="services.html#peels" class="ed-row" data-category="skincare" data-reveal
+               data-img="https://www.realsimple.com/thmb/yZiSfqg5CZbD_K6Adymh-WNU6eE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/chemical-peels-realsimple-GettyImages-1267275840-99fe89534e104778871d32ed56d7c833.jpg">
+                <span class="ed-row-no">06</span>
+                <span class="ed-row-main">
+                    <span class="ed-row-name">Chemical Peels</span>
+                    <span class="ed-row-desc">Medical-grade resurfacing for radiant, even-toned skin</span>
+                </span>
+                <span class="ed-row-thumb"><img src="https://www.realsimple.com/thmb/yZiSfqg5CZbD_K6Adymh-WNU6eE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/chemical-peels-realsimple-GettyImages-1267275840-99fe89534e104778871d32ed56d7c833.jpg" alt="" loading="lazy"></span>
+                <span class="ed-row-meta">
+                    <span class="ed-row-cat">Skincare</span>
+                    <span class="ed-row-price">From $350</span>
+                </span>
+                <span class="ed-row-arrow"><i class="ri-arrow-right-up-line"></i></span>
+            </a>
         </div>
 
-        <div class="ev-services-cta" data-reveal>
-            <a href="services.html" class="ev-btn-outline ev-magnetic"><span>View the Full Menu</span><i class="ri-arrow-right-up-line"></i></a>
+        <div class="ed-index-cta" data-reveal>
+            <a href="services.html" class="ed-btn ed-btn-ghost"><span>View the Full Menu</span><i class="ri-arrow-right-up-line"></i></a>
         </div>
     </div>
+
+    <!-- Floating image preview (desktop hover) -->
+    <div class="ed-preview" id="edPreview" aria-hidden="true"><img src="" alt=""></div>
 </section>
 
 <!-- ============================================
-     6 · THE RITUAL (dark editorial experience)
+     5 · THE RITUAL — dark full-bleed statement
      ============================================ -->
-<section class="ev-ritual" aria-labelledby="evRitualTitle">
-    <div class="ev-wrap ev-ritual-grid">
-        <div class="ev-ritual-text" data-reveal>
-            <span class="ev-eyebrow ev-light"><span class="ev-eyebrow-rule"></span>The Experience</span>
-            <h2 class="ev-h2 ev-light" id="evRitualTitle">A private ritual — <em>never an appointment.</em></h2>
-            <p class="ev-lead ev-light-lead">
+<section class="ed-ritual" aria-labelledby="edRitualTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric ed-rubric-dark" data-reveal>
+            <span class="ed-rubric-no">No. 3</span>
+            <span class="ed-rubric-name">The Experience</span>
+            <span class="ed-rubric-rule"></span>
+        </div>
+
+        <h2 class="ed-ritual-title" id="edRitualTitle" data-reveal>
+            A private ritual — <em>never an appointment</em>
+        </h2>
+
+        <div class="ed-ritual-grid">
+            <p class="ed-ritual-dek" data-reveal>
                 Every visit unfolds slowly. No rushed rooms. No assembly line. Only the
                 unhurried attention of a physician who remembers your name, your history,
                 and what you hoped for last time.
             </p>
 
-            <ul class="ev-ritual-points">
-                <li data-reveal><i class="ri-door-lock-line"></i><div><h4>Private Suites</h4><p>Discreet rooms designed for complete ease.</p></div></li>
-                <li data-reveal><i class="ri-user-star-line"></i><div><h4>Physician-Led, Always</h4><p>Dr. Nano performs every procedure personally.</p></div></li>
-                <li data-reveal><i class="ri-hand-heart-line"></i><div><h4>White-Glove Aftercare</h4><p>Follow-up and refinement, long after you leave.</p></div></li>
+            <ul class="ed-ritual-points">
+                <li data-reveal>
+                    <span class="ed-point-key">I</span>
+                    <div><h3>Private Suites</h3><p>Discreet rooms designed for complete ease.</p></div>
+                </li>
+                <li data-reveal>
+                    <span class="ed-point-key">II</span>
+                    <div><h3>Physician-Led, Always</h3><p>Dr. Nano performs every procedure personally.</p></div>
+                </li>
+                <li data-reveal>
+                    <span class="ed-point-key">III</span>
+                    <div><h3>White-Glove Aftercare</h3><p>Follow-up and refinement, long after you leave.</p></div>
+                </li>
             </ul>
-
-            <a href="about.html" class="ev-btn-solid ev-magnetic" data-reveal><span>Discover the Experience</span><i class="ri-arrow-right-up-line"></i></a>
         </div>
 
-        <aside class="ev-ritual-quote" data-reveal>
-            <span class="ev-quote-mark">"</span>
-            <blockquote>Coming to Dr. Nano doesn't feel like a procedure. It feels like being quietly looked after by someone who truly sees you.</blockquote>
-            <cite><span class="ev-quote-stars">★★★★★</span>Verified Client · Manhattan</cite>
-        </aside>
+        <figure class="ed-ritual-quote" data-reveal>
+            <blockquote>
+                "Coming to Dr. Nano doesn't feel like a procedure. It feels like being
+                quietly looked after by someone who truly sees you."
+            </blockquote>
+            <figcaption>★★★★★ &nbsp;Verified Client — Manhattan</figcaption>
+        </figure>
     </div>
 </section>
 
 <!-- ============================================
-     7 · ALUMIERMD PRODUCTS
+     6 · THE EDIT — AlumierMD products
      ============================================ -->
-<section class="ev-products" id="products" aria-labelledby="evProductsTitle">
-    <div class="ev-wrap">
-        <header class="ev-section-head" data-reveal>
-            <span class="ev-eyebrow ev-center"><span class="ev-eyebrow-rule"></span>At-Home Continuation<span class="ev-eyebrow-rule"></span></span>
-            <h2 class="ev-h2 ev-center" id="evProductsTitle">The regimen Dr. Nano <em>curates herself.</em></h2>
-            <p class="ev-section-sub">Professional-grade AlumierMD skincare — the in-office result, continued at home.</p>
+<section class="ed-shop" id="products" aria-labelledby="edShopTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 4</span>
+            <span class="ed-rubric-name">The Edit — At Home</span>
+            <span class="ed-rubric-rule"></span>
+        </div>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="edShopTitle">The regimen Dr. Nano <em>curates herself</em></h2>
+            <p class="ed-dek">Professional-grade AlumierMD skincare — the in-office result, continued at home.</p>
         </header>
 
-        <div class="ev-products-grid">
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-product" target="_blank" rel="noopener noreferrer" data-reveal>
-                <div class="ev-product-media"><img src="https://us.alumiermd.com/cdn/shop/files/ClearShield_NA.png?v=1718323644" alt="Clear Shield SPF 42 by AlumierMD" loading="lazy"><span class="ev-product-badge">SPF 42</span></div>
-                <div class="ev-product-body"><h3>Clear Shield</h3><p>Broad-spectrum protection</p><div class="ev-product-foot"><span class="ev-product-price">$68</span><span class="ev-product-shop">Shop <i class="ri-arrow-right-line"></i></span></div></div>
+        <div class="ed-shop-grid">
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-product" target="_blank" rel="noopener noreferrer" data-reveal>
+                <span class="ed-product-tag">SPF 42</span>
+                <div class="ed-product-media"><img src="https://us.alumiermd.com/cdn/shop/files/ClearShield_NA.png?v=1718323644" alt="Clear Shield SPF 42 by AlumierMD" loading="lazy"></div>
+                <div class="ed-product-body">
+                    <h3>Clear Shield</h3><p>Broad-spectrum protection</p>
+                    <span class="ed-product-foot"><span>$68</span><span class="ed-product-shop">Shop <i class="ri-arrow-right-up-line"></i></span></span>
+                </div>
             </a>
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-product" target="_blank" rel="noopener noreferrer" data-reveal>
-                <div class="ev-product-media"><img src="https://us.alumiermd.com/cdn/shop/files/Retinol_0_25.png?v=1718320893" alt="Retinol Serum 0.25% by AlumierMD" loading="lazy"><span class="ev-product-badge">0.25%</span></div>
-                <div class="ev-product-body"><h3>Retinol Serum</h3><p>Advanced skin renewal</p><div class="ev-product-foot"><span class="ev-product-price">$89</span><span class="ev-product-shop">Shop <i class="ri-arrow-right-line"></i></span></div></div>
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-product" target="_blank" rel="noopener noreferrer" data-reveal>
+                <span class="ed-product-tag">0.25%</span>
+                <div class="ed-product-media"><img src="https://us.alumiermd.com/cdn/shop/files/Retinol_0_25.png?v=1718320893" alt="Retinol Serum 0.25% by AlumierMD" loading="lazy"></div>
+                <div class="ed-product-body">
+                    <h3>Retinol Serum</h3><p>Advanced skin renewal</p>
+                    <span class="ed-product-foot"><span>$89</span><span class="ed-product-shop">Shop <i class="ri-arrow-right-up-line"></i></span></span>
+                </div>
             </a>
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-product" target="_blank" rel="noopener noreferrer" data-reveal>
-                <div class="ev-product-media"><img src="https://us.alumiermd.com/cdn/shop/files/SheerHydration_Versatile.png?v=1718326564" alt="Sheer Hydration SPF 40 by AlumierMD" loading="lazy"><span class="ev-product-badge">SPF 40</span></div>
-                <div class="ev-product-body"><h3>Sheer Hydration</h3><p>Tinted moisturizer</p><div class="ev-product-foot"><span class="ev-product-price">$75</span><span class="ev-product-shop">Shop <i class="ri-arrow-right-line"></i></span></div></div>
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-product" target="_blank" rel="noopener noreferrer" data-reveal>
+                <span class="ed-product-tag">SPF 40</span>
+                <div class="ed-product-media"><img src="https://us.alumiermd.com/cdn/shop/files/SheerHydration_Versatile.png?v=1718326564" alt="Sheer Hydration SPF 40 by AlumierMD" loading="lazy"></div>
+                <div class="ed-product-body">
+                    <h3>Sheer Hydration</h3><p>Tinted moisturizer</p>
+                    <span class="ed-product-foot"><span>$75</span><span class="ed-product-shop">Shop <i class="ri-arrow-right-up-line"></i></span></span>
+                </div>
             </a>
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-product" target="_blank" rel="noopener noreferrer" data-reveal>
-                <div class="ev-product-media"><img src="https://us.alumiermd.com/cdn/shop/files/EverActive_Pipette.png?v=1719415793" alt="EverActive C&E by AlumierMD" loading="lazy"><span class="ev-product-badge">Vitamin C</span></div>
-                <div class="ev-product-body"><h3>EverActive C&amp;E</h3><p>Antioxidant serum</p><div class="ev-product-foot"><span class="ev-product-price">$92</span><span class="ev-product-shop">Shop <i class="ri-arrow-right-line"></i></span></div></div>
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-product" target="_blank" rel="noopener noreferrer" data-reveal>
+                <span class="ed-product-tag">Vitamin C</span>
+                <div class="ed-product-media"><img src="https://us.alumiermd.com/cdn/shop/files/EverActive_Pipette.png?v=1719415793" alt="EverActive C&E by AlumierMD" loading="lazy"></div>
+                <div class="ed-product-body">
+                    <h3>EverActive C&amp;E</h3><p>Antioxidant serum</p>
+                    <span class="ed-product-foot"><span>$92</span><span class="ed-product-shop">Shop <i class="ri-arrow-right-up-line"></i></span></span>
+                </div>
             </a>
         </div>
 
-        <div class="ev-products-cta" data-reveal>
-            <p>Unsure where to begin? <a href="contact.html">Book a consultation</a> for a regimen built for your skin.</p>
-            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ev-btn-solid ev-magnetic" target="_blank" rel="noopener noreferrer"><span>Explore the Collection</span><i class="ri-arrow-right-up-line"></i></a>
+        <div class="ed-shop-cta" data-reveal>
+            <p>Unsure where to begin? <a href="contact.html" class="ed-link-rule">Book a consultation</a> for a regimen built for your skin.</p>
+            <a href="https://us.alumiermd.com/products?code=54T7P4HH" class="ed-btn ed-btn-ink" target="_blank" rel="noopener noreferrer"><span>Explore the Collection</span><i class="ri-arrow-right-up-line"></i></a>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     8 · SOCIAL PROOF
+     7 · PRESS & PROOF — reviews + instagram
      ============================================ -->
-<section class="ev-social" id="social" aria-labelledby="evSocialTitle">
-    <div class="ev-wrap">
-        <header class="ev-section-head" data-reveal>
-            <span class="ev-eyebrow ev-center"><span class="ev-eyebrow-rule"></span>Loved by Manhattan<span class="ev-eyebrow-rule"></span></span>
-            <h2 class="ev-h2 ev-center" id="evSocialTitle">In their <em>own words.</em></h2>
+<section class="ed-proof" id="social" aria-labelledby="edProofTitle">
+    <div class="ed-wrap">
+        <div class="ed-rubric" data-reveal>
+            <span class="ed-rubric-no">No. 5</span>
+            <span class="ed-rubric-name">In Their Own Words</span>
+            <span class="ed-rubric-rule"></span>
+        </div>
+
+        <header class="ed-index-head" data-reveal>
+            <h2 class="ed-h2" id="edProofTitle">Loved by <em>Manhattan</em></h2>
         </header>
 
-        <div class="ev-social-grid">
-            <div class="ev-social-card" data-reveal>
-                <div class="ev-social-head"><div class="ev-social-icon ev-google"><i class="ri-google-fill"></i></div><div><h3>Google Reviews</h3><span>Verified client feedback</span></div><div class="ev-social-rate"><span class="ev-stars">★★★★★</span><strong>5.0</strong></div></div>
-                <div class="ev-social-widget"><div class="ev-widget-loading"><span class="ev-spinner"></span><p>Loading reviews…</p></div><div class="elfsight-app-11e6a6c5-a645-4f66-855b-72683346f480" data-elfsight-app-lazy></div></div>
-                <a href="https://www.google.com/search?q=eviaesthetics+reviews" target="_blank" rel="noopener" class="ev-social-link">Read All Reviews <i class="ri-external-link-line"></i></a>
+        <div class="ed-proof-grid">
+            <div class="ed-proof-card" data-reveal>
+                <div class="ed-proof-head">
+                    <div><h3>Google Reviews</h3><span>Verified client feedback</span></div>
+                    <div class="ed-proof-rate"><span class="ed-stars">★★★★★</span><strong>5.0</strong></div>
+                </div>
+                <div class="ed-proof-widget">
+                    <div class="ed-widget-loading"><span class="ed-spinner"></span><p>Loading reviews…</p></div>
+                    <div class="elfsight-app-11e6a6c5-a645-4f66-855b-72683346f480" data-elfsight-app-lazy></div>
+                </div>
+                <a href="https://www.google.com/search?q=eviaesthetics+reviews" target="_blank" rel="noopener" class="ed-proof-link">Read All Reviews <i class="ri-arrow-right-up-line"></i></a>
             </div>
 
-            <div class="ev-social-card" data-reveal>
-                <div class="ev-social-head"><div class="ev-social-icon ev-insta"><i class="ri-instagram-line"></i></div><div><h3>Instagram</h3><span>Behind the scenes</span></div></div>
-                <div class="ev-social-widget"><div class="ev-widget-loading"><span class="ev-spinner"></span><p>Loading feed…</p></div><div class="elfsight-app-20c4a42b-4210-4270-b65c-9378811208fb" data-elfsight-app-lazy></div></div>
-                <a href="https://www.instagram.com/eviaesthetics/?hl=en" target="_blank" rel="noopener" class="ev-social-link">Follow @eviaesthetics <i class="ri-instagram-line"></i></a>
+            <div class="ed-proof-card" data-reveal>
+                <div class="ed-proof-head">
+                    <div><h3>Instagram</h3><span>Behind the scenes</span></div>
+                    <span class="ed-proof-handle">@eviaesthetics</span>
+                </div>
+                <div class="ed-proof-widget">
+                    <div class="ed-widget-loading"><span class="ed-spinner"></span><p>Loading feed…</p></div>
+                    <div class="elfsight-app-20c4a42b-4210-4270-b65c-9378811208fb" data-elfsight-app-lazy></div>
+                </div>
+                <a href="https://www.instagram.com/eviaesthetics/?hl=en" target="_blank" rel="noopener" class="ed-proof-link">Follow @eviaesthetics <i class="ri-instagram-line"></i></a>
             </div>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     9 · FAQ
+     8 · NOTES — FAQ
      ============================================ -->
-<section class="ev-faq" id="faq" aria-labelledby="evFaqTitle">
-    <div class="ev-wrap ev-faq-wrap">
-        <header class="ev-section-head ev-faq-head" data-reveal>
-            <span class="ev-eyebrow"><span class="ev-eyebrow-rule"></span>Before You Visit</span>
-            <h2 class="ev-h2" id="evFaqTitle">Questions, <em>answered.</em></h2>
+<section class="ed-faq" id="faq" aria-labelledby="edFaqTitle">
+    <div class="ed-wrap ed-faq-wrap">
+        <header class="ed-faq-head" data-reveal>
+            <div class="ed-rubric">
+                <span class="ed-rubric-no">No. 6</span>
+                <span class="ed-rubric-name">Before You Visit</span>
+                <span class="ed-rubric-rule"></span>
+            </div>
+            <h2 class="ed-h2" id="edFaqTitle">Questions, <em>answered</em></h2>
+            <p class="ed-dek">Everything else, we'll cover in person — your consultation is complimentary and private.</p>
         </header>
 
-        <div class="ev-faq-list" data-reveal>
-            <details class="ev-faq-item"><summary><span class="ev-faq-q">What is NAD+ IV therapy, and do you offer it?</span><i class="ri-add-line"></i></summary><div class="ev-faq-a"><p>NAD+ IV therapy supports cellular regeneration and mitochondrial function. We offer it in our Manhattan spa, administered personally by Dr. Nano. Sessions run roughly 90 minutes, from $450.</p></div></details>
-            <details class="ev-faq-item"><summary><span class="ev-faq-q">Do you provide semaglutide weight-loss treatments?</span><i class="ri-add-line"></i></summary><div class="ev-faq-a"><p>Yes — medically supervised programs including semaglutide (Ozempic, Wegovy) and tirzepatide (Mounjaro), with physician monitoring throughout.</p></div></details>
-            <details class="ev-faq-item"><summary><span class="ev-faq-q">What aesthetic treatments do you offer?</span><i class="ri-add-line"></i></summary><div class="ev-faq-a"><p>Botox and fillers (Juvéderm, Restylane), microneedling with SkinPen, PRP therapy, chemical peels, and custom IV therapy — all performed by Dr. Nano, by appointment.</p><a href="services.html" class="ev-faq-link">Full menu <i class="ri-arrow-right-line"></i></a></div></details>
-            <details class="ev-faq-item"><summary><span class="ev-faq-q">How much does Botox cost?</span><i class="ri-add-line"></i></summary><div class="ev-faq-a"><p>From $16 per unit. Final cost depends on the area and units needed — discussed openly in your consultation, with no surprises.</p></div></details>
-            <details class="ev-faq-item"><summary><span class="ev-faq-q">Do you accept insurance?</span><i class="ri-add-line"></i></summary><div class="ev-faq-a"><p>We do not. We accept cash and all major credit and debit cards. Pricing is reviewed during your complimentary consultation.</p></div></details>
-            <details class="ev-faq-item"><summary><span class="ev-faq-q">How do I book a consultation?</span><i class="ri-add-line"></i></summary><div class="ev-faq-a"><p>Call (201) 639-4983, email info@eviaesthetics.com, or use our form. Consultations are complimentary and always private.</p><a href="contact.html" class="ev-faq-link">Book now <i class="ri-arrow-right-line"></i></a></div></details>
+        <div class="ed-faq-list" data-reveal>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">What is NAD+ IV therapy, and do you offer it?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>NAD+ IV therapy supports cellular regeneration and mitochondrial function. We offer it in our Manhattan spa, administered personally by Dr. Nano. Sessions run roughly 90 minutes, from $450.</p></div>
+            </details>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Do you provide semaglutide weight-loss treatments?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Yes — medically supervised programs including semaglutide (Ozempic, Wegovy) and tirzepatide (Mounjaro), with physician monitoring throughout.</p></div>
+            </details>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">What aesthetic treatments do you offer?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Botox and fillers (Juvéderm, Restylane), microneedling with SkinPen, PRP therapy, chemical peels, and custom IV therapy — all performed by Dr. Nano, by appointment.</p><a href="services.html" class="ed-link-rule">Full menu</a></div>
+            </details>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">How much does Botox cost?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>From $16 per unit. Final cost depends on the area and units needed — discussed openly in your consultation, with no surprises.</p></div>
+            </details>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Do you accept insurance?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>We do not. We accept cash and all major credit and debit cards. Pricing is reviewed during your complimentary consultation.</p></div>
+            </details>
+            <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">How do I book a consultation?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Call (201) 639-4983, email info@eviaesthetics.com, or use our form. Consultations are complimentary and always private.</p><a href="contact.html" class="ed-link-rule">Book now</a></div>
+            </details>
         </div>
     </div>
 </section>
 
 <!-- ============================================
-     10 · CLOSING CONTACT
+     9 · CLOSING — full-page invitation
      ============================================ -->
-<section class="ev-contact" id="contact" aria-labelledby="evContactTitle">
-    <div class="ev-wrap">
-        <div class="ev-contact-frame" data-reveal>
-            <span class="ev-eyebrow ev-center"><span class="ev-eyebrow-rule"></span>Begin Your Journey<span class="ev-eyebrow-rule"></span></span>
-            <h2 class="ev-h2 ev-center" id="evContactTitle">Your consultation <em>awaits.</em></h2>
-            <p class="ev-section-sub">Complimentary. Confidential. Tailored entirely to you. One conversation with Dr. Nano and you'll understand why Manhattan trusts no one else.</p>
+<section class="ed-close" id="contact" aria-labelledby="edCloseTitle">
+    <div class="ed-wrap">
+        <span class="ed-close-kicker" data-reveal>Begin Your Journey — Complimentary · Confidential</span>
+        <h2 class="ed-close-title" id="edCloseTitle" data-reveal>
+            Your consultation <em>awaits.</em>
+        </h2>
+        <p class="ed-close-dek" data-reveal>
+            One conversation with Dr. Nano and you'll understand why Manhattan trusts no one else.
+        </p>
 
-            <div class="ev-contact-options">
-                <a href="contact.html" class="ev-contact-option ev-co-primary"><i class="ri-calendar-check-line"></i><div><span>Book Online</span><small>Consultation request</small></div><i class="ri-arrow-right-up-line ev-co-arrow"></i></a>
-                <a href="tel:+12016394983" class="ev-contact-option"><i class="ri-phone-line"></i><div><span>Call Now</span><small>(201) 639-4983</small></div><i class="ri-arrow-right-up-line ev-co-arrow"></i></a>
-                <a href="mailto:info@eviaesthetics.com" class="ev-contact-option"><i class="ri-mail-line"></i><div><span>Email</span><small>info@eviaesthetics.com</small></div><i class="ri-arrow-right-up-line ev-co-arrow"></i></a>
-            </div>
-
-            <a href="contact.html" class="ev-btn-solid ev-btn-xl ev-magnetic"><span>Reserve Your Consultation</span><i class="ri-arrow-right-up-line"></i></a>
+        <div class="ed-close-options" data-reveal>
+            <a href="contact.html" class="ed-close-option">
+                <i class="ri-calendar-check-line"></i>
+                <span>Book Online</span><small>Consultation request</small>
+            </a>
+            <a href="tel:+12016394983" class="ed-close-option">
+                <i class="ri-phone-line"></i>
+                <span>Call Now</span><small>(201) 639-4983</small>
+            </a>
+            <a href="mailto:info@eviaesthetics.com" class="ed-close-option">
+                <i class="ri-mail-line"></i>
+                <span>Email</span><small>info@eviaesthetics.com</small>
+            </a>
         </div>
+
+        <a href="contact.html" class="ed-btn ed-btn-garnet ed-btn-lg" data-reveal><span>Reserve Your Consultation</span><i class="ri-arrow-right-up-line"></i></a>
     </div>
 </section>
 
 </main>
 
 <!-- ============================================
-     FOOTER
+     FOOTER — masthead colophon
      ============================================ -->
-<footer class="ev-footer">
-    <div class="ev-wrap">
-        <div class="ev-footer-grid">
-            <div class="ev-footer-brand">
-                <img src="images/logo1.png" alt="Eviaesthetics" class="ev-footer-logo" width="120" height="120">
-                <p class="ev-footer-tag">Manhattan's premier boutique medical spa.</p>
-                <div class="ev-footer-contact">
+<footer class="ed-footer">
+    <div class="ed-footer-mast" aria-hidden="true">EVIAESTHETICS</div>
+    <div class="ed-wrap">
+        <div class="ed-footer-grid">
+            <div class="ed-footer-brand">
+                <img src="images/logo1.png" alt="Eviaesthetics" class="ed-footer-logo" width="110" height="110">
+                <p class="ed-footer-tag">Manhattan's premier boutique medical spa.</p>
+                <div class="ed-footer-contact">
                     <span><i class="ri-phone-fill"></i> (201) 639-4983</span>
                     <span><i class="ri-map-pin-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018</span>
                 </div>
             </div>
 
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Explore</h4>
                 <a href="index.html">Home</a><a href="services.html">Services</a><a href="about.html">About Dr. Nano</a><a href="contact.html">Book</a><a href="#faq">FAQ</a>
             </div>
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Services</h4>
                 <a href="services.html">Botox &amp; Fillers</a><a href="services.html">Weight Management</a><a href="services.html">NAD+ &amp; IV Therapy</a><a href="services.html">Microneedling</a><a href="services.html">PRP Therapy</a><a href="services.html">Chemical Peels</a>
             </div>
-            <div class="ev-footer-col">
+            <div class="ed-footer-col">
                 <h4>Connect</h4>
-                <div class="ev-footer-social">
+                <div class="ed-footer-social">
                     <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
                     <a href="https://www.facebook.com/p/Evia-Esthetics-100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
                 </div>
-                <div class="ev-footer-badges">
+                <div class="ed-footer-badges">
                     <img src="https://getlegitscript.com/cdn/shop/files/legit-script-certified.webp?v=1751046808&width=1500" alt="LegitScript Certified" width="100">
                 </div>
             </div>
         </div>
 
-        <div class="ev-footer-bar">
-            <div class="ev-footer-legal">
+        <div class="ed-footer-bar">
+            <div class="ed-footer-legal">
                 <a href="policies/privacy-policy.html">Privacy</a>
                 <a href="policies/terms-of-service.html">Terms</a>
                 <a href="policies/cancellation-policy.html">Cancellation</a>
                 <a href="policies/cookie-policy.html">Cookies</a>
             </div>
-            <span class="ev-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
+            <span class="ed-footer-copy">© 2026 Eviaesthetics. All rights reserved.</span>
+            <a href="https://elanstechworld.com" class="ed-footer-credit" target="_blank" rel="noopener">
+                <span>Designed by</span>
+                <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="22">
+                <span>Elan's Tech World</span>
+            </a>
         </div>
-
-        <a href="https://elanstechworld.com" class="ev-footer-credit" target="_blank" rel="noopener">
-            <span>Designed by</span>
-            <img src="https://elanstechworld.com/assets/images/Elanslogo.jpeg" alt="Elan's Tech World" width="24">
-            <span>Elan's Tech World</span>
-        </a>
     </div>
 </footer>
 
 <!-- ============================================
      VIDEO MODAL
      ============================================ -->
-<div class="ev-modal" id="evModal" aria-hidden="true" role="dialog" aria-label="Full film">
-    <div class="ev-modal-scrim" id="evModalScrim"></div>
-    <div class="ev-modal-inner">
-        <button class="ev-modal-close" id="evModalClose" aria-label="Close"><i class="ri-close-line"></i></button>
-        <video class="ev-modal-video" id="evModalVideo" controls playsinline preload="metadata">
+<div class="ed-modal" id="edModal" aria-hidden="true" role="dialog" aria-label="Full film">
+    <div class="ed-modal-scrim" id="edModalScrim"></div>
+    <div class="ed-modal-inner">
+        <button class="ed-modal-close" id="edModalClose" aria-label="Close"><i class="ri-close-line"></i></button>
+        <video class="ed-modal-video" id="edModalVideo" controls playsinline preload="metadata">
             <source src="https://github.com/Elanstech/eviaesthetics/releases/download/v1/hero.mp4" type="video/mp4">
         </video>
     </div>
@@ -628,11 +785,11 @@
 <!-- ============================================
      FLOATING ACTIONS + MOBILE STICKY BOOK BAR
      ============================================ -->
-<button class="ev-totop" id="evToTop" aria-label="Back to top"><i class="ri-arrow-up-line"></i></button>
+<button class="ed-totop" id="edToTop" aria-label="Back to top"><i class="ri-arrow-up-line"></i></button>
 
-<div class="ev-stickybar" aria-label="Quick booking">
-    <a href="tel:+12016394983" class="ev-sticky-call"><i class="ri-phone-line"></i> Call</a>
-    <a href="contact.html" class="ev-sticky-book">Book Consultation</a>
+<div class="ed-stickybar" aria-label="Quick booking">
+    <a href="tel:+12016394983" class="ed-sticky-call"><i class="ri-phone-line"></i> Call</a>
+    <a href="contact.html" class="ed-sticky-book">Book Consultation</a>
 </div>
 
 <!-- Scripts -->
