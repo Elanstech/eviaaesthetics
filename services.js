@@ -1,329 +1,231 @@
-/**
- * =============================================================================
- * EVIAESTHETICS - SERVICES PAGE JAVASCRIPT (REDESIGN)
- * Sticky nav, care toggles, scroll spy, smooth scroll, animations
- * =============================================================================
- */
-'use strict';
+/* =============================================================================
+   EVIAESTHETICS — SERVICES.JS (ES6 module)
+   Editorial magazine redesign · services page layer
+   -----------------------------------------------------------------------------
+   Loaded with <script type="module"> alongside script.js, which already
+   handles: header glass, drawer, [data-reveal], back-to-top, generic anchors.
 
-class ServicesPageController {
+   This file adds the page-specific modules:
+     CategoryRail (arrows + scroll spy + smooth scroll) ·
+     CareAccordions · ScrollProgress · DeepLink
+============================================================================= */
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const $  = (selector, ctx = document) => ctx.querySelector(selector);
+const $$ = (selector, ctx = document) => [...ctx.querySelectorAll(selector)];
+
+/** Offset that clears the fixed header + sticky category rail */
+const railOffset = () => {
+    const rail = $('#svStickyNav');
+    return (rail ? rail.offsetHeight : 0) + 86;
+};
+
+const scrollToSection = (target) => {
+    const top = target.getBoundingClientRect().top + window.pageYOffset - railOffset();
+    window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? 'auto' : 'smooth' });
+};
+
+/* =============================================================================
+   CATEGORY RAIL — horizontal index nav: arrows, scroll spy, smooth scroll
+============================================================================= */
+class CategoryRail {
     constructor() {
-        // Sticky Nav
-        this.stickyNav = document.getElementById('svStickyNav');
-        this.navTrack = document.getElementById('svNavTrack');
-        this.navPills = document.querySelectorAll('.sv-nav-pill');
-        this.navLeftBtn = document.getElementById('svNavLeft');
-        this.navRightBtn = document.getElementById('svNavRight');
-
-        // Sections
-        this.sections = document.querySelectorAll('.sv-section');
-
-        // Care toggles
-        this.careTriggers = document.querySelectorAll('.sv-care-trigger');
-
-        // Scroll state
+        this.rail     = $('#svStickyNav');
+        this.track    = $('#svNavTrack');
+        this.leftBtn  = $('#svNavLeft');
+        this.rightBtn = $('#svNavRight');
+        this.pills    = $$('.sv-rail-pill');
+        this.sections = $$('.sv-section');
         this.isScrolling = false;
-        this.scrollTimeout = null;
-        this.headerOffset = 140;
-
-        this.init();
+        this.scrollTimer = null;
     }
 
     init() {
-        this.setupStickyNav();
-        this.setupNavScroll();
-        this.setupScrollSpy();
-        this.setupSmoothScroll();
-        this.setupCareToggles();
-        this.setupScrollAnimations();
-        this.setupStickyNavShadow();
-        this.initAOS();
-
-        console.log('✅ Services Page Controller Ready — 10 Categories');
+        if (!this.rail || !this.track) return;
+        this.setupArrows();
+        this.setupPills();
+        this.setupSpy();
+        this.setupShadow();
     }
 
-    /* =========================================
-       STICKY NAV — HORIZONTAL SCROLL
-       ========================================= */
-    setupStickyNav() {
-        if (!this.navLeftBtn || !this.navRightBtn || !this.navTrack) return;
-
-        this.navLeftBtn.addEventListener('click', () => {
-            this.navTrack.scrollBy({ left: -200, behavior: 'smooth' });
-        });
-
-        this.navRightBtn.addEventListener('click', () => {
-            this.navTrack.scrollBy({ left: 200, behavior: 'smooth' });
-        });
-
-        // Touch swipe already handled by native scroll
-    }
-
-    setupStickyNavShadow() {
-        if (!this.stickyNav) return;
-
-        const heroSection = document.getElementById('sv-hero');
-        if (!heroSection) return;
-
-        const observer = new IntersectionObserver(([entry]) => {
-            this.stickyNav.classList.toggle('shadowed', !entry.isIntersecting);
-        }, { threshold: 0 });
-
-        observer.observe(heroSection);
-    }
-
-    /* =========================================
-       NAV SCROLL — ARROWS VISIBILITY
-       ========================================= */
-    setupNavScroll() {
-        if (!this.navTrack) return;
+    setupArrows() {
+        this.leftBtn?.addEventListener('click', () =>
+            this.track.scrollBy({ left: -220, behavior: 'smooth' })
+        );
+        this.rightBtn?.addEventListener('click', () =>
+            this.track.scrollBy({ left: 220, behavior: 'smooth' })
+        );
 
         const updateArrows = () => {
-            const { scrollLeft, scrollWidth, clientWidth } = this.navTrack;
-            if (this.navLeftBtn) this.navLeftBtn.style.opacity = scrollLeft > 5 ? '1' : '0.3';
-            if (this.navRightBtn) this.navRightBtn.style.opacity = scrollLeft < scrollWidth - clientWidth - 5 ? '1' : '0.3';
+            const { scrollLeft, scrollWidth, clientWidth } = this.track;
+            if (this.leftBtn)  this.leftBtn.style.opacity  = scrollLeft > 5 ? '1' : '0.25';
+            if (this.rightBtn) this.rightBtn.style.opacity = scrollLeft < scrollWidth - clientWidth - 5 ? '1' : '0.25';
         };
-
-        this.navTrack.addEventListener('scroll', updateArrows, { passive: true });
-        updateArrows();
+        this.track.addEventListener('scroll', updateArrows, { passive: true });
         window.addEventListener('resize', updateArrows);
+        updateArrows();
     }
 
-    /* =========================================
-       SCROLL SPY — HIGHLIGHT ACTIVE NAV PILL
-       ========================================= */
-    setupScrollSpy() {
-        if (!this.sections.length || !this.navPills.length) return;
+    setupPills() {
+        this.pills.forEach(pill => {
+            pill.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Keep script.js's generic AnchorScroll from double-handling this click
+                e.stopPropagation();
 
-        const observerOptions = {
-            rootMargin: `-${this.headerOffset + 60}px 0px -50% 0px`,
-            threshold: 0
-        };
+                const id = pill.dataset.target || pill.getAttribute('href')?.slice(1);
+                const target = id && document.getElementById(id);
+                if (!target) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !this.isScrolling) {
-                    const sectionId = entry.target.id;
-                    this.setActiveNavPill(sectionId);
-                }
+                this.isScrolling = true;
+                this.setActive(id);
+                scrollToSection(target);
+
+                clearTimeout(this.scrollTimer);
+                this.scrollTimer = setTimeout(() => { this.isScrolling = false; }, 1000);
             });
-        }, observerOptions);
+        });
 
-        this.sections.forEach(section => observer.observe(section));
+        // Footer / in-page links to #sv- sections use the rail offset too
+        $$('a[href^="#sv-"]:not(.sv-rail-pill)').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const target = $(link.getAttribute('href'));
+                if (!target) return;
+                e.preventDefault();
+                e.stopPropagation();
+                scrollToSection(target);
+            });
+        });
     }
 
-    setActiveNavPill(sectionId) {
-        this.navPills.forEach(pill => {
-            const isActive = pill.getAttribute('data-target') === sectionId;
-            pill.classList.toggle('active', isActive);
+    setupSpy() {
+        if (!this.sections.length || !('IntersectionObserver' in window)) return;
 
-            // Scroll the active pill into view in the nav track
-            if (isActive && this.navTrack) {
-                const pillRect = pill.getBoundingClientRect();
-                const trackRect = this.navTrack.getBoundingClientRect();
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(({ isIntersecting, target }) => {
+                if (isIntersecting && !this.isScrolling) this.setActive(target.id);
+            });
+        }, { rootMargin: '-180px 0px -55% 0px', threshold: 0 });
 
-                if (pillRect.left < trackRect.left || pillRect.right > trackRect.right) {
-                    pill.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        this.sections.forEach(section => io.observe(section));
+    }
+
+    setActive(id) {
+        this.pills.forEach(pill => {
+            const on = pill.dataset.target === id;
+            pill.classList.toggle('active', on);
+            if (on) {
+                const p = pill.getBoundingClientRect();
+                const t = this.track.getBoundingClientRect();
+                if (p.left < t.left || p.right > t.right) {
+                    pill.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
                 }
             }
         });
     }
 
-    /* =========================================
-       SMOOTH SCROLL — NAV PILLS + ANCHORS
-       ========================================= */
-    setupSmoothScroll() {
-        // Nav pills
-        this.navPills.forEach(pill => {
-            pill.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = pill.getAttribute('data-target') || pill.getAttribute('href')?.substring(1);
-                if (!targetId) return;
+    setupShadow() {
+        const hero = $('#sv-hero');
+        if (!hero || !('IntersectionObserver' in window)) return;
+        const io = new IntersectionObserver(([entry]) => {
+            this.rail.classList.toggle('shadowed', !entry.isIntersecting);
+        }, { threshold: 0 });
+        io.observe(hero);
+    }
+}
 
-                const target = document.getElementById(targetId);
-                if (!target) return;
-
-                this.isScrolling = true;
-                this.setActiveNavPill(targetId);
-
-                const offset = this.stickyNav ? this.stickyNav.offsetHeight + 20 : 80;
-                const targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
-
-                window.scrollTo({ top: Math.max(0, targetPos), behavior: 'smooth' });
-
-                clearTimeout(this.scrollTimeout);
-                this.scrollTimeout = setTimeout(() => {
-                    this.isScrolling = false;
-                }, 1000);
-            });
-        });
-
-        // Any hash link on page
-        document.querySelectorAll('a[href^="#sv-"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                const target = document.querySelector(href);
-                if (!target) return;
-
-                e.preventDefault();
-                const offset = this.stickyNav ? this.stickyNav.offsetHeight + 20 : 80;
-                const targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                window.scrollTo({ top: Math.max(0, targetPos), behavior: 'smooth' });
-            });
-        });
+/* =============================================================================
+   CARE ACCORDIONS — pre/post treatment panels, one open at a time
+============================================================================= */
+class CareAccordions {
+    constructor() {
+        this.triggers = $$('.sv-care-trigger');
     }
 
-    /* =========================================
-       CARE INSTRUCTION TOGGLES
-       ========================================= */
-    setupCareToggles() {
-        this.careTriggers.forEach(trigger => {
-            trigger.addEventListener('click', () => {
-                const targetId = trigger.getAttribute('data-target');
-                const content = document.getElementById(targetId);
-                if (!content) return;
-
-                const isOpen = content.classList.contains('open');
-
-                // Close all others first
-                document.querySelectorAll('.sv-care-content.open').forEach(el => {
-                    el.classList.remove('open');
-                    const otherTrigger = document.querySelector(`[data-target="${el.id}"]`);
-                    if (otherTrigger) otherTrigger.classList.remove('open');
-                });
-
-                // Toggle current
-                if (!isOpen) {
-                    content.classList.add('open');
-                    trigger.classList.add('open');
-
-                    // Scroll into view after animation
-                    setTimeout(() => {
-                        const triggerRect = trigger.getBoundingClientRect();
-                        if (triggerRect.top < 0) {
-                            trigger.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                    }, 300);
-                }
-            });
-        });
+    init() {
+        if (!this.triggers.length) return;
+        this.triggers.forEach(trigger =>
+            trigger.addEventListener('click', () => this.toggle(trigger))
+        );
     }
 
-    /* =========================================
-       SCROLL ANIMATIONS (FALLBACK FOR AOS)
-       ========================================= */
-    setupScrollAnimations() {
-        if (!('IntersectionObserver' in window)) return;
+    toggle(trigger) {
+        const body = document.getElementById(trigger.dataset.target);
+        if (!body) return;
 
-        const elements = document.querySelectorAll('.sv-card, .sv-age-card, .sv-comparison-block, .sv-choose-box');
+        const wasOpen = body.classList.contains('open');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, i) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, i * 60);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-        elements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.7s cubic-bezier(0.25,0.46,0.45,0.94)';
-            observer.observe(el);
+        // Close all panels first
+        $$('.sv-care-body.open').forEach(el => el.classList.remove('open'));
+        this.triggers.forEach(t => {
+            t.classList.remove('open');
+            t.setAttribute('aria-expanded', 'false');
         });
-    }
 
-    /* =========================================
-       AOS INIT
-       ========================================= */
-    initAOS() {
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 700,
-                easing: 'ease-out-cubic',
-                once: true,
-                offset: 80,
-                delay: 0
-            });
-            setTimeout(() => AOS.refresh(), 500);
+        // Open the clicked one (unless it was already open)
+        if (!wasOpen) {
+            body.classList.add('open');
+            trigger.classList.add('open');
+            trigger.setAttribute('aria-expanded', 'true');
         }
     }
 }
 
-/* =========================================
-   SCROLL PROGRESS BAR
-   ========================================= */
-class ServicesScrollProgress {
-    constructor() {
+/* =============================================================================
+   SCROLL PROGRESS — thin Hermès-orange bar along the top edge
+============================================================================= */
+class ScrollProgress {
+    init() {
         this.bar = document.createElement('div');
         this.bar.style.cssText = `
-            position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
-            background: linear-gradient(90deg, #FF8C00, #FFA500, #FF7A00);
-            width: 0%; pointer-events: none; transition: width 0.1s ease;
+            position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+            z-index: 1300; pointer-events: none;
+            background: linear-gradient(90deg, #FF6B00, #FF8A33);
         `;
         document.body.appendChild(this.bar);
 
         window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            this.bar.style.width = docHeight > 0 ? `${(scrollTop / docHeight) * 100}%` : '0%';
+            const scrolled = window.pageYOffset || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            this.bar.style.width = height > 0 ? `${(scrolled / height) * 100}%` : '0%';
         }, { passive: true });
     }
 }
 
-/* =========================================
-   URL HASH HANDLING — DEEP LINKS
-   ========================================= */
-function handleHashOnLoad() {
-    const hash = window.location.hash;
-    if (!hash || !hash.startsWith('#sv-')) return;
-
-    const target = document.querySelector(hash);
-    if (!target) return;
-
-    // Wait for layout to settle
-    setTimeout(() => {
-        const stickyNav = document.getElementById('svStickyNav');
-        const offset = stickyNav ? stickyNav.offsetHeight + 20 : 100;
-        const targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
-        window.scrollTo({ top: Math.max(0, targetPos), behavior: 'smooth' });
-    }, 600);
-}
-
-/* =========================================
-   VIEWPORT HEIGHT FIX
-   ========================================= */
-function setVH() {
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-}
-
-/* =========================================
-   INITIALIZATION
-   ========================================= */
-document.addEventListener('DOMContentLoaded', () => {
-    try {
-        setVH();
-        window.addEventListener('resize', setVH);
-
-        const servicesController = new ServicesPageController();
-        const scrollProgress = new ServicesScrollProgress();
-
-        handleHashOnLoad();
-
-        window.servicesController = servicesController;
-
-        console.log('🚀 Eviaesthetics Services Page Ready');
-    } catch (error) {
-        console.error('Services page init error:', error);
+/* =============================================================================
+   DEEP LINK — land on the right section when arriving with a #sv- hash
+============================================================================= */
+class DeepLink {
+    init() {
+        const { hash } = window.location;
+        if (!hash?.startsWith('#sv-')) return;
+        const target = $(hash);
+        if (!target) return;
+        // Let layout (fonts, rail height) settle first
+        setTimeout(() => scrollToSection(target), 500);
     }
-});
-
-if ('ontouchstart' in window) {
-    document.documentElement.classList.add('touch-device');
 }
 
-console.log('📄 Services JS Loaded — Eviaesthetics Manhattan');
+/* =============================================================================
+   BOOT
+============================================================================= */
+const servicesModules = {
+    categoryRail:   new CategoryRail(),
+    careAccordions: new CareAccordions(),
+    scrollProgress: new ScrollProgress(),
+    deepLink:       new DeepLink(),
+};
+
+const bootServices = () => {
+    Object.values(servicesModules).forEach(m => m.init());
+    console.log('✦ Eviaesthetics — services menu ready');
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootServices);
+} else {
+    bootServices();
+}
+
+window.EviaServices = { reinit: bootServices, modules: servicesModules };
