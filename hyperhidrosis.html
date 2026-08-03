@@ -9,8 +9,8 @@
          ============================================ -->
     <title>Hyperhidrosis Treatment NYC by an MD | Stop Excessive Sweating — Eviaesthetics</title>
     <meta name="title" content="Hyperhidrosis Treatment NYC by an MD | Stop Excessive Sweating — Eviaesthetics">
-    <meta name="description" content="Stop excessive underarm, hand & scalp sweating for months. Physician-administered hyperhidrosis treatment in Midtown Manhattan by Dr. Evia Nano, MD — not a technician. By appointment. Book a private consult.">
-    <meta name="keywords" content="hyperhidrosis treatment NYC, excessive sweating treatment NYC, hyperhidrosis treatment Manhattan, underarm sweating treatment NYC, sweaty hands treatment NYC, hyperhidrosis doctor NYC, excessive sweating doctor Manhattan, stop excessive sweating">
+    <meta name="description" content="Stop excessive underarm, hand & scalp sweating for months. Physician-administered hyperhidrosis treatment at 202 W 40th St, Midtown Manhattan by Dr. Evia Nano, MD — not a technician. By appointment. Book a private consult.">
+    <meta name="keywords" content="hyperhidrosis treatment NYC, excessive sweating treatment NYC, hyperhidrosis treatment Manhattan, underarm sweating treatment NYC, sweaty hands treatment NYC, hyperhidrosis doctor NYC, excessive sweating doctor Manhattan, stop excessive sweating, hyperhidrosis near Times Square, sweating treatment Garment District">
     <meta name="author" content="Dr. Evia A Nano MD">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://eviaesthetics.com/hyperhidrosis.html">
@@ -24,7 +24,10 @@
       gtag('config', 'AW-16785318065');
     </script>
 
-    <!-- Conversion tracking helpers -->
+    <!-- Conversion tracking helpers
+         ACTION REQUIRED: replace PHONE_CONVERSION_LABEL and FORM_CONVERSION_LABEL with the
+         real conversion labels from Google Ads > Goals > Conversions. Until then these
+         events fire against an invalid send_to and record nothing. -->
     <script>
         function trackPhoneCall() {
             gtag('event', 'conversion', {
@@ -65,16 +68,33 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://eviaesthetics.com/hyperhidrosis.html">
     <meta property="og:title" content="Hyperhidrosis Treatment NYC by an MD | Stop Excessive Sweating">
-    <meta property="og:description" content="End excessive sweating for months. Physician-administered hyperhidrosis treatment in Midtown Manhattan by Dr. Evia Nano, MD. By appointment.">
+    <meta property="og:description" content="End excessive sweating for months. Physician-administered hyperhidrosis treatment at 202 W 40th St, Midtown Manhattan by Dr. Evia Nano, MD. By appointment.">
     <meta property="og:image" content="https://eviaesthetics.com/images/og-image.jpg">
+    <meta property="og:image:alt" content="Physician-administered hyperhidrosis treatment at Eviaesthetics, Midtown Manhattan">
     <meta property="og:site_name" content="Eviaesthetics">
+    <meta property="og:locale" content="en_US">
     <meta name="theme-color" content="#FF6B00">
+    <meta property="business:contact_data:street_address" content="202 W 40th St, Suite 1202">
+    <meta property="business:contact_data:locality" content="New York">
+    <meta property="business:contact_data:region" content="NY">
+    <meta property="business:contact_data:postal_code" content="10018">
+    <meta property="business:contact_data:country_name" content="United States">
+    <meta property="business:contact_data:phone_number" content="+1-201-639-4983">
+    <meta property="place:location:latitude" content="40.7549">
+    <meta property="place:location:longitude" content="-73.9887">
 
-    <!-- Geo -->
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hyperhidrosis Treatment NYC by an MD | Stop Excessive Sweating">
+    <meta name="twitter:description" content="End excessive sweating for months. Physician-administered treatment in Midtown Manhattan by Dr. Evia Nano, MD.">
+    <meta name="twitter:image" content="https://eviaesthetics.com/images/og-image.jpg">
+    <meta name="twitter:image:alt" content="Physician-administered hyperhidrosis treatment at Eviaesthetics, Midtown Manhattan">
+
+    <!-- Geo — 202 W 40th St, Garment District / Times Square South, Midtown Manhattan -->
     <meta name="geo.region" content="US-NY">
-    <meta name="geo.placename" content="New York, Manhattan, Midtown">
-    <meta name="geo.position" content="40.7505;-73.9934">
-    <meta name="ICBM" content="40.7505, -73.9934">
+    <meta name="geo.placename" content="New York, Manhattan, Midtown, Garment District">
+    <meta name="geo.position" content="40.7549;-73.9887">
+    <meta name="ICBM" content="40.7549, -73.9887">
 
     <!-- Fonts: Fraunces (editorial display) + Manrope (utility body) — matches index -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,48 +113,105 @@
 
     <!-- ============================================
          STRUCTURED DATA
+         @id "#medicalspa" matches the rest of the site (one entity, not two).
          ============================================ -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "MedicalClinic",
-          "@id": "https://eviaesthetics.com/#clinic",
+          "@type": ["MedicalBusiness", "MedicalClinic", "LocalBusiness"],
+          "@id": "https://eviaesthetics.com/#medicalspa",
           "name": "Eviaesthetics",
-          "description": "Physician-led medical spa in Midtown Manhattan offering hyperhidrosis (excessive sweating) treatment, performed or supervised by Dr. Evia A Nano, MD.",
-          "url": "https://eviaesthetics.com/hyperhidrosis.html",
+          "alternateName": ["Evia Esthetics", "Eviaesthetics Manhattan"],
+          "description": "Physician-led medical spa in Midtown Manhattan's Garment District offering hyperhidrosis (excessive sweating) treatment, performed or supervised by Dr. Evia A Nano, MD.",
+          "url": "https://eviaesthetics.com",
           "telephone": "+1-201-639-4983",
+          "email": "info@eviaesthetics.com",
           "priceRange": "$$$",
           "image": "https://eviaesthetics.com/images/og-image.jpg",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "65 W 36th St, 10th Floor",
+            "streetAddress": "202 W 40th St, Suite 1202",
             "addressLocality": "New York",
             "addressRegion": "NY",
             "postalCode": "10018",
             "addressCountry": "US"
           },
-          "geo": { "@type": "GeoCoordinates", "latitude": 40.7505, "longitude": -73.9934 },
-          "medicalSpecialty": "Dermatology",
-          "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "200" }
+          "geo": { "@type": "GeoCoordinates", "latitude": 40.7549, "longitude": -73.9887 },
+          "containedInPlace": { "@type": "Place", "name": "Midtown Manhattan", "containedInPlace": { "@type": "AdministrativeArea", "name": "Manhattan, New York, NY" } },
+          "hasMap": "https://www.google.com/maps/place/evia+esthetics/",
+          "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "description": "By appointment only" }],
+          "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Visa", "Mastercard", "American Express"],
+          "medicalSpecialty": "Aesthetic Medicine",
+          "employee": { "@id": "https://eviaesthetics.com/#doctor" },
+          "areaServed": [
+            { "@type": "City", "name": "New York" },
+            { "@type": "AdministrativeArea", "name": "Manhattan" },
+            { "@type": "Place", "name": "Midtown Manhattan" },
+            { "@type": "Place", "name": "Garment District" },
+            { "@type": "Place", "name": "Times Square" },
+            { "@type": "Place", "name": "Bryant Park" },
+            { "@type": "Place", "name": "Herald Square" },
+            { "@type": "Place", "name": "Hell's Kitchen" },
+            { "@type": "Place", "name": "Murray Hill" },
+            { "@type": "Place", "name": "Chelsea" },
+            { "@type": "State", "name": "New York" }
+          ],
+          "availableService": { "@id": "https://eviaesthetics.com/hyperhidrosis.html#service" },
+          "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "85", "bestRating": "5", "worstRating": "1" },
+          "sameAs": ["https://www.instagram.com/eviaesthetics/", "https://www.facebook.com/p/Evia-Esthetics-100087730601716/", "https://www.google.com/maps/place/evia+esthetics/"]
+        },
+        {
+          "@type": ["Physician", "Person"],
+          "@id": "https://eviaesthetics.com/#doctor",
+          "name": "Dr. Evia A Nano",
+          "honorificPrefix": "Dr.", "honorificSuffix": "MD",
+          "jobTitle": "Medical Director & Aesthetic Physician",
+          "url": "https://eviaesthetics.com/about.html",
+          "telephone": "+1-201-639-4983",
+          "worksFor": { "@id": "https://eviaesthetics.com/#medicalspa" },
+          "workLocation": { "@id": "https://eviaesthetics.com/#medicalspa" },
+          "medicalSpecialty": ["Aesthetic Medicine", "Anti-Aging Medicine"],
+          "knowsAbout": ["Hyperhidrosis Treatment", "Excessive Sweating", "Neurotoxin Injectables", "Daxxify"]
         },
         {
           "@type": "MedicalProcedure",
           "@id": "https://eviaesthetics.com/hyperhidrosis.html#service",
           "name": "Hyperhidrosis Treatment",
           "alternateName": ["Excessive Sweating Treatment", "Underarm Sweating Treatment", "Sweaty Hands Treatment"],
-          "description": "Physician-administered treatment for excessive sweating of the underarms, hands, and scalp, performed or supervised by Dr. Evia A Nano, MD at Eviaesthetics Manhattan. Targets overactive sweat glands for months of relief.",
+          "description": "Physician-administered treatment for excessive sweating of the underarms, hands, and scalp, performed or supervised by Dr. Evia A Nano, MD at Eviaesthetics in Midtown Manhattan. Targets overactive sweat glands for months of relief.",
           "procedureType": "Therapeutic",
-          "performer": {
-            "@type": "Physician",
-            "name": "Dr. Evia A Nano, MD",
-            "medicalSpecialty": "Dermatology"
-          },
-          "location": { "@id": "https://eviaesthetics.com/#clinic" }
+          "bodyLocation": ["Underarms", "Hands", "Scalp"],
+          "performer": { "@id": "https://eviaesthetics.com/#doctor" },
+          "location": { "@id": "https://eviaesthetics.com/#medicalspa" },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "USD",
+            "priceSpecification": { "@type": "PriceSpecification", "minPrice": "1000", "maxPrice": "2500", "priceCurrency": "USD" }
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://eviaesthetics.com/hyperhidrosis.html#webpage",
+          "url": "https://eviaesthetics.com/hyperhidrosis.html",
+          "name": "Hyperhidrosis Treatment NYC by an MD | Stop Excessive Sweating",
+          "about": { "@id": "https://eviaesthetics.com/hyperhidrosis.html#service" },
+          "breadcrumb": { "@id": "https://eviaesthetics.com/hyperhidrosis.html#breadcrumb" },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://eviaesthetics.com/hyperhidrosis.html#breadcrumb",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eviaesthetics.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://eviaesthetics.com/services.html" },
+            { "@type": "ListItem", "position": 3, "name": "Hyperhidrosis Treatment", "item": "https://eviaesthetics.com/hyperhidrosis.html" }
+          ]
         },
         {
           "@type": "FAQPage",
+          "@id": "https://eviaesthetics.com/hyperhidrosis.html#faq",
           "mainEntity": [
             {
               "@type": "Question",
@@ -155,6 +232,11 @@
               "@type": "Question",
               "name": "How much does hyperhidrosis treatment cost in NYC?",
               "acceptedAnswer": { "@type": "Answer", "text": "Treatment at Eviaesthetics ranges from $1,000 to $2,500 depending on the area or areas treated. Exact pricing is confirmed during your consultation with Dr. Nano." }
+            },
+            {
+              "@type": "Question",
+              "name": "Where is your hyperhidrosis clinic located?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Eviaesthetics is at 202 W 40th St, Suite 1202, New York, NY 10018, in Midtown Manhattan's Garment District between 7th and 8th Avenues — minutes from Times Square, Bryant Park, Herald Square, and the Port Authority Bus Terminal." }
             }
           ]
         }
@@ -556,7 +638,7 @@
             <a href="tel:+12016394983" class="ed-btn ed-btn-ghost" onclick="trackPhoneCall()">Call (201) 639-4983</a>
         </div>
         <div class="ed-drawer-foot">
-            <span>65 W 36th St, 10th Fl — NYC</span>
+            <span>202 W 40th St, Ste 1202 — NYC</span>
             <div class="ed-drawer-social">
                 <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
                 <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
@@ -582,7 +664,8 @@
                 If antiperspirants stopped working a long time ago, you're not the problem — your
                 sweat glands are overactive. <strong>A quick, proven medical treatment can switch them
                 off for 4 to 12 months</strong>, so you can raise your hand, shake hands, and wear what
-                you want without a second thought. Performed by Dr.&nbsp;Evia&nbsp;A.&nbsp;Nano,&nbsp;MD.
+                you want without a second thought. Performed by Dr.&nbsp;Evia&nbsp;A.&nbsp;Nano,&nbsp;MD
+                at 202&nbsp;W&nbsp;40th&nbsp;St, Midtown Manhattan.
             </p>
             <div class="hh-hero-actions">
                 <a href="#hh-contact-form" class="ed-btn ed-btn-hermes ed-btn-lg">
@@ -645,14 +728,14 @@
         <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
         <span>4–12 Months of Relief</span><span class="ed-wire-dot">●</span>
         <span>20+ Years Experience</span><span class="ed-wire-dot">●</span>
-        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 85 Verified Reviews</span><span class="ed-wire-dot">●</span>
         <span>Midtown Manhattan · By Appointment</span><span class="ed-wire-dot">●</span>
         <!-- duplicate for seamless loop -->
         <span>Board-Certified MD</span><span class="ed-wire-dot">●</span>
         <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
         <span>4–12 Months of Relief</span><span class="ed-wire-dot">●</span>
         <span>20+ Years Experience</span><span class="ed-wire-dot">●</span>
-        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 85 Verified Reviews</span><span class="ed-wire-dot">●</span>
         <span>Midtown Manhattan · By Appointment</span><span class="ed-wire-dot">●</span>
     </div>
 </section>
@@ -853,7 +936,7 @@
                     </a>
                     <a href="https://www.google.com/maps/place/evia+esthetics/" target="_blank" rel="noopener" class="hh-method">
                         <i class="ri-map-pin-fill"></i>
-                        <span><span class="label">Visit Us</span><span class="value">65 W 36th St, 10th Floor · NYC</span></span>
+                        <span><span class="label">Visit Us</span><span class="value">202 W 40th St, Suite 1202 · NYC</span></span>
                     </a>
                 </div>
             </div>
@@ -919,6 +1002,10 @@
                 <div class="ed-faq-a"><p>Most patients begin to notice significantly reduced sweating within a few days, with the full effect settling in over about two weeks.</p></div>
             </details>
             <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Where are you located?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>We're at 202 W 40th St, Suite 1202, New York, NY 10018 — Midtown Manhattan's Garment District, between 7th and 8th Avenues. Minutes from Times Square–42nd St, Bryant Park, Herald Square, and the Port Authority Bus Terminal. Visits are by appointment only.</p></div>
+            </details>
+            <details class="ed-faq-item">
                 <summary><span class="ed-faq-q">Do you accept insurance?</span><span class="ed-faq-toggle"></span></summary>
                 <div class="ed-faq-a"><p>Treatment is offered on a private-pay basis. We accept cash and all major credit and debit cards, and pricing is discussed openly before treatment.</p></div>
             </details>
@@ -955,6 +1042,8 @@
         </div>
 
         <a href="#hh-contact-form" class="ed-btn ed-btn-hermes ed-btn-lg" data-reveal><span>Book a Private Consult</span><i class="ri-arrow-right-up-line"></i></a>
+
+        <p class="ed-close-addr" data-reveal><i class="ri-map-pin-2-fill"></i> 202 W 40th St, Suite 1202, New York, NY 10018 · Midtown Manhattan</p>
     </div>
 </section>
 
@@ -972,7 +1061,7 @@
                 <p class="ed-footer-tag">Manhattan's premier boutique medical spa.</p>
                 <div class="ed-footer-contact">
                     <span><i class="ri-phone-fill"></i> (201) 639-4983</span>
-                    <span><i class="ri-map-pin-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018</span>
+                    <span><i class="ri-map-pin-fill"></i> 202 W 40th St, Suite 1202, New York, NY 10018</span>
                 </div>
             </div>
 
@@ -982,7 +1071,7 @@
             </div>
             <div class="ed-footer-col">
                 <h4>Services</h4>
-                <a href="services.html">Botox &amp; Fillers</a><a href="services.html">Weight Management</a><a href="services.html">NAD+ &amp; IV Therapy</a><a href="services.html">Microneedling</a><a href="services.html">PRP Therapy</a><a href="services.html">Chemical Peels</a>
+                <a href="services.html#sv-neurotoxin">Neurotoxin &amp; Fillers</a><a href="services.html#sv-weight">Weight Management</a><a href="iv-therapy.html">NAD+ &amp; IV Therapy</a><a href="services.html#sv-microneedling">Microneedling</a><a href="services.html#sv-prp">PRP Therapy</a><a href="services.html#sv-peels">Chemical Peels</a>
             </div>
             <div class="ed-footer-col">
                 <h4>Connect</h4>
