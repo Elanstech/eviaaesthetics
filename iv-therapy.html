@@ -9,8 +9,8 @@
          ============================================ -->
     <title>IV Therapy NYC by an MD | Midtown Manhattan Drip Suite — Eviaesthetics</title>
     <meta name="title" content="IV Therapy NYC by an MD | Midtown Manhattan Drip Suite — Eviaesthetics">
-    <meta name="description" content="Physician-administered IV drip therapy in Midtown Manhattan — every infusion performed or supervised by Dr. Evia Nano, MD, not a technician. NAD+, vitamin & hydration drips. By appointment. Book online.">
-    <meta name="keywords" content="IV therapy NYC, IV drip Manhattan, NAD+ IV NYC, vitamin IV Manhattan, B12 injection NYC, Myers cocktail NYC, hydration IV Manhattan, physician IV therapy NYC, MD administered IV drip, glutathione IV NYC, biotin injection Manhattan, boutique IV therapy NYC">
+    <meta name="description" content="Physician-administered IV drip therapy at 202 W 40th St, Midtown Manhattan — every infusion performed or supervised by Dr. Evia Nano, MD, not a technician. NAD+, vitamin & hydration drips. By appointment. Book online.">
+    <meta name="keywords" content="IV therapy NYC, IV drip Manhattan, NAD+ IV NYC, vitamin IV Manhattan, B12 injection NYC, Myers cocktail NYC, hydration IV Manhattan, physician IV therapy NYC, MD administered IV drip, glutathione IV NYC, biotin injection Manhattan, boutique IV therapy NYC, IV drip near Times Square, IV therapy Garment District">
     <meta name="author" content="Dr. Evia A Nano MD">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://eviaesthetics.com/iv-therapy.html">
@@ -24,15 +24,16 @@
       gtag('config', 'AW-16785318065');
     </script>
 
-    <!-- Conversion tracking helpers -->
+    <!-- Conversion tracking helpers
+         ACTION REQUIRED: replace PHONE_CONVERSION_LABEL and FORM_CONVERSION_LABEL with the
+         real conversion labels from Google Ads > Goals > Conversions. Until then these
+         events fire against an invalid send_to and record nothing. -->
     <script>
-        // Phone call conversion (replace PHONE_CONVERSION_LABEL with the actual label from Google Ads)
         function trackPhoneCall() {
             gtag('event', 'conversion', {
                 'send_to': 'AW-16785318065/PHONE_CONVERSION_LABEL'
             });
         }
-        // Form submit conversion (fired when Elfsight form is submitted)
         function trackFormSubmit() {
             gtag('event', 'conversion', {
                 'send_to': 'AW-16785318065/FORM_CONVERSION_LABEL'
@@ -60,16 +61,33 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://eviaesthetics.com/iv-therapy.html">
     <meta property="og:title" content="IV Therapy NYC by an MD | Midtown Manhattan Drip Suite — Eviaesthetics">
-    <meta property="og:description" content="Every IV drip performed or supervised by Dr. Evia Nano, MD — not a technician. Premium NAD+, vitamin & hydration therapy in Midtown Manhattan. By appointment.">
+    <meta property="og:description" content="Every IV drip performed or supervised by Dr. Evia Nano, MD — not a technician. Premium NAD+, vitamin & hydration therapy at 202 W 40th St, Midtown Manhattan. By appointment.">
     <meta property="og:image" content="https://eviaesthetics.com/images/og-image.jpg">
+    <meta property="og:image:alt" content="Physician-administered IV drip therapy at Eviaesthetics, Midtown Manhattan">
     <meta property="og:site_name" content="Eviaesthetics">
+    <meta property="og:locale" content="en_US">
     <meta name="theme-color" content="#FF6B00">
+    <meta property="business:contact_data:street_address" content="202 W 40th St, Suite 1202">
+    <meta property="business:contact_data:locality" content="New York">
+    <meta property="business:contact_data:region" content="NY">
+    <meta property="business:contact_data:postal_code" content="10018">
+    <meta property="business:contact_data:country_name" content="United States">
+    <meta property="business:contact_data:phone_number" content="+1-201-639-4983">
+    <meta property="place:location:latitude" content="40.7549">
+    <meta property="place:location:longitude" content="-73.9887">
 
-    <!-- Geo -->
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="IV Therapy NYC by an MD | Midtown Manhattan — Eviaesthetics">
+    <meta name="twitter:description" content="Every infusion performed or supervised by Dr. Evia Nano, MD — not a technician. NAD+, vitamin & hydration drips in Midtown Manhattan.">
+    <meta name="twitter:image" content="https://eviaesthetics.com/images/og-image.jpg">
+    <meta name="twitter:image:alt" content="Physician-administered IV drip therapy at Eviaesthetics, Midtown Manhattan">
+
+    <!-- Geo — 202 W 40th St, Garment District / Times Square South, Midtown Manhattan -->
     <meta name="geo.region" content="US-NY">
-    <meta name="geo.placename" content="New York, Manhattan, Midtown">
-    <meta name="geo.position" content="40.7505;-73.9934">
-    <meta name="ICBM" content="40.7505, -73.9934">
+    <meta name="geo.placename" content="New York, Manhattan, Midtown, Garment District">
+    <meta name="geo.position" content="40.7549;-73.9887">
+    <meta name="ICBM" content="40.7549, -73.9887">
 
     <!-- Fonts: Fraunces (editorial display) + Manrope (utility body) — matches index -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,49 +106,99 @@
 
     <!-- ============================================
          STRUCTURED DATA — IV THERAPY SERVICE + LOCAL BUSINESS
+         @id "#medicalspa" matches the rest of the site (one entity, not two).
          ============================================ -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "MedicalClinic",
-          "@id": "https://eviaesthetics.com/#clinic",
+          "@type": ["MedicalBusiness", "MedicalClinic", "LocalBusiness"],
+          "@id": "https://eviaesthetics.com/#medicalspa",
           "name": "Eviaesthetics",
-          "description": "Physician-led medical spa in Midtown Manhattan offering IV drip therapy, vitamin injections, and aesthetic medicine, performed or supervised by Dr. Evia A Nano, MD.",
-          "url": "https://eviaesthetics.com/iv-therapy.html",
+          "alternateName": ["Evia Esthetics", "Eviaesthetics Manhattan"],
+          "description": "Physician-led medical spa in Midtown Manhattan's Garment District offering IV drip therapy, vitamin injections, and aesthetic medicine, performed or supervised by Dr. Evia A Nano, MD.",
+          "url": "https://eviaesthetics.com",
           "telephone": "+1-201-639-4983",
+          "email": "info@eviaesthetics.com",
           "priceRange": "$$-$$$",
           "image": "https://eviaesthetics.com/images/og-image.jpg",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "65 W 36th St, 10th Floor",
+            "streetAddress": "202 W 40th St, Suite 1202",
             "addressLocality": "New York",
             "addressRegion": "NY",
             "postalCode": "10018",
             "addressCountry": "US"
           },
-          "geo": { "@type": "GeoCoordinates", "latitude": 40.7505, "longitude": -73.9934 },
+          "geo": { "@type": "GeoCoordinates", "latitude": 40.7549, "longitude": -73.9887 },
+          "containedInPlace": { "@type": "Place", "name": "Midtown Manhattan", "containedInPlace": { "@type": "AdministrativeArea", "name": "Manhattan, New York, NY" } },
+          "hasMap": "https://www.google.com/maps/place/evia+esthetics/",
+          "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "description": "By appointment only" }],
+          "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Visa", "Mastercard", "American Express"],
           "medicalSpecialty": "Aesthetic Medicine",
-          "availableService": { "@type": "MedicalProcedure", "name": "IV Drip Therapy" },
-          "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "200" }
+          "employee": { "@id": "https://eviaesthetics.com/#doctor" },
+          "areaServed": [
+            { "@type": "City", "name": "New York" },
+            { "@type": "AdministrativeArea", "name": "Manhattan" },
+            { "@type": "Place", "name": "Midtown Manhattan" },
+            { "@type": "Place", "name": "Garment District" },
+            { "@type": "Place", "name": "Times Square" },
+            { "@type": "Place", "name": "Bryant Park" },
+            { "@type": "Place", "name": "Herald Square" },
+            { "@type": "Place", "name": "Hell's Kitchen" },
+            { "@type": "Place", "name": "Murray Hill" },
+            { "@type": "Place", "name": "Chelsea" },
+            { "@type": "State", "name": "New York" }
+          ],
+          "availableService": { "@id": "https://eviaesthetics.com/iv-therapy.html#service" },
+          "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "85", "bestRating": "5", "worstRating": "1" },
+          "sameAs": ["https://www.instagram.com/eviaesthetics/", "https://www.facebook.com/p/Evia-Esthetics-100087730601716/", "https://www.google.com/maps/place/evia+esthetics/"]
+        },
+        {
+          "@type": ["Physician", "Person"],
+          "@id": "https://eviaesthetics.com/#doctor",
+          "name": "Dr. Evia A Nano",
+          "honorificPrefix": "Dr.", "honorificSuffix": "MD",
+          "jobTitle": "Medical Director & Aesthetic Physician",
+          "url": "https://eviaesthetics.com/about.html",
+          "telephone": "+1-201-639-4983",
+          "worksFor": { "@id": "https://eviaesthetics.com/#medicalspa" },
+          "workLocation": { "@id": "https://eviaesthetics.com/#medicalspa" },
+          "medicalSpecialty": ["Aesthetic Medicine", "Anti-Aging Medicine", "IV Therapy"],
+          "knowsAbout": ["NAD+ Therapy", "IV Vitamin Therapy", "Myers Cocktail", "Glutathione", "B12 Injections", "Biotin Injections", "IV Hydration"]
         },
         {
           "@type": "MedicalProcedure",
           "@id": "https://eviaesthetics.com/iv-therapy.html#service",
           "name": "IV Drip Therapy",
           "alternateName": ["IV Vitamin Therapy", "Intravenous Vitamin Therapy", "IV Hydration", "NAD+ Therapy"],
-          "description": "Custom intravenous vitamin, mineral, and hydration infusions personally administered or supervised by Dr. Evia A Nano, MD at Eviaesthetics Manhattan. Includes Myers Cocktail, NAD+ infusions, immunity, energy, beauty, and recovery formulas.",
+          "description": "Custom intravenous vitamin, mineral, and hydration infusions personally administered or supervised by Dr. Evia A Nano, MD at Eviaesthetics in Midtown Manhattan. Includes Myers Cocktail, NAD+ infusions, immunity, energy, beauty, and recovery formulas.",
           "procedureType": "Therapeutic",
-          "performer": {
-            "@type": "Physician",
-            "name": "Dr. Evia A Nano, MD",
-            "medicalSpecialty": "Aesthetic Medicine"
-          },
-          "location": { "@id": "https://eviaesthetics.com/#clinic" }
+          "performer": { "@id": "https://eviaesthetics.com/#doctor" },
+          "location": { "@id": "https://eviaesthetics.com/#medicalspa" }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://eviaesthetics.com/iv-therapy.html#webpage",
+          "url": "https://eviaesthetics.com/iv-therapy.html",
+          "name": "IV Therapy NYC by an MD | Midtown Manhattan Drip Suite",
+          "about": { "@id": "https://eviaesthetics.com/iv-therapy.html#service" },
+          "breadcrumb": { "@id": "https://eviaesthetics.com/iv-therapy.html#breadcrumb" },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://eviaesthetics.com/iv-therapy.html#breadcrumb",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://eviaesthetics.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://eviaesthetics.com/services.html" },
+            { "@type": "ListItem", "position": 3, "name": "IV Therapy", "item": "https://eviaesthetics.com/iv-therapy.html" }
+          ]
         },
         {
           "@type": "FAQPage",
+          "@id": "https://eviaesthetics.com/iv-therapy.html#faq",
           "mainEntity": [
             {
               "@type": "Question",
@@ -151,6 +219,11 @@
               "@type": "Question",
               "name": "Is IV therapy safe?",
               "acceptedAnswer": { "@type": "Answer", "text": "IV therapy at Eviaesthetics is performed in a clinical setting under direct physician oversight using sterile, medical-grade equipment. A brief medical intake is completed before your first session to confirm suitability." }
+            },
+            {
+              "@type": "Question",
+              "name": "Where is your IV therapy suite located?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Eviaesthetics is at 202 W 40th St, Suite 1202, New York, NY 10018, in Midtown Manhattan's Garment District between 7th and 8th Avenues — minutes from Times Square, Bryant Park, Herald Square, and the Port Authority Bus Terminal." }
             }
           ]
         }
@@ -579,7 +652,7 @@
             <a href="tel:+12016394983" class="ed-btn ed-btn-ghost" onclick="trackPhoneCall()">Call (201) 639-4983</a>
         </div>
         <div class="ed-drawer-foot">
-            <span>65 W 36th St, 10th Fl — NYC</span>
+            <span>202 W 40th St, Ste 1202 — NYC</span>
             <div class="ed-drawer-social">
                 <a href="https://www.instagram.com/eviaesthetics/?hl=en" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
                 <a href="https://www.facebook.com/people/Evia-Esthetics/100087730601716/" aria-label="Facebook"><i class="ri-facebook-line"></i></a>
@@ -605,7 +678,8 @@
                 In a city full of pop-up drip bars and mobile vans, Eviaesthetics is different:
                 <strong>every infusion is personally performed or directly supervised by
                 Dr.&nbsp;Evia&nbsp;A.&nbsp;Nano,&nbsp;MD.</strong> Premium NAD+, vitamin, beauty, and recovery
-                drips — formulated for your body, delivered in a private Midtown suite.
+                drips — formulated for your body, delivered in a private Midtown suite at
+                202&nbsp;W&nbsp;40th&nbsp;St.
             </p>
 
             <dl class="iv-ledger">
@@ -631,8 +705,10 @@
         <figure class="iv-hero-figure" data-reveal>
             <span class="iv-figure-badge"><i class="ri-stethoscope-line"></i> MD on Every Drip</span>
             <div class="iv-figure-mat">
+                <!-- ACTION REQUIRED: this image is hotlinked from another clinic's website.
+                     Replace src with a local file (e.g. images/iv-therapy.jpg). -->
                 <img src="https://desotofamilycareclinic.com/wp-content/uploads/2024/04/Desoto-IV-Therapy.png"
-                     alt="Physician-administered IV drip therapy at Eviaesthetics Manhattan medical spa"
+                     alt="Physician-administered IV drip therapy at Eviaesthetics, Midtown Manhattan"
                      loading="eager" width="520" height="640">
             </div>
             <figcaption class="iv-figure-cap">
@@ -651,14 +727,14 @@
         <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
         <span>LegitScript Certified</span><span class="ed-wire-dot">●</span>
         <span>20+ Years Experience</span><span class="ed-wire-dot">●</span>
-        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 85 Verified Reviews</span><span class="ed-wire-dot">●</span>
         <span>Midtown Manhattan · By Appointment</span><span class="ed-wire-dot">●</span>
         <!-- duplicate for seamless loop -->
         <span>Board-Certified MD</span><span class="ed-wire-dot">●</span>
         <span>HIPAA Compliant</span><span class="ed-wire-dot">●</span>
         <span>LegitScript Certified</span><span class="ed-wire-dot">●</span>
         <span>20+ Years Experience</span><span class="ed-wire-dot">●</span>
-        <span>5.0 — 200+ Verified Reviews</span><span class="ed-wire-dot">●</span>
+        <span>5.0 — 85 Verified Reviews</span><span class="ed-wire-dot">●</span>
         <span>Midtown Manhattan · By Appointment</span><span class="ed-wire-dot">●</span>
     </div>
 </section>
@@ -890,7 +966,7 @@
                         <span class="iv-menu-name">NAD+ IV Infusion</span>
                         <p class="iv-menu-desc">NAD+ is a coenzyme that supports mitochondrial function. This signature infusion is designed to support cellular wellness, mental clarity, and vitality. Sessions run 2–3 hours.</p>
                     </div>
-                    <span class="iv-menu-tag">Premium</span>
+                    <span class="iv-menu-tag">From $600</span>
                 </div>
             </div>
         </div>
@@ -962,7 +1038,7 @@
             <li data-reveal>
                 <span class="iv-step-key">III</span>
                 <h4>Relax &amp; Infuse</h4>
-                <p>45–60 minutes (NAD+ longer) in a private Midtown suite. Bring a book or laptop and unwind.</p>
+                <p>45–60 minutes (NAD+ longer) in a private Midtown suite at 202 W 40th St. Bring a book or laptop and unwind.</p>
             </li>
             <li data-reveal>
                 <span class="iv-step-key">IV</span>
@@ -1000,7 +1076,7 @@
                     </a>
                     <a href="https://www.google.com/maps/place/evia+esthetics/" target="_blank" rel="noopener" class="iv-method">
                         <i class="ri-map-pin-fill"></i>
-                        <span><span class="label">Visit Us</span><span class="value">65 W 36th St, 10th Floor · NYC</span></span>
+                        <span><span class="label">Visit Us</span><span class="value">202 W 40th St, Suite 1202 · NYC</span></span>
                     </a>
                 </div>
             </div>
@@ -1065,6 +1141,10 @@
                 <div class="ed-faq-a"><p>Frequency depends on your individual goals. Many clients come weekly or biweekly for wellness maintenance, while others book seasonally or before events, travel, or recovery periods. Dr. Nano will recommend a cadence during your consultation.</p></div>
             </details>
             <details class="ed-faq-item">
+                <summary><span class="ed-faq-q">Where are you located?</span><span class="ed-faq-toggle"></span></summary>
+                <div class="ed-faq-a"><p>Our drip suite is at 202 W 40th St, Suite 1202, New York, NY 10018 — Midtown Manhattan's Garment District, between 7th and 8th Avenues. Minutes from Times Square–42nd St, Bryant Park, Herald Square, and the Port Authority Bus Terminal.</p></div>
+            </details>
+            <details class="ed-faq-item">
                 <summary><span class="ed-faq-q">Do you accept insurance?</span><span class="ed-faq-toggle"></span></summary>
                 <div class="ed-faq-a"><p>We do not accept insurance for IV therapy or injections. We accept cash and all major credit and debit cards. Pricing is discussed openly before treatment with no surprise charges.</p></div>
             </details>
@@ -1101,6 +1181,8 @@
         </div>
 
         <a href="#iv-contact-form" class="ed-btn ed-btn-hermes ed-btn-lg" data-reveal><span>Book Your IV Session</span><i class="ri-arrow-right-up-line"></i></a>
+
+        <p class="ed-close-addr" data-reveal><i class="ri-map-pin-2-fill"></i> 202 W 40th St, Suite 1202, New York, NY 10018 · Midtown Manhattan</p>
     </div>
 </section>
 
@@ -1118,7 +1200,7 @@
                 <p class="ed-footer-tag">Manhattan's premier boutique medical spa.</p>
                 <div class="ed-footer-contact">
                     <span><i class="ri-phone-fill"></i> (201) 639-4983</span>
-                    <span><i class="ri-map-pin-fill"></i> 65 W 36th St, 10th Floor, New York, NY 10018</span>
+                    <span><i class="ri-map-pin-fill"></i> 202 W 40th St, Suite 1202, New York, NY 10018</span>
                 </div>
             </div>
 
@@ -1128,7 +1210,7 @@
             </div>
             <div class="ed-footer-col">
                 <h4>Services</h4>
-                <a href="services.html">Botox &amp; Fillers</a><a href="services.html">Weight Management</a><a href="services.html">NAD+ &amp; IV Therapy</a><a href="services.html">Microneedling</a><a href="services.html">PRP Therapy</a><a href="services.html">Chemical Peels</a>
+                <a href="services.html#sv-neurotoxin">Neurotoxin &amp; Fillers</a><a href="services.html#sv-weight">Weight Management</a><a href="iv-therapy.html">NAD+ &amp; IV Therapy</a><a href="services.html#sv-microneedling">Microneedling</a><a href="services.html#sv-prp">PRP Therapy</a><a href="services.html#sv-peels">Chemical Peels</a>
             </div>
             <div class="ed-footer-col">
                 <h4>Connect</h4>
